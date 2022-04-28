@@ -1,0 +1,41 @@
+﻿@{
+	var errors = new Dictionary<string, string>();
+
+	var viewErrors = ViewData["Errors"];
+
+	if (viewErrors != null)
+	{
+		errors = (Dictionary<string, string>) viewErrors;
+	}
+}
+
+@using (Html.BeginForm())
+{
+	@if (errors != null && errors.Count > 0)
+	{
+		<div class="govuk-grid-column-two-thirds">
+			<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
+				<h2 class="govuk-error-summary__title" id="error-summary-title">
+					There is a problem @(ViewData["ExceptionGuid"] != null ? "and we need to investigate" : "")
+				</h2>
+				<div class="govuk-error-summary__body">
+					<ul class="govuk-list govuk-error-summary__list">
+						@foreach (var error in errors)
+						{
+							<li>
+								<a href="#@error.Key">@error.Value</a>
+							</li>
+						}
+					</ul>
+
+					@if (ViewData["ExceptionGuid"] != null)
+					{
+						<small class="govuk-hint">
+							Error ID: @ViewData["ExceptionGuid"]
+						</small>
+					}
+				</div>
+			</div>
+		</div>
+	}
+}

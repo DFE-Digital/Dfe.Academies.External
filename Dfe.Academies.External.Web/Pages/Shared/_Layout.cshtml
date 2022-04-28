@@ -1,51 +1,130 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using Microsoft.Extensions.Configuration
+@using Microsoft.AspNetCore.Http.Features
+@inject IConfiguration _configuration
+
+@{
+	var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
+	var canTrack = consentFeature?.CanTrack ?? false;
+}
+
+<!DOCTYPE html>
+<html lang="en" class="govuk-template ">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Dfe.Academies.External.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Dfe.Academies.External.Web.styles.css" asp-append-version="true" />
+	@if (canTrack)
+	{
+		<!-- Google Tag Manager -->
+		<script>
+			(function (w, d, s, l, i) {
+				w[l] = w[l] || []; w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+				var f = d.getElementsByTagName(s)[0],
+					j = d.createElement(s),
+					dl = l != 'dataLayer' ? '&l=' + l : '';
+				j.async = true;
+				j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+				f.parentNode.insertBefore(j, f);
+			})(window, document, 'script', 'dataLayer', '@_configuration.GetSection("AppSettings")["GoogleTagManagerId"]');
+		</script>
+		<!-- End Google Tag Manager -->
+	}
+
+	<meta charset="utf-8">
+	<title>A2C - GOV.UK</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="blue"/>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+	<link rel="shortcut icon" sizes="16x16 32x32 48x48" href="/images/favicon.ico" type="image/x-icon"/>
+	<link rel="mask-icon" href="/images/govuk-mask-icon.svg" color="blue">
+	<link rel="apple-touch-icon" sizes="180x180" href="/images/govuk-apple-touch-icon-180x180.png">
+	<link rel="apple-touch-icon" sizes="167x167" href="/images/govuk-apple-touch-icon-167x167.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/images/govuk-apple-touch-icon-152x152.png">
+	<link rel="apple-touch-icon" href="/images/govuk-apple-touch-icon.png">
+
+	<!--[if !IE 8]><!-->
+	<link href="/css/application.css" rel="stylesheet" media="all"/>
+	<link href="/css/print.css" rel="stylesheet" media="print"/>
+	<!--<![endif]-->
+	<!--[if IE 8]>
+		<link href="/css/application-ie8.css" rel="stylesheet" />
+	<![endif]-->
+
+	<meta property="og:image" content="https://apply-convert-academy.service.gov.uk/images/govuk-opengraph-image.png">
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Dfe.Academies.External.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - Dfe.Academies.External.Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
+<body class="govuk-template__body app-body-class">
+@if (canTrack)
+{
+	<!-- Google Tag Manager (noscript) -->
+	<noscript>
+		<iframe src="https://www.googletagmanager.com/ns.html?id=@_configuration.GetSection("AppSettings")["GoogleTagManagerId"]"
+		        height="0" width="0" style="display:none;visibility:hidden">
+		</iframe>
+	</noscript>
+	<!-- End Google Tag Manager (noscript) -->
+}
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+<script>
+        document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+</script>
+<partial name="_CookieConsentPartial"/>
+<partial name="_Header"/>
+<div class="container body-content">
+	<div class=" govuk-width-container govuk-phase-banner print-hide">
+		<p class="govuk-phase-banner__content">
+			<strong class="govuk-tag govuk-phase-banner__content__tag ">
+				beta
+			</strong>
+			<span class="govuk-phase-banner__text">
+				This is a new service – your
+				<a class="govuk-link" href="https://dferesearch.fra1.qualtrics.com/jfe/form/SV_4PKkazZ7STV751b">feedback</a> will help us to improve it.
+			</span>
+		</p>
+	</div>
+	<div class="govuk-width-container">
+		@if ((string) ViewData[Constants.ShowBackLink] == "true")
+		{
+			<a class="govuk-back-link print-hide" onclick="window.history.go(-1); return false;" href="#">Back</a>
+		}
+		<main class="govuk-main-wrapper " id="main-content" role="main">
+			<div class="govuk-grid-row">
+				<partial name="_ErrorMessages"/>
+				@RenderBody()
+			</div>
+		</main>
+	</div>
 
-    @await RenderSectionAsync("Scripts", required: false)
+	<partial name="_Footer"/>
+</div>
+
+<environment include="Development">
+	<script src="~/lib/jquery/dist/jquery.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Development">
+	<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.4.1.min.js"
+	        asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+	        asp-fallback-test="window.jQuery"
+	        crossorigin="anonymous"
+	        integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh">
+        </script>
+
+	<script src="~/js/site.js" asp-append-version="true"></script>
+</environment>
+<script src="~/js/all.js"></script>
+<script>
+        window.GOVUKFrontend.initAll();
+        @if (canTrack)
+        {
+	        <text>
+            window.addEventListener('load', function () {
+                idlechecks('@_configuration.GetSection("AppSettings")["GoogleAnalyticsKey"]',
+                @_configuration.GetSection("AppSettings")["SessionidleSecondsMax"]);
+            }, false);
+            </text>
+        }
+
+    </script>
+@RenderSection("Scripts", required: false)
 </body>
 </html>
