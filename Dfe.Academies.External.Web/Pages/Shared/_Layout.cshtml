@@ -82,11 +82,11 @@
 		</p>
 	</div>
 	<div class="govuk-width-container">
-		@if ((string) ViewData[Constants.ShowBackLink] == "true")
+@*		@if ((string) ViewData[Constants.ShowBackLink] == "true")
 		{
 			<a class="govuk-back-link print-hide" onclick="window.history.go(-1); return false;" href="#">Back</a>
 		}
-		<main class="govuk-main-wrapper " id="main-content" role="main">
+*@		<main class="govuk-main-wrapper " id="main-content" role="main">
 			<div class="govuk-grid-row">
 				<partial name="_ErrorMessages"/>
 				@RenderBody()
