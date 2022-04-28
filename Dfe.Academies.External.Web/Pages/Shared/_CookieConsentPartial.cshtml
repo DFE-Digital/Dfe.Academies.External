@@ -3,7 +3,7 @@
 
 @{
 	var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
-	var showBanner = !(consentFeature?.CanTrack ?? false) && Context.Session.GetInt32("cookiesRejected") != 1;
+	var showBanner = !(consentFeature?.CanTrack ?? false);// && Context.Session.GetInt32("cookiesRejected") != 1;
 }
 @if (showBanner)
 {
