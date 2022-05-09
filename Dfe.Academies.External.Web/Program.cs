@@ -50,7 +50,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization(options =>
 {
-	options.AddPolicy("AcademiesExternalPolice", policy =>
+	options.AddPolicy("AcademiesExternalPolicy", policy =>
 	{
 		policy.RequireAuthenticatedUser()
 			.RequireAssertion(context =>

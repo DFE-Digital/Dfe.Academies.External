@@ -20,7 +20,8 @@ namespace Dfe.Academies.External.Web.Utilities
 
 					var body = JsonDocument.Parse(responseAsString);
 
-					return true;
+					// intentionally broken
+					return false;
 					//return (body["serviceId"] != null && ((JValue)body["serviceId"]).Value.ToString() == serviceId);
 				}
 
