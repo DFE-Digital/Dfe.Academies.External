@@ -1,19 +1,16 @@
 using Dfe.Academies.External.Web.Utilities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
-builder.Services.AddRazorPages();
-
 builder.Services.AddRazorPages(options =>
 {
-    options.Conventions.AuthorizePage("/Home");
-    //options.Conventions.AuthorizeFolder("/Private");
-    //options.Conventions.AllowAnonymousToPage("/Private/PublicPage");
-    //options.Conventions.AllowAnonymousToFolder("/Private/PublicPages");
+    options.Conventions.AllowAnonymousToPage("/Index");
 });
 
 builder.Services.AddAuthentication(options =>
@@ -53,7 +50,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization(options =>
 {
-	options.AddPolicy("A2CAccessToApplyPolicy", policy =>
+	options.AddPolicy("AcademiesExternalPolice", policy =>
 	{
 		policy.RequireAuthenticatedUser()
 			.RequireAssertion(context =>
@@ -64,6 +61,15 @@ builder.Services.AddAuthorization(options =>
 					configuration["AppSettings:DFESignAPIURL"],
 					configuration["AppSettings:DFEAPIKey"]));
 	});
+});
+
+builder.Services.AddMvc(options =>
+{
+	var policy = new AuthorizationPolicyBuilder()
+		.RequireAuthenticatedUser()
+		.Build();
+	options.Filters.Add(new AuthorizeFilter(policy));
+	options.EnableEndpointRouting = false;
 });
 
 
@@ -82,6 +88,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
