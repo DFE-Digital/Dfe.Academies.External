@@ -10,7 +10,9 @@ ConfigurationManager configuration = builder.Configuration;
 // Add services to the container.
 builder.Services.AddRazorPages(options =>
 {
-    options.Conventions.AllowAnonymousToPage("/Index");
+	options.Conventions
+		.AuthorizeFolder("/", "AcademiesExternalPolicy")
+		.AllowAnonymousToPage("/Index");
 });
 
 builder.Services.AddAuthentication(options =>
@@ -52,26 +54,17 @@ builder.Services.AddAuthorization(options =>
 {
 	options.AddPolicy("AcademiesExternalPolicy", policy =>
 	{
-		policy.RequireAuthenticatedUser()
+		policy
 			.RequireAssertion(context =>
-				AuthorizationDFEUtility.UserHasService(
-					context.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value,
-					configuration["AppSettings:DFESignInApplyToConvertServiceID"],
-					configuration["AppSettings:DFESignInApplyToConvertOrganisationID"],
-					configuration["AppSettings:DFESignAPIURL"],
-					configuration["AppSettings:DFEAPIKey"]));
-	});
+                AuthorizationDFEUtility.UserHasService(
+                    context.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value,
+                    configuration["AppSettings:DFESignInApplyToConvertServiceID"],
+                    configuration["AppSettings:DFESignInApplyToConvertOrganisationID"],
+                    configuration["AppSettings:DFESignAPIURL"],
+                    configuration["AppSettings:DFEAPIKey"]))
+			.RequireAuthenticatedUser();
+    });
 });
-
-builder.Services.AddMvc(options =>
-{
-	var policy = new AuthorizationPolicyBuilder()
-		.RequireAuthenticatedUser()
-		.Build();
-	options.Filters.Add(new AuthorizeFilter(policy));
-	options.EnableEndpointRouting = false;
-});
-
 
 var app = builder.Build();
 
