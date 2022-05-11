@@ -1,8 +1,5 @@
-using Dfe.Academies.External.Web.Utilities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -54,15 +51,7 @@ builder.Services.AddAuthorization(options =>
 {
 	options.AddPolicy("AcademiesExternalPolicy", policy =>
 	{
-		policy
-			.RequireAssertion(context =>
-                AuthorizationDFEUtility.UserHasService(
-                    context.User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value,
-                    configuration["AppSettings:DFESignInApplyToConvertServiceID"],
-                    configuration["AppSettings:DFESignInApplyToConvertOrganisationID"],
-                    configuration["AppSettings:DFESignAPIURL"],
-                    configuration["AppSettings:DFEAPIKey"]))
-			.RequireAuthenticatedUser();
+		policy.RequireAuthenticatedUser();
     });
 });
 
