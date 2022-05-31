@@ -9,7 +9,8 @@ builder.Services.AddRazorPages(options =>
 {
 	options.Conventions
 		.AuthorizeFolder("/", "AcademiesExternalPolicy")
-		.AllowAnonymousToPage("/Index");
+		.AllowAnonymousToPage("/Index")
+		.AllowAnonymousToPage("/WhatYouWillNeed");
 });
 
 builder.Services.AddAuthentication(options =>
