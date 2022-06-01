@@ -1,7 +1,7 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Apply to become an academy";
 }
 
 	<div class="govuk-grid-column-two-thirds">
@@ -11,18 +11,20 @@
 		</h1>
 
 		<p class="govuk-body-l">
-			Local authority maintained schools can apply to become an academy by:
+			This form is for local authority maintained schools that want to apply to convert to academy status.
+		</p>
+
+		<p class="govuk-body-l">
+			There is a separate process for:
 		</p>
 
 		<ul class="govuk-list govuk-list--bullet govuk-body-l">
-			<li>joining an existing multi-academy trust</li>
-			<li>forming a new multi-academy trust with other schools</li>
-			<li>becoming a single academy trust</li>
+			<li><a href="https://www.gov.uk/government/publications/academy-conversion-application-forms">special schools</a>, and</li>
+			<li><a href="https://www.gov.uk/guidance/pupil-referral-units-converting-to-alternative-provision-academies">pupil referral units (PRUs)</a></li>
 		</ul>
 
 		<p class="govuk-body-l">
-			You can invite the trust or other contributors to complete parts of this application,
-			however the chair of governors – or the head teacher acting on their behalf – must complete the declaration on behalf of the school that is applying.
+			Although you can invite other people to help with this application, only the chair of governors, or the school’s headteacher acting on their behalf will be able to submit it.
 		</p>
 
 		<p class="govuk-body-l">
@@ -31,102 +33,18 @@
 
 		<h2 class="govuk-heading-m">Before you start</h2>
 
-		<details class="govuk-details">
-			<summary class="govuk-details__summary">
-				<span class="govuk-details__summary-text">
-					What you need to have ready to apply.
-				</span>
-			</summary>
-			<div class="govuk-details__text">
-				<p class="govuk-body">
-					We would advise you to contact your regional <a href="https://www.gov.uk/government/organisations/regional-schools-commissioners/about">schools commissioner's office</a> to discuss your plans before starting your application.
-				</p>
+		<p class="govuk-body-l">You should:</p>
 
-				<p class="govuk-body">
-					You’ll need to have decided whether the school wants to:
-				</p>
+		<ul class="govuk-list govuk-list--bullet govuk-body-l">
+			<li>contact your <a href="https://www.gov.uk/government/organisations/regional-schools-commissioners/about">regional school commisioner</a>'s office</li>
+			<li>have the <a asp-page="WhatYouWillNeed">information and evidence you will need to hand</a></li>
+		</ul>
 
-				<ul class="govuk-list govuk-list--bullet">
-					<li>join an existing multi-academy trust</li>
-					<li>form a new multi-academy trust with other schools</li>
-					<li>form a single academy trust on their own</li>
-				</ul>
-
-				<p class="govuk-body">
-					As well as more general information about the school, you’ll need details of:
-				</p>
-
-				<ul class="govuk-list govuk-list--bullet">
-					<li>
-						its finances including:
-						<ul class="govuk-list--bullet">
-							<li>capital and revenue for last year, this year and next year</li>
-							<li>any loans</li>
-							<li>any leases</li>
-						</ul>
-					</li>
-					<li>projected pupil numbers for the next 3 years</li>
-					<li>
-						its buildings including any:
-						<ul class="govuk-list--bullet">
-							<li>shared use</li>
-							<li>grants</li>
-							<li>PFI schemes</li>
-							<li>building work</li>
-						</ul>
-					</li>
-					<li>who owns the land the school is on</li>
-					<li>the consultation they ran on converting, or plans for one if they have not done it yet</li>
-					<li>the bank account for the school or trust that we can pay the school’s support grant into</li>
-				</ul>
-
-				<p class="govuk-body">
-					If you are forming a new trust you will also need details of the:
-				</p>
-				<ul class="govuk-list govuk-list--bullet">
-					<li>proposed name of the trust (although this can be changed later)</li>
-					<li>reasons for forming a new trust</li>
-					<li>plans for growing the new trust</li>
-					<li>plans for improving teaching</li>
-					<li>
-						key people involved such as:
-						<ul class="govuk-list--bullet">
-							<li>members of the trust</li>
-							<li>trustees</li>
-							<li>the chair of the trust</li>
-						</ul>
-					</li>
-					<li>other schools forming the trust</li>
-				</ul>
-
-				<p class="govuk-body">
-					You’ll also need evidence that the school has permission to convert including:
-				</p>
-				<ul class="govuk-list govuk-list--bullet">
-					<li>a resolution passed by the school’s governing body</li>
-					<li>a letter from the new trust the school is joining – or minutes of their board meeting</li>
-					<li>a letter of consent from the diocese – if it’s a faith school</li>
-					<li>a letter of consent from the foundation trust – if it’s a foundation school</li>
-				</ul>
-			</div>
-		</details>
-
-		<a asp-page="Home" class="govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8">
+		<a asp-page="YourApplications" class="govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8">
 			Start now
 			<svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false">
 				<path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"/>
 			</svg>
 		</a>
-
-		<details class="govuk-details">
-			<summary class="govuk-details__summary">
-				<span class="govuk-details__summary-text">
-					Problems using this service?
-				</span>
-			</summary>
-			<div class="govuk-details__text">
-				Call the Department for Education on 0370 000 2288.
-			</div>
-		</details>
 
 	</div>
