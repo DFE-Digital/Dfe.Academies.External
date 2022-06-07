@@ -1,7 +1,8 @@
 ### Scenario 1: Design and Content of Your applications list Page
 
 GIVEN I have successfully logged into the service via DfE Sign-in  
-THEN the page looks and reads as per the text (See attached in Picture 1
+THEN the page looks and reads as per the Figma element  
+https://www.figma.com/file/xqCVptyOcxauUXNum87EBG/A2B-v2.0?node-id=1%3A812
 
 
 ### Scenario 2: Application in Progress - One of the In Progress application selected
@@ -14,5 +15,5 @@ THEN I am successfully directed to the summary page for that 'In Progress' appli
 ### Scenario 3: Start new application CTA
 
 GIVEN I am directed onto 'what you will need' page  
-WHEN I click on the green 'Start new application' CTA on the page (See highlighted area attached in Picture 2)  
-THEN I am directed on to the 'What are you applying to do?' page (#97100) 
+WHEN I click on the green 'Start new application' CTA on the page  
+THEN I am directed on to the 'What are you applying to do?' page 
