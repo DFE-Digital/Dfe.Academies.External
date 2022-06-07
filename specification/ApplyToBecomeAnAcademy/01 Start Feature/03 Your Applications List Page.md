@@ -16,4 +16,4 @@ THEN I am successfully directed to the summary page for that 'In Progress' appli
 
 GIVEN I am directed onto 'what you will need' page  
 WHEN I click on the green 'Start new application' CTA on the page  
-THEN I am directed on to the 'What are you applying to do?' page 
+THEN I am directed on to the [**What are you applying to do?** page](04%20What%20are%20you%20applying%20to%20do%20Page.md) 
