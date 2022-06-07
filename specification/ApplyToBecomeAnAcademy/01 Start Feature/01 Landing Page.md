@@ -5,7 +5,7 @@ THEN the **Apply to Become** is displayed
 ### Click Start Now
 GIVEN I am on the **Apply to Become** page  
 WHEN I click on the "Start now" Call to Action  
-THEN I am redirected to the **Your applications** page
+THEN I am redirected to the [**Your Applications List Page**](https://github.com/DFE-Digital/Dfe.Academies.External/blob/95253-Your-Applications-List-Page/specification/ApplyToBecomeAnAcademy/01%20Start%20Feature/03%20Your%20Applications%20List%20Page.md)
 
 ### Click "the information and evidence that you will need"
 GIVEN I am on the **Apply to Become** page  
