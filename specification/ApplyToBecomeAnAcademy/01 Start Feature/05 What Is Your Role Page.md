@@ -48,7 +48,7 @@ AND I click on the 'Save and continue' CTA on the page
 THEN I am directed to the [**Application Overview** page](06%20Application%20Overview.md)
 
 
-### Scenario 6: Hyperlink (Cancel and return to your applications)
+### Scenario 7: Hyperlink (Cancel and return to your applications)
 
 GIVEN I am viewing the 'What is your role' page  
 WHEN I click on the 'Cancel and return to your applications' hyperlink within the content  
