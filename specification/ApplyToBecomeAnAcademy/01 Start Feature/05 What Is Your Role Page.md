@@ -36,7 +36,7 @@ https://www.figma.com/file/xqCVptyOcxauUXNum87EBG/A2B-v2.0?node-id=938%3A7357
 GIVEN I am viewing the 'What is your role' page  
 WHEN I select one of the two radio buttons  
 AND I click on the 'Save and continue' CTA on the page  
-THEN I am directed to the [**Application Overview** page]()
+THEN I am directed to the [**Application Overview** page](06%20Application%20Overview.md)
 
 
 ### Scenario 6: Radio Button (Something else option)
@@ -45,7 +45,7 @@ GIVEN I am viewing the 'What is your role' page
 WHEN I select 'Something else' for what type of role I hold  
 AND I am fill in the text box to state the name of my role  
 AND I click on the 'Save and continue' CTA on the page  
-THEN I am directed to the [**Application Overview** page]()
+THEN I am directed to the [**Application Overview** page](06%20Application%20Overview.md)
 
 
 ### Scenario 6: Hyperlink (Cancel and return to your applications)
