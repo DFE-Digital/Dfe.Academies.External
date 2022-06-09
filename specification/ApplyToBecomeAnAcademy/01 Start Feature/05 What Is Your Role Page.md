@@ -1,7 +1,7 @@
 ### Scenario 1: Design and Content of What is your role Page
 
 GIVEN I am viewing the 'What is your role' page  
-THEN the page looks and reads as per the Figma element
+THEN the page looks and reads as per the Figma element  
 https://www.figma.com/file/xqCVptyOcxauUXNum87EBG/A2B-v2.0?node-id=21%3A1770
 
 
@@ -51,5 +51,5 @@ THEN I am directed to the [**Application Overview** page]()
 ### Scenario 6: Hyperlink (Cancel and return to your applications)
 
 GIVEN I am viewing the 'What is your role' page  
-WHEN I click on the 'Cancel and return to your applications' hyperlink within the content
+WHEN I click on the 'Cancel and return to your applications' hyperlink within the content  
 THEN I am redirected to the [**Your applications list** page](03%20Your%20applications%20list%20Page.md)
