@@ -15,8 +15,8 @@ THEN I am redirected back to the [**What Are You Applying To Do** page](04%20Wha
 ### Scenario 3: Radio Buttons (NOT Selected an Option - Validation Text)
 
 GIVEN I am viewing the What Is Your Role Page  
-WHEN I don't select one of the radio buttons for what type of role I hold  
-AND I click on the 'Save and continue' CTA  
+AND I haven't selected one of the radio buttons for what type of role I hold  
+WHEN I click on the 'Save and continue' CTA  
 THEN I am presented with an error message on the screen as per the Figma element  
 https://www.figma.com/file/xqCVptyOcxauUXNum87EBG/A2B-v2.0?node-id=939%3A7567
 
@@ -24,9 +24,9 @@ https://www.figma.com/file/xqCVptyOcxauUXNum87EBG/A2B-v2.0?node-id=939%3A7567
 ### Scenario 4: Radio Button (Something else option - NO Text inputted  - Validation Text)
 
 GIVEN I am viewing the What Is Your Role Page  
-WHEN I select 'Something else' for what type of role I hold  
-AND I don't fill in the text box to state the name of my role  
-AND I click on the 'Save and continue' CTA  
+AND I have selected 'Something else' for what type of role I hold  
+AND I haven't filled in the text box to state the name of my role  
+WHEN I click on the 'Save and continue' CTA  
 THEN I am presented with an error message on the screen as per the Figma element  
 https://www.figma.com/file/xqCVptyOcxauUXNum87EBG/A2B-v2.0?node-id=938%3A7357
 
@@ -34,17 +34,17 @@ https://www.figma.com/file/xqCVptyOcxauUXNum87EBG/A2B-v2.0?node-id=938%3A7357
 ### Scenario 5: Radio Buttons (The chair of the school’s governors OR A headteacher acting on their behalf option)
 
 GIVEN I am viewing the What Is Your Role Page  
-WHEN I select one of the two radio buttons  
-AND I click on the 'Save and continue' CTA  
+AND I have selected one of the two radio buttons  
+WHEN I click on the 'Save and continue' CTA  
 THEN I am directed to the [**Application Overview** page](06%20Application%20Overview.md)
 
 
 ### Scenario 6: Radio Button (Something else option)
 
 GIVEN I am viewing the What Is Your Role Page  
-WHEN I select 'Something else' for what type of role I hold  
-AND I am fill in the text box to state the name of my role  
-AND I click on the 'Save and continue' CTA  
+AND I have selected 'Something else' for what type of role I hold  
+AND I have filled in the text box to state the name of my role  
+WHEN I click on the 'Save and continue' CTA  
 THEN I am directed to the [**Application Overview** page](06%20Application%20Overview.md)
 
 
