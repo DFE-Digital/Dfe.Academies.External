@@ -31,10 +31,10 @@ THEN I am presented with an error message on the screen as per the Figma element
 https://www.figma.com/file/xqCVptyOcxauUXNum87EBG/A2B-v2.0?node-id=938%3A7357
 
 
-### Scenario 5: Radio Buttons (The chair of the school’s governors OR A headteacher acting on their behalf option)
+### Scenario 5: Radio Buttons (The chair of the school’s governors OR A headteacher acting on their behalf)
 
 GIVEN I am viewing the What Is Your Role Page  
-AND I have selected one of the two radio buttons  
+AND I have selected 'The chair of the school’s governors' OR 'A headteacher acting on their behalf'  
 WHEN I click on the 'Save and continue' CTA  
 THEN I am directed to the [**Application Overview** page](06%20Application%20Overview.md)
 
