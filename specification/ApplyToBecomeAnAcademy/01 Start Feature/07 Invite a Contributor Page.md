@@ -60,6 +60,6 @@ THEN I am redirected back to the [**Application Overview** page](06%20Applicatio
 
 ### Scenario 8: Hyperlink (Return to application)
 
-GIVEN I am viewing the **Invite a Contributor** page 
-WHEN I click on the 'Return to application' hyperlink
+GIVEN I am viewing the **Invite a Contributor** page   
+WHEN I click on the 'Return to application' hyperlink  
 THEN I am redirected back to the [**Application Overview** page](06%20Application%20Overview.md)
