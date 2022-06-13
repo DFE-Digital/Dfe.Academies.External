@@ -51,7 +51,7 @@ https://www.figma.com/file/xqCVptyOcxauUXNum87EBG/A2B-v2.0?node-id=985%3A7711
 
 ### Scenario 7: Send invite Button
 
-GIVEN I am viewing the **What Is Your Role** page  
+GIVEN I am viewing the **Invite a Contributor** page  
 WHEN I select 'Something else' for what type of role I hold  
 AND I am fill in the text box to state the name of my role  
 AND I click on the 'Send invite' CTA  
