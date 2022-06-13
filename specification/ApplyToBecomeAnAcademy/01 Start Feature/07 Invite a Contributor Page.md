@@ -1,7 +1,7 @@
 ### Scenario 1: Design and Content of Invite a contributor Page
 
 GIVEN I am viewing the **Invite a Contributor** page  
-THEN the page looks as per the Figma element
+THEN the page looks as per the Figma element  
 https://www.figma.com/file/xqCVptyOcxauUXNum87EBG/A2B-v2.0?node-id=754%3A6718
 
 
@@ -16,8 +16,8 @@ THEN I am redirected back to the [**Application Overview** page](06%20Applicatio
 
 GIVEN I am viewing the **Invite a Contributor** page  
 AND I haven't entered an email address  
-WHEN I click on the 'Send invite' CTA   
-THEN I am presented with an error message as per the Figma element
+WHEN I click on the 'Send invite' CTA  
+THEN I am presented with an error message as per the Figma element  
 https://www.figma.com/file/xqCVptyOcxauUXNum87EBG/A2B-v2.0?node-id=985%3A8003
 
 
@@ -25,7 +25,7 @@ https://www.figma.com/file/xqCVptyOcxauUXNum87EBG/A2B-v2.0?node-id=985%3A8003
 
 GIVEN I am viewing the **Invite a Contributor** page  
 AND I haven't entered a valid email address  
-WHEN I click on the 'Send invite' CTA
+WHEN I click on the 'Send invite' CTA  
 THEN I am presented with an error message as per the Figma element
 https://www.figma.com/file/xqCVptyOcxauUXNum87EBG/A2B-v2.0?node-id=986%3A8589
 
@@ -54,7 +54,7 @@ https://www.figma.com/file/xqCVptyOcxauUXNum87EBG/A2B-v2.0?node-id=985%3A7711
 GIVEN I am viewing the **What Is Your Role** page  
 WHEN I select 'Something else' for what type of role I hold  
 AND I am fill in the text box to state the name of my role  
-AND I click on the 'Send invite' CTA
+AND I click on the 'Send invite' CTA  
 THEN I am redirected back to the [**Application Overview** page](06%20Application%20Overview.md)
 
 
