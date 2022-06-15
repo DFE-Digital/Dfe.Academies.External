@@ -6,14 +6,7 @@ namespace Dfe.Academies.External.Web.Routing
     {
         public string? TransformOutbound(object? value)
         {
-            if (value == null)
-            {
-                return null;
-            }
-
-            string? stringValue = value.ToString();
-
-            if (stringValue == null)
+            if (value is not string stringValue)
             {
                 return null;
             }
