@@ -1,17 +1,24 @@
+using Dfe.Academies.External.Web.Routing;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
-builder.Services.AddRazorPages(options =>
-{
-	options.Conventions
-		.AuthorizeFolder("/", "AcademiesExternalPolicy")
-		.AllowAnonymousToPage("/Index")
-		.AllowAnonymousToPage("/WhatYouWillNeed");
-});
+builder.Services
+	.AddRazorPages(options =>
+	{
+		options.Conventions
+			.AuthorizeFolder("/", "AcademiesExternalPolicy")
+			.AllowAnonymousToPage("/Index")
+			.AllowAnonymousToPage("/WhatYouWillNeed");
+	})
+	.AddRazorPagesOptions(options =>
+	{
+		options.Conventions.Add(new PageRouteTransformerConvention(new HyphenateRouteParameterTransformer()));
+	});
 
 builder.Services.AddAuthentication(options =>
 	{
