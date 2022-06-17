@@ -13,6 +13,9 @@ builder.Services
 		options.Conventions
 			.AuthorizeFolder("/", "AcademiesExternalPolicy")
 			.AllowAnonymousToPage("/Index")
+			.AllowAnonymousToPage("/Accessibility")
+			.AllowAnonymousToPage("/Cookies")
+			.AllowAnonymousToPage("/Terms")
 			.AllowAnonymousToPage("/WhatYouWillNeed");
 	})
 	.AddRazorPagesOptions(options =>
