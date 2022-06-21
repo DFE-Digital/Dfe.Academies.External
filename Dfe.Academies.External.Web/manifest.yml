@@ -1,0 +1,6 @@
+---
+applications:
+- name: apply-to-become-an-academy
+  memory: 256M
+  buildpacks:
+  - dotnet_core_buildpack
