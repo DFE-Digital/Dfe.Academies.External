@@ -46,4 +46,7 @@ jobs:
         run: |
           cd ./Dfe.Academies.External.Web
           cf push -f manifest.yml --strategy rolling
+          cf set-env "apply-to-become-an-academy" "SignIn:OneLoginUrl" ${{ secrets.SignIn_OneLoginUrl }}
+          cf set-env "apply-to-become-an-academy" "SignIn:OneloginOpenIdConnectClientId" ${{ secrets.SignIn_OneloginOpenIdConnectClientId }}
+          cf set-env "apply-to-become-an-academy" "SignIn:OneloginOpenIdConnectClientSecret" ${{ secrets.SignIn_OneloginOpenIdConnectClientSecret }}
           cf logout
