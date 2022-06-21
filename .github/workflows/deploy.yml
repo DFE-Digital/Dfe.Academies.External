@@ -36,6 +36,7 @@ jobs:
           CF_USERNAME: ${{ secrets.CF_USERNAME }}
           CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
         run: |
+          echo $secrets.CF_USERNAME
           echo "Logging into $CF_ORG/$CF_SPACE..."
           cf api "${CF_API}"
           cf auth
