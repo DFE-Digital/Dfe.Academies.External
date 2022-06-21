@@ -4,3 +4,7 @@ applications:
   memory: 256M
   buildpacks:
   - dotnet_core_buildpack
+  env:
+    SignIn__OneLoginUrl: ((signInOneLoginUrl))
+    SignIn__OneloginOpenIdConnectClientId: ((signInOneloginOpenIdConnectClientId))
+    SignIn:OneloginOpenIdConnectClientSecret: ((signInOneloginOpenIdConnectClientSecret))
