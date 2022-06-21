@@ -44,5 +44,6 @@ jobs:
 
       - name: Deploy to PaaS
         run: |
-          cf push -f ./Dfe.Academies.External.Web/manifest.yml --strategy rolling
+          cd ./Dfe.Academies.External.Web
+          cf push -f manifest.yml --strategy rolling
           cf logout
