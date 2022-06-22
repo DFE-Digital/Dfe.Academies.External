@@ -1,6 +1,8 @@
 ### Land on Start Page
-WHEN I lands on this web application  
+WHEN I land on this web application  
 THEN the **Apply to Become** is displayed
+AND the page looks and reads as per the Figma element  
+https://www.figma.com/file/xqCVptyOcxauUXNum87EBG/A2B-v2.0?node-id=0%3A1
 
 ### Click Start Now
 GIVEN I am on the **Apply to Become** page  
