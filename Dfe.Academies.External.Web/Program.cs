@@ -16,7 +16,9 @@ builder.Services
 			.AllowAnonymousToPage("/Accessibility")
 			.AllowAnonymousToPage("/Cookies")
 			.AllowAnonymousToPage("/Terms")
-			.AllowAnonymousToPage("/WhatYouWillNeed");
+			.AllowAnonymousToPage("/WhatYouWillNeed")
+            .AllowAnonymousToPage("/WhatAreYouApplyingToDo")
+			;
 	})
 	.AddRazorPagesOptions(options =>
 	{
