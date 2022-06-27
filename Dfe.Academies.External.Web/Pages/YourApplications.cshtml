@@ -7,5 +7,39 @@
 
 <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">Your applications</h1>
-    <p>[List of Apps to go here]</p>
+
+	<div class="govuk-!-margin-6"></div>
+
+		<h2 class="govuk-heading-m">Applications in progress (@Model.existingApplications.Count)</h2>
+
+	<div class="govuk-!-margin-6"></div>
+
+	<table class="govuk-table">
+
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Application</th>
+      <th scope="col" class="govuk-table__header">School Name</th>
+      <th scope="col" class="govuk-table__header">School Or Schools Applying To Convert</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+
+    @foreach(var data in Model.existingApplications)
+    {
+        <tr class="govuk-table__row">  
+            <th scope="row" class="govuk-table__cell"><a href="#">@data.Application</a></th>
+            <td class="govuk-table__cell">@data.TrustName</td>
+			<td class="govuk-table__cell">@Html.Raw(@data.SchoolOrSchoolsApplyingToConvert)</td>
+        </tr>
+    }
+  </tbody>
+</table>
+
+	 <p>
+	    <a asp-page="YourApplications" class="govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8">
+			Start a new application
+		</a>
+     </p>
+
 </div>
