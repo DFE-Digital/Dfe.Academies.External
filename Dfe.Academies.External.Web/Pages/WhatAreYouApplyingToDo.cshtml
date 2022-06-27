@@ -11,38 +11,55 @@
     <a asp-page="YourApplications" class="govuk-back-link">Back</a>
 }
 
-@*// Error messages partial - on layout page !!!*@
+@section scripts {
+    <script type="text/javascript">
+        window.onload = function() {
+            var element = document.getElementById("divApplyingToDo"); // radio container div
+            var isValid = @Html.Raw(Json.Serialize(ViewData.ModelState.IsValid));
 
+            if (!isValid) {
+                element.classList.add("govuk-form-group--error");
+                event.preventDefault();
+                return false;
+            } else {
+                element.classList.remove("govuk-form-group--error");
+                return true;
+            }
+        }
+    </script>
+}
+
+@*// Error messages partial - on layout page !!!*@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-xl">What are you applying to do?</h1>
-        <p class="govuk-body-l"></p>
         <div id="divApplyingToDo" class="govuk-form-group">
-            <form method="post">
-                <div class="govuk-radios--conditional">
-                    <fieldset class="govuk-fieldset">
-                        <legend class="govuk-fieldset__legend">When a school becomes an academy, it must either join an existing trust or form a new one.</legend>
-                        <div asp-validation-summary="All" class="govuk-error-message"></div>
-                        @foreach (var applicationType in Enum.GetValues(typeof(ApplicationTypes)).OfType<ApplicationTypes>())
-                        {
-                            <div class="govuk-radios__item">
-                                <input type="radio" 
-                                       asp-for="ApplicationType"
-                                       value="@Convert.ToInt32(applicationType)"
-                                        id="ApplicationType@(applicationType)"
-                                       class="govuk-radios__input"/>
-                                <label for="ApplicationType@(applicationType)" class="govuk-label govuk-radios__label">@applicationType.GetDescription()</label>
-                            </div>
-                        }
-                    </fieldset>
-                </div>
-                <div class="action">
-                    <input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
-                </div>
-                <p id="divCancelButton">
-                    <a asp-page="YourApplications">Cancel and return to your applications</a>
-                </p>
+            <form method="post" name="frmApplicationType" novalidate="">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend">When a school becomes an academy, it must either join an existing trust or form a new one.</legend>
+                    <div asp-validation-summary="All" class="govuk-error-message"></div>
+                    <div class="govuk-form-group">
+                        <div class="govuk-radios--conditional">
+                            @foreach (var applicationType in Enum.GetValues(typeof(ApplicationTypes)).OfType<ApplicationTypes>())
+                            {
+                                <div class="govuk-radios__item">
+                                    <input type="radio"
+                                           asp-for="ApplicationType"
+                                           value="@Convert.ToInt32(applicationType)"
+                                           id="ApplicationType@(applicationType)"
+                                           class="govuk-radios__input"/>
+                                    <label for="ApplicationType@(applicationType)" class="govuk-label govuk-radios__label">@applicationType.GetDescription()</label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </fieldset>
+                <br/>
+                <input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
             </form>
+            <p id="divCancelButton">
+                <a asp-page="YourApplications">Cancel and return to your applications</a>
+            </p>
         </div>
     </div>
 </div>

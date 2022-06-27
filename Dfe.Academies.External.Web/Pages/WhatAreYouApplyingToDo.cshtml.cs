@@ -2,7 +2,6 @@ using Dfe.Academies.External.Web.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel;
-using System.Linq;
 
 namespace Dfe.Academies.External.Web.Pages
 {
@@ -61,8 +60,6 @@ namespace Dfe.Academies.External.Web.Pages
             switch (applicationTypeSelected)
             {
                 case ApplicationTypes.JoinMat:
-                    // TODO MR:- how are we passing off application type onto next stage - querystring?
-                    // or
                     TempData["applicationTypeSelected"] = applicationTypeSelected;
                     return RedirectToPage(NextStepPage);
                 case ApplicationTypes.FormNewMat:
