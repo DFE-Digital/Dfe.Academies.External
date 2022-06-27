@@ -1,6 +1,8 @@
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+using Dfe.Academies.External.Web.Attributes;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel;
+using System.Linq;
 
 namespace Dfe.Academies.External.Web.Pages
 {
@@ -15,20 +17,63 @@ namespace Dfe.Academies.External.Web.Pages
 
     public class WhatAreYouApplyingToDoModel : PageModel
     {
-        public void OnGet()
+        private readonly ILogger<IndexModel> _logger;
+        private const string NextStepPage = "/WhatIsYourRole";
+
+        public WhatAreYouApplyingToDoModel(ILogger<IndexModel> logger)
         {
+            _logger = logger;
         }
 
-        // TODO MR:- 1 props to bind to - enum - with 3 values
-        [Required]
+        [BindProperty]
+        [RequiredEnum(ErrorMessage = "Select an application type")]
         public ApplicationTypes ApplicationType { get; set; }
-
-        ////joinMAT
-        //public bool JoinMAT { get; set; }
         
-        ////formNewMAT
-        //public bool FormNewMAT { get; set; }
-        ////formNewSingleAcademyTrust
-        //public bool FormNewSingleAcademyTrust { get; set; }
+        public void OnGet()
+        {
+            // like on load
+        }
+
+        public IActionResult OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                // error messages component consumes ViewData["Errors"]
+                var errorList = ModelState.ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value?.Errors.Select(e => e.ErrorMessage).FirstOrDefault()?.ToString()
+                );
+
+                ViewData["Errors"] = errorList;
+                return Page();
+            }
+
+            var applicationTypeSelected = ApplicationType;
+
+            // TODO MR:- call out to API to create stub application?
+            //var response = await _applicationRepository.AddApplication(applicationTypeSelected);
+            //if (!response.Success)
+            //{
+            //    _logger.AddError();
+            //    return Page();
+            //}
+
+            switch (applicationTypeSelected)
+            {
+                case ApplicationTypes.JoinMat:
+                    // TODO MR:- how are we passing off application type onto next stage - querystring?
+                    // or
+                    TempData["applicationTypeSelected"] = applicationTypeSelected;
+                    return RedirectToPage(NextStepPage);
+                case ApplicationTypes.FormNewMat:
+                    TempData["applicationTypeSelected"] = applicationTypeSelected;
+                    return RedirectToPage(NextStepPage);
+                case ApplicationTypes.FormNewSingleAcademyTrust:
+                    TempData["applicationTypeSelected"] = applicationTypeSelected;
+                    return RedirectToPage(NextStepPage);
+            }
+
+            return Page();
+        }
     }
 }
