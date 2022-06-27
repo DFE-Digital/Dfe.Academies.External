@@ -50,7 +50,7 @@
 		<link href="/css/application-ie8.css" rel="stylesheet" />
 	<![endif]-->
 
-	<meta property="og:image" content="/assets/images/govuk-opengraph-image.png">
+    <meta property="og:image" content="/assets/images/govuk-opengraph-image.png">
 </head>
 
 <body class="govuk-template__body app-body-class">
@@ -111,8 +111,8 @@
 
 	<script src="~/js/site.js" asp-append-version="true"></script>
 </environment>
-<script src="~/js/all.js"></script>
-<script>
+    <script src="~/js/all.js"></script>
+    <script>
         window.GOVUKFrontend.initAll();
         @if (canTrack)
         {
@@ -125,6 +125,6 @@
         }
 
     </script>
-@RenderSection("Scripts", required: false)
+    @await RenderSectionAsync("scripts", required: false)
 </body>
 </html>
