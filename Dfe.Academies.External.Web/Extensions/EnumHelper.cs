@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace Dfe.Academies.External.Web;
+namespace Dfe.Academies.External.Web.Extensions;
 
-public static class EnumHelper
+internal static class EnumHelper
 {
     public static string GetDescription<T>(this T enumValue)
         where T : struct, IConvertible
