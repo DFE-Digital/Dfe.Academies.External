@@ -11,28 +11,10 @@
     <a asp-page="YourApplications" class="govuk-back-link">Back</a>
 }
 
-@section scripts {
-    <script type="text/javascript">
-        window.onload = function() {
-            var element = document.getElementById("divApplyingToDo"); // radio container div
-            var isValid = @Html.Raw(Json.Serialize(ViewData.ModelState.IsValid));
-
-            if (!isValid) {
-                element.classList.add("govuk-form-group--error");
-                event.preventDefault();
-                return false;
-            } else {
-                element.classList.remove("govuk-form-group--error");
-                return true;
-            }
-        }
-    </script>
-}
-
 @*// Error messages partial - on layout page !!!*@
 <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">What are you applying to do?</h1>
-    <div id="divApplyingToDo" class="govuk-form-group">
+    <div id="divApplyingToDo" class="govuk-form-group @(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
         <form method="post" name="frmApplicationType" novalidate="">
             <fieldset class="govuk-fieldset">
                 <legend class="govuk-fieldset__legend">When a school becomes an academy, it must either join an existing trust or form a new one.</legend>
