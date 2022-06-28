@@ -42,4 +42,30 @@
 		</a>
      </p>
 
+     <div class="govuk-!-margin-6"></div>
+
+		<h2 class="govuk-heading-m">Past applications (@Model.completedApplications.Count)</h2>
+
+        	<table class="govuk-table">
+
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Application</th>
+      <th scope="col" class="govuk-table__header">School Name</th>
+      <th scope="col" class="govuk-table__header">School Or Schools Applying To Convert</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+
+    @foreach(var data in Model.completedApplications)
+    {
+        <tr class="govuk-table__row">  
+            <th scope="row" class="govuk-table__cell"><a href="#">@data.Application</a></th>
+            <td class="govuk-table__cell">@data.TrustName</td>
+			<td class="govuk-table__cell">@Html.Raw(@data.SchoolOrSchoolsApplyingToConvert)</td>
+        </tr>
+    }
+  </tbody>
+</table>
+     
 </div>

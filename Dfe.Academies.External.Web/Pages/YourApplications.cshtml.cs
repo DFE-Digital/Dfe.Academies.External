@@ -8,16 +8,34 @@ namespace Dfe.Academies.External.Web.Pages
     {
         [BindProperty]
         public List<TrustApplication> existingApplications { get; set; }
-        public void OnGet()
+        public List<TrustApplication> completedApplications { get; set; }
+
+        private readonly ITrustApplication _trustApplication;
+
+        public HomeModel(ITrustApplication trustApplication)
         {
-            //TODO: Get login username 
-           var username = User.Identity.Name;
+            _trustApplication = trustApplication;
+        }
 
-            TrustApplication trustApplication = new TrustApplication(); // TODO: use Dependency Injection
+        public void OnGet()
+        {           
+            try
+            {
+                //TODO: Get login username 
+                var username = User.Identity.Name;
 
-            existingApplications = trustApplication.GetPendingApplications(username);
+                existingApplications = _trustApplication.GetPendingApplications(username);
 
-            // TODO: Write unit test for GetPendingApplications
+                completedApplications = _trustApplication.GetCompletedtingApplications(username);
+
+                // TODO: Write unit test for GetPendingApplications
+            }
+            catch (Exception ex)
+            {
+                // TODO: Add error log to file
+                ;
+            }
+
         }
     }
 }

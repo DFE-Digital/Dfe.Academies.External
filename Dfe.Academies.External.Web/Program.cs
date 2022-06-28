@@ -1,3 +1,4 @@
+using Dfe.Academies.External.Web.Model;
 using Dfe.Academies.External.Web.Routing;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -16,7 +17,8 @@ builder.Services
 			.AllowAnonymousToPage("/Accessibility")
 			.AllowAnonymousToPage("/Cookies")
 			.AllowAnonymousToPage("/Terms")
-			.AllowAnonymousToPage("/WhatYouWillNeed");
+			.AllowAnonymousToPage("/WhatYouWillNeed")
+			.AllowAnonymousToPage("/YourApplications");
 	})
 	.AddRazorPagesOptions(options =>
 	{
@@ -65,6 +67,8 @@ builder.Services.AddAuthorization(options =>
 		policy.RequireAuthenticatedUser();
     });
 });
+
+builder.Services.AddSingleton< ITrustApplication, TrustApplication> ();
 
 var app = builder.Build();
 

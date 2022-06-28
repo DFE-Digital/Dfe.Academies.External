@@ -2,7 +2,7 @@
 
 namespace Dfe.Academies.External.Web.Model
 {
-    public class TrustApplication
+    public class TrustApplication : ITrustApplication
     {
         public int Id { get; set; }
         public string Application { get; set; }
@@ -17,7 +17,7 @@ namespace Dfe.Academies.External.Web.Model
             StringBuilder li = new StringBuilder();
             li.Append(@"<ul>");
             li.Append(@"<li>Cambridge Regional college</li>");
-            li.Append(@"</ul>");          
+            li.Append(@"</ul>");
 
             StringBuilder li2 = new StringBuilder();
             li2.Append(@"<ul>");
@@ -45,24 +45,31 @@ namespace Dfe.Academies.External.Web.Model
         public string CreateNewApplication(TrustApplication trustApplication)
         {
             string resultOfSave = "";
-            
+
             // Awaiting design doc
             // TODO: Save to datastore
             // TODO: Check if save successfull            
 
-            return resultOfSave; 
+            return resultOfSave;
         }
 
-        public List<TrustApplication> GetCompletedtingApplications()
+        public List<TrustApplication> GetCompletedtingApplications(string username)
         {
             // TODO: Get data from Dynamics 365 
-            List<TrustApplication> completedApplications = // Mock Demo Data
+
+            // Use for SchoolOrSchoolsApplyingToConvert
+            StringBuilder li = new StringBuilder();
+            li.Append(@"<ul>");
+            li.Append(@"<li>St George’s school</li>");
+            li.Append(@"</ul>");
+
+            List<TrustApplication> existingApplications = // Mock Demo Data
             new List<TrustApplication>()
             {
-                new TrustApplication() { Id = 1, Application = "J", TrustName = ""},
+                new TrustApplication() { Id = 1, Application = "Join a multi-academy trust A2B_2549", TrustName = "Harpenden Academy trust", SchoolOrSchoolsApplyingToConvert = li.ToString() }
             };
 
-            return completedApplications;
+            return existingApplications;
         }
     }
 }
