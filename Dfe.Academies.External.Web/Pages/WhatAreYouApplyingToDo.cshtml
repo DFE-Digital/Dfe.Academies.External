@@ -30,36 +30,34 @@
 }
 
 @*// Error messages partial - on layout page !!!*@
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-xl">What are you applying to do?</h1>
-        <div id="divApplyingToDo" class="govuk-form-group">
-            <form method="post" name="frmApplicationType" novalidate="">
-                <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend">When a school becomes an academy, it must either join an existing trust or form a new one.</legend>
-                    <div asp-validation-summary="All" class="govuk-error-message"></div>
-                    <div class="govuk-form-group">
-                        <div class="govuk-radios--conditional">
-                            @foreach (var applicationType in Enum.GetValues(typeof(ApplicationTypes)).OfType<ApplicationTypes>())
-                            {
-                                <div class="govuk-radios__item">
-                                    <input type="radio"
-                                           asp-for="ApplicationType"
-                                           value="@Convert.ToInt32(applicationType)"
-                                           id="ApplicationType@(applicationType)"
-                                           class="govuk-radios__input"/>
-                                    <label for="ApplicationType@(applicationType)" class="govuk-label govuk-radios__label">@applicationType.GetDescription()</label>
-                                </div>
-                            }
-                        </div>
+<div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">What are you applying to do?</h1>
+    <div id="divApplyingToDo" class="govuk-form-group">
+        <form method="post" name="frmApplicationType" novalidate="">
+            <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend">When a school becomes an academy, it must either join an existing trust or form a new one.</legend>
+                <div asp-validation-summary="All" class="govuk-error-message"></div>
+                <div class="govuk-form-group">
+                    <div class="govuk-radios--conditional">
+                        @foreach (var applicationType in Enum.GetValues(typeof(ApplicationTypes)).OfType<ApplicationTypes>())
+                        {
+                            <div class="govuk-radios__item">
+                                <input type="radio"
+                                       asp-for="ApplicationType"
+                                       value="@Convert.ToInt32(applicationType)"
+                                       id="ApplicationType@(applicationType)"
+                                       class="govuk-radios__input"/>
+                                <label for="ApplicationType@(applicationType)" class="govuk-label govuk-radios__label">@applicationType.GetDescription()</label>
+                            </div>
+                        }
                     </div>
-                </fieldset>
-                <br/>
-                <input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
-            </form>
-            <p id="divCancelButton">
-                <a asp-page="YourApplications">Cancel and return to your applications</a>
-            </p>
-        </div>
+                </div>
+            </fieldset>
+            <br/>
+            <input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+        </form>
+        <p id="divCancelButton">
+            <a asp-page="YourApplications">Cancel and return to your applications</a>
+        </p>
     </div>
 </div>
