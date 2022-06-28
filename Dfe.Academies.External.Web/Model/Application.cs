@@ -15,21 +15,21 @@ namespace Dfe.Academies.External.Web.Model
 
             // Use for SchoolOrSchoolsApplyingToConvert
             StringBuilder li = new StringBuilder();
-            li.Append(@"<ul>");
-            li.Append(@"<li>Cambridge Regional college</li>");
-            li.Append(@"</ul>");
+                li.Append(@"<ul>");
+                li.Append(@"<li>Cambridge Regional college</li>");
+                li.Append(@"</ul>");
 
             StringBuilder li2 = new StringBuilder();
-            li2.Append(@"<ul>");
-            li2.Append(@"<li>Fen Ditton primary school</li>");
-            li2.Append(@"<li>Chesterton primary school</li>");
-            li2.Append(@"<li>North Cambridge academy</li>");
-            li2.Append(@"</ul>");
+                li2.Append(@"<ul>");
+                li2.Append(@"<li>Fen Ditton primary school</li>");
+                li2.Append(@"<li>Chesterton primary school</li>");
+                li2.Append(@"<li>North Cambridge academy</li>");
+                li2.Append(@"</ul>");
 
             StringBuilder li3 = new StringBuilder();
-            li3.Append(@"<ul>");
-            li3.Append(@"<li>King’s College London Maths school</li>");
-            li3.Append(@"</ul>");
+                li3.Append(@"<ul>");
+                li3.Append(@"<li>King’s College London Maths school</li>");
+                li3.Append(@"</ul>");
 
             List<TrustApplication> existingApplications = // Mock Demo Data
             new List<TrustApplication>()
@@ -53,7 +53,7 @@ namespace Dfe.Academies.External.Web.Model
             return resultOfSave;
         }
 
-        public List<TrustApplication> GetCompletedtingApplications(string username)
+        public List<TrustApplication> GetCompletedApplications(string username)
         {
             // TODO: Get data from Dynamics 365 
 

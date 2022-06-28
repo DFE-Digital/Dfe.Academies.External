@@ -26,9 +26,9 @@ namespace Dfe.Academies.External.Web.Pages
 
                 existingApplications = _trustApplication.GetPendingApplications(username);
 
-                completedApplications = _trustApplication.GetCompletedtingApplications(username);
+                completedApplications = _trustApplication.GetCompletedApplications(username);
 
-                // TODO: Write unit test for GetPendingApplications
+                // TODO: Write unit test for GetCompletedtingApplications
             }
             catch (Exception ex)
             {
