@@ -1,0 +1,5 @@
+﻿.validation-summary-errors ul, .validation-summary-errors li {
+    list-style: none;
+    display: inline;
+    padding: 0;
+}
