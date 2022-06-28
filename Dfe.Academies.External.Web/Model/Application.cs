@@ -5,6 +5,7 @@ namespace Dfe.Academies.External.Web.Model
     public class TrustApplication : ITrustApplication
     {
         public int Id { get; set; }
+        public string UserEmail { get; set; }
         public string Application { get; set; }
         public string TrustName { get; set; }
         public string SchoolOrSchoolsApplyingToConvert { get; set; }
@@ -12,6 +13,7 @@ namespace Dfe.Academies.External.Web.Model
         public List<TrustApplication> GetPendingApplications(string username)
         {
             // TODO: Get data from Dynamics 365
+            // TODO: filter by useremail
 
             // Use for SchoolOrSchoolsApplyingToConvert
             StringBuilder li = new StringBuilder();
@@ -34,9 +36,9 @@ namespace Dfe.Academies.External.Web.Model
             List<TrustApplication> existingApplications = // Mock Demo Data
             new List<TrustApplication>()
             {
-                new TrustApplication() { Id = 2, Application = "Join a multi-academy trust A2B_2549", TrustName = "The Diocese of Ely multi - academy trust", SchoolOrSchoolsApplyingToConvert = li.ToString()},
-                new TrustApplication() { Id = 3, Application = "Form a new multi- academy trust A2B_8956", TrustName = "Cambs multi-academy example trust", SchoolOrSchoolsApplyingToConvert = li2.ToString()},
-                new TrustApplication() { Id = 4, Application = "Form a new single academy trust A2B_8974", TrustName = "Single academy trust example", SchoolOrSchoolsApplyingToConvert = li3.ToString()},
+                new TrustApplication() { Id = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", TrustName = "The Diocese of Ely multi - academy trust", SchoolOrSchoolsApplyingToConvert = li.ToString()},
+                new TrustApplication() { Id = 3, UserEmail = "", Application = "Form a new multi- academy trust A2B_8956", TrustName = "Cambs multi-academy example trust", SchoolOrSchoolsApplyingToConvert = li2.ToString()},
+                new TrustApplication() { Id = 4, UserEmail = "", Application = "Form a new single academy trust A2B_8974", TrustName = "Single academy trust example", SchoolOrSchoolsApplyingToConvert = li3.ToString()},
             };
 
             return existingApplications;
@@ -56,6 +58,7 @@ namespace Dfe.Academies.External.Web.Model
         public List<TrustApplication> GetCompletedApplications(string username)
         {
             // TODO: Get data from Dynamics 365 
+            // TODO: filter by useremail
 
             // Use for SchoolOrSchoolsApplyingToConvert
             StringBuilder li = new StringBuilder();
@@ -66,7 +69,7 @@ namespace Dfe.Academies.External.Web.Model
             List<TrustApplication> existingApplications = // Mock Demo Data
             new List<TrustApplication>()
             {
-                new TrustApplication() { Id = 1, Application = "Join a multi-academy trust A2B_2549", TrustName = "Harpenden Academy trust", SchoolOrSchoolsApplyingToConvert = li.ToString() }
+                new TrustApplication() { Id = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", TrustName = "Harpenden Academy trust", SchoolOrSchoolsApplyingToConvert = li.ToString() }
             };
 
             return existingApplications;

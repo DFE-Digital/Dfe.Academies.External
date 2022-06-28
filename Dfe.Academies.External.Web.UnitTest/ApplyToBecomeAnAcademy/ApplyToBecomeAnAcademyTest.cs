@@ -13,6 +13,7 @@ namespace DfE.Academies.External.Web.UnitTest.Routing
 		{
 
             TrustApplication trustApplication = new TrustApplication();
+            string UserEmail = ""; // TODO: filter by useremail
 
             // Mock data
             StringBuilder li = new StringBuilder();
@@ -36,9 +37,9 @@ namespace DfE.Academies.External.Web.UnitTest.Routing
             List<TrustApplication> existingApplicationsTestData =
             new List<TrustApplication>()
             {
-                new TrustApplication() { Id = 2, Application = "Join a multi-academy trust A2B_2549", TrustName = "The Diocese of Ely multi - academy trust", SchoolOrSchoolsApplyingToConvert = li.ToString()},
-                new TrustApplication() { Id = 3, Application = "Form a new multi- academy trust A2B_8956", TrustName = "Cambs multi-academy example trust", SchoolOrSchoolsApplyingToConvert = li2.ToString()},
-                new TrustApplication() { Id = 4, Application = "Form a new single academy trust A2B_8974", TrustName = "Single academy trust example", SchoolOrSchoolsApplyingToConvert = li3.ToString()},
+                new TrustApplication() { Id = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", TrustName = "The Diocese of Ely multi - academy trust", SchoolOrSchoolsApplyingToConvert = li.ToString()},
+                new TrustApplication() { Id = 3, UserEmail = "", Application = "Form a new multi- academy trust A2B_8956", TrustName = "Cambs multi-academy example trust", SchoolOrSchoolsApplyingToConvert = li2.ToString()},
+                new TrustApplication() { Id = 4, UserEmail = "", Application = "Form a new single academy trust A2B_8974", TrustName = "Single academy trust example", SchoolOrSchoolsApplyingToConvert = li3.ToString()},
             };
 
             Assert.AreEqual(existingApplicationsTestData.Count, trustApplication.GetPendingApplications("Username").Count, "Count is not correct");
@@ -64,13 +65,13 @@ namespace DfE.Academies.External.Web.UnitTest.Routing
             List<TrustApplication> completedApplicationsTestData = 
             new List<TrustApplication>()
             {
-                new TrustApplication() { Id = 1, Application = "Join a multi-academy trust A2B_2549", TrustName = "Harpenden Academy trust", SchoolOrSchoolsApplyingToConvert = li.ToString() }
+                new TrustApplication() { Id = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", TrustName = "Harpenden Academy trust", SchoolOrSchoolsApplyingToConvert = li.ToString() }
             };
 
             Assert.AreEqual(completedApplicationsTestData.Count, trustApplication.GetCompletedApplications("Username").Count, "Count is not correct");
-            Assert.AreEqual(completedApplicationsTestData.ToArray()[0].Application, trustApplication.GetPendingApplications("Username").ToArray()[0].Application, "Completed data not found");
-            Assert.AreEqual(completedApplicationsTestData.ToArray()[0].TrustName, trustApplication.GetPendingApplications("Username").ToArray()[0].TrustName, "Completed data not found");
-            Assert.AreEqual(completedApplicationsTestData.ToArray()[0].SchoolOrSchoolsApplyingToConvert, trustApplication.GetPendingApplications("Username").ToArray()[0].SchoolOrSchoolsApplyingToConvert, "Completed data not found");
+            Assert.AreEqual(completedApplicationsTestData.ToArray()[0].Application, trustApplication.GetCompletedApplications("Username").ToArray()[0].Application, "Completed data not found");
+            Assert.AreEqual(completedApplicationsTestData.ToArray()[0].TrustName, trustApplication.GetCompletedApplications("Username").ToArray()[0].TrustName, "Completed data not found");
+            Assert.AreEqual(completedApplicationsTestData.ToArray()[0].SchoolOrSchoolsApplyingToConvert, trustApplication.GetCompletedApplications("Username").ToArray()[0].SchoolOrSchoolsApplyingToConvert, "Completed data not found");
 
         }
     }
