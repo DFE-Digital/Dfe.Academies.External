@@ -77,6 +77,24 @@ public class WhatAreYouApplyingToDoModelTests
         if (errors != null) Assert.AreEqual(errors.Count, 1);
     }
 
+    [Test]
+    public async Task OnPostAsync_Success()
+    {
+        // arrange
+        var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
+        var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
+
+        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object, mockAcademisationCreationService.Object);
+
+        // act
+        await pageModel.OnPostAsync();
+
+        var errors = pageModel.ViewData["Errors"]!;
+
+        // assert - no model state validation errors
+        Assert.AreEqual(errors, null);
+    }
+
     private static WhatAreYouApplyingToDoModel SetupWhatAreYouApplyingToDoModel(
         ILogger<WhatAreYouApplyingToDoModel> mockLogger, IAcademisationCreationService mockAcademisationCreationService, bool isAuthenticated = false)
     {
