@@ -12,7 +12,7 @@ namespace DfE.Academies.External.Web.UnitTest.Routing
 		public void GetPendingApplications()
 		{
 
-            TrustApplication trustApplication = new TrustApplication();
+            TrustApplication actualTrustApplication = new TrustApplication();
             string UserEmail = ""; // TODO: filter by useremail
 
             // Mock data
@@ -34,7 +34,7 @@ namespace DfE.Academies.External.Web.UnitTest.Routing
                 li3.Append(@"</ul>");
 
             // Mock data
-            List<TrustApplication> existingApplicationsTestData =
+            List<TrustApplication> expectedExistingApplicationsTestData =
             new List<TrustApplication>()
             {
                 new TrustApplication() { Id = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", TrustName = "The Diocese of Ely multi - academy trust", SchoolOrSchoolsApplyingToConvert = li.ToString()},
@@ -42,10 +42,10 @@ namespace DfE.Academies.External.Web.UnitTest.Routing
                 new TrustApplication() { Id = 4, UserEmail = "", Application = "Form a new single academy trust A2B_8974", TrustName = "Single academy trust example", SchoolOrSchoolsApplyingToConvert = li3.ToString()},
             };
 
-            Assert.AreEqual(existingApplicationsTestData.Count, trustApplication.GetPendingApplications("Username").Count, "Count is not correct");
-            Assert.AreEqual(existingApplicationsTestData.ToArray()[0].Application, trustApplication.GetPendingApplications("Username").ToArray()[0].Application, "Pending data not found");
-            Assert.AreEqual(existingApplicationsTestData.ToArray()[0].TrustName, trustApplication.GetPendingApplications("Username").ToArray()[0].TrustName, "Pending data not found");
-            Assert.AreEqual(existingApplicationsTestData.ToArray()[0].SchoolOrSchoolsApplyingToConvert, trustApplication.GetPendingApplications("Username").ToArray()[0].SchoolOrSchoolsApplyingToConvert, "Pending data not found");
+            Assert.AreEqual(expectedExistingApplicationsTestData.Count, actualTrustApplication.GetPendingApplications("Username").Count, "Count is not correct");
+            Assert.AreEqual(expectedExistingApplicationsTestData.ToArray()[0].Application, actualTrustApplication.GetPendingApplications("Username").ToArray()[0].Application, "Pending data not found");
+            Assert.AreEqual(expectedExistingApplicationsTestData.ToArray()[0].TrustName, actualTrustApplication.GetPendingApplications("Username").ToArray()[0].TrustName, "Pending data not found");
+            Assert.AreEqual(expectedExistingApplicationsTestData.ToArray()[0].SchoolOrSchoolsApplyingToConvert, actualTrustApplication.GetPendingApplications("Username").ToArray()[0].SchoolOrSchoolsApplyingToConvert, "Pending data not found");
 
         }
 
@@ -53,7 +53,7 @@ namespace DfE.Academies.External.Web.UnitTest.Routing
         public void GetCompletedApplications()
         {
 
-            TrustApplication trustApplication = new TrustApplication();
+            TrustApplication actualTrustApplication = new TrustApplication();
 
             // Mock data
             StringBuilder li = new StringBuilder();
@@ -62,16 +62,16 @@ namespace DfE.Academies.External.Web.UnitTest.Routing
             li.Append(@"</ul>");
 
             // Mock Demo Data
-            List<TrustApplication> completedApplicationsTestData = 
+            List<TrustApplication> expectedCompletedApplicationsTestData = 
             new List<TrustApplication>()
             {
                 new TrustApplication() { Id = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", TrustName = "Harpenden Academy trust", SchoolOrSchoolsApplyingToConvert = li.ToString() }
             };
 
-            Assert.AreEqual(completedApplicationsTestData.Count, trustApplication.GetCompletedApplications("Username").Count, "Count is not correct");
-            Assert.AreEqual(completedApplicationsTestData.ToArray()[0].Application, trustApplication.GetCompletedApplications("Username").ToArray()[0].Application, "Completed data not found");
-            Assert.AreEqual(completedApplicationsTestData.ToArray()[0].TrustName, trustApplication.GetCompletedApplications("Username").ToArray()[0].TrustName, "Completed data not found");
-            Assert.AreEqual(completedApplicationsTestData.ToArray()[0].SchoolOrSchoolsApplyingToConvert, trustApplication.GetCompletedApplications("Username").ToArray()[0].SchoolOrSchoolsApplyingToConvert, "Completed data not found");
+            Assert.AreEqual(expectedCompletedApplicationsTestData.Count, actualTrustApplication.GetCompletedApplications("Username").Count, "Count is not correct");
+            Assert.AreEqual(expectedCompletedApplicationsTestData.ToArray()[0].Application, actualTrustApplication.GetCompletedApplications("Username").ToArray()[0].Application, "Completed data not found");
+            Assert.AreEqual(expectedCompletedApplicationsTestData.ToArray()[0].TrustName, actualTrustApplication.GetCompletedApplications("Username").ToArray()[0].TrustName, "Completed data not found");
+            Assert.AreEqual(expectedCompletedApplicationsTestData.ToArray()[0].SchoolOrSchoolsApplyingToConvert, actualTrustApplication.GetCompletedApplications("Username").ToArray()[0].SchoolOrSchoolsApplyingToConvert, "Completed data not found");
 
         }
     }
