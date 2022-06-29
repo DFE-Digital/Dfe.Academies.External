@@ -16,10 +16,13 @@ public class ResilientRequestProviderTests
     {
         // arrange
         var expected = @"{ ""foo"": ""bar"" }"; // expected JSON from API
-        var clientHandlerStub = new DelegatingHandlerStub((request, cancellationToken) => {
-            var response = new HttpResponseMessage { 
-                            StatusCode = HttpStatusCode.OK, 
-                            Content = new StringContent(expected) };
+        var clientHandlerStub = new DelegatingHandlerStub((request, cancellationToken) =>
+        {
+            var response = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(expected)
+            };
             return Task.FromResult(response);
         });
 

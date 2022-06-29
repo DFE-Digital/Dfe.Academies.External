@@ -14,7 +14,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services;
 [Parallelizable(ParallelScope.All)]
 public class AcademisationCreationServiceTests
 {
-	[Test]
+    [Test]
     public async Task AcademisationCreationService_CreateNewApplication_Success()
     {
         // arrange
