@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Dfe.Academies.External.Web.Pages;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -32,7 +35,7 @@ public class WhatAreYouApplyingToDoModelTests
     }
 
     [Test]
-    public async Task WhenOnGetAsync_ThrowsException()
+    public async Task OnGetAsync_ThrowsException()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
@@ -53,7 +56,26 @@ public class WhatAreYouApplyingToDoModelTests
 
     // OnPost Success
 
-    // OnPost Fail
+    [Test]
+    public async Task OnPostAsync_ThrowsException()
+    {
+        // arrange
+        var expectedErrorText = "Test Err";
+        var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
+        var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
+
+        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object, mockAcademisationCreationService.Object);
+
+        pageModel.ModelState.AddModelError("CustomError", expectedErrorText);
+
+        // act
+        await pageModel.OnPostAsync();
+
+        Dictionary<string, string>? errors = (Dictionary<string, string>)pageModel.ViewData["Errors"]!;
+
+        // assert
+        if (errors != null) Assert.AreEqual(errors.Count, 1);
+    }
 
     private static WhatAreYouApplyingToDoModel SetupWhatAreYouApplyingToDoModel(
         ILogger<WhatAreYouApplyingToDoModel> mockLogger, IAcademisationCreationService mockAcademisationCreationService, bool isAuthenticated = false)
