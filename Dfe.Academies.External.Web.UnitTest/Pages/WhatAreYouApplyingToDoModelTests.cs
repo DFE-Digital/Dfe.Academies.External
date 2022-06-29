@@ -16,7 +16,23 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages;
 public class WhatAreYouApplyingToDoModelTests
 {
     [Test]
-    public async Task WhenOnGetAsync_MissingCaseUrn_ThrowsException()
+    public async Task WhenOnGetAsync_Success()
+    {
+        // arrange
+        var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
+        var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
+
+        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object, mockAcademisationCreationService.Object);
+
+        // act
+        await pageModel.OnGetAsync();
+
+        // assert
+        Assert.That(pageModel.TempData["Error.Message"], Is.EqualTo(null));
+    }
+
+    [Test]
+    public async Task WhenOnGetAsync_ThrowsException()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
@@ -31,7 +47,8 @@ public class WhatAreYouApplyingToDoModelTests
         await pageModel.OnGetAsync();
 
         // assert
-        Assert.That(pageModel.TempData["Error.Message"], Is.EqualTo("An error occurred loading the page, please try again. If the error persists contact the service administrator."));
+        //Assert.That(pageModel.TempData["Error.Message"], Is.EqualTo("An error occurred loading the page, please try again. If the error persists contact the service administrator."));
+        // no use case as yet !
     }
 
     // OnPost Success

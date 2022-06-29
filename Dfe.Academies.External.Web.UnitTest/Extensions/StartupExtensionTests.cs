@@ -11,24 +11,32 @@ namespace Dfe.Academies.External.Web.UnitTest.Extensions;
 	public class StartupExtensionTests
 	{
         [Test]
-		public void WhenAddTramsApi_MissingConfiguration_ThrowException()
+		public void AddAcademiesApi_MissingConfiguration_ThrowException()
 		{
 			// arrange
 			var serviceCollection = new ServiceCollection();
-			var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string>()).Build();
+			var configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(new Dictionary<string, string>())
+                .Build();
 			
 			// act
 			Assert.Throws<Exception>(() => serviceCollection.AddAcademiesApi(configuration));
 		}
 
 		[Test]
-		public void WhenAddTramsApi_Configuration_Success()
+		public void AddAcademiesApi_Configuration_Success()
 		{
 			// arrange
 			var serviceCollection = new ServiceCollection();
 			
 			// act
-			serviceCollection.AddAcademiesApi(new ConfigurationBuilder().AddInMemoryCollection().Build());
+			serviceCollection.AddAcademiesApi(new ConfigurationBuilder()
+					   .AddInMemoryCollection(new List<KeyValuePair<string, string>>
+                       {
+                           new KeyValuePair<string, string>("academies:api_endpoint", "1"),
+                           new KeyValuePair<string, string>("academies:api_key", "2")
+                       })
+				.Build());
 			
 			// assert
 			Assert.That(serviceCollection, Is.Not.Null);
