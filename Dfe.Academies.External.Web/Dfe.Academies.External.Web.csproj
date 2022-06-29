@@ -15,7 +15,6 @@
     <Folder Include="Attributes\" />
     <Folder Include="Helpers\" />
     <Folder Include="Enums\" />
-    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

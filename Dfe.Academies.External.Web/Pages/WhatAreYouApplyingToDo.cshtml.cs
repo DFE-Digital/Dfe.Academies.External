@@ -46,7 +46,7 @@ namespace Dfe.Academies.External.Web.Pages
             var applicationTypeSelected = ApplicationType;
             try
             {
-                var newApplication = new TrustApplication
+                var newApplication = new ConversionApplication
                 {
                     ApplicationType = applicationTypeSelected,
                     UserEmail = "Auth user"

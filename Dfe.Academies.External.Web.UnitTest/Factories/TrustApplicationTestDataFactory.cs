@@ -9,9 +9,9 @@ internal static class TrustApplicationTestDataFactory
     private static readonly Fixture Fixture = new();
     private static readonly UniqueRecordIdentifierGenerator UniqueRecordIdentifierGenerator = new();
 
-    public static TrustApplication BuildNewTrustApplication()
+    public static ConversionApplication BuildNewTrustApplication()
     {
-        return new TrustApplication
+        return new ConversionApplication
         {
             TrustName = Fixture.Create<string>(),
             UserEmail = Fixture.Create<string>(),

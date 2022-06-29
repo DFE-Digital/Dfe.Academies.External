@@ -13,7 +13,7 @@ public sealed class AcademisationCreationService : AbstractService, IAcademisati
         _logger = logger;
     }
 
-	public async Task<TrustApplication> CreateNewApplication(TrustApplication application)
+	public async Task<ConversionApplication> CreateNewApplication(ConversionApplication application)
     {
         ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(HttpClientName));
 

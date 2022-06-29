@@ -2,7 +2,7 @@
 
 namespace Dfe.Academies.External.Web.Models;
 
-public class TrustApplication
+public class ConversionApplication
 {
     public long Id { get; set; }
 
