@@ -7,7 +7,7 @@ namespace Dfe.Academies.External.Web.Services
     /// <summary>
     /// The resilient request provider.
     /// </summary>
-    internal sealed class ResilientRequestProvider : IAPIRequestProvider
+    public sealed class ResilientRequestProvider : IAPIRequestProvider
     {
         /// <summary>
         /// The authorization method.

@@ -3,7 +3,7 @@ using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
 
-internal sealed class AcademisationCreationService : AbstractService, IAcademisationCreationService
+public sealed class AcademisationCreationService : AbstractService, IAcademisationCreationService
 {
     private readonly ILogger<AcademisationCreationService> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
@@ -14,9 +14,11 @@ internal sealed class AcademisationCreationService : AbstractService, IAcademisa
         _logger = logger;
     }
 
-	public TrustApplication CreateNewApplication(ApplicationTypes applicationType)
+	public async Task<TrustApplication> CreateNewApplication(ApplicationTypes applicationType)
     {
         ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(HttpClientName));
+
+        // TODO await API response !
 
         throw new NotImplementedException();
     }

@@ -1,6 +1,6 @@
 ﻿namespace Dfe.Academies.External.Web.Services
 {
-	internal class AbstractService
+    public class AbstractService
 	{
 		internal readonly IHttpClientFactory ClientFactory;
 		internal const string HttpClientName = "AcademiesClient";

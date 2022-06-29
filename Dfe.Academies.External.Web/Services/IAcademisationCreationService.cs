@@ -5,5 +5,5 @@ namespace Dfe.Academies.External.Web.Services;
 
 public interface IAcademisationCreationService
 {
-    TrustApplication CreateNewApplication(ApplicationTypes applicationType);
+    Task<TrustApplication> CreateNewApplication(ApplicationTypes applicationType);
 }
