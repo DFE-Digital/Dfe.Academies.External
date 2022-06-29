@@ -12,67 +12,91 @@ namespace Dfe.Academies.External.Web.Model
 
         public List<TrustApplication> GetPendingApplications(string username)
         {
-            // TODO: Get data from Dynamics 365
-            // TODO: filter by useremail
-
-            // Use for SchoolOrSchoolsApplyingToConvert
-            StringBuilder li = new StringBuilder();
-                li.Append(@"<ul>");
-                li.Append(@"<li>Cambridge Regional college</li>");
-                li.Append(@"</ul>");
-
-            StringBuilder li2 = new StringBuilder();
-                li2.Append(@"<ul>");
-                li2.Append(@"<li>Fen Ditton primary school</li>");
-                li2.Append(@"<li>Chesterton primary school</li>");
-                li2.Append(@"<li>North Cambridge academy</li>");
-                li2.Append(@"</ul>");
-
-            StringBuilder li3 = new StringBuilder();
-                li3.Append(@"<ul>");
-                li3.Append(@"<li>King’s College London Maths school</li>");
-                li3.Append(@"</ul>");
-
-            List<TrustApplication> existingApplications = // Mock Demo Data
-            new List<TrustApplication>()
+            try
             {
-                new TrustApplication() { Id = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", TrustName = "The Diocese of Ely multi - academy trust", SchoolOrSchoolsApplyingToConvert = li.ToString()},
-                new TrustApplication() { Id = 3, UserEmail = "", Application = "Form a new multi- academy trust A2B_8956", TrustName = "Cambs multi-academy example trust", SchoolOrSchoolsApplyingToConvert = li2.ToString()},
-                new TrustApplication() { Id = 4, UserEmail = "", Application = "Form a new single academy trust A2B_8974", TrustName = "Single academy trust example", SchoolOrSchoolsApplyingToConvert = li3.ToString()},
-            };
+ 
+                // TODO: Get data from Dynamics 365
+                // TODO: filter by useremail
 
-            return existingApplications;
+                // Use for SchoolOrSchoolsApplyingToConvert
+                StringBuilder li = new StringBuilder();
+                    li.Append(@"<ul>");
+                    li.Append(@"<li>Cambridge Regional college</li>");
+                    li.Append(@"</ul>");
+
+                StringBuilder li2 = new StringBuilder();
+                    li2.Append(@"<ul>");
+                    li2.Append(@"<li>Fen Ditton primary school</li>");
+                    li2.Append(@"<li>Chesterton primary school</li>");
+                    li2.Append(@"<li>North Cambridge academy</li>");
+                    li2.Append(@"</ul>");
+
+                StringBuilder li3 = new StringBuilder();
+                    li3.Append(@"<ul>");
+                    li3.Append(@"<li>King’s College London Maths school</li>");
+                    li3.Append(@"</ul>");
+
+                List<TrustApplication> existingApplications = // Mock Demo Data
+                new List<TrustApplication>()
+                {
+                    new TrustApplication() { Id = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", TrustName = "The Diocese of Ely multi - academy trust", SchoolOrSchoolsApplyingToConvert = li.ToString()},
+                    new TrustApplication() { Id = 3, UserEmail = "", Application = "Form a new multi- academy trust A2B_8956", TrustName = "Cambs multi-academy example trust", SchoolOrSchoolsApplyingToConvert = li2.ToString()},
+                    new TrustApplication() { Id = 4, UserEmail = "", Application = "Form a new single academy trust A2B_8974", TrustName = "Single academy trust example", SchoolOrSchoolsApplyingToConvert = li3.ToString()},
+                };
+
+                return existingApplications;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public string CreateNewApplication(TrustApplication trustApplication)
         {
-            string resultOfSave = "";
+            try
+            {
+                string resultOfSave = "";
 
-            // Awaiting design doc
-            // TODO: Save to datastore
-            // TODO: Check if save successfull            
+                // Awaiting design doc
+                // TODO: Save to datastore
+                // TODO: Check if save successfull            
 
-            return resultOfSave;
+                return resultOfSave;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public List<TrustApplication> GetCompletedApplications(string username)
         {
-            // TODO: Get data from Dynamics 365 
-            // TODO: filter by useremail
+            try
+            {  
 
-            // Use for SchoolOrSchoolsApplyingToConvert
-            StringBuilder li = new StringBuilder();
-            li.Append(@"<ul>");
-            li.Append(@"<li>St George’s school</li>");
-            li.Append(@"</ul>");
+                // TODO: Get data from Dynamics 365 
+                // TODO: filter by useremail
 
-            List<TrustApplication> existingApplications = // Mock Demo Data
-            new List<TrustApplication>()
+                // Use for SchoolOrSchoolsApplyingToConvert
+                StringBuilder li = new StringBuilder();
+                li.Append(@"<ul>");
+                li.Append(@"<li>St George’s school</li>");
+                li.Append(@"</ul>");
+
+                List<TrustApplication> existingApplications = // Mock Demo Data
+                new List<TrustApplication>()
+                {
+                    new TrustApplication() { Id = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", TrustName = "Harpenden Academy trust", SchoolOrSchoolsApplyingToConvert = li.ToString() }
+                };
+
+                return existingApplications;
+            }
+            catch (Exception)
             {
-                new TrustApplication() { Id = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", TrustName = "Harpenden Academy trust", SchoolOrSchoolsApplyingToConvert = li.ToString() }
-            };
-
-            return existingApplications;
+                throw;
+            }
         }
     }
 }
