@@ -56,7 +56,7 @@ namespace Dfe.Academies.External.Web.Pages
 
                 if(newApplication!=null)
                     // TODO MR:- plop newApplication.Id somewhere so NextStepPage can pick this up !
-                    TempData["newApplicationId"] = newApplication.Id;
+                    TempData["newApplicationId"] = newApplication.Id.ToString();
             }
             catch (Exception ex)
             {
