@@ -2,6 +2,7 @@ using Dfe.Academies.External.Web.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 
 namespace Dfe.Academies.External.Web.Pages
@@ -24,10 +25,11 @@ namespace Dfe.Academies.External.Web.Pages
 
         public async Task OnGetAsync()
         {
-            // like on load
+            // like on load - if navigating backwards from NextStepPage - will need to set model value from somewhere!
+            // ApplicationType = TempData["applicationTypeSelected"];
         }
 
-        public IActionResult OnPostAsync()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
@@ -42,12 +44,17 @@ namespace Dfe.Academies.External.Web.Pages
             }
 
             var applicationTypeSelected = ApplicationType;
-
-            // TODO MR:- call out to API to create stub application?
             try
             {
-                var newApplication = _academisationCreationService.CreateNewApplication(applicationTypeSelected);
-                // TODO MR:- plop newApplication.Id somewhere??
+                var newApplication = new TrustApplication
+                {
+                    ApplicationType = applicationTypeSelected,
+                    UserEmail = "Auth user"
+                };
+
+                newApplication = await _academisationCreationService.CreateNewApplication(newApplication);
+                // TODO MR:- plop newApplication.Id somewhere so NextStepPage can pick this up !
+                TempData["newApplicationId"] = newApplication.Id;
             }
             catch (Exception ex)
             {

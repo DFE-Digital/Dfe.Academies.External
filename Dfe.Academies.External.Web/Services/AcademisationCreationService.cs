@@ -1,5 +1,4 @@
-﻿using Dfe.Academies.External.Web.Enums;
-using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
 
@@ -14,7 +13,7 @@ public sealed class AcademisationCreationService : AbstractService, IAcademisati
         _logger = logger;
     }
 
-	public async Task<TrustApplication> CreateNewApplication(ApplicationTypes applicationType)
+	public async Task<TrustApplication> CreateNewApplication(TrustApplication application)
     {
         ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(HttpClientName));
 
