@@ -1,34 +1,28 @@
 using Dfe.Academies.External.Web.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel;
+using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Services;
 
 namespace Dfe.Academies.External.Web.Pages
 {
-    public enum ApplicationTypes : int {
-        [Description("Join a multi-academy trust")]
-        JoinMat=1,
-        [Description("Form a new multi-academy trust")]
-        FormNewMat=2,
-        [Description("Form new single academy trust")]
-        FormNewSingleAcademyTrust=3
-    }
-
     public class WhatAreYouApplyingToDoModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ILogger<WhatAreYouApplyingToDoModel> _logger;
+        private readonly IAcademisationCreationService _academisationCreationService;
         private const string NextStepPage = "/WhatIsYourRole";
 
-        public WhatAreYouApplyingToDoModel(ILogger<IndexModel> logger)
+        public WhatAreYouApplyingToDoModel(ILogger<WhatAreYouApplyingToDoModel> logger, IAcademisationCreationService academisationCreationService)
         {
             _logger = logger;
+            _academisationCreationService = academisationCreationService;
         }
 
         [BindProperty]
         [RequiredEnum(ErrorMessage = "Select an application type")]
         public ApplicationTypes ApplicationType { get; set; }
-        
-        public void OnGet()
+
+        public async Task OnGetAsync()
         {
             // like on load
         }
@@ -50,13 +44,17 @@ namespace Dfe.Academies.External.Web.Pages
             var applicationTypeSelected = ApplicationType;
 
             // TODO MR:- call out to API to create stub application?
-            //var response = await _applicationRepository.AddApplication(applicationTypeSelected);
-            //if (!response.Success)
-            //{
-            //    _logger.AddError();
-            //    return Page();
-            //}
-
+            try
+            {
+                var newApplication = _academisationCreationService.CreateNewApplication(applicationTypeSelected);
+                // TODO MR:- plop newApplication.Id somewhere??
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Application::WhatAreYouApplyingToDoModel::OnPostAsync::Exception - {Message}", ex.Message);
+                return Page();
+            }
+            
             switch (applicationTypeSelected)
             {
                 case ApplicationTypes.JoinMat:

@@ -1,3 +1,4 @@
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Routing;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -67,6 +68,12 @@ builder.Services.AddAuthorization(options =>
 		policy.RequireAuthenticatedUser();
     });
 });
+
+// Academies API
+builder.Services.AddAcademiesApi(configuration);
+
+// Internal Service
+builder.Services.AddInternalServices();
 
 var app = builder.Build();
 
