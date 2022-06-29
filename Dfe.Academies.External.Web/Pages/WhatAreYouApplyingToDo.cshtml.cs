@@ -53,8 +53,10 @@ namespace Dfe.Academies.External.Web.Pages
                 };
 
                 newApplication = await _academisationCreationService.CreateNewApplication(newApplication);
-                // TODO MR:- plop newApplication.Id somewhere so NextStepPage can pick this up !
-                TempData["newApplicationId"] = newApplication.Id;
+
+                if(newApplication!=null)
+                    // TODO MR:- plop newApplication.Id somewhere so NextStepPage can pick this up !
+                    TempData["newApplicationId"] = newApplication.Id;
             }
             catch (Exception ex)
             {
