@@ -22,4 +22,14 @@ public sealed class AcademisationCreationService : AbstractService, IAcademisati
 
         return application;
     }
+
+    public List<ConversionApplication> GetCompletedApplications(string username)
+    {
+        throw new NotImplementedException();
+    }
+
+    public List<ConversionApplication> GetPendingApplications(string username)
+    {
+        throw new NotImplementedException();
+    }
 }

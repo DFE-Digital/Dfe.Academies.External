@@ -8,8 +8,8 @@ public class ConversionApplication
 
     public ApplicationTypes ApplicationType { get; set; }
 
-    public string UserEmail { get; set; }
-    public string Application { get; set; }
-    public string TrustName { get; set; }
+    public string? UserEmail { get; set; }
+    public string? Application { get; set; }
+    public string? TrustName { get; set; }
     
 }
