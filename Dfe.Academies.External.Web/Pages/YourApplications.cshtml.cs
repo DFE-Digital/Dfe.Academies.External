@@ -8,13 +8,13 @@ namespace Dfe.Academies.External.Web.Pages
     public class HomeModel : PageModel
     {
         [BindProperty]
-        public List<TrustApplication> existingApplications { get; set; }
-        public List<TrustApplication> completedApplications { get; set; }    
+        public List<ConversionApplication> existingApplications { get; set; }
+        public List<ConversionApplication> completedApplications { get; set; }    
 
-        private readonly ITrustApplication _trustApplication;
+        private readonly IConversionApplication _trustApplication;
         private readonly ILoggerClass _Logger;
 
-        public HomeModel(ITrustApplication trustApplication, ILoggerClass logger)
+        public HomeModel(IConversionApplication trustApplication, ILoggerClass logger)
         {
             _trustApplication = trustApplication;
             _Logger = logger;
@@ -36,7 +36,6 @@ namespace Dfe.Academies.External.Web.Pages
             }
             catch (Exception ex)
             {
-                // TODO: Add error log to file
                 _Logger.Logger(ex.Message);
             }
 

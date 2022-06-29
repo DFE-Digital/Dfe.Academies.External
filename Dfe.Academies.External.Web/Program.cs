@@ -68,7 +68,7 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
-builder.Services.AddSingleton< ITrustApplication, TrustApplication> ();
+builder.Services.AddSingleton<IConversionApplication, ConversionApplication> ();
 builder.Services.AddSingleton<ILoggerClass, LoggerClass>();
 
 var app = builder.Build();

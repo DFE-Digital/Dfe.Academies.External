@@ -30,7 +30,12 @@
         <tr class="govuk-table__row">  
             <th scope="row" class="govuk-table__cell"><a href="#">@data.Application</a></th>
             <td class="govuk-table__cell">@data.TrustName</td>
-			<td class="govuk-table__cell">@Html.Raw(@data.SchoolOrSchoolsApplyingToConvert)</td>
+            <td class="govuk-table__cell">
+                @foreach(var schs in data.SchoolOrSchoolsApplyingToConvert)
+                {
+			       <ul><li>@Html.Raw(@schs.SchoolOrSchoolsApplyingToConvertProperty)</li></ul>
+                }
+            </td>
         </tr>
     }
   </tbody>
@@ -61,8 +66,13 @@
     {
         <tr class="govuk-table__row">  
             <th scope="row" class="govuk-table__cell"><a href="#">@data.Application</a></th>
-            <td class="govuk-table__cell">@data.TrustName</td>
-			<td class="govuk-table__cell">@Html.Raw(@data.SchoolOrSchoolsApplyingToConvert)</td>
+                <td class="govuk-table__cell">@data.TrustName</td>
+			    <td class="govuk-table__cell">
+                    @foreach(var schs in data.SchoolOrSchoolsApplyingToConvert)
+                    {
+			           <ul><li>@Html.Raw(@schs.SchoolOrSchoolsApplyingToConvertProperty)</li></ul>
+                    }
+                </td>
         </tr>
     }
   </tbody>
