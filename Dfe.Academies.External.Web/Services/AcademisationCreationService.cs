@@ -18,7 +18,7 @@ public sealed class AcademisationCreationService : AbstractService, IAcademisati
         ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(HttpClientName));
 
         // TODO await API response !
-        //application.Id = 
+        // application.Id = 
 
         return application;
     }
