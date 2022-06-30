@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
 [Parallelizable(ParallelScope.All)]
-public class AcademisationCreationServiceTests
+internal sealed class AcademisationCreationServiceTests
 {
     [Test]
     public async Task AcademisationCreationService_CreateNewApplication_Success()

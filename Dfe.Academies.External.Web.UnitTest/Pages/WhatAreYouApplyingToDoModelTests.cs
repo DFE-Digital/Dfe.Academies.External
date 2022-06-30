@@ -14,10 +14,10 @@ using System.Threading.Tasks;
 namespace Dfe.Academies.External.Web.UnitTest.Pages;
 
 [Parallelizable(ParallelScope.All)]
-public class WhatAreYouApplyingToDoModelTests
+internal sealed class WhatAreYouApplyingToDoModelTests
 {
     [Test]
-    public async Task WhenOnGetAsync_Success()
+    public async Task OnGetAsync_Success()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
