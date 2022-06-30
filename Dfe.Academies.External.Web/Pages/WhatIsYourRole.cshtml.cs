@@ -1,47 +1,47 @@
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text.Json;
 
 namespace Dfe.Academies.External.Web.Pages
 {
-    public enum SchoolRoles : int
-    {
-        [Description("The chair of the school's governors")]
-        Chair = 1,
-        [Description("A headteacher acting on their behalf")]
-        Headteacher = 2,
-        [Description("Something else")]
-        Other = 3
-    }
-
     public class WhatIsYourRoleModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ILogger<WhatIsYourRoleModel> _logger;
+        private readonly IAcademisationCreationService _academisationCreationService;
+        private ConversionApplication draftConversionApplication;
         private const string NextStepPage = "/WhatIsYourRole";
+
+        public WhatIsYourRoleModel(ILogger<WhatIsYourRoleModel> logger, IAcademisationCreationService academisationCreationService)
+        {
+            _logger = logger;
+            _academisationCreationService = academisationCreationService;
+        }
 
         [BindProperty]
         [RequiredEnum(ErrorMessage = "You must give your role at the school")]
         public SchoolRoles SchoolRole { get; set; }
 
-        // TODO MR:- pop this through JS on razor if type NOT 'Other'
         [BindProperty]
-        [Required]
         public string OtherRoleNotListed { get; set; }
 
-        public WhatIsYourRoleModel(ILogger<IndexModel> logger)
+        public async Task OnGetAsync()
         {
-            _logger = logger;
+            // like on load - grab draft application from temp
+            // TODO MR:- hate this code !!!!!
+            draftConversionApplication = 
+                JsonSerializer.Deserialize<ConversionApplication>(TempData["draftConversionApplication"]?.ToString() ?? string.Empty) ?? new ConversionApplication();
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnPostAsync()
         {
-            // like on load
-        }
+            // TODO MR:-
+            // if (SchoolRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleNotListed))
+            // manually add a ModelState err
 
-        public IActionResult OnPostAsync()
-        {
             if (!ModelState.IsValid)
             {
                 // error messages component consumes ViewData["Errors"]
@@ -54,16 +54,23 @@ namespace Dfe.Academies.External.Web.Pages
                 return Page();
             }
 
+            try
+            {
+                draftConversionApplication.SchoolRole = SchoolRole;
+                draftConversionApplication.OtherRoleNotListed = OtherRoleNotListed;
 
-            // TODO MR:- call out to API to update application?
-            //var response = await _applicationRepository.AddApplication(applicationTypeSelected);
-            //if (!response.Success)
-            //{
-            //    _logger.AddError();
-            //    return Page();
-            //}
+                await _academisationCreationService.UpdateDraftApplication(draftConversionApplication);
 
-            return Page();
+                // update temp store for next step
+                TempData["draftConversionApplication"] = JsonSerializer.Serialize(draftConversionApplication);
+
+                return RedirectToPage(NextStepPage);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Application::WhatIsYourRoleModel::OnPostAsync::Exception - {Message}", ex.Message);
+                return Page();
+            }
         }
     }
 }
