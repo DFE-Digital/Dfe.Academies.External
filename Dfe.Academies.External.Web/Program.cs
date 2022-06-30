@@ -1,3 +1,5 @@
+using Dfe.Academies.External.Web.Logger;
+using Dfe.Academies.External.Web.Model;
 using Dfe.Academies.External.Web.Routing;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -10,13 +12,13 @@ ConfigurationManager configuration = builder.Configuration;
 builder.Services
 	.AddRazorPages(options =>
 	{
-		options.Conventions
-			.AuthorizeFolder("/", "AcademiesExternalPolicy")
-			.AllowAnonymousToPage("/Index")
-			.AllowAnonymousToPage("/Accessibility")
-			.AllowAnonymousToPage("/Cookies")
-			.AllowAnonymousToPage("/Terms")
-			.AllowAnonymousToPage("/WhatYouWillNeed");
+	options.Conventions
+		.AuthorizeFolder("/", "AcademiesExternalPolicy")
+		.AllowAnonymousToPage("/Index")
+		.AllowAnonymousToPage("/Accessibility")
+		.AllowAnonymousToPage("/Cookies")
+		.AllowAnonymousToPage("/Terms")
+		.AllowAnonymousToPage("/WhatYouWillNeed");
 	})
 	.AddRazorPagesOptions(options =>
 	{
@@ -65,6 +67,9 @@ builder.Services.AddAuthorization(options =>
 		policy.RequireAuthenticatedUser();
     });
 });
+
+builder.Services.AddSingleton<IConversionApplication, ConversionApplication> ();
+builder.Services.AddSingleton<ILoggerClass, LoggerClass>();
 
 var app = builder.Build();
 
