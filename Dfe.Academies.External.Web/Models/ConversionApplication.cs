@@ -11,5 +11,6 @@ public class ConversionApplication
     public string? UserEmail { get; set; }
     public string? Application { get; set; }
     public string? TrustName { get; set; }
-    
+
+    public List<SchoolOrSchoolsApplyingToConvert>? SchoolOrSchoolsApplyingToConvert { get; set; }
 }
