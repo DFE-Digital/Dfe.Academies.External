@@ -23,9 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ApplyToBecomeAnAcademy\" />
     <Folder Include="Models\" />
     <Folder Include="Services\" />
-    <Folder Include="Pages\" />
   </ItemGroup>
 
 </Project>
