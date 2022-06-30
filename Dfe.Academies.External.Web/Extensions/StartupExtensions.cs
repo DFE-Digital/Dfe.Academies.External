@@ -1,4 +1,6 @@
 ﻿using System.Net.Mime;
+using Dfe.Academies.External.Web.Logger;
+using Dfe.Academies.External.Web.Model;
 using Dfe.Academies.External.Web.Services;
 
 namespace Dfe.Academies.External.Web.Extensions;
@@ -35,6 +37,8 @@ public static class StartupExtension
     {
         // Web application services
         services.AddSingleton<IAcademisationCreationService, AcademisationCreationService>();
+        services.AddSingleton<IConversionApplication, ConversionApplication>();
+        services.AddSingleton<ILoggerClass, LoggerClass>();
 
         // others......
     }
