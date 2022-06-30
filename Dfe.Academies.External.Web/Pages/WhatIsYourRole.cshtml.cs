@@ -12,7 +12,7 @@ namespace Dfe.Academies.External.Web.Pages
     {
         private readonly ILogger<WhatIsYourRoleModel> _logger;
         private readonly IAcademisationCreationService _academisationCreationService;
-        private ConversionApplication draftConversionApplication;
+        private ConversionApplication _draftConversionApplication;
         private const string NextStepPage = "/WhatIsYourRole";
 
         public WhatIsYourRoleModel(ILogger<WhatIsYourRoleModel> logger, IAcademisationCreationService academisationCreationService)
@@ -31,8 +31,8 @@ namespace Dfe.Academies.External.Web.Pages
         public async Task OnGetAsync()
         {
             // like on load - grab draft application from temp
-            // TODO MR:- hate this code !!!!!
-            draftConversionApplication = 
+            // TODO MR:- hate this code !!!!! need like a session helper to drop values into TempData[] and grab values from TempData[]
+            _draftConversionApplication = 
                 JsonSerializer.Deserialize<ConversionApplication>(TempData["draftConversionApplication"]?.ToString() ?? string.Empty) ?? new ConversionApplication();
         }
 
@@ -56,13 +56,13 @@ namespace Dfe.Academies.External.Web.Pages
 
             try
             {
-                draftConversionApplication.SchoolRole = SchoolRole;
-                draftConversionApplication.OtherRoleNotListed = OtherRoleNotListed;
+                _draftConversionApplication.SchoolRole = SchoolRole;
+                _draftConversionApplication.OtherRoleNotListed = OtherRoleNotListed;
 
-                await _academisationCreationService.UpdateDraftApplication(draftConversionApplication);
+                await _academisationCreationService.UpdateDraftApplication(_draftConversionApplication);
 
                 // update temp store for next step
-                TempData["draftConversionApplication"] = JsonSerializer.Serialize(draftConversionApplication);
+                TempData["draftConversionApplication"] = JsonSerializer.Serialize(_draftConversionApplication);
 
                 return RedirectToPage(NextStepPage);
             }
