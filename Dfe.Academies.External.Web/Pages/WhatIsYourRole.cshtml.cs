@@ -33,9 +33,7 @@ namespace Dfe.Academies.External.Web.Pages
 
         public async Task OnGetAsync()
         {
-            // like on load - grab draft application from temp
-            //// _draftConversionApplication = 
-            ////    JsonSerializer.Deserialize<ConversionApplication>(TempData["draftConversionApplication"]?.ToString() ?? string.Empty) ?? new ConversionApplication();
+            //// on load - grab draft application from temp
             _draftConversionApplication = _tempDataHelperService.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
         }
 
