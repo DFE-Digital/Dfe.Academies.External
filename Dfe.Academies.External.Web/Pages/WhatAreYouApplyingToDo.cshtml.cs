@@ -10,10 +10,10 @@ namespace Dfe.Academies.External.Web.Pages
     public class WhatAreYouApplyingToDoModel : PageModel
     {
         private readonly ILogger<WhatAreYouApplyingToDoModel> _logger;
-        private readonly IAcademisationCreationService _academisationCreationService;
+        private readonly IConversionApplicationCreationService _academisationCreationService;
         private const string NextStepPage = "/WhatIsYourRole";
 
-        public WhatAreYouApplyingToDoModel(ILogger<WhatAreYouApplyingToDoModel> logger, IAcademisationCreationService academisationCreationService)
+        public WhatAreYouApplyingToDoModel(ILogger<WhatAreYouApplyingToDoModel> logger, IConversionApplicationCreationService academisationCreationService)
         {
             _logger = logger;
             _academisationCreationService = academisationCreationService;

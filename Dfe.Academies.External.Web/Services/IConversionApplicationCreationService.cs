@@ -2,7 +2,7 @@
 
 namespace Dfe.Academies.External.Web.Services;
 
-public interface IAcademisationCreationService
+public interface IConversionApplicationCreationService
 {
     Task<ConversionApplication> CreateNewApplication(ConversionApplication application);
 }

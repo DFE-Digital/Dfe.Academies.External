@@ -35,7 +35,7 @@ public static class StartupExtension
     public static void AddInternalServices(this IServiceCollection services)
     {
         // Web application services
-        services.AddSingleton<IAcademisationCreationService, AcademisationCreationService>();
+        services.AddSingleton<IConversionApplicationCreationService, ConversionApplicationCreationService>();
         services.AddSingleton<IConversionApplicationsService, ConversionApplicationsService>();
         services.AddSingleton<ILoggerClass, LoggerClass>();
 
