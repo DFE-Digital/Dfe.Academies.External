@@ -15,8 +15,40 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages;
 [Parallelizable(ParallelScope.All)]
 internal sealed class WhatIsYourRoleModelTests
 {
+    /// <summary>
+    /// "draftConversionApplication" in temp storage
+    /// from previous step in the new application wizard
+    /// </summary>
+    /// <returns></returns>
     [Test]
     public async Task WhatIsYourRoleModel___OnGetAsync___Valid()
+    {
+        // arrange
+        var draftConversionApplicationStorageKey = "draftConversionApplication";
+        var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
+        var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
+        var realTempDataHelperService = new TempDataHelperService();
+
+        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplication();
+
+        // act
+        var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object, realTempDataHelperService);
+        realTempDataHelperService.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
+
+        // act
+        await pageModel.OnGetAsync();
+
+        // assert
+        Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
+    }
+
+    /// <summary>
+    /// No "draftConversionApplication" in temp storage
+    /// Code handles, spins up new()
+    /// </summary>
+    /// <returns></returns>
+    [Test]
+    public async Task WhatIsYourRoleModel___OnGetAsync___InValid()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
@@ -29,11 +61,8 @@ internal sealed class WhatIsYourRoleModelTests
         await pageModel.OnGetAsync();
 
         // assert
-        Assert.That(pageModel.TempData["Error.Message"], Is.EqualTo(null));
+        Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
     }
-
-    // TODO MR:- WhatIsYourRoleModel___OnGetAsync___InValid = NO value in TempData[] !!
-
 
     // TODO MR:- WhatIsYourRoleModel___OnPostAsync___ModelIsValid___InValid
 
