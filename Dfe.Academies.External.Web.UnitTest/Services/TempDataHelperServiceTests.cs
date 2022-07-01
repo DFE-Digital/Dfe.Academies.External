@@ -21,7 +21,7 @@ public class TempDataHelperServiceTests
         // arrange
         var expected = int.MaxValue.ToString();
         var storageKey = "TempDataHelperService___GetNonSerialisedValue___Success";
-        var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
+        var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
         var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
         var realTempDataHelperService = new TempDataHelperService();
 
@@ -42,7 +42,7 @@ public class TempDataHelperServiceTests
         // arrange
         var expected = int.MaxValue.ToString();
         var storageKey = "TempDataHelperService___StoreNonSerialisedValue___Success";
-        var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
+        var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
         var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
         var realTempDataHelperService = new TempDataHelperService();
 
@@ -62,7 +62,7 @@ public class TempDataHelperServiceTests
     {
         // arrange
         var storageKey = "TempDataHelperService___GetSerialisedValue___Success";
-        var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
+        var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
         var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
         var realTempDataHelperService = new TempDataHelperService();
 
@@ -88,7 +88,7 @@ public class TempDataHelperServiceTests
     {
         // arrange
         var storageKey = "TempDataHelperService___StoreSerialisedValue___Success";
-        var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
+        var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
         var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
         var realTempDataHelperService = new TempDataHelperService();
 
@@ -111,7 +111,7 @@ public class TempDataHelperServiceTests
 
     private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(
         ILogger<WhatIsYourRoleModel> mockLogger,
-        IAcademisationCreationService mockAcademisationCreationService,
+        IConversionApplicationCreationService mockAcademisationCreationService,
         ITempDataHelperService mockTempDataHelperService,
         bool isAuthenticated = false)
     {

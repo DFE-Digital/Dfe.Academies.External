@@ -34,12 +34,12 @@ internal sealed class AcademisationCreationServiceTests
 
         mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
-        var mockLogger = new Mock<ILogger<AcademisationCreationService>>();
+        var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
 
         var trustApplicationDto = ConversionApplicationTestDataFactory.BuildNewConversionApplication();
 
         // act
-        var recordModelService = new AcademisationCreationService(mockFactory.Object, mockLogger.Object);
+        var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
         var trustApplicationModel = await recordModelService.CreateNewApplication(trustApplicationDto);
 
         // assert

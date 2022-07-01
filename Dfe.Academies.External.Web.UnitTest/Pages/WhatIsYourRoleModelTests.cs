@@ -19,7 +19,7 @@ internal sealed class WhatIsYourRoleModelTests
     public async Task WhatIsYourRoleModel___OnGetAsync___Valid()
     {
         // arrange
-        var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
+        var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
         var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
         var mockTempDataHelperService = new Mock<ITempDataHelperService>();
 
@@ -43,7 +43,7 @@ internal sealed class WhatIsYourRoleModelTests
 
     private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(
         ILogger<WhatIsYourRoleModel> mockLogger, 
-        IAcademisationCreationService mockAcademisationCreationService,
+        IConversionApplicationCreationService mockAcademisationCreationService,
         ITempDataHelperService mockTempDataHelperService,
         bool isAuthenticated = false)
     {

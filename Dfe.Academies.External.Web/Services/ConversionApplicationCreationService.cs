@@ -2,12 +2,12 @@
 
 namespace Dfe.Academies.External.Web.Services;
 
-public sealed class AcademisationCreationService : AbstractService, IAcademisationCreationService
+public sealed class ConversionApplicationCreationService : BaseService, IConversionApplicationCreationService
 {
-    private readonly ILogger<AcademisationCreationService> _logger;
+    private readonly ILogger<ConversionApplicationCreationService> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
 
-    public AcademisationCreationService(IHttpClientFactory httpClientFactory, ILogger<AcademisationCreationService> logger) : base(httpClientFactory)
+    public ConversionApplicationCreationService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationCreationService> logger) : base(httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
         _logger = logger;

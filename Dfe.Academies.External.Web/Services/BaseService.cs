@@ -1,11 +1,11 @@
 ﻿namespace Dfe.Academies.External.Web.Services
 {
-    public class AbstractService
+    public class BaseService
 	{
 		internal readonly IHttpClientFactory ClientFactory;
 		internal const string HttpClientName = "AcademiesClient";
 		
-		protected AbstractService(IHttpClientFactory clientFactory)
+		protected BaseService(IHttpClientFactory clientFactory)
 		{
 			ClientFactory = clientFactory;
 		}
