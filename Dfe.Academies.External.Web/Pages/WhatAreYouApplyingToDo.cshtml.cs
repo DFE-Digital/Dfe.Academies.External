@@ -11,12 +11,16 @@ namespace Dfe.Academies.External.Web.Pages
     {
         private readonly ILogger<WhatAreYouApplyingToDoModel> _logger;
         private readonly IConversionApplicationCreationService _academisationCreationService;
+        private readonly ITempDataHelperService _tempDataHelperService;
         private const string NextStepPage = "/WhatIsYourRole";
 
-        public WhatAreYouApplyingToDoModel(ILogger<WhatAreYouApplyingToDoModel> logger, IConversionApplicationCreationService academisationCreationService)
+        public WhatAreYouApplyingToDoModel(ILogger<WhatAreYouApplyingToDoModel> logger, 
+                                            IConversionApplicationCreationService academisationCreationService,
+                                            ITempDataHelperService tempDataHelperService)
         {
             _logger = logger;
             _academisationCreationService = academisationCreationService;
+            _tempDataHelperService = tempDataHelperService;
         }
 
         [BindProperty]
@@ -26,7 +30,8 @@ namespace Dfe.Academies.External.Web.Pages
         public async Task OnGetAsync()
         {
             // like on load - if navigating backwards from NextStepPage - will need to set model value from somewhere!
-            // ApplicationType = TempData["applicationTypeSelected"];
+            // _draftConversionApplication = _tempDataHelperService.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
+            // ApplicationType = _draftConversionApplication.ApplicationType;
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -46,17 +51,17 @@ namespace Dfe.Academies.External.Web.Pages
             var applicationTypeSelected = ApplicationType;
             try
             {
-                var newApplication = new ConversionApplication
+                var _draftConversionApplication = new ConversionApplication
                 {
                     ApplicationType = applicationTypeSelected,
                     UserEmail = "Auth user"
                 };
 
-                newApplication = await _academisationCreationService.CreateNewApplication(newApplication);
+                _draftConversionApplication = await _academisationCreationService.CreateNewApplication(_draftConversionApplication);
 
-                if(newApplication!=null)
-                    // TODO MR:- plop newApplication.Id somewhere so NextStepPage can pick this up !
-                    TempData["newApplicationId"] = newApplication.Id.ToString();
+                if(_draftConversionApplication != null)
+                    // MR:- plop newApplication.Id somewhere so NextStepPage can pick this up !
+                    _tempDataHelperService.StoreSerialisedValue("draftConversionApplication", TempData, _draftConversionApplication);
             }
             catch (Exception ex)
             {

@@ -22,8 +22,11 @@ internal sealed class WhatAreYouApplyingToDoModelTests
         // arrange
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
         var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
+        var mockTempDataHelperService = new Mock<ITempDataHelperService>();
 
-        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object, mockAcademisationCreationService.Object);
+        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object,
+            mockAcademisationCreationService.Object,
+            mockTempDataHelperService.Object);
 
         // act
         await pageModel.OnGetAsync();
@@ -38,8 +41,11 @@ internal sealed class WhatAreYouApplyingToDoModelTests
         // arrange
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
         var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
+        var mockTempDataHelperService = new Mock<ITempDataHelperService>();
 
-        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object, mockAcademisationCreationService.Object);
+        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object,
+            mockAcademisationCreationService.Object,
+            mockTempDataHelperService.Object);
 
         var routeData = pageModel.RouteData.Values;
         routeData.Add("id", "");
@@ -59,8 +65,11 @@ internal sealed class WhatAreYouApplyingToDoModelTests
         var expectedErrorText = "Test Err";
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
         var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
+        var mockTempDataHelperService = new Mock<ITempDataHelperService>();
 
-        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object, mockAcademisationCreationService.Object);
+        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object,
+            mockAcademisationCreationService.Object,
+            mockTempDataHelperService.Object);
 
         pageModel.ModelState.AddModelError("CustomError", expectedErrorText);
 
@@ -79,8 +88,11 @@ internal sealed class WhatAreYouApplyingToDoModelTests
         // arrange
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
         var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
+        var mockTempDataHelperService = new Mock<ITempDataHelperService>();
 
-        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object, mockAcademisationCreationService.Object);
+        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object, 
+                                                            mockAcademisationCreationService.Object,
+                                                            mockTempDataHelperService.Object);
 
         // act
         await pageModel.OnPostAsync();
@@ -92,11 +104,14 @@ internal sealed class WhatAreYouApplyingToDoModelTests
     }
 
     private static WhatAreYouApplyingToDoModel SetupWhatAreYouApplyingToDoModel(
-        ILogger<WhatAreYouApplyingToDoModel> mockLogger, IConversionApplicationCreationService mockAcademisationCreationService, bool isAuthenticated = false)
+        ILogger<WhatAreYouApplyingToDoModel> mockLogger, 
+        IConversionApplicationCreationService mockAcademisationCreationService,
+        ITempDataHelperService mockTempDataHelperService,
+        bool isAuthenticated = false)
     {
         (PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-        return new WhatAreYouApplyingToDoModel(mockLogger, mockAcademisationCreationService)
+        return new WhatAreYouApplyingToDoModel(mockLogger, mockAcademisationCreationService, mockTempDataHelperService)
         {
             PageContext = pageContext,
             TempData = tempData,
