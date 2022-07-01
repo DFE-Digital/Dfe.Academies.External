@@ -16,7 +16,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages;
 public class WhatIsYourRoleModelTests
 {
     [Test]
-    public async Task OnGetAsync_Success()
+    public async Task WhatIsYourRoleModel___IsModelValid___Success()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
@@ -31,6 +31,8 @@ public class WhatIsYourRoleModelTests
         // assert
         Assert.That(pageModel.TempData["Error.Message"], Is.EqualTo(null));
     }
+
+    // fail
 
 
     private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(
