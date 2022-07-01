@@ -14,10 +14,10 @@ using System.Threading.Tasks;
 namespace Dfe.Academies.External.Web.UnitTest.Pages;
 
 [Parallelizable(ParallelScope.All)]
-public class WhatAreYouApplyingToDoModelTests
+internal sealed class WhatAreYouApplyingToDoModelTests
 {
     [Test]
-    public async Task WhenOnGetAsync_Success()
+    public async Task WhatAreYouApplyingToDoModel___OnGetAsync___Valid()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
@@ -33,7 +33,7 @@ public class WhatAreYouApplyingToDoModelTests
     }
 
     [Test]
-    public async Task OnGetAsync_ThrowsException()
+    public async Task WhatAreYouApplyingToDoModel___OnGetAsync___InValid()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
@@ -52,10 +52,8 @@ public class WhatAreYouApplyingToDoModelTests
         // no use case as yet !
     }
 
-    // OnPost Success
-
     [Test]
-    public async Task OnPostAsync_ThrowsException()
+    public async Task WhatAreYouApplyingToDoModel___OnPostAsync___ModelIsValid___InValid()
     {
         // arrange
         var expectedErrorText = "Test Err";
@@ -76,7 +74,7 @@ public class WhatAreYouApplyingToDoModelTests
     }
 
     [Test]
-    public async Task OnPostAsync_Success()
+    public async Task WhatAreYouApplyingToDoModel___OnPostAsync___ModelIsValid___Valid()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
