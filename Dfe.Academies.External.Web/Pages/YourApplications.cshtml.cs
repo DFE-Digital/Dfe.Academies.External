@@ -1,5 +1,6 @@
 using Dfe.Academies.External.Web.Logger;
-using Dfe.Academies.External.Web.Model;
+using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -8,16 +9,16 @@ namespace Dfe.Academies.External.Web.Pages
     public class HomeModel : PageModel
     {
         [BindProperty]
-        public List<ConversionApplication> existingApplications { get; set; }
-        public List<ConversionApplication> completedApplications { get; set; }    
+        public List<ConversionApplication> ExistingApplications { get; set; }
+        public List<ConversionApplication> CompletedApplications { get; set; }    
 
-        private readonly IConversionApplication _trustApplication;
-        private readonly ILoggerClass _Logger;
+        private readonly IConversionApplicationRetrievalService _conversionApplications;
+        private readonly ILoggerClass _logger;
 
-        public HomeModel(IConversionApplication trustApplication, ILoggerClass logger)
+        public HomeModel(IConversionApplicationRetrievalService conversionApplications, ILoggerClass logger)
         {
-            _trustApplication = trustApplication;
-            _Logger = logger;
+            _conversionApplications = conversionApplications;
+            _logger = logger;
         }
 
         public void OnGet()
@@ -25,20 +26,17 @@ namespace Dfe.Academies.External.Web.Pages
             try
             {
                 //TODO: Get login username 
-                var username = User.Identity.Name;
+                var username = User.Identity?.Name;
 
-                existingApplications = _trustApplication.GetPendingApplications(username);
+                ExistingApplications = _conversionApplications.GetPendingApplications(username);
 
-                completedApplications = _trustApplication.GetCompletedApplications(username);
-
-                _Logger.Logger("Message");
-
+                CompletedApplications = _conversionApplications.GetCompletedApplications(username);
             }
             catch (Exception ex)
             {
-                _Logger.Logger(ex.Message);
+                _logger.Logger(ex.Message);
+                //_logger.LogError("Application::HomeModel::OnGet::Exception - {Message}", ex.Message);
             }
-
         }
     }
 }
