@@ -12,7 +12,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services;
 internal sealed class ResilientRequestProviderTests
 {
     [Test]
-    public async Task ResilientRequestProvider_Delete_Success()
+    public async Task ResilientRequestProvider___Delete___Success()
     {
         // arrange
         var expected = @"{ ""foo"": ""bar"" }"; // expected JSON from API

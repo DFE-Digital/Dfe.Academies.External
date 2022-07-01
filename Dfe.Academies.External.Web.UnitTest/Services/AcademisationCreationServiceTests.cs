@@ -15,7 +15,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services;
 internal sealed class AcademisationCreationServiceTests
 {
     [Test]
-    public async Task AcademisationCreationService_CreateNewApplication_Success()
+    public async Task AcademisationCreationService___CreateNewApplication___Success()
     {
         // arrange
         var expected = "Hello world"; // TODO MR:- will be json from Academies API

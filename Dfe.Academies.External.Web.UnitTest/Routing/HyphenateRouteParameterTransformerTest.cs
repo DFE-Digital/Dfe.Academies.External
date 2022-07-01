@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace DfE.Academies.External.Web.UnitTest.Routing
 {
-    public class HyphenateRouteParameterTransformerTest
+    internal sealed class HyphenateRouteParameterTransformerTest
     {
         [Test]
         public void TransformOutbound___NullParameter___ReturnsNull()

@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using Dfe.Academies.External.Web.Enums;
+﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Dfe.Academies.External.Web.UnitTest.Models;
 
 [Parallelizable(ParallelScope.All)]
-public class ConversionApplicationTests
+internal sealed class ConversionApplicationTests
 {
-	[Test]
-    public void ConversionApplication_IsMapped()
+    [Test]
+    public void ConversionApplication___PropertyCheck___Success()
     {
         // arrange
         var conversionApplication = new ConversionApplication

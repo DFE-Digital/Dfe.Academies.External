@@ -15,7 +15,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages;
 internal sealed class HomeModelTests
 {
     [Test]
-    public void OnGet_Success()
+    public void HomeModel___OnGet___Valid()
     {
         // arrange
         var mockConversionApplicationsService = new Mock<IConversionApplicationsService>();
@@ -30,7 +30,7 @@ internal sealed class HomeModelTests
         Assert.That(pageModel.TempData["Error.Message"], Is.EqualTo(null));
     }
 
-    // TODO :- OnGet_Fail()
+    // TODO :- HomeModel___OnGet___InValid() i.e. API failure
 
     private static HomeModel SetupHomeModel(
         ILoggerClass mockLogger, IConversionApplicationsService mockConversionApplicationsService, bool isAuthenticated = false)

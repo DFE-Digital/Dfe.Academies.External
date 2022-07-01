@@ -14,7 +14,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services;
 internal sealed class ConversionApplicationsServiceTests
 {
     [Test]
-    public void ConversionApplicationsService_GetPendingApplications_Success()
+    public void ConversionApplicationsService___GetPendingApplications___Success()
     {
         // arrange
         var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
@@ -35,7 +35,7 @@ internal sealed class ConversionApplicationsServiceTests
         mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
         var mockLogger = new Mock<ILogger<ConversionApplicationsService>>();
-        
+
         // act
         var recordModelService = new ConversionApplicationsService(mockFactory.Object, mockLogger.Object);
         var expectedExistingApplicationsTestData = recordModelService.GetPendingApplications(userEmail);
@@ -47,7 +47,7 @@ internal sealed class ConversionApplicationsServiceTests
     }
 
     [Test]
-    public void ConversionApplicationsService_GetCompletedApplications_Success()
+    public void ConversionApplicationsService___GetCompletedApplications___Success()
     {
         // arrange
         var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
