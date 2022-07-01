@@ -18,7 +18,7 @@ internal sealed class HomeModelTests
     public void HomeModel___OnGet___Valid()
     {
         // arrange
-        var mockConversionApplicationsService = new Mock<IConversionApplicationsService>();
+        var mockConversionApplicationsService = new Mock<IConversionApplicationRetrievalService>();
         var mockLogger = new Mock<ILoggerClass>();
 
         var pageModel = SetupHomeModel(mockLogger.Object, mockConversionApplicationsService.Object);
@@ -33,7 +33,7 @@ internal sealed class HomeModelTests
     // TODO :- HomeModel___OnGet___InValid() i.e. API failure
 
     private static HomeModel SetupHomeModel(
-        ILoggerClass mockLogger, IConversionApplicationsService mockConversionApplicationsService, bool isAuthenticated = false)
+        ILoggerClass mockLogger, IConversionApplicationRetrievalService mockConversionApplicationsService, bool isAuthenticated = false)
     {
         (PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 

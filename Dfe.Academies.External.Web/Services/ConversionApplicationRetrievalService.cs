@@ -2,12 +2,12 @@
 
 namespace Dfe.Academies.External.Web.Services;
 
-public sealed class ConversionApplicationsService : BaseService, IConversionApplicationsService
+public sealed class ConversionApplicationRetrievalService : BaseService, IConversionApplicationRetrievalService
 {
-    private readonly ILogger<ConversionApplicationsService> _logger;
+    private readonly ILogger<ConversionApplicationRetrievalService> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
 
-    public ConversionApplicationsService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationsService> logger) : base(httpClientFactory)
+    public ConversionApplicationRetrievalService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationRetrievalService> logger) : base(httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
         _logger = logger;

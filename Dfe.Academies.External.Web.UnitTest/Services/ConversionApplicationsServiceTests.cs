@@ -34,10 +34,10 @@ internal sealed class ConversionApplicationsServiceTests
 
         mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
-        var mockLogger = new Mock<ILogger<ConversionApplicationsService>>();
+        var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
         // act
-        var recordModelService = new ConversionApplicationsService(mockFactory.Object, mockLogger.Object);
+        var recordModelService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
         var expectedExistingApplicationsTestData = recordModelService.GetPendingApplications(userEmail);
 
         // assert
@@ -67,10 +67,10 @@ internal sealed class ConversionApplicationsServiceTests
 
         mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
-        var mockLogger = new Mock<ILogger<ConversionApplicationsService>>();
+        var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
         // act
-        var recordModelService = new ConversionApplicationsService(mockFactory.Object, mockLogger.Object);
+        var recordModelService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
         var expectedExistingApplicationsTestData = recordModelService.GetCompletedApplications(userEmail);
 
         // assert

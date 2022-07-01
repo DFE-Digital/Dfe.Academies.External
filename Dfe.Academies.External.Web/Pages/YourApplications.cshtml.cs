@@ -12,10 +12,10 @@ namespace Dfe.Academies.External.Web.Pages
         public List<ConversionApplication> ExistingApplications { get; set; }
         public List<ConversionApplication> CompletedApplications { get; set; }    
 
-        private readonly IConversionApplicationsService _conversionApplications;
+        private readonly IConversionApplicationRetrievalService _conversionApplications;
         private readonly ILoggerClass _logger;
 
-        public HomeModel(IConversionApplicationsService conversionApplications, ILoggerClass logger)
+        public HomeModel(IConversionApplicationRetrievalService conversionApplications, ILoggerClass logger)
         {
             _conversionApplications = conversionApplications;
             _logger = logger;
