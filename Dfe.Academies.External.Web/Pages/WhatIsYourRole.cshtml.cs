@@ -29,7 +29,7 @@ namespace Dfe.Academies.External.Web.Pages
         public SchoolRoles SchoolRole { get; set; }
 
         [BindProperty]
-        public string OtherRoleNotListed { get; set; }
+        public string? OtherRoleNotListed { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -48,9 +48,7 @@ namespace Dfe.Academies.External.Web.Pages
 
             if (SchoolRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleNotListed))
             {
-                // TODO MR:- manually add a ModelState err
-
-                // error messages component consumes ViewData["Errors"]
+                ModelState.AddModelError("OtherRoleNotEntered", "You must give your role at the school");
                 ViewData["Errors"] = ConvertModelDictionary();
                 return Page();
             }
