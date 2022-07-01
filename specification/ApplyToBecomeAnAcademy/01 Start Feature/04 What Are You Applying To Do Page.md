@@ -28,8 +28,11 @@ AND I select 'Join a multi-academy trust' for the type of application I am apply
 WHEN I click on the 'Save and continue' CTA on the page
 THEN I am redirected to the [**What is your role?** page](05%20What%20is%20your%20role%20Page.md)  
 
+### Scenario 5: Radio Buttons (Form a new multi-academy trust)
 
-### Scenario 5: Hyperlink (Cancel and return to your applications)
+### Scenario 5: Radio Buttons (Form new single academy trust)
+
+### Scenario 7: Hyperlink (Cancel and return to your applications)
 
 GIVEN I am viewing the 'What are you applying to do' page  
 WHEN I click on the 'Cancel and return to your applications' hyperlink within the content  
