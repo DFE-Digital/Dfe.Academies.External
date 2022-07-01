@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
 [Parallelizable(ParallelScope.All)]
-public class ResilientRequestProviderTests
+internal sealed class ResilientRequestProviderTests
 {
     [Test]
-    public async Task ResilientRequestProvider_Delete_Success()
+    public async Task ResilientRequestProvider___Delete___Success()
     {
         // arrange
         var expected = @"{ ""foo"": ""bar"" }"; // expected JSON from API

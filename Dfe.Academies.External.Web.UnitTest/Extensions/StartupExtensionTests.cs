@@ -8,10 +8,10 @@ using System.Collections.Generic;
 namespace Dfe.Academies.External.Web.UnitTest.Extensions;
 
 [Parallelizable(ParallelScope.All)]
-public class StartupExtensionTests
+internal sealed class StartupExtensionTests
 {
     [Test]
-    public void AddAcademiesApi_MissingConfiguration_ThrowException()
+    public void AddAcademiesApi___Configuration___InValid()
     {
         // arrange
         var serviceCollection = new ServiceCollection();
@@ -24,7 +24,7 @@ public class StartupExtensionTests
     }
 
     [Test]
-    public void AddAcademiesApi_Configuration_Success()
+    public void AddAcademiesApi___Configuration___Valid()
     {
         // arrange
         var serviceCollection = new ServiceCollection();
