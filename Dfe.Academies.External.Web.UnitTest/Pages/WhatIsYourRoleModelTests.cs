@@ -13,10 +13,10 @@ using NUnit.Framework;
 namespace Dfe.Academies.External.Web.UnitTest.Pages;
 
 [Parallelizable(ParallelScope.All)]
-public class WhatIsYourRoleModelTests
+internal sealed class WhatIsYourRoleModelTests
 {
     [Test]
-    public async Task WhatIsYourRoleModel___IsModelValid___Success()
+    public async Task WhatIsYourRoleModel___OnGetAsync___Valid()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
@@ -32,7 +32,13 @@ public class WhatIsYourRoleModelTests
         Assert.That(pageModel.TempData["Error.Message"], Is.EqualTo(null));
     }
 
-    // fail
+    // TODO MR:- WhatIsYourRoleModel___OnGetAsync___InValid = NO value in TempData[] !!
+
+
+    // TODO MR:- WhatIsYourRoleModel___OnPostAsync___ModelIsValid___InValid
+
+
+    // TODO MR:- WhatIsYourRoleModel___OnPostAsync___ModelIsValid___Valid
 
 
     private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(
