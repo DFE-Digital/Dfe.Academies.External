@@ -1,13 +1,13 @@
 using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.Academies.External.Web.Pages
 {
-    public class WhatAreYouApplyingToDoModel : PageModel
+    public class WhatAreYouApplyingToDoModel : BasePageModel
     {
         private readonly ILogger<WhatAreYouApplyingToDoModel> _logger;
         private readonly IConversionApplicationCreationService _academisationCreationService;
@@ -33,13 +33,7 @@ namespace Dfe.Academies.External.Web.Pages
         {
             if (!ModelState.IsValid)
             {
-                // error messages component consumes ViewData["Errors"]
-                var errorList = ModelState.ToDictionary(
-                    kvp => kvp.Key,
-                    kvp => kvp.Value?.Errors.Select(e => e.ErrorMessage).FirstOrDefault()?.ToString()
-                );
-
-                ViewData["Errors"] = errorList;
+                ViewData["Errors"] = ConvertModelDictionary();
                 return Page();
             }
 

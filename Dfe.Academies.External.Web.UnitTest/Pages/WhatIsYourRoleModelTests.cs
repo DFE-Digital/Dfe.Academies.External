@@ -66,8 +66,13 @@ internal sealed class WhatIsYourRoleModelTests
 
     // TODO MR:- WhatIsYourRoleModel___OnPostAsync___ModelIsValid___InValid
 
+    // TODO MR:- WhatIsYourRoleModel___OnPostAsync___ModelIsValid___InValid - manual model data check
+    // if (SchoolRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleNotListed))
 
     // TODO MR:- WhatIsYourRoleModel___OnPostAsync___ModelIsValid___Valid
+
+
+    // TODO MR:- WhatIsYourRoleModel___OnPostAsync___ModelIsValid___InValid = without "draftConversionApplication" in temp storage
 
 
     private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(
