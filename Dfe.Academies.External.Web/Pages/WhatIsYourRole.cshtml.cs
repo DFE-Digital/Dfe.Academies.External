@@ -5,72 +5,73 @@ using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Dfe.Academies.External.Web.Pages
+namespace Dfe.Academies.External.Web.Pages;
+
+public class WhatIsYourRoleModel : BasePageModel
 {
-    public class WhatIsYourRoleModel : BasePageModel
+    private readonly ILogger<WhatIsYourRoleModel> _logger;
+    private readonly IConversionApplicationCreationService _academisationCreationService;
+    private readonly ITempDataHelperService _tempDataHelperService;
+    private ConversionApplication _draftConversionApplication;
+    private const string NextStepPage = "/ApplicationOverview";
+
+    public WhatIsYourRoleModel(ILogger<WhatIsYourRoleModel> logger,
+                                IConversionApplicationCreationService academisationCreationService,
+                                ITempDataHelperService tempDataHelperService)
     {
-        private readonly ILogger<WhatIsYourRoleModel> _logger;
-        private readonly IConversionApplicationCreationService _academisationCreationService;
-        private readonly ITempDataHelperService _tempDataHelperService;
-        private ConversionApplication _draftConversionApplication;
-        private const string NextStepPage = "/WhatIsYourRole";
+        _logger = logger;
+        _academisationCreationService = academisationCreationService;
+        _tempDataHelperService = tempDataHelperService;
+    }
 
-        public WhatIsYourRoleModel(ILogger<WhatIsYourRoleModel> logger,
-                                    IConversionApplicationCreationService academisationCreationService,
-                                    ITempDataHelperService tempDataHelperService)
+    [BindProperty]
+    [RequiredEnum(ErrorMessage = "You must give your role at the school")]
+    public SchoolRoles SchoolRole { get; set; }
+
+    [BindProperty]
+    public string? OtherRoleNotListed { get; set; }
+
+    public async Task OnGetAsync()
+    {
+        //// on load - grab draft application from temp
+        _draftConversionApplication = _tempDataHelperService.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
+    }
+
+    public async Task<IActionResult> OnPostAsync()
+    {
+        if (!ModelState.IsValid)
         {
-            _logger = logger;
-            _academisationCreationService = academisationCreationService;
-            _tempDataHelperService = tempDataHelperService;
+            // error messages component consumes ViewData["Errors"]
+            ViewData["Errors"] = ConvertModelDictionary();
+            return Page();
         }
 
-        [BindProperty]
-        [RequiredEnum(ErrorMessage = "You must give your role at the school")]
-        public SchoolRoles SchoolRole { get; set; }
-
-        [BindProperty]
-        public string? OtherRoleNotListed { get; set; }
-
-        public async Task OnGetAsync()
+        if (SchoolRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleNotListed))
         {
-            //// on load - grab draft application from temp
-            _draftConversionApplication = _tempDataHelperService.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
+            ModelState.AddModelError("OtherRoleNotEntered", "You must give your role at the school");
+            ViewData["Errors"] = ConvertModelDictionary();
+            return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        //// grab draft application from temp
+        _draftConversionApplication = _tempDataHelperService.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
+
+        try
         {
-            if (!ModelState.IsValid)
-            {
-                // error messages component consumes ViewData["Errors"]
-                ViewData["Errors"] = ConvertModelDictionary();
-                return Page();
-            }
+            _draftConversionApplication.SchoolRole = SchoolRole;
+            _draftConversionApplication.OtherRoleNotListed = OtherRoleNotListed;
 
-            if (SchoolRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleNotListed))
-            {
-                ModelState.AddModelError("OtherRoleNotEntered", "You must give your role at the school");
-                ViewData["Errors"] = ConvertModelDictionary();
-                return Page();
-            }
+            await _academisationCreationService.UpdateDraftApplication(_draftConversionApplication);
 
-            try
-            {
-                _draftConversionApplication.SchoolRole = SchoolRole;
-                _draftConversionApplication.OtherRoleNotListed = OtherRoleNotListed;
+            // update temp store for next step
+            _tempDataHelperService.StoreSerialisedValue("draftConversionApplication", TempData, _draftConversionApplication);
 
-                await _academisationCreationService.UpdateDraftApplication(_draftConversionApplication);
-
-                // update temp store for next step
-                //// TempData["draftConversionApplication"] = JsonSerializer.Serialize(_draftConversionApplication);
-                _tempDataHelperService.StoreSerialisedValue("draftConversionApplication", TempData, _draftConversionApplication);
-
-                return RedirectToPage(NextStepPage);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Application::WhatIsYourRoleModel::OnPostAsync::Exception - {Message}", ex.Message);
-                return Page();
-            }
+            return RedirectToPage(NextStepPage);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Application::WhatIsYourRoleModel::OnPostAsync::Exception - {Message}", ex.Message);
+            return Page();
         }
     }
 }
