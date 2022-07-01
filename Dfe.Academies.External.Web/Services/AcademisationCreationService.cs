@@ -2,7 +2,7 @@
 
 namespace Dfe.Academies.External.Web.Services;
 
-public sealed class AcademisationCreationService : AbstractService, IAcademisationCreationService
+public sealed class AcademisationCreationService : BaseService, IAcademisationCreationService
 {
     private readonly ILogger<AcademisationCreationService> _logger;
     private readonly IHttpClientFactory _httpClientFactory;

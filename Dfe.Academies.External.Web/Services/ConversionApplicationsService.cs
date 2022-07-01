@@ -2,7 +2,7 @@
 
 namespace Dfe.Academies.External.Web.Services;
 
-public sealed class ConversionApplicationsService : AbstractService, IConversionApplicationsService
+public sealed class ConversionApplicationsService : BaseService, IConversionApplicationsService
 {
     private readonly ILogger<ConversionApplicationsService> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
