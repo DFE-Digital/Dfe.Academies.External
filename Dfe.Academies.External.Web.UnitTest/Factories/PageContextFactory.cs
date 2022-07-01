@@ -23,7 +23,7 @@ internal static class PageContextFactory
         var authServiceMock = new Mock<IAuthenticationService>();
         authServiceMock
             .Setup(_ => _.SignInAsync(It.IsAny<HttpContext>(), It.IsAny<string>(), It.IsAny<ClaimsPrincipal>(), It.IsAny<AuthenticationProperties>()))
-            .Returns(Task.FromResult((object)null));
+            .Returns(Task.FromResult((object?)null));
 
         var serviceProviderMock = new Mock<IServiceProvider>();
         serviceProviderMock
