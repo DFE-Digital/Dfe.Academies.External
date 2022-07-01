@@ -77,10 +77,37 @@ public class TempDataHelperServiceTests
         var storedValue = realTempDataHelperService.GetSerialisedValue<ConversionApplication>(storageKey, pageModel.TempData);
 
         Assert.AreEqual(conversionApplication.Id, storedValue.Id);
+        Assert.AreEqual(conversionApplication.ApplicationType, storedValue.ApplicationType);
+        Assert.AreEqual(conversionApplication.UserEmail, storedValue.UserEmail);
+        Assert.AreEqual(conversionApplication.Application, storedValue.Application);
+        Assert.AreEqual(conversionApplication.TrustName, storedValue.TrustName);
     }
 
-    // StoreSerialised
+    [Test]
+    public void TempDataHelperService___StoreSerialisedValue___Success()
+    {
+        // arrange
+        var storageKey = "TempDataHelperService___StoreSerialisedValue___Success";
+        var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
+        var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
+        var realTempDataHelperService = new TempDataHelperService();
 
+        var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object, realTempDataHelperService);
+
+        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplication();
+
+        // act
+        realTempDataHelperService.StoreSerialisedValue(storageKey, pageModel.TempData, conversionApplication);
+
+        // assert - grab value back to see if it's stored
+        var storedValue = realTempDataHelperService.GetSerialisedValue<ConversionApplication>(storageKey, pageModel.TempData);
+
+        Assert.AreEqual(conversionApplication.Id, storedValue.Id);
+        Assert.AreEqual(conversionApplication.ApplicationType, storedValue.ApplicationType);
+        Assert.AreEqual(conversionApplication.UserEmail, storedValue.UserEmail);
+        Assert.AreEqual(conversionApplication.Application, storedValue.Application);
+        Assert.AreEqual(conversionApplication.TrustName, storedValue.TrustName);
+    }
 
     private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(
         ILogger<WhatIsYourRoleModel> mockLogger,
