@@ -27,7 +27,7 @@ internal sealed class HomeModelTests
         pageModel.OnGet();
 
         // assert
-        Assert.That(pageModel.TempData["Error.Message"], Is.EqualTo(null));
+        Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
     }
 
     // TODO :- HomeModel___OnGet___InValid() i.e. API failure

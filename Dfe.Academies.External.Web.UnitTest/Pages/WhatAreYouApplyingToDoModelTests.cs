@@ -29,7 +29,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
         await pageModel.OnGetAsync();
 
         // assert
-        Assert.That(pageModel.TempData["Error.Message"], Is.EqualTo(null));
+        Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
     }
 
     [Test]
@@ -47,9 +47,9 @@ internal sealed class WhatAreYouApplyingToDoModelTests
         // act
         await pageModel.OnGetAsync();
 
-        // assert
-        //Assert.That(pageModel.TempData["Error.Message"], Is.EqualTo("An error occurred loading the page, please try again. If the error persists contact the service administrator."));
         // no use case as yet !
+        // assert
+        //Assert.That(pageModel.TempData["Errors"], Is.EqualTo("An error occurred loading the page, please try again. If the error persists contact the service administrator."));
     }
 
     [Test]
