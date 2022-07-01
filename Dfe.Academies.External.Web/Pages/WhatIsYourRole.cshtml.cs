@@ -4,7 +4,6 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Text.Json;
 
 namespace Dfe.Academies.External.Web.Pages
 {
@@ -12,10 +11,13 @@ namespace Dfe.Academies.External.Web.Pages
     {
         private readonly ILogger<WhatIsYourRoleModel> _logger;
         private readonly IAcademisationCreationService _academisationCreationService;
+        private readonly ITempDataHelperService _tempDataHelperService;
         private ConversionApplication _draftConversionApplication;
         private const string NextStepPage = "/WhatIsYourRole";
 
-        public WhatIsYourRoleModel(ILogger<WhatIsYourRoleModel> logger, IAcademisationCreationService academisationCreationService)
+        public WhatIsYourRoleModel(ILogger<WhatIsYourRoleModel> logger,
+                                    IAcademisationCreationService academisationCreationService,
+                                    ITempDataHelperService tempDataHelperService)
         {
             _logger = logger;
             _academisationCreationService = academisationCreationService;
@@ -31,9 +33,9 @@ namespace Dfe.Academies.External.Web.Pages
         public async Task OnGetAsync()
         {
             // like on load - grab draft application from temp
-            // TODO MR:- hate this code !!!!! need like a session helper to drop values into TempData[] and grab values from TempData[]
-            _draftConversionApplication = 
-                JsonSerializer.Deserialize<ConversionApplication>(TempData["draftConversionApplication"]?.ToString() ?? string.Empty) ?? new ConversionApplication();
+            //_draftConversionApplication = 
+            //    JsonSerializer.Deserialize<ConversionApplication>(TempData["draftConversionApplication"]?.ToString() ?? string.Empty) ?? new ConversionApplication();
+            _draftConversionApplication = _tempDataHelperService.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -62,7 +64,9 @@ namespace Dfe.Academies.External.Web.Pages
                 await _academisationCreationService.UpdateDraftApplication(_draftConversionApplication);
 
                 // update temp store for next step
-                TempData["draftConversionApplication"] = JsonSerializer.Serialize(_draftConversionApplication);
+                //TempData["draftConversionApplication"] = JsonSerializer.Serialize(_draftConversionApplication);
+                // TODO MR:- not sure about the 'object' param  !!!!
+                _tempDataHelperService.StoreSerialisedValue("draftConversionApplication", TempData, _draftConversionApplication);
 
                 return RedirectToPage(NextStepPage);
             }
