@@ -36,7 +36,7 @@ internal sealed class AcademisationCreationServiceTests
 
         var mockLogger = new Mock<ILogger<AcademisationCreationService>>();
 
-        var trustApplicationDto = TrustApplicationTestDataFactory.BuildNewTrustApplication();
+        var trustApplicationDto = ConversionApplicationTestDataFactory.BuildNewConversionApplication();
 
         // act
         var recordModelService = new AcademisationCreationService(mockFactory.Object, mockLogger.Object);
