@@ -35,6 +35,7 @@ public static class StartupExtension
     {
         // Web application services
         services.AddSingleton<IAcademisationCreationService, AcademisationCreationService>();
+        services.AddSingleton<ITempDataHelperService, TempDataHelperService>();
 
         // others......
     }
