@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dfe.Academies.External.Web.UnitTest.Factories;
 
-public class DelegatingHandlerStub : DelegatingHandler
+internal sealed class DelegatingHandlerStub : DelegatingHandler
 {
     private readonly Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> _handlerFunc;
 

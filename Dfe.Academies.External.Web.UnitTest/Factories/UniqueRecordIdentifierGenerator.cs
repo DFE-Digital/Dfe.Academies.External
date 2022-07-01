@@ -2,7 +2,7 @@
 
 namespace Dfe.Academies.External.Web.UnitTest.Factories;
 
-internal class UniqueRecordIdentifierGenerator
+internal sealed class UniqueRecordIdentifierGenerator
 {
     private readonly IdGenerator _generator;
 
