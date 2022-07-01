@@ -4,12 +4,12 @@ using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.UnitTest.Factories;
 
-internal static class TrustApplicationTestDataFactory
+internal static class ConversionApplicationTestDataFactory
 {
     private static readonly Fixture Fixture = new();
     private static readonly UniqueRecordIdentifierGenerator UniqueRecordIdentifierGenerator = new();
 
-    public static ConversionApplication BuildNewTrustApplication()
+    public static ConversionApplication BuildNewConversionApplication()
     {
         return new ConversionApplication
         {
