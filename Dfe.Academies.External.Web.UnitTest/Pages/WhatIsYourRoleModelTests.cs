@@ -21,8 +21,9 @@ public class WhatIsYourRoleModelTests
         // arrange
         var mockAcademisationCreationService = new Mock<IAcademisationCreationService>();
         var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
+        var mockTempDataHelperService = new Mock<ITempDataHelperService>();
 
-        var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object);
+        var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object, mockTempDataHelperService.Object);
 
         // act
         await pageModel.OnGetAsync();
@@ -33,11 +34,14 @@ public class WhatIsYourRoleModelTests
 
 
     private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(
-        ILogger<WhatIsYourRoleModel> mockLogger, IAcademisationCreationService mockAcademisationCreationService, bool isAuthenticated = false)
+        ILogger<WhatIsYourRoleModel> mockLogger, 
+        IAcademisationCreationService mockAcademisationCreationService,
+        ITempDataHelperService mockTempDataHelperService,
+        bool isAuthenticated = false)
     {
         (PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-        return new WhatIsYourRoleModel(mockLogger, mockAcademisationCreationService)
+        return new WhatIsYourRoleModel(mockLogger, mockAcademisationCreationService, mockTempDataHelperService)
         {
             PageContext = pageContext,
             TempData = tempData,
