@@ -32,6 +32,19 @@ public class WhatIsYourRoleModel : BasePageModel
     [BindProperty]
     public string? OtherRoleNotListed { get; set; }
 
+    public bool OtherRoleError
+    {
+        get
+        {
+            if (!ModelState.IsValid && ModelState.Keys.Contains("OtherRoleNotEntered"))
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
     public async Task OnGetAsync()
     {
         //// on load - grab draft application from temp
