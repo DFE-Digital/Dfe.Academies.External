@@ -77,6 +77,18 @@ namespace Dfe.Academies.External.Web.Pages
         public override void PopulateValidationMessages()
         {
             ViewData["Errors"] = ConvertModelDictionary();
+
+            if (!ModelState.IsValid)
+            {
+                foreach (var modelStateError in ConvertModelDictionary())
+                {
+                    // MR:- add friendly message for validation summary
+                    if (!this.ValidationErrorMessages.ValidationErrorMessages.ContainsKey(modelStateError.Key))
+                    {
+                        this.ValidationErrorMessages.ValidationErrorMessages.Add(modelStateError.Key, modelStateError.Value);
+                    }
+                }
+            }
         }
     }
 }
