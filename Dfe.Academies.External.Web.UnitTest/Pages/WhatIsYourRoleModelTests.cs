@@ -29,7 +29,7 @@ internal sealed class WhatIsYourRoleModelTests
         var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
         var realTempDataHelperService = new TempDataHelperService();
 
-        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplication();
+        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
         // act
         var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object, realTempDataHelperService);

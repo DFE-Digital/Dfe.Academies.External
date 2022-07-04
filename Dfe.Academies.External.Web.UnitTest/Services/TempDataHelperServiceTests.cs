@@ -68,7 +68,7 @@ public class TempDataHelperServiceTests
 
         var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object, realTempDataHelperService);
 
-        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplication();
+        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
         // act
         realTempDataHelperService.StoreSerialisedValue(storageKey, pageModel.TempData, conversionApplication);
@@ -94,7 +94,7 @@ public class TempDataHelperServiceTests
 
         var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object, realTempDataHelperService);
 
-        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplication();
+        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
         // act
         realTempDataHelperService.StoreSerialisedValue(storageKey, pageModel.TempData, conversionApplication);
