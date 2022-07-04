@@ -25,6 +25,7 @@
   <ItemGroup>
     <Folder Include="Attributes\" />
     <Folder Include="Enums\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
 
   <ItemGroup>
