@@ -83,9 +83,9 @@ namespace Dfe.Academies.External.Web.Pages
                 foreach (var modelStateError in ConvertModelDictionary())
                 {
                     // MR:- add friendly message for validation summary
-                    if (!this.ValidationErrorMessages.ValidationErrorMessages.ContainsKey(modelStateError.Key))
+                    if (!this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey(modelStateError.Key))
                     {
-                        this.ValidationErrorMessages.ValidationErrorMessages.Add(modelStateError.Key, modelStateError.Value);
+                        this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add(modelStateError.Key, modelStateError.Value);
                     }
                 }
             }

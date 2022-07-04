@@ -19,7 +19,7 @@
         <form method="post" name="frmApplicationType" novalidate="">
             <fieldset class="govuk-fieldset">
                 <legend class="govuk-fieldset__legend">When a school becomes an academy, it must either join an existing trust or form a new one.</legend>
-                <partial name="_ValidationSummary" model="Model.ValidationErrorMessages"/>
+                <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
                 <div class="govuk-form-group">
                     <div class="govuk-radios--conditional">
                         @foreach (var applicationType in Enum.GetValues(typeof(ApplicationTypes)).OfType<ApplicationTypes>())

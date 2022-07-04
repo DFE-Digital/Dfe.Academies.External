@@ -7,10 +7,10 @@ public abstract class BasePageModel : PageModel
 {
     public BasePageModel()
     {
-        this.ValidationErrorMessages = new ValidationErrorMessagesViewModel();
+        this.ValidationErrorMessagesViewModel = new ValidationErrorMessagesViewModel();
     }
 
-    public ValidationErrorMessagesViewModel ValidationErrorMessages { get; set; }
+    public ValidationErrorMessagesViewModel ValidationErrorMessagesViewModel { get; set; }
 
     public Dictionary<string, string?> ConvertModelDictionary()
     {
