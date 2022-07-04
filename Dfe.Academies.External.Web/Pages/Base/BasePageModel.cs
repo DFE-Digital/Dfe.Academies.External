@@ -5,6 +5,11 @@ namespace Dfe.Academies.External.Web.Pages.Base;
 
 public abstract class BasePageModel : PageModel
 {
+    public BasePageModel()
+    {
+        this.ValidationErrorMessages = new ValidationErrorMessagesViewModel();
+    }
+
     public ValidationErrorMessagesViewModel ValidationErrorMessages { get; set; }
 
     public Dictionary<string, string?> ConvertModelDictionary()
