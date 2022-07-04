@@ -18,7 +18,7 @@
         <form method="post" name="frmApplicationType" novalidate="">
             <fieldset class="govuk-fieldset">
                 <legend class="govuk-fieldset__legend">What is your role?</legend>
-                <partial name="_ValidationSummary"/>
+                <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
                 <div class="govuk-form-group">
                     <div class="govuk-radios--conditional">
                         @foreach (var roleType in Enum.GetValues(typeof(SchoolRoles)).OfType<SchoolRoles>())

@@ -3,6 +3,7 @@ using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages;
@@ -42,14 +43,14 @@ public class WhatIsYourRoleModel : BasePageModel
         if (!ModelState.IsValid)
         {
             // error messages component consumes ViewData["Errors"]
-            ViewData["Errors"] = ConvertModelDictionary();
+            PopulateValidationMessages();
             return Page();
         }
 
         if (SchoolRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleNotListed))
         {
             ModelState.AddModelError("OtherRoleNotEntered", "You must give your role at the school");
-            ViewData["Errors"] = ConvertModelDictionary();
+            PopulateValidationMessages();
             return Page();
         }
 
@@ -72,6 +73,19 @@ public class WhatIsYourRoleModel : BasePageModel
         {
             _logger.LogError("Application::WhatIsYourRoleModel::OnPostAsync::Exception - {Message}", ex.Message);
             return Page();
+        }
+    }
+
+    public override void PopulateValidationMessages()
+    {
+        ViewData["Errors"] = ConvertModelDictionary();
+
+        if (!ModelState.IsValid)
+        {
+            if (ModelState.Keys.Contains("SchoolRole") && !this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey("SchoolRole"))
+            {
+                this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add("SchoolRole", "Select a role type");
+            }
         }
     }
 }
