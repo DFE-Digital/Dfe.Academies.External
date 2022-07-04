@@ -1,0 +1,59 @@
+﻿@model TModel
+
+@{
+    
+}
+
+
+<div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Application incomplete</h2>
+    <p class="govuk-body govuk-!-margin-bottom-7">You have completed 1 of 8 sections.</p> @*Move this upto main page !!*@
+    
+    @*    Helper func to spit out the class name?
+        
+    govuk-tag = completed background colour
+    govuk-tag--blue = in progress
+    govuk-tag--grey = not started
+    govuk-tag--grey = cannot start yet*@
+
+    <ol class="app-task-list">
+        <ul class="app-task-list__items">
+            <li class="app-task-list__item">
+                <span class="app-task-list__task-name">
+                    <a href="#" aria-describedby="company-information-status">
+                        Company information @*TODO MR:- to come from model !!*@
+                    </a>
+                </span>
+                <strong class="govuk-tag app-task-list__tag" id="company-information-status">Completed</strong>
+            </li>
+            <li class="app-task-list__item">
+                <span class="app-task-list__task-name">
+                    <a href="#" aria-describedby="contact-details-status">
+                        Your contact details
+                    </a>
+                </span>
+                <strong class="govuk-tag app-task-list__tag govuk-tag--blue" id="contact-details-status">In progress</strong>
+            </li>
+            <li class="app-task-list__item">
+                <span class="app-task-list__task-name">
+                    <a href="#" aria-describedby="list-convictions-status">
+                        List convictions
+                    </a>
+                </span>
+                <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="list-convictions-status">Not started</strong>
+            </li>
+            <li class="app-task-list__item">
+                <span class="app-task-list__task-name">
+                    Provide financial evidence
+                </span>
+                <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="financial-evidence-status">Cannot start yet</strong>
+            </li>
+            <li class="app-task-list__item">
+                <span class="app-task-list__task-name">
+                    Give medical information
+                </span>
+                <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="medical-information-status">Cannot start yet</strong>
+            </li>
+        </ul>
+    </ol>
+</div>

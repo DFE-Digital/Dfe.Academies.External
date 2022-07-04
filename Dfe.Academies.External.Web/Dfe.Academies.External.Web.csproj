@@ -23,6 +23,11 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Shared\_ApplicationAuditPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Shared\_ApplicationComponentsStatus.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Shared\_ApplicationComponentsStatus.cshtml" />
   </ItemGroup>
 
 </Project>
