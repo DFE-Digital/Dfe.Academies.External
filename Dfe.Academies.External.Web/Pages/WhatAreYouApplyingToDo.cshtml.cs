@@ -33,7 +33,7 @@ namespace Dfe.Academies.External.Web.Pages
         {
             if (!ModelState.IsValid)
             {
-                ViewData["Errors"] = ConvertModelDictionary();
+                PopulateValidationMessages();
                 return Page();
             }
 
@@ -72,6 +72,11 @@ namespace Dfe.Academies.External.Web.Pages
             }
 
             return Page();
+        }
+
+        public override void PopulateValidationMessages()
+        {
+            ViewData["Errors"] = ConvertModelDictionary();
         }
     }
 }

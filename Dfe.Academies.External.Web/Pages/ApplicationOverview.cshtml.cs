@@ -32,5 +32,10 @@ public class ApplicationOverviewModel : BasePageModel
     {
         return Page();
     }
+
+    public override void PopulateValidationMessages()
+    {
+        throw new NotImplementedException();
+    }
 }
 
