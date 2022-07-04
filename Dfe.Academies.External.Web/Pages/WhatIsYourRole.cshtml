@@ -36,7 +36,7 @@
                             </div>
                             @if (roleType == SchoolRoles.Other)
                             {
-                                <div class="govuk-radios__conditional @(ViewData.ModelState.IsValid ? "govuk-radios__conditional--hidden" : "")" id="conditional-role-other">
+                                <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "govuk-radios__conditional") @(Model.SchoolRole != SchoolRoles.Other? "govuk-radios__conditional--hidden" : "")" id="conditional-role-other">
                                     <div class="govuk-form-group">
                                         <label for="OtherRoleNotListed" class="govuk-label">What Is your role?</label>
                                         <br/>
