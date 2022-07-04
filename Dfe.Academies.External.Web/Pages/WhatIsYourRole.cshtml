@@ -16,11 +16,12 @@
     <h1 class="govuk-heading-xl">What are you applying to do?</h1>
     <div id="divApplyingToDo" class="govuk-form-group @(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
         <form method="post" name="frmApplicationType" novalidate="">
-            <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
-                <legend class="govuk-fieldset__legend">What is your role?</legend>
+            <fieldset class="govuk-fieldset">
+                <legend id="role-hint" class="govuk-fieldset__legend">What is your role?</legend>
                 <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+
                 <div class="govuk-form-group">
-                    <div class="govuk-radios">
+                    <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
                         @foreach (var roleType in Enum.GetValues(typeof(SchoolRoles)).OfType<SchoolRoles>())
                         {
                             <div class="govuk-radios__item">
@@ -29,14 +30,16 @@
                                        value="@Convert.ToInt32(roleType)"
                                        id="RoleType@(roleType)"
                                        class="govuk-radios__input"
-                                       data-aria-controls="conditional-role-@(roleType.ToString().ToLower())"/>
+                                       data-aria-controls="conditional-role-@(roleType.ToString().ToLower())"
+                                       aria-expanded="False"/>
                                 <label for="RoleType@(roleType)" class="govuk-label govuk-radios__label">
                                     @roleType.GetDescription()
                                 </label>
                             </div>
                             @if (roleType == SchoolRoles.Other)
                             {
-                                <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "govuk-radios__conditional") @(Model.SchoolRole != SchoolRoles.Other? "govuk-radios__conditional--hidden" : "")" id="conditional-role-other">
+                                <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "govuk-radios__conditional") @(Model.SchoolRole != SchoolRoles.Other? "govuk-radios__conditional--hidden" : "")"
+                                     id="conditional-role-other" aria-expanded="false">
                                     <div class="govuk-form-group">
                                         <label for="OtherRoleNotListed" class="govuk-label">What Is your role?</label>
                                         <br/>
@@ -58,3 +61,7 @@
         </p>
     </div>
 </div>
+
+<script type="application/javascript">
+
+</script>
