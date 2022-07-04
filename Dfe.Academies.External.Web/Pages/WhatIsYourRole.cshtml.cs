@@ -86,6 +86,10 @@ public class WhatIsYourRoleModel : BasePageModel
             {
                 this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add("SchoolRole", "Select a role type");
             }
+            else if (ModelState.Keys.Contains("OtherRoleNotEntered") && !this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey("OtherRoleNotEntered"))
+            {
+                this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add("OtherRoleNotEntered", "You must give your role");
+            }
         }
     }
 }
