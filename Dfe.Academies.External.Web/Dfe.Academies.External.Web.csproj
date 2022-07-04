@@ -17,4 +17,12 @@
     <Folder Include="Enums\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Shared\_ApplicationAuditPartial.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Shared\_ApplicationAuditPartial.cshtml" />
+  </ItemGroup>
+
 </Project>
