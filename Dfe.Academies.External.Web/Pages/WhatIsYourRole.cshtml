@@ -16,11 +16,11 @@
     <h1 class="govuk-heading-xl">What are you applying to do?</h1>
     <div id="divApplyingToDo" class="govuk-form-group @(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
         <form method="post" name="frmApplicationType" novalidate="">
-            <fieldset class="govuk-fieldset">
+            <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
                 <legend class="govuk-fieldset__legend">What is your role?</legend>
                 <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
                 <div class="govuk-form-group">
-                    <div class="govuk-radios--conditional">
+                    <div class="govuk-radios">
                         @foreach (var roleType in Enum.GetValues(typeof(SchoolRoles)).OfType<SchoolRoles>())
                         {
                             <div class="govuk-radios__item">
@@ -28,21 +28,24 @@
                                        asp-for="SchoolRole"
                                        value="@Convert.ToInt32(roleType)"
                                        id="RoleType@(roleType)"
-                                       class="govuk-radios__input"/>
-                                <label for="RoleType@(roleType)" class="govuk-label govuk-radios__label">@roleType.GetDescription()</label>
-                                @if (roleType == SchoolRoles.Other)
-                                {
-                                    <div class="govuk-radios__conditional">
-                                        <div class="govuk-form-group">
-                                            <label for="OtherRoleNotListed" class="govuk-label">What Is your role?</label>
-                                            <br/>
-                                            <input type="text" asp-for="OtherRoleNotListed" id="OtherRoleNotListed"
-                                                   class="govuk-input govuk-input--width-20" maxlength="100"
-                                                   />
-                                        </div>
-                                    </div>
-                                }
+                                       class="govuk-radios__input"
+                                       data-aria-controls="conditional-role-@(roleType.ToString().ToLower())"/>
+                                <label for="RoleType@(roleType)" class="govuk-label govuk-radios__label">
+                                    @roleType.GetDescription()
+                                </label>
                             </div>
+                            @if (roleType == SchoolRoles.Other)
+                            {
+                                <div class="govuk-radios__conditional @(ViewData.ModelState.IsValid ? "govuk-radios__conditional--hidden" : "")" id="conditional-role-other">
+                                    <div class="govuk-form-group">
+                                        <label for="OtherRoleNotListed" class="govuk-label">What Is your role?</label>
+                                        <br/>
+                                        <input type="text" asp-for="OtherRoleNotListed" id="OtherRoleNotListed"
+                                               class="govuk-input govuk-input--width-20" maxlength="100"
+                                               />
+                                    </div>
+                                </div>
+                            }
                         }
                     </div>
                 </div>
