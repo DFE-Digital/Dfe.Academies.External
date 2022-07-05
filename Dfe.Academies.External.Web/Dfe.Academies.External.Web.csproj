@@ -8,12 +8,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Helpers\**" />
+    <Content Remove="Helpers\**" />
+    <EmbeddedResource Remove="Helpers\**" />
+    <None Remove="Helpers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Services\ITempDataHelperService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Attributes\" />
-    <Folder Include="Helpers\" />
     <Folder Include="Enums\" />
   </ItemGroup>
 
