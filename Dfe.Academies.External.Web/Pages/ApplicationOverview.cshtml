@@ -11,8 +11,12 @@
 
 <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">Join a multi-academy trust (TODO - text will change dependent on what selected earlier)</h1>
+    
+    <partial name="_ApplicationComponentsStatusPartial" model="Model.Components"/>
+
+    <partial name="_ApplicationContributorsPartial" model="Model.Contributors"/>
 </div>
 
 <div class="govuk-grid-column-one-third">
-    <partial name="_ApplicationAuditPartial" model="Model.ApplicationAudits"/>
+    <partial name="_ApplicationAuditPartial" model="Model.Audits"/>
 </div>

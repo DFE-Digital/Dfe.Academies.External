@@ -1,11 +1,8 @@
-using System.Collections;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.Academies.External.Web.Pages
 {
@@ -34,10 +31,13 @@ namespace Dfe.Academies.External.Web.Pages
         // about the conversion ?
         public ApplicationComponentsStatus ConversionStatus { get; set; }
 
-        // list of contributors
+        public List<ViewModels.ApplicationComponentViewModel> Components { get; set; }
+
+        // List of contributors
+        public List<ViewModels.ConversionApplicationContributorViewModel> Contributors { get; set; }
 
         // List Of Audits
-        public List<ViewModels.ApplicationAuditViewModel> ApplicationAudits { get; set; }
+        public List<ViewModels.ApplicationAuditViewModel> Audits { get; set; }
 
         /// <summary>
         /// to render submit button on UI
@@ -54,13 +54,18 @@ namespace Dfe.Academies.External.Web.Pages
         {
              _draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
 
-            // Grab other values from API e.g. Audit entries
+            // Grab other values from API
             var auditEntries = await _conversionApplicationRetrievalService.GetConversionApplicationAuditEntries(_draftConversionApplication.Id);
+            _draftConversionApplication.ConversionApplicationComponents = await _conversionApplicationRetrievalService
+                .GetConversionApplicationComponentStatuses(_draftConversionApplication.Id);
+            var conversionApplicationContributors = await _conversionApplicationRetrievalService
+                .GetConversionApplicationContributors(_draftConversionApplication.Id);
 
-            PopulateUiModel(auditEntries);
+            PopulateUiModel(auditEntries, conversionApplicationContributors);
         }
 
-        private void PopulateUiModel(List<ConversionApplicationAuditEntry> auditEntries)
+        private void PopulateUiModel(List<ConversionApplicationAuditEntry> auditEntries,
+            List<ConversionApplicationContributor> conversionApplicationContributors)
         {
             ApplicationTypeDescription = _draftConversionApplication.ApplicationType.GetDescription();
             ApplicationReferenceNumber = _draftConversionApplication.Id.ToString();
@@ -68,8 +73,30 @@ namespace Dfe.Academies.External.Web.Pages
             SchoolApplyingToConvert = string.Join(",", _draftConversionApplication.SchoolOrSchoolsApplyingToConvert);
             NameOfTrustToJoin = _draftConversionApplication.TrustName ?? string.Empty;
 
-            // convert from list<ConversionApplicationAuditEntry> -> list<ApplicationAuditViewModel>
-            //auditEntries.
+            // Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
+            Audits = auditEntries.Select(e => 
+                new ViewModels.ApplicationAuditViewModel
+                {
+                    What =
+                        $"{e.CreatedBy} {e.TypeOfChange} the {e.PropertyChanged}", // TODO MR:- re-work text when I can how this looks on screen !
+                    When = e.DateCreated,
+                    Who = e.CreatedBy
+                }).ToList();
+
+            // Convert from List<ConversionApplicationContributor> -> List<ViewModels.ConversionApplicationContributorViewModel>
+            Contributors = conversionApplicationContributors.Select(c => 
+                new ViewModels.ConversionApplicationContributorViewModel 
+                {
+                    Name = c.Name
+                }).ToList();
+
+            // Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
+            Components = _draftConversionApplication.ConversionApplicationComponents.Select(c =>
+                new ViewModels.ApplicationComponentViewModel
+                {
+                    Name = c.Name,
+                    ApplicationComponentStatus = c.Status
+                }).ToList();
         }
 
         public override void PopulateValidationMessages()
