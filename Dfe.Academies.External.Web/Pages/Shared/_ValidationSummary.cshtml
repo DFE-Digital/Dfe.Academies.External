@@ -8,7 +8,7 @@
                 @foreach (var error in Model.ValidationErrorMessages)
                 {
                     <li>
-                        <span class="govuk-error-message">@error.Value</span>
+                        <span class="govuk-error-message">@string.Join(",", error.Value ?? Array.Empty<string>())</span>
                     </li>
                 }
             </ul>

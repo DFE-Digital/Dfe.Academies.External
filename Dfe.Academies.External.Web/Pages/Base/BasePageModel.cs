@@ -12,11 +12,11 @@ public abstract class BasePageModel : PageModel
 
     public ValidationErrorMessagesViewModel ValidationErrorMessagesViewModel { get; set; }
 
-    public Dictionary<string, string?> ConvertModelDictionary()
+    public IReadOnlyDictionary<string, IEnumerable<string>?> ConvertModelStateToDictionary()
     {
         return ModelState.ToDictionary(
             kvp => kvp.Key,
-            kvp => kvp.Value?.Errors.Select(e => e.ErrorMessage).FirstOrDefault()?.ToString()
+            kvp => kvp.Value?.Errors.Select(e => e.ErrorMessage)
         );
     }
 

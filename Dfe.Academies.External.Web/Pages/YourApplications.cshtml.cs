@@ -1,12 +1,12 @@
 using Dfe.Academies.External.Web.Logger;
 using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.Academies.External.Web.Pages
 {
-    public class HomeModel : PageModel
+    public class HomeModel : BasePageModel
     {
         [BindProperty]
         public List<ConversionApplication> ExistingApplications { get; set; }
@@ -37,6 +37,11 @@ namespace Dfe.Academies.External.Web.Pages
                 _logger.Logger(ex.Message);
                 //_logger.LogError("Application::HomeModel::OnGet::Exception - {Message}", ex.Message);
             }
+        }
+
+        public override void PopulateValidationMessages()
+        {
+            throw new NotImplementedException();
         }
     }
 }
