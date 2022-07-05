@@ -1,17 +1,17 @@
 using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Dfe.Academies.External.Web.Pages
+namespace Dfe.Academies.External.Web.Pages;
+
+public class WhatAreYouApplyingToDoModel : BasePageModel
 {
-    public class WhatAreYouApplyingToDoModel : PageModel
-    {
-        private readonly ILogger<WhatAreYouApplyingToDoModel> _logger;
-        private readonly IConversionApplicationCreationService _academisationCreationService;
-        private const string NextStepPage = "/WhatIsYourRole";
+    private readonly ILogger<WhatAreYouApplyingToDoModel> _logger;
+    private readonly IConversionApplicationCreationService _academisationCreationService;
+    private const string NextStepPage = "/WhatIsYourRole";
 
         public WhatAreYouApplyingToDoModel(ILogger<WhatAreYouApplyingToDoModel> logger, 
                                             IConversionApplicationCreationService academisationCreationService)
@@ -20,9 +20,9 @@ namespace Dfe.Academies.External.Web.Pages
             _academisationCreationService = academisationCreationService;
         }
 
-        [BindProperty]
-        [RequiredEnum(ErrorMessage = "Select an application type")]
-        public ApplicationTypes ApplicationType { get; set; }
+    [BindProperty]
+    [RequiredEnum(ErrorMessage = "Select an application type")]
+    public ApplicationTypes ApplicationType { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -31,19 +31,14 @@ namespace Dfe.Academies.External.Web.Pages
             // ApplicationType = _draftConversionApplication.ApplicationType;
         }
 
-        public async Task<IActionResult> OnPostAsync()
+    public async Task<IActionResult> OnPostAsync()
+    {
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                // error messages component consumes ViewData["Errors"]
-                var errorList = ModelState.ToDictionary(
-                    kvp => kvp.Key,
-                    kvp => kvp.Value?.Errors.Select(e => e.ErrorMessage).FirstOrDefault()?.ToString()
-                );
-
-                ViewData["Errors"] = errorList;
-                return Page();
-            }
+            // error messages component consumes ViewData["Errors"]
+            ViewData["Errors"] = ConvertModelStateToDictionary();
+            return Page();
+        }
 
             var applicationTypeSelected = ApplicationType;
             try
@@ -79,7 +74,23 @@ namespace Dfe.Academies.External.Web.Pages
                     return RedirectToPage(NextStepPage);
             }
 
-            return Page();
+        return Page();
+    }
+
+    public override void PopulateValidationMessages()
+    {
+        ViewData["Errors"] = ConvertModelStateToDictionary();
+
+        if (!ModelState.IsValid)
+        {
+            foreach (var modelStateError in ConvertModelStateToDictionary())
+            {
+                // MR:- add friendly message for validation summary
+                if (!this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey(modelStateError.Key))
+                {
+                    this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add(modelStateError.Key, modelStateError.Value);
+                }
+            }
         }
     }
 }
