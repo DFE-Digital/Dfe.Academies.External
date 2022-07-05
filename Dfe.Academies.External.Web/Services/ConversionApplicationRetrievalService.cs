@@ -106,7 +106,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         // **** Mock Demo Data - as per Figma ****
         List<ConversionApplicationContributor> conversionApplicationContributors = new List<ConversionApplicationContributor>
         {
-            new(name: "Sian Phillips"),
+            new(name: "Phillip Frond", role: "Chair of the schools governors"),
+            new(name: "Robert Phillips", role: "PA to the headteacher"),
         };
 
         return conversionApplicationContributors;
