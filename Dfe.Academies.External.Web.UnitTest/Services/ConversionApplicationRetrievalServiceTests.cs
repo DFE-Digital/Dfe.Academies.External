@@ -43,7 +43,6 @@ internal sealed class ConversionApplicationRetrievalServiceTests
         // assert
         Assert.That(expectedExistingApplicationsTestData, Is.Not.Null);
         Assert.AreEqual(expectedExistingApplicationsTestData.Count, 3, "Count is not correct");
-
     }
 
     [Test]
