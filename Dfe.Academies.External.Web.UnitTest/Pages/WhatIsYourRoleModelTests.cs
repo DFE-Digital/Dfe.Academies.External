@@ -27,13 +27,12 @@ internal sealed class WhatIsYourRoleModelTests
         var draftConversionApplicationStorageKey = "draftConversionApplication";
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
         var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
-        var realTempDataHelperService = new TempDataHelperService();
-
+        
         var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
         // act
-        var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object, realTempDataHelperService);
-        realTempDataHelperService.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
+        var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object);
+        TempDataHelperService.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
         // act
         await pageModel.OnGetAsync();
@@ -53,9 +52,8 @@ internal sealed class WhatIsYourRoleModelTests
         // arrange
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
         var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
-        var mockTempDataHelperService = new Mock<ITempDataHelperService>();
 
-        var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object, mockTempDataHelperService.Object);
+        var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object);
 
         // act
         await pageModel.OnGetAsync();
@@ -78,12 +76,11 @@ internal sealed class WhatIsYourRoleModelTests
     private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(
         ILogger<WhatIsYourRoleModel> mockLogger, 
         IConversionApplicationCreationService mockAcademisationCreationService,
-        ITempDataHelperService mockTempDataHelperService,
         bool isAuthenticated = false)
     {
         (PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-        return new WhatIsYourRoleModel(mockLogger, mockAcademisationCreationService, mockTempDataHelperService)
+        return new WhatIsYourRoleModel(mockLogger, mockAcademisationCreationService)
         {
             PageContext = pageContext,
             TempData = tempData,

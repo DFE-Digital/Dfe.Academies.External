@@ -11,17 +11,14 @@ public class WhatIsYourRoleModel : BasePageModel
 {
     private readonly ILogger<WhatIsYourRoleModel> _logger;
     private readonly IConversionApplicationCreationService _academisationCreationService;
-    private readonly ITempDataHelperService _tempDataHelperService;
     private ConversionApplication _draftConversionApplication;
     private const string NextStepPage = "/ApplicationOverview";
 
     public WhatIsYourRoleModel(ILogger<WhatIsYourRoleModel> logger,
-                                IConversionApplicationCreationService academisationCreationService,
-                                ITempDataHelperService tempDataHelperService)
+                                IConversionApplicationCreationService academisationCreationService)
     {
         _logger = logger;
         _academisationCreationService = academisationCreationService;
-        _tempDataHelperService = tempDataHelperService;
     }
 
     [BindProperty]
@@ -47,7 +44,7 @@ public class WhatIsYourRoleModel : BasePageModel
     public async Task OnGetAsync()
     {
         //// on load - grab draft application from temp
-        _draftConversionApplication = _tempDataHelperService.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
+        _draftConversionApplication = TempDataHelperService.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -67,7 +64,7 @@ public class WhatIsYourRoleModel : BasePageModel
         }
 
         //// grab draft application from temp
-        _draftConversionApplication = _tempDataHelperService.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
+        _draftConversionApplication = TempDataHelperService.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
 
         try
         {
@@ -77,7 +74,7 @@ public class WhatIsYourRoleModel : BasePageModel
             await _academisationCreationService.UpdateDraftApplication(_draftConversionApplication);
 
             // update temp store for next step
-            _tempDataHelperService.StoreSerialisedValue("draftConversionApplication", TempData, _draftConversionApplication);
+            TempDataHelperService.StoreSerialisedValue("draftConversionApplication", TempData, _draftConversionApplication);
 
             return RedirectToPage(NextStepPage);
         }
@@ -90,17 +87,17 @@ public class WhatIsYourRoleModel : BasePageModel
 
     public override void PopulateValidationMessages()
     {
-        ViewData["Errors"] = ConvertModelDictionary();
+        ViewData["Errors"] = ConvertModelStateToDictionary();
 
         if (!ModelState.IsValid)
         {
             if (ModelState.Keys.Contains("SchoolRole") && !this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey("SchoolRole"))
             {
-                this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add("SchoolRole", "Select a role type");
+                this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add("SchoolRole", new[] { "Select a role type" });
             }
             else if (ModelState.Keys.Contains("OtherRoleNotEntered") && !this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey("OtherRoleNotEntered"))
             {
-                this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add("OtherRoleNotEntered", "You must give your role");
+                this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add("OtherRoleNotEntered", new[] { "You must give your role" });
             }
         }
     }
