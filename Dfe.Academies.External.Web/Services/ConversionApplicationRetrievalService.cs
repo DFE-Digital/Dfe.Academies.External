@@ -19,7 +19,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
     public List<ConversionApplication> GetCompletedApplications(string? username)
     {
         // TODO: Get data from Academisation API
-        // _resilientRequestProvider.Get
+        //// _resilientRequestProvider.Get();
 
         // TODO: filter by useremail
 
@@ -38,7 +38,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
     public List<ConversionApplication> GetPendingApplications(string? username)
     {
         // TODO: Get data from Academisation API
-        // _resilientRequestProvider.Get
+        //// _resilientRequestProvider.Get();
 
         // TODO: filter by useremail
 
@@ -61,7 +61,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
     public async Task<List<ConversionApplicationAuditEntry>> GetConversionApplicationAuditEntries(long id)
     {
         // TODO: Get data from Academisation API
-        // _resilientRequestProvider.Get
+        //// _resilientRequestProvider.Get();
 
         // **** Mock Demo Data - as per Figma ****
         List<ConversionApplicationAuditEntry> auditEntries = new List<ConversionApplicationAuditEntry>
@@ -80,7 +80,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
     public async Task<List<ConversionApplicationComponent>> GetConversionApplicationComponentStatuses(long id)
     {
         // TODO: Get data from Academisation API
-        // _resilientRequestProvider.Get
+        //// _resilientRequestProvider.Get();
 
         // **** Mock Demo Data - as per Figma ****
         List<ConversionApplicationComponent> conversionApplicationComponents = new List<ConversionApplicationComponent>
@@ -104,12 +104,11 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         // _resilientRequestProvider.Get
 
         // **** Mock Demo Data - as per Figma ****
-        List<ConversionApplicationContributor> conversionApplicationContributors = new List<ConversionApplicationContributor>();
-
-
+        List<ConversionApplicationContributor> conversionApplicationContributors = new List<ConversionApplicationContributor>
+        {
+            new(name: "Sian Phillips"),
+        };
 
         return conversionApplicationContributors;
     }
 }
-
-
