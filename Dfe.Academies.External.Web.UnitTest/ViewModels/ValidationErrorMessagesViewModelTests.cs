@@ -11,7 +11,7 @@ public class ValidationErrorMessagesViewModelTests
         // arrange
         var validationErrorMessagesViewModel = new ValidationErrorMessagesViewModel();
 
-        validationErrorMessagesViewModel.ValidationErrorMessages.Add("OtherRoleNotEntered", "You must give your role");
+        validationErrorMessagesViewModel.ValidationErrorMessages.Add("OtherRoleNotEntered", new[] { "You must give your role" });
 
         // assert
         Assert.That(validationErrorMessagesViewModel, Is.Not.Null);
