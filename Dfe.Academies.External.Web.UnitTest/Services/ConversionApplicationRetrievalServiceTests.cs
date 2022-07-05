@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
 [Parallelizable(ParallelScope.All)]
-internal sealed class ConversionApplicationsServiceTests
+internal sealed class ConversionApplicationRetrievalServiceTests
 {
     [Test]
-    public void ConversionApplicationsService___GetPendingApplications___Success()
+    public void ConversionApplicationRetrievalService___GetPendingApplications___Success()
     {
         // arrange
         var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
@@ -47,7 +47,7 @@ internal sealed class ConversionApplicationsServiceTests
     }
 
     [Test]
-    public void ConversionApplicationsService___GetCompletedApplications___Success()
+    public void ConversionApplicationRetrievalService___GetCompletedApplications___Success()
     {
         // arrange
         var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
@@ -76,6 +76,11 @@ internal sealed class ConversionApplicationsServiceTests
         // assert
         Assert.That(expectedExistingApplicationsTestData, Is.Not.Null);
         Assert.AreEqual(expectedExistingApplicationsTestData.Count, 1, "Count is not correct");
-
     }
+
+    // TODO MR:- GetConversionApplicationAuditEntries()
+
+    // TODO MR:- GetConversionApplicationComponentStatuses()
+
+    // TODO MR:- GetConversionApplicationContributors
 }
