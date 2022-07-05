@@ -2,7 +2,7 @@
 
 namespace Dfe.Academies.External.Web.ViewModels;
 
-public class ApplicationComponent
+public class ApplicationComponentViewModel
 {
     public string Name { get; set; }
 
