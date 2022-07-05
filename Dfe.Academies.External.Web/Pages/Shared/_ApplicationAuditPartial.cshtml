@@ -1,5 +1,23 @@
-﻿@model TModel
+﻿@model List<Dfe.Academies.External.Web.ViewModels.ApplicationAuditViewModel>
 
-// TODO:- view model
+@{
+    
+}
 
-// TODO:- HTML to list audit entries as per figma
+<h3 class="govuk-heading-xl">Recent Activity</h3>
+<span>Changes to the application by all contributors will appear here</span>
+
+@if (Model.Count > 0)
+{
+    <div class="">
+        <ul class="app-task-list__items">
+            @foreach (var audit in Model)
+            {
+                <li class="app-task-list__item">
+                    <strong class="">@audit.When</strong>
+                    <span class="app-task-list__task-name">@audit.What</span>
+                </li>
+            }
+        </ul>
+    </div>
+}

@@ -5,4 +5,6 @@ public interface IConversionApplicationRetrievalService
 {
     List<ConversionApplication> GetCompletedApplications(string? username);
     List<ConversionApplication> GetPendingApplications(string? username);
+
+    Task<List<ConversionApplicationAuditEntry>> GetConversionApplicationAuditEntries(long id);
 }
