@@ -13,12 +13,12 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
     private readonly IConversionApplicationCreationService _academisationCreationService;
     private const string NextStepPage = "/WhatIsYourRole";
 
-        public WhatAreYouApplyingToDoModel(ILogger<WhatAreYouApplyingToDoModel> logger, 
-                                            IConversionApplicationCreationService academisationCreationService)
-        {
-            _logger = logger;
-            _academisationCreationService = academisationCreationService;
-        }
+    public WhatAreYouApplyingToDoModel(ILogger<WhatAreYouApplyingToDoModel> logger, 
+                                        IConversionApplicationCreationService academisationCreationService)
+    {
+        _logger = logger;
+        _academisationCreationService = academisationCreationService;
+    }
 
     [BindProperty]
     [RequiredEnum(ErrorMessage = "Select an application type")]
@@ -27,7 +27,7 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
         public async Task OnGetAsync()
         {
             // like on load - if navigating backwards from NextStepPage - will need to set model value from somewhere!
-            // _draftConversionApplication = _tempDataHelperService.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
+            // _draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
             // ApplicationType = _draftConversionApplication.ApplicationType;
         }
 
