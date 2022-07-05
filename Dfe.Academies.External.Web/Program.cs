@@ -1,3 +1,4 @@
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Routing;
 using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -21,7 +22,11 @@ builder.Services
 			.AllowAnonymousToPage("/Accessibility")
 			.AllowAnonymousToPage("/Cookies")
 			.AllowAnonymousToPage("/Terms")
-			.AllowAnonymousToPage("/WhatYouWillNeed");
+			.AllowAnonymousToPage("/WhatYouWillNeed")
+			// TODO :- below is temporary config UNTIL auth is sorted - just for demo reasons !!
+            .AllowAnonymousToPage("/WhatAreYouApplyingToDo")
+            .AllowAnonymousToPage("/YourApplications")
+			;
 	})
 	.AddRazorPagesOptions(options =>
 	{
@@ -70,6 +75,12 @@ builder.Services.AddAuthorization(options =>
 		policy.RequireAuthenticatedUser();
     });
 });
+
+// Academies API
+builder.Services.AddAcademiesApi(configuration);
+
+// Internal Service
+builder.Services.AddInternalServices();
 
 var app = builder.Build();
 
