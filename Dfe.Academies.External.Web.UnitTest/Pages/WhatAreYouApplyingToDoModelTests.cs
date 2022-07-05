@@ -67,7 +67,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
         // act
         await pageModel.OnPostAsync();
 
-        Dictionary<string, string>? errors = (Dictionary<string, string>)pageModel.ViewData["Errors"]!;
+        Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
         // assert
         if (errors != null) Assert.AreEqual(errors.Count, 1);
