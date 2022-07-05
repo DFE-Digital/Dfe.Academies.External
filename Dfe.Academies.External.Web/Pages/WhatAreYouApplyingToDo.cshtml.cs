@@ -34,7 +34,7 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
         if (!ModelState.IsValid)
         {
             // error messages component consumes ViewData["Errors"]
-            ViewData["Errors"] = ConvertModelDictionary();
+            ViewData["Errors"] = ConvertModelStateToDictionary();
             return Page();
         }
 

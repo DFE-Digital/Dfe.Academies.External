@@ -4,7 +4,7 @@ namespace Dfe.Academies.External.Web.Pages.Base;
 
 public class BasePageModel : PageModel
 {
-    public Dictionary<string, string?> ConvertModelDictionary()
+    public IReadOnlyDictionary<string, string?> ConvertModelStateToDictionary()
     {
         return ModelState.ToDictionary(
             kvp => kvp.Key,
