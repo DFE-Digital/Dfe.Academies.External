@@ -44,7 +44,7 @@ public class WhatIsYourRoleModel : BasePageModel
     public async Task OnGetAsync()
     {
         //// on load - grab draft application from temp
-        _draftConversionApplication = TempDataHelperService.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
+        _draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -64,7 +64,7 @@ public class WhatIsYourRoleModel : BasePageModel
         }
 
         //// grab draft application from temp
-        _draftConversionApplication = TempDataHelperService.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
+        _draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
 
         try
         {
@@ -74,7 +74,7 @@ public class WhatIsYourRoleModel : BasePageModel
             await _academisationCreationService.UpdateDraftApplication(_draftConversionApplication);
 
             // update temp store for next step
-            TempDataHelperService.StoreSerialisedValue("draftConversionApplication", TempData, _draftConversionApplication);
+            TempDataHelper.StoreSerialisedValue("draftConversionApplication", TempData, _draftConversionApplication);
 
             return RedirectToPage(NextStepPage);
         }
