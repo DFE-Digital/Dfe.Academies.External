@@ -3,7 +3,8 @@ using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.ViewModels;
 
-public class ValidationErrorMessagesViewModelTests
+[Parallelizable(ParallelScope.All)]
+internal sealed class ValidationErrorMessagesViewModelTests
 {
     [Test]
     public void ValidationErrorMessagesViewModel___PropertyCheck___Success()
