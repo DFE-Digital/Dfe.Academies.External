@@ -38,5 +38,10 @@ namespace Dfe.Academies.External.Web.Pages
                 //_logger.LogError("Application::HomeModel::OnGet::Exception - {Message}", ex.Message);
             }
         }
+
+        public override void PopulateValidationMessages()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
