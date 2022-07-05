@@ -9,4 +9,6 @@ public interface IConversionApplicationRetrievalService
     Task<List<ConversionApplicationAuditEntry>> GetConversionApplicationAuditEntries(long id);
 
     Task<List<ConversionApplicationComponent>> GetConversionApplicationComponentStatuses(long id);
+
+    Task<List<ConversionApplicationContributor>> GetConversionApplicationContributors(long id);
 }

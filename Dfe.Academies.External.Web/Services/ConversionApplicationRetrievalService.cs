@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
 
@@ -6,23 +7,29 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 {
     private readonly ILogger<ConversionApplicationRetrievalService> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly ResilientRequestProvider _resilientRequestProvider;
 
     public ConversionApplicationRetrievalService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationRetrievalService> logger) : base(httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
         _logger = logger;
+        _resilientRequestProvider = new ResilientRequestProvider(httpClientFactory.CreateClient(HttpClientName));
     }
 
     public List<ConversionApplication> GetCompletedApplications(string? username)
     {
         // TODO: Get data from Academisation API
+        // _resilientRequestProvider.Get
+
         // TODO: filter by useremail
 
-        List<ConversionApplication> existingApplications = // Mock Demo Data
+        // **** Mock Demo Data - as per Figma ****
+        List<ConversionApplication> existingApplications = 
             new List<ConversionApplication>
             {
-            new() { Id = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", TrustName = "Harpenden Academy trust",
-                SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>{ new() {Id = 2, SchoolName = "St George’s school" } } }
+                new() { Id = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", TrustName = "Harpenden Academy trust",
+                        SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>
+                            { new() {Id = 2, SchoolName = "St George’s school" } } }
             };
 
         return existingApplications;
@@ -31,9 +38,11 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
     public List<ConversionApplication> GetPendingApplications(string? username)
     {
         // TODO: Get data from Academisation API
+        // _resilientRequestProvider.Get
+
         // TODO: filter by useremail
 
-        // Mock Demo Data
+        // **** Mock Demo Data - as per Figma ****
         List<ConversionApplication> existingApplications = new List<ConversionApplication>
             {
             new() { Id = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", TrustName = "The Diocese of Ely multi - academy trust",
@@ -52,7 +61,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
     public async Task<List<ConversionApplicationAuditEntry>> GetConversionApplicationAuditEntries(long id)
     {
         // TODO: Get data from Academisation API
+        // _resilientRequestProvider.Get
 
+        // **** Mock Demo Data - as per Figma ****
         List<ConversionApplicationAuditEntry> auditEntries = new List<ConversionApplicationAuditEntry>
         {
             new(createdBy:"Phillip Frond", typeOfChange: "change", entityChanged: "Application", propertyChanged: "school") 
@@ -69,8 +80,36 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
     public async Task<List<ConversionApplicationComponent>> GetConversionApplicationComponentStatuses(long id)
     {
         // TODO: Get data from Academisation API
+        // _resilientRequestProvider.Get
 
-        throw new NotImplementedException();
+        // **** Mock Demo Data - as per Figma ****
+        List<ConversionApplicationComponent> conversionApplicationComponents = new List<ConversionApplicationComponent>
+        {
+            new(name:"Contact details") {Id = 1, Status = ApplicationComponentsStatus.Completed},
+            new(name:"Performance and safeguarding") {Id = 2, Status = ApplicationComponentsStatus.InProgress},
+            new(name:"Pupil numbers") {Id = 3, Status = ApplicationComponentsStatus.NotStarted},
+            new(name:"Finances") {Id = 4, Status = ApplicationComponentsStatus.NotStarted},
+            new(name:"Partnerships and affiliations") {Id = 5, Status = ApplicationComponentsStatus.NotStarted},
+            new(name:"Religious Education") {Id = 6, Status = ApplicationComponentsStatus.NotStarted},
+            new(name:"Land and buildings") {Id = 7, Status = ApplicationComponentsStatus.NotStarted},
+            new(name:"Local Authority") {Id = 8, Status = ApplicationComponentsStatus.NotStarted}
+        };
+
+        return conversionApplicationComponents;
+    }
+
+    public async Task<List<ConversionApplicationContributor>> GetConversionApplicationContributors(long id)
+    {
+        // TODO: Get data from Academisation API
+        // _resilientRequestProvider.Get
+
+        // **** Mock Demo Data - as per Figma ****
+        List<ConversionApplicationContributor> conversionApplicationContributors = new List<ConversionApplicationContributor>();
+
+
+
+        return conversionApplicationContributors;
     }
 }
+
 

@@ -21,4 +21,6 @@ public class ConversionApplication
     public List<SchoolOrSchoolsApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; set; }
 
     public List<ConversionApplicationComponent> ConversionApplicationComponents { get; set; }
+
+    public List<ConversionApplicationContributor> ConversionApplicationContributors { get; set; }
 }
