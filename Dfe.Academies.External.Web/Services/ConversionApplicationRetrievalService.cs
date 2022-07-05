@@ -65,5 +65,12 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
         return auditEntries;
     }
+
+    public async Task<List<ConversionApplicationComponent>> GetConversionApplicationComponentStatuses(long id)
+    {
+        // TODO: Get data from Academisation API
+
+        throw new NotImplementedException();
+    }
 }
 

@@ -7,4 +7,6 @@ public interface IConversionApplicationRetrievalService
     List<ConversionApplication> GetPendingApplications(string? username);
 
     Task<List<ConversionApplicationAuditEntry>> GetConversionApplicationAuditEntries(long id);
+
+    Task<List<ConversionApplicationComponent>> GetConversionApplicationComponentStatuses(long id);
 }
