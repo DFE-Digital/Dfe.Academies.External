@@ -25,7 +25,6 @@
   <ItemGroup>
     <Folder Include="Attributes\" />
     <Folder Include="Enums\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,11 +33,11 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Shared\_ApplicationAuditPartial.cshtml" />
-    <_ContentIncludedByDefault Remove="Pages\Shared\_ApplicationComponentsStatus.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Shared\_ApplicationContributorsPartial.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\Shared\_ApplicationComponentsStatus.cshtml" />
+    <UpToDateCheckInput Remove="Pages\Shared\_ApplicationContributorsPartial.cshtml" />
   </ItemGroup>
 
 </Project>
