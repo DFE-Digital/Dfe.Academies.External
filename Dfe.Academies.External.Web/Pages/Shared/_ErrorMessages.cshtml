@@ -1,11 +1,11 @@
 ﻿@{
-	var errors = new Dictionary<string, string>();
+	var errors = new Dictionary<string, IEnumerable<string>?>();
 
 	var viewErrors = ViewData["Errors"];
 
 	if (viewErrors != null)
 	{
-		errors = (Dictionary<string, string>) viewErrors;
+		errors = (Dictionary<string, IEnumerable<string>?>) viewErrors;
 	}
 }
 
@@ -23,7 +23,7 @@
 						@foreach (var error in errors)
 						{
 							<li>
-								<a href="#@error.Key">@error.Value</a>
+								<a href="#@error.Key">@string.Join(",", error.Value ?? Array.Empty<string>())</a>
 							</li>
 						}
 					</ul>

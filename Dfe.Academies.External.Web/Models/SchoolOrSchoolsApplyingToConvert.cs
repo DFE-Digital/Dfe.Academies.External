@@ -1,4 +1,4 @@
-﻿namespace Dfe.Academies.External.Web.Model
+﻿namespace Dfe.Academies.External.Web.Models
 {
     public class SchoolOrSchoolsApplyingToConvert
     {
