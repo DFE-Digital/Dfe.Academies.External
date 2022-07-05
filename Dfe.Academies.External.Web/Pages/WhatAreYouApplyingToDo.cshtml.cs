@@ -11,16 +11,13 @@ namespace Dfe.Academies.External.Web.Pages
     {
         private readonly ILogger<WhatAreYouApplyingToDoModel> _logger;
         private readonly IConversionApplicationCreationService _academisationCreationService;
-        private readonly ITempDataHelperService _tempDataHelperService;
         private const string NextStepPage = "/WhatIsYourRole";
 
         public WhatAreYouApplyingToDoModel(ILogger<WhatAreYouApplyingToDoModel> logger, 
-                                            IConversionApplicationCreationService academisationCreationService,
-                                            ITempDataHelperService tempDataHelperService)
+                                            IConversionApplicationCreationService academisationCreationService)
         {
             _logger = logger;
             _academisationCreationService = academisationCreationService;
-            _tempDataHelperService = tempDataHelperService;
         }
 
         [BindProperty]
@@ -61,7 +58,7 @@ namespace Dfe.Academies.External.Web.Pages
 
                 if(_draftConversionApplication != null)
                     // MR:- plop newApplication.Id somewhere so NextStepPage can pick this up !
-                    _tempDataHelperService.StoreSerialisedValue("draftConversionApplication", TempData, _draftConversionApplication);
+                    TempDataHelper.StoreSerialisedValue("draftConversionApplication", TempData, _draftConversionApplication);
             }
             catch (Exception ex)
             {
