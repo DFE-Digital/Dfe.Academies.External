@@ -19,9 +19,13 @@ internal sealed class ConversionApplicationTests
             UserEmail = "mark.robinson@education.gov.uk",
             Application = "test",
             TrustName = "Pudsey School",
-            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>()
-            // TODO MR:-
+            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>(),
+            ConversionApplicationComponents = new List<ConversionApplicationComponent>() ,
+            ConversionApplicationContributors = new List<ConversionApplicationContributor>() 
         };
+
+        // act
+        // nothing!
 
         // assert
         Assert.That(conversionApplication, Is.Not.Null);
@@ -31,5 +35,7 @@ internal sealed class ConversionApplicationTests
         Assert.That(conversionApplication.Application, Is.EqualTo("test"));
         Assert.That(conversionApplication.TrustName, Is.EqualTo("Pudsey School"));
         Assert.That(conversionApplication.SchoolOrSchoolsApplyingToConvert.Count, Is.EqualTo(0));
+        Assert.That(conversionApplication.ConversionApplicationComponents.Count, Is.EqualTo(0));
+        Assert.That(conversionApplication.ConversionApplicationContributors.Count, Is.EqualTo(0));
     }
 }
