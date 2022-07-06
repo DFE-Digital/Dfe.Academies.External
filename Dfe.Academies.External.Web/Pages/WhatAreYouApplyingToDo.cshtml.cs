@@ -42,17 +42,20 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
             return Page();
         }
 
-        var applicationTypeSelected = ApplicationType;
         try
         {
-            _draftConversionApplication.ApplicationType = applicationTypeSelected;
+            _draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
+            _draftConversionApplication.ApplicationType = ApplicationType;
             _draftConversionApplication.UserEmail = "Auth user";
 
             _draftConversionApplication = await _academisationCreationService.CreateNewApplication(_draftConversionApplication);
 
-            if(_draftConversionApplication != null)
+            if (_draftConversionApplication != null)
+            {
                 // MR:- plop newApplication.Id somewhere so NextStepPage can pick this up !
                 TempDataHelper.StoreSerialisedValue("draftConversionApplication", TempData, _draftConversionApplication);
+                return RedirectToPage(NextStepPage);
+            }
         }
         catch (Exception ex)
         {
@@ -60,19 +63,6 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
             return Page();
         }
         
-        switch (applicationTypeSelected)
-        {
-            case ApplicationTypes.JoinMat:
-                TempData["applicationTypeSelected"] = applicationTypeSelected;
-                return RedirectToPage(NextStepPage);
-            case ApplicationTypes.FormNewMat:
-                TempData["applicationTypeSelected"] = applicationTypeSelected;
-                return RedirectToPage(NextStepPage);
-            case ApplicationTypes.FormNewSingleAcademyTrust:
-                TempData["applicationTypeSelected"] = applicationTypeSelected;
-                return RedirectToPage(NextStepPage);
-        }
-
         return Page();
     }
 
