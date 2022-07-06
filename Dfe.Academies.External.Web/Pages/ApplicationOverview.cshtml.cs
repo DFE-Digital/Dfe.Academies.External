@@ -70,8 +70,17 @@ namespace Dfe.Academies.External.Web.Pages
             ApplicationTypeDescription = _draftConversionApplication.ApplicationType.GetDescription();
             ApplicationReferenceNumber = $"A2B_{_draftConversionApplication.Id}";
             CompletedSections = 3;
-            SchoolApplyingToConvert = string.Join(",", _draftConversionApplication.SchoolOrSchoolsApplyingToConvert);
-            NameOfTrustToJoin = _draftConversionApplication.TrustName ?? string.Empty;
+
+            if (_draftConversionApplication.SchoolOrSchoolsApplyingToConvert.Count == 0)
+            {
+                SchoolApplyingToConvert = "No School Selected";
+            }
+            else
+            {
+                SchoolApplyingToConvert = string.Join(",", _draftConversionApplication.SchoolOrSchoolsApplyingToConvert);
+            }
+
+            NameOfTrustToJoin = _draftConversionApplication.TrustName ?? "No Trust Selected";
 
             // Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
             Audits = auditEntries.Select(e => 
@@ -96,7 +105,8 @@ namespace Dfe.Academies.External.Web.Pages
                 new ViewModels.ApplicationComponentViewModel
                 {
                     Name = c.Name,
-                    ApplicationComponentStatus = c.Status
+                    ApplicationComponentStatus = c.Status,
+                    URI = SetApplicationComponentUriFromName(c.Name)
                 }).ToList();
         }
 
@@ -114,6 +124,31 @@ namespace Dfe.Academies.External.Web.Pages
                         this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add(modelStateError.Key, modelStateError.Value);
                     }
                 }
+            }
+        }
+
+        private string SetApplicationComponentUriFromName(string componentName)
+        {
+            switch (componentName.ToLower().Trim())
+            {
+                case "contact details":
+                    return "/ApplicationSchoolContactDetails";
+                case "performance and safeguarding":
+                    return "/ApplicationSchoolPerformanceAndSafeguarding";
+                case "pupil numbers":
+                    return "/ApplicationSchoolPupilNumbers";
+                case "finances":
+                    return "/ApplicationSchoolFinances";
+                case "partnerships and affiliations":
+                    return "/ApplicationSchoolPartnershipsAndAffliates";
+                case "religious education":
+                    return "/ApplicationSchoolReligiousEducation";
+                case "land and buildings":
+                    return "/ApplicationSchoolLandAndBuildings";
+                case "local authority":
+                    return "/ApplicationSchoolLocalAuthority";
+                default:
+                    return string.Empty; 
             }
         }
     }
