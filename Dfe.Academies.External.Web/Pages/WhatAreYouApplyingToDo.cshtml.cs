@@ -19,7 +19,6 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
     {
         _logger = logger;
         _academisationCreationService = academisationCreationService;
-        _draftConversionApplication = new ConversionApplication();
     }
 
     [BindProperty]
@@ -29,8 +28,8 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
     public async Task OnGetAsync()
     {
         // like on load - if navigating backwards from NextStepPage - will need to set model value from somewhere!
-        _draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
-        // ApplicationType = _draftConversionApplication.ApplicationType;
+        _draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+        ApplicationType = _draftConversionApplication.ApplicationType;
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -44,7 +43,7 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
 
         try
         {
-            _draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
+            _draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
             _draftConversionApplication.ApplicationType = ApplicationType;
             _draftConversionApplication.UserEmail = "Auth user";
 
@@ -53,7 +52,7 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
             if (_draftConversionApplication != null)
             {
                 // MR:- plop newApplication.Id somewhere so NextStepPage can pick this up !
-                TempDataHelper.StoreSerialisedValue("draftConversionApplication", TempData, _draftConversionApplication);
+                TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, _draftConversionApplication);
                 return RedirectToPage(NextStepPage);
             }
         }

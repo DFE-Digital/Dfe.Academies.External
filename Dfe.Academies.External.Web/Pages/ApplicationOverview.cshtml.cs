@@ -52,7 +52,7 @@ namespace Dfe.Academies.External.Web.Pages
 
         public async Task OnGetAsync()
         {
-             _draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
+             _draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
             // Grab other values from API
             var auditEntries = await _conversionApplicationRetrievalService.GetConversionApplicationAuditEntries(_draftConversionApplication.Id);

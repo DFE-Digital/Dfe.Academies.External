@@ -21,6 +21,10 @@ public class WhatIsYourRoleModel : BasePageModel
     }
 
     [BindProperty]
+    [RequiredEnum(ErrorMessage = "Select an application type")]
+    public ApplicationTypes ApplicationType { get; set; }
+
+    [BindProperty]
     [RequiredEnum(ErrorMessage = "You must give your role at the school")]
     public SchoolRoles SchoolRole { get; set; }
 
@@ -43,8 +47,8 @@ public class WhatIsYourRoleModel : BasePageModel
     public async Task OnGetAsync()
     {
         //// on load - grab draft application from temp
-        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData);
-        var applicationType = draftConversionApplication.ApplicationType;
+        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData);
+        if (draftConversionApplication != null) ApplicationType = draftConversionApplication.ApplicationType;
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -64,21 +68,22 @@ public class WhatIsYourRoleModel : BasePageModel
         }
 
         //// grab draft application from temp
-        // TODO:- _draftConversionApplication = NULL here !!!!!
-        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData);
+        // MR:- _draftConversionApplication = NULL here !!!!!
+        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData);
 
         try
         {
             // TODO MR:- below should NOT happen but seems to !
             draftConversionApplication ??= new();
 
+            draftConversionApplication.ApplicationType = ApplicationType;
             draftConversionApplication.SchoolRole = SchoolRole;
             draftConversionApplication.OtherRoleNotListed = OtherRoleNotListed;
 
             await _academisationCreationService.UpdateDraftApplication(draftConversionApplication);
 
             // update temp store for next step
-            TempDataHelper.StoreSerialisedValue("draftConversionApplication", TempData, draftConversionApplication);
+            TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
             return RedirectToPage(NextStepPage);
         }
