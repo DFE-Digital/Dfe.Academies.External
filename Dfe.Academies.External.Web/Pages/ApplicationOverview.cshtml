@@ -10,14 +10,13 @@
 }
 
 <div class="govuk-grid-column-two-thirds">
-    TODO - text will change dependent on what selected earlier
-    <h1 class="govuk-heading-l">Join a multi-academy trust</h1>
+    <h1 class="govuk-heading-l">@Model.ApplicationTypeDescription</h1>
 
-    TODO = put below in a span or something?
-    <strong>Application reference number:></strong> @Model.ApplicationReferenceNumber
+    <p class="govuk-body">
+        <strong>Application reference number:</strong>&nbsp;&nbsp;@Model.ApplicationReferenceNumber
+    </p>
 
-    TODO = grey bar at left
-    <p class="govuk-body">You must complete each section before you can submit your application.<br/>
+    <p class="govuk-body govuk-radios__conditional">You must complete each section before you can submit your application.<br/>
         You can save your progress as you go.
     </p>
 
@@ -27,6 +26,8 @@
 
     <h2 class="govuk-heading-m">The school applying to convert</h2>
     TODO = TEXT | Change (Link)
+    
+    <div class="govuk-!-margin-6"></div>
 
     <partial name="_ApplicationComponentsStatusPartial" model="Model.Components"/>
 
