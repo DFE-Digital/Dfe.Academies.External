@@ -24,8 +24,15 @@
     <h2 class="govuk-heading-m">Application incomplete</h2>
     <p class="govuk-body">You have completed @Model.CompletedSections of @Model.TotalNumberOfSections sections.</p>
 
-    <h2 class="govuk-heading-m">The school applying to convert</h2>
-    TODO = TEXT | Change (Link)
+    <table class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--m">The school applying to convert</caption>
+        <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell"><strong>@Model.SchoolApplyingToConvert</strong></td>
+                <td class="govuk-table__cell govuk-!-text-align-right"><a asp-page="ApplicationSelectSchool">Change</a></td>
+            </tr>
+        </tbody>
+    </table>  
     
     <div class="govuk-!-margin-6"></div>
 
@@ -35,8 +42,9 @@
         <caption class="govuk-table__caption govuk-table__caption--m">The trust the school will join</caption>
         <tbody class="govuk-table__body">
             <tr class="govuk-table__row">
-                <td class="govuk-table__cell"><a asp-page="ApplicationSelectTrust">Name of the trust</a></td>
-                <td class="govuk-table__cell"><strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="trust-status">Not started</strong></td>
+                <td class="govuk-table__cell"><a asp-page="ApplicationSelectTrust">@Model.NameOfTrustToJoin</a></td>
+                @*TODO MR:- below to consume ??????*@
+                <td class="govuk-table__cell govuk-!-text-align-right"><strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="trust-status">Not started</strong></td>
             </tr>
         </tbody>
     </table>       
@@ -46,7 +54,8 @@
         <tbody class="govuk-table__body">
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell"><a asp-page="ApplicationDetails">Conversion details</a></td>
-                <td class="govuk-table__cell"><strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="conversion-status">Not started</strong></td>
+                @*TODO MR:- below to consume @Model.ConversionStatus*@
+                <td class="govuk-table__cell govuk-!-text-align-right"><strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="conversion-status">Not started</strong></td>
             </tr>
         </tbody>
     </table>    
