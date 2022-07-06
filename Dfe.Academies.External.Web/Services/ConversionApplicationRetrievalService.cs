@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using System.Globalization;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
@@ -64,14 +65,15 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         //// _resilientRequestProvider.Get();
 
         // **** Mock Demo Data - as per Figma ****
+        DateTimeFormatInfo dtfi = CultureInfo.GetCultureInfo("en-GB").DateTimeFormat;
         List<ConversionApplicationAuditEntry> auditEntries = new List<ConversionApplicationAuditEntry>
         {
             new(createdBy:"Phillip Frond", typeOfChange: "change", entityChanged: "Application", propertyChanged: "school") 
-                {Id = 99, DateCreated = Convert.ToDateTime("25/05/2022")},
+                {Id = 99, DateCreated = Convert.ToDateTime("25/05/2022", dtfi)},
             new(createdBy: "Peter Parker", typeOfChange: "change", entityChanged: "Application", propertyChanged: "trust") 
-                {Id = 98, DateCreated = Convert.ToDateTime("20/05/2022")},
+                {Id = 98, DateCreated = Convert.ToDateTime("20/05/2022", dtfi)},
             new(createdBy: "Richard Dickenson", typeOfChange: "add", entityChanged: "Application", propertyChanged: "started")
-                {Id = 97, DateCreated = Convert.ToDateTime("15/05/2022")},
+                {Id = 97, DateCreated = Convert.ToDateTime("15/05/2022", dtfi)},
         };
 
         return auditEntries;
