@@ -17,13 +17,13 @@
     <strong>Application reference number:></strong> @Model.ApplicationReferenceNumber
 
     TODO = grey bar at left
-    <p class="govuk-body-l">You must complete each section before you can submit your application.<br/>
+    <p class="govuk-body">You must complete each section before you can submit your application.<br/>
         You can save your progress as you go.
     </p>
 
     TODO = heading below will need to flip between complete / incomplete
     <h2 class="govuk-heading-m">Application incomplete</h2>
-    <p class="govuk-body-l">You have completed @Model.CompletedSections of @Model.TotalNumberOfSections sections.</p>
+    <p class="govuk-body">You have completed @Model.CompletedSections of @Model.TotalNumberOfSections sections.</p>
 
     <h2 class="govuk-heading-m">The school applying to convert</h2>
     TODO = TEXT | Change (Link)
@@ -37,7 +37,7 @@
     TODO = TEXT | Status
 
     <h2 class="govuk-heading-m">Contributors</h2>
-    <p class="govuk-body-l">You can invite other people to help you complete parts of this form</p>
+    <p class="govuk-body">You can invite other people to help you complete parts of this form</p>
 
     <a asp-page="NewApplicationContributor">Invite a contributor</a>
     <partial name="_ApplicationContributorsPartial" model="Model.Contributors"/>
@@ -45,7 +45,7 @@
     @if (!Model.DoesUserHaveSubmitRole)
     {
         @*TODO = grey bar at left*@
-        <p class="govuk-body-l">Only the school's chair of governors can submit this application.</p>
+        <p class="govuk-body">Only the school's chair of governors can submit this application.</p>
     }
 
     buttons
