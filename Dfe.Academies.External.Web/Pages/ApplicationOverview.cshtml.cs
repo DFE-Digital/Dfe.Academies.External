@@ -87,7 +87,8 @@ namespace Dfe.Academies.External.Web.Pages
             Contributors = conversionApplicationContributors.Select(c => 
                 new ViewModels.ConversionApplicationContributorViewModel 
                 {
-                    Name = c.Name
+                    Name = c.Name,
+                    Role = c.Role
                 }).ToList();
 
             // Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
