@@ -21,3 +21,11 @@ public enum ApplicationComponentsStatus
     [Description("Completed")]
     Completed = 3,
 }
+
+public enum SchoolRoles : int
+{
+    [Description("The chair of the school's governors")]
+    Chair = 1,
+    [Description("Something Else")]
+    Other = 2
+}

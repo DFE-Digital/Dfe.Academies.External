@@ -22,4 +22,13 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
         return application;
     }
+
+    public Task UpdateDraftApplication(ConversionApplication application)
+    {
+        ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(HttpClientName));
+
+        // TODO await API response !
+
+        return Task.CompletedTask;
+    }
 }
