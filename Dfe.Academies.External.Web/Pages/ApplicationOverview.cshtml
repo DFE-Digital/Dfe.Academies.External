@@ -13,7 +13,11 @@
     <h1 class="govuk-heading-xl">Join a multi-academy trust (TODO - text will change dependent on what selected earlier)</h1>
     
     <partial name="_ApplicationComponentsStatusPartial" model="Model.Components"/>
+    
+    <h3 class="govuk-heading-xl">Contributors</h3>
+    <p class="govuk-body-l">You can invite other people to help you complete parts of this form</p>
 
+    <a asp-page="NewApplicationContributor">Invite a contributor</a>
     <partial name="_ApplicationContributorsPartial" model="Model.Contributors"/>
 </div>
 
