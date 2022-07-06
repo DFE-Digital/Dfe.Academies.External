@@ -31,11 +31,25 @@
 
     <partial name="_ApplicationComponentsStatusPartial" model="Model.Components"/>
 
-    <h2 class="govuk-heading-m">The trust the school will join</h2>
-    TODO = TEXT | Status
+    <table class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--m">The trust the school will join</caption>
+        <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell"><a asp-page="ApplicationSelectTrust">Name of the trust</a></td>
+                <td class="govuk-table__cell"><strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="trust-status">Not started</strong></td>
+            </tr>
+        </tbody>
+    </table>       
 
-    <h2 class="govuk-heading-m">About the conversion</h2>
-    TODO = TEXT | Status
+    <table class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--m">About the conversion</caption>
+        <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell"><a asp-page="ApplicationDetails">Conversion details</a></td>
+                <td class="govuk-table__cell"><strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="conversion-status">Not started</strong></td>
+            </tr>
+        </tbody>
+    </table>    
 
     <h2 class="govuk-heading-m">Contributors</h2>
     <p class="govuk-body">You can invite other people to help you complete parts of this form</p>
