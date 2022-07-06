@@ -45,11 +45,18 @@
 
     @if (!Model.DoesUserHaveSubmitRole)
     {
-        @*TODO = grey bar at left*@
-        <p class="govuk-body">Only the school's chair of governors can submit this application.</p>
+        <p class="govuk-body govuk-radios__conditional">Only the school's chair of governors can submit this application.</p>
     }
 
-    buttons
+    <div class="govuk-button-group">
+        @if (Model.DoesUserHaveSubmitRole)
+        {
+            <button data-prevent-double-click="true" class="govuk-button govuk-!-margin-top-6" data-module="govuk-button">
+                Review and Submit
+            </button>
+        }
+        <a asp-page="YourApplications" class="govuk-button govuk-button--warning" data-module="govuk-button">Cancel this application</a>
+    </div>
 </div>
 
 <div class="govuk-grid-column-one-third">
