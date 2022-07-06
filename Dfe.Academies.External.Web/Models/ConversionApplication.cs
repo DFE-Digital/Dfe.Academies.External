@@ -13,4 +13,8 @@ public class ConversionApplication
     public string? TrustName { get; set; }
 
     public List<SchoolOrSchoolsApplyingToConvert>? SchoolOrSchoolsApplyingToConvert { get; set; }
+
+    public SchoolRoles? SchoolRole { get; set; }
+
+    public string? OtherRoleNotListed { get; set; }
 }
