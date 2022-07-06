@@ -39,6 +39,28 @@ namespace Dfe.Academies.External.Web.Pages
             }
         }
 
+        
+        public IActionResult OnGetDownloadCompletedApplication(int applicationId, string fileName)
+        {
+
+            try
+            {
+                //TODO: Find out about template to generate PDF
+
+                var username = User.Identity?.Name;
+                ExistingApplications = _conversionApplications.GetPendingApplications(username);
+
+                CompletedApplications = _conversionApplications.GetCompletedApplications(username);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Logger(ex.Message);
+            }
+
+            return null; // TODO: Return PDF to user to download  
+        }
+
         public override void PopulateValidationMessages()
         {
             throw new NotImplementedException();
