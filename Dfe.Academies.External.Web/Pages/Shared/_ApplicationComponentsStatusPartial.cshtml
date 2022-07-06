@@ -1,57 +1,29 @@
 ﻿@model List<Dfe.Academies.External.Web.ViewModels.ApplicationComponentViewModel>
 
-@{
-    
-}
-
-<div>
-    @*    Helper func to spit out the class name?
-        
+@*    
+    Helper func to spit out the class name?    
     govuk-tag = completed background colour
     govuk-tag--blue = in progress
     govuk-tag--grey = not started
-    govuk-tag--grey = cannot start yet*@
+    govuk-tag--grey = cannot start yet
+*@
 
-    <ol class="app-task-list">
-        <li>
-            <ul class="app-task-list__items">
+<ol id="application-components-status" class="app-task-list">
+    <li>
+        <ul class="app-task-list__items">
+            @foreach (var component in Model)
+            {
                 <li class="app-task-list__item">
                     <span class="app-task-list__task-name">
-                        <a href="#" aria-describedby="company-information-status">
-                            Company information @*TODO MR:- to come from model !!*@
+                        <a href="@component.URI" aria-describedby="component-@(component.Name)-status">
+                            @component.Name
                         </a>
                     </span>
-                    <strong class="govuk-tag app-task-list__tag" id="company-information-status">Completed</strong>
+                    <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="component-@(component.Name)-status">
+                        Not started
+                    </strong>
                 </li>
-                <li class="app-task-list__item">
-                    <span class="app-task-list__task-name">
-                        <a href="#" aria-describedby="contact-details-status">
-                            Your contact details
-                        </a>
-                    </span>
-                    <strong class="govuk-tag app-task-list__tag govuk-tag--blue" id="contact-details-status">In progress</strong>
-                </li>
-                <li class="app-task-list__item">
-                    <span class="app-task-list__task-name">
-                        <a href="#" aria-describedby="list-convictions-status">
-                            List convictions
-                        </a>
-                    </span>
-                    <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="list-convictions-status">Not started</strong>
-                </li>
-                <li class="app-task-list__item">
-                    <span class="app-task-list__task-name">
-                        Provide financial evidence
-                    </span>
-                    <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="financial-evidence-status">Cannot start yet</strong>
-                </li>
-                <li class="app-task-list__item">
-                    <span class="app-task-list__task-name">
-                        Give medical information
-                    </span>
-                    <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="medical-information-status">Cannot start yet</strong>
-                </li>
-            </ul>
-        </li>
-    </ol>
-</div>
+            }
+        </ul>
+    </li>
+</ol>
