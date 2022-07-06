@@ -11,11 +11,4 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Attributes\" />
-    <Folder Include="Enums\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="Pages\Base\" />
-  </ItemGroup>
-
 </Project>
