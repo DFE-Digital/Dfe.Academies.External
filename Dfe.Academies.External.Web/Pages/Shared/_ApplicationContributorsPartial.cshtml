@@ -8,17 +8,22 @@
 
 @if (Model.Count > 0)
 {
-    // convert to a table as we have a TH
-
-    <div class="">
-        <ul class="app-task-list__items">
-            @foreach (var contributor in Model)
+    <h3 class="govuk-heading-xl">Current Contributors</h3>
+    <table class="govuk-table">
+        <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">Name</th>
+                <th scope="col" class="govuk-table__header">Role</th>
+            </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+            @foreach(var contributor in Model)
             {
-                <li class="app-task-list__item">
-                    <strong class="">@contributor.Name</strong>
-                    <span class="app-task-list__task-name">@contributor.Role</span>
-                </li>
-            }
-        </ul>
-    </div>
+                <tr class="govuk-table__row">  
+                    <th scope="row" class="govuk-table__cell">@contributor.Name</th>
+                    <td class="govuk-table__cell">@contributor.Role</td>
+                </tr>
+            }        
+        </tbody>
+    </table>
 }
