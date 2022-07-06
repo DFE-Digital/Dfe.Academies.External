@@ -13,7 +13,7 @@
         @foreach (var audit in Model)
         {
             <li class="app-task-list__item">
-                <strong class="">@audit.When</strong>
+                <strong class="">@audit.When.ToShortDateString()</strong>
                 <span class="app-task-list__task-name">@audit.What</span>
             </li>
         }
