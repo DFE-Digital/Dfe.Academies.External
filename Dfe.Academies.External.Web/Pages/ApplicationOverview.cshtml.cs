@@ -68,7 +68,7 @@ namespace Dfe.Academies.External.Web.Pages
             List<ConversionApplicationContributor> conversionApplicationContributors)
         {
             ApplicationTypeDescription = _draftConversionApplication.ApplicationType.GetDescription();
-            ApplicationReferenceNumber = _draftConversionApplication.Id.ToString();
+            ApplicationReferenceNumber = $"A2B_{_draftConversionApplication.Id}";
             CompletedSections = 3;
             SchoolApplyingToConvert = string.Join(",", _draftConversionApplication.SchoolOrSchoolsApplyingToConvert);
             NameOfTrustToJoin = _draftConversionApplication.TrustName ?? string.Empty;
