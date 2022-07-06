@@ -11,7 +11,6 @@ public class WhatIsYourRoleModel : BasePageModel
 {
     private readonly ILogger<WhatIsYourRoleModel> _logger;
     private readonly IConversionApplicationCreationService _academisationCreationService;
-    private ConversionApplication _draftConversionApplication;
     private const string NextStepPage = "/ApplicationOverview";
 
     public WhatIsYourRoleModel(ILogger<WhatIsYourRoleModel> logger,
@@ -44,7 +43,8 @@ public class WhatIsYourRoleModel : BasePageModel
     public async Task OnGetAsync()
     {
         //// on load - grab draft application from temp
-        _draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
+        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData);
+        var applicationType = draftConversionApplication.ApplicationType;
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -64,17 +64,21 @@ public class WhatIsYourRoleModel : BasePageModel
         }
 
         //// grab draft application from temp
-        _draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
+        // TODO:- _draftConversionApplication = NULL here !!!!!
+        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData);
 
         try
         {
-            _draftConversionApplication.SchoolRole = SchoolRole;
-            _draftConversionApplication.OtherRoleNotListed = OtherRoleNotListed;
+            // TODO MR:- below should NOT happen but seems to !
+            draftConversionApplication ??= new();
 
-            await _academisationCreationService.UpdateDraftApplication(_draftConversionApplication);
+            draftConversionApplication.SchoolRole = SchoolRole;
+            draftConversionApplication.OtherRoleNotListed = OtherRoleNotListed;
+
+            await _academisationCreationService.UpdateDraftApplication(draftConversionApplication);
 
             // update temp store for next step
-            TempDataHelper.StoreSerialisedValue("draftConversionApplication", TempData, _draftConversionApplication);
+            TempDataHelper.StoreSerialisedValue("draftConversionApplication", TempData, draftConversionApplication);
 
             return RedirectToPage(NextStepPage);
         }
