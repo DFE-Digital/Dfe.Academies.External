@@ -73,14 +73,14 @@ namespace Dfe.Academies.External.Web.Pages
 
             if (_draftConversionApplication.SchoolOrSchoolsApplyingToConvert.Count == 0)
             {
-                SchoolApplyingToConvert = "No School Selected";
+                SchoolApplyingToConvert = "No school selected";
             }
             else
             {
                 SchoolApplyingToConvert = string.Join(",", _draftConversionApplication.SchoolOrSchoolsApplyingToConvert);
             }
 
-            NameOfTrustToJoin = _draftConversionApplication.TrustName ?? "No Trust Selected";
+            NameOfTrustToJoin = _draftConversionApplication.TrustName ?? "No trust selected";
 
             // Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
             Audits = auditEntries.Select(e => 

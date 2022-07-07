@@ -92,9 +92,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
             new(name:"Pupil numbers") {Id = 3, Status = ApplicationComponentsStatus.NotStarted},
             new(name:"Finances") {Id = 4, Status = ApplicationComponentsStatus.NotStarted},
             new(name:"Partnerships and affiliations") {Id = 5, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Religious Education") {Id = 6, Status = ApplicationComponentsStatus.NotStarted},
+            new(name:"Religious education") {Id = 6, Status = ApplicationComponentsStatus.NotStarted},
             new(name:"Land and buildings") {Id = 7, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Local Authority") {Id = 8, Status = ApplicationComponentsStatus.NotStarted}
+            new(name:"Local authority") {Id = 8, Status = ApplicationComponentsStatus.NotStarted}
         };
 
         return conversionApplicationComponents;
