@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -16,14 +16,6 @@
 
   <ItemGroup>
     <PackageReference Include="GovUk.Frontend.AspNetCore" Version="0.5.1" />
-    <Compile Remove="Helpers\**" />
-    <Content Remove="Helpers\**" />
-    <EmbeddedResource Remove="Helpers\**" />
-    <None Remove="Helpers\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Services\ITempDataHelperService.cs" />
   </ItemGroup>
 
   <ItemGroup>
