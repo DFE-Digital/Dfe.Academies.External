@@ -8,10 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\assets\**" />
-    <Content Remove="wwwroot\assets\**" />
-    <EmbeddedResource Remove="wwwroot\assets\**" />
-    <None Remove="wwwroot\assets\**" />
+    <None Include="wwwroot\assets\application-39beab6507cd50944edb58ab76ca9a393e09d467cba25003fbd3104c8a02514b.js" />
   </ItemGroup>
 
   <ItemGroup>
