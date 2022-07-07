@@ -1,77 +1,95 @@
 ﻿@page
+@using Dfe.Academies.External.Web.Models
 @model Dfe.Academies.External.Web.Pages.HomeModel
 @{
     ViewData["Title"] = "Apply to become an academy - Your applications";
 }
 
 <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">Your applications</h1>
 
-	<div class="govuk-!-margin-6"></div>
+    @{
 
-		<h2 class="govuk-heading-m">Applications in progress (@Model.ExistingApplications.Count)</h2>
-
-	<div class="govuk-!-margin-6"></div>
-
-	<table class="govuk-table">
-        <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Application</th>
-          <th scope="col" class="govuk-table__header">School Name</th>
-          <th scope="col" class="govuk-table__header">School Or Schools Applying To Convert</th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-
-        @foreach(var data in Model.ExistingApplications)
+        if (Model.ExistingApplications != null)
         {
-            <tr class="govuk-table__row">  
-                <th scope="row" class="govuk-table__cell"><a href="#">@data.Application</a></th>
-                <td class="govuk-table__cell">@data.TrustName</td>
-                <td class="govuk-table__cell">
-                    @foreach(var schs in data.SchoolOrSchoolsApplyingToConvert)
+
+            <h1 class="govuk-heading-xl">Your applications</h1>
+
+            <div class="govuk-!-margin-6"></div>
+
+            <h2 class="govuk-heading-m">Applications in progress (@Model.ExistingApplications.Count)</h2>
+
+            <div class="govuk-!-margin-6"></div>
+
+            <table class="govuk-table">
+                <thead class="govuk-table__head">
+                    <tr class="govuk-table__row">
+                        <th scope="col" class="govuk-table__header">Application</th>
+                        <th scope="col" class="govuk-table__header">School Name</th>
+                        <th scope="col" class="govuk-table__header">School Or Schools Applying To Convert</th>
+                    </tr>
+                </thead>
+                <tbody class="govuk-table__body">
+                    @if(Model.ExistingApplications != null)
                     {
-			           <ul><li>@Html.Raw(@schs.SchoolOrSchoolsApplyingToConvertProperty)</li></ul>
-                    }
-                </td>
-            </tr>
-        }
-      </tbody>
-    </table>
-
-	 <p>
-	    <a asp-page="WhatAreYouApplyingToDo" class="govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8">
-			Start a new application
-		</a>
-     </p>
-
-     <div class="govuk-!-margin-6"></div>
-
-    <h2 class="govuk-heading-m">Past applications (@Model.CompletedApplications.Count)</h2>
-
-    <table class="govuk-table">
-        <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Application</th>
-          <th scope="col" class="govuk-table__header">School Name</th>
-          <th scope="col" class="govuk-table__header">School Or Schools Applying To Convert</th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-
-        @foreach(var data in Model.CompletedApplications)
-        {
-            <tr class="govuk-table__row">  
-                <th scope="row" class="govuk-table__cell"><a href="#">@data.Application</a></th>
-                    <td class="govuk-table__cell">@data.TrustName</td>
-			        <td class="govuk-table__cell">
-                        @foreach(var schs in data.SchoolOrSchoolsApplyingToConvert)
+                        @foreach (var data in Model.ExistingApplications)
                         {
-			               <ul><li>@Html.Raw(@schs.SchoolOrSchoolsApplyingToConvertProperty)</li></ul>
+                            <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__cell"><a href="#">@data.Application</a></th>
+                                <td class="govuk-table__cell">@data.TrustName</td>
+                                <td class="govuk-table__cell">
+                                    @foreach (var schs in data.SchoolOrSchoolsApplyingToConvert)
+                                    {
+                                        <ul><li>@Html.Raw(@schs.SchoolOrSchoolsApplyingToConvertProperty)</li></ul>
+                                    }
+                                </td>
+                            </tr>
                         }
-                    </td>
-            </tr>
+                    }
+
+                </tbody>
+            </table>
         }
-      </tbody>
-    </table>
+    }
+    <p>
+        <a asp-page="WhatAreYouApplyingToDo" class="govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8">
+            Start a new application
+        </a>
+    </p>
+
+    <div class="govuk-!-margin-6"></div>
+
+    @{
+        if (Model.CompletedApplications != null)
+        {
+            <h2 class="govuk-heading-m">Past applications (@Model.CompletedApplications.Count)</h2>
+
+            <table class="govuk-table">
+                <thead class="govuk-table__head">
+                    <tr class="govuk-table__row">
+                        <th scope="col" class="govuk-table__header">Application</th>
+                        <th scope="col" class="govuk-table__header">School Name</th>
+                        <th scope="col" class="govuk-table__header">School Or Schools Applying To Convert</th>
+                    </tr>
+                </thead>
+                <tbody class="govuk-table__body">
+                    @if(Model.CompletedApplications != null)
+                    {
+                        @foreach (var data in Model.CompletedApplications)
+                        {
+                            <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__cell"><a href="#">@data.Application</a></th>
+                                <td class="govuk-table__cell">@data.TrustName</td>
+                                <td class="govuk-table__cell">
+                                    @foreach (var schs in data.SchoolOrSchoolsApplyingToConvert)
+                                    {
+                                        <ul><li>@Html.Raw(@schs.SchoolOrSchoolsApplyingToConvertProperty)</li></ul>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+    }
 </div>
