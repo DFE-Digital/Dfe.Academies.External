@@ -4,6 +4,11 @@ namespace Dfe.Academies.External.Web.Models;
 
 public class ConversionApplication
 {
+    public ConversionApplication()
+    {
+        SchoolOrSchoolsApplyingToConvert = new();
+    }
+
     public long Id { get; set; }
 
     public ApplicationTypes ApplicationType { get; set; }
@@ -12,7 +17,7 @@ public class ConversionApplication
     public string? Application { get; set; }
     public string? TrustName { get; set; }
 
-    public List<SchoolOrSchoolsApplyingToConvert>? SchoolOrSchoolsApplyingToConvert { get; set; }
+    public List<SchoolOrSchoolsApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; set; }
 
     public SchoolRoles? SchoolRole { get; set; }
 

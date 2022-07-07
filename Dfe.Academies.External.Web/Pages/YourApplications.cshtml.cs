@@ -19,6 +19,8 @@ namespace Dfe.Academies.External.Web.Pages
         {
             _conversionApplications = conversionApplications;
             _logger = logger;
+            ExistingApplications = new();
+            CompletedApplications = new();
         }
 
         public void OnGet()
