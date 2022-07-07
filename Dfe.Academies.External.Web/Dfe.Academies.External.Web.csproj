@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -8,23 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Helpers\**" />
-    <Content Remove="Helpers\**" />
-    <EmbeddedResource Remove="Helpers\**" />
-    <None Remove="Helpers\**" />
+    <None Include="wwwroot\assets\application-39beab6507cd50944edb58ab76ca9a393e09d467cba25003fbd3104c8a02514b.js" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Services\ITempDataHelperService.cs" />
+    <PackageReference Include="GovUk.Frontend.AspNetCore" Version="0.5.1" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Attributes\" />
-    <Folder Include="Enums\" />
   </ItemGroup>
 
 </Project>
