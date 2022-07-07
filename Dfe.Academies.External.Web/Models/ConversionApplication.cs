@@ -6,6 +6,7 @@ public class ConversionApplication
     public ConversionApplication()
     {
         SchoolOrSchoolsApplyingToConvert = new();
+        SchoolOrSchoolsApplyingToConvert = new();
         ConversionApplicationComponents = new();
         ConversionApplicationContributors = new();
     }
@@ -18,7 +19,7 @@ public class ConversionApplication
     public string? Application { get; set; }
     public string? TrustName { get; set; }
 
-    public List<SchoolOrSchoolsApplyingToConvert>? SchoolOrSchoolsApplyingToConvert { get; set; }
+    public List<SchoolOrSchoolsApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; set; }
 
     public List<ConversionApplicationComponent> ConversionApplicationComponents { get; set; }
 
