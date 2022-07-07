@@ -82,14 +82,8 @@ namespace Dfe.Academies.External.Web.Pages
             CompletedSections = 3;
             ApplicationStatus =_draftConversionApplication.ApplicationStatus;
 
-            if (_draftConversionApplication.SchoolOrSchoolsApplyingToConvert.Any())
-            {
-                SchoolApplyingToConvert = "No school selected";
-            }
-            else
-            {
-                SchoolApplyingToConvert = string.Join(",", _draftConversionApplication.SchoolOrSchoolsApplyingToConvert);
-            }
+            SchoolApplyingToConvert = _draftConversionApplication.SchoolOrSchoolsApplyingToConvert.Count == 0 ? "No school selected" 
+                : string.Join(",", _draftConversionApplication.SchoolOrSchoolsApplyingToConvert);
 
             NameOfTrustToJoin = _draftConversionApplication.TrustName ?? "No trust selected";
 
