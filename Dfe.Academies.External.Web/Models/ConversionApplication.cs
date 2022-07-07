@@ -8,6 +8,7 @@ public class ConversionApplication
     {
         SchoolOrSchoolsApplyingToConvert = new();
         ConversionApplicationComponents = new();
+        ConversionApplicationContributors = new();
     }
 
     public long Id { get; set; }
@@ -27,4 +28,18 @@ public class ConversionApplication
     public SchoolRoles? SchoolRole { get; set; }
 
     public string? OtherRoleNotListed { get; set; }
+
+    public ApplicationComponentsStatus ApplicationStatus {
+        get
+        {
+            if (ConversionApplicationComponents.Count == 0)
+            {
+                return ApplicationComponentsStatus.NotStarted;
+            }
+            else
+            {
+                return ConversionApplicationComponents.Any(c => c.Status != ApplicationComponentsStatus.Completed) ? ApplicationComponentsStatus.InProgress : ApplicationComponentsStatus.Completed;
+            }
+        }
+    }
 }
