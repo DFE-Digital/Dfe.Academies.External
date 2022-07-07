@@ -12,7 +12,7 @@ public enum ApplicationTypes
     FormNewSingleAcademyTrust = 3
 }
 
-public enum Status
+public enum Status 
 {
     [Description("Not Started")]
     NotStarted = 1,
@@ -22,7 +22,7 @@ public enum Status
     Completed = 3,
 }
 
-public enum SchoolRoles : int
+public enum SchoolRoles
 {
     [Description("The chair of the school's governors")]
     Chair = 1,
