@@ -1,7 +1,6 @@
 ﻿using Dfe.Academies.External.Web.Enums;
 
 namespace Dfe.Academies.External.Web.Models;
-
 public class ConversionApplication
 {
     public ConversionApplication()
@@ -38,7 +37,17 @@ public class ConversionApplication
             }
             else
             {
-                return ConversionApplicationComponents.Any(c => c.Status != ApplicationComponentsStatus.Completed) ? ApplicationComponentsStatus.InProgress : ApplicationComponentsStatus.Completed;
+                // all components = 'Not Started' so overall status = 'Not Started'
+                if (ConversionApplicationComponents.Count == ConversionApplicationComponents.Count(c => c.Status == ApplicationComponentsStatus.NotStarted))
+                {
+                    return ApplicationComponentsStatus.NotStarted;
+                }
+                else
+                {
+                    // check component statuses to work out whether application 'InProgress' OR 'Completed'
+                    return ConversionApplicationComponents.Any(c => c.Status != ApplicationComponentsStatus.Completed) 
+                        ? ApplicationComponentsStatus.InProgress : ApplicationComponentsStatus.Completed;
+                }
             }
         }
     }

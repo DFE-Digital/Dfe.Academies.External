@@ -59,6 +59,39 @@ internal sealed class ConversionApplicationTests
     }
 
     [Test]
+    public void ConversionApplication___ApplicationStatus___NotStarted2___PropertyCheck()
+    {
+        // arrange
+        var conversionApplication = new ConversionApplication
+        {
+            Id = int.MaxValue,
+            ApplicationType = ApplicationTypes.FormNewMat,
+            UserEmail = "mark.robinson@education.gov.uk",
+            Application = "test",
+            TrustName = "Pudsey School",
+            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>()
+        };
+
+        conversionApplication.ConversionApplicationComponents.AddRange(new List<ConversionApplicationComponent>
+        {
+            new(name:"Contact details") {Id = 1, Status = ApplicationComponentsStatus.NotStarted},
+            new(name:"Performance and safeguarding") {Id = 2, Status = ApplicationComponentsStatus.NotStarted},
+            new(name:"Pupil numbers") {Id = 3, Status = ApplicationComponentsStatus.NotStarted},
+            new(name:"Finances") {Id = 4, Status = ApplicationComponentsStatus.NotStarted},
+            new(name:"Partnerships and affiliations") {Id = 5, Status = ApplicationComponentsStatus.NotStarted},
+            new(name:"Religious education") {Id = 6, Status = ApplicationComponentsStatus.NotStarted},
+            new(name:"Land and buildings") {Id = 7, Status = ApplicationComponentsStatus.NotStarted},
+            new(name:"Local authority") {Id = 8, Status = ApplicationComponentsStatus.NotStarted}
+        });
+
+        // act
+        var calculatedApplicationStatus = conversionApplication.ApplicationStatus;
+
+        // assert
+        Assert.That(calculatedApplicationStatus, Is.EqualTo(ApplicationComponentsStatus.NotStarted));
+    }
+
+    [Test]
     public void ConversionApplication___ApplicationStatus___InProgress___PropertyCheck()
     {
         // arrange
