@@ -48,6 +48,16 @@ namespace Dfe.Academies.External.Web.Pages
         {
             _logger = logger;
             _conversionApplicationRetrievalService = conversionApplicationRetrievalService;
+            _draftConversionApplication = new ConversionApplication();
+            ApplicationTypeDescription = string.Empty;
+            ApplicationReferenceNumber = string.Empty;
+            CompletedSections = 0;
+            SchoolApplyingToConvert = string.Empty;
+            NameOfTrustToJoin = string.Empty;
+            Components = new();
+            Contributors = new();
+            Audits = new();
+            DoesUserHaveSubmitRole = false;
         }
 
         public async Task OnGetAsync()
