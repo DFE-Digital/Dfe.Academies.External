@@ -55,7 +55,7 @@ internal sealed class ConversionApplicationTests
         var calculatedApplicationStatus = conversionApplication.ApplicationStatus;
 
         // assert
-        Assert.That(calculatedApplicationStatus, Is.EqualTo(ApplicationComponentsStatus.NotStarted));
+        Assert.That(calculatedApplicationStatus, Is.EqualTo(Status.NotStarted));
     }
 
     [Test]
@@ -74,21 +74,21 @@ internal sealed class ConversionApplicationTests
 
         conversionApplication.ConversionApplicationComponents.AddRange(new List<ConversionApplicationComponent>
         {
-            new(name:"Contact details") {Id = 1, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Performance and safeguarding") {Id = 2, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Pupil numbers") {Id = 3, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Finances") {Id = 4, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Partnerships and affiliations") {Id = 5, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Religious education") {Id = 6, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Land and buildings") {Id = 7, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Local authority") {Id = 8, Status = ApplicationComponentsStatus.NotStarted}
+            new(name:"Contact details") {Id = 1, Status = Status.NotStarted},
+            new(name:"Performance and safeguarding") {Id = 2, Status = Status.NotStarted},
+            new(name:"Pupil numbers") {Id = 3, Status = Status.NotStarted},
+            new(name:"Finances") {Id = 4, Status = Status.NotStarted},
+            new(name:"Partnerships and affiliations") {Id = 5, Status = Status.NotStarted},
+            new(name:"Religious education") {Id = 6, Status = Status.NotStarted},
+            new(name:"Land and buildings") {Id = 7, Status = Status.NotStarted},
+            new(name:"Local authority") {Id = 8, Status = Status.NotStarted}
         });
 
         // act
         var calculatedApplicationStatus = conversionApplication.ApplicationStatus;
 
         // assert
-        Assert.That(calculatedApplicationStatus, Is.EqualTo(ApplicationComponentsStatus.NotStarted));
+        Assert.That(calculatedApplicationStatus, Is.EqualTo(Status.NotStarted));
     }
 
     [Test]
@@ -107,21 +107,21 @@ internal sealed class ConversionApplicationTests
 
         conversionApplication.ConversionApplicationComponents.AddRange(new List<ConversionApplicationComponent>
         {
-            new(name:"Contact details") {Id = 1, Status = ApplicationComponentsStatus.Completed},
-            new(name:"Performance and safeguarding") {Id = 2, Status = ApplicationComponentsStatus.InProgress},
-            new(name:"Pupil numbers") {Id = 3, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Finances") {Id = 4, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Partnerships and affiliations") {Id = 5, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Religious education") {Id = 6, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Land and buildings") {Id = 7, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Local authority") {Id = 8, Status = ApplicationComponentsStatus.NotStarted}
+            new(name:"Contact details") {Id = 1, Status = Status.Completed},
+            new(name:"Performance and safeguarding") {Id = 2, Status = Status.InProgress},
+            new(name:"Pupil numbers") {Id = 3, Status = Status.NotStarted},
+            new(name:"Finances") {Id = 4, Status = Status.NotStarted},
+            new(name:"Partnerships and affiliations") {Id = 5, Status = Status.NotStarted},
+            new(name:"Religious education") {Id = 6, Status = Status.NotStarted},
+            new(name:"Land and buildings") {Id = 7, Status = Status.NotStarted},
+            new(name:"Local authority") {Id = 8, Status = Status.NotStarted}
         });
 
         // act
         var calculatedApplicationStatus = conversionApplication.ApplicationStatus;
 
         // assert
-        Assert.That(calculatedApplicationStatus, Is.EqualTo(ApplicationComponentsStatus.InProgress));
+        Assert.That(calculatedApplicationStatus, Is.EqualTo(Status.InProgress));
     }
 
     [Test]
@@ -140,20 +140,20 @@ internal sealed class ConversionApplicationTests
 
         conversionApplication.ConversionApplicationComponents.AddRange(new List<ConversionApplicationComponent>
         {
-            new(name:"Contact details") {Id = 1, Status = ApplicationComponentsStatus.Completed},
-            new(name:"Performance and safeguarding") {Id = 2, Status = ApplicationComponentsStatus.Completed},
-            new(name:"Pupil numbers") {Id = 3, Status = ApplicationComponentsStatus.Completed},
-            new(name:"Finances") {Id = 4, Status = ApplicationComponentsStatus.Completed},
-            new(name:"Partnerships and affiliations") {Id = 5, Status = ApplicationComponentsStatus.Completed},
-            new(name:"Religious education") {Id = 6, Status = ApplicationComponentsStatus.Completed},
-            new(name:"Land and buildings") {Id = 7, Status = ApplicationComponentsStatus.Completed},
-            new(name:"Local authority") {Id = 8, Status = ApplicationComponentsStatus.Completed}
+            new(name:"Contact details") {Id = 1, Status = Status.Completed},
+            new(name:"Performance and safeguarding") {Id = 2, Status = Status.Completed},
+            new(name:"Pupil numbers") {Id = 3, Status = Status.Completed},
+            new(name:"Finances") {Id = 4, Status = Status.Completed},
+            new(name:"Partnerships and affiliations") {Id = 5, Status = Status.Completed},
+            new(name:"Religious education") {Id = 6, Status = Status.Completed},
+            new(name:"Land and buildings") {Id = 7, Status = Status.Completed},
+            new(name:"Local authority") {Id = 8, Status = Status.Completed}
         });
 
         // act
         var calculatedApplicationStatus = conversionApplication.ApplicationStatus;
 
         // assert
-        Assert.That(calculatedApplicationStatus, Is.EqualTo(ApplicationComponentsStatus.Completed));
+        Assert.That(calculatedApplicationStatus, Is.EqualTo(Status.Completed));
     }
 }

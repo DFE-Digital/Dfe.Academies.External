@@ -8,5 +8,5 @@ public class ApplicationComponentViewModel
 
     public string URI { get; set; }
 
-    public ApplicationComponentsStatus ApplicationComponentStatus { get; set; }
+    public Status Status { get; set; }
 }

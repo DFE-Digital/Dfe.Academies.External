@@ -15,7 +15,7 @@ internal sealed class ConversionApplicationComponentTests
     {
         // arrange
         string name = Fixture.Create<string>();
-        var status = ApplicationComponentsStatus.NotStarted;
+        var status = Status.NotStarted;
 
         var applicationComponent = new ConversionApplicationComponent(name)
         {

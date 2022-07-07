@@ -12,7 +12,7 @@ public enum ApplicationTypes
     FormNewSingleAcademyTrust = 3
 }
 
-public enum ApplicationComponentsStatus
+public enum Status
 {
     [Description("Not Started")]
     NotStarted = 1,

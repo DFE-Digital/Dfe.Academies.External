@@ -14,20 +14,20 @@ internal sealed class ApplicationComponentViewModelTests
     public void ApplicationComponentViewModel___PropertyCheck___Success()
     {
         // arrange
-        ApplicationComponentsStatus applicationComponentStatus = ApplicationComponentsStatus.InProgress;
+        Status status = Status.InProgress;
         string name = Fixture.Create<string>();
         string URI = Fixture.Create<string>();
         
         var applicationAuditViewModel = new ApplicationComponentViewModel
         {
-            ApplicationComponentStatus = applicationComponentStatus,
+            Status = status,
             Name = name,
             URI = URI
         };
 
         // assert
         Assert.That(applicationAuditViewModel, Is.Not.Null);
-        Assert.That(applicationAuditViewModel.ApplicationComponentStatus, Is.EqualTo(applicationComponentStatus));
+        Assert.That(applicationAuditViewModel.Status, Is.EqualTo(status));
         Assert.That(applicationAuditViewModel.Name, Is.EqualTo(name));
         Assert.That(applicationAuditViewModel.URI, Is.EqualTo(URI));
     }

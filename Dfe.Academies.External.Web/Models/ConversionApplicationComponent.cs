@@ -11,7 +11,7 @@ public class ConversionApplicationComponent
 
     public long? Id { get; set; }
 
-    public ApplicationComponentsStatus Status { get; set; }
+    public Status Status { get; set; }
 
     /// <summary>
     /// E.g. Contact Details / performance and safeguarding / pupil numbers / finances etc...

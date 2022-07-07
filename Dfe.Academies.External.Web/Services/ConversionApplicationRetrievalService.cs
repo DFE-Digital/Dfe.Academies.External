@@ -86,14 +86,14 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         // **** Mock Demo Data - as per Figma ****
         List<ConversionApplicationComponent> conversionApplicationComponents = new()
         {
-            new(name:"Contact details") {Id = 1, Status = ApplicationComponentsStatus.Completed},
-            new(name:"Performance and safeguarding") {Id = 2, Status = ApplicationComponentsStatus.InProgress},
-            new(name:"Pupil numbers") {Id = 3, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Finances") {Id = 4, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Partnerships and affiliations") {Id = 5, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Religious education") {Id = 6, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Land and buildings") {Id = 7, Status = ApplicationComponentsStatus.NotStarted},
-            new(name:"Local authority") {Id = 8, Status = ApplicationComponentsStatus.NotStarted}
+            new(name:"Contact details") {Id = 1, Status = Status.Completed},
+            new(name:"Performance and safeguarding") {Id = 2, Status = Status.InProgress},
+            new(name:"Pupil numbers") {Id = 3, Status = Status.NotStarted},
+            new(name:"Finances") {Id = 4, Status = Status.NotStarted},
+            new(name:"Partnerships and affiliations") {Id = 5, Status = Status.NotStarted},
+            new(name:"Religious education") {Id = 6, Status = Status.NotStarted},
+            new(name:"Land and buildings") {Id = 7, Status = Status.NotStarted},
+            new(name:"Local authority") {Id = 8, Status = Status.NotStarted}
         };
 
         return conversionApplicationComponents;

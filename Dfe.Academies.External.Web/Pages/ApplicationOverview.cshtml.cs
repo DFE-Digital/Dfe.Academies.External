@@ -29,7 +29,7 @@ namespace Dfe.Academies.External.Web.Pages
         public string NameOfTrustToJoin { get; set; }
 
         // about the conversion - overall application status
-        public ApplicationComponentsStatus ApplicationStatus { get; private set; }
+        public Status ApplicationStatus { get; private set; }
 
         public List<ViewModels.ApplicationComponentViewModel> Components { get; set; }
 
@@ -110,7 +110,7 @@ namespace Dfe.Academies.External.Web.Pages
                 new ViewModels.ApplicationComponentViewModel
                 {
                     Name = c.Name,
-                    ApplicationComponentStatus = c.Status,
+                    Status = c.Status,
                     URI = SetApplicationComponentUriFromName(c.Name)
                 }).ToList();
         }

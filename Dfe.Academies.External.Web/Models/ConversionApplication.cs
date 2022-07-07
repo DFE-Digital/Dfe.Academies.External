@@ -29,25 +29,25 @@ public class ConversionApplication
 
     public string? OtherRoleNotListed { get; set; }
 
-    public ApplicationComponentsStatus ApplicationStatus {
+    public Status ApplicationStatus {
         get
         {
             if (ConversionApplicationComponents.Count == 0)
             {
-                return ApplicationComponentsStatus.NotStarted;
+                return Status.NotStarted;
             }
             else
             {
                 // all components = 'Not Started' so overall status = 'Not Started'
-                if (ConversionApplicationComponents.Count == ConversionApplicationComponents.Count(c => c.Status == ApplicationComponentsStatus.NotStarted))
+                if (ConversionApplicationComponents.Count == ConversionApplicationComponents.Count(c => c.Status == Status.NotStarted))
                 {
-                    return ApplicationComponentsStatus.NotStarted;
+                    return Status.NotStarted;
                 }
                 else
                 {
                     // check component statuses to work out whether application 'InProgress' OR 'Completed'
-                    return ConversionApplicationComponents.Any(c => c.Status != ApplicationComponentsStatus.Completed) 
-                        ? ApplicationComponentsStatus.InProgress : ApplicationComponentsStatus.Completed;
+                    return ConversionApplicationComponents.Any(c => c.Status != Status.Completed) 
+                        ? Status.InProgress : Status.Completed;
                 }
             }
         }
