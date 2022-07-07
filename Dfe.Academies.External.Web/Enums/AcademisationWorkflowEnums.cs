@@ -11,3 +11,11 @@ public enum ApplicationTypes : int
     [Description("Form new single academy trust")]
     FormNewSingleAcademyTrust = 3
 }
+
+public enum SchoolRoles : int
+{
+    [Description("The chair of the school's governors")]
+    Chair = 1,
+    [Description("Something Else")]
+    Other = 2
+}

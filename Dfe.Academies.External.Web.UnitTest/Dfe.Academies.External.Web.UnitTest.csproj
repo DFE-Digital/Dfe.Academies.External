@@ -22,9 +22,4 @@
     <ProjectReference Include="..\Dfe.Academies.External.Web\Dfe.Academies.External.Web.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>
