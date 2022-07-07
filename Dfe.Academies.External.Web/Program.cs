@@ -1,5 +1,6 @@
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Routing;
+using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -8,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
+
+//https://github.com/gunndabad/govuk-frontend-aspnetcore  
+builder.Services.AddGovUkFrontend();
+
 builder.Services
 	.AddRazorPages(options =>
 	{
