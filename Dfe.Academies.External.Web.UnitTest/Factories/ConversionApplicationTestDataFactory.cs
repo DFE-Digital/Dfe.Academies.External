@@ -10,7 +10,7 @@ internal static class ConversionApplicationTestDataFactory
     private static readonly Fixture Fixture = new();
     private static readonly UniqueRecordIdentifierGenerator UniqueRecordIdentifierGenerator = new();
 
-    public static ConversionApplication BuildNewConversionApplication()
+    public static ConversionApplication BuildNewConversionApplicationNoRoles()
     {
         return new ConversionApplication
         {
@@ -20,6 +20,35 @@ internal static class ConversionApplicationTestDataFactory
             ApplicationType = ApplicationTypes.FormNewMat,
             Application = Fixture.Create<string>(),
             SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>()
+        };
+    }
+
+    public static ConversionApplication BuildNewConversionApplicationWithOtherRole()
+    {
+        return new ConversionApplication
+        {
+            TrustName = Fixture.Create<string>(),
+            UserEmail = Fixture.Create<string>(),
+            Id = UniqueRecordIdentifierGenerator.GenerateId(),
+            ApplicationType = ApplicationTypes.FormNewMat,
+            Application = Fixture.Create<string>(),
+            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>(),
+            SchoolRole = SchoolRoles.Other,
+            OtherRoleNotListed = Fixture.Create<string>(),
+        };
+    }
+
+    public static ConversionApplication BuildNewConversionApplicationWithChairRole()
+    {
+        return new ConversionApplication
+        {
+            TrustName = Fixture.Create<string>(),
+            UserEmail = Fixture.Create<string>(),
+            Id = UniqueRecordIdentifierGenerator.GenerateId(),
+            ApplicationType = ApplicationTypes.FormNewMat,
+            Application = Fixture.Create<string>(),
+            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>(),
+            SchoolRole = SchoolRoles.Chair
         };
     }
 }

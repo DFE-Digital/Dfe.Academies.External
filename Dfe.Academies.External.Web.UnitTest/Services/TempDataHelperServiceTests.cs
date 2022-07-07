@@ -13,7 +13,7 @@ using NUnit.Framework;
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
 [Parallelizable(ParallelScope.All)]
-public class TempDataHelperServiceTests
+public class TempDataHelperTests
 {
     [Test]
     public void TempDataHelperService___GetNonSerialisedValue___Success()
@@ -22,7 +22,7 @@ public class TempDataHelperServiceTests
         var expected = int.MaxValue.ToString();
         var storageKey = "TempDataHelperService___GetNonSerialisedValue___Success";
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
-        var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
+        var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
 
         var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object);
 
@@ -42,7 +42,7 @@ public class TempDataHelperServiceTests
         var expected = int.MaxValue.ToString();
         var storageKey = "TempDataHelperService___StoreNonSerialisedValue___Success";
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
-        var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
+        var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
 
         var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object);
 
@@ -61,11 +61,11 @@ public class TempDataHelperServiceTests
         // arrange
         var storageKey = "TempDataHelperService___GetSerialisedValue___Success";
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
-        var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
+        var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
 
         var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object);
 
-        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplication();
+        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
         // act
         TempDataHelper.StoreSerialisedValue(storageKey, pageModel.TempData, conversionApplication);
@@ -86,11 +86,11 @@ public class TempDataHelperServiceTests
         // arrange
         var storageKey = "TempDataHelperService___StoreSerialisedValue___Success";
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
-        var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
+        var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
 
         var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object);
 
-        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplication();
+        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
         // act
         TempDataHelper.StoreSerialisedValue(storageKey, pageModel.TempData, conversionApplication);
@@ -105,14 +105,14 @@ public class TempDataHelperServiceTests
         Assert.AreEqual(conversionApplication.TrustName, storedValue.TrustName);
     }
 
-    private static WhatAreYouApplyingToDoModel SetupWhatIsYourRoleModel(
-        ILogger<WhatAreYouApplyingToDoModel> mockLogger,
+    private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(
+        ILogger<WhatIsYourRoleModel> mockLogger,
         IConversionApplicationCreationService mockAcademisationCreationService,
         bool isAuthenticated = false)
     {
         (PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-        return new WhatAreYouApplyingToDoModel(mockLogger, mockAcademisationCreationService)
+        return new WhatIsYourRoleModel(mockLogger, mockAcademisationCreationService)
         {
             PageContext = pageContext,
             TempData = tempData,

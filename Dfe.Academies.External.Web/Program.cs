@@ -26,6 +26,7 @@ builder.Services
 			// TODO :- below is temporary config UNTIL auth is sorted - just for demo reasons !!
             .AllowAnonymousToPage("/WhatAreYouApplyingToDo")
             .AllowAnonymousToPage("/YourApplications")
+            .AllowAnonymousToPage("/WhatIsYourRole")
 			;
 	})
 	.AddRazorPagesOptions(options =>

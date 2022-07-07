@@ -1,10 +1,67 @@
 ﻿@page
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.WhatIsYourRoleModel
 @{
     ViewData["Title"] = "Apply to become an academy - What is your role";
 }
 
+@section BeforeMain
+{
+    <a asp-page="WhatAreYouApplyingToDo" class="govuk-back-link">Back</a>
+}
+
 <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">What is your role</h1>
-    
+    <h1 class="govuk-heading-xl">What are you applying to do?</h1>
+    <div id="divApplyingToDo" class="govuk-form-group @(!ViewData.ModelState.IsValid &&  !Model.OtherRoleError ? "govuk-form-group--error" : "")">
+        <form method="post" name="frmApplicationType" novalidate="">
+            <fieldset class="govuk-fieldset">
+                <legend id="role-hint" class="govuk-fieldset__legend">What is your role?</legend>
+                <div class="@(Model.OtherRoleError ? "govuk-visually-hidden" : "")">
+                    <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+                </div>
+
+                <div class="govuk-form-group">
+                    <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+                        @foreach (var roleType in Enum.GetValues(typeof(SchoolRoles)).OfType<SchoolRoles>())
+                        {
+                            <div class="govuk-radios__item">
+                                <input type="radio"
+                                       asp-for="SchoolRole"
+                                       value="@Convert.ToInt32(roleType)"
+                                       id="RoleType@(roleType)"
+                                       class="govuk-radios__input"
+                                       data-aria-controls="conditional-role-@(roleType.ToString().ToLower())"
+                                       aria-expanded="False"/>
+                                <label for="RoleType@(roleType)" class="govuk-label govuk-radios__label">
+                                    @roleType.GetDescription()
+                                </label>
+                            </div>
+                            @if (roleType == SchoolRoles.Other)
+                            {
+                                <div class="@(Model.OtherRoleError ? "govuk-form-group--error" : "govuk-radios__conditional") 
+                                            @(Model.SchoolRole != SchoolRoles.Other? "govuk-radios__conditional--hidden" : "")"
+                                     id="conditional-role-other" aria-expanded="false">
+                                    <div class="govuk-form-group govuk-error-summary__list">
+                                        <label for="conditional-role-other" class="govuk-label">What Is your role?</label>
+                                        <a href="#OtherRoleNotEntered" class="@(Model.OtherRoleError ? "govuk-error-message" : "govuk-visually-hidden")">
+                                            You must give your role
+                                        </a>
+
+                                        <input type="text" asp-for="OtherRoleNotListed" id="OtherRoleNotListed" class="govuk-input govuk-input--width-20" maxlength="100"/>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </fieldset>
+            <br/>
+            <input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+        </form>
+        <p id="divCancelButton">
+            <a asp-page="YourApplications">Cancel and return to your applications</a>
+        </p>
+    </div>
 </div>
