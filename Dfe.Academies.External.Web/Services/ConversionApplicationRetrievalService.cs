@@ -25,11 +25,10 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         // TODO: filter by useremail
 
         // **** Mock Demo Data - as per Figma ****
-        List<ConversionApplication> existingApplications = 
-            new List<ConversionApplication>
+        List<ConversionApplication> existingApplications = new()
             {
                 new() { Id = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", TrustName = "Harpenden Academy trust",
-                        SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>
+                        SchoolOrSchoolsApplyingToConvert = new()
                             { new() {Id = 2, SchoolName = "St George’s school" } } }
             };
 
@@ -44,7 +43,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         // TODO: filter by useremail
 
         // **** Mock Demo Data - as per Figma ****
-        List<ConversionApplication> existingApplications = new List<ConversionApplication>
+        List<ConversionApplication> existingApplications = new()
             {
             new() { Id = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", TrustName = "The Diocese of Ely multi - academy trust",
                     SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>{ new() {Id = 2, SchoolName = "Cambridge Regional college" } } },
@@ -66,7 +65,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
         // **** Mock Demo Data - as per Figma ****
         DateTimeFormatInfo dtfi = CultureInfo.GetCultureInfo("en-GB").DateTimeFormat;
-        List<ConversionApplicationAuditEntry> auditEntries = new List<ConversionApplicationAuditEntry>
+        List<ConversionApplicationAuditEntry> auditEntries = new()
         {
             new(createdBy:"Phillip Frond", typeOfChange: "change", entityChanged: "Application", propertyChanged: "school") 
                 {Id = 99, DateCreated = Convert.ToDateTime("25/05/2022", dtfi)},
@@ -85,7 +84,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         //// _resilientRequestProvider.Get();
 
         // **** Mock Demo Data - as per Figma ****
-        List<ConversionApplicationComponent> conversionApplicationComponents = new List<ConversionApplicationComponent>
+        List<ConversionApplicationComponent> conversionApplicationComponents = new()
         {
             new(name:"Contact details") {Id = 1, Status = ApplicationComponentsStatus.Completed},
             new(name:"Performance and safeguarding") {Id = 2, Status = ApplicationComponentsStatus.InProgress},
@@ -106,7 +105,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         // _resilientRequestProvider.Get
 
         // **** Mock Demo Data - as per Figma ****
-        List<ConversionApplicationContributor> conversionApplicationContributors = new List<ConversionApplicationContributor>
+        List<ConversionApplicationContributor> conversionApplicationContributors = new() 
         {
             new(name: "Phillip Frond", role: "Chair of the schools governors"),
             new(name: "Robert Phillips", role: "PA to the headteacher"),
