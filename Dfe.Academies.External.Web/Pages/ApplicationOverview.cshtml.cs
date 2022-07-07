@@ -13,11 +13,11 @@ namespace Dfe.Academies.External.Web.Pages
         private ConversionApplication _draftConversionApplication;
 
         // Below are props for UI display, shunt over to separate view model?
-        public string ApplicationTypeDescription { get; set; }
+        public string ApplicationTypeDescription { get; private set; }
 
-        public string ApplicationReferenceNumber { get; set; }
+        public string ApplicationReferenceNumber { get; private set; }
 
-        public short CompletedSections { get; set; }
+        public short CompletedSections { get; private set; }
 
         public short TotalNumberOfSections => 8;
 
@@ -28,8 +28,8 @@ namespace Dfe.Academies.External.Web.Pages
 
         public string NameOfTrustToJoin { get; set; }
 
-        // about the conversion ?
-        public ApplicationComponentsStatus ConversionStatus { get; set; }
+        // about the conversion - overall application status
+        public ApplicationComponentsStatus ApplicationStatus { get; private set; }
 
         public List<ViewModels.ApplicationComponentViewModel> Components { get; set; }
 
@@ -42,7 +42,7 @@ namespace Dfe.Academies.External.Web.Pages
         /// <summary>
         /// to render submit button on UI
         /// </summary>
-        public bool DoesUserHaveSubmitRole { get; set; }
+        public bool DoesUserHaveSubmitRole { get; private set; }
 
         public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger, IConversionApplicationRetrievalService conversionApplicationRetrievalService)
         {
@@ -70,8 +70,9 @@ namespace Dfe.Academies.External.Web.Pages
             ApplicationTypeDescription = _draftConversionApplication.ApplicationType.GetDescription();
             ApplicationReferenceNumber = $"A2B_{_draftConversionApplication.Id}";
             CompletedSections = 3;
+            ApplicationStatus =_draftConversionApplication.ApplicationStatus;
 
-            if (_draftConversionApplication.SchoolOrSchoolsApplyingToConvert.Count == 0)
+            if (_draftConversionApplication.SchoolOrSchoolsApplyingToConvert.Any())
             {
                 SchoolApplyingToConvert = "No school selected";
             }

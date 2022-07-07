@@ -1,4 +1,6 @@
 ﻿@page
+@using Dfe.Academies.External.Web.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.ApplicationOverviewModel
 @{
     ViewData["Title"] = "Apply to become an academy - Overview";
@@ -10,7 +12,7 @@
 }
 
 <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">@Model.ApplicationTypeDescription</h1>
+    <h1 class="govuk-heading-xl">@Model.ApplicationTypeDescription</h1>
 
     <p class="govuk-body">
         <strong>Application reference number:</strong>&nbsp;&nbsp;@Model.ApplicationReferenceNumber
@@ -20,12 +22,11 @@
         You can save your progress as you go.
     </p>
 
-    TODO = heading below will need to flip between complete / incomplete
-    <h2 class="govuk-heading-m">Application incomplete</h2>
+    <h2 class="govuk-heading-l">Application @Model.ApplicationStatus.GetDescription()</h2>
     <p class="govuk-body">You have completed @Model.CompletedSections of @Model.TotalNumberOfSections sections.</p>
 
     <table class="govuk-table">
-        <caption class="govuk-table__caption govuk-table__caption--m">The school applying to convert</caption>
+        <caption class="govuk-table__caption govuk-table__caption--l">The school applying to convert</caption>
         <tbody class="govuk-table__body">
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell"><strong>@Model.SchoolApplyingToConvert</strong></td>
@@ -39,7 +40,7 @@
     <partial name="_ApplicationComponentsStatusPartial" model="Model.Components"/>
 
     <table class="govuk-table">
-        <caption class="govuk-table__caption govuk-table__caption--m">The trust the school will join</caption>
+        <caption class="govuk-table__caption govuk-table__caption--l">The trust the school will join</caption>
         <tbody class="govuk-table__body">
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell"><a asp-page="ApplicationSelectTrust">@Model.NameOfTrustToJoin</a></td>
@@ -50,7 +51,7 @@
     </table>       
 
     <table class="govuk-table">
-        <caption class="govuk-table__caption govuk-table__caption--m">About the conversion</caption>
+        <caption class="govuk-table__caption govuk-table__caption--l">About the conversion</caption>
         <tbody class="govuk-table__body">
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell"><a asp-page="ApplicationDetails">Conversion details</a></td>
@@ -60,7 +61,7 @@
         </tbody>
     </table>    
 
-    <h2 class="govuk-heading-m">Contributors</h2>
+    <h2 class="govuk-heading-l">Contributors</h2>
     <p class="govuk-body">You can invite other people to help you complete parts of this form</p>
 
     <a asp-page="NewApplicationContributor">Invite a contributor</a>
