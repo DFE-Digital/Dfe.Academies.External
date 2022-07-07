@@ -8,22 +8,22 @@
     govuk-tag--grey = cannot start yet
 *@
 
-<ol id="application-components-status" class="app-task-list">
-    <li>
-        <ul class="app-task-list__items">
-            @foreach (var component in Model)
-            {
-                <li class="app-task-list__item">
-                    <span class="app-task-list__task-name">
-                        <a href="@component.URI" aria-describedby="component-@(component.Name)-status">
-                            @component.Name
-                        </a>
-                    </span>
-                    <strong class="govuk-tag app-task-list__tag govuk-tag--grey govuk-text-align-right" id="component-@(component.Name)-status">
-                        Not started
-                    </strong>
-                </li>
-            }
-        </ul>
-    </li>
-</ol>
+<table class="govuk-table">
+    <tbody class="govuk-table__body">
+    @foreach (var component in Model)
+    {
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+                <a href="@component.URI" aria-describedby="component-@(component.Name)-status">
+                    @component.Name
+                </a>
+            </td>
+            <td class="govuk-table__cell govuk-text-align-right">
+                <strong class="govuk-tag app-task-list__tag govuk-tag--grey govuk-text-align-right" id="component-@(component.Name)-status">
+                    Not started
+                </strong>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>  

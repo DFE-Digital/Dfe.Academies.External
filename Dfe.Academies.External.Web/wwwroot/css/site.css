@@ -1,3 +1,7 @@
 .govuk-text-align-right {
     text-align: right;
 }
+
+.govuk-padding-left-override {
+    padding-left: 0;
+}
