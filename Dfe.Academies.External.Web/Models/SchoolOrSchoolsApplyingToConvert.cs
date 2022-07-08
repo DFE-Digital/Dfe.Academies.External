@@ -2,7 +2,7 @@
 {
     public class SchoolOrSchoolsApplyingToConvert
     {
-        public int? Id { get; set; }
-        public string? SchoolOrSchoolsApplyingToConvertProperty { get; set; }
+        public long? Id { get; set; }
+        public string? SchoolName { get; set; }
     }
 }
