@@ -9,7 +9,7 @@ public class ConversionApplicationComponent
         Name = name;
     }
 
-    public long? Id { get; set; }
+    public int? Id { get; set; }
 
     public Status Status { get; set; }
 

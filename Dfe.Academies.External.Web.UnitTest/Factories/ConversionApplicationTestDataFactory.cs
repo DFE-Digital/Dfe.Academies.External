@@ -1,7 +1,6 @@
 ﻿using AutoFixture;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
-using System.Collections.Generic;
 
 namespace Dfe.Academies.External.Web.UnitTest.Factories;
 
@@ -16,10 +15,9 @@ internal static class ConversionApplicationTestDataFactory
         {
             TrustName = Fixture.Create<string>(),
             UserEmail = Fixture.Create<string>(),
-            Id = UniqueRecordIdentifierGenerator.GenerateId(),
+            Id = int.MaxValue,
             ApplicationType = ApplicationTypes.FormNewMat,
-            Application = Fixture.Create<string>(),
-            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>()
+            Application = Fixture.Create<string>()
         };
     }
 
@@ -29,12 +27,11 @@ internal static class ConversionApplicationTestDataFactory
         {
             TrustName = Fixture.Create<string>(),
             UserEmail = Fixture.Create<string>(),
-            Id = UniqueRecordIdentifierGenerator.GenerateId(),
+            Id = int.MaxValue,
             ApplicationType = ApplicationTypes.FormNewMat,
             Application = Fixture.Create<string>(),
-            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>(),
             SchoolRole = SchoolRoles.Other,
-            OtherRoleNotListed = Fixture.Create<string>(),
+            OtherRoleNotListed = Fixture.Create<string>()
         };
     }
 
@@ -44,10 +41,9 @@ internal static class ConversionApplicationTestDataFactory
         {
             TrustName = Fixture.Create<string>(),
             UserEmail = Fixture.Create<string>(),
-            Id = UniqueRecordIdentifierGenerator.GenerateId(),
+            Id = int.MaxValue,
             ApplicationType = ApplicationTypes.FormNewMat,
             Application = Fixture.Create<string>(),
-            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>(),
             SchoolRole = SchoolRoles.Chair
         };
     }

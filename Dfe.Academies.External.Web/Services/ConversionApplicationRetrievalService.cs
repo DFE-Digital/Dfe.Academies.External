@@ -46,13 +46,13 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         List<ConversionApplication> existingApplications = new()
             {
             new() { Id = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", TrustName = "The Diocese of Ely multi - academy trust",
-                    SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>{ new() {Id = 2, SchoolName = "Cambridge Regional college" } } },
+                    SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>{ new() {Id = 2, SchoolName = "Cambridge Regional college" } } },
             new() { Id = 3, UserEmail = "", Application = "Form a new multi- academy trust A2B_8956", TrustName = "Cambs multi-academy example trust",
-                    SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>{ new() { Id = 3, SchoolName = "Fen Ditton primary school" }, 
+                    SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>{ new() { Id = 3, SchoolName = "Fen Ditton primary school" }, 
                                                                                                     new() {Id  = 3, SchoolName = "Chesterton primary school" }, 
                                                                                                     new() {Id  = 3, SchoolName = "North Cambridge academy"} } },
             new() { Id = 4, UserEmail = "", Application = "Form a new single academy trust A2B_8974", TrustName = "Single academy trust example",
-                    SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>{ new() {Id = 2, SchoolName = "King’s College London Maths school" } } }
+                    SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>{ new() {Id = 2, SchoolName = "King’s College London Maths school" } } }
             };
 
         return existingApplications;
@@ -107,8 +107,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         // **** Mock Demo Data - as per Figma ****
         List<ConversionApplicationContributor> conversionApplicationContributors = new() 
         {
-            new(name: "Phillip Frond", role: "Chair of the schools governors"),
-            new(name: "Robert Phillips", role: "PA to the headteacher"),
+            new(name: "Phillip Frond", SchoolRoles.Chair, null),
+            new(name: "Robert Phillips", role:SchoolRoles.Other ,  otherRoleNotListed: "PA to the headteacher"),
         };
 
         return conversionApplicationContributors;

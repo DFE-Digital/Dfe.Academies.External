@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using NUnit.Framework;
 
@@ -14,9 +15,10 @@ internal sealed class ConversionApplicationContributorTests
     {
         // arrange
         string name = Fixture.Create<string>();
-        string role = Fixture.Create<string>();
+        string? role = null;
+        SchoolRoles schoolRole = SchoolRoles.Chair;
 
-        var applicationComponent = new ConversionApplicationContributor(name, role)
+        var applicationComponent = new ConversionApplicationContributor(name, schoolRole, role)
         {
             Id = int.MaxValue
         };
@@ -28,6 +30,6 @@ internal sealed class ConversionApplicationContributorTests
         Assert.That(applicationComponent, Is.Not.Null);
         Assert.That(applicationComponent.Id, Is.EqualTo(int.MaxValue));
         Assert.That(applicationComponent.Name, Is.EqualTo(name));
-        Assert.That(applicationComponent.Role, Is.EqualTo(role));
+        Assert.That(applicationComponent.Role, Is.EqualTo(schoolRole));
     }
 }

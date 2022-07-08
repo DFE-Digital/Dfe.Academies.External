@@ -77,7 +77,7 @@ namespace Dfe.Academies.External.Web.Pages
             ApplicationTypeDescription = _draftConversionApplication.ApplicationType.GetDescription();
             ApplicationReferenceNumber = $"A2B_{_draftConversionApplication.Id}";
             CompletedSections = 3;
-            ApplicationStatus =_draftConversionApplication.ApplicationStatus;
+            ApplicationStatus = _draftConversionApplication.ApplicationStatusCalculated;
 
             SchoolApplyingToConvert = _draftConversionApplication.SchoolOrSchoolsApplyingToConvert.Count == 0 ? "No school selected" 
                 : string.Join(",", _draftConversionApplication.SchoolOrSchoolsApplyingToConvert);
@@ -99,7 +99,8 @@ namespace Dfe.Academies.External.Web.Pages
                 new ViewModels.ConversionApplicationContributorViewModel 
                 {
                     Name = c.Name,
-                    Role = c.Role
+                    Role = c.Role,
+                    OtherRoleNotListed = c.OtherRoleNotListed
                 }).ToList();
 
             // Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>

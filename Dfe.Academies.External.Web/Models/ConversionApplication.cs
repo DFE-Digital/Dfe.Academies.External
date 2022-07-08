@@ -3,7 +3,7 @@
 namespace Dfe.Academies.External.Web.Models;
 public class ConversionApplication
 {
-    public long Id { get; set; }
+    public int Id { get; set; }
 
     public ApplicationTypes ApplicationType { get; set; }
 
@@ -11,7 +11,7 @@ public class ConversionApplication
     public string? Application { get; set; }
     public string? TrustName { get; set; }
 
-    public List<SchoolOrSchoolsApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; set; } = new();
+    public List<SchoolApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; set; } = new();
 
     public List<ConversionApplicationComponent> ConversionApplicationComponents { get; set; } = new();
 
@@ -21,7 +21,9 @@ public class ConversionApplication
 
     public string? OtherRoleNotListed { get; set; }
 
-    public Status ApplicationStatus {
+    public int ApplicationStatus { get; set; }
+
+    public Status ApplicationStatusCalculated {
         get
         {
             if (ConversionApplicationComponents.Count == 0)

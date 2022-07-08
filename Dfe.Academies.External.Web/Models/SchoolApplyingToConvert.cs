@@ -1,8 +1,8 @@
 ﻿namespace Dfe.Academies.External.Web.Models
 {
-    public class SchoolOrSchoolsApplyingToConvert
+    public class SchoolApplyingToConvert
     {
-        public long? Id { get; set; }
+        public int? Id { get; set; }
         public string? SchoolName { get; set; }
     }
 }

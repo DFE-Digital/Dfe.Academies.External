@@ -9,8 +9,8 @@ namespace Dfe.Academies.External.Web.Pages
     public class HomeModel : BasePageModel
     {
         [BindProperty]
-        public List<ConversionApplication> ExistingApplications { get; set; }
-        public List<ConversionApplication> CompletedApplications { get; set; }    
+        public List<ConversionApplication> ExistingApplications { get; set; } = new();
+        public List<ConversionApplication> CompletedApplications { get; set; } = new();
 
         private readonly IConversionApplicationRetrievalService _conversionApplications;
         private readonly ILoggerClass _logger;

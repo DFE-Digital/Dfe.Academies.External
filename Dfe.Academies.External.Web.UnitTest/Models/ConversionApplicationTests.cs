@@ -19,7 +19,7 @@ internal sealed class ConversionApplicationTests
             UserEmail = "mark.robinson@education.gov.uk",
             Application = "test",
             TrustName = "Pudsey School",
-            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>()
+            ApplicationStatus = 1
         };
 
         // act
@@ -32,6 +32,7 @@ internal sealed class ConversionApplicationTests
         Assert.That(conversionApplication.UserEmail, Is.EqualTo("mark.robinson@education.gov.uk"));
         Assert.That(conversionApplication.Application, Is.EqualTo("test"));
         Assert.That(conversionApplication.TrustName, Is.EqualTo("Pudsey School"));
+        Assert.That(conversionApplication.ApplicationStatus, Is.EqualTo(1));
         Assert.That(conversionApplication.SchoolOrSchoolsApplyingToConvert.Count, Is.EqualTo(0));
         Assert.That(conversionApplication.ConversionApplicationComponents.Count, Is.EqualTo(0));
         Assert.That(conversionApplication.ConversionApplicationContributors.Count, Is.EqualTo(0));
@@ -47,12 +48,11 @@ internal sealed class ConversionApplicationTests
             ApplicationType = ApplicationTypes.FormNewMat,
             UserEmail = "mark.robinson@education.gov.uk",
             Application = "test",
-            TrustName = "Pudsey School",
-            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>()
+            TrustName = "Pudsey School"
         };
 
         // act
-        var calculatedApplicationStatus = conversionApplication.ApplicationStatus;
+        var calculatedApplicationStatus = conversionApplication.ApplicationStatusCalculated;
 
         // assert
         Assert.That(calculatedApplicationStatus, Is.EqualTo(Status.NotStarted));
@@ -68,8 +68,7 @@ internal sealed class ConversionApplicationTests
             ApplicationType = ApplicationTypes.FormNewMat,
             UserEmail = "mark.robinson@education.gov.uk",
             Application = "test",
-            TrustName = "Pudsey School",
-            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>()
+            TrustName = "Pudsey School"
         };
 
         conversionApplication.ConversionApplicationComponents.AddRange(new List<ConversionApplicationComponent>
@@ -85,7 +84,7 @@ internal sealed class ConversionApplicationTests
         });
 
         // act
-        var calculatedApplicationStatus = conversionApplication.ApplicationStatus;
+        var calculatedApplicationStatus = conversionApplication.ApplicationStatusCalculated;
 
         // assert
         Assert.That(calculatedApplicationStatus, Is.EqualTo(Status.NotStarted));
@@ -101,8 +100,7 @@ internal sealed class ConversionApplicationTests
             ApplicationType = ApplicationTypes.FormNewMat,
             UserEmail = "mark.robinson@education.gov.uk",
             Application = "test",
-            TrustName = "Pudsey School",
-            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>()
+            TrustName = "Pudsey School"
         };
 
         conversionApplication.ConversionApplicationComponents.AddRange(new List<ConversionApplicationComponent>
@@ -118,7 +116,7 @@ internal sealed class ConversionApplicationTests
         });
 
         // act
-        var calculatedApplicationStatus = conversionApplication.ApplicationStatus;
+        var calculatedApplicationStatus = conversionApplication.ApplicationStatusCalculated;
 
         // assert
         Assert.That(calculatedApplicationStatus, Is.EqualTo(Status.InProgress));
@@ -134,8 +132,7 @@ internal sealed class ConversionApplicationTests
             ApplicationType = ApplicationTypes.FormNewMat,
             UserEmail = "mark.robinson@education.gov.uk",
             Application = "test",
-            TrustName = "Pudsey School",
-            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>()
+            TrustName = "Pudsey School"
         };
 
         conversionApplication.ConversionApplicationComponents.AddRange(new List<ConversionApplicationComponent>
@@ -151,7 +148,7 @@ internal sealed class ConversionApplicationTests
         });
 
         // act
-        var calculatedApplicationStatus = conversionApplication.ApplicationStatus;
+        var calculatedApplicationStatus = conversionApplication.ApplicationStatusCalculated;
 
         // assert
         Assert.That(calculatedApplicationStatus, Is.EqualTo(Status.Completed));
