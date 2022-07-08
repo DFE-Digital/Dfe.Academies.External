@@ -3,7 +3,7 @@
 namespace Dfe.Academies.External.Web.Models;
 public class ConversionApplication
 {
-    public long Id { get; set; }
+    public int Id { get; set; }
 
     public ApplicationTypes ApplicationType { get; set; }
 
