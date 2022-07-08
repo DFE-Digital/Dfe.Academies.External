@@ -18,8 +18,7 @@ internal sealed class ConversionApplicationTests
             ApplicationType = ApplicationTypes.FormNewMat,
             UserEmail = "mark.robinson@education.gov.uk",
             Application = "test",
-            TrustName = "Pudsey School",
-            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>()
+            TrustName = "Pudsey School"
         };
 
         // act
@@ -47,8 +46,7 @@ internal sealed class ConversionApplicationTests
             ApplicationType = ApplicationTypes.FormNewMat,
             UserEmail = "mark.robinson@education.gov.uk",
             Application = "test",
-            TrustName = "Pudsey School",
-            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>()
+            TrustName = "Pudsey School"
         };
 
         // act
@@ -68,8 +66,7 @@ internal sealed class ConversionApplicationTests
             ApplicationType = ApplicationTypes.FormNewMat,
             UserEmail = "mark.robinson@education.gov.uk",
             Application = "test",
-            TrustName = "Pudsey School",
-            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>()
+            TrustName = "Pudsey School"
         };
 
         conversionApplication.ConversionApplicationComponents.AddRange(new List<ConversionApplicationComponent>
@@ -101,8 +98,7 @@ internal sealed class ConversionApplicationTests
             ApplicationType = ApplicationTypes.FormNewMat,
             UserEmail = "mark.robinson@education.gov.uk",
             Application = "test",
-            TrustName = "Pudsey School",
-            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>()
+            TrustName = "Pudsey School"
         };
 
         conversionApplication.ConversionApplicationComponents.AddRange(new List<ConversionApplicationComponent>
@@ -134,8 +130,7 @@ internal sealed class ConversionApplicationTests
             ApplicationType = ApplicationTypes.FormNewMat,
             UserEmail = "mark.robinson@education.gov.uk",
             Application = "test",
-            TrustName = "Pudsey School",
-            SchoolOrSchoolsApplyingToConvert = new List<SchoolOrSchoolsApplyingToConvert>()
+            TrustName = "Pudsey School"
         };
 
         conversionApplication.ConversionApplicationComponents.AddRange(new List<ConversionApplicationComponent>

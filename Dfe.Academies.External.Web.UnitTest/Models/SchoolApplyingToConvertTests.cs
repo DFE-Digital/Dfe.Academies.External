@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace Dfe.Academies.External.Web.UnitTest.Models;
 
 [Parallelizable(ParallelScope.All)]
-internal sealed class SchoolOrSchoolsApplyingToConvertTests
+internal sealed class SchoolApplyingToConvertTests
 {
     private static readonly Fixture Fixture = new();
 
@@ -15,7 +15,7 @@ internal sealed class SchoolOrSchoolsApplyingToConvertTests
         // arrange
         string schoolName = Fixture.Create<string>();
         
-        var conversionApplication = new SchoolOrSchoolsApplyingToConvert
+        var conversionApplication = new SchoolApplyingToConvert
         {
             Id = int.MaxValue,
             SchoolName = schoolName
