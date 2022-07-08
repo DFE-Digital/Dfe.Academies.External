@@ -1,5 +1,4 @@
 ﻿@page
-@using Dfe.Academies.External.Web.Models
 @model Dfe.Academies.External.Web.Pages.HomeModel
 @{
     ViewData["Title"] = "Apply to become an academy - Your applications";
@@ -8,8 +7,7 @@
 <div class="govuk-grid-column-two-thirds">
 
     @{
-
-        if (Model.ExistingApplications != null)
+        if (Model.ExistingApplications.Any())
         {
 
             <h1 class="govuk-heading-xl">Your applications</h1>
@@ -29,7 +27,7 @@
                     </tr>
                 </thead>
                 <tbody class="govuk-table__body">
-                    @if(Model.ExistingApplications != null)
+                    @if(Model.ExistingApplications.Any())
                     {
                         @foreach (var data in Model.ExistingApplications)
                         {
@@ -59,7 +57,7 @@
     <div class="govuk-!-margin-6"></div>
 
     @{
-        if (Model.CompletedApplications != null)
+        if (Model.CompletedApplications.Any())
         {
             <h2 class="govuk-heading-m">Past applications (@Model.CompletedApplications.Count)</h2>
 
@@ -72,7 +70,7 @@
                     </tr>
                 </thead>
                 <tbody class="govuk-table__body">
-                    @if(Model.CompletedApplications != null)
+                    @if(Model.CompletedApplications.Count > 0)
                     {
                         @foreach (var data in Model.CompletedApplications)
                         {

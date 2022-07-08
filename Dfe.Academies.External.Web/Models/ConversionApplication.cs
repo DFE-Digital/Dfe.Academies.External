@@ -12,7 +12,7 @@ public class ConversionApplication
     public string? Application { get; set; }
     public string? TrustName { get; set; }
 
-    public List<SchoolOrSchoolsApplyingToConvert>? SchoolOrSchoolsApplyingToConvert { get; set; }
+    public List<SchoolOrSchoolsApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; set; } = new();
 
     public SchoolRoles? SchoolRole { get; set; }
 
