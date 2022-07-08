@@ -30,7 +30,7 @@
         <tbody class="govuk-table__body">
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell"><strong>@Model.SchoolApplyingToConvert</strong></td>
-                <td class="govuk-table__cell govuk-text-align-right"><a asp-page="ApplicationSelectSchool" class="govuk-link">Change</a></td>
+                <td class="govuk-table__cell govuk-!-text-align-right"><a asp-page="ApplicationSelectSchool" class="govuk-link">Change</a></td>
             </tr>
         </tbody>
     </table>  
@@ -44,9 +44,12 @@
         <tbody class="govuk-table__body">
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell"><a asp-page="ApplicationSelectTrust" class="govuk-link">@Model.NameOfTrustToJoin</a></td>
-                @*TODO MR:- below to consume ??????*@
-                <td class="govuk-table__cell govuk-text-align-right">
-                    <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="trust-status">Not started</strong>
+                @*TODO MR:- below to consume what??????*@
+                <td class="govuk-table__cell govuk-!-text-align-right">
+                    @{
+                        var trustStatusValue = (int)Model.ApplicationStatus;
+                    }
+                    <status enumvalue=@trustStatusValue></status>
                 </td>
             </tr>
         </tbody>
@@ -57,8 +60,11 @@
         <tbody class="govuk-table__body">
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell"><a asp-page="ApplicationDetails" class="govuk-link">Conversion details</a></td>
-                <td class="govuk-table__cell govuk-text-align-right">
-                    <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="conversion-status">@Model.ApplicationStatus.GetDescription()</strong>
+                <td class="govuk-table__cell govuk-!-text-align-right">
+                    @{
+                        var applicationStatusValue = (int)Model.ApplicationStatus;
+                    }
+                    <status enumvalue=@applicationStatusValue></status>
                 </td>
             </tr>
         </tbody>

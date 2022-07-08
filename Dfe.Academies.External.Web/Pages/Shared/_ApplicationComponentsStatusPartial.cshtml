@@ -1,13 +1,5 @@
 ﻿@model List<Dfe.Academies.External.Web.ViewModels.ApplicationComponentViewModel>
 
-@*    
-    Helper func to spit out the class name?    
-    govuk-tag = completed background colour
-    govuk-tag--blue = in progress
-    govuk-tag--grey = not started
-    govuk-tag--grey = cannot start yet
-*@
-
 <table class="govuk-table">
     <tbody class="govuk-table__body">
     @foreach (var component in Model)
@@ -18,10 +10,11 @@
                     @component.Name
                 </a>
             </td>
-            <td class="govuk-table__cell govuk-text-align-right">
-                <strong class="govuk-tag app-task-list__tag govuk-tag--grey govuk-text-align-right" id="component-@(component.Name)-status">
-                    Not started
-                </strong>
+            <td class="govuk-table__cell govuk-!-text-align-right">
+                @{
+                    var statusValue = (int)component.Status;
+                }
+                <status enumvalue=@statusValue></status>
             </td>
         </tr>
     }
