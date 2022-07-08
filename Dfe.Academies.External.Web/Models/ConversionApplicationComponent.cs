@@ -9,11 +9,7 @@ public class ConversionApplicationComponent
         Name = name;
     }
 
-<<<<<<< HEAD
     public int? Id { get; set; }
-=======
-    public long? Id { get; set; }
->>>>>>> Model changes / service changes required for application overview page
 
     public Status Status { get; set; }
 

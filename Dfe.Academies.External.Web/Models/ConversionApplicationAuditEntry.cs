@@ -10,11 +10,7 @@
             PropertyChanged = propertyChanged;  
         }
 
-<<<<<<< HEAD
         public int Id { get; set; }
-=======
-        public long Id { get; set; }
->>>>>>> Model changes / service changes required for application overview page
 
         public DateTime DateCreated { get; set; }
 
