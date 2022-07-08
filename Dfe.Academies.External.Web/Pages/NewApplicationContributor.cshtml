@@ -1,15 +1,32 @@
 ﻿@page
 @model Dfe.Academies.External.Web.Pages.NewApplicationContributorModel
 @{
-    ViewData["Title"] = "Apply to become an academy - What you will need";
+    ViewData["Title"] = "Apply to become an academy - Invite a contributor";
 }
 
 @section BeforeMain
 {
-    <a asp-page="ApplicationOverview" class="govuk-back-link">Back</a>
+    <a asp-page="YourApplications" class="govuk-back-link">Back to application home</a>
 }
 
-<div class="govuk-grid-column-two-thirds">    
-    <h1 class="govuk-heading-xl">Apply to become an academy: what you will need</h1>
+<div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">Invite a contributor</h1>
+    <p class="govuk-body-l">You can invite people to help you complete your application by providing their email address and role.</p>
+    <p class="govuk-heading-m">They must have a DfE Sign-in account.</p>
+    TODO:- what does DfE Sign-in account mean? Link?
+    TODO:- should must be in bold?
+    
+    TODO:-email input
+
+    TODO:-radios
+    
+    TODO:-send invite button
+
+    <div>
+        <h2 class="govuk-heading-l">Current Contributors</h2>
+        TODO:- drop in contributors partial !
+        @*<partial name="_ApplicationContributorsPartial" model="Model.Contributors"/>*@
+    </div>
 
 </div>

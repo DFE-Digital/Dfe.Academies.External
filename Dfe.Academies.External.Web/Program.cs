@@ -27,6 +27,7 @@ builder.Services
             .AllowAnonymousToPage("/WhatAreYouApplyingToDo")
             .AllowAnonymousToPage("/YourApplications")
             .AllowAnonymousToPage("/WhatIsYourRole")
+            .AllowAnonymousToPage("/NewApplicationContributor")
 			;
 	})
 	.AddRazorPagesOptions(options =>

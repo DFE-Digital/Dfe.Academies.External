@@ -1,7 +1,10 @@
+using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.Academies.External.Web.Pages
 {
@@ -16,6 +19,30 @@ namespace Dfe.Academies.External.Web.Pages
         {
             _logger = logger;
             _academisationCreationService = academisationCreationService;
+        }
+
+        [BindProperty]
+        [Required(ErrorMessage = "You must provide an email address")]
+        public string ContributorEmail { get; set; }
+
+        [BindProperty]
+        [RequiredEnum(ErrorMessage = "You must say what the contributor's role is")]
+        public SchoolRoles SchoolRole { get; set; }
+
+        [BindProperty]
+        public string? OtherRoleNotListed { get; set; }
+
+        public bool OtherRoleError
+        {
+            get
+            {
+                if (!ModelState.IsValid && ModelState.Keys.Contains("OtherRoleNotEntered"))
+                {
+                    return true;
+                }
+
+                return false;
+            }
         }
 
         public async Task OnGetAsync()
