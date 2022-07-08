@@ -14,10 +14,15 @@ public class ConversionApplication
     
     public List<ConversionApplicationContributor> ConversionApplicationContributors { get; set; } = new();
 
+    public List<ConversionApplicationComponent> ConversionApplicationComponents { get; set; } = new();
+
+    public List<ConversionApplicationContributor> ConversionApplicationContributors { get; set; } = new();
+
     public SchoolRoles? SchoolRole { get; set; }
 
     public string? OtherRoleNotListed { get; set; }
 
+<<<<<<< HEAD
     public int ConversionStatus { get; set; }
 
     public NewTrust? FormATrust { get; set; }
@@ -52,4 +57,29 @@ public class ConversionApplication
     //        }
     //    }
     //}
+=======
+    public Status ApplicationStatus {
+        get
+        {
+            if (ConversionApplicationComponents.Count == 0)
+            {
+                return Status.NotStarted;
+            }
+            else
+            {
+                // all components = 'Not Started' so overall status = 'Not Started'
+                if (ConversionApplicationComponents.Count == ConversionApplicationComponents.Count(c => c.Status == Status.NotStarted))
+                {
+                    return Status.NotStarted;
+                }
+                else
+                {
+                    // check component statuses to work out whether application 'InProgress' OR 'Completed'
+                    return ConversionApplicationComponents.Any(c => c.Status != Status.Completed) 
+                        ? Status.InProgress : Status.Completed;
+                }
+            }
+        }
+    }
+>>>>>>> Model changes / service changes required for application overview page
 }
