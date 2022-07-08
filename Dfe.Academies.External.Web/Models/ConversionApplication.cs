@@ -9,10 +9,9 @@ public class ConversionApplication
 
     public string? UserEmail { get; set; }
     public string? Application { get; set; }
+    public string? TrustName { get; set; }
 
     public List<SchoolApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; set; } = new();
-    
-    public List<ConversionApplicationContributor> ConversionApplicationContributors { get; set; } = new();
 
     public List<ConversionApplicationComponent> ConversionApplicationComponents { get; set; } = new();
 
@@ -22,42 +21,6 @@ public class ConversionApplication
 
     public string? OtherRoleNotListed { get; set; }
 
-<<<<<<< HEAD
-    public int ConversionStatus { get; set; }
-
-    public NewTrust? FormATrust { get; set; }
-
-    public ExistingTrust? ExistingTrust { get; set; }
-
-    public string TrustName => (ApplicationType == ApplicationTypes.JoinMat
-        ? ExistingTrust?.TrustName
-        : FormATrust?.ProposedTrustName) ?? string.Empty;
-
-    //public Status ConversionStatusCalculated
-    //{
-    //    get
-    //    {
-    //        if (ConversionApplicationComponents.Count == 0)
-    //        {
-    //            return Status.CannotStartYet;
-    //        }
-    //        else
-    //        {
-    //            // all components = 'Not Started' so overall status = 'Not Started'
-    //            if (ConversionApplicationComponents.Count == ConversionApplicationComponents.Count(c => c.Status == Status.NotStarted))
-    //            {
-    //                return Status.NotStarted;
-    //            }
-    //            else
-    //            {
-    //                // check component statuses to work out whether application 'InProgress' OR 'Completed'
-    //                return ConversionApplicationComponents.Any(c => c.Status != Status.Completed) 
-    //                    ? Status.InProgress : Status.Completed;
-    //            }
-    //        }
-    //    }
-    //}
-=======
     public Status ApplicationStatus {
         get
         {
@@ -81,5 +44,4 @@ public class ConversionApplication
             }
         }
     }
->>>>>>> Model changes / service changes required for application overview page
 }
