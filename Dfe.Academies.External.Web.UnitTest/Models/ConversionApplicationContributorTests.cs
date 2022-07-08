@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using NUnit.Framework;
 
@@ -15,8 +16,9 @@ internal sealed class ConversionApplicationContributorTests
         // arrange
         string name = Fixture.Create<string>();
         string role = Fixture.Create<string>();
+        SchoolRoles schoolRole = SchoolRoles.Chair;
 
-        var applicationComponent = new ConversionApplicationContributor(name, role)
+        var applicationComponent = new ConversionApplicationContributor(name, schoolRole, role)
         {
             Id = int.MaxValue
         };
