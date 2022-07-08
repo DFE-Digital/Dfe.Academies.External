@@ -31,13 +31,13 @@ namespace Dfe.Academies.External.Web.Pages
         // about the conversion - overall application status
         public Status ApplicationStatus { get; private set; }
 
-        public List<ViewModels.ApplicationComponentViewModel> Components { get; set; }
+        public List<ViewModels.ApplicationComponentViewModel> Components { get; set; } = new();
 
         // List of contributors
-        public List<ViewModels.ConversionApplicationContributorViewModel> Contributors { get; set; }
+        public List<ViewModels.ConversionApplicationContributorViewModel> Contributors { get; set; } = new();
 
         // List Of Audits
-        public List<ViewModels.ApplicationAuditViewModel> Audits { get; set; }
+        public List<ViewModels.ApplicationAuditViewModel> Audits { get; set; } = new();
 
         /// <summary>
         /// to render submit button on UI
@@ -54,9 +54,6 @@ namespace Dfe.Academies.External.Web.Pages
             CompletedSections = 0;
             SchoolApplyingToConvert = string.Empty;
             NameOfTrustToJoin = string.Empty;
-            Components = new();
-            Contributors = new();
-            Audits = new();
             DoesUserHaveSubmitRole = false;
         }
 
