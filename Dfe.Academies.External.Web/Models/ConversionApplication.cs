@@ -11,7 +11,7 @@ public class ConversionApplication
     public string? Application { get; set; }
     public string? TrustName { get; set; }
 
-    public List<SchoolOrSchoolsApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; set; } = new();
+    public List<SchoolApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; set; } = new();
 
     public List<ConversionApplicationComponent> ConversionApplicationComponents { get; set; } = new();
 
