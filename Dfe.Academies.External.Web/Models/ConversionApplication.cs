@@ -21,7 +21,9 @@ public class ConversionApplication
 
     public string? OtherRoleNotListed { get; set; }
 
-    public Status ApplicationStatus {
+    public int ApplicationStatus { get; set; }
+
+    public Status ApplicationStatusCalculated {
         get
         {
             if (ConversionApplicationComponents.Count == 0)
