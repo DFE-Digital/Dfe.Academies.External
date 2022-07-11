@@ -4,15 +4,18 @@ namespace Dfe.Academies.External.Web.Models;
 
 public class ConversionApplicationContributor
 {
-    public ConversionApplicationContributor(string name, SchoolRoles role, string? otherRoleNotListed)
+    public ConversionApplicationContributor(string firstName, string surname, SchoolRoles role, string? otherRoleNotListed)
     {
-        Name = name;
+        FirstName = firstName;
+        Surname = surname;
         Role = role;
         OtherRoleNotListed = otherRoleNotListed;
     }
 
     public int Id { get; set; }
-    public string Name { get; set; }
+    public string FirstName { get; set; }
+
+    public string Surname { get; set; }
 
     public SchoolRoles Role { get; set; }
 
