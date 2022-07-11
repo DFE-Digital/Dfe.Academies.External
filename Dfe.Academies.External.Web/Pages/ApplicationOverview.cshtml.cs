@@ -19,7 +19,7 @@ namespace Dfe.Academies.External.Web.Pages
 
         public short CompletedSections { get; private set; }
 
-        public short TotalNumberOfSections => 8;
+        public short TotalNumberOfSections => 3;
 
         /// <summary>
         /// comma separated list<schools>?
@@ -28,8 +28,10 @@ namespace Dfe.Academies.External.Web.Pages
 
         public string NameOfTrustToJoin { get; set; }
 
-        // about the conversion - overall application status
-        public Status ApplicationStatus { get; private set; }
+        // overall application status
+        public string ApplicationStatus { get; private set; }
+
+        public Status ConversionStatus { get; private set; }
 
         public List<ViewModels.ApplicationComponentViewModel> Components { get; set; } = new();
 
@@ -77,7 +79,8 @@ namespace Dfe.Academies.External.Web.Pages
             ApplicationTypeDescription = _draftConversionApplication.ApplicationType.GetDescription();
             ApplicationReferenceNumber = $"A2B_{_draftConversionApplication.Id}";
             CompletedSections = 3;
-            ApplicationStatus = _draftConversionApplication.ApplicationStatusCalculated;
+            ApplicationStatus = "incomplete"; // TODO MR:- what logic drives this !
+            ConversionStatus = _draftConversionApplication.ConversionStatusCalculated;
 
             SchoolApplyingToConvert = _draftConversionApplication.SchoolOrSchoolsApplyingToConvert.Count == 0 ? "No school selected" 
                 : string.Join(",", _draftConversionApplication.SchoolOrSchoolsApplyingToConvert);

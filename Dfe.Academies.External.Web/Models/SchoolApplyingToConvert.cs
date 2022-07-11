@@ -4,5 +4,7 @@
     {
         public int? Id { get; set; }
         public string? SchoolName { get; set; }
+
+        public List<ConversionApplicationComponent> SchoolApplicationComponents { get; set; } = new();
     }
 }

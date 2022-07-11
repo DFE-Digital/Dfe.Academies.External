@@ -19,7 +19,7 @@ internal sealed class ConversionApplicationTests
             UserEmail = "mark.robinson@education.gov.uk",
             Application = "test",
             TrustName = "Pudsey School",
-            ApplicationStatus = 1
+            ConversionStatus = 1
         };
 
         // act
@@ -32,7 +32,7 @@ internal sealed class ConversionApplicationTests
         Assert.That(conversionApplication.UserEmail, Is.EqualTo("mark.robinson@education.gov.uk"));
         Assert.That(conversionApplication.Application, Is.EqualTo("test"));
         Assert.That(conversionApplication.TrustName, Is.EqualTo("Pudsey School"));
-        Assert.That(conversionApplication.ApplicationStatus, Is.EqualTo(1));
+        Assert.That(conversionApplication.ConversionStatus, Is.EqualTo(1));
         Assert.That(conversionApplication.SchoolOrSchoolsApplyingToConvert.Count, Is.EqualTo(0));
         Assert.That(conversionApplication.ConversionApplicationComponents.Count, Is.EqualTo(0));
         Assert.That(conversionApplication.ConversionApplicationContributors.Count, Is.EqualTo(0));
@@ -52,7 +52,7 @@ internal sealed class ConversionApplicationTests
         };
 
         // act
-        var calculatedApplicationStatus = conversionApplication.ApplicationStatusCalculated;
+        var calculatedApplicationStatus = conversionApplication.ConversionStatusCalculated;
 
         // assert
         Assert.That(calculatedApplicationStatus, Is.EqualTo(Status.NotStarted));
@@ -84,7 +84,7 @@ internal sealed class ConversionApplicationTests
         });
 
         // act
-        var calculatedApplicationStatus = conversionApplication.ApplicationStatusCalculated;
+        var calculatedApplicationStatus = conversionApplication.ConversionStatusCalculated;
 
         // assert
         Assert.That(calculatedApplicationStatus, Is.EqualTo(Status.NotStarted));
@@ -116,7 +116,7 @@ internal sealed class ConversionApplicationTests
         });
 
         // act
-        var calculatedApplicationStatus = conversionApplication.ApplicationStatusCalculated;
+        var calculatedApplicationStatus = conversionApplication.ConversionStatusCalculated;
 
         // assert
         Assert.That(calculatedApplicationStatus, Is.EqualTo(Status.InProgress));
@@ -148,7 +148,7 @@ internal sealed class ConversionApplicationTests
         });
 
         // act
-        var calculatedApplicationStatus = conversionApplication.ApplicationStatusCalculated;
+        var calculatedApplicationStatus = conversionApplication.ConversionStatusCalculated;
 
         // assert
         Assert.That(calculatedApplicationStatus, Is.EqualTo(Status.Completed));

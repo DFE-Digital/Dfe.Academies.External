@@ -22,7 +22,7 @@
         You can save your progress as you go.
     </p>
 
-    <h2 class="govuk-heading-l">Application @Model.ApplicationStatus.GetDescription()</h2>
+    <h2 class="govuk-heading-l">Application @Model.ApplicationStatus</h2>
     <p class="govuk-body">You have completed @Model.CompletedSections of @Model.TotalNumberOfSections sections.</p>
 
     <table class="govuk-table">
@@ -33,7 +33,7 @@
                 <td class="govuk-table__cell govuk-!-text-align-right"><a asp-page="ApplicationSelectSchool" class="govuk-link">Change</a></td>
             </tr>
         </tbody>
-    </table>  
+    </table>
     
     <div class="govuk-!-margin-6"></div>
 
@@ -44,13 +44,6 @@
         <tbody class="govuk-table__body">
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell"><a asp-page="ApplicationSelectTrust" class="govuk-link">@Model.NameOfTrustToJoin</a></td>
-                @*TODO MR:- below to consume what??????*@
-                <td class="govuk-table__cell govuk-!-text-align-right">
-                    @{
-                        var trustStatusValue = (int)Model.ApplicationStatus;
-                    }
-                    <status enumvalue=@trustStatusValue></status>
-                </td>
             </tr>
         </tbody>
     </table>       
@@ -62,9 +55,9 @@
                 <td class="govuk-table__cell"><a asp-page="ApplicationDetails" class="govuk-link">Conversion details</a></td>
                 <td class="govuk-table__cell govuk-!-text-align-right">
                     @{
-                        var applicationStatusValue = (int)Model.ApplicationStatus;
+                        var conversionStatusValue = (int)Model.ConversionStatus;
                     }
-                    <status enumvalue=@applicationStatusValue></status>
+                    <status enumvalue=@conversionStatusValue></status>
                 </td>
             </tr>
         </tbody>
