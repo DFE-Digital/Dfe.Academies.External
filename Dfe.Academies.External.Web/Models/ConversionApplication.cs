@@ -21,6 +21,8 @@ public class ConversionApplication
 
     public int ConversionStatus { get; set; }
 
+    public ConversionApplicationFormATrust? FormATrust { get; set; }
+
     //public Status ConversionStatusCalculated
     //{
     //    get
