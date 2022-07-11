@@ -55,7 +55,7 @@ internal sealed class ConversionApplicationTests
         var calculatedApplicationStatus = conversionApplication.ConversionStatusCalculated;
 
         // assert
-        Assert.That(calculatedApplicationStatus, Is.EqualTo(Status.NotStarted));
+        Assert.That(calculatedApplicationStatus, Is.EqualTo(Status.CannotStartYet));
     }
 
     [Test]
