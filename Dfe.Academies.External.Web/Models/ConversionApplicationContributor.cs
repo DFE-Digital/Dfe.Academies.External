@@ -2,7 +2,7 @@
 
 namespace Dfe.Academies.External.Web.Models;
 
-public class ConversionApplicationContributor
+public class ConversionApplicationContributor : Person
 {
     public ConversionApplicationContributor(string firstName, string surname, SchoolRoles role, string? otherRoleNotListed)
     {
@@ -13,9 +13,6 @@ public class ConversionApplicationContributor
     }
 
     public int Id { get; set; }
-    public string FirstName { get; set; }
-
-    public string Surname { get; set; }
 
     public SchoolRoles Role { get; set; }
 
