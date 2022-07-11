@@ -67,7 +67,6 @@
     <p class="govuk-body">You can invite other people to help you complete parts of this form</p>
 
     <a asp-page="NewApplicationContributor" class="govuk-link">Invite a contributor</a>
-    <partial name="_ApplicationContributorsPartial" model="Model.Contributors"/>
 
     @if (!Model.DoesUserHaveSubmitRole)
     {
