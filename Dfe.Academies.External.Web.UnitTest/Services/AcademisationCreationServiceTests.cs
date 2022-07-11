@@ -47,7 +47,6 @@ internal sealed class AcademisationCreationServiceTests
         Assert.AreEqual(trustApplicationModel.ApplicationType, trustApplicationDto.ApplicationType);
         Assert.AreEqual(trustApplicationModel.UserEmail, trustApplicationDto.UserEmail);
         Assert.AreEqual(trustApplicationModel.Application, trustApplicationDto.Application);
-        Assert.AreEqual(trustApplicationModel.TrustName, trustApplicationDto.TrustName);
         Assert.AreNotEqual(trustApplicationModel.Id, 0);
     }
 

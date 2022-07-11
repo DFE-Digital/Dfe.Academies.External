@@ -13,7 +13,6 @@ internal static class ConversionApplicationTestDataFactory
     {
         return new ConversionApplication
         {
-            TrustName = Fixture.Create<string>(),
             UserEmail = Fixture.Create<string>(),
             Id = int.MaxValue,
             ApplicationType = ApplicationTypes.FormNewMat,
@@ -25,7 +24,6 @@ internal static class ConversionApplicationTestDataFactory
     {
         return new ConversionApplication
         {
-            TrustName = Fixture.Create<string>(),
             UserEmail = Fixture.Create<string>(),
             Id = int.MaxValue,
             ApplicationType = ApplicationTypes.FormNewMat,
@@ -39,7 +37,6 @@ internal static class ConversionApplicationTestDataFactory
     {
         return new ConversionApplication
         {
-            TrustName = Fixture.Create<string>(),
             UserEmail = Fixture.Create<string>(),
             Id = int.MaxValue,
             ApplicationType = ApplicationTypes.FormNewMat,

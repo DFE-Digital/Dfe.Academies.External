@@ -1,7 +1,6 @@
 ﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace Dfe.Academies.External.Web.UnitTest.Models;
 
@@ -18,7 +17,6 @@ internal sealed class ConversionApplicationTests
             ApplicationType = ApplicationTypes.FormNewMat,
             UserEmail = "mark.robinson@education.gov.uk",
             Application = "test",
-            TrustName = "Pudsey School",
             ConversionStatus = 1
         };
 
@@ -31,7 +29,6 @@ internal sealed class ConversionApplicationTests
         Assert.That(conversionApplication.ApplicationType, Is.EqualTo(ApplicationTypes.FormNewMat));
         Assert.That(conversionApplication.UserEmail, Is.EqualTo("mark.robinson@education.gov.uk"));
         Assert.That(conversionApplication.Application, Is.EqualTo("test"));
-        Assert.That(conversionApplication.TrustName, Is.EqualTo("Pudsey School"));
         Assert.That(conversionApplication.ConversionStatus, Is.EqualTo(1));
         Assert.That(conversionApplication.SchoolOrSchoolsApplyingToConvert.Count, Is.EqualTo(0));
         Assert.That(conversionApplication.ConversionApplicationContributors.Count, Is.EqualTo(0));
