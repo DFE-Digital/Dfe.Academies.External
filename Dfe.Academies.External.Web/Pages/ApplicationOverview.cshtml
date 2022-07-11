@@ -28,10 +28,11 @@
     <table class="govuk-table">
         <caption class="govuk-table__caption govuk-table__caption--l">The school applying to convert</caption>
         <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
-                <td class="govuk-table__cell"><strong>@Model.SchoolApplyingToConvert</strong></td>
-                <td class="govuk-table__cell govuk-!-text-align-right"><a asp-page="ApplicationSelectSchool" class="govuk-link">Change</a></td>
-            </tr>
+        @*If no trust selected - render button instead*@
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell"><strong>@Model.SchoolApplyingToConvert</strong></td>
+            <td class="govuk-table__cell govuk-!-text-align-right"><a asp-page="ApplicationSelectSchool" class="govuk-link">Change</a></td>
+        </tr>
         </tbody>
     </table>
     
@@ -42,9 +43,10 @@
     <table class="govuk-table">
         <caption class="govuk-table__caption govuk-table__caption--l">The trust the school will join</caption>
         <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
-                <td class="govuk-table__cell"><a asp-page="ApplicationSelectTrust" class="govuk-link">@Model.NameOfTrustToJoin</a></td>
-            </tr>
+        @*If no trust selected - render button instead*@
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell"><a asp-page="ApplicationSelectTrust" class="govuk-link">@Model.NameOfTrustToJoin</a></td>
+        </tr>
         </tbody>
     </table>       
 
@@ -65,8 +67,9 @@
 
     <h2 class="govuk-heading-l">Contributors</h2>
     <p class="govuk-body">You can invite other people to help you complete parts of this form</p>
-
+    <div class="govuk-!-margin-6"></div>
     <a asp-page="NewApplicationContributor" class="govuk-link">Invite a contributor</a>
+    <div class="govuk-!-margin-6"></div>
 
     @if (!Model.DoesUserHaveSubmitRole)
     {
