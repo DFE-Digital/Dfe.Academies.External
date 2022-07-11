@@ -24,9 +24,9 @@ namespace Dfe.Academies.External.Web.Pages
         /// <summary>
         /// comma separated list<schools>?
         /// </summary>
-        public string SchoolApplyingToConvert { get; set; }
+        public string? SchoolApplyingToConvert { get; set; }
 
-        public string NameOfTrustToJoin { get; set; }
+        public string? NameOfTrustToJoin { get; set; }
 
         // overall application status
         public string ApplicationStatus { get; private set; }
@@ -78,14 +78,11 @@ namespace Dfe.Academies.External.Web.Pages
         {
             ApplicationTypeDescription = _draftConversionApplication.ApplicationType.GetDescription();
             ApplicationReferenceNumber = $"A2B_{_draftConversionApplication.Id}";
-            CompletedSections = 0;
+            SchoolApplyingToConvert = string.Join(",", _draftConversionApplication.SchoolOrSchoolsApplyingToConvert);
+            NameOfTrustToJoin = _draftConversionApplication.TrustName;
+            CompletedSections = 0; // TODO MR:- what logic drives this !
             ApplicationStatus = "incomplete"; // TODO MR:- what logic drives this !
-            ConversionStatus = Status.NotStarted;
-
-            SchoolApplyingToConvert = _draftConversionApplication.SchoolOrSchoolsApplyingToConvert.Count == 0 ? "No school selected" 
-                : string.Join(",", _draftConversionApplication.SchoolOrSchoolsApplyingToConvert);
-
-            NameOfTrustToJoin = _draftConversionApplication.TrustName ?? "No trust selected";
+            ConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
 
             // Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
             Audits = auditEntries.Select(e => 
