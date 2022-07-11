@@ -9,7 +9,6 @@ public class ConversionApplication
 
     public string? UserEmail { get; set; }
     public string? Application { get; set; }
-    public string? TrustName { get; set; }
 
     public List<SchoolApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; set; } = new();
     
@@ -21,7 +20,7 @@ public class ConversionApplication
 
     public int ConversionStatus { get; set; }
 
-    public ConversionApplicationFormATrust? FormATrust { get; set; }
+    public NewTrust? FormATrust { get; set; }
 
     //public Status ConversionStatusCalculated
     //{
