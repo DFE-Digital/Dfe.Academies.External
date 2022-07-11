@@ -14,12 +14,14 @@ public enum ApplicationTypes
 
 public enum Status 
 {
+    [Description("Cannot Start Yet")]
+    CannotStartYet = 1,
     [Description("Not Started")]
-    NotStarted = 1,
+    NotStarted = 2,
     [Description("In Progress")]
-    InProgress = 2,
+    InProgress = 3,
     [Description("Completed")]
-    Completed = 3,
+    Completed = 4
 }
 
 public enum SchoolRoles
