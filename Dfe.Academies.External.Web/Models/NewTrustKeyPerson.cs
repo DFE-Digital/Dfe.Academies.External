@@ -2,7 +2,7 @@
 
 namespace Dfe.Academies.External.Web.Models;
 
-public class NewTrustKeyPerson
+public class NewTrustKeyPerson : Person
 {
     public NewTrustKeyPerson(string firstName, string surname, SchoolRoles role)
     {
@@ -12,9 +12,6 @@ public class NewTrustKeyPerson
     }
 
     public int Id { get; set; }
-    public string FirstName { get; set; }
-
-    public string Surname { get; set; }
 
     public SchoolRoles Role { get; set; }
 }
