@@ -77,7 +77,6 @@ public class TempDataHelperTests
         Assert.AreEqual(conversionApplication.ApplicationType, storedValue.ApplicationType);
         Assert.AreEqual(conversionApplication.UserEmail, storedValue.UserEmail);
         Assert.AreEqual(conversionApplication.Application, storedValue.Application);
-        Assert.AreEqual(conversionApplication.TrustName, storedValue.TrustName);
     }
 
     [Test]
@@ -102,7 +101,6 @@ public class TempDataHelperTests
         Assert.AreEqual(conversionApplication.ApplicationType, storedValue.ApplicationType);
         Assert.AreEqual(conversionApplication.UserEmail, storedValue.UserEmail);
         Assert.AreEqual(conversionApplication.Application, storedValue.Application);
-        Assert.AreEqual(conversionApplication.TrustName, storedValue.TrustName);
     }
 
     private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(
