@@ -4,8 +4,17 @@ namespace Dfe.Academies.External.Web.Models;
 
 public class NewTrustKeyPerson
 {
+    public NewTrustKeyPerson(string firstName, string surname, SchoolRoles role)
+    {
+        FirstName = firstName;
+        Surname = surname;
+        Role = role;
+    }
+
     public int Id { get; set; }
-    public string Name { get; set; }
+    public string FirstName { get; set; }
+
+    public string Surname { get; set; }
 
     public SchoolRoles Role { get; set; }
 }
