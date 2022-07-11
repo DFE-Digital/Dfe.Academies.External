@@ -28,7 +28,7 @@ public class ConversionApplication
         {
             if (ConversionApplicationComponents.Count == 0)
             {
-                return Status.NotStarted;
+                return Status.CannotStartYet;
             }
             else
             {
