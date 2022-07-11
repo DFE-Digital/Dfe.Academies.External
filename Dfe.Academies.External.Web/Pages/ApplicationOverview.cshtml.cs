@@ -78,9 +78,9 @@ namespace Dfe.Academies.External.Web.Pages
         {
             ApplicationTypeDescription = _draftConversionApplication.ApplicationType.GetDescription();
             ApplicationReferenceNumber = $"A2B_{_draftConversionApplication.Id}";
-            CompletedSections = 3;
+            CompletedSections = 0;
             ApplicationStatus = "incomplete"; // TODO MR:- what logic drives this !
-            ConversionStatus = _draftConversionApplication.ConversionStatusCalculated;
+            ConversionStatus = Status.NotStarted;
 
             SchoolApplyingToConvert = _draftConversionApplication.SchoolOrSchoolsApplyingToConvert.Count == 0 ? "No school selected" 
                 : string.Join(",", _draftConversionApplication.SchoolOrSchoolsApplyingToConvert);
