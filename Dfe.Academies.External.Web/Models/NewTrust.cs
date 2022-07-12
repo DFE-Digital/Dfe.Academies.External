@@ -12,6 +12,8 @@ public class NewTrust
 
     public int Id { get; set; }
 
+    // TODO MR:- what to do about trust id ????
+
     public string ProposedTrustName { get; set; }
 
     public DateTime? ProposedTrustOpeningDate { get; set; }
