@@ -28,6 +28,10 @@ public class ConversionApplication
         ? ExistingTrust?.TrustName
         : FormATrust?.ProposedTrustName) ?? string.Empty;
 
+    public bool? ChangesToLAGovernance { get; set; }
+
+    public string? ChangesToLAGovernanceExplained { get; set; }
+
     //public Status ConversionStatusCalculated
     //{
     //    get
