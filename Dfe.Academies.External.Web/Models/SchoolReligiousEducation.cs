@@ -1,0 +1,9 @@
+﻿namespace Dfe.Academies.External.Web.Models;
+
+public class SchoolReligiousEducation
+{
+    public int Id { get; set; }
+    public int SchoolId { get; set; }
+
+    public string FaithDioceseName { get; set; }
+}
