@@ -8,5 +8,7 @@ public class SchoolReligiousEducation
 
     public string FaithDioceseName { get; set; }
 
+    public string DiocesePermissionEvidenceDocumentLink { get; set; }
+
     // TODO:- other props from A2C-SIP - ???
 }

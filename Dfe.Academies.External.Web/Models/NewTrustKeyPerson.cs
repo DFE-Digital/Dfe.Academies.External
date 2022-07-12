@@ -31,9 +31,8 @@ public class NewTrustKeyPerson
     public int PersonId { get; set; }
     public Person Person { get; set; }
 
-    // TODO MR:- DoB
+    public DateTime? DateOfBirth { get; set; }
 
-    // TODO MR:- Biography - KeyPersonBiography within A2C-SIP - ApplicationKeyPersons object
-
-    // TODO MR:- others ???
+    // MR:- Biography - KeyPersonBiography within A2C-SIP - ApplicationKeyPersons object
+    public string Biography { get; set; }
 }
