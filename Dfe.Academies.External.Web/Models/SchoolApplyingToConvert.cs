@@ -3,7 +3,12 @@
     public class SchoolApplyingToConvert
     {
         public int Id { get; set; }
+
+        /// <summary>
+        /// This would be existing Id from GIAS (?). 6 digit URN?
+        /// </summary>
         public int SchoolId { get; set; }
+
         public string? SchoolName { get; set; }
 
         public List<ConversionApplicationComponent> ConversionApplicationComponents { get; set; } = new();
@@ -19,13 +24,13 @@
 
         public string? SchoolAdInspectedReportNotPublishedExplain { get; set; }
 
-        public bool? SchoolLAReorganisation { get; set; }
+        public bool? SchoolLocalAuthorityReorganisation { get; set; }
 
-        public string? SchoolLAReorganisationExplain { get; set; }
+        public string? SchoolLocalAuthorityReorganisationExplain { get; set; }
 
-        public bool? SchoolLAClosurePlans { get; set; }
+        public bool? SchoolLocalAuthorityClosurePlans { get; set; }
 
-        public string? SchoolLAClosurePlansExplain { get; set; }
+        public string? SchoolLocalAuthorityClosurePlansExplain { get; set; }
 
         public bool? SchoolAdSafeguarding { get; set; }
 
