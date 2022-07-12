@@ -22,6 +22,16 @@ public class ConversionApplication
 
     public NewTrust? FormATrust { get; set; }
 
+    public ExistingTrust? ExistingTrust { get; set; }
+
+    public string TrustName => (ApplicationType == ApplicationTypes.JoinMat
+        ? ExistingTrust?.TrustName
+        : FormATrust?.ProposedTrustName) ?? string.Empty;
+
+    public bool? ChangesToLAGovernance { get; set; }
+
+    public string? ChangesToLAGovernanceExplained { get; set; }
+
     //public Status ConversionStatusCalculated
     //{
     //    get
