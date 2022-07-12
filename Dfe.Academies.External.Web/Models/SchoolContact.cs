@@ -2,14 +2,23 @@
 
 public class SchoolContact
 {
+    public SchoolContact(int schoolId, string firstName, string surname)
+    {
+        SchoolId = schoolId;
+        Person = new Person
+        {
+            FirstName = firstName,
+            Surname = surname
+        };
+    }
+
+
     public int Id { get; set; }
 
     /// <summary>
     /// This would be existing Id from GIAS (?). 6 digit URN?
     /// </summary>
     public int SchoolId { get; set; }
-
-    public int ContactId { get; set; }
 
     public bool IsMainContact { get; set; } = false;
 
