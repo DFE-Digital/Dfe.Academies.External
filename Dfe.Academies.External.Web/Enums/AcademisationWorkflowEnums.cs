@@ -31,3 +31,17 @@ public enum SchoolRoles
     [Description("Something Else")]
     Other = 2
 }
+
+public enum KeyPersonRole
+{
+    [Description("CEO")]
+    CEO = 1,
+    [Description("The chair of the trust")]
+    Chair = 2,
+    [Description("Financial director")]
+    FinancialDirector = 3,
+    [Description("Trustee")]
+    Trustee = 4,
+    [Description("Other")]
+    Other = 5
+}
