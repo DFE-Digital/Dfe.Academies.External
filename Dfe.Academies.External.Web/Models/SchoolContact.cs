@@ -11,7 +11,9 @@ public class SchoolContact
 
     public int ContactId { get; set; }
 
-    public bool MainContact { get; set; } = false;
+    public bool IsMainContact { get; set; } = false;
+
+    public bool IsContributor { get; set; } = false;
 
     public int PersonId { get; set; }
     public Person Person { get; set; }
