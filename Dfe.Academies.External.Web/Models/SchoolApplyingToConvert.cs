@@ -17,8 +17,6 @@
 
         // TODO MR:- contact chair
 
-        // TODO MR:- contact main contact
-
         //// MR:- below props from A2C-SIP - ApplyingSchool object
         public bool? SchoolAdInspectedButReportNotPublished { get; set; }
 
@@ -41,5 +39,7 @@
         public List<SchoolLoan> SchoolLoans { get; set; } = new();
 
         public List<SchoolLease> SchoolLeases { get; set; } = new();
+
+        public List<SchoolContact> SchoolContacts { get; set; } = new();
     }
 }

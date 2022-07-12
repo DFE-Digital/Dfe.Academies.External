@@ -2,16 +2,21 @@
 
 namespace Dfe.Academies.External.Web.Models;
 
-public class NewTrustKeyPerson : Person
+public class NewTrustKeyPerson
 {
     public NewTrustKeyPerson(string firstName, string surname, KeyPersonRole role)
     {
-        FirstName = firstName;
-        Surname = surname;
         Role = role;
+        Person = new Person
+        {
+            FirstName = firstName,
+            Surname = surname
+        };
     }
 
     public int Id { get; set; }
+
+    public int TrustId { get; set; }
 
     /// <summary>
     /// Below replaces A2C-SIP bools
@@ -22,6 +27,9 @@ public class NewTrustKeyPerson : Person
     /// Taken from A2C-SIP - ApplicationKeyPersons object
     /// </summary>
     public string TimeInRole { get; set; }
+
+    public int PersonId { get; set; }
+    public Person Person { get; set; }
 
     // TODO MR:- others ???
 }

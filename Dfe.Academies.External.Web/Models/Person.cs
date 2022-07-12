@@ -1,12 +1,17 @@
 ﻿namespace Dfe.Academies.External.Web.Models;
 
-public abstract class Person
+public class Person
 {
+    public int PersonId { get; set; }
+
+    /// <summary>
+    ///  TODO MR:- grab name from DfE sign in ??
+    /// </summary>
     public string FirstName { get; set; }
 
     public string Surname { get; set; }
 
-    // TODO MR:- add ContactEmail ?
+    public string ContactEmailAddress { get; set; }
 
     // TODO MR:- add ContactTelephone ?
 }
