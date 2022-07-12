@@ -4,7 +4,7 @@ namespace Dfe.Academies.External.Web.Models;
 
 public class NewTrustKeyPerson : Person
 {
-    public NewTrustKeyPerson(string firstName, string surname, SchoolRoles role)
+    public NewTrustKeyPerson(string firstName, string surname, KeyPersonRole role)
     {
         FirstName = firstName;
         Surname = surname;
@@ -13,5 +13,15 @@ public class NewTrustKeyPerson : Person
 
     public int Id { get; set; }
 
-    public SchoolRoles Role { get; set; }
+    /// <summary>
+    /// Below replaces A2C-SIP bools
+    /// </summary>
+    public KeyPersonRole Role { get; set; }
+
+    /// <summary>
+    /// Taken from A2C-SIP - ApplicationKeyPersons object
+    /// </summary>
+    public string TimeInRole { get; set; }
+
+    // TODO MR:- others ???
 }
