@@ -30,8 +30,8 @@ internal sealed class ConversionApplicationContributorTests
         // assert
         Assert.That(applicationComponent, Is.Not.Null);
         Assert.That(applicationComponent.Id, Is.EqualTo(int.MaxValue));
-        Assert.That(applicationComponent.FirstName, Is.EqualTo(firstName));
-        Assert.That(applicationComponent.Surname, Is.EqualTo(surName));
+        Assert.That(applicationComponent.Person.FirstName, Is.EqualTo(firstName));
+        Assert.That(applicationComponent.Person.Surname, Is.EqualTo(surName));
         Assert.That(applicationComponent.Role, Is.EqualTo(schoolRole));
     }
 }
