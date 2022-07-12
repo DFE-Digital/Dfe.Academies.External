@@ -27,7 +27,7 @@
     <table class="govuk-table">
         <caption class="govuk-table__caption govuk-table__caption--l">The school applying to convert</caption>
         <tbody class="govuk-table__body">
-            @*If no trust selected - render button instead*@
+            @*If no school selected - render button instead*@
             @if (string.IsNullOrWhiteSpace(Model.SchoolApplyingToConvert)){
                 <tr class="govuk-table__row">
                     <td class="govuk-table__cell">
@@ -91,13 +91,13 @@
     <a asp-page="NewApplicationContributor" class="govuk-link">Invite a contributor</a>
     <div class="govuk-!-margin-6"></div>
 
-    @if (!Model.DoesUserHaveSubmitRole)
+    @if (!Model.UserHasSubmitRole)
     {
         <p class="govuk-body govuk-radios__conditional">Only the school's chair of governors can submit this application.</p>
     }
 
     <div class="govuk-button-group">
-        @if (Model.DoesUserHaveSubmitRole)
+        @if (Model.UserHasSubmitRole)
         {
             <button data-prevent-double-click="true" class="govuk-button govuk-!-margin-top-6" data-module="govuk-button">
                 Review and Submit

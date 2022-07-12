@@ -44,7 +44,7 @@ namespace Dfe.Academies.External.Web.Pages
         /// <summary>
         /// to render submit button on UI
         /// </summary>
-        public bool DoesUserHaveSubmitRole { get; private set; }
+        public bool UserHasSubmitRole { get; private set; }
 
         public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger, IConversionApplicationRetrievalService conversionApplicationRetrievalService)
         {
@@ -56,7 +56,7 @@ namespace Dfe.Academies.External.Web.Pages
             CompletedSections = 0;
             SchoolApplyingToConvert = string.Empty;
             NameOfTrustToJoin = string.Empty;
-            DoesUserHaveSubmitRole = false;
+            UserHasSubmitRole = false;
         }
 
         public async Task OnGetAsync()
