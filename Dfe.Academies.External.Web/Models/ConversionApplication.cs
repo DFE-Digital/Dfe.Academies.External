@@ -5,9 +5,15 @@ public class ConversionApplication
 {
     public int Id { get; set; }
 
+    /// <summary>
+    /// e.g. 'A2B_xxx'
+    /// </summary>
+    public string ApplicationReference { get; set; }
+
     public ApplicationTypes ApplicationType { get; set; }
 
     public string? UserEmail { get; set; }
+
     public string? Application { get; set; }
 
     public List<SchoolApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; set; } = new();
@@ -28,9 +34,11 @@ public class ConversionApplication
         ? ExistingTrust?.TrustName
         : FormATrust?.ProposedTrustName) ?? string.Empty;
 
-    public bool? ChangesToLAGovernance { get; set; }
+    public bool? ChangesToLocalAuthorityGovernance { get; set; }
 
-    public string? ChangesToLAGovernanceExplained { get; set; }
+    public string? ChangesToLocalAuthorityGovernanceExplained { get; set; }
+
+    // TODO MR:- contact main contact
 
     //public Status ConversionStatusCalculated
     //{
