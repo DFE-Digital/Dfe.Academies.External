@@ -1,5 +1,5 @@
-﻿namespace Dfe.Academies.External.Web.Models
-{
+﻿namespace Dfe.Academies.External.Web.Models;
+
     public class ConversionApplicationAuditEntry
     {
         public ConversionApplicationAuditEntry(string createdBy, string typeOfChange, string entityChanged, string propertyChanged)
@@ -28,4 +28,4 @@
 
         public string PropertyChanged { get; set; }
     }
-}
+

@@ -19,10 +19,10 @@ public class SchoolLease
     public DateTime? EndDate { get; set; }
 
     public string Purpose { get; set; }
-
-    public string Provider { get; set; }
-
+    
     public decimal? ValueOfAssets { get; set; }
 
     public string ResponsibleForAssets { get; set; }
+
+    public string Provider { get; set; }
 }

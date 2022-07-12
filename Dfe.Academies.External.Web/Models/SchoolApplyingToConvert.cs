@@ -1,5 +1,5 @@
-﻿namespace Dfe.Academies.External.Web.Models
-{
+﻿namespace Dfe.Academies.External.Web.Models;
+
     public class SchoolApplyingToConvert
     {
         public int Id { get; set; }
@@ -41,5 +41,10 @@
         public List<SchoolLease> SchoolLeases { get; set; } = new();
 
         public List<SchoolContact> SchoolContacts { get; set; } = new();
+
+        public SchoolFinances SchoolFinances { get; set; }
+
+        public SchoolPupils SchoolPupils { get; set; }
+
+        public SchoolLandAndBuildings SchoolLandAndBuildings { get; set; }
     }
-}
