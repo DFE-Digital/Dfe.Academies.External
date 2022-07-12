@@ -5,7 +5,7 @@ public class SchoolLease
     public int Id { get; set; }
     public int SchoolId { get; set; }
 
-    //// MR:- below props from A2C-SIP - ApplyingSchool object
+    //// MR:- below props from A2C-SIP - SchoolLease object
 
     /// <summary>
     /// months or years ?
