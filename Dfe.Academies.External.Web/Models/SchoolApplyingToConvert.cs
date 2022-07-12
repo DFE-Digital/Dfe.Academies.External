@@ -18,9 +18,9 @@
         // TODO MR:- contact chair
 
         //// MR:- below props from A2C-SIP - ApplyingSchool object
-        public bool? SchoolAdInspectedButReportNotPublished { get; set; }
+        public bool? SchoolOfstedInspectedButReportNotPublished { get; set; }
 
-        public string? SchoolAdInspectedReportNotPublishedExplain { get; set; }
+        public string? SchoolOfstedInspectedReportNotPublishedExplain { get; set; }
 
         public bool? SchoolLocalAuthorityReorganisation { get; set; }
 
