@@ -38,7 +38,7 @@ public class ConversionApplication
 
     public string? ChangesToLocalAuthorityGovernanceExplained { get; set; }
 
-    // TODO MR:- contact main contact
+    // TODO MR:- contact main contact / lead contact ??
 
     //public Status ConversionStatusCalculated
     //{
