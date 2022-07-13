@@ -86,13 +86,13 @@
     <a asp-page="NewApplicationContributor" class="govuk-link">Invite a contributor</a>
     <div class="govuk-!-margin-6"></div>
 
-    @if (!Model.UserHasSubmitRole)
+    @if (!Model.UserHasSubmitApplicationRole)
     {
         <p class="govuk-body govuk-radios__conditional">Only the school's chair of governors can submit this application.</p>
     }
 
     <div class="govuk-button-group">
-        @if (Model.UserHasSubmitRole)
+        @if (Model.UserHasSubmitApplicationRole)
         {
             <button data-prevent-double-click="true" class="govuk-button govuk-!-margin-top-6" data-module="govuk-button">
                 Review and Submit
@@ -105,3 +105,5 @@
 <div class="govuk-grid-column-one-third">
     <partial name="_ApplicationAuditPartial" model="Model.Audits"/>
 </div>
+
+<partial name="_HiddenFields"/>
