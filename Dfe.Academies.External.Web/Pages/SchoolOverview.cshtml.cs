@@ -9,13 +9,13 @@ namespace Dfe.Academies.External.Web.Pages
 	    private readonly ILogger<SchoolOverviewModel> _logger;
 	    private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
 	    
-		public SchoolApplyingToConvert SelectedSchool { get; private set; }
+		public SchoolApplyingToConvert SelectedSchool { get; private set; } = new();
 
-		public string ApplicationReferenceNumber { get; private set; }
+        public string ApplicationReferenceNumber { get; private set; } = string.Empty;
 
-	    public short CompletedSections { get; private set; }
+        public short CompletedSections { get; private set; }
 
-	    public short TotalNumberOfSections => 3;
+	    public short TotalNumberOfSections => 8;
 
         public List<ViewModels.ApplicationComponentViewModel> Components { get; set; } = new();
 
@@ -23,20 +23,18 @@ namespace Dfe.Academies.External.Web.Pages
         {
 	        _logger = logger;
 	        _conversionApplicationRetrievalService = conversionApplicationRetrievalService;
-	        ApplicationReferenceNumber = string.Empty;
-	        CompletedSections = 0;
         }
 
         public async Task OnGetAsync()
         {
 	        try
 	        {
-		        //SelectedSchool = ;// TODO MR:- going to have to wham into session !
-                var draftConversionApplication = TempDataHelper.GetSerialisedValue<SchoolApplyingToConvert>(TempDataHelper.SelectedSchoolKey, TempData) ?? new SchoolApplyingToConvert();
+		        // SelectedSchool = ;// TODO MR:- going to have to wham into session !
+                SelectedSchool = TempDataHelper.GetSerialisedValue<SchoolApplyingToConvert>(TempDataHelper.SelectedSchoolKey, TempData) ?? new SchoolApplyingToConvert();
 
                 // Grab other values from API
                 SelectedSchool.SchoolApplicationComponents = await _conversionApplicationRetrievalService
-			        .GetConversionApplicationComponentStatuses(draftConversionApplication.Id);
+			        .GetConversionApplicationComponentStatuses(SelectedSchool.Id);
 
                 PopulateUiModel(SelectedSchool);
             }
@@ -48,7 +46,7 @@ namespace Dfe.Academies.External.Web.Pages
 
         private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
         {
-            CompletedSections = 0; // TODO MR:- what logic drives this !
+            CompletedSections = 0; // TODO MR:- what logic drives this, component exists / hasData??
 
             // Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
             Components = selectedSchool.SchoolApplicationComponents.Select(c =>
