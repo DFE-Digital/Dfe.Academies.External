@@ -31,13 +31,3 @@ public enum SchoolRoles
     [Description("Something Else")]
     Other = 2
 }
-
-public enum Status
-{
-    [Description("Not Started")]
-    NotStarted = 1,
-    [Description("In Progress")]
-    InProgress = 2,
-    [Description("Completed")]
-    Completed = 3,
-}
