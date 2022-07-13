@@ -17,7 +17,6 @@ internal sealed class ConversionApplicationTests
             ApplicationType = ApplicationTypes.FormNewMat,
             UserEmail = "mark.robinson@education.gov.uk",
             Application = "test",
-            TrustName = "Pudsey School",
             ConversionStatus = 1
         };
 
