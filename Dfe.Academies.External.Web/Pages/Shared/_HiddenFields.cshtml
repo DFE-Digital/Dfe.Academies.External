@@ -1,0 +1,9 @@
+﻿@using Dfe.Academies.External.Web.ViewModels
+@using Dfe.Academies.External.Web.Services
+@{
+	var applicationDetails = ViewDataHelper.GetSerialisedValue<ApplicationCacheValuesViewModel>(nameof(ApplicationCacheValuesViewModel), ViewData);
+}
+
+<input type="hidden" name="@($"{nameof(ApplicationCacheValuesViewModel)}_id")" value="@applicationDetails?.ApplicationId"/>
+<input type="hidden" name="@($"{nameof(ApplicationCacheValuesViewModel)}_type")" value="@applicationDetails?.ApplicationType"/>
+<input type="hidden" name="@($"{nameof(ApplicationCacheValuesViewModel)}_reference")" value="@applicationDetails?.ApplicationReference"/>
