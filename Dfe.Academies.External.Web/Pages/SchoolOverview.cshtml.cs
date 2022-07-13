@@ -4,7 +4,7 @@ using Dfe.Academies.External.Web.Services;
 
 namespace Dfe.Academies.External.Web.Pages
 {
-    public class SchoolOverviewModel : BasePageModel
+    public class SchoolOverviewModel : BasePageEditModel
     {
 	    private readonly ILogger<SchoolOverviewModel> _logger;
 	    private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
@@ -19,7 +19,7 @@ namespace Dfe.Academies.External.Web.Pages
 
         public List<ViewModels.ApplicationComponentViewModel> Components { get; set; } = new();
 
-        public SchoolOverviewModel(ILogger<SchoolOverviewModel> logger, IConversionApplicationRetrievalService conversionApplicationRetrievalService)
+        public SchoolOverviewModel(ILogger<SchoolOverviewModel> logger, IConversionApplicationRetrievalService conversionApplicationRetrievalService) : base(conversionApplicationRetrievalService)
         {
 	        _logger = logger;
 	        _conversionApplicationRetrievalService = conversionApplicationRetrievalService;

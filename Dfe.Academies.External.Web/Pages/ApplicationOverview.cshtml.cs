@@ -6,7 +6,7 @@ using Dfe.Academies.External.Web.Services;
 
 namespace Dfe.Academies.External.Web.Pages
 {
-    public class ApplicationOverviewModel : BasePageModel
+    public class ApplicationOverviewModel : BasePageEditModel
     {
         private readonly ILogger<ApplicationOverviewModel> _logger;
         private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
@@ -35,9 +35,9 @@ namespace Dfe.Academies.External.Web.Pages
         /// <summary>
         /// to render submit button on UI
         /// </summary>
-        public bool UserHasSubmitRole { get; private set; } = false;
+        //public bool UserHasSubmitApplicationRole { get; private set; } = false; // MR:- now in page base
 
-        public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger, IConversionApplicationRetrievalService conversionApplicationRetrievalService)
+        public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger, IConversionApplicationRetrievalService conversionApplicationRetrievalService): base(conversionApplicationRetrievalService)
         {
             _logger = logger;
             _conversionApplicationRetrievalService = conversionApplicationRetrievalService;
