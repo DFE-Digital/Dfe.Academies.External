@@ -11,6 +11,7 @@ namespace Dfe.Academies.External.Web.Services;
 public static class TempDataHelper
 {
     public const string DraftConversionApplicationKey = "draftConversionApplication";
+    public const string SelectedSchoolKey = "selectedSchoolKey";
 
     public static T? GetSerialisedValue<T>(string key, ITempDataDictionary tempData)
     {
