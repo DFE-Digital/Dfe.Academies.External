@@ -10,10 +10,9 @@ public class ConversionApplicationContributor
         OtherRoleNotListed = otherRoleNotListed;
         Person = new Person(firstName, surname);
     }
-
     public int Id { get; set; }
 
-    public int ConversionApplicationId { get; set; }
+    public int ApplicationId { get; set; }
 
     public SchoolRoles Role { get; set; }
 
