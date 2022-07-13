@@ -1,7 +1,6 @@
 ﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace Dfe.Academies.External.Web.UnitTest.Models;
 
@@ -18,7 +17,6 @@ internal sealed class ConversionApplicationTests
             ApplicationType = ApplicationTypes.FormNewMat,
             UserEmail = "mark.robinson@education.gov.uk",
             Application = "test",
-            TrustName = "Pudsey School",
             ConversionStatus = 1
         };
 
