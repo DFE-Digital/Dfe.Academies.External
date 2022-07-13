@@ -8,7 +8,7 @@ public class ConversionApplication
     /// <summary>
     /// e.g. 'A2B_xxx'
     /// </summary>
-    public string ApplicationReference { get; set; }
+    public string ApplicationReference => $"A2B_{Id}";
 
     public ApplicationTypes ApplicationType { get; set; }
 
@@ -33,35 +33,4 @@ public class ConversionApplication
     public string TrustName => (ApplicationType == ApplicationTypes.JoinMat
         ? ExistingTrust?.TrustName
         : FormATrust?.ProposedTrustName) ?? string.Empty;
-
-    public bool? ChangesToLocalAuthorityGovernance { get; set; }
-
-    public string? ChangesToLocalAuthorityGovernanceExplained { get; set; }
-
-    // TODO MR:- contact main contact / lead contact ??
-
-    //public Status ConversionStatusCalculated
-    //{
-    //    get
-    //    {
-    //        if (ConversionApplicationComponents.Count == 0)
-    //        {
-    //            return Status.CannotStartYet;
-    //        }
-    //        else
-    //        {
-    //            // all components = 'Not Started' so overall status = 'Not Started'
-    //            if (ConversionApplicationComponents.Count == ConversionApplicationComponents.Count(c => c.Status == Status.NotStarted))
-    //            {
-    //                return Status.NotStarted;
-    //            }
-    //            else
-    //            {
-    //                // check component statuses to work out whether application 'InProgress' OR 'Completed'
-    //                return ConversionApplicationComponents.Any(c => c.Status != Status.Completed) 
-    //                    ? Status.InProgress : Status.Completed;
-    //            }
-    //        }
-    //    }
-    //}
 }

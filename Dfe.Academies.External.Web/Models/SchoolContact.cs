@@ -5,11 +5,7 @@ public class SchoolContact
     public SchoolContact(int schoolId, string firstName, string surname)
     {
         SchoolId = schoolId;
-        Person = new Person
-        {
-            FirstName = firstName,
-            Surname = surname
-        };
+        Person = new Person(firstName, surname);
     }
 
 

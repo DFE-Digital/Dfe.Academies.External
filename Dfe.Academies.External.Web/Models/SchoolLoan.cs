@@ -2,6 +2,12 @@
 
 public class SchoolLoan
 {
+	public SchoolLoan(string purpose, string provider)
+	{
+		Purpose = purpose;
+		Provider = provider;
+	}
+
     public int Id { get; set; }
 
     public int SchoolId { get; set; }
@@ -16,7 +22,7 @@ public class SchoolLoan
 
     public decimal? InterestRate { get; set; }
 
-    public string Schedule { get; set; }
+    public string? Schedule { get; set; }
 
     public DateTime? EndDate { get; set; }
     
