@@ -21,7 +21,7 @@ public static class TempDataHelper
         }
         else
         {
-            return default(T);
+            return default;
         }
     }
 
