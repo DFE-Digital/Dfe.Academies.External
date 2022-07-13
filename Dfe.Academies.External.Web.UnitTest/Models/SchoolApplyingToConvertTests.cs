@@ -15,10 +15,9 @@ internal sealed class SchoolApplyingToConvertTests
         // arrange
         string schoolName = Fixture.Create<string>();
         
-        var conversionApplication = new SchoolApplyingToConvert
+        var conversionApplication = new SchoolApplyingToConvert(schoolName)
         {
-            Id = int.MaxValue,
-            SchoolName = schoolName
+            Id = int.MaxValue
         };
 
         // act

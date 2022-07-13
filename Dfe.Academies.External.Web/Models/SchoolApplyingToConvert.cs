@@ -2,6 +2,11 @@
 
 public class SchoolApplyingToConvert
 {
+	public SchoolApplyingToConvert(string schoolName)
+	{
+		SchoolName = schoolName;
+	}
+
     public int Id { get; set; }
 
     /// <summary>
