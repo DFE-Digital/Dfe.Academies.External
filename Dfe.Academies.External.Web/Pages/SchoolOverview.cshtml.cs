@@ -9,7 +9,7 @@ namespace Dfe.Academies.External.Web.Pages
 	    private readonly ILogger<SchoolOverviewModel> _logger;
 	    private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
 	    
-		public SchoolApplyingToConvert SelectedSchool { get; private set; } = new();
+		public SchoolApplyingToConvert SelectedSchool { get; private set; } = new(string.Empty);
 
         public string ApplicationReferenceNumber { get; private set; } = string.Empty;
 
@@ -30,11 +30,11 @@ namespace Dfe.Academies.External.Web.Pages
 	        try
 	        {
 		        // SelectedSchool = ;// TODO MR:- going to have to wham into session !
-                SelectedSchool = TempDataHelper.GetSerialisedValue<SchoolApplyingToConvert>(TempDataHelper.SelectedSchoolKey, TempData) ?? new SchoolApplyingToConvert();
+                SelectedSchool = TempDataHelper.GetSerialisedValue<SchoolApplyingToConvert>(TempDataHelper.SelectedSchoolKey, TempData) ?? new SchoolApplyingToConvert(string.Empty);
 
                 // Grab other values from API
                 SelectedSchool.SchoolApplicationComponents = await _conversionApplicationRetrievalService
-			        .GetConversionApplicationComponentStatuses(SelectedSchool.Id);
+			        .GetSchoolApplicationComponents(SelectedSchool.Id);
 
                 PopulateUiModel(SelectedSchool);
             }

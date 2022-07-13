@@ -85,7 +85,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
         // arrange
         var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
         int expectedCount = 3; // TODO: 
-        long applicationId = 99; // TODO: 
+        int applicationId = 99; // TODO: 
         var mockFactory = new Mock<IHttpClientFactory>();
 
         var mockMessageHandler = new Mock<HttpMessageHandler>();
@@ -113,12 +113,12 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     }
 
     [Test]
-    public async Task ConversionApplicationRetrievalService___GetConversionApplicationComponentStatuses___Success()
+    public async Task ConversionApplicationRetrievalService___GetSchoolApplicationComponents___Success()
     {
         // arrange
         var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
         int expectedCount = 8; // TODO: 
-        long applicationId = 99; // TODO: 
+        int applicationId = 99; // TODO: 
         var mockFactory = new Mock<IHttpClientFactory>();
 
         var mockMessageHandler = new Mock<HttpMessageHandler>();
@@ -138,7 +138,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
         // act
         var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
-        var applicationComponentStatuses = await applicationRetrievalService.GetConversionApplicationComponentStatuses(applicationId);
+        var applicationComponentStatuses = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId);
 
         // assert
         Assert.That(applicationComponentStatuses, Is.Not.Null);
@@ -151,7 +151,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
         // arrange
         var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
         int expectedCount = 2; // TODO: 
-        long applicationId = 99; // TODO: 
+        int applicationId = 99; // TODO: 
         var mockFactory = new Mock<IHttpClientFactory>();
 
         var mockMessageHandler = new Mock<HttpMessageHandler>();

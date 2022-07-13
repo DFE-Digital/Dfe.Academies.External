@@ -6,9 +6,11 @@ public interface IConversionApplicationRetrievalService
     List<ConversionApplication> GetCompletedApplications(string? username);
     List<ConversionApplication> GetPendingApplications(string? username);
 
-    Task<List<ConversionApplicationAuditEntry>> GetConversionApplicationAuditEntries(long id);
+    Task<List<ConversionApplicationAuditEntry>> GetConversionApplicationAuditEntries(int applicationId);
 
-    Task<List<ConversionApplicationComponent>> GetConversionApplicationComponentStatuses(long id);
+    Task<List<ConversionApplicationComponent>> GetSchoolApplicationComponents(int schoolId);
 
-    Task<List<ConversionApplicationContributor>> GetConversionApplicationContributors(long id);
+    Task<List<ConversionApplicationContributor>> GetConversionApplicationContributors(int applicationId);
+
+    Task<SchoolApplyingToConvert> GetSchool(int schoolId);
 }

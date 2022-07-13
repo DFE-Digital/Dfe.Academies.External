@@ -9,7 +9,9 @@ public class ConversionApplicationComponent
         Name = name;
     }
 
-    public int? Id { get; set; }
+    public int Id { get; set; }
+
+    public int SchoolId { get; set; }
 
     public Status Status { get; set; }
 

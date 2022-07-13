@@ -12,6 +12,9 @@ public class ConversionApplicationContributor
     }
 
     public int Id { get; set; }
+
+    public int ApplicationId { get; set; }
+
     public string Name { get; set; }
 
     public SchoolRoles Role { get; set; }
