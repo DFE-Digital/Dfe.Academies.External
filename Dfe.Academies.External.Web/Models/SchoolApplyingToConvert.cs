@@ -2,7 +2,10 @@
 {
     public class SchoolApplyingToConvert
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
+
+        public int ApplicationId { get; set; }
+
         public string? SchoolName { get; set; }
 
         public List<ConversionApplicationComponent> SchoolApplicationComponents { get; set; } = new();
