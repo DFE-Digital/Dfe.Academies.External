@@ -2,6 +2,12 @@
 
 public class Person
 {
+	public Person(string firstName, string surname)
+	{
+		FirstName = firstName;
+		Surname = surname;
+	}
+
     public int PersonId { get; set; }
 
     /// <summary>
@@ -11,7 +17,7 @@ public class Person
 
     public string Surname { get; set; }
 
-    public string ContactEmailAddress { get; set; }
+    public string? ContactEmailAddress { get; set; }
 
     // TODO MR:- add ContactTelephone ?
 }

@@ -7,11 +7,7 @@ public class NewTrustKeyPerson
     public NewTrustKeyPerson(string firstName, string surname, KeyPersonRole role)
     {
         Role = role;
-        Person = new Person
-        {
-            FirstName = firstName,
-            Surname = surname
-        };
+        Person = new Person(firstName, surname);
     }
 
     public int Id { get; set; }

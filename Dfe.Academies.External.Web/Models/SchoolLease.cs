@@ -2,6 +2,11 @@
 
 public class SchoolLease
 {
+	public SchoolLease(string purpose)
+	{
+		Purpose = purpose;
+	}
+
     public int Id { get; set; }
     public int SchoolId { get; set; }
 
@@ -22,7 +27,7 @@ public class SchoolLease
     
     public decimal? ValueOfAssets { get; set; }
 
-    public string ResponsibleForAssets { get; set; }
+    public string? ResponsibleForAssets { get; set; }
 
-    public string Provider { get; set; }
+    public string? Provider { get; set; }
 }
