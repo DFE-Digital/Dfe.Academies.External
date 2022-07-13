@@ -8,11 +8,7 @@ public class ConversionApplicationContributor
     {
         Role = role;
         OtherRoleNotListed = otherRoleNotListed;
-        Person = new Person
-        {
-            FirstName = firstName,
-            Surname = surname
-        };
+        Person = new Person(firstName, surname);
     }
 
     public int Id { get; set; }
@@ -24,6 +20,7 @@ public class ConversionApplicationContributor
     public string? OtherRoleNotListed { get; set; }
 
     public int PersonId { get; set; }
+
     public Person Person { get; set; }
 
 
