@@ -7,7 +7,7 @@
 
 @section BeforeMain
 {
-    <a asp-page="YourApplications" class="govuk-back-link">Back to Your applications</a>
+	<a asp-page="YourApplications" class="govuk-back-link">Back to your applications</a>
 }
 
 <div class="govuk-grid-column-two-thirds">
@@ -28,7 +28,7 @@
         <caption class="govuk-table__caption govuk-table__caption--l">The school applying to convert</caption>
         <tbody class="govuk-table__body">
             @*If no school selected - render button instead*@
-            @if (string.IsNullOrWhiteSpace(Model.SchoolApplyingToConvert)){
+            @if (!Model.SchoolOrSchoolsApplyingToConvert.Any()){
                 <tr class="govuk-table__row">
                     <td class="govuk-table__cell">
                         <a asp-page="ApplicationSelectSchool" class="govuk-button" data-module="govuk-button">Add a school</a>
@@ -36,20 +36,15 @@
                 </tr>
             }
             else{
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell"><strong>@Model.SchoolApplyingToConvert</strong></td>
-                    <td class="govuk-table__cell govuk-!-text-align-right"><a asp-page="" class="govuk-link">Change</a></td>
-                </tr>
+	            @foreach (var school in Model.SchoolOrSchoolsApplyingToConvert)
+	            {
+		            <tr class="govuk-table__row">
+			            <td class="govuk-table__cell govuk-!-text-align-right"><a asp-page="SchoolOverview" class="govuk-link">@school.SchoolName</a></td>
+		            </tr>
+	            }
             }
         </tbody>
     </table>
-    
-    <div class="govuk-!-margin-6"></div>
-    
-    @if (!string.IsNullOrWhiteSpace(Model.SchoolApplyingToConvert))
-    {
-        <partial name="_ApplicationComponentsStatusPartial" model="Model.Components"/>
-    }
 
     <table class="govuk-table">
         <caption class="govuk-table__caption govuk-table__caption--l">The trust the school will join</caption>

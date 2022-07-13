@@ -10,79 +10,64 @@ namespace Dfe.Academies.External.Web.Pages
     {
         private readonly ILogger<ApplicationOverviewModel> _logger;
         private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
-        private ConversionApplication _draftConversionApplication;
-
+        
         // Below are props for UI display, shunt over to separate view model?
-        public string ApplicationTypeDescription { get; private set; }
+        public string ApplicationTypeDescription { get; private set; } = string.Empty;
 
-        public string ApplicationReferenceNumber { get; private set; }
+        public string ApplicationReferenceNumber { get; private set; } = string.Empty;
 
         public short CompletedSections { get; private set; }
 
         public short TotalNumberOfSections => 3;
 
-        /// <summary>
-        /// comma separated list<schools>?
-        /// </summary>
-        public string? SchoolApplyingToConvert { get; set; }
+        public List<SchoolApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; private set; } = new();
 
-        public string? NameOfTrustToJoin { get; set; }
+        public string? NameOfTrustToJoin { get; private set; } 
 
         // overall application status
-        public string ApplicationStatus { get; private set; }
+        public string ApplicationStatus { get; private set; } = string.Empty;
 
         public Status ConversionStatus { get; private set; }
-
-        public List<ViewModels.ApplicationComponentViewModel> Components { get; set; } = new();
-
-        // List of contributors
-        public List<ViewModels.ConversionApplicationContributorViewModel> Contributors { get; set; } = new();
-
+        
         // List Of Audits
-        public List<ViewModels.ApplicationAuditViewModel> Audits { get; set; } = new();
+        public List<ViewModels.ApplicationAuditViewModel> Audits { get; private set; } = new();
 
         /// <summary>
         /// to render submit button on UI
         /// </summary>
-        public bool UserHasSubmitRole { get; private set; }
+        public bool UserHasSubmitRole { get; private set; } = false;
 
         public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger, IConversionApplicationRetrievalService conversionApplicationRetrievalService)
         {
             _logger = logger;
             _conversionApplicationRetrievalService = conversionApplicationRetrievalService;
-            _draftConversionApplication = new ConversionApplication();
-            ApplicationTypeDescription = string.Empty;
-            ApplicationReferenceNumber = string.Empty;
-            CompletedSections = 0;
-            SchoolApplyingToConvert = string.Empty;
-            NameOfTrustToJoin = string.Empty;
-            UserHasSubmitRole = false;
         }
 
         public async Task OnGetAsync()
         {
-             _draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+	        try
+	        {
+		        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-            // Grab other values from API
-            var auditEntries = await _conversionApplicationRetrievalService.GetConversionApplicationAuditEntries(_draftConversionApplication.Id);
-            _draftConversionApplication.ConversionApplicationComponents = await _conversionApplicationRetrievalService
-                .GetConversionApplicationComponentStatuses(_draftConversionApplication.Id);
-            var conversionApplicationContributors = await _conversionApplicationRetrievalService
-                .GetConversionApplicationContributors(_draftConversionApplication.Id);
+		        // Grab other values from API
+		        var auditEntries = await _conversionApplicationRetrievalService.GetConversionApplicationAuditEntries(draftConversionApplication.Id);
 
-            PopulateUiModel(auditEntries, conversionApplicationContributors);
+		        PopulateUiModel(auditEntries, draftConversionApplication);
+            }
+	        catch (Exception ex)
+	        {
+		        _logger.LogError("Application::ApplicationOverviewModel::OnGetAsync::Exception - {Message}", ex.Message);
+	        }
         }
 
-        private void PopulateUiModel(List<ConversionApplicationAuditEntry> auditEntries,
-            List<ConversionApplicationContributor> conversionApplicationContributors)
+        private void PopulateUiModel(List<ConversionApplicationAuditEntry> auditEntries, ConversionApplication draftConversionApplication)
         {
-            ApplicationTypeDescription = _draftConversionApplication.ApplicationType.GetDescription();
-            ApplicationReferenceNumber = $"A2B_{_draftConversionApplication.Id}";
-            SchoolApplyingToConvert = string.Join(",", _draftConversionApplication.SchoolOrSchoolsApplyingToConvert);
-            NameOfTrustToJoin = _draftConversionApplication.TrustName;
+            ApplicationTypeDescription = draftConversionApplication.ApplicationType.GetDescription();
+            ApplicationReferenceNumber = draftConversionApplication.ApplicationReference;
             CompletedSections = 0; // TODO MR:- what logic drives this !
             ApplicationStatus = "incomplete"; // TODO MR:- what logic drives this !
             ConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
+            SchoolOrSchoolsApplyingToConvert = draftConversionApplication.SchoolOrSchoolsApplyingToConvert;
 
             // Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
             Audits = auditEntries.Select(e => 
@@ -92,24 +77,6 @@ namespace Dfe.Academies.External.Web.Pages
                         $"{e.CreatedBy} {e.TypeOfChange} the {e.PropertyChanged}", // TODO MR:- re-work text when I can how this looks on screen !
                     When = e.DateCreated,
                     Who = e.CreatedBy
-                }).ToList();
-
-            // Convert from List<ConversionApplicationContributor> -> List<ViewModels.ConversionApplicationContributorViewModel>
-            Contributors = conversionApplicationContributors.Select(c => 
-                new ViewModels.ConversionApplicationContributorViewModel 
-                {
-                    Name = c.Name,
-                    Role = c.Role,
-                    OtherRoleNotListed = c.OtherRoleNotListed
-                }).ToList();
-
-            // Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
-            Components = _draftConversionApplication.ConversionApplicationComponents.Select(c =>
-                new ViewModels.ApplicationComponentViewModel
-                {
-                    Name = c.Name,
-                    Status = c.Status,
-                    URI = SetApplicationComponentUriFromName(c.Name)
                 }).ToList();
         }
 
@@ -127,31 +94,6 @@ namespace Dfe.Academies.External.Web.Pages
                         this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add(modelStateError.Key, modelStateError.Value);
                     }
                 }
-            }
-        }
-
-        private string SetApplicationComponentUriFromName(string componentName)
-        {
-            switch (componentName.ToLower().Trim())
-            {
-                case "contact details":
-                    return "/ApplicationSchoolContactDetails";
-                case "performance and safeguarding":
-                    return "/ApplicationSchoolPerformanceAndSafeguarding";
-                case "pupil numbers":
-                    return "/ApplicationSchoolPupilNumbers";
-                case "finances":
-                    return "/ApplicationSchoolFinances";
-                case "partnerships and affiliations":
-                    return "/ApplicationSchoolPartnershipsAndAffliates";
-                case "religious education":
-                    return "/ApplicationSchoolReligiousEducation";
-                case "land and buildings":
-                    return "/ApplicationSchoolLandAndBuildings";
-                case "local authority":
-                    return "/ApplicationSchoolLocalAuthority";
-                default:
-                    return string.Empty; 
             }
         }
     }
