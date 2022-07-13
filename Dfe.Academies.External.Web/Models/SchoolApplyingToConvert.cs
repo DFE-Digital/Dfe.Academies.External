@@ -9,13 +9,13 @@ public class SchoolApplyingToConvert
     /// </summary>
     public int SchoolId { get; set; }
 
-    public string? SchoolName { get; set; }
+    public string SchoolName { get; set; }
 
     public List<ConversionApplicationComponent> ConversionApplicationComponents { get; set; } = new();
 
-    // TODO MR:- contact head
+    // TODO MR:- contact head - or list<Contact> with a type?
 
-    // TODO MR:- contact chair
+    // TODO MR:- contact chair - or list<Contact> with a type?
 
     //// MR:- below props from A2C-SIP - ApplyingSchool object
     public bool? SchoolOfstedInspectedButReportNotPublished { get; set; }
