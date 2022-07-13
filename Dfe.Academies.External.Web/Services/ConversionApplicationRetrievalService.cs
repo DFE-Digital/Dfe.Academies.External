@@ -135,4 +135,25 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
 	    return schoolApplyingToConvert;
     }
+
+    public async Task<ConversionApplication> GetApplication(int applicationId)
+    {
+	    // TODO: Get data from Academisation API
+	    // _resilientRequestProvider.Get
+
+	    // **** Mock Demo Data - as per Figma ****
+	    ConversionApplication conversionApplication = new()
+	    {
+		    Id = applicationId,
+		    UserEmail = "",
+		    Application = "Join a multi-academy trust A2B_2549",
+		    TrustName = "The Diocese of Ely multi - academy trust",
+		    SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+		    {
+			    new(schoolName: "Cambridge Regional college") { Id = 96 }
+		    }
+	    };
+
+	    return conversionApplication;
+    }
 }
