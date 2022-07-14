@@ -27,8 +27,11 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
     public async Task OnGetAsync()
     {
         // like on load - if navigating backwards from NextStepPage - will need to set model value from somewhere!
-        // _draftConversionApplication = _tempDataHelperService.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-        // ApplicationType = _draftConversionApplication.ApplicationType;
+        //// on load - grab draft application from temp
+        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+        //// MR:- Need to drop into this pages cache here ready for post / server callback !
+        TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -51,30 +54,19 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
 
             _draftConversionApplication = await _academisationCreationService.CreateNewApplication(_draftConversionApplication);
 
-            if(_draftConversionApplication != null)
-                // MR:- plop newApplication.Id somewhere so NextStepPage can pick this up !
-                TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, _draftConversionApplication);
+            if (_draftConversionApplication != null)
+            {
+	            // MR:- plop newApplication.Id somewhere so NextStepPage can pick this up !
+	            TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, _draftConversionApplication);
+            }
+
+            return RedirectToPage(NextStepPage);
         }
         catch (Exception ex)
         {
             _logger.LogError("Application::WhatAreYouApplyingToDoModel::OnPostAsync::Exception - {Message}", ex.Message);
             return Page();
         }
-        
-        switch (applicationTypeSelected)
-        {
-            case ApplicationTypes.JoinMat:
-                TempData["applicationTypeSelected"] = applicationTypeSelected;
-                return RedirectToPage(NextStepPage);
-            case ApplicationTypes.FormNewMat:
-                TempData["applicationTypeSelected"] = applicationTypeSelected;
-                return RedirectToPage(NextStepPage);
-            case ApplicationTypes.FormNewSingleAcademyTrust:
-                TempData["applicationTypeSelected"] = applicationTypeSelected;
-                return RedirectToPage(NextStepPage);
-        }
-
-        return Page();
     }
 
     public override void PopulateValidationMessages()
