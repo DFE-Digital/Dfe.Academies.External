@@ -2,6 +2,11 @@
 
 public sealed class SchoolCacheValuesViewModel
 {
+	public SchoolCacheValuesViewModel()
+	{
+
+	}
+
 	public SchoolCacheValuesViewModel(int schoolId, string schoolName)
 	{
 		SchoolId = schoolId;
