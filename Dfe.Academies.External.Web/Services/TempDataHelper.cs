@@ -10,6 +10,9 @@ namespace Dfe.Academies.External.Web.Services;
 /// </summary>
 public static class TempDataHelper
 {
+    public const string DraftConversionApplicationKey = "draftConversionApplication";
+    public const string SelectedSchoolKey = "selectedSchoolKey";
+
     public static T? GetSerialisedValue<T>(string key, ITempDataDictionary tempData)
     {
         if (tempData.ContainsKey(key))
@@ -18,13 +21,14 @@ public static class TempDataHelper
         }
         else
         {
-            return default(T);
+            return default;
         }
     }
 
     public static void StoreSerialisedValue(string key, ITempDataDictionary tempData, object data)
     {
         tempData[key] = JsonSerializer.Serialize(data);
+        tempData.Keep(key);
     }
 
     public static string? GetNonSerialisedValue(string key, ITempDataDictionary tempData)
@@ -42,5 +46,6 @@ public static class TempDataHelper
     public static void StoreNonSerialisedValue(string key, ITempDataDictionary tempData, object data)
     {
         tempData[key] = data;
+        tempData.Keep(key);
     }
 }
