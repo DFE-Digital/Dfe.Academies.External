@@ -27,7 +27,7 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
     public async Task OnGetAsync()
     {
         // like on load - if navigating backwards from NextStepPage - will need to set model value from somewhere!
-        // _draftConversionApplication = _tempDataHelperService.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
+        // _draftConversionApplication = _tempDataHelperService.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
         // ApplicationType = _draftConversionApplication.ApplicationType;
     }
 
@@ -53,7 +53,7 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
 
             if(_draftConversionApplication != null)
                 // MR:- plop newApplication.Id somewhere so NextStepPage can pick this up !
-                TempDataHelper.StoreSerialisedValue("draftConversionApplication", TempData, _draftConversionApplication);
+                TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, _draftConversionApplication);
         }
         catch (Exception ex)
         {
