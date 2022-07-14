@@ -34,7 +34,7 @@ namespace Dfe.Academies.External.Web.Pages
 
                 // Grab other values from API
                 SelectedSchool.SchoolApplicationComponents = await _conversionApplicationRetrievalService
-			        .GetSchoolApplicationComponents(SelectedSchool.Id);
+			        .GetSchoolApplicationComponents(SelectedSchool.SchoolId);
 
                 PopulateUiModel(SelectedSchool);
             }

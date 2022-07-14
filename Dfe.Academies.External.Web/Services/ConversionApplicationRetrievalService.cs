@@ -29,7 +29,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	    {
 		    new() { Id = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
 			    SchoolOrSchoolsApplyingToConvert = new()
-				    { new(schoolName: "St George’s school" ) {Id = 2 } } }
+				    { new(schoolName: "St George’s school" ) {SchoolId = 2 } } }
 	    };
 
 	    return existingApplications;
@@ -48,20 +48,20 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
                 new() { Id = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
                         SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
                         {
-                            new(schoolName: "Cambridge Regional college") {Id = 96 }
+                            new(schoolName: "Cambridge Regional college") {SchoolId = 96 }
                         }
                 },
                 new() { Id = 3, UserEmail = "", Application = "Form a new multi- academy trust A2B_8956",
                         SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>{
-                            new(schoolName: "Fen Ditton primary school") { Id = 99 },
-                            new(schoolName: "Chesterton primary school") {Id  = 98},
-                            new(schoolName: "North Cambridge academy") {Id  = 97 }
+                            new(schoolName: "Fen Ditton primary school") { SchoolId = 99 },
+                            new(schoolName: "Chesterton primary school") { SchoolId  = 98},
+                            new(schoolName: "North Cambridge academy") { SchoolId  = 97 }
                         }
                 },
                 new() { Id = 4, UserEmail = "", Application = "Form a new single academy trust A2B_8974",
                         SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
                         {
-                            new(schoolName: "King’s College London Maths school") {Id = 95 }
+                            new(schoolName: "King’s College London Maths school") { SchoolId = 95 }
                         }
                 }
             };
@@ -118,8 +118,10 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         // **** Mock Demo Data - as per Figma ****
         List<ConversionApplicationContributor> conversionApplicationContributors = new()
         {
-            new(firstName: "Phillip", surname:"Frond", SchoolRoles.Chair, null) {ApplicationId = applicationId},
-            new(firstName: "Robert", surname: "Phillips", role:SchoolRoles.Other ,  otherRoleNotListed: "PA to the headteacher") {ApplicationId = applicationId}
+            new(firstName: "Phillip", surname:"Frond", SchoolRoles.Chair, null) 
+											{ApplicationId = applicationId},
+            new(firstName: "Robert", surname: "Phillips", role:SchoolRoles.Other ,  otherRoleNotListed: "PA to the headteacher") 
+											{ApplicationId = applicationId}
         };
 
         return conversionApplicationContributors;
@@ -149,7 +151,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
             Application = "Join a multi-academy trust A2B_2549",
             SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
             {
-                new(schoolName: "Cambridge Regional college") { Id = 96 }
+                new(schoolName: "Cambridge Regional college") { SchoolId = 96 }
             }
         };
 

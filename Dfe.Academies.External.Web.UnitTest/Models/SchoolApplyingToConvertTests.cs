@@ -17,7 +17,7 @@ internal sealed class SchoolApplyingToConvertTests
         
         var conversionApplication = new SchoolApplyingToConvert(schoolName)
         {
-            Id = int.MaxValue
+	        SchoolId = int.MaxValue
         };
 
         // act
@@ -25,7 +25,7 @@ internal sealed class SchoolApplyingToConvertTests
 
         // assert
         Assert.That(conversionApplication, Is.Not.Null);
-        Assert.That(conversionApplication.Id, Is.EqualTo(int.MaxValue));
+        Assert.That(conversionApplication.SchoolId, Is.EqualTo(int.MaxValue));
         Assert.That(conversionApplication.SchoolName, Is.EqualTo(schoolName));
     }
 }
