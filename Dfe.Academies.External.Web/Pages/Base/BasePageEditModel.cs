@@ -30,7 +30,7 @@ public abstract class BasePageEditModel : BasePageModel
 
 		if (schoolDetails != null)
 		{
-			SchoolCacheValuesViewModel cachedValuesViewModel = new(schoolDetails.Id, schoolDetails.SchoolName);
+			SchoolCacheValuesViewModel cachedValuesViewModel = new(schoolDetails.SchoolId, schoolDetails.SchoolName);
 
 			ViewDataHelper.StoreSerialisedValue(nameof(SchoolCacheValuesViewModel), ViewData, cachedValuesViewModel);
 		}

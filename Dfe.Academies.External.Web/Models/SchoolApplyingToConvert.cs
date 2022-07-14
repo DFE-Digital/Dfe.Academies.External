@@ -7,8 +7,6 @@ public class SchoolApplyingToConvert
 		SchoolName = schoolName;
 	}
 
-    public int Id { get; set; }
-
     /// <summary>
     /// This would be existing Id from GIAS (?). 6 digit URN?
     /// </summary>
