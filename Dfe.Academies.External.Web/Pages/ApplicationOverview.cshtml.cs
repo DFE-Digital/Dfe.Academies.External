@@ -28,9 +28,6 @@ namespace Dfe.Academies.External.Web.Pages
         public string ApplicationStatus { get; private set; } = string.Empty;
 
         public Status ConversionStatus { get; private set; }
-        
-        // List Of Audits
-        public List<ViewModels.ApplicationAuditViewModel> Audits { get; private set; } = new();
 
         /// <summary>
         /// to render submit button on UI
@@ -68,16 +65,6 @@ namespace Dfe.Academies.External.Web.Pages
             ApplicationStatus = "incomplete"; // TODO MR:- what logic drives this !
             ConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
             SchoolOrSchoolsApplyingToConvert = draftConversionApplication.SchoolOrSchoolsApplyingToConvert;
-
-            // Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
-            Audits = auditEntries.Select(e => 
-                new ViewModels.ApplicationAuditViewModel
-                {
-                    What =
-                        $"{e.CreatedBy} {e.TypeOfChange} the {e.PropertyChanged}", // TODO MR:- re-work text when I can how this looks on screen !
-                    When = e.DateCreated,
-                    Who = e.CreatedBy
-                }).ToList();
         }
 
         public override void PopulateValidationMessages()
