@@ -66,7 +66,8 @@ namespace Dfe.Academies.External.Web.Pages
 		        ApplicationStatus = "incomplete"; // TODO MR:- what logic drives this !
 		        ConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
 		        SchoolOrSchoolsApplyingToConvert = conversionApplication.SchoolOrSchoolsApplyingToConvert;
-            }
+		        NameOfTrustToJoin = conversionApplication.TrustName;
+	        }
         }
 
         public override void PopulateValidationMessages()
