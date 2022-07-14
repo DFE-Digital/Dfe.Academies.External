@@ -4,7 +4,13 @@ namespace Dfe.Academies.External.Web.ViewModels;
 
 public class ConversionApplicationContributorViewModel
 {
-    public string Name { get; set; }
+	public ConversionApplicationContributorViewModel(string fullName, SchoolRoles role)
+	{
+		FullName = fullName;
+		Role = role;
+	}
+
+    public string FullName { get; set; }
 
     public SchoolRoles Role { get; set; }
 
