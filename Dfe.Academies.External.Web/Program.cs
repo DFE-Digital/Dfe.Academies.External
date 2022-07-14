@@ -85,6 +85,16 @@ builder.Services.AddAcademiesApi(configuration);
 // Internal Service
 builder.Services.AddInternalServices();
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+	{
+		options.Cookie.HttpOnly = true;
+		options.Cookie.SameSite = SameSiteMode.Strict;
+		options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+		options.Cookie.IsEssential = true;
+	}
+);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -104,6 +114,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.UseSession();
 
 app.Run();
 
