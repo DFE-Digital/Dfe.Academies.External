@@ -4,10 +4,16 @@ namespace Dfe.Academies.External.Web.ViewModels;
 
 public sealed class ApplicationCacheValuesViewModel
 {
-	public ApplicationCacheValuesViewModel(int applicationId, ApplicationTypes applicationType)
+	public ApplicationCacheValuesViewModel()
+	{
+		
+	}
+
+	public ApplicationCacheValuesViewModel(int applicationId, ApplicationTypes applicationType, string applicationReference)
 	{
 		ApplicationId = applicationId;
 		ApplicationType = applicationType;
+		ApplicationReference = applicationReference;
 	}
 
 	public int ApplicationId { get; set; }
@@ -15,7 +21,7 @@ public sealed class ApplicationCacheValuesViewModel
 	/// <summary>
 	/// e.g. 'A2B_xxx'
 	/// </summary>
-	public string ApplicationReference => $"A2B_{ApplicationId}";
+	public string ApplicationReference { get; set; }
 
 	public ApplicationTypes ApplicationType { get; set; }
 }
