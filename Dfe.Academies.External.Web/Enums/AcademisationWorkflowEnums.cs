@@ -2,7 +2,7 @@
 
 namespace Dfe.Academies.External.Web.Enums;
 
-public enum ApplicationTypes : int
+public enum ApplicationTypes 
 {
     [Description("Join a multi-academy trust")]
     JoinMat = 1,
@@ -12,20 +12,37 @@ public enum ApplicationTypes : int
     FormNewSingleAcademyTrust = 3
 }
 
-public enum SchoolRoles : int
+public enum Status 
+{
+    [Description("Cannot Start Yet")]
+    CannotStartYet = 1,
+    [Description("Not Started")]
+    NotStarted = 2,
+    [Description("In Progress")]
+    InProgress = 3,
+    [Description("Completed")]
+    Completed = 4
+}
+
+public enum SchoolRoles
 {
     [Description("The chair of the school's governors")]
     Chair = 1,
+    // TODO MR:- add headteacher ??
     [Description("Something Else")]
     Other = 2
 }
 
-public enum Status
+public enum KeyPersonRole
 {
-    [Description("Not Started")]
-    NotStarted = 1,
-    [Description("In Progress")]
-    InProgress = 2,
-    [Description("Completed")]
-    Completed = 3,
+    [Description("CEO")]
+    CEO = 1,
+    [Description("The chair of the trust")]
+    Chair = 2,
+    [Description("Financial director")]
+    FinancialDirector = 3,
+    [Description("Trustee")]
+    Trustee = 4,
+    [Description("Other")]
+    Other = 5
 }

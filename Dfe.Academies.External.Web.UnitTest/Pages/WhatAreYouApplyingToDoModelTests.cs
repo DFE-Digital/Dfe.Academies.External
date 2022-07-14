@@ -73,7 +73,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
         Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
         // assert
-        if (errors != null) Assert.AreEqual(errors.Count, 1);
+        if (errors != null) Assert.AreEqual(1,errors.Count);
     }
 
     [Test]
@@ -92,7 +92,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
         var errors = pageModel.ViewData["Errors"]!;
 
         // assert - no model state validation errors
-        Assert.AreEqual(errors, null);
+        Assert.AreEqual(null, errors);
     }
 
     private static WhatAreYouApplyingToDoModel SetupWhatAreYouApplyingToDoModel(
