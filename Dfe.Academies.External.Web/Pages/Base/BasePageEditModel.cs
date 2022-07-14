@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Services;
+﻿using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 
 namespace Dfe.Academies.External.Web.Pages.Base;
@@ -12,7 +13,7 @@ public abstract class BasePageEditModel : BasePageModel
 		_conversionApplicationRetrievalService = conversionApplicationRetrievalService;
 	}
 
-	public async Task LoadAndSetApplicationDetails(int applicationId)
+	public async Task<ConversionApplication?> LoadAndSetApplicationDetails(int applicationId)
 	{
 		var applicationDetails = await _conversionApplicationRetrievalService.GetApplication(applicationId);
 
@@ -22,9 +23,11 @@ public abstract class BasePageEditModel : BasePageModel
 
 			ViewDataHelper.StoreSerialisedValue(nameof(ApplicationCacheValuesViewModel), ViewData, cachedValuesViewModel);
 		}
+
+		return applicationDetails;
 	}
 
-	public async Task LoadAndSetSchoolDetails(int schoolId)
+	public async Task<SchoolApplyingToConvert?> LoadAndSetSchoolDetails(int schoolId)
 	{
 		var schoolDetails = await _conversionApplicationRetrievalService.GetSchool(schoolId);
 
@@ -34,5 +37,7 @@ public abstract class BasePageEditModel : BasePageModel
 
 			ViewDataHelper.StoreSerialisedValue(nameof(SchoolCacheValuesViewModel), ViewData, cachedValuesViewModel);
 		}
+
+		return schoolDetails;
 	}
 }
