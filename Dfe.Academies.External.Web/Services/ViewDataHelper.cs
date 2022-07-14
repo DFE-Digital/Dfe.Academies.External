@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Dfe.Academies.External.Web.Services;
 
+/// <summary>
+/// The view data objects which stored the data only exists during the current request.
+/// Once, the view is generated in the browser and it sends the data back to the server from the client, the ViewData object is automatically destroyed and cleared. 
+/// </summary>
 public static class ViewDataHelper
 {
 	public static T? GetSerialisedValue<T>(string key, ViewDataDictionary viewData)

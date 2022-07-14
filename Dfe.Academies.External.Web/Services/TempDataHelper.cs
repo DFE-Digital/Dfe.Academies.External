@@ -7,6 +7,7 @@ namespace Dfe.Academies.External.Web.Services;
 /// Helper service to put stuff in and out of TempData[]
 /// to handle serialization / de-serialization / type conversion /
 /// whether key found in TempData[]
+/// In the internal mechanism, temp data is basically using session variables
 /// </summary>
 public static class TempDataHelper
 {
