@@ -152,7 +152,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
             Application = "Join a multi-academy trust A2B_2549",
             SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
             {
-	            new(schoolName: "Cambridge Regional college") { SchoolId = 96 }
+	            new(schoolName: "Chesterton primary school") { SchoolId = 96 }
             },
             ConversionStatus = 1,
             ExistingTrust = new(trustName: "Test"),
