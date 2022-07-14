@@ -3,7 +3,7 @@ using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
-using Dfe.Academies.External.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages
 {
@@ -44,9 +44,12 @@ namespace Dfe.Academies.External.Web.Pages
         {
 	        try
 	        {
-                // TODO MR:- get AppId from cache
-                //var ApplicationCacheValuesViewModel = ViewDataHelper.GetSerialisedValue<ApplicationCacheValuesViewModel>(nameof(ApplicationCacheValuesViewModel), ViewData) ?? new ApplicationCacheValuesViewModel();
-                var conversionApplication = await LoadAndSetApplicationDetails(99);
+		        //// on load - grab draft application from temp
+		        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+		        //// MR:- Need to drop into this pages cache here ready for post / server callback !
+		        TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+                var conversionApplication = await LoadAndSetApplicationDetails(draftConversionApplication.Id);
 
                 PopulateUiModel(conversionApplication);
             }
@@ -54,6 +57,12 @@ namespace Dfe.Academies.External.Web.Pages
 	        {
 		        _logger.LogError("Application::ApplicationOverviewModel::OnGetAsync::Exception - {Message}", ex.Message);
 	        }
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+	        // update temp store for next page
+            return RedirectToPage("/SchoolOverview");
         }
 
         private void PopulateUiModel(ConversionApplication? conversionApplication)
