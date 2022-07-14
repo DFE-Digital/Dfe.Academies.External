@@ -31,6 +31,5 @@ internal sealed class ApplicationAuditViewModelTests
 		Assert.That(conversionApplicationAuditEntry.What, Is.EqualTo(what));
 		Assert.That(conversionApplicationAuditEntry.When, Is.EqualTo(when));
 		Assert.That(conversionApplicationAuditEntry.Who, Is.EqualTo(who));
-
 	}
 }

@@ -1,5 +1,4 @@
-﻿using AutoFixture;
-using Dfe.Academies.External.Web.Enums;
+﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.ViewModels;
 using NUnit.Framework;
 
@@ -7,8 +6,6 @@ namespace Dfe.Academies.External.Web.UnitTest.ViewModels;
 
 internal sealed class ApplicationCacheValuesViewModelTests
 {
-	private static readonly Fixture Fixture = new();
-
 	[Test]
 	public void ApplicationCacheValuesViewModel___PropertyCheck___Success()
 	{
@@ -17,7 +14,6 @@ internal sealed class ApplicationCacheValuesViewModelTests
 		ApplicationTypes applicationType = ApplicationTypes.FormNewMat;
 
 		var conversionApplicationAuditEntry = new ApplicationCacheValuesViewModel(applicationId, applicationType);
-
 
 		// act
 		// nothing!
