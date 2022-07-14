@@ -11,7 +11,7 @@
 }
 
 <div class="govuk-grid-column-two-thirds">
-	<h1 class="govuk-heading-xl">@Model.SelectedSchool.SchoolName</h1>
+	<h1 class="govuk-heading-xl">@Model.SchoolName</h1>
 
 	<p class="govuk-body">
 		<strong>Application reference number:</strong>&nbsp;&nbsp;@Model.ApplicationReferenceNumber
@@ -23,12 +23,12 @@
 
 	<p class="govuk-body">You have completed @Model.CompletedSections of @Model.TotalNumberOfSections sections.</p>
 	
-	@if (!Model.Components.Any())
+	@if (Model.Components.Any())
 	{
 		<partial name="_SchoolComponentsStatusPartial" model="Model.Components"/>
 	}
 	
-	<input type="hidden" value="@Model.SelectedSchool.SchoolId"/>
+	<input type="hidden" value="@Model.SchoolId"/>
 </div>
 
 <partial name="_HiddenFields"/>

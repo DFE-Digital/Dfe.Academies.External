@@ -8,8 +8,10 @@ namespace Dfe.Academies.External.Web.Pages
     {
 	    private readonly ILogger<SchoolOverviewModel> _logger;
 	    private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
-	    
-		public SchoolApplyingToConvert SelectedSchool { get; private set; } = new(string.Empty);
+
+	    public int SchoolId { get; private set; }
+
+        public string SchoolName { get; private set; } = string.Empty;
 
         public string ApplicationReferenceNumber { get; private set; } = string.Empty;
 
@@ -29,15 +31,19 @@ namespace Dfe.Academies.External.Web.Pages
         {
 	        try
 	        {
-		        // SelectedSchool = ;// TODO MR:- going to have to wham into session !
-                SelectedSchool = TempDataHelper.GetSerialisedValue<SchoolApplyingToConvert>(TempDataHelper.SelectedSchoolKey, TempData) ?? new SchoolApplyingToConvert(string.Empty);
+                // TODO MR:- get SchoolId from cache
+                //var SchoolCacheValuesViewModel = ViewDataHelper.GetSerialisedValue<SchoolCacheValuesViewModel>(nameof(SchoolCacheValuesViewModel), ViewData) ?? new SchoolCacheValuesViewModel();
+                var selectedSchool = await LoadAndSetSchoolDetails(99);
 
                 // Grab other values from API
-                SelectedSchool.SchoolApplicationComponents = await _conversionApplicationRetrievalService
-			        .GetSchoolApplicationComponents(SelectedSchool.SchoolId);
+                if (selectedSchool != null)
+                {
+	                selectedSchool.SchoolApplicationComponents = await _conversionApplicationRetrievalService
+		                .GetSchoolApplicationComponents(selectedSchool.SchoolId);
 
-                PopulateUiModel(SelectedSchool);
-            }
+	                PopulateUiModel(selectedSchool);
+                }
+	        }
 	        catch (Exception ex)
 	        {
 		        _logger.LogError("Application::SchoolOverviewModel::OnGetAsync::Exception - {Message}", ex.Message);
@@ -46,6 +52,11 @@ namespace Dfe.Academies.External.Web.Pages
 
         private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
         {
+            // TODO MR:- below equals cached ApplicationReferenceNumber
+            //ApplicationReferenceNumber
+
+            SchoolId = selectedSchool.SchoolId;
+            SchoolName = selectedSchool.SchoolName;
             CompletedSections = 0; // TODO MR:- what logic drives this, component exists / hasData??
 
             // Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
