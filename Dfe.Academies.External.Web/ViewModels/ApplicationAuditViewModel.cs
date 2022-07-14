@@ -4,8 +4,14 @@
 /// Just a plain old view model for the 'Recent Activity' partial.
 /// Just a who / what / when
 /// </summary>
-public class ApplicationAuditViewModel
+public sealed class ApplicationAuditViewModel
 {
+	public ApplicationAuditViewModel(string who, string what)
+	{
+		Who = who;
+		What = what;
+	}
+
     public DateTime When { get; set; }
 
     public string Who { get; set; }

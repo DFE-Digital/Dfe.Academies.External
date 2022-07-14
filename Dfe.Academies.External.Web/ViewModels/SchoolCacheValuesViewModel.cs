@@ -1,6 +1,6 @@
 ﻿namespace Dfe.Academies.External.Web.ViewModels;
 
-public class SchoolCacheValuesViewModel
+public sealed class SchoolCacheValuesViewModel
 {
 	public SchoolCacheValuesViewModel(int schoolId, string schoolName)
 	{

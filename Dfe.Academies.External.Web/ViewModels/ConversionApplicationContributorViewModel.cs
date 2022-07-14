@@ -2,7 +2,7 @@
 
 namespace Dfe.Academies.External.Web.ViewModels;
 
-public class ConversionApplicationContributorViewModel
+public sealed class ConversionApplicationContributorViewModel
 {
 	public ConversionApplicationContributorViewModel(string fullName, SchoolRoles role)
 	{

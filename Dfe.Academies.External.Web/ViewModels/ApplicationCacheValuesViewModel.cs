@@ -2,7 +2,7 @@
 
 namespace Dfe.Academies.External.Web.ViewModels;
 
-public class ApplicationCacheValuesViewModel
+public sealed class ApplicationCacheValuesViewModel
 {
 	public ApplicationCacheValuesViewModel(int applicationId, ApplicationTypes applicationType)
 	{
