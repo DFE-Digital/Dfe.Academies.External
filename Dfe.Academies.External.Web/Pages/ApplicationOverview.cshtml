@@ -25,7 +25,7 @@
     <p class="govuk-body">You have completed @Model.CompletedSections of @Model.TotalNumberOfSections sections.</p>
 
     <table class="govuk-table">
-        <caption class="govuk-table__caption govuk-table__caption--l">The school applying to convert</caption>
+        <caption class="govuk-table__caption govuk-table__caption--l">The school/s applying to convert</caption>
         <tbody class="govuk-table__body">
             @*If no school selected - render button instead*@
             @if (!Model.SchoolOrSchoolsApplyingToConvert.Any()){

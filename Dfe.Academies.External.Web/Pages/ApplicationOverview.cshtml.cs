@@ -3,13 +3,13 @@ using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.ViewModels;
 
 namespace Dfe.Academies.External.Web.Pages
 {
     public class ApplicationOverviewModel : BasePageEditModel
     {
         private readonly ILogger<ApplicationOverviewModel> _logger;
-        private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
         
         // Below are props for UI display, shunt over to separate view model?
         public string ApplicationTypeDescription { get; private set; } = string.Empty;
@@ -34,22 +34,21 @@ namespace Dfe.Academies.External.Web.Pages
         /// </summary>
         //public bool UserHasSubmitApplicationRole { get; private set; } = false; // MR:- now in page base
 
-        public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger, IConversionApplicationRetrievalService conversionApplicationRetrievalService): base(conversionApplicationRetrievalService)
+        public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger, 
+										IConversionApplicationRetrievalService conversionApplicationRetrievalService): base(conversionApplicationRetrievalService)
         {
             _logger = logger;
-            _conversionApplicationRetrievalService = conversionApplicationRetrievalService;
         }
 
         public async Task OnGetAsync()
         {
 	        try
 	        {
-		        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+                // TODO MR:- get AppId from cache
+                //var ApplicationCacheValuesViewModel = ViewDataHelper.GetSerialisedValue<ApplicationCacheValuesViewModel>(nameof(ApplicationCacheValuesViewModel), ViewData) ?? new ApplicationCacheValuesViewModel();
+                var conversionApplication = await LoadAndSetApplicationDetails(99);
 
-		        // Grab other values from API
-		        var auditEntries = await _conversionApplicationRetrievalService.GetConversionApplicationAuditEntries(draftConversionApplication.Id);
-
-		        PopulateUiModel(auditEntries, draftConversionApplication);
+                PopulateUiModel(conversionApplication);
             }
 	        catch (Exception ex)
 	        {
@@ -57,14 +56,17 @@ namespace Dfe.Academies.External.Web.Pages
 	        }
         }
 
-        private void PopulateUiModel(List<ConversionApplicationAuditEntry> auditEntries, ConversionApplication draftConversionApplication)
+        private void PopulateUiModel(ConversionApplication? conversionApplication)
         {
-            ApplicationTypeDescription = draftConversionApplication.ApplicationType.GetDescription();
-            ApplicationReferenceNumber = draftConversionApplication.ApplicationReference;
-            CompletedSections = 0; // TODO MR:- what logic drives this !
-            ApplicationStatus = "incomplete"; // TODO MR:- what logic drives this !
-            ConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
-            SchoolOrSchoolsApplyingToConvert = draftConversionApplication.SchoolOrSchoolsApplyingToConvert;
+	        if (conversionApplication != null)
+	        {
+		        ApplicationTypeDescription = conversionApplication.ApplicationType.GetDescription();
+		        ApplicationReferenceNumber = conversionApplication.ApplicationReference;
+		        CompletedSections = 0; // TODO MR:- what logic drives this !
+		        ApplicationStatus = "incomplete"; // TODO MR:- what logic drives this !
+		        ConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
+		        SchoolOrSchoolsApplyingToConvert = conversionApplication.SchoolOrSchoolsApplyingToConvert;
+            }
         }
 
         public override void PopulateValidationMessages()
