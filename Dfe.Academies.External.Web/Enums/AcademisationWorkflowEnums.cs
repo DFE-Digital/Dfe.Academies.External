@@ -29,7 +29,7 @@ public enum SchoolRoles
     [Description("The chair of the school's governors")]
     Chair = 1,
     // TODO MR:- add headteacher ??
-    [Description("Something Else")]
+    [Description("Something else")]
     Other = 2
 }
 
