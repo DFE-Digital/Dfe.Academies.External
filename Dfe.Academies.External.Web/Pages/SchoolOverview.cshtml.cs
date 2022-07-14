@@ -1,6 +1,7 @@
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.ViewModels;
 
 namespace Dfe.Academies.External.Web.Pages
 {
@@ -31,8 +32,15 @@ namespace Dfe.Academies.External.Web.Pages
         {
 	        try
 	        {
+		        //// on load - grab draft application from temp
+		        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+		        //// MR:- Need to drop into this pages cache here ready for post / server callback !
+		        TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+		        var conversionApplication = await LoadAndSetApplicationDetails(draftConversionApplication.Id);
+
                 // TODO MR:- get SchoolId from cache
-                //var SchoolCacheValuesViewModel = ViewDataHelper.GetSerialisedValue<SchoolCacheValuesViewModel>(nameof(SchoolCacheValuesViewModel), ViewData) ?? new SchoolCacheValuesViewModel();
+                // var schoolCacheViewModel = ViewDataHelper.GetSerialisedValue<SchoolCacheValuesViewModel>(nameof(SchoolCacheValuesViewModel), ViewData) ?? new SchoolCacheValuesViewModel();
                 var selectedSchool = await LoadAndSetSchoolDetails(99);
 
                 // Grab other values from API
@@ -52,8 +60,9 @@ namespace Dfe.Academies.External.Web.Pages
 
         private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
         {
-            // TODO MR:- below equals cached ApplicationReferenceNumber
-            //ApplicationReferenceNumber
+            // MR:- below equals cached ApplicationReferenceNumber
+            var applicationCacheViewModel = ViewDataHelper.GetSerialisedValue<ApplicationCacheValuesViewModel>(nameof(ApplicationCacheValuesViewModel), ViewData) ?? new ApplicationCacheValuesViewModel();
+            ApplicationReferenceNumber = applicationCacheViewModel.ApplicationReference;
 
             SchoolId = selectedSchool.SchoolId;
             SchoolName = selectedSchool.SchoolName;
@@ -61,7 +70,7 @@ namespace Dfe.Academies.External.Web.Pages
 
             // Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
             Components = selectedSchool.SchoolApplicationComponents.Select(c =>
-	            new ViewModels.ApplicationComponentViewModel(name: c.Name, uri: SetSchoolApplicationComponentUriFromName(c.Name))
+	            new ApplicationComponentViewModel(name: c.Name, uri: SetSchoolApplicationComponentUriFromName(c.Name))
 	            {
 		            Status = c.Status
 	            }).ToList();
