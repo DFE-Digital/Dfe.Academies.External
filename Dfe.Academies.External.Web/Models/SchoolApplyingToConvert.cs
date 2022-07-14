@@ -16,7 +16,7 @@ public class SchoolApplyingToConvert
 
     public string SchoolName { get; set; }
 
-    public List<ConversionApplicationComponent> ConversionApplicationComponents { get; set; } = new();
+    public List<ConversionApplicationComponent> SchoolApplicationComponents { get; set; } = new();
 
     // TODO MR:- contact head - or list<Contact> with a type?
 
