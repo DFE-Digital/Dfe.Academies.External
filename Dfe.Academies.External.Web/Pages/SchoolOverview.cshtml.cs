@@ -50,11 +50,9 @@ namespace Dfe.Academies.External.Web.Pages
 
             // Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
             Components = selectedSchool.SchoolApplicationComponents.Select(c =>
-	            new ViewModels.ApplicationComponentViewModel
+	            new ViewModels.ApplicationComponentViewModel(name: c.Name, uri: SetSchoolApplicationComponentUriFromName(c.Name))
 	            {
-		            Name = c.Name,
-		            Status = c.Status,
-		            URI = SetSchoolApplicationComponentUriFromName(c.Name)
+		            Status = c.Status
 	            }).ToList();
         }
 
