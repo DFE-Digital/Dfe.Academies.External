@@ -42,11 +42,18 @@ public class WhatIsYourRoleModel : BasePageModel
 
     public async Task OnGetAsync()
     {
-        //// on load - grab draft application from temp
-        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+	    try
+	    {
+		    //// on load - grab draft application from temp
+		    var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-        //// MR:- Need to drop into this pages cache here ready for post / server callback !
-        TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+		    //// MR:- Need to drop into this pages cache here ready for post / server callback !
+		    TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+        }
+	    catch (Exception ex)
+	    {
+		    _logger.LogError("Application::WhatIsYourRoleModel::OnGetAsync::Exception - {Message}", ex.Message);
+	    }
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -65,12 +72,13 @@ public class WhatIsYourRoleModel : BasePageModel
             return Page();
         }
 
-        //// grab draft application from temp= null
-        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
         try
         {
-	        draftConversionApplication.SchoolRole = SchoolRole;
+	        //// grab draft application from temp= null
+	        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+
+            draftConversionApplication.SchoolRole = SchoolRole;
             draftConversionApplication.OtherRoleNotListed = OtherRoleNotListed;
 
             await _academisationCreationService.UpdateDraftApplication(draftConversionApplication);

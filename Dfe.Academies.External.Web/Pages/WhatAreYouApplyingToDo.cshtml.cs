@@ -26,12 +26,19 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
 
     public async Task OnGetAsync()
     {
-        // like on load - if navigating backwards from NextStepPage - will need to set model value from somewhere!
-        //// on load - grab draft application from temp
-        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+	    try
+	    {
+		    // like on load - if navigating backwards from NextStepPage - will need to set model value from somewhere!
+		    //// on load - grab draft application from temp
+		    var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-        //// MR:- Need to drop into this pages cache here ready for post / server callback !
-        TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+		    //// MR:- Need to drop into this pages cache here ready for post / server callback !
+		    TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+        }
+	    catch (Exception ex)
+	    {
+		    _logger.LogError("Application::WhatAreYouApplyingToDoModel::OnGetAsync::Exception - {Message}", ex.Message);
+	    }
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -43,9 +50,9 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
             return Page();
         }
 
-        var applicationTypeSelected = ApplicationType;
         try
         {
+	        var applicationTypeSelected = ApplicationType;
             var _draftConversionApplication = new ConversionApplication
             {
                 ApplicationType = applicationTypeSelected,
