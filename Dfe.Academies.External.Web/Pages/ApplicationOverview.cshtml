@@ -1,4 +1,111 @@
 ﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.ApplicationOverviewModel
 @{
+    ViewData["Title"] = "Apply to become an academy - Overview";
 }
+
+@section BeforeMain
+{
+	<a asp-page="YourApplications" class="govuk-back-link">Back to your applications</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">@Model.ApplicationTypeDescription</h1>
+
+    <p class="govuk-body">
+        <strong>Application reference number:</strong>&nbsp;&nbsp;@Model.ApplicationReferenceNumber
+    </p>
+
+    <p class="govuk-body govuk-radios__conditional">You must complete each section before you can submit your application.<br/>
+        You can save your progress as you go.
+    </p>
+
+    <h2 class="govuk-heading-l">Application @Model.ApplicationStatus</h2>
+    <p class="govuk-body">You have completed @Model.CompletedSections of @Model.TotalNumberOfSections sections.</p>
+
+    <table class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--l">The school applying to convert</caption>
+        <tbody class="govuk-table__body">
+            @*If no school selected - render button instead*@
+            @if (!Model.SchoolOrSchoolsApplyingToConvert.Any()){
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <a asp-page="ApplicationSelectSchool" class="govuk-button" data-module="govuk-button">Add a school</a>
+                    </td>
+                </tr>
+            }
+            else{
+	            @foreach (var school in Model.SchoolOrSchoolsApplyingToConvert)
+	            {
+		            <tr class="govuk-table__row">
+			            <td class="govuk-table__cell govuk-!-text-align-right"><a asp-page="SchoolOverview" class="govuk-link">@school.SchoolName</a></td>
+		            </tr>
+	            }
+            }
+        </tbody>
+    </table>
+
+    <table class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--l">The trust the school will join</caption>
+        <tbody class="govuk-table__body">
+            @*If no trust selected - render button instead*@
+            @if (string.IsNullOrWhiteSpace(Model.NameOfTrustToJoin)){
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <a asp-page="ApplicationSelectTrust" class="govuk-button" data-module="govuk-button">Add a trust</a>
+                    </td>
+                </tr>
+            }
+            else{
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell"><a asp-page="ApplicationSelectTrust" class="govuk-link">@Model.NameOfTrustToJoin</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>       
+
+    <table class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--l">About the conversion</caption>
+        <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell"><a asp-page="ApplicationDetails" class="govuk-link">Conversion details</a></td>
+                <td class="govuk-table__cell govuk-!-text-align-right">
+                    @{
+                        var conversionStatusValue = (int)Model.ConversionStatus;
+                    }
+                    <status enumvalue=@conversionStatusValue></status>
+                </td>
+            </tr>
+        </tbody>
+    </table>    
+
+    <h2 class="govuk-heading-l">Contributors</h2>
+    <p class="govuk-body">You can invite other people to help you complete parts of this form</p>
+    <div class="govuk-!-margin-6"></div>
+    <a asp-page="NewApplicationContributor" class="govuk-link">Invite a contributor</a>
+    <div class="govuk-!-margin-6"></div>
+
+    @if (!Model.UserHasSubmitApplicationRole)
+    {
+        <p class="govuk-body govuk-radios__conditional">Only the school's chair of governors can submit this application.</p>
+    }
+
+    <div class="govuk-button-group">
+        @if (Model.UserHasSubmitApplicationRole)
+        {
+            <button data-prevent-double-click="true" class="govuk-button govuk-!-margin-top-6" data-module="govuk-button">
+                Review and Submit
+            </button>
+        }
+        <a asp-page="YourApplications" class="govuk-button govuk-button--warning" data-module="govuk-button">Cancel this application</a>
+    </div>
+</div>
+
+<div class="govuk-grid-column-one-third">
+	<h2 class="govuk-heading-l">Recent activity</h2>
+	<p class="govuk-body">Changes to the application by all contributors will appear here</p>
+    TODO:- Audit partial listing component
+</div>
+
+<partial name="_HiddenFields"/>
