@@ -245,7 +245,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 	    Assert.That(application.Id, Is.EqualTo(applicationId));
         Assert.That(application.Application, Is.EqualTo("Join a multi-academy trust A2B_2549"));
         Assert.AreEqual(expectedCount, application.SchoolOrSchoolsApplyingToConvert.Count, "Count is not correct");
-        Assert.That(application.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()?.SchoolName, Is.EqualTo("Cambridge Regional college"));
+        Assert.That(application.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()?.SchoolName, Is.EqualTo("Chesterton primary school"));
         Assert.That(application.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()?.SchoolId, Is.EqualTo(96));
     }
 }
