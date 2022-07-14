@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Services;
+﻿using System.Linq;
+using Dfe.Academies.External.Web.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
@@ -178,7 +179,73 @@ internal sealed class ConversionApplicationRetrievalServiceTests
         Assert.AreEqual(expectedCount, applicationContributors.Count, "Count is not correct");
     }
 
-    // TODO MR:- GetSchool()
+    [Test]
+    public async Task ConversionApplicationRetrievalService___GetSchool___Success()
+    {
+	    // arrange
+	    var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+	    int schoolId = 1; // TODO MR:- this value hard coded in dummy data at present !!!!!!
+	    var mockFactory = new Mock<IHttpClientFactory>();
 
-    // TODO MR:- GetApplication()
+	    var mockMessageHandler = new Mock<HttpMessageHandler>();
+	    mockMessageHandler.Protected()
+		    .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+		    .ReturnsAsync(new HttpResponseMessage
+		    {
+			    StatusCode = HttpStatusCode.OK,
+			    Content = new StringContent(expected)
+		    });
+
+	    var httpClient = new HttpClient(mockMessageHandler.Object);
+
+	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+
+	    var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+
+	    // act
+	    var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+	    var school = await applicationRetrievalService.GetSchool(schoolId);
+
+	    // assert
+	    Assert.That(school, Is.Not.Null);
+	    Assert.That(school.SchoolId, Is.EqualTo(schoolId));
+        Assert.That(school.SchoolName, Is.EqualTo("Chesterton primary school"));
+    }
+
+    [Test]
+    public async Task ConversionApplicationRetrievalService___GetApplication___Success()
+    {
+	    // arrange
+	    var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+	    int applicationId = 1; // TODO MR:- this value hard coded in dummy data at present !!!!!!
+	    int expectedCount = 1; // TODO MR:- this value hard coded in dummy data at present !!!!!!
+        var mockFactory = new Mock<IHttpClientFactory>();
+
+	    var mockMessageHandler = new Mock<HttpMessageHandler>();
+	    mockMessageHandler.Protected()
+		    .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+		    .ReturnsAsync(new HttpResponseMessage
+		    {
+			    StatusCode = HttpStatusCode.OK,
+			    Content = new StringContent(expected)
+		    });
+
+	    var httpClient = new HttpClient(mockMessageHandler.Object);
+
+	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+
+	    var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+
+	    // act
+	    var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+	    var application = await applicationRetrievalService.GetApplication(applicationId);
+
+	    // assert
+	    Assert.That(application, Is.Not.Null);
+	    Assert.That(application.Id, Is.EqualTo(applicationId));
+        Assert.That(application.Application, Is.EqualTo("Join a multi-academy trust A2B_2549"));
+        Assert.AreEqual(expectedCount, application.SchoolOrSchoolsApplyingToConvert.Count, "Count is not correct");
+        Assert.That(application.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()?.SchoolName, Is.EqualTo("Cambridge Regional college"));
+        Assert.That(application.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()?.SchoolId, Is.EqualTo(96));
+    }
 }
