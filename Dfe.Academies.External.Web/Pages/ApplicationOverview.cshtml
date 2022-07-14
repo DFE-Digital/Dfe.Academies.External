@@ -40,7 +40,9 @@
 	            {
 		            <tr class="govuk-table__row">
 			            <td class="govuk-table__cell govuk-!-text-align-right">
-				            <a asp-page="SchoolOverview" class="govuk-link">@school.SchoolName</a>
+				            <form method="post" name="frmApplicationType" novalidate="">
+					            <input type="submit" value="@school.SchoolName" class="govuk-link"/>
+				            </form>
 			            </td>
 		            </tr>
 	            }
@@ -86,8 +88,11 @@
 
     <h2 class="govuk-heading-l">Contributors</h2>
     <p class="govuk-body">You can invite other people to help you complete parts of this form</p>
-    <div class="govuk-!-margin-6"></div>
-    <a asp-page="NewApplicationContributor" class="govuk-link">Invite a contributor</a>
+	<div class="govuk-!-margin-6"></div>
+	<p class="govuk-body">
+		<a asp-page="NewApplicationContributor" class="govuk-link">Invite a contributor</a>
+	</p>
+    
     <div class="govuk-!-margin-6"></div>
 
     @if (!Model.UserHasSubmitApplicationRole)
