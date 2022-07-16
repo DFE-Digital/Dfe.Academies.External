@@ -30,6 +30,11 @@ namespace Dfe.Academies.External.Web.Pages
         public Status ConversionStatus { get; private set; }
 
         /// <summary>
+        /// this will ONLY have a value IF ApplicationType = JoinAMat
+        /// </summary>
+        public SchoolApplyingToConvert? SchoolApplyingToConvert { get; private set; }
+
+        /// <summary>
         /// to render submit button on UI
         /// </summary>
         //public bool UserHasSubmitApplicationRole { get; private set; } = false; // MR:- now in page base
@@ -76,7 +81,13 @@ namespace Dfe.Academies.External.Web.Pages
 		        ConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
 		        SchoolOrSchoolsApplyingToConvert = conversionApplication.SchoolOrSchoolsApplyingToConvert;
 		        NameOfTrustToJoin = conversionApplication.TrustName;
-	        }
+
+                // MR:- we do below to be able to show the school application components status on this page
+		        if (conversionApplication.ApplicationType == ApplicationTypes.JoinMat)
+		        {
+			        SchoolApplyingToConvert = conversionApplication.SchoolOrSchoolsApplyingToConvert.FirstOrDefault();
+		        }
+			}
         }
 
         public override void PopulateValidationMessages()
