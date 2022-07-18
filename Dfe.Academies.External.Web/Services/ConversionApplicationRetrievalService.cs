@@ -138,25 +138,65 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         return schoolApplyingToConvert;
     }
 
-    public async Task<ConversionApplication> GetApplication(int applicationId)
+    public async Task<ConversionApplication> GetApplication(int applicationId, ApplicationTypes applicationType)
     {
+	    ConversionApplication conversionApplication = new();
+
         // TODO: Get data from Academisation API
         // _resilientRequestProvider.Get
 
         // **** Mock Demo Data - as per Figma ****
-        ConversionApplication conversionApplication = new()
+        switch (applicationType)
         {
-            Id = applicationId,
-            ApplicationType = ApplicationTypes.JoinMat,
-            UserEmail = "",
-            Application = "Join a multi-academy trust A2B_2549",
-            SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
-            {
-	            new(schoolName: "Chesterton primary school") { SchoolId = 96 }
-            },
-            ConversionStatus = 1,
-            ExistingTrust = new(trustName: "Test"),
-        };
+	        case ApplicationTypes.JoinMat:
+		        conversionApplication = new()
+		        {
+			        Id = applicationId,
+			        ApplicationType = ApplicationTypes.JoinMat,
+			        UserEmail = "",
+			        Application = "Join a multi-academy trust A2B_2549",
+			        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+			        {
+				        new(schoolName: "Chesterton primary school") { SchoolId = 96 }
+			        },
+			        ConversionStatus = 1,
+			        ExistingTrust = new(trustName: "Test"),
+		        };
+                break;
+	        case ApplicationTypes.FormNewSingleAcademyTrust:
+                // MR:- this application is rare
+                conversionApplication = new()
+                {
+	                Id = applicationId,
+	                ApplicationType = ApplicationTypes.JoinMat,
+	                UserEmail = "",
+	                Application = "Join a multi-academy trust A2B_2549",
+	                SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+	                {
+		                new(schoolName: "Chesterton primary school") { SchoolId = 96 }
+	                },
+	                ConversionStatus = 1,
+	                ExistingTrust = new(trustName: "Test"),
+                };
+                break;
+	        case ApplicationTypes.FormNewMat:
+		        conversionApplication = new()
+		        {
+			        Id = applicationId,
+			        ApplicationType = ApplicationTypes.JoinMat,
+			        UserEmail = "",
+			        Application = "Join a multi-academy trust A2B_2549",
+			        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+			        {
+				        new(schoolName: "Chesterton primary school") { SchoolId = 96 },
+                        new(),
+                        new()
+			        },
+			        ConversionStatus = 1,
+			        ExistingTrust = new(trustName: "Test"),
+		        };
+                break;
+        }
 
         return conversionApplication;
     }

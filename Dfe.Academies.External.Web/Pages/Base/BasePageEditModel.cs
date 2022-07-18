@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 
@@ -13,9 +14,9 @@ public abstract class BasePageEditModel : BasePageModel
 		_conversionApplicationRetrievalService = conversionApplicationRetrievalService;
 	}
 
-	public async Task<ConversionApplication?> LoadAndSetApplicationDetails(int applicationId)
+	public async Task<ConversionApplication?> LoadAndSetApplicationDetails(int applicationId, ApplicationTypes applicationType)
 	{
-		var applicationDetails = await _conversionApplicationRetrievalService.GetApplication(applicationId);
+		var applicationDetails = await _conversionApplicationRetrievalService.GetApplication(applicationId, applicationType);
 
 		if (applicationDetails != null)
 		{

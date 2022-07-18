@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
 public interface IConversionApplicationRetrievalService
@@ -14,5 +15,5 @@ public interface IConversionApplicationRetrievalService
 
 	Task<SchoolApplyingToConvert> GetSchool(int schoolId);
 
-	Task<ConversionApplication> GetApplication(int applicationId);
+	Task<ConversionApplication> GetApplication(int applicationId, ApplicationTypes applicationType);
 }
