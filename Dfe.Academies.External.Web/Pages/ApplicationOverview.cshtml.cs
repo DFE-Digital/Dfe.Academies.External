@@ -1,3 +1,4 @@
+using System.Diagnostics.Eventing.Reader;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
@@ -12,7 +13,7 @@ namespace Dfe.Academies.External.Web.Pages
         private readonly ILogger<ApplicationOverviewModel> _logger;
         
         // Below are props for UI display, shunt over to separate view model?
-        public string ApplicationTypeDescription { get; private set; } = string.Empty;
+        public ApplicationTypes ApplicationType { get; private set; }
 
         public string ApplicationReferenceNumber { get; private set; } = string.Empty;
 
@@ -28,6 +29,8 @@ namespace Dfe.Academies.External.Web.Pages
         public string ApplicationStatus { get; private set; } = string.Empty;
 
         public Status ConversionStatus { get; private set; }
+
+        public string SchoolHeaderText { get; private set; } = string.Empty;
 
         /// <summary>
         /// this will ONLY have a value IF ApplicationType = JoinAMat
@@ -74,7 +77,7 @@ namespace Dfe.Academies.External.Web.Pages
         {
 	        if (conversionApplication != null)
 	        {
-		        ApplicationTypeDescription = conversionApplication.ApplicationType.GetDescription();
+		        ApplicationType = conversionApplication.ApplicationType;
 		        ApplicationReferenceNumber = conversionApplication.ApplicationReference;
 		        CompletedSections = 0; // TODO MR:- what logic drives this !
 		        ApplicationStatus = "incomplete"; // TODO MR:- what logic drives this !
@@ -87,7 +90,16 @@ namespace Dfe.Academies.External.Web.Pages
 		        {
 			        SchoolApplyingToConvert = conversionApplication.SchoolOrSchoolsApplyingToConvert.FirstOrDefault();
 		        }
-			}
+
+		        if (conversionApplication.ApplicationType == ApplicationTypes.FormNewMat)
+		        {
+			        SchoolHeaderText = "The schools applying to convert";
+                }
+		        else
+		        {
+			        SchoolHeaderText = "The school applying to convert";
+		        }
+	        }
         }
 
         public override void PopulateValidationMessages()

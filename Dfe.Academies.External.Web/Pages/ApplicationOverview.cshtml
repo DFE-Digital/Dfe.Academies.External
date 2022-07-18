@@ -1,5 +1,8 @@
 ﻿@page
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Dfe.Academies.External.Web.Extensions
+@using Dfe.Academies.External.Web.TagHelpers
+@using Dfe.Academies.External.Web.Enums
 @model Dfe.Academies.External.Web.Pages.ApplicationOverviewModel
 @{
     ViewData["Title"] = "Apply to become an academy - Overview";
@@ -11,7 +14,7 @@
 }
 
 <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">@Model.ApplicationTypeDescription</h1>
+    <h1 class="govuk-heading-xl">@Model.ApplicationType.GetDescription()</h1>
 
     <p class="govuk-body">
         <strong>Application reference number:</strong>&nbsp;&nbsp;@Model.ApplicationReferenceNumber
@@ -25,11 +28,10 @@
     <p class="govuk-body">You have completed @Model.CompletedSections of @Model.TotalNumberOfSections sections.</p>
 
 	<table class="govuk-table">
-		@*TODO:- change text based upon ApplicationType *@
-		<caption class="govuk-table__caption govuk-table__caption--l">The school/s applying to convert</caption>
+		<caption class="govuk-table__caption govuk-table__caption--l">@Model.SchoolHeaderText</caption>
 		<tbody class="govuk-table__body">
 		@*If no school selected - render button instead*@
-		@if (!Model.SchoolOrSchoolsApplyingToConvert.Any())
+		@if (!Model.SchoolOrSchoolsApplyingToConvert.Any() && Model.ApplicationType != ApplicationTypes.FormNewMat)
 		{
 			<tr class="govuk-table__row">
 				<td class="govuk-table__cell govuk-!-text-align-right">
@@ -39,17 +41,35 @@
 		}
 		else
 		{
-			@foreach (var school in Model.SchoolOrSchoolsApplyingToConvert)
+			@if (Model.ApplicationType == ApplicationTypes.FormNewMat)
+			{
+				foreach (var school in Model.SchoolOrSchoolsApplyingToConvert)
+				{
+					<tr class="govuk-table__row">
+						@*TODO:- change below back to a link <a> tag, same as existing app *@
+						<td class="govuk-table__cell govuk-!-text-align-right">
+							<form method="post" name="frmApplicationType" novalidate="">
+								<input type="submit" value="@school.SchoolName" class="govuk-link"/>
+							</form>
+						</td>
+					</tr>
+					<tr class="govuk-table__row">
+						<td class="govuk-table__cell govuk-!-text-align-right">
+							<a asp-page="ApplicationSelectSchool" class="govuk-button" data-module="govuk-button">Add a school</a>
+						</td>
+					</tr>
+				}
+			}
+			else
 			{
 				<tr class="govuk-table__row">
-					@*TODO:- change below back to a link <a> tag, same as existing app *@
 					<td class="govuk-table__cell govuk-!-text-align-right">
 						<form method="post" name="frmApplicationType" novalidate="">
-							<input type="submit" value="@school.SchoolName" class="govuk-link"/>
+							<input type="submit" value="@Model.SchoolApplyingToConvert?.SchoolName" class="govuk-link"/>
 						</form>
 					</td>
-				</tr> 
-                @*TODO:- need to render add school button here but ONLY if ApplicationType = FormMat *@
+				</tr>
+                @*TODO MR:- drop int component status partial*@
 			}
 		}
 		</tbody>
