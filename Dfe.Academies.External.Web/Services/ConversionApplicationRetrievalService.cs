@@ -152,7 +152,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		        conversionApplication = new()
 		        {
 			        Id = applicationId,
-			        ApplicationType = ApplicationTypes.JoinMat,
+			        ApplicationType = applicationType,
 			        UserEmail = "",
 			        Application = "Join a multi-academy trust A2B_2549",
 			        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
@@ -168,9 +168,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
                 conversionApplication = new()
                 {
 	                Id = applicationId,
-	                ApplicationType = ApplicationTypes.JoinMat,
+	                ApplicationType = applicationType,
 	                UserEmail = "",
-	                Application = "Join a multi-academy trust A2B_2549",
+	                Application = "Form a new single academy trust A2B_2549",
 	                SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
 	                {
 		                new(schoolName: "Chesterton primary school") { SchoolId = 96 }
@@ -183,9 +183,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		        conversionApplication = new()
 		        {
 			        Id = applicationId,
-			        ApplicationType = ApplicationTypes.JoinMat,
+			        ApplicationType = applicationType,
 			        UserEmail = "",
-			        Application = "Join a multi-academy trust A2B_2549",
+			        Application = "Form a new multi-academy trust A2B_2549",
 			        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
 			        {
 				        new(schoolName: "Chesterton primary school") { SchoolId = 96 },
