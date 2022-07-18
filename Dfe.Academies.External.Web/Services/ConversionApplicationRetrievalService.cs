@@ -1,6 +1,6 @@
-﻿using System.Globalization;
-using Dfe.Academies.External.Web.Enums;
+﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
+using System.Globalization;
 
 namespace Dfe.Academies.External.Web.Services;
 
@@ -189,8 +189,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
 			        {
 				        new(schoolName: "Chesterton primary school") { SchoolId = 96 },
-                        new(),
-                        new()
+                        new(schoolName: "Newcastle primary school") { SchoolId = 97 },
+                        new(schoolName: "Another primary school") { SchoolId = 98 }
 			        },
 			        ConversionStatus = 1,
 			        ExistingTrust = new(trustName: "Test"),
