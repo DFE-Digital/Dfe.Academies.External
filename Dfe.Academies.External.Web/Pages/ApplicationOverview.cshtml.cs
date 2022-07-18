@@ -9,7 +9,8 @@ namespace Dfe.Academies.External.Web.Pages
     public class ApplicationOverviewModel : BasePageEditModel
     {
         private readonly ILogger<ApplicationOverviewModel> _logger;
-        
+        private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
+
         // Below are props for UI display, shunt over to separate view model?
         public ApplicationTypes ApplicationType { get; private set; }
 
@@ -44,6 +45,7 @@ namespace Dfe.Academies.External.Web.Pages
 										IConversionApplicationRetrievalService conversionApplicationRetrievalService): base(conversionApplicationRetrievalService)
         {
             _logger = logger;
+            _conversionApplicationRetrievalService = conversionApplicationRetrievalService;
         }
 
         public async Task OnGetAsync()
@@ -57,8 +59,19 @@ namespace Dfe.Academies.External.Web.Pages
 		        TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
                 var conversionApplication = await LoadAndSetApplicationDetails(draftConversionApplication.Id, draftConversionApplication.ApplicationType);
 
-                PopulateUiModel(conversionApplication);
-            }
+                if (conversionApplication != null)
+                {
+	                var school = conversionApplication.SchoolOrSchoolsApplyingToConvert.FirstOrDefault();
+
+	                if (school != null)
+	                {
+		                school.SchoolApplicationComponents =
+			                await _conversionApplicationRetrievalService.GetSchoolApplicationComponents(school.SchoolId);
+                    }
+
+	                PopulateUiModel(conversionApplication, school);
+                }
+	        }
 	        catch (Exception ex)
 	        {
 		        _logger.LogError("Application::ApplicationOverviewModel::OnGetAsync::Exception - {Message}", ex.Message);
@@ -71,7 +84,7 @@ namespace Dfe.Academies.External.Web.Pages
             return RedirectToPage("/SchoolOverview");
         }
 
-        private void PopulateUiModel(ConversionApplication? conversionApplication)
+        private void PopulateUiModel(ConversionApplication? conversionApplication, SchoolApplyingToConvert? school)
         {
 	        if (conversionApplication != null)
 	        {
@@ -86,15 +99,30 @@ namespace Dfe.Academies.External.Web.Pages
 		        if (conversionApplication.ApplicationType == ApplicationTypes.FormNewMat)
 		        {
 			        SchoolHeaderText = "The schools applying to convert";
-			        //List<ViewModels.ApplicationComponentViewModel>
                 }
 		        else
 		        {
 			        SchoolHeaderText = "The school applying to convert";
 			        SchoolName = conversionApplication.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()?.SchoolName;
-			        //SchoolComponents
+                    // Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
+                    //Audits = auditEntries.Select(e =>
+                    // new ViewModels.ApplicationAuditViewModel
+                    // {
+                    //  What =
+                    //   $"{e.CreatedBy} {e.TypeOfChange} the {e.PropertyChanged}", // TODO MR:- re-work text when I can how this looks on screen !
+                    //  When = e.DateCreated,
+                    //  Who = e.CreatedBy
+                    // }).ToList();
+		        }
 
-                }
+		        // Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
+		        if (school != null)
+			        SchoolComponents = school.SchoolApplicationComponents.Select(c =>
+				        new ViewModels.ApplicationComponentViewModel(name: c.Name,
+					        uri: SetSchoolApplicationComponentUriFromName(c.Name))
+				        {
+					        Status = c.Status
+				        }).ToList();
 	        }
         }
 
