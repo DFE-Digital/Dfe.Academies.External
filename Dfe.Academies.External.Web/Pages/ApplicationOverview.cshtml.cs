@@ -1,6 +1,4 @@
-using System.Diagnostics.Eventing.Reader;
 using Dfe.Academies.External.Web.Enums;
-using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -33,14 +31,14 @@ namespace Dfe.Academies.External.Web.Pages
         public string SchoolHeaderText { get; private set; } = string.Empty;
 
         /// <summary>
-        /// this will ONLY have a value IF ApplicationType = JoinAMat
+        /// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
         /// </summary>
-        public SchoolApplyingToConvert? SchoolApplyingToConvert { get; private set; }
+        public string? SchoolName { get; private set; }
 
         /// <summary>
-        /// to render submit button on UI
+        /// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
         /// </summary>
-        //public bool UserHasSubmitApplicationRole { get; private set; } = false; // MR:- now in page base
+        public List<ViewModels.ApplicationComponentViewModel>? SchoolComponents { get; private set; }
 
         public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger, 
 										IConversionApplicationRetrievalService conversionApplicationRetrievalService): base(conversionApplicationRetrievalService)
@@ -85,20 +83,18 @@ namespace Dfe.Academies.External.Web.Pages
 		        SchoolOrSchoolsApplyingToConvert = conversionApplication.SchoolOrSchoolsApplyingToConvert;
 		        NameOfTrustToJoin = conversionApplication.TrustName;
 
-                // MR:- we do below to be able to show the school application components status on this page
-		        if (conversionApplication.ApplicationType == ApplicationTypes.JoinMat)
-		        {
-			        SchoolApplyingToConvert = conversionApplication.SchoolOrSchoolsApplyingToConvert.FirstOrDefault();
-		        }
-
 		        if (conversionApplication.ApplicationType == ApplicationTypes.FormNewMat)
 		        {
 			        SchoolHeaderText = "The schools applying to convert";
+			        //List<ViewModels.ApplicationComponentViewModel>
                 }
 		        else
 		        {
 			        SchoolHeaderText = "The school applying to convert";
-		        }
+			        SchoolName = conversionApplication.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()?.SchoolName;
+			        //SchoolComponents
+
+                }
 	        }
         }
 

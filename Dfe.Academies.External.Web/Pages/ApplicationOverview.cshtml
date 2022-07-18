@@ -65,11 +65,11 @@
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell govuk-!-text-align-right">
 						<form method="post" name="frmApplicationType" novalidate="">
-							<input type="submit" value="@Model.SchoolApplyingToConvert?.SchoolName" class="govuk-link"/>
+							<input type="submit" value="@Model.SchoolName" class="govuk-link"/>
 						</form>
 					</td>
 				</tr>
-                @*TODO MR:- drop int component status partial*@
+				<partial name="_SchoolComponentsStatusPartial" model="Model.SchoolComponents"/>
 			}
 		}
 		</tbody>
