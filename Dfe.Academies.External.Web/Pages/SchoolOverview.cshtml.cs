@@ -20,7 +20,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 	    public short TotalNumberOfSections => 8;
 
-        public List<ViewModels.ApplicationComponentViewModel> Components { get; set; } = new();
+        public List<ApplicationComponentViewModel> Components { get; set; } = new();
 
         public SchoolOverviewModel(ILogger<SchoolOverviewModel> logger, IConversionApplicationRetrievalService conversionApplicationRetrievalService) : base(conversionApplicationRetrievalService)
         {
