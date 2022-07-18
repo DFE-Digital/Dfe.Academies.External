@@ -155,12 +155,14 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			        ApplicationType = applicationType,
 			        UserEmail = "",
 			        Application = "Join a multi-academy trust A2B_2549",
-			        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
-			        {
-				        new(schoolName: "Chesterton primary school") { SchoolId = 96 }
-			        },
-			        ConversionStatus = 1,
-			        ExistingTrust = new(trustName: "Test"),
+                    // MR:- comment out below if want to test that application overview page shows a 'add school' button!!
+					SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+					{
+						new(schoolName: "Chesterton primary school") { SchoolId = 96 }
+					},
+					ConversionStatus = 3,
+					// MR:- comment out below if want to test that application overview page shows a 'add trust' button!!
+                    ExistingTrust = new(trustName: "Existing Trust Test")
 		        };
                 break;
 	        case ApplicationTypes.FormNewSingleAcademyTrust:
@@ -175,8 +177,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	                {
 		                new(schoolName: "Chesterton primary school") { SchoolId = 96 }
 	                },
-	                ConversionStatus = 1,
-	                ExistingTrust = new(trustName: "Test"),
+	                ConversionStatus = 3,
+                    FormATrust = new(proposedTrustName: "New single academy Trust")
                 };
                 break;
 	        case ApplicationTypes.FormNewMat:
@@ -192,8 +194,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
                         new(schoolName: "Newcastle primary school") { SchoolId = 97 },
                         new(schoolName: "Another primary school") { SchoolId = 98 }
 			        },
-			        ConversionStatus = 1,
-			        ExistingTrust = new(trustName: "Test"),
+			        ConversionStatus = 3,
+			        FormATrust = new(proposedTrustName: "New multi academy trust"),
 		        };
                 break;
         }
