@@ -46,27 +46,28 @@
 				foreach (var school in Model.SchoolOrSchoolsApplyingToConvert)
 				{
 					<tr class="govuk-table__row">
-						@*TODO:- change below back to a link <a> tag, same as existing app *@
 						<td class="govuk-table__cell govuk-!-text-align-right">
-							<form method="post" name="frmApplicationType" novalidate="">
-								<input type="submit" value="@school.SchoolName" class="govuk-link"/>
-							</form>
-						</td>
-					</tr>
-					<tr class="govuk-table__row">
-						<td class="govuk-table__cell govuk-!-text-align-right">
-							<a asp-page="ApplicationSelectSchool" class="govuk-button" data-module="govuk-button">Add a school</a>
+							<a asp-controller="School"
+							   asp-action="Overview"
+							   asp-route-appId="@Model.ApplicationId"
+							   asp-route-applyingSchoolId="@school.SchoolId"
+							   class="govuk-link">
+								@school.SchoolName
+							</a>
 						</td>
 					</tr>
 				}
+				<tr class="govuk-table__row">
+					<td class="govuk-table__cell govuk-!-text-align-right">
+						<a asp-page="ApplicationSelectSchool" class="govuk-button" data-module="govuk-button">Add a school</a>
+					</td>
+				</tr>
 			}
 			else
 			{
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell govuk-!-text-align-right">
-						<form method="post" name="frmApplicationType" novalidate="">
-							<input type="submit" value="@Model.SchoolName" class="govuk-link"/>
-						</form>
+						@Model.SchoolName
 					</td>
 				</tr>
 				<partial name="_SchoolComponentsStatusPartial" model="Model.SchoolComponents"/>

@@ -11,6 +11,8 @@ namespace Dfe.Academies.External.Web.Pages
         private readonly ILogger<ApplicationOverviewModel> _logger;
         private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
 
+        public int ApplicationId { get; private set; }
+
         // Below are props for UI display, shunt over to separate view model?
         public ApplicationTypes ApplicationType { get; private set; }
 
@@ -88,7 +90,8 @@ namespace Dfe.Academies.External.Web.Pages
         {
 	        if (conversionApplication != null)
 	        {
-		        ApplicationType = conversionApplication.ApplicationType;
+		        ApplicationId = conversionApplication.Id;
+                ApplicationType = conversionApplication.ApplicationType;
 		        ApplicationReferenceNumber = conversionApplication.ApplicationReference;
 		        CompletedSections = 0; // TODO MR:- what logic drives this !
 		        ApplicationStatus = "incomplete"; // TODO MR:- what logic drives this !
@@ -103,7 +106,7 @@ namespace Dfe.Academies.External.Web.Pages
 		        else
 		        {
 			        SchoolHeaderText = "The school applying to convert";
-			        SchoolName = conversionApplication.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()?.SchoolName;
+			        SchoolName = school?.SchoolName;
                     // Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
                     //Audits = auditEntries.Select(e =>
                     // new ViewModels.ApplicationAuditViewModel
