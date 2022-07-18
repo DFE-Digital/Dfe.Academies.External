@@ -41,4 +41,29 @@ public abstract class BasePageEditModel : BasePageModel
 
 		return schoolDetails;
 	}
+
+	protected string SetSchoolApplicationComponentUriFromName(string componentName)
+	{
+		switch (componentName.ToLower().Trim())
+		{
+			case "contact details":
+				return "/ApplicationSchoolContactDetails";
+			case "performance and safeguarding":
+				return "/ApplicationSchoolPerformanceAndSafeguarding";
+			case "pupil numbers":
+				return "/ApplicationSchoolPupilNumbers";
+			case "finances":
+				return "/ApplicationSchoolFinances";
+			case "partnerships and affiliations":
+				return "/ApplicationSchoolPartnershipsAndAffliates";
+			case "religious education":
+				return "/ApplicationSchoolReligiousEducation";
+			case "land and buildings":
+				return "/ApplicationSchoolLandAndBuildings";
+			case "local authority":
+				return "/ApplicationSchoolLocalAuthority";
+			default:
+				return string.Empty;
+		}
+	}
 }
