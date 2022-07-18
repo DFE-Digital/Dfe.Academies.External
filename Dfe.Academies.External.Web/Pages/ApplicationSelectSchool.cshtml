@@ -1,0 +1,35 @@
+﻿@page
+@model ApplicationSelectSchoolModel
+@{
+	ViewData["Title"] = "Apply to become an academy - School Details";
+}
+
+@section BeforeMain
+{
+	<a asp-page="YourApplications" class="govuk-back-link">Back</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<div id="divApplyingToDo" class="govuk-form-group">
+		<form method="post" name="frmApplicationType" novalidate="">
+			<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+				<h2 class="govuk-heading-m">School details</h2>
+				<h1 class="govuk-heading-l">What is the name of the school?</h1>
+				<fieldset class="govuk-fieldset">
+					<legend id="role-hint" class="govuk-fieldset__legend">?</legend>
+					<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+						<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+					</div>
+
+					<div class="govuk-form-group">
+@*						todo MR:- text box*@
+						<partial name="_SchoolDetails" model="Model.ViewModel.SelectedSchool"/>
+@*						todo MR:- check box*@
+					</div>
+				</fieldset>
+			</div>
+			<br/>
+			<input type="submit" value="Continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+		</form>
+	</div>
+</div>

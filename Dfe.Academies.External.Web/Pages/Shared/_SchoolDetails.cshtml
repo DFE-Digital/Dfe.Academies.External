@@ -1,0 +1,31 @@
+﻿@model Dfe.Academies.External.Web.ViewModels.SchoolDetailsViewModel
+
+<dl class="govuk-summary-list govuk-summary-list--no-border">
+	<div class="govuk-summary-list__row">
+		<dt class="govuk-summary-list__key">
+			School Name
+		</dt>
+		<dd class="govuk-summary-list__value">
+			@Model.SchoolName
+		</dd>
+	</div>
+	<div class="govuk-summary-list__row">
+		<dt class="govuk-summary-list__key">
+			URN
+		</dt>
+		<dd class="govuk-summary-list__value">
+			@Model.URN
+		</dd>
+	</div>
+	<div class="govuk-summary-list__row">
+		<dt class="govuk-summary-list__key">
+			Address
+		</dt>
+		<dd class="govuk-summary-list__value">
+			@Model.Street<br>
+			@Model.Locality<br>
+			@Model.Town<br>
+			@Model.FullUkPostcode
+		</dd>
+	</div>
+</dl>
