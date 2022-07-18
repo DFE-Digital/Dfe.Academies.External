@@ -37,7 +37,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 		        //// MR:- Need to drop into this pages cache here ready for post / server callback !
 		        TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-		        var conversionApplication = await LoadAndSetApplicationDetails(draftConversionApplication.Id);
+		        var conversionApplication = await LoadAndSetApplicationDetails(draftConversionApplication.Id, draftConversionApplication.ApplicationType);
 
                 // TODO MR:- get SchoolId from cache
                 // var schoolCacheViewModel = ViewDataHelper.GetSerialisedValue<SchoolCacheValuesViewModel>(nameof(SchoolCacheValuesViewModel), ViewData) ?? new SchoolCacheValuesViewModel();
