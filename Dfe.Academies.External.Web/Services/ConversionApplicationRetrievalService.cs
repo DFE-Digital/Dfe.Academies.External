@@ -1,6 +1,6 @@
-﻿using System.Globalization;
-using Dfe.Academies.External.Web.Enums;
+﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
+using System.Globalization;
 
 namespace Dfe.Academies.External.Web.Services;
 
@@ -19,20 +19,20 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
     public List<ConversionApplication> GetCompletedApplications(string? username)
     {
-        // TODO: Get data from Academisation API
-        //// _resilientRequestProvider.Get();
+	    // TODO: Get data from Academisation API
+	    //// _resilientRequestProvider.Get();
 
-        // TODO: filter by useremail
+	    // TODO: filter by useremail
 
-        // **** Mock Demo Data - as per Figma ****
-        List<ConversionApplication> existingApplications = new()
-            {
-                new() { Id = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
-                        SchoolOrSchoolsApplyingToConvert = new()
-                            { new(schoolName: "St George’s school") {Id = 2 } } }
-            };
+	    // **** Mock Demo Data - as per Figma ****
+	    List<ConversionApplication> existingApplications = new()
+	    {
+		    new() { Id = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
+			    SchoolOrSchoolsApplyingToConvert = new()
+				    { new(schoolName: "St George’s school" ) {SchoolId = 2 } } }
+	    };
 
-        return existingApplications;
+	    return existingApplications;
     }
 
     public List<ConversionApplication> GetPendingApplications(string? username)
@@ -45,20 +45,31 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         // **** Mock Demo Data - as per Figma ****
         List<ConversionApplication> existingApplications = new()
             {
-            new() { Id = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549", 
-                    SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>{ new(schoolName: "Cambridge Regional college") {Id = 96 } } },
-            new() { Id = 3, UserEmail = "", Application = "Form a new multi- academy trust A2B_8956", 
-                    SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>{ new(schoolName: "Fen Ditton primary school") { Id = 99}, 
-																							new(schoolName: "Chesterton primary school") {Id  = 98 }, 
-																							new(schoolName: "North Cambridge academy") {Id  = 97 } } },
-            new() { Id = 4, UserEmail = "", Application = "Form a new single academy trust A2B_8974", 
-                    SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>{ new(schoolName: "King’s College London Maths school") {Id = 2 } } }
+                new() { Id = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
+                        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+                        {
+                            new(schoolName: "Cambridge Regional college") {SchoolId = 96 }
+                        }
+                },
+                new() { Id = 3, UserEmail = "", Application = "Form a new multi- academy trust A2B_8956",
+                        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>{
+                            new(schoolName: "Fen Ditton primary school") { SchoolId = 99 },
+                            new(schoolName: "Chesterton primary school") { SchoolId  = 98},
+                            new(schoolName: "North Cambridge academy") { SchoolId  = 97 }
+                        }
+                },
+                new() { Id = 4, UserEmail = "", Application = "Form a new single academy trust A2B_8974",
+                        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+                        {
+                            new(schoolName: "King’s College London Maths school") { SchoolId = 95 }
+                        }
+                }
             };
 
         return existingApplications;
     }
 
-    public async Task<List<ConversionApplicationAuditEntry>> GetConversionApplicationAuditEntries(long id)
+    public async Task<List<ConversionApplicationAuditEntry>> GetConversionApplicationAuditEntries(int applicationId)
     {
         // TODO: Get data from Academisation API
         //// _resilientRequestProvider.Get();
@@ -67,18 +78,18 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         DateTimeFormatInfo dtfi = CultureInfo.GetCultureInfo("en-GB").DateTimeFormat;
         List<ConversionApplicationAuditEntry> auditEntries = new()
         {
-            new(createdBy:"Phillip Frond", typeOfChange: "change", entityChanged: "Application", propertyChanged: "school") 
-                {Id = 99, DateCreated = Convert.ToDateTime("25/05/2022", dtfi)},
-            new(createdBy: "Peter Parker", typeOfChange: "change", entityChanged: "Application", propertyChanged: "trust") 
-                {Id = 98, DateCreated = Convert.ToDateTime("20/05/2022", dtfi)},
+            new(createdBy:"Phillip Frond", typeOfChange: "change", entityChanged: "Application", propertyChanged: "school")
+                {Id = 99, ApplicationId = applicationId, DateCreated = Convert.ToDateTime("25/05/2022", dtfi)},
+            new(createdBy: "Peter Parker", typeOfChange: "change", entityChanged: "Application", propertyChanged: "trust")
+                {Id = 98, ApplicationId = applicationId, DateCreated = Convert.ToDateTime("20/05/2022", dtfi)},
             new(createdBy: "Richard Dickenson", typeOfChange: "add", entityChanged: "Application", propertyChanged: "started")
-                {Id = 97, DateCreated = Convert.ToDateTime("15/05/2022", dtfi)},
+                {Id = 97, ApplicationId = applicationId, DateCreated = Convert.ToDateTime("15/05/2022", dtfi)},
         };
 
         return auditEntries;
     }
 
-    public async Task<List<ConversionApplicationComponent>> GetConversionApplicationComponentStatuses(long id)
+    public async Task<List<ConversionApplicationComponent>> GetSchoolApplicationComponents(int schoolId)
     {
         // TODO: Get data from Academisation API
         //// _resilientRequestProvider.Get();
@@ -86,31 +97,109 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         // **** Mock Demo Data - as per Figma ****
         List<ConversionApplicationComponent> conversionApplicationComponents = new()
         {
-            new(name:"Contact details") {Id = 1, Status = Status.Completed},
-            new(name:"Performance and safeguarding") {Id = 2, Status = Status.InProgress},
-            new(name:"Pupil numbers") {Id = 3, Status = Status.NotStarted},
-            new(name:"Finances") {Id = 4, Status = Status.NotStarted},
-            new(name:"Partnerships and affiliations") {Id = 5, Status = Status.NotStarted},
-            new(name:"Religious education") {Id = 6, Status = Status.NotStarted},
-            new(name:"Land and buildings") {Id = 7, Status = Status.NotStarted},
-            new(name:"Local authority") {Id = 8, Status = Status.NotStarted}
+            new(name:"Contact details") {Id = 1, SchoolId = schoolId, Status = Status.Completed},
+            new(name:"Performance and safeguarding") {Id = 2, SchoolId = schoolId, Status = Status.InProgress},
+            new(name:"Pupil numbers") {Id = 3, SchoolId = schoolId, Status = Status.NotStarted},
+            new(name:"Finances") {Id = 4, SchoolId = schoolId, Status = Status.NotStarted},
+            new(name:"Partnerships and affiliations") {Id = 5, SchoolId = schoolId, Status = Status.NotStarted},
+            new(name:"Religious education") {Id = 6, SchoolId = schoolId, Status = Status.NotStarted},
+            new(name:"Land and buildings") {Id = 7, SchoolId = schoolId, Status = Status.NotStarted},
+            new(name:"Local authority") {Id = 8, SchoolId = schoolId, Status = Status.NotStarted}
         };
 
         return conversionApplicationComponents;
     }
 
-    public async Task<List<ConversionApplicationContributor>> GetConversionApplicationContributors(long id)
+    public async Task<List<ConversionApplicationContributor>> GetConversionApplicationContributors(int applicationId)
     {
         // TODO: Get data from Academisation API
         // _resilientRequestProvider.Get
 
         // **** Mock Demo Data - as per Figma ****
-        List<ConversionApplicationContributor> conversionApplicationContributors = new() 
+        List<ConversionApplicationContributor> conversionApplicationContributors = new()
         {
-            new(firstName: "Phillip", surname: "Frond" , SchoolRoles.Chair, null),
-            new(firstName: "Robert",  surname: "Phillips", role:SchoolRoles.Other ,  otherRoleNotListed: "PA to the headteacher"),
+            new(firstName: "Phillip", surname:"Frond", SchoolRoles.Chair, null) 
+											{ApplicationId = applicationId},
+            new(firstName: "Robert", surname: "Phillips", role:SchoolRoles.Other ,  otherRoleNotListed: "PA to the headteacher") 
+											{ApplicationId = applicationId}
         };
 
         return conversionApplicationContributors;
+    }
+
+    public async Task<SchoolApplyingToConvert> GetSchool(int schoolId)
+    {
+        // TODO: Get data from Academisation API
+        // _resilientRequestProvider.Get
+
+        // **** Mock Demo Data - as per Figma ****
+        SchoolApplyingToConvert schoolApplyingToConvert = new(schoolName: "Chesterton primary school") { SchoolId = schoolId };
+
+        return schoolApplyingToConvert;
+    }
+
+    public async Task<ConversionApplication> GetApplication(int applicationId, ApplicationTypes applicationType)
+    {
+	    ConversionApplication conversionApplication = new();
+
+        // TODO: Get data from Academisation API
+        // _resilientRequestProvider.Get
+
+        // **** Mock Demo Data - as per Figma ****
+        switch (applicationType)
+        {
+	        case ApplicationTypes.JoinMat:
+		        conversionApplication = new()
+		        {
+			        Id = applicationId,
+			        ApplicationType = applicationType,
+			        UserEmail = "",
+			        Application = "Join a multi-academy trust A2B_2549",
+                    // MR:- comment out below if want to test that application overview page shows a 'add school' button!!
+					SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+					{
+						new(schoolName: "Chesterton primary school") { SchoolId = 96 }
+					},
+					ConversionStatus = 3,
+					// MR:- comment out below if want to test that application overview page shows a 'add trust' button!!
+                    ExistingTrust = new(trustName: "Existing Trust Test")
+		        };
+                break;
+	        case ApplicationTypes.FormNewSingleAcademyTrust:
+                // MR:- this application is rare
+                conversionApplication = new()
+                {
+	                Id = applicationId,
+	                ApplicationType = applicationType,
+	                UserEmail = "",
+	                Application = "Form a new single academy trust A2B_2549",
+	                SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+	                {
+		                new(schoolName: "Chesterton primary school") { SchoolId = 96 }
+	                },
+	                ConversionStatus = 3,
+                    FormATrust = new(proposedTrustName: "New single academy Trust")
+                };
+                break;
+	        case ApplicationTypes.FormNewMat:
+		        conversionApplication = new()
+		        {
+			        Id = applicationId,
+			        ApplicationType = applicationType,
+			        UserEmail = "",
+			        Application = "Form a new multi-academy trust A2B_2549",
+			        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+			        {
+				        new(schoolName: "Chesterton primary school") { SchoolId = 96 },
+                        new(schoolName: "Newcastle primary school") { SchoolId = 97 },
+                        new(schoolName: "Another primary school") { SchoolId = 98 }
+			        },
+			        ConversionStatus = 3,
+			        FormATrust = new(proposedTrustName: "New multi academy trust"),
+		        };
+                break;
+        }
+
+        return conversionApplication;
     }
 }

@@ -24,9 +24,11 @@ builder.Services
 			.AllowAnonymousToPage("/Terms")
 			.AllowAnonymousToPage("/WhatYouWillNeed")
 			// TODO :- below is temporary config UNTIL auth is sorted - just for demo reasons !!
-            .AllowAnonymousToPage("/WhatAreYouApplyingToDo")
-            .AllowAnonymousToPage("/YourApplications")
-            .AllowAnonymousToPage("/WhatIsYourRole")
+			.AllowAnonymousToPage("/WhatAreYouApplyingToDo")
+			.AllowAnonymousToPage("/YourApplications")
+			.AllowAnonymousToPage("/ApplicationOverview")
+			.AllowAnonymousToPage("/WhatIsYourRole")
+			.AllowAnonymousToPage("/SchoolOverview")
 			;
 	})
 	.AddRazorPagesOptions(options =>
@@ -83,6 +85,16 @@ builder.Services.AddAcademiesApi(configuration);
 // Internal Service
 builder.Services.AddInternalServices();
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+	{
+		options.Cookie.HttpOnly = true;
+		options.Cookie.SameSite = SameSiteMode.Strict;
+		options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+		options.Cookie.IsEssential = true;
+	}
+);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -102,6 +114,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.UseSession();
 
 app.Run();
 

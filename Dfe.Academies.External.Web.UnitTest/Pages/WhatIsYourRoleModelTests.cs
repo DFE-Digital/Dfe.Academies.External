@@ -24,7 +24,7 @@ internal sealed class WhatIsYourRoleModelTests
     public async Task WhatIsYourRoleModel___OnGetAsync___Valid()
     {
         // arrange
-        var draftConversionApplicationStorageKey = "draftConversionApplication";
+        var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
         var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
         
