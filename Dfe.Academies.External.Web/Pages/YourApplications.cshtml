@@ -32,7 +32,9 @@
                         @foreach (var data in Model.ExistingApplications)
                         {
                             <tr class="govuk-table__row">
-                                <th scope="row" class="govuk-table__cell"><a href="#">@data.Application</a></th>
+	                            <th scope="row" class="govuk-table__cell">
+		                            <a asp-page="ApplicationOverview" class="govuk-link">@data.Application</a>
+	                            </th>
                                 <td class="govuk-table__cell">@data.TrustName</td>
                                 <td class="govuk-table__cell">
                                     @foreach (var schs in data.SchoolOrSchoolsApplyingToConvert)
@@ -75,7 +77,9 @@
                         @foreach (var data in Model.CompletedApplications)
                         {
                             <tr class="govuk-table__row">
-                                <th scope="row" class="govuk-table__cell"><a href="#">@data.Application</a></th>
+	                            <th scope="row" class="govuk-table__cell">
+		                            <a asp-page="ApplicationOverview" class="govuk-link">@data.Application</a>
+	                            </th>
                                 <td class="govuk-table__cell">@data.TrustName</td>
                                 <td class="govuk-table__cell">
                                     @foreach (var schs in data.SchoolOrSchoolsApplyingToConvert)
