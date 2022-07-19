@@ -37,8 +37,10 @@ public static class StartupExtension
         // Web application services
         services.AddSingleton<IConversionApplicationCreationService, ConversionApplicationCreationService>();
         services.AddSingleton<IConversionApplicationRetrievalService, ConversionApplicationRetrievalService>();
-        services.AddSingleton<ILoggerClass, LoggerClass>();
+        services.AddSingleton<IReferenceDataRetrievalService, ReferenceDataRetrievalService>();
+
 
         // others......
+        services.AddSingleton<ILoggerClass, LoggerClass>();
     }
 }
