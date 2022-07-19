@@ -29,7 +29,7 @@ builder.Services
 			.AllowAnonymousToPage("/ApplicationOverview")
 			.AllowAnonymousToPage("/WhatIsYourRole")
 			.AllowAnonymousToPage("/SchoolOverview")
-			.AllowAnonymousToPage("/ApplicationSelectSchool")
+			.AllowAnonymousToPage("/school/ApplicationSelectSchool")
 			;
 	})
 	.AddRazorPagesOptions(options =>

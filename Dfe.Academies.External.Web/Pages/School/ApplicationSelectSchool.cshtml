@@ -84,7 +84,7 @@
 
 					// Ajax Get Trusts
 					let searchQuery = $("#search").val();
-					$.get("case/TrustsSearchResult", { searchQuery: searchQuery }) // case = case folder/index.cshtml/OnGetTrustsSearchResult()
+					$.get("case/SchoolsSearchResult", { searchQuery: searchQuery }) // case = case folder/index.cshtml/OnGetTrustsSearchResult()
 					.done(function (trusts) {
 						hideGlobalError();
 						hideLoader();
