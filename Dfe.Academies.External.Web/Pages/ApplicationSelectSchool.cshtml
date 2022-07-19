@@ -38,12 +38,11 @@
 								I confirm that this is the correct school
 							</label>
 						</div>
-						<input id='confirm-school' name='confirm-school' type='hidden' value='I confirm that this is the correct school'>
 					</div>
 				</fieldset>
 			</div>
 			<br/>
-			<input type="submit" value="Continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+			<input type="submit" value="Continue" id="btnAdd" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 		</form>
 	</div>
 </div>
@@ -85,7 +84,7 @@
 
 					// Ajax Get Trusts
 					let searchQuery = $("#search").val();
-					$.get("case/TrustsSearchResult", { searchQuery: searchQuery })
+					$.get("case/TrustsSearchResult", { searchQuery: searchQuery }) // case = case folder/index.cshtml/OnGetTrustsSearchResult()
 					.done(function (trusts) {
 						hideGlobalError();
 						hideLoader();

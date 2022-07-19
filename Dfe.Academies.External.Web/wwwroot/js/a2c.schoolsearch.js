@@ -2,6 +2,10 @@ var A2C = window.A2C || {};
 
 let debounceTimeout;
 
+$(function () {
+    A2C.searchSchools();
+});
+
 A2C.searchSchools = function () {
     accessibleAutocomplete.enhanceSelectElement({
         source: debounceSuggest,
@@ -16,7 +20,8 @@ A2C.searchSchools = function () {
             setTimeout(() => {
                 $('#btnAdd').addClass('govuk-button--disabled')
                 .attr('aria-disabled', 'true')
-                .prop('disabled', 'true');
+                    .prop('disabled', 'true');
+
                 if ($('#confirm-school-checkbox').length == 0) {
                     $('#btnAdd').removeClass('govuk-button--disabled')
                         .attr('aria-disabled', 'false')
@@ -33,7 +38,7 @@ A2C.renderSchoolSearchOption = function (selectedValue) {
         type: 'GET',
         data: { 'SchoolId': selectedValue },
         success: function (response) {
-            $('#searchResults').html(response);
+            //$('#searchResults').html(response); // TODO MR:- amend for partial view
             $('#confirm-school-checkbox').css('display', 'block')
             $('#confirm-school-checkbox').removeClass('hidden');
         }
@@ -50,7 +55,7 @@ function debounceSuggest(query, syncResults) {
 // call search schools endpoint
 function getSchools(query, syncResults) {
     $.ajax({
-        url: 'Search',
+        url: 'Search', // this calls a controller endpont
         type: 'GET',
         data: { 'searchQuery': query },
         success: function (response) {
@@ -67,10 +72,6 @@ function getSchools(query, syncResults) {
 $(document).ready(function () {
     $('#confirm-school-checkbox').css('display', 'none') // This alerts: <a href="#">Services</a>
         .css('margin-bottom', '1.3em');
-});
-
-$(function () {
-    A2C.searchSchools();
 });
 
 function toggleConfirmationCheckbox() {
