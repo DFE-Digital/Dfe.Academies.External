@@ -6,29 +6,31 @@
 /// </summary>
 public class SchoolDetailsViewModel
 {
-	public SchoolDetailsViewModel(string schoolName, int urn, string street, string town, string fullUKPostcode)
+	public SchoolDetailsViewModel(string schoolName, string urn, string street, string town, string fullUkPostcode)
 	{
 		SchoolName = schoolName;
 		URN = urn;
 		Street = street;
 		Town = town;
-		FullUkPostcode = fullUKPostcode;
+		FullUkPostcode = fullUkPostcode;
 	}
 
 	public string SchoolName { get; set; }
 
 	/// <summary>
-	/// Not nullable - GIAS unique school Id !
+	/// Not nullable - GIAS unique school Id ? e.g. GAT00123
 	/// </summary>
-	public int URN { get; set; }
+	public string URN { get; set; }
 
 	/// <summary>
 	/// e.g. 7083
 	/// </summary>
 	public string? EstablishmentNumber { get; set; }
 
-	public string? UKPRN { get; set; }
-
+	/// <summary>
+	/// Another unique school Id (6 digit number) e.g. 587634
+	/// </summary>
+	public int? UKPRN { get; set; }
 
 	// registered address
 	public string Street { get; set; }
