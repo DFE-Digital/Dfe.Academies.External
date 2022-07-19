@@ -11,19 +11,23 @@
 
 <div class="govuk-grid-column-two-thirds">
 	<div id="divApplyingToDo" class="govuk-form-group">
-		<form method="post" name="frmApplicationType" novalidate="">
+		<form method="post" id="search-form" class="search-form" novalidate>
 			<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 				<h2 class="govuk-heading-m">School details</h2>
-				<h1 class="govuk-heading-l">What is the name of the school?</h1>
-				<fieldset class="govuk-fieldset">
-					<legend id="role-hint" class="govuk-fieldset__legend">?</legend>
+				<fieldset class="govuk-fieldset" data-required data-error="Search cannot be blank" aria-required="true">
+					<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+						<h2 class="govuk-fieldset__heading govuk-heading-m">
+							What is the name of the school?
+						</h2>
+					</legend>
+
 					<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 						<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 					</div>
 
 					<div class="govuk-form-group">
-						<label class="govuk-label" for="orgSelect">Enter the name of the school, or its 6 digit unique reference number (URN) </label>
-						<select id="orgSelect" name="orgSelect" class="govuk-select"/>
+						<label class="govuk-hint" for="schoolSelect">Enter the name of the school, or its 6 digit unique reference number (URN) </label>
+						<select id="schoolSelect" name="schoolSelect" class="govuk-select"/>
 						<div id="searchResults">
 							<partial name="_SchoolDetails" model="Model.ViewModel.SelectedSchool"/>
 						</div>
@@ -43,3 +47,99 @@
 		</form>
 	</div>
 </div>
+
+<script type="application/javascript">
+	$(function () {
+		let clearResults = function () {
+			$("#trusts-partial-results").empty();
+			$("#autocomplete-container").empty();
+			$(".autocomplete__menu").addClass("autocomplete__menu--hidden");
+		};
+		
+		try {
+			let searchForm = $("#search-form");
+			const validator = formValidator(searchForm[0]);
+			validator.addValidator('schoolSelect', [{
+				method: function(field) {
+					return field.value.trim().length > 0;
+				},
+				message: 'Search cannot be blank'
+			}, {
+				method: function(field) {
+					return (field.value.length > 2);
+				},
+				message: 'Enter search criteria higher than three characters'
+			}]);
+
+			searchForm.submit(function (event) {
+				validator.onSubmit(event);
+				if (validator.validate()) {
+					event.preventDefault();
+
+					clearResults();
+					showLoader();
+
+					// Ajax Get Trusts
+					let searchQuery = $("#search").val();
+					$.get("case/TrustsSearchResult", { searchQuery: searchQuery })
+					.done(function (trusts) {
+						hideGlobalError();
+						hideLoader();
+
+						if (trusts.length === 0) {
+							$(".autocomplete__menu").removeClass("autocomplete__menu--hidden");
+						}
+						else {
+							let autocompleteContainer = document.getElementById("autocomplete-container");
+
+							const trustNames = trusts.map(trust => trust.displayName);
+							const input = $("#search");
+
+							accessibleAutocomplete({
+							  	element: autocompleteContainer,
+							  	id: input.attr("id"),
+							  	name: input.attr("name"),
+							  	source: trustNames,
+							  	confirmOnBlur: false,
+							  	minLength: 3,
+							  	onConfirm: (selected) => {
+									const trustUkprn = trusts.find(item => item.displayName === selected).ukPrn;
+							  		input.attr("aria-valuetext", trustUkprn);
+									input.val(selected);
+								  
+								  	// Ajax Post Trust
+									$.get("trust?handler=SelectedTrust",
+										{ trustUkPrn: trustUkprn })
+									.done(function (result) {
+										window.location.replace(result.redirectUrl);
+									})
+									.fail(function() {
+										showGlobalError();
+									});
+							  	}
+							});
+
+							$(".autocomplete__wrapper #search").hide("fast");
+							let autocompleteSearch = $("#autocomplete-container #search");
+							autocompleteSearch.val(searchQuery);
+						}
+
+					}).fail(function() {
+						clearResults();
+						showGlobalError();
+						hideLoader();
+					});
+				} else {
+					clearResults();
+					hideGlobalError()
+					hideLoader();
+				}
+			});
+
+		} catch(err) {
+			clearResults();
+			showGlobalError();
+			hideLoader();
+		}
+	});
+</script>
