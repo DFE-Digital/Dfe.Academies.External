@@ -38,10 +38,14 @@ namespace Dfe.Academies.External.Web.Pages
         /// </summary>
         public string? SchoolName { get; private set; }
 
-        /// <summary>
-        /// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
-        /// </summary>
-        public List<ViewModels.ApplicationComponentViewModel>? SchoolComponents { get; private set; }
+        public string TrustHeaderText  { get; private set; } = string.Empty;
+
+        public Status? TrustConversionStatus { get; private set; }
+
+    /// <summary>
+    /// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
+    /// </summary>
+    public List<ViewModels.ApplicationComponentViewModel>? SchoolComponents { get; private set; }
 
         public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger, 
 										IConversionApplicationRetrievalService conversionApplicationRetrievalService): base(conversionApplicationRetrievalService)
@@ -101,10 +105,13 @@ namespace Dfe.Academies.External.Web.Pages
 
 		        if (conversionApplication.ApplicationType == ApplicationTypes.FormNewMat)
 		        {
-			        SchoolHeaderText = "The schools applying to convert";
+			        TrustHeaderText = "The trust being formed";
+                    SchoolHeaderText = "The schools applying to convert";
+			        TrustConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
                 }
 		        else
 		        {
+			        TrustHeaderText = "The trust the school will join";
 			        SchoolHeaderText = "The school applying to convert";
 			        SchoolName = school?.SchoolName;
                     // Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>

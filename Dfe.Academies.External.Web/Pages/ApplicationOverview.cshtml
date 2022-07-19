@@ -77,7 +77,7 @@
 	</table>
 
     <table class="govuk-table">
-        <caption class="govuk-table__caption govuk-table__caption--l">The trust the school will join</caption>
+        <caption class="govuk-table__caption govuk-table__caption--l">@Model.TrustHeaderText</caption>
         <tbody class="govuk-table__body">
             @*If no trust selected - render button instead*@
             @if (string.IsNullOrWhiteSpace(Model.NameOfTrustToJoin)){
@@ -88,11 +88,17 @@
                 </tr>
             }
             else{
-                <tr class="govuk-table__row">
-	                <td class="govuk-table__cell govuk-!-text-align-right">
-		                <a asp-page="ApplicationSelectTrust" class="govuk-link">@Model.NameOfTrustToJoin</a>
-	                </td>
-                </tr>
+	            <tr class="govuk-table__row">
+		            <td class="govuk-table__cell">
+			            <a asp-page="ApplicationSelectTrust" class="govuk-link">@Model.NameOfTrustToJoin</a>
+		            </td>
+		            <td class="govuk-table__cell govuk-!-text-align-right">
+			            @{
+				            var trustConversionStatusValue = (int)Model.TrustConversionStatus;
+			            }
+			            <status enumvalue=@trustConversionStatusValue></status>
+		            </td>
+	            </tr>
             }
         </tbody>
     </table>       
