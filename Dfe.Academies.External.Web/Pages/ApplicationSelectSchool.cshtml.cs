@@ -156,7 +156,7 @@ namespace Dfe.Academies.External.Web.Pages
 				ViewModel.ApplicationId = conversionApplication.Id;
 				//ViewModel.SchoolName = ;
 				ViewModel.CorrectSchoolConfirmation = false;
-				ViewModel.SelectedSchool = new();
+				ViewModel.SelectedSchool = new(string.Empty,string.Empty,string.Empty,string.Empty,string.Empty);
 			}
 		}
 	}

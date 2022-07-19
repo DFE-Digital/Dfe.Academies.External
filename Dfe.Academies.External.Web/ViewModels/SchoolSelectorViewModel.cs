@@ -16,5 +16,5 @@ public class SchoolSelectorViewModel
 	/// <summary>
 	/// Below contains name / URN / address
 	/// </summary>
-	public SchoolSelectorViewModel SelectedSchool { get; set; }
+	public SchoolDetailsViewModel SelectedSchool { get; set; }
 }
