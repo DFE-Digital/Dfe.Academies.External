@@ -5,9 +5,9 @@
 /// </summary>
 public class SchoolSearch
 {
-	public SchoolSearch(string schoolName, string ukprn) =>
-		(SchoolName, Ukprn) = (schoolName, ukprn);
+	public SchoolSearch(string schoolName, string urn) =>
+		(SchoolName, Urn) = (schoolName, urn);
 
 	public string SchoolName { get; }
-	public string Ukprn { get; }
+	public string Urn { get; }
 }

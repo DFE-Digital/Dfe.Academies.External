@@ -4,8 +4,8 @@ namespace Dfe.Academies.External.Web.Models
 {
 	public sealed class SchoolsSearchDto
 	{		
-		[JsonPropertyName("ukprn")]
-		public int UkPrn { get; }
+		[JsonPropertyName("urn")]
+		public int Urn { get; }
 
 		[JsonPropertyName("schoolName")]
 		public string SchoolName { get; }
@@ -20,9 +20,9 @@ namespace Dfe.Academies.External.Web.Models
 		public string FullUkPostcode { get; }
 
 		[JsonConstructor]
-		public SchoolsSearchDto(string schoolName, int ukprn, 
+		public SchoolsSearchDto(string schoolName, int urn, 
 			string street, string town, string fullUkPostcode) => 
-			(SchoolName, UkPrn, Street, Town, FullUkPostcode) = 
-			(schoolName, ukprn, street, town, fullUkPostcode);
+			(SchoolName, Urn, Street, Town, FullUkPostcode) = 
+			(schoolName, Urn, street, town, fullUkPostcode);
 	}
 }

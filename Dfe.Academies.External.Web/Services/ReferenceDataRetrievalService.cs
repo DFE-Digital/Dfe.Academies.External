@@ -37,16 +37,16 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 				schoolsSearchDtos.Where(s => s.SchoolName.ToLower().Trim().Contains(schoolSearch.SchoolName) 
 														|| s.SchoolName.ToLower().Trim().EndsWith(schoolSearch.SchoolName)).ToList();
 		}
-		else if (!string.IsNullOrWhiteSpace(schoolSearch.Ukprn) && !schoolsSearchResults.Any())
+		else if (!string.IsNullOrWhiteSpace(schoolSearch.Urn) && !schoolsSearchResults.Any())
 		{
 			schoolsSearchResults =
-				schoolsSearchDtos.Where(s => s.UkPrn == int.Parse(schoolSearch.Ukprn.ToLower().Trim())).ToList();
+				schoolsSearchDtos.Where(s => s.Urn == int.Parse(schoolSearch.Urn.ToLower().Trim())).ToList();
 		}
 
 		// Map SchoolsSearchDto to view model
 		if (schoolsSearchResults.Any())
 			schools = schoolsSearchResults.Select(c =>
-				new SchoolSearchResultViewModel(schoolName: c.SchoolName, ukprn: c.UkPrn, street: c.Street, town: c.Town, fullUkPostcode: c.FullUkPostcode)
+				new SchoolSearchResultViewModel(schoolName: c.SchoolName, urn: c.Urn, street: c.Street, town: c.Town, fullUkPostcode: c.FullUkPostcode)
 				{
 					// TODO MR:- others?? depends what we get back from API
 				}).ToList();
