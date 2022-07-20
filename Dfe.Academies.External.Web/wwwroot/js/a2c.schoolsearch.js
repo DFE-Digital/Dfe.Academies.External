@@ -17,14 +17,40 @@ let debounceTimeout;
 
 $(function () {
     A2C.searchSchools();
-
-    $('#confirm-school-checkbox').css('display', 'none')
-        .css('margin-bottom', '1.3em');
+    //A2C.hideSelectedSchoolSectionAndConfirmCheckbox(); hidden in razor !
 
     // TODO MR:- similar to concerns casework do we need a control cleardown e.g.
     //$("#schoolSelectedDetails").empty();
     //$("#autocomplete-container").empty();
 });
+
+//A2C.hideSelectedSchoolSectionAndConfirmCheckbox = function () {
+//    // hide school results div
+//    const schoolSelectedDetails = document.getElementById("schoolSelectedDetails");
+//    schoolSelectedDetails.classList.add("hideElement");
+    
+//    // hide confirm checkbox until school selected
+//	//$('#confirm-school-checkbox').css('display', 'none')
+// //       .css('margin-bottom', '1.3em');
+    
+//	const checkboxContainer = document.getElementById("confirm-school-checkbox");
+//    checkboxContainer.classList.add("hideElement");
+//};
+
+A2C.unhideSelectedSchoolSectionAndConfirmCheckbox = function () {
+    A2C.unhideElement("schoolSelectedDetails");
+    A2C.unhideElement("confirm-school-cb");
+    A2C.unhideElement("confirm-school-label");
+};
+
+A2C.unhideElement = function (elementName) {
+    const elementToManipulate = document.getElementById(elementName);
+
+    console.log(elementToManipulate);
+
+    elementToManipulate.classList.remove("hideElement");
+    elementToManipulate.classList.add("unHideElement");
+};
 
 A2C.searchSchools = function () {
 	accessibleAutocomplete.enhanceSelectElement({
@@ -38,15 +64,15 @@ A2C.searchSchools = function () {
             A2C.renderSchoolSearchOption(selectedValue);
 
 			setTimeout(() => {
-					$('#btnAdd').addClass('govuk-button--disabled')
-						.attr('aria-disabled', 'true')
-						.prop('disabled', 'true');
+					//$('#btnAdd').addClass('govuk-button--disabled')
+					//	.attr('aria-disabled', 'true')
+					//	.prop('disabled', 'true');
 
-					if ($('#confirm-school-checkbox').length === 0) {
-						$('#btnAdd').removeClass('govuk-button--disabled')
-							.attr('aria-disabled', 'false')
-							.removeAttr('disabled');
-					}
+					//if ($('#confirm-school-checkbox').length === 0) {
+					//	$('#btnAdd').removeClass('govuk-button--disabled')
+					//		.attr('aria-disabled', 'false')
+					//		.removeAttr('disabled');
+					//}
 				},
 				2000);
 		})
@@ -54,17 +80,24 @@ A2C.searchSchools = function () {
 };
 
 A2C.renderSchoolSearchOption = function (selectedValue) {
-    // get full school deets from an endpoint, then render partial & return HTML
+	document.getElementById("searchQuery").value = selectedValue;
+
+    // get full school record from an endpoint
+    // render partial & set results DIV HTML
+    // unhide selected school section of screen
     $.ajax({
         url: 'school/ReturnSchoolDetailsPartialViewPopulated',
         type: 'GET',
         data: { 'selectedSchool': selectedValue }, // selected value will be in the format 'Wise owl primary school (587634)'
         success: function (response) {
-            $('#schoolSelectedDetails').html(response);
-            $('#confirm-school-checkbox').css('display', 'block');
-            $('#confirm-school-checkbox').removeClass('hidden');
+	        A2C.renderSelectedSchool(response);
+            A2C.unhideSelectedSchoolSectionAndConfirmCheckbox();
         }
     });
+};
+
+A2C.renderSelectedSchool = function (responseHtml) {
+    $('#schoolSelectedDetails').html(responseHtml);
 };
 
 function debounceSuggest(query, syncResults) {
@@ -92,12 +125,15 @@ function getSchools(query, syncResults) {
 }
 
 function toggleConfirmationCheckbox() {
-    if ($('#confirm-school-cb').prop('checked') === true) {
+    if ($('#confirm-school-cb').prop('checked') === true)
+    {
+        // MR:- current app disables add button until validation = success / confirm checkbox = true
         $('#btnAdd').removeClass('govuk-button--disabled')
             .attr('aria-disabled', 'false')
             .removeAttr('disabled');
     }
-    else {
+    else
+    {
         $('#btnAdd').addClass('govuk-button--disabled')
             .attr('aria-disabled', 'true')
             .prop('disabled', 'true');

@@ -145,3 +145,11 @@
         margin-bottom: 0;
     }
 }
+
+.hideElement {
+	display: none !important;
+}
+
+.unHideElement {
+    display: block !important;
+}
