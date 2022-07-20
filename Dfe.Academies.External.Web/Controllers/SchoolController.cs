@@ -15,10 +15,13 @@ namespace Dfe.Academies.External.Web.Controllers
 		private readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
 		private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
 
-		public SchoolController(ILogger<SchoolController> logger, IReferenceDataRetrievalService referenceDataRetrievalService)
+		public SchoolController(ILogger<SchoolController> logger,
+								IReferenceDataRetrievalService referenceDataRetrievalService,
+								IConversionApplicationRetrievalService conversionApplicationRetrievalService)
 		{
 			_logger = logger;
 			_referenceDataRetrievalService = referenceDataRetrievalService;
+			_conversionApplicationRetrievalService = conversionApplicationRetrievalService;
 		}
 
 		[HttpGet]
@@ -82,8 +85,8 @@ namespace Dfe.Academies.External.Web.Controllers
 		}
 
 		[HttpGet]
-		[Route("school/DisplaySchoolDetails")]
-		[Route("school/school/DisplaySchoolDetails")]
+		[Route("school/ReturnSchoolDetailsPartialViewPopulated")]
+		[Route("school/school/ReturnSchoolDetailsPartialViewPopulated")]
 		public async Task<IActionResult> ReturnSchoolDetailsPartialViewPopulated(string selectedSchool)
 		{
 			try
