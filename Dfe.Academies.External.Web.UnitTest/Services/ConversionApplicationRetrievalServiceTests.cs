@@ -185,7 +185,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     {
 	    // arrange
 	    var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-	    int schoolId = 1; // TODO MR:- this value hard coded in dummy data at present !!!!!!
+	    int urn = 101003; // TODO MR:- this value hard coded in dummy data at present !!!!!!
 	    var mockFactory = new Mock<IHttpClientFactory>();
 
 	    var mockMessageHandler = new Mock<HttpMessageHandler>();
@@ -205,11 +205,11 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
 	    // act
 	    var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
-	    var school = await applicationRetrievalService.GetSchool(schoolId);
+	    var school = await applicationRetrievalService.GetSchool(urn);
 
 	    // assert
 	    Assert.That(school, Is.Not.Null);
-	    Assert.That(school.SchoolId, Is.EqualTo(schoolId));
+	    Assert.That(school.URN, Is.EqualTo(urn));
         Assert.That(school.SchoolName, Is.EqualTo("Chesterton primary school"));
     }
 
