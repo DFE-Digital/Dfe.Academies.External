@@ -15,5 +15,10 @@ public sealed class SchoolCacheValuesViewModel
 
 	public int SchoolId { get; set; }
 
+	/// <summary>
+	/// Another unique school Id (6 digit number) e.g. 587634
+	/// </summary>
+	public int URN { get; set; }
+
 	public string SchoolName { get; set; }
 }
