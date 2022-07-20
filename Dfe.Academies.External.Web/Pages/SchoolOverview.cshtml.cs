@@ -39,8 +39,8 @@ namespace Dfe.Academies.External.Web.Pages
 		        TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 		        var conversionApplication = await LoadAndSetApplicationDetails(draftConversionApplication.Id, draftConversionApplication.ApplicationType);
 
-                // TODO MR:- get SchoolId from cache
-                // var schoolCacheViewModel = ViewDataHelper.GetSerialisedValue<SchoolCacheValuesViewModel>(nameof(SchoolCacheValuesViewModel), ViewData) ?? new SchoolCacheValuesViewModel();
+                // TODO MR:- get School by SchoolId OR URN ?
+                //// var schoolCacheViewModel = ViewDataHelper.GetSerialisedValue<SchoolCacheValuesViewModel>(nameof(SchoolCacheValuesViewModel), ViewData) ?? new SchoolCacheValuesViewModel();
                 var selectedSchool = await LoadAndSetSchoolDetails(99);
 
                 // Grab other values from API
