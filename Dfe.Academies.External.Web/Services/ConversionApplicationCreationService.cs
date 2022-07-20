@@ -18,6 +18,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
         ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(HttpClientName));
 
         // TODO: await API response from Academisation API
+        // await apiRequestProvider.PostAsync<>();
         application.Id = int.MaxValue;
 
         return application;
@@ -27,7 +28,19 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
     {
         ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(HttpClientName));
 
-        // TODO await API response !
+        // TODO: await API response from Academisation API
+        //await apiRequestProvider.PutAsync<>();
+
+        return Task.CompletedTask;
+    }
+
+    public Task AddSchoolToApplication(int applicationId, int schoolUkUrn)
+    {
+	    ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(HttpClientName));
+
+        // TODO: await API response from Academisation API
+        // await apiRequestProvider.PostAsync<>();
+
 
         return Task.CompletedTask;
     }
