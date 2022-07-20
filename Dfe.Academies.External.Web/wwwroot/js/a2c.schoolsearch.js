@@ -28,7 +28,7 @@ A2C.unhideSelectedSchoolSectionAndConfirmCheckbox = function () {
     A2C.unhideElement("schoolSelectedDetails");
     A2C.unhideElement("confirm-school-label");
 
-    const elementToManipulate = document.getElementById("confirm-school-cb");
+	const elementToManipulate = document.getElementById("CorrectSchoolConfirmation");
     elementToManipulate.classList.remove("hideElement");
 };
 

@@ -34,11 +34,10 @@
 						<div id="schoolSelectedDetails" class="hideElement"></div>
 						<div id="confirm-school-checkbox" class="govuk-checkboxes" data-module="govuk-checkboxes">
 							<div class="govuk-checkboxes__item">
-								<input type='checkbox' id='confirm-school-cb' name='cb'
-								       asp-for="CorrectSchoolConfirmation"
-								       checked="@Model.CorrectSchoolConfirmation"
+								<input id='CorrectSchoolConfirmation'
+								       asp-for="@Model.CorrectSchoolConfirmation"
 								       class='hideElement govuk-checkboxes__input'>
-								<label id='confirm-school-label' class='hideElement govuk-label govuk-checkboxes__label' for='confirm-school-cb'>
+								<label id='confirm-school-label' class='hideElement govuk-label govuk-checkboxes__label' for='CorrectSchoolConfirmation'>
 									This is the correct school
 								</label>
 							</div>

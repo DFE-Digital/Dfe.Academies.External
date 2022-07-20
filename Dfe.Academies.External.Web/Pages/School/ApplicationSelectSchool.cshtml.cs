@@ -21,7 +21,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		[Range(typeof(bool), "true", "true", ErrorMessage = "You must confirm that is the correct school")]
-		public bool CorrectSchoolConfirmation { get; set; }
+		public bool CorrectSchoolConfirmation { get; set; } = false;
 
 		public string SelectedSchoolName
 		{
