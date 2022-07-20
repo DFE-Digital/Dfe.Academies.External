@@ -5,11 +5,11 @@ namespace Dfe.Academies.External.Web.Services;
 
 public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataRetrievalService
 {
-	private readonly ILogger<ConversionApplicationRetrievalService> _logger;
+	private readonly ILogger<ReferenceDataRetrievalService> _logger;
 	private readonly IHttpClientFactory _httpClientFactory;
 	private readonly ResilientRequestProvider _resilientRequestProvider;
 
-	public ReferenceDataRetrievalService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationRetrievalService> logger) : base(httpClientFactory)
+	public ReferenceDataRetrievalService(IHttpClientFactory httpClientFactory, ILogger<ReferenceDataRetrievalService> logger) : base(httpClientFactory)
 	{
 		_httpClientFactory = httpClientFactory;
 		_logger = logger;
