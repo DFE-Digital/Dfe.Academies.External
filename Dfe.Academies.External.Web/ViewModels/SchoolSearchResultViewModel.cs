@@ -46,17 +46,11 @@ public sealed class SchoolSearchResultViewModel
 
 	public string FullUkPostcode { get; set; }
 
-	//public string DisplayName
-	//{
-	//	get
-	//	{
-	//		var sb = new StringBuilder();
-	//		sb.Append(string.IsNullOrEmpty(SchoolName) ? _isNullOrEmpty : SchoolName);
-	//		sb.Append(",").Append(" ");
-	//		sb.Append(string.IsNullOrEmpty(UkPrn) ? _isNullOrEmpty : UkPrn);
-	//		sb.Append(" ");
-
-	//		return sb.ToString();
-	//	}
-	//}
+    public string DisplayName
+    {
+        get
+        {
+			return $"{SchoolName} ({UKPRN})";
+        }
+    }
 }

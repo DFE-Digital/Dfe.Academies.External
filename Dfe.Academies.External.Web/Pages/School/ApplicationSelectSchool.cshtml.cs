@@ -24,7 +24,6 @@ namespace Dfe.Academies.External.Web.Pages
 		    _logger = logger;
 		    _academisationCreationService = academisationCreationService;
 		    _referenceDataRetrievalService = referenceDataRetrievalService;
-
 		}
 
 		public async Task OnGetAsync()
@@ -46,30 +45,30 @@ namespace Dfe.Academies.External.Web.Pages
 			}
 		}
 		
-		public async Task<ActionResult> OnGetSchoolsSearchResult(string searchQuery)
-		{
-			try
-			{
-				_logger.LogInformation("School::ApplicationSelectSchoolModel::OnGetSchoolsSearchResult");
+		//public async Task<ActionResult> OnGetSchoolsSearchResult(string searchQuery)
+		//{
+		//	try
+		//	{
+		//		_logger.LogInformation("School::ApplicationSelectSchoolModel::OnGetSchoolsSearchResult");
 
-				// Double check search query.
-				if (string.IsNullOrEmpty(searchQuery) || searchQuery.Length < SearchQueryMinLength)
-				{
-					return new JsonResult(Array.Empty<SchoolSearchResultViewModel>());
-				}
+		//		// Double check search query.
+		//		if (string.IsNullOrEmpty(searchQuery) || searchQuery.Length < SearchQueryMinLength)
+		//		{
+		//			return new JsonResult(Array.Empty<SchoolSearchResultViewModel>());
+		//		}
 
-				var schoolSearch = new SchoolSearch(searchQuery, searchQuery);
-				var schoolSearchResponse = await _referenceDataRetrievalService.SearchSchools(schoolSearch);
+		//		var schoolSearch = new SchoolSearch(searchQuery, searchQuery);
+		//		var schoolSearchResponse = await _referenceDataRetrievalService.SearchSchools(schoolSearch);
 
-				return new JsonResult(schoolSearchResponse);
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::ApplicationSelectSchoolModel::OnGetSchoolsSearchResult::Exception - {Message}", ex.Message);
+		//		return new JsonResult(schoolSearchResponse);
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		_logger.LogError("School::ApplicationSelectSchoolModel::OnGetSchoolsSearchResult::Exception - {Message}", ex.Message);
 
-				return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-			}
-		}
+		//		return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+		//	}
+		//}
 
 		// TODO MR:- do I need this????
 		//public async Task<ActionResult> OnGetSelectedSchool(string schoolUkPrn)

@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Dfe.Academies.External.Web.Controllers
 {
@@ -6,15 +10,18 @@ namespace Dfe.Academies.External.Web.Controllers
 	// [Authorize]
 	public class SchoolController : Controller
 	{
+		private const int SearchQueryMinLength = 3;
 		private readonly ILogger<SchoolController> _logger;
+		private readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
 
-		public SchoolController(ILogger<SchoolController> logger)
+		public SchoolController(ILogger<SchoolController> logger, IReferenceDataRetrievalService referenceDataRetrievalService)
 		{
-			_logger = logger;	
+			_logger = logger;
+			_referenceDataRetrievalService = referenceDataRetrievalService;
 		}
 
 		[HttpGet]
-		[Route("School/SchoolOverview/{appId}/{applyingSchoolId}")]
+		[Route("school/SchoolOverview/{appId}/{applyingSchoolId}")]
 		public async Task<IActionResult> Overview(int appId, int applyingSchoolId)
 		{
 			try
@@ -28,5 +35,50 @@ namespace Dfe.Academies.External.Web.Controllers
 
 			return null;
 		}
+
+		[HttpGet]
+		[Route("school/search")]
+		[Route("school/addschool/search")]
+		public async Task<IEnumerable<string>> Search(string searchQuery)
+		{
+			try
+			{
+				_logger.LogInformation("SchoolController::Search::OnGetSchoolsSearchResult");
+
+				// Double check search query.
+				if (string.IsNullOrEmpty(searchQuery) || searchQuery.Length < SearchQueryMinLength)
+				{
+					// TODO MR:- ?? concerns casework returns a JSON array, should we do this? Depends what API returns
+                    //return new JsonResult(Array.Empty<SchoolSearchResultViewModel>());
+					return Enumerable.Empty<string>();
+				}
+
+				var schoolSearch = new SchoolSearch(searchQuery, searchQuery);
+				var schoolSearchResponse = await _referenceDataRetrievalService.SearchSchools(schoolSearch);
+
+				// TODO MR:- ?? concerns casework returns a JSON array, should we do this? Depends what API returns
+				//return new JsonResult(schoolSearchResponse);
+
+				if (schoolSearchResponse.Any())
+				{
+					return schoolSearchResponse.Select(x => x.DisplayName).AsEnumerable();
+				}
+				else
+				{
+					return Enumerable.Empty<string>();
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("SchoolController::Search::OnGetSchoolsSearchResult::Exception - {Message}", ex.Message);
+
+				// TODO MR:- ?? concerns casework returns below which makes sense.
+				// Would need to amend controller method to return Task<ActionResult>
+				//return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+				return Enumerable.Empty<string>();
+			}
+		}
+
+		//=> await SchoolRepository.SearchSchool(inputText);
 	}
 }
