@@ -10,7 +10,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	public class ApplicationSelectSchoolModel : BasePageModel
     {
 	    private readonly ILogger<ApplicationSelectSchoolModel> _logger;
-	    private readonly IConversionApplicationCreationService _academisationCreationService;
+	    private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
 		private const string NextSchoolStepPage = "/ApplicationOverview";
 
 		[BindProperty]
@@ -22,19 +22,36 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		[Required(ErrorMessage = "You must confirm that is the correct school")]
-		public bool CorrectSchoolConfirmation { get; set; } = false;
+		public bool CorrectSchoolConfirmation { get; set; }
 
-		/// <summary>
-		/// Below contains name / URN / address
-		/// </summary>
-		public SchoolDetailsViewModel SelectedSchool { get; set; }
+		public string SelectedSchoolName
+		{
+			get
+			{
+				var schoolSplit = SearchQuery
+					.Trim()
+					.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
-		public ApplicationSelectSchoolModel(ILogger<ApplicationSelectSchoolModel> logger,
-		    IConversionApplicationCreationService academisationCreationService,
-		    IReferenceDataRetrievalService referenceDataRetrievalService)
+				return schoolSplit[0].Trim();
+			}
+		}
+
+		public int SelectedUrn {
+			get
+			{
+				var schoolSplit = SearchQuery
+					.Trim()
+					.Replace(")", string.Empty)
+					.Split('(', StringSplitOptions.RemoveEmptyEntries);
+
+				return Convert.ToInt32(schoolSplit[^1]);
+			}
+		} 
+
+		public ApplicationSelectSchoolModel(ILogger<ApplicationSelectSchoolModel> logger, IConversionApplicationCreationService conversionApplicationCreationService)
 	    {
 		    _logger = logger;
-		    _academisationCreationService = academisationCreationService;
+		    _conversionApplicationCreationService = conversionApplicationCreationService;
 		}
 
 		public async Task OnGetAsync()
@@ -47,8 +64,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// MR:- Need to drop into this pages cache here ready for post / server callback !
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, conversionApplication);
 
-				// TODO MR:- do we need to grab the SchoolApplyingToConvert here???
-				PopulateUiModel(conversionApplication, null);
+				PopulateUiModel(conversionApplication);
 			}
 			catch (Exception ex)
 			{
@@ -69,12 +85,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    {
 			    //// grab draft application from temp
 			    var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+				
+				SchoolApplyingToConvert school = new(SelectedSchoolName, SelectedUrn, null, string.Empty, string.Empty, string.Empty);
+				var appId= draftConversionApplication.Id;
 
-				// TODO MR:-
-				//   SchoolApplyingToConvert school = new();
-				//   school.ApplicationId = _draftConversionApplication.Id;
-
-				//await _academisationCreationService.AddSchoolToApplication(school);
+				//await _conversionApplicationCreationService.AddSchoolToApplication(selectedSchoolUrn, appId);
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -105,12 +120,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    }
 	    }
 
-		private void PopulateUiModel(ConversionApplication? conversionApplication, SchoolApplyingToConvert? school)
+		private void PopulateUiModel(ConversionApplication? conversionApplication)
 		{
 			if (conversionApplication != null)
 			{
 				ApplicationId = conversionApplication.Id;
-				SelectedSchool = new(string.Empty,0,string.Empty,string.Empty,string.Empty);
 				// other view model props initialised within prop
 			}
 		}
