@@ -1,9 +1,8 @@
-using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
-using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -17,34 +16,44 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public int ApplicationId { get; set; }
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must give the name of the school")]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "You must give the name of the school")]
 		public string SearchQuery { get; set; } = string.Empty;
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must confirm that is the correct school")]
+		[Range(typeof(bool), "true", "true", ErrorMessage = "You must confirm that is the correct school")]
 		public bool CorrectSchoolConfirmation { get; set; }
 
 		public string SelectedSchoolName
 		{
 			get
 			{
-				var schoolSplit = SearchQuery
-					.Trim()
-					.Split('(', StringSplitOptions.RemoveEmptyEntries);
+				if (!string.IsNullOrWhiteSpace(SearchQuery))
+				{
+					var schoolSplit = SearchQuery
+						.Trim()
+						.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
-				return schoolSplit[0].Trim();
+					return schoolSplit[0].Trim();
+				}
+
+				return string.Empty;
 			}
 		}
 
 		public int SelectedUrn {
 			get
 			{
-				var schoolSplit = SearchQuery
-					.Trim()
-					.Replace(")", string.Empty)
-					.Split('(', StringSplitOptions.RemoveEmptyEntries);
+				if (!string.IsNullOrWhiteSpace(SearchQuery))
+				{
+					var schoolSplit = SearchQuery
+						.Trim()
+						.Replace(")", string.Empty)
+						.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
-				return Convert.ToInt32(schoolSplit[^1]);
+					return Convert.ToInt32(schoolSplit[^1]);
+				}
+
+				return 0;
 			}
 		} 
 
@@ -81,15 +90,21 @@ namespace Dfe.Academies.External.Web.Pages.School
 			    return Page();
 		    }
 
-		    try
-		    {
+			// TODO MR:-
+			// 2nd phase validation - is SelectedUrn >0
+			if (SelectedUrn == 0)
+			{
+				ModelState.AddModelError("InvalidSchool", "You must choose a school from the list");
+				PopulateValidationMessages();
+				return Page();
+			}
+
+			try
+			{
 			    //// grab draft application from temp
 			    var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-				
-				SchoolApplyingToConvert school = new(SelectedSchoolName, SelectedUrn, null, string.Empty, string.Empty, string.Empty);
-				var appId= draftConversionApplication.Id;
 
-				//await _conversionApplicationCreationService.AddSchoolToApplication(selectedSchoolUrn, appId);
+			    await _conversionApplicationCreationService.AddSchoolToApplication(draftConversionApplication.Id, SelectedUrn);
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -125,7 +140,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			if (conversionApplication != null)
 			{
 				ApplicationId = conversionApplication.Id;
-				// other view model props initialised within prop
+				// other view model properties initialized within properties
 			}
 		}
 	}

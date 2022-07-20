@@ -12,6 +12,8 @@
 <div class="govuk-grid-column-two-thirds">
 	<div id="divApplyingToDo" class="govuk-form-group">
 		<form method="post" id="search-form" novalidate>
+			<input type="hidden" id="searchQuery" asp-for="SearchQuery"/>
+			<input type="hidden" id="applicationId" asp-for="ApplicationId"/>
 			<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 				<h2 class="govuk-heading-m">School details</h2>
 				<fieldset class="govuk-fieldset" data-required data-error="Search cannot be blank" aria-required="true">
@@ -27,8 +29,6 @@
 
 					<div class="govuk-form-group">
 						<label class="govuk-hint" for="schoolSelect">Enter the name of the school, or its 6 digit unique reference number (URN) </label>
-						<input type="text" id="searchQuery" asp-for="SearchQuery" class="hideElement" maxlength="100"/>
-
 						<div class="govuk-!-margin-6"></div>
 						<select id="schoolSelect" name="schoolSelect" class="govuk-select"></select>
 						<div id="schoolSelectedDetails" class="hideElement"></div>
@@ -36,9 +36,10 @@
 							<div class="govuk-checkboxes__item">
 								<input type='checkbox' id='confirm-school-cb' name='cb'
 								       asp-for="CorrectSchoolConfirmation"
+								       checked="@Model.CorrectSchoolConfirmation"
 								       class='hideElement govuk-checkboxes__input'>
 								<label id='confirm-school-label' class='hideElement govuk-label govuk-checkboxes__label' for='confirm-school-cb'>
-									I confirm that this is the correct school
+									This is the correct school
 								</label>
 							</div>
 						</div>
