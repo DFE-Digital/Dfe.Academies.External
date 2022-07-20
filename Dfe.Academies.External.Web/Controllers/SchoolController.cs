@@ -1,6 +1,7 @@
 ﻿using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Dfe.Academies.External.Web.Controllers
 {
@@ -78,6 +79,29 @@ namespace Dfe.Academies.External.Web.Controllers
 			}
 		}
 
-		//=> await SchoolRepository.SearchSchool(inputText);
+		[HttpGet]
+		[Route("school/DisplaySchoolDetails")]
+		[Route("school/school/DisplaySchoolDetails")]
+		public async Task<IActionResult> ReturnSchoolDetailsPartialViewPopulated(string selectedSchool)
+		{
+			try
+			{
+				// Remove whitespace and trailing ) then split removing empty entries
+				var schoolSplit = selectedSchool
+                    .Trim()
+					.Replace(")", string.Empty)
+					.Split('(', StringSplitOptions.RemoveEmptyEntries);
+
+				// TODO MR:- replace with ConversionApplicationRetrievalService.GetSchool();
+				var result = await SchoolRepository.SearchSchoolById(schoolSplit[^1]);
+
+				return PartialView("_SchoolDetails", result);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("SchoolController::DisplaySearchResult::OnGetSchoolsSearchResult::Exception - {Message}", ex.Message);
+				return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+			}
+		}
 	}
 }
