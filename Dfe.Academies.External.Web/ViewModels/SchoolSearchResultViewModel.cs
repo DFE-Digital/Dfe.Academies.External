@@ -7,10 +7,10 @@ public sealed class SchoolSearchResultViewModel
 {
 	private readonly string _isNullOrEmpty = "-".PadRight(2);
 
-	public SchoolSearchResultViewModel(string schoolName, string urn, string street, string town, string fullUkPostcode)
+	public SchoolSearchResultViewModel(string schoolName, int ukprn, string street, string town, string fullUkPostcode)
 	{
 		SchoolName = schoolName;
-		URN = urn;
+		UKPRN = ukprn;
 		Street = street;
 		Town = town;
 		FullUkPostcode = fullUkPostcode;
@@ -21,7 +21,7 @@ public sealed class SchoolSearchResultViewModel
 	/// <summary>
 	/// Not nullable - GIAS unique school Id ? e.g. GAT00123
 	/// </summary>
-	public string URN { get; set; }
+	public string? URN { get; set; }
 
 	/// <summary>
 	/// e.g. 7083
@@ -31,7 +31,7 @@ public sealed class SchoolSearchResultViewModel
 	/// <summary>
 	/// Another unique school Id (6 digit number) e.g. 587634
 	/// </summary>
-	public int? UKPRN { get; set; }
+	public int UKPRN { get; set; }
 
 	// registered address
 	public string Street { get; set; }
@@ -46,11 +46,5 @@ public sealed class SchoolSearchResultViewModel
 
 	public string FullUkPostcode { get; set; }
 
-    public string DisplayName
-    {
-        get
-        {
-			return $"{SchoolName} ({UKPRN})";
-        }
-    }
+    public string DisplayName => $"{SchoolName} ({UKPRN})";
 }
