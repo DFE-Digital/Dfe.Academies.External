@@ -23,6 +23,6 @@ namespace Dfe.Academies.External.Web.Models
 		public SchoolsSearchDto(string schoolName, int urn, 
 			string street, string town, string fullUkPostcode) => 
 			(SchoolName, Urn, Street, Town, FullUkPostcode) = 
-			(schoolName, Urn, street, town, fullUkPostcode);
+			(schoolName, urn, street, town, fullUkPostcode);
 	}
 }

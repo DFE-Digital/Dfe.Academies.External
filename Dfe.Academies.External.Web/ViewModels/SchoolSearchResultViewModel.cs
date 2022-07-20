@@ -44,5 +44,5 @@ public sealed class SchoolSearchResultViewModel
 
 	public string FullUkPostcode { get; set; }
 
-    public string DisplayName => $"{SchoolName} ({UKPRN})";
+    public string DisplayName => $"{SchoolName} ({URN})";
 }
