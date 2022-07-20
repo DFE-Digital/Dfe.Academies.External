@@ -19,7 +19,11 @@ $(function () {
     A2C.searchSchools();
 
     $('#confirm-school-checkbox').css('display', 'none')
-	    .css('margin-bottom', '1.3em');
+        .css('margin-bottom', '1.3em');
+
+    // TODO MR:- similar to concerns casework do we need a control cleardown e.g.
+    //$("#schoolSelectedDetails").empty();
+    //$("#autocomplete-container").empty();
 });
 
 A2C.searchSchools = function () {
@@ -30,8 +34,8 @@ A2C.searchSchools = function () {
 		confirmOnBlur: false,
 		selectElement: $('#schoolSelect')[0],
 		minLength: 4,
-		onConfirm: (function(selectedValue) {
-			A2C.renderSchoolSearchOption(selectedValue);
+        onConfirm: (function (selectedValue) {
+            A2C.renderSchoolSearchOption(selectedValue);
 
 			setTimeout(() => {
 					$('#btnAdd').addClass('govuk-button--disabled')
@@ -50,13 +54,13 @@ A2C.searchSchools = function () {
 };
 
 A2C.renderSchoolSearchOption = function (selectedValue) {
-    // get full school deets from an endpoint, then render
+    // get full school deets from an endpoint, then render partial & return HTML
     $.ajax({
-        url: 'school/DisplaySearchResult',
+        url: 'school/ReturnSchoolDetailsPartialViewPopulated',
         type: 'GET',
-        data: { 'SchoolId': selectedValue },
+        data: { 'selectedSchool': selectedValue }, // selected value will be in the format 'Wise owl primary school (587634)'
         success: function (response) {
-            // $('#searchResults').html(response); // TODO MR:- amend to bind partial view to a model
+            $('#schoolSelectedDetails').html(response);
             $('#confirm-school-checkbox').css('display', 'block');
             $('#confirm-school-checkbox').removeClass('hidden');
         }
