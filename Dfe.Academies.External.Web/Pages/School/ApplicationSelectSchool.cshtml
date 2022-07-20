@@ -11,7 +11,7 @@
 
 <div class="govuk-grid-column-two-thirds">
 	<div id="divApplyingToDo" class="govuk-form-group">
-		<form method="post" id="search-form" class="search-form" novalidate>
+		<form method="post" id="search-form" novalidate>
 			<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 				<h2 class="govuk-heading-m">School details</h2>
 				<fieldset class="govuk-fieldset" data-required data-error="Search cannot be blank" aria-required="true">
@@ -27,14 +27,13 @@
 
 					<div class="govuk-form-group">
 						<label class="govuk-hint" for="schoolSelect">Enter the name of the school, or its 6 digit unique reference number (URN) </label>
-						<select id="schoolSelect" name="schoolSelect" class="govuk-select"/>
-						<div id="searchResults">
-							<partial name="_SchoolDetails" model="Model.ViewModel.SelectedSchool"/>
-						</div>
-						<div id="confirm-school-checkbox" class='govuk-checkboxes__item'>
-							<input id='confirm-school-cb' onchange="return toggleConfirmationCheckbox()" 
-										name='cb' class='govuk-checkboxes__input' type='checkbox' value='{1}'>
-							<label class='govuk-label govuk-checkboxes__label' for='confirm-school-cb'>
+						<input type="hidden" id="searchQuery" value="@Model.SearchQuery"/>
+						<div class="govuk-!-margin-6"></div>
+						<select id="schoolSelect" name="schoolSelect" class="govuk-select"></select>
+						<div id="schoolSelectedDetails" class="hideElement"></div>
+						<div id="confirm-school-checkbox">
+							<input id='confirm-school-cb' name='cb' class='hideElement govuk-checkboxes__input' type='checkbox' value='@Model.CorrectSchoolConfirmation'>
+							<label id='confirm-school-label' class='hideElement govuk-label govuk-checkboxes__label' for='confirm-school-cb'>
 								I confirm that this is the correct school
 							</label>
 						</div>
@@ -42,7 +41,7 @@
 				</fieldset>
 			</div>
 			<br/>
-			<input type="submit" value="Continue" id="btnAdd" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+			<input type="submit" value="Save and continue" id="btnAdd" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 		</form>
 	</div>
 </div>
@@ -50,99 +49,3 @@
 @section Scripts {
 	<script src="/js/a2c.schoolsearch.js"></script>
 }
-
-<script type="application/javascript">
-	$(function () {
-		let clearResults = function () {
-			$("#trusts-partial-results").empty();
-			$("#autocomplete-container").empty();
-			$(".autocomplete__menu").addClass("autocomplete__menu--hidden");
-		};
-		
-		try {
-			let searchForm = $("#search-form");
-			const validator = formValidator(searchForm[0]);
-			validator.addValidator('schoolSelect', [{
-				method: function(field) {
-					return field.value.trim().length > 0;
-				},
-				message: 'Search cannot be blank'
-			}, {
-				method: function(field) {
-					return (field.value.length > 2);
-				},
-				message: 'Enter search criteria higher than three characters'
-			}]);
-
-			searchForm.submit(function (event) {
-				validator.onSubmit(event);
-				if (validator.validate()) {
-					event.preventDefault();
-
-					clearResults();
-					showLoader();
-
-					// Ajax Get Trusts
-					let searchQuery = $("#search").val();
-					$.get("school/SchoolsSearchResult", { searchQuery: searchQuery }) // "case/TrustsSearchResult" :- case = case folder/index.cshtml/OnGetTrustsSearchResult()
-					.done(function (trusts) {
-						hideGlobalError();
-						hideLoader();
-
-						if (trusts.length === 0) {
-							$(".autocomplete__menu").removeClass("autocomplete__menu--hidden");
-						}
-						else {
-							let autocompleteContainer = document.getElementById("autocomplete-container");
-
-							const trustNames = trusts.map(trust => trust.displayName);
-							const input = $("#search");
-
-							accessibleAutocomplete({
-							  	element: autocompleteContainer,
-							  	id: input.attr("id"),
-							  	name: input.attr("name"),
-							  	source: trustNames,
-							  	confirmOnBlur: false,
-							  	minLength: 3,
-							  	onConfirm: (selected) => {
-									const trustUkprn = trusts.find(item => item.displayName === selected).ukPrn;
-							  		input.attr("aria-valuetext", trustUkprn);
-									input.val(selected);
-								  
-								  	// Ajax Post Trust
-									$.get("trust?handler=SelectedTrust",
-										{ trustUkPrn: trustUkprn })
-									.done(function (result) {
-										window.location.replace(result.redirectUrl);
-									})
-									.fail(function() {
-										showGlobalError();
-									});
-							  	}
-							});
-
-							$(".autocomplete__wrapper #search").hide("fast");
-							let autocompleteSearch = $("#autocomplete-container #search");
-							autocompleteSearch.val(searchQuery);
-						}
-
-					}).fail(function() {
-						clearResults();
-						showGlobalError();
-						hideLoader();
-					});
-				} else {
-					clearResults();
-					hideGlobalError()
-					hideLoader();
-				}
-			});
-
-		} catch(err) {
-			clearResults();
-			showGlobalError();
-			hideLoader();
-		}
-	});
-</script>

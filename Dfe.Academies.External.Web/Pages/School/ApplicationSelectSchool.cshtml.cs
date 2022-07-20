@@ -1,21 +1,33 @@
+using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
-namespace Dfe.Academies.External.Web.Pages
+namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class ApplicationSelectSchoolModel : BasePageModel
     {
 	    private readonly ILogger<ApplicationSelectSchoolModel> _logger;
 	    private readonly IConversionApplicationCreationService _academisationCreationService;
-	    private readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
 		private const string NextSchoolStepPage = "/ApplicationOverview";
-		private const int SearchQueryMinLength = 3;
 
-		public SchoolSelectorViewModel ViewModel { get; set; }
+		[BindProperty]
+		public int ApplicationId { get; set; }
+
+		[BindProperty]
+		[Required(ErrorMessage = "You must give the name of the school")]
+		public string SearchQuery { get; set; } = string.Empty;
+
+		[BindProperty]
+		[Required(ErrorMessage = "You must confirm that is the correct school")]
+		public bool CorrectSchoolConfirmation { get; set; } = false;
+
+		/// <summary>
+		/// Below contains name / URN / address
+		/// </summary>
+		public SchoolDetailsViewModel SelectedSchool { get; set; }
 
 		public ApplicationSelectSchoolModel(ILogger<ApplicationSelectSchoolModel> logger,
 		    IConversionApplicationCreationService academisationCreationService,
@@ -23,7 +35,6 @@ namespace Dfe.Academies.External.Web.Pages
 	    {
 		    _logger = logger;
 		    _academisationCreationService = academisationCreationService;
-		    _referenceDataRetrievalService = referenceDataRetrievalService;
 		}
 
 		public async Task OnGetAsync()
@@ -45,58 +56,6 @@ namespace Dfe.Academies.External.Web.Pages
 			}
 		}
 		
-		//public async Task<ActionResult> OnGetSchoolsSearchResult(string searchQuery)
-		//{
-		//	try
-		//	{
-		//		_logger.LogInformation("School::ApplicationSelectSchoolModel::OnGetSchoolsSearchResult");
-
-		//		// Double check search query.
-		//		if (string.IsNullOrEmpty(searchQuery) || searchQuery.Length < SearchQueryMinLength)
-		//		{
-		//			return new JsonResult(Array.Empty<SchoolSearchResultViewModel>());
-		//		}
-
-		//		var schoolSearch = new SchoolSearch(searchQuery, searchQuery);
-		//		var schoolSearchResponse = await _referenceDataRetrievalService.SearchSchools(schoolSearch);
-
-		//		return new JsonResult(schoolSearchResponse);
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		_logger.LogError("School::ApplicationSelectSchoolModel::OnGetSchoolsSearchResult::Exception - {Message}", ex.Message);
-
-		//		return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-		//	}
-		//}
-
-		// TODO MR:- do I need this????
-		//public async Task<ActionResult> OnGetSelectedSchool(string schoolUkPrn)
-		//{
-		//	try
-		//	{
-		//		_logger.LogInformation("School::ApplicationSelectSchoolModel::OnGetSelectedSchool");
-
-		//		// Double check selected trust.
-		//		if (string.IsNullOrEmpty(schoolUkPrn) || schoolUkPrn.Contains("-") || schoolUkPrn.Length < SearchQueryMinLength)
-		//			throw new Exception($"Trust::ApplicationSelectSchoolModel::OnGetSelectedSchool::Selected trust is incorrect - {schoolUkPrn}");
-
-		//		// Store CaseState into cache.
-		//		var userState = await _cachedService.GetData<UserState>(User.Identity.Name) ?? new UserState();
-		//		userState.TrustUkPrn = schoolUkPrn;
-		//		userState.CreateCaseModel = new CreateCaseModel();
-		//		await _cachedService.StoreData(User.Identity.Name, userState);
-
-		//		return new JsonResult(new { redirectUrl = Url.Page("Overview", new { id = schoolUkPrn }) });
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		_logger.LogError("School::ApplicationSelectSchoolModel::OnGetSelectedSchool::Exception - {Message}", ex.Message);
-
-		//		return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-		//	}
-		//}
-
 		public async Task<IActionResult> OnPostAsync()
 	    {
 		    if (!ModelState.IsValid)
@@ -148,14 +107,11 @@ namespace Dfe.Academies.External.Web.Pages
 
 		private void PopulateUiModel(ConversionApplication? conversionApplication, SchoolApplyingToConvert? school)
 		{
-			ViewModel = new();
-
 			if (conversionApplication != null)
 			{
-				ViewModel.ApplicationId = conversionApplication.Id;
-				//ViewModel.SchoolName = ;
-				ViewModel.CorrectSchoolConfirmation = false;
-				ViewModel.SelectedSchool = new(string.Empty,string.Empty,string.Empty,string.Empty,string.Empty);
+				ApplicationId = conversionApplication.Id;
+				SelectedSchool = new(string.Empty,0,string.Empty,string.Empty,string.Empty);
+				// other view model props initialised within prop
 			}
 		}
 	}
