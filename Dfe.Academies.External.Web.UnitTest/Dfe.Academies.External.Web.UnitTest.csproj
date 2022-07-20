@@ -24,6 +24,8 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="Pages\Base\" />
+    <Folder Include="Pages\Shared\" />
     <Folder Include="TagHelpers\" />
   </ItemGroup>
 
