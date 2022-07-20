@@ -1,8 +1,6 @@
 ﻿using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
-using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace Dfe.Academies.External.Web.Controllers
 {
@@ -22,6 +20,7 @@ namespace Dfe.Academies.External.Web.Controllers
 
 		[HttpGet]
 		[Route("school/SchoolOverview/{appId}/{applyingSchoolId}")]
+		[Route("school/school/SchoolOverview")]
 		public async Task<IActionResult> Overview(int appId, int applyingSchoolId)
 		{
 			try
@@ -38,7 +37,7 @@ namespace Dfe.Academies.External.Web.Controllers
 
 		[HttpGet]
 		[Route("school/search")]
-		[Route("school/addschool/search")]
+		[Route("school/school/search")]
 		public async Task<IEnumerable<string>> Search(string searchQuery)
 		{
 			try

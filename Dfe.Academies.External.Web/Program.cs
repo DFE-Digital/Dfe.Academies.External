@@ -116,6 +116,9 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
+// MR:- need below because search methods are in a controller !
+app.MapControllers();
+
 app.UseSession();
 
 app.Run();
