@@ -1,5 +1,6 @@
 ﻿using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -12,6 +13,7 @@ namespace Dfe.Academies.External.Web.Controllers
 		private const int SearchQueryMinLength = 3;
 		private readonly ILogger<SchoolController> _logger;
 		private readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
+		private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
 
 		public SchoolController(ILogger<SchoolController> logger, IReferenceDataRetrievalService referenceDataRetrievalService)
 		{
@@ -92,10 +94,16 @@ namespace Dfe.Academies.External.Web.Controllers
 					.Replace(")", string.Empty)
 					.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
-				// TODO MR:- replace with ConversionApplicationRetrievalService.GetSchool();
-				var result = await SchoolRepository.SearchSchoolById(schoolSplit[^1]);
+				int urn = Convert.ToInt32(schoolSplit[^1]);
+				var result = await _conversionApplicationRetrievalService.GetSchool(urn);
 
-				return PartialView("_SchoolDetails", result);
+				var vm = new SchoolDetailsViewModel(schoolName: result.SchoolName,
+					urn: result.URN,
+					street: result.Street,
+					town: result.Town,
+					fullUkPostcode: result.FullUkPostcode);
+
+				return PartialView("_SchoolDetails", vm);
 			}
 			catch (Exception ex)
 			{
