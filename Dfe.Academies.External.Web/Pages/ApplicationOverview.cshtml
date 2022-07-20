@@ -94,10 +94,10 @@
 		            </td>
 		            <td class="govuk-table__cell govuk-!-text-align-right">
 			            @{
-							int trustConversionStatusValue=0;
+				            int trustConversionStatusValue=0;
 
-							if(Model.TrustConversionStatus.HasValue)
-								trustConversionStatusValue = (int)Model.TrustConversionStatus;
+				            if(Model.TrustConversionStatus.HasValue)
+					            trustConversionStatusValue = (int)Model.TrustConversionStatus;
 			            }
 			            <status enumvalue=@trustConversionStatusValue></status>
 		            </td>
