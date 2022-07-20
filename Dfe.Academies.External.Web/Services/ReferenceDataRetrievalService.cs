@@ -22,12 +22,34 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 
 		// TODO: Get data from Academisation API
 		//// _resilientRequestProvider.Get();
-		/// API retuns list<SchoolsSearchDto>
+		/// API returns list<SchoolsSearchDto>
 
-		// **** Mock Demo Data - as per Figma ****
-		// TODO MR:- have a list<> of 3 schools. wise owl as per figma
+		// **** Mock Demo Data - as per Figma - to be removed ! ****
+		IList<SchoolsSearchDto> schoolsSearchDtos = new List<SchoolsSearchDto>();
+		schoolsSearchDtos.Add(new SchoolsSearchDto("Wise Owl primary school", 587634 , "21 test road", "sheffield", "S1 2JF"));
+		schoolsSearchDtos.Add(new SchoolsSearchDto("Wise Owl secondary school", 368489, "21 test road", "sheffield", "S1 2JF"));
+
+		// do a bit of manual linqage
+		IEnumerable<SchoolsSearchDto> schoolsSearchResults = new List<SchoolsSearchDto>();
+		if (!string.IsNullOrWhiteSpace(schoolSearch.SchoolName))
+		{
+			schoolsSearchResults =
+				schoolsSearchDtos.Where(s => s.SchoolName.ToLower().Trim().Contains(schoolSearch.SchoolName) 
+														|| s.SchoolName.ToLower().Trim().EndsWith(schoolSearch.SchoolName)).ToList();
+		}
+		else if (!string.IsNullOrWhiteSpace(schoolSearch.Ukprn) && !schoolsSearchResults.Any())
+		{
+			schoolsSearchResults =
+				schoolsSearchDtos.Where(s => s.UkPrn == int.Parse(schoolSearch.Ukprn.ToLower().Trim())).ToList();
+		}
 
 		// Map SchoolsSearchDto to view model
+		if (schoolsSearchResults.Any())
+			schools = schoolsSearchResults.Select(c =>
+				new SchoolSearchResultViewModel(schoolName: c.SchoolName, ukprn: c.UkPrn, street: c.Street, town: c.Town, fullUkPostcode: c.FullUkPostcode)
+				{
+					// TODO MR:- others?? depends what we get back from API
+				}).ToList();
 
 		return schools;
 	}
