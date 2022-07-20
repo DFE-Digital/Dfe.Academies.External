@@ -17,15 +17,15 @@ internal sealed class ApplicationCacheValuesViewModelTests
 		ApplicationTypes applicationType = ApplicationTypes.FormNewMat;
 		string applicationReference = Fixture.Create<string>();
 
-		var conversionApplicationAuditEntry = new ApplicationCacheValuesViewModel(applicationId, applicationType, applicationReference);
+		var applicationCacheValuesViewModel = new ApplicationCacheValuesViewModel(applicationId, applicationType, applicationReference);
 
 		// act
 		// nothing!
 
 		// assert
-		Assert.That(conversionApplicationAuditEntry, Is.Not.Null);
-		Assert.That(conversionApplicationAuditEntry.ApplicationId, Is.EqualTo(applicationId));
-		Assert.That(conversionApplicationAuditEntry.ApplicationType, Is.EqualTo(applicationType));
-		Assert.That(conversionApplicationAuditEntry.ApplicationReference, Is.EqualTo(applicationReference));
+		Assert.That(applicationCacheValuesViewModel, Is.Not.Null);
+		Assert.That(applicationCacheValuesViewModel.ApplicationId, Is.EqualTo(applicationId));
+		Assert.That(applicationCacheValuesViewModel.ApplicationType, Is.EqualTo(applicationType));
+		Assert.That(applicationCacheValuesViewModel.ApplicationReference, Is.EqualTo(applicationReference));
 	}
 }

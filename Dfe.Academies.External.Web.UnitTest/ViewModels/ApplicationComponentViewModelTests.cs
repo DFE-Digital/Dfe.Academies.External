@@ -17,7 +17,7 @@ internal sealed class ApplicationComponentViewModelTests
 		string uri = Fixture.Create<string>();
 		Status status = Fixture.Create<Status>();
 
-		var conversionApplicationAuditEntry = new ApplicationComponentViewModel(name, uri)
+		var applicationComponentViewModel = new ApplicationComponentViewModel(name, uri)
 		{
 			Status = status
 		};
@@ -26,9 +26,9 @@ internal sealed class ApplicationComponentViewModelTests
 		// nothing!
 
 		// assert
-		Assert.That(conversionApplicationAuditEntry, Is.Not.Null);
-		Assert.That(conversionApplicationAuditEntry.Name, Is.EqualTo(name));
-		Assert.That(conversionApplicationAuditEntry.URI, Is.EqualTo(uri));
-		Assert.That(conversionApplicationAuditEntry.Status, Is.EqualTo(status));
+		Assert.That(applicationComponentViewModel, Is.Not.Null);
+		Assert.That(applicationComponentViewModel.Name, Is.EqualTo(name));
+		Assert.That(applicationComponentViewModel.URI, Is.EqualTo(uri));
+		Assert.That(applicationComponentViewModel.Status, Is.EqualTo(status));
 	}
 }

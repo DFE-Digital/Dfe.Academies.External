@@ -17,7 +17,7 @@ internal sealed class ConversionApplicationContributorViewModelTests
 		SchoolRoles schoolRole = Fixture.Create<SchoolRoles>();
 		string otherRoleNotListed = Fixture.Create<string>();
 
-		var conversionApplicationAuditEntry = new ConversionApplicationContributorViewModel(fullname, schoolRole)
+		var conversionApplicationContributorViewModel = new ConversionApplicationContributorViewModel(fullname, schoolRole)
 		{
 			OtherRoleNotListed = otherRoleNotListed
 		};
@@ -26,9 +26,9 @@ internal sealed class ConversionApplicationContributorViewModelTests
 		// nothing!
 
 		// assert
-		Assert.That(conversionApplicationAuditEntry, Is.Not.Null);
-		Assert.That(conversionApplicationAuditEntry.FullName, Is.EqualTo(fullname));
-		Assert.That(conversionApplicationAuditEntry.Role, Is.EqualTo(schoolRole));
-		Assert.That(conversionApplicationAuditEntry.OtherRoleNotListed, Is.EqualTo(otherRoleNotListed));
+		Assert.That(conversionApplicationContributorViewModel, Is.Not.Null);
+		Assert.That(conversionApplicationContributorViewModel.FullName, Is.EqualTo(fullname));
+		Assert.That(conversionApplicationContributorViewModel.Role, Is.EqualTo(schoolRole));
+		Assert.That(conversionApplicationContributorViewModel.OtherRoleNotListed, Is.EqualTo(otherRoleNotListed));
 	}
 }
