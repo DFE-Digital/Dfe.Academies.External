@@ -42,7 +42,7 @@ internal sealed class ApplicationSelectSchoolModelTests
 	}
 
 	[Test]
-	public async Task ApplicationSelectSchoolModel___TestSelectedUrnProperty()
+	public async Task ApplicationSelectSchoolModel___TestSelectedUrnProperty__Valid()
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -65,7 +65,30 @@ internal sealed class ApplicationSelectSchoolModelTests
 	}
 
 	[Test]
-	public async Task ApplicationSelectSchoolModel___TestSelectedSchoolProperty()
+	public async Task ApplicationSelectSchoolModel___TestSelectedUrnProperty__InValid()
+	{
+		// arrange
+		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockLogger = new Mock<ILogger<ApplicationSelectSchoolModel>>();
+
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+
+		// act
+		var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
+		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
+
+		// act
+		await pageModel.OnGetAsync();
+
+		pageModel.SearchQuery = "";
+
+		// assert
+		Assert.That(pageModel.SelectedUrn, Is.EqualTo(0));
+	}
+
+	[Test]
+	public async Task ApplicationSelectSchoolModel___TestSelectedSchoolProperty__Valid()
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -85,6 +108,29 @@ internal sealed class ApplicationSelectSchoolModelTests
 
 		// assert
 		Assert.That(pageModel.SelectedSchoolName, Is.EqualTo("Wise Owl primary school"));
+	}
+
+	[Test]
+	public async Task ApplicationSelectSchoolModel___TestSelectedSchoolProperty__InValid()
+	{
+		// arrange
+		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockLogger = new Mock<ILogger<ApplicationSelectSchoolModel>>();
+
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+
+		// act
+		var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
+		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
+
+		// act
+		await pageModel.OnGetAsync();
+
+		pageModel.SearchQuery = "";
+
+		// assert
+		Assert.That(pageModel.SelectedSchoolName, Is.EqualTo(""));
 	}
 
 	private static ApplicationSelectSchoolModel SetupApplicationSelectSchoolModel(
