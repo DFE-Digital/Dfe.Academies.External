@@ -90,7 +90,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			    return Page();
 		    }
 
-			// TODO MR:-
+			// TODO MR:- add secondary validation
 			// 2nd phase validation - is SelectedUrn >0
 			if (SelectedUrn == 0)
 			{
