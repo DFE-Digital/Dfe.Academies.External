@@ -14,15 +14,20 @@ internal sealed class SchoolCacheValuesViewModelTests
 		// arrange
 		int schoolId = Fixture.Create<int>();
 		string schoolName = Fixture.Create<string>();
+		int urn = Fixture.Create<int>();
 
-		var conversionApplicationAuditEntry = new SchoolCacheValuesViewModel(schoolId, schoolName);
+		var schoolCacheValuesViewModel = new SchoolCacheValuesViewModel(schoolId, schoolName)
+		{
+			URN = urn
+		};
 
 		// act
 		// nothing!
 
 		// assert
-		Assert.That(conversionApplicationAuditEntry, Is.Not.Null);
-		Assert.That(conversionApplicationAuditEntry.SchoolId, Is.EqualTo(schoolId));
-		Assert.That(conversionApplicationAuditEntry.SchoolName, Is.EqualTo(schoolName));
+		Assert.That(schoolCacheValuesViewModel, Is.Not.Null);
+		Assert.That(schoolCacheValuesViewModel.SchoolId, Is.EqualTo(schoolId));
+		Assert.That(schoolCacheValuesViewModel.SchoolName, Is.EqualTo(schoolName));
+		Assert.That(schoolCacheValuesViewModel.URN, Is.EqualTo(urn));
 	}
 }
