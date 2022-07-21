@@ -85,19 +85,22 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    {
 		    if (!ModelState.IsValid)
 		    {
-			    // error messages component consumes ViewData["Errors"]
-			    PopulateValidationMessages();
+				// MR:- if you enter an incorrect name into the autocomplete, then the hidden input is blank (not populated in JS)
+				// so, currently get the 'You must give the name of the school' validation warning
+				// rather than the "You must choose a school from the list" (code below)
+
+				// error messages component consumes ViewData["Errors"]
+				PopulateValidationMessages();
 			    return Page();
 		    }
 
-			// TODO MR:- add secondary validation
-			// 2nd phase validation - is SelectedUrn >0
-			if (SelectedUrn == 0)
-			{
-				ModelState.AddModelError("InvalidSchool", "You must choose a school from the list");
-				PopulateValidationMessages();
-				return Page();
-			}
+			//// 2nd phase validation - is SelectedUrn >0
+			////if (SelectedUrn == 0)
+			////{
+			////	ModelState.AddModelError("InvalidSchool", "You must choose a school from the list");
+			////	PopulateValidationMessages();
+			////	return Page();
+			////}
 
 			try
 			{
