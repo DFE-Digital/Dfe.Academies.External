@@ -41,26 +41,25 @@ A2C.unhideElement = function (elementName) {
 
 A2C.searchSchools = function () {
 	accessibleAutocomplete.enhanceSelectElement({
-		source: debounceSuggest,
-		defaultValue: '',
+        selectElement: document.querySelector('#schoolSelect'),
+        //id: - Not required if using enhanceSelectElement.
+        source: debounceSuggest,
+        confirmOnBlur: false,
+        defaultValue: '', // MR:- must have !! otherwise accessibleAutocomplete code blows up !!!
 		displayMenu: 'overlay',
-		confirmOnBlur: false,
-		selectElement: $('#schoolSelect')[0],
-		minLength: 4,
+        minLength: 4,
         onConfirm: (function (selectedValue) {
             A2C.renderSchoolSearchOption(selectedValue);
 
+            // MR:- new cloned control id='schoolSelect'
+            document.getElementById("schoolSelect").value = selectedValue; // value still not set, maybe you can't !!!!
+
+            // MR:- accessibleAutocomplete clones <select> control and display:none
+            // creates a new one, id='schoolSelect-select' within <div class='autocomplete__wrapper'>
+            document.getElementById("schoolSelect-select").value = selectedValue; // value still not set, maybe you can't !!!!
+
             setTimeout(() => {
                     // MR:- btnAdd always visible now !!!
-					//$('#btnAdd').addClass('govuk-button--disabled')
-					//	.attr('aria-disabled', 'true')
-					//	.prop('disabled', 'true');
-
-					//if ($('#confirm-school-checkbox').length === 0) {
-					//	$('#btnAdd').removeClass('govuk-button--disabled')
-					//		.attr('aria-disabled', 'false')
-					//		.removeAttr('disabled');
-					//}
 				},
 				2000);
 		})
