@@ -40,12 +40,15 @@ namespace Dfe.Academies.External.Web.Pages
 
         public string TrustHeaderText  { get; private set; } = string.Empty;
 
-        public Status? TrustConversionStatus { get; private set; }
+        /// <summary>
+        /// Always have a trust conversion status whether Join a MAT or form a MAT !!
+        /// </summary>
+        public Status TrustConversionStatus { get; private set; }
 
-    /// <summary>
-    /// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
-    /// </summary>
-    public List<ViewModels.ApplicationComponentViewModel>? SchoolComponents { get; private set; }
+	    /// <summary>
+	    /// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
+	    /// </summary>
+	    public List<ViewModels.ApplicationComponentViewModel>? SchoolComponents { get; private set; }
 
         public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger, 
 										IConversionApplicationRetrievalService conversionApplicationRetrievalService): base(conversionApplicationRetrievalService)
@@ -111,19 +114,21 @@ namespace Dfe.Academies.External.Web.Pages
                 }
 		        else
 		        {
-			        TrustHeaderText = "The trust the school will join";
-			        SchoolHeaderText = "The school applying to convert";
-			        SchoolName = school?.SchoolName;
-                    // Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
-                    //Audits = auditEntries.Select(e =>
-                    // new ViewModels.ApplicationAuditViewModel
-                    // {
-                    //  What =
-                    //   $"{e.CreatedBy} {e.TypeOfChange} the {e.PropertyChanged}", // TODO MR:- re-work text when I can how this looks on screen !
-                    //  When = e.DateCreated,
-                    //  Who = e.CreatedBy
-                    // }).ToList();
-		        }
+					TrustHeaderText = "The trust the school will join";
+					SchoolHeaderText = "The school applying to convert";
+					SchoolName = school?.SchoolName;
+					TrustConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
+
+					// Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
+					//Audits = auditEntries.Select(e =>
+					// new ViewModels.ApplicationAuditViewModel
+					// {
+					//  What =
+					//   $"{e.CreatedBy} {e.TypeOfChange} the {e.PropertyChanged}", // TODO MR:- re-work text when I can how this looks on screen !
+					//  When = e.DateCreated,
+					//  Who = e.CreatedBy
+					// }).ToList();
+                }
 
 		        // Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
 		        if (school != null)
