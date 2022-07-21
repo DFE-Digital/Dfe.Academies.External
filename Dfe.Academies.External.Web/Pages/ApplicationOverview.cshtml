@@ -83,7 +83,7 @@
             @if (string.IsNullOrWhiteSpace(Model.NameOfTrustToJoin)){
                 <tr class="govuk-table__row">
                     <td class="govuk-table__cell govuk-!-text-align-right">
-                        <a asp-page="ApplicationSelectTrust" class="govuk-button" data-module="govuk-button">Add a trust</a>
+                        <a asp-page="ApplicationSelectTrust" class="govuk-button govuk-button--secondary" data-module="govuk-button">Add a trust</a>
                     </td>
                 </tr>
             }
@@ -94,10 +94,7 @@
 		            </td>
 		            <td class="govuk-table__cell govuk-!-text-align-right">
 			            @{
-				            int trustConversionStatusValue=0;
-
-				            if(Model.TrustConversionStatus.HasValue)
-					            trustConversionStatusValue = (int)Model.TrustConversionStatus;
+				            var trustConversionStatusValue = (int)Model.ConversionStatus;
 			            }
 			            <status enumvalue=@trustConversionStatusValue></status>
 		            </td>
