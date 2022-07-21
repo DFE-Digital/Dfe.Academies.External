@@ -10,7 +10,7 @@ using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages;
 
-public class ErrorModelTests
+internal sealed class ErrorModelTests
 {
 	[Test]
 	public void ErrorModel___OnGetAsync___Valid()

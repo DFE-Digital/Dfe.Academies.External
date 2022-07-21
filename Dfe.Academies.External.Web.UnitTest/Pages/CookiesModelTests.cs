@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace Dfe.Academies.External.Web.UnitTest.Pages;
 
 [Parallelizable(ParallelScope.All)]
-public class CookiesModelTests
+internal sealed class CookiesModelTests
 {
 	[Test]
 	public void CookiesModel___OnGet___Valid()
