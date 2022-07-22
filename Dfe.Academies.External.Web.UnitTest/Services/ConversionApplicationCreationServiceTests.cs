@@ -115,8 +115,11 @@ internal sealed class ConversionApplicationCreationServiceTests
         Assert.DoesNotThrowAsync(() => recordModelService.UpdateDraftApplication(trustApplicationDto));
     }
 
+    /// <summary>
+    /// call add school endpoint and mock HttpStatusCode.Created
+    /// </summary>
     [Test]
-    public async Task AcademisationCreationService___AddSchoolToApplication___Success()
+    public async Task AddSchoolToApplication___ApiReturns201___Created()
     {
 	    // arrange
 	    var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
@@ -124,10 +127,11 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 	    var mockMessageHandler = new Mock<HttpMessageHandler>();
 	    mockMessageHandler.Protected()
-		    .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+		    .Setup<Task<HttpResponseMessage>>("SendAsync", 
+			    ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
 		    .ReturnsAsync(new HttpResponseMessage
 		    {
-			    StatusCode = HttpStatusCode.OK,
+			    StatusCode = HttpStatusCode.Created,
 			    Content = new StringContent(expected)
 		    });
 
@@ -138,11 +142,14 @@ internal sealed class ConversionApplicationCreationServiceTests
 	    var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
 	    int applicationId = Fixture.Create<int>();
         int urn = Fixture.Create<int>();
+        string schoolName = Fixture.Create<string>();
 
         // act
         var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
 
 	    // assert
-	    Assert.DoesNotThrowAsync(() => recordModelService.AddSchoolToApplication(applicationId, urn));
+	    Assert.DoesNotThrowAsync(() => recordModelService.AddSchoolToApplication(applicationId, urn, schoolName));
     }
+
+    // TODO MR:-
 }
