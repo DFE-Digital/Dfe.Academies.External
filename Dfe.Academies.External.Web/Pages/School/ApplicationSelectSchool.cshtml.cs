@@ -17,7 +17,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "You must give the name of the school")]
-		public string SearchQuery { get; set; } = string.Empty;
+		public string SearchQuery { get; set; }
 
 		[BindProperty]
 		[Range(typeof(bool), "true", "true", ErrorMessage = "You must confirm that is the correct school")]
@@ -80,19 +80,19 @@ namespace Dfe.Academies.External.Web.Pages.School
 				_logger.LogError("School::ApplicationSelectSchoolModel::OnGetAsync::Exception - {Message}", ex.Message);
 			}
 		}
-		
-		public async Task<IActionResult> OnPostAsync()
-	    {
-		    if (!ModelState.IsValid)
-		    {
+
+		public async Task<ActionResult> OnPostAddSchool()
+		{
+			if (!ModelState.IsValid)
+			{
 				// MR:- if you enter an incorrect name into the autocomplete, then the hidden input is blank (not populated in JS)
 				// so, currently get the 'You must give the name of the school' validation warning
 				// rather than the "You must choose a school from the list" (code below)
 
 				// error messages component consumes ViewData["Errors"]
 				PopulateValidationMessages();
-			    return Page();
-		    }
+				return Page();
+			}
 
 			//// 2nd phase validation - is SelectedUrn >0
 			////if (SelectedUrn == 0)
@@ -104,22 +104,29 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			try
 			{
-			    //// grab draft application from temp
-			    var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+				//// grab draft application from temp
+				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			    await _conversionApplicationCreationService.AddSchoolToApplication(draftConversionApplication.Id, SelectedUrn);
+				await _conversionApplicationCreationService.AddSchoolToApplication(draftConversionApplication.Id, SelectedUrn);
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
 				return RedirectToPage(NextSchoolStepPage);
-		    }
-		    catch (Exception ex)
-		    {
-			    _logger.LogError("Application::ApplicationSelectSchoolModel::OnPostAsync::Exception - {Message}", ex.Message);
-			    return Page();
-		    }
-	    }
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("Application::ApplicationSelectSchoolModel::OnPostAsync::Exception - {Message}", ex.Message);
+				return Page();
+			}
+		}
+
+		public async Task<IActionResult> OnPostFind()
+		{
+			var query = SearchQuery;
+
+			return RedirectToPage("SchoolSearchResults");
+		}
 
 		public override void PopulateValidationMessages()
 	    {

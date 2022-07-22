@@ -22,6 +22,9 @@ $(function () {
     // TODO MR:- similar to concerns casework do we need a control cleardown e.g.
     //$("#schoolSelectedDetails").empty();
     //$("#autocomplete-container").empty();
+
+    $('.js-hide').addClass("js-invisible");
+    $('.js-show').show();
 });
 
 A2C.unhideSelectedSchoolSectionAndConfirmCheckbox = function () {
@@ -67,7 +70,7 @@ A2C.searchSchools = function () {
 };
 
 A2C.renderSchoolSearchOption = function (selectedValue) {
-	document.getElementById("searchQuery").value = selectedValue;
+    document.getElementById("SearchQuery").value = selectedValue;
 
     // get full school record from an endpoint
     // render partial & set results DIV HTML
