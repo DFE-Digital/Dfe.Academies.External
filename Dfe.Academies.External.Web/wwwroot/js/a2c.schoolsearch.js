@@ -112,3 +112,48 @@ A2C.GetSchoolSearchResults = function(query, syncResults) {
 		}
 	});
 };
+
+// MR:- below relies on formValidator declared within site.js - which in turns relies on MOJFrontend
+//let searchForm = $("#search-form");
+//const validator = formValidator(searchForm[0]);
+
+//validator.addValidator('SearchQuery', [{
+//	method: function (field) {
+//		return field.value.trim().length > 0;
+//	},
+//	message: 'Search cannot be blank'
+//}, {
+//	method: function (field) {
+//		return (field.value.length > 3);
+//	},
+//	message: 'Enter search criteria higher than four characters'
+//}]);
+
+//searchForm.submit(function(event) {
+//	validator.onSubmit(event);
+//    if (validator.validate())
+//    {
+//		// MR:- carry on - run server side code
+//        alert(validator.validate());
+//	} else {
+//		event.preventDefault();
+//		showGlobalError();
+//		hideLoader();
+//	}
+//});
+
+A2C.clientSideValidation = function () {
+	// TODO MR:- check document.getElementById("SearchQuery").value
+	const queryValue = document.getElementById("SearchQuery").value;
+
+	debugger;
+
+	//if (validator.validate()) {
+	//	// MR:- carry on - run server side code
+	//	alert(validator.validate());
+	//} else {
+	//	event.preventDefault();
+	//	showGlobalError();
+	//	hideLoader();
+	//}
+};

@@ -16,8 +16,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public int ApplicationId { get; set; }
 
 		[BindProperty]
+		[StringLength(60, MinimumLength = 4)]
 		[Required(AllowEmptyStrings = false, ErrorMessage = "You must give the name of the school")]
-		public string SearchQuery { get; set; }
+		public string? SearchQuery { get; set; }
 
 		[BindProperty]
 		[Range(typeof(bool), "true", "true", ErrorMessage = "You must confirm that is the correct school")]
