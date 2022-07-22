@@ -8,5 +8,5 @@ public interface IConversionApplicationCreationService
 
     Task UpdateDraftApplication(ConversionApplication application);
 
-    Task AddSchoolToApplication(int applicationId, int schoolUkUrn);
+    Task AddSchoolToApplication(int applicationId, int schoolUkUrn, string name);
 }

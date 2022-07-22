@@ -6,6 +6,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 {
     private readonly ILogger<ConversionApplicationCreationService> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
+    private const string BaseUrl = "http://127.0.0.1:8000/";
 
     public ConversionApplicationCreationService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationCreationService> logger) : base(httpClientFactory)
     {
@@ -34,14 +35,23 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
         return Task.CompletedTask;
     }
 
-    public Task AddSchoolToApplication(int applicationId, int schoolUkUrn)
+    public async Task AddSchoolToApplication(int applicationId, int schoolUkUrn, string name)
     {
-	    ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(HttpClientName));
+	    const string apiurl = $"{BaseUrl}/ConversionApplication/V1/AddSchool/";
 
-        // TODO: await API response from Academisation API
-        // await apiRequestProvider.PostAsync<>();
+	    try
+	    {
+		    ApiPostResult result;
+            ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(HttpClientName));
+		    SchoolApplyingToConvert school = new(name, schoolUkUrn, applicationId,null);
 
-
-        return Task.CompletedTask;
+			// TODO: await API response from Academisation API
+			result = await apiRequestProvider.PostAsync<ApiPostResult, SchoolApplyingToConvert>(apiurl, school);
+	    }
+	    catch (Exception ex)
+	    {
+		    _logger.LogError("ConversionApplicationCreationService::AddSchoolToApplication::Exception - {Message}", ex.Message);
+            throw;
+	    }
     }
 }
