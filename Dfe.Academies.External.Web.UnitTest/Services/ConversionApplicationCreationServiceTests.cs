@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Services;
+﻿using System;
+using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -8,14 +9,17 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoFixture;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
 [Parallelizable(ParallelScope.All)]
-internal sealed class AcademisationCreationServiceTests
+internal sealed class ConversionApplicationCreationServiceTests
 {
-    [Test]
-    public async Task AcademisationCreationService___CreateNewApplication___Success()
+	private static readonly Fixture Fixture = new();
+
+    //[Test]
+    public async Task CreateNewApplication___Success()
     {
         // arrange
         var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
@@ -50,8 +54,8 @@ internal sealed class AcademisationCreationServiceTests
         Assert.AreNotEqual(trustApplicationModel.Id, 0);
     }
 
-    [Test]
-    public async Task AcademisationCreationService___UpdateDraftApplication___OtherRole___Success()
+    //[Test]
+    public async Task UpdateDraftApplication___OtherRole___Success()
     {
         // arrange
         var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
@@ -81,8 +85,8 @@ internal sealed class AcademisationCreationServiceTests
         Assert.DoesNotThrowAsync(() => recordModelService.UpdateDraftApplication(trustApplicationDto));
     }
 
-    [Test]
-    public async Task AcademisationCreationService___UpdateDraftApplication___ChairRole___Success()
+    //[Test]
+    public async Task UpdateDraftApplication___ChairRole___Success()
     {
         // arrange
         var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
@@ -110,5 +114,80 @@ internal sealed class AcademisationCreationServiceTests
 
         // assert
         Assert.DoesNotThrowAsync(() => recordModelService.UpdateDraftApplication(trustApplicationDto));
+    }
+
+    /// <summary>
+    /// call add school endpoint and mock HttpStatusCode.Created
+    /// </summary>
+    [Test]
+    public async Task AddSchoolToApplication___ApiReturns201___Created()
+    {
+	    // arrange
+	    var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+	    var mockFactory = new Mock<IHttpClientFactory>();
+
+	    var mockMessageHandler = new Mock<HttpMessageHandler>();
+	    mockMessageHandler.Protected()
+		    .Setup<Task<HttpResponseMessage>>("SendAsync", 
+			    ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+		    .ReturnsAsync(new HttpResponseMessage
+		    {
+			    StatusCode = HttpStatusCode.Created,
+			    Content = new StringContent(expected)
+		    });
+
+	    var httpClient = new HttpClient(mockMessageHandler.Object);
+
+	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+
+	    var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
+	    int applicationId = Fixture.Create<int>();
+        int urn = Fixture.Create<int>();
+        string schoolName = Fixture.Create<string>();
+
+        // act
+        var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
+
+	    // assert
+	    Assert.DoesNotThrowAsync(() => recordModelService.AddSchoolToApplication(applicationId, urn, schoolName));
+    }
+
+    /// <summary>
+    /// call add school endpoint and mock HttpStatusCode.InternalServerError
+    /// </summary>
+    [Test]
+    public async Task AddSchoolToApplication___ApiReturns500___InternalServerError()
+    {
+	    // arrange
+	    var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+	    var mockFactory = new Mock<IHttpClientFactory>();
+
+	    var mockMessageHandler = new Mock<HttpMessageHandler>();
+	    mockMessageHandler.Protected()
+		    .Setup<Task<HttpResponseMessage>>("SendAsync",
+			    ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+		    .ReturnsAsync(new HttpResponseMessage
+		    {
+			    StatusCode = HttpStatusCode.InternalServerError,
+			    Content = new StringContent(expected)
+		    });
+
+	    var httpClient = new HttpClient(mockMessageHandler.Object);
+
+	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+
+	    var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
+	    int applicationId = Fixture.Create<int>();
+	    int urn = Fixture.Create<int>();
+	    string schoolName = Fixture.Create<string>();
+
+	    // act
+	    var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
+
+        // assert
+        var ex = Assert.ThrowsAsync<HttpRequestException>(() => recordModelService.AddSchoolToApplication(applicationId, urn, schoolName));
+
+        // now we could test the exception itself
+        //Assert.That(ex.Message == "Blah");
     }
 }
