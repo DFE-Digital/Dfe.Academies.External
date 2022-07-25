@@ -139,14 +139,14 @@ A2C.addCustomerClientSideValidators = function() {
         });
 
 	$.validator.unobtrusive.adapters.add("confirmselection",
-		[],
-		function(options) {
+		function (options) {
+            options.rules["confirmselection"] = options.params;
+            options.messages["confirmselection"] = options.message;
             options.rules.confirmselection = {};
-			options.messages["confirmselection"] = options.message;
         });
 
 	/* Add Search Query Custom Validation config ! */
-    $.validator.addMethod("searchqueryrequired",
+    $.validator.addMethod('searchqueryrequired',
 	    function (value, element, parameters) {
 		    debugger;
             if (value.trim().length > 0) {
@@ -167,10 +167,9 @@ A2C.addCustomerClientSideValidators = function() {
             }
         });
 
-    $.validator.unobtrusive.adapters.add("searchqueryrequired",
-	    [],
+    $.validator.unobtrusive.adapters.add('searchqueryrequired',
 	    function (options) {
-		    options.rules.confirmselection = {};
+            options.rules["searchqueryrequired"] = options.params;
             options.messages["searchqueryrequired"] = options.message;
 	    });
 };
