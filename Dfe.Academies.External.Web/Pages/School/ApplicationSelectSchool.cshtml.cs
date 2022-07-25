@@ -1,9 +1,8 @@
+using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
-using Dfe.Academies.External.Web.CustomValidators;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -18,7 +17,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		[SearchQueryRequired(ErrorMessage = "You must give the name of the school")]
-		public string? SearchQuery { get; set; }
+		public string SearchQuery { get; set; } = string.Empty;
 
 		[BindProperty]
 		[ConfirmSelection(ErrorMessage = "You must confirm that is the correct school")]

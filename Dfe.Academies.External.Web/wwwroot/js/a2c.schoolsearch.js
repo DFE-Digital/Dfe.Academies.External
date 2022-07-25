@@ -27,6 +27,7 @@ $(function () {
     $('.js-show').show();
 
     document.getElementById("ConfirmSelection").checked = false;
+    document.getElementById("SearchQuery").value = "";
 
     A2C.addCustomerClientSideValidators();
 });
@@ -153,6 +154,7 @@ A2C.addCustomerClientSideValidators = function() {
 		            //check selected school control
                     const selectedSchool = document.getElementById("SearchQuery").value;
                     if (selectedSchool.trim().length === 0) {
+	                    A2C.addSearchQueryValidationMessage();
 	                    return false;
                     } else {
 	                    return true;
@@ -174,8 +176,7 @@ A2C.addCustomerClientSideValidators = function() {
 };
 
 A2C.addSearchQueryValidationMessage = function() {
-    A2C.unhideElement("SearchQueryErrorContainer");
-    document.getElementById("SearchQueryError").textContent = "Search cannot be blank";
+	document.getElementById("SearchQueryError").textContent = "Search cannot be blank";
     // MR:- add left bar
     const elementToManipulate = document.getElementById("SearchQueryContainer");
     elementToManipulate.classList.add("govuk-form-group--error");

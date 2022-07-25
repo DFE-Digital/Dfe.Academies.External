@@ -16,7 +16,6 @@
 		</div>
 
 		<form method="post" id="search-form" novalidate>
-			<input type="hidden" id="searchQuery"/>
 			<input type="hidden" id="applicationId" asp-for="ApplicationId"/>
 			<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 
@@ -29,31 +28,22 @@
 							</h2>
 						</legend>
 						<label class="govuk-hint" for="schoolSelect">Enter the name of the school, or its 6 digit unique reference number (URN) </label>
-						<div class="govuk-!-margin-6"></div>
-						<div id="SearchQueryErrorContainer" class="hideElement">
-							<div class="govuk-error-summary__body">
-								<ul class="govuk-list govuk-error-summary__list">
-									<li>
-										<span id="SearchQueryError" class="govuk-error-message"></span>
-										<span asp-validation-for="SearchQuery" class="govuk-error-message"></span>
-									</li>
-								</ul>
-							</div>
-						</div>
+						<span asp-validation-for="SearchQuery" class="govuk-error-message" id="SearchQueryError"></span>
 						<div class="js-show">
-							<select id="schoolSelect" name="schoolSelect" class="govuk-input govuk-input--width-20 "></select>
+							<select id="schoolSelect" name="schoolSelect" class="govuk-input govuk-input--width-20"></select>
 						</div>
-						<input type="text" asp-for="@Model.SearchQuery"
-						       aria-describedby="name-reference-help" autocomplete="off"
-						       class="govuk-input govuk-input--width-20 js-hide"
-						       maxlength="200"
-						       aria-expanded="false"
-						       role="combobox"/>
+						<div class="js-hide">
+							<input type="text" asp-for="@Model.SearchQuery"
+							       aria-describedby="name-reference-help" autocomplete="off"
+							       class="govuk-input govuk-input--width-20"
+							       maxlength="200"
+							       aria-expanded="false"
+							       role="combobox"/>
+						</div>
 					</div>
 
 					<div class="govuk-form-group">
 						<div id="schoolSelectedDetails" class="hideElement"></div>
-
 						<div id="confirm-school-checkbox" class="govuk-checkboxes" data-module="govuk-checkboxes">
 							<div id="ConfirmationErrorContainer" class="hideElement">
 								<div class="govuk-error-summary__body">
