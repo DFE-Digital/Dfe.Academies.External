@@ -1,0 +1,41 @@
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
+namespace Dfe.Academies.External.Web.CustomValidators;
+
+public class SearchQueryRequiredAttribute : ValidationAttribute, IClientModelValidator
+{
+	private const short MinimumLength = 4;
+
+	protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+	{
+		string? elementValue = Convert.ToString(value);
+
+		if (string.IsNullOrWhiteSpace(elementValue) || elementValue.Length < MinimumLength)
+		{
+			return new ValidationResult(ErrorMessage);
+		}
+		else
+			return ValidationResult.Success;
+	}
+
+	public void AddValidation(ClientModelValidationContext context)
+	{
+		MergeAttribute(context.Attributes, "data-val", "true");
+		var errorMessage = FormatErrorMessage(context.ModelMetadata.GetDisplayName());
+		MergeAttribute(context.Attributes, "data-val-searchqueryrequired", errorMessage);
+	}
+
+	private bool MergeAttribute(
+		IDictionary<string, string> attributes,
+		string key,
+		string value)
+	{
+		if (attributes.ContainsKey(key))
+		{
+			return false;
+		}
+		attributes.Add(key, value);
+		return true;
+	}
+}
