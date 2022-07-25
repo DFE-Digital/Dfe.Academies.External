@@ -68,4 +68,9 @@
 
 @section Scripts {
 	<script src="/js/a2c.schoolsearch.js" asp-append-version="true"></script>
+	<script src="/js/a2c.addcustomvalidators.js" asp-append-version="true"></script>
+}
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

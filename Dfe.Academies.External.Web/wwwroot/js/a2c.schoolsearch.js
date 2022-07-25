@@ -25,6 +25,10 @@ $(function () {
 
     $('.js-hide').addClass("js-invisible");
     $('.js-show').show();
+
+    //$("#search-form").submit(function () {
+	   // Validate();
+    //});
 });
 
 A2C.unhideSelectedSchoolSectionAndConfirmCheckbox = function () {
@@ -143,8 +147,11 @@ A2C.GetSchoolSearchResults = function(query, syncResults) {
 //});
 
 A2C.clientSideValidation = function () {
+	A2C.validate();
+
+
 	// TODO MR:- check document.getElementById("SearchQuery").value
-	const queryValue = document.getElementById("SearchQuery").value;
+
 
 	debugger;
 
@@ -156,4 +163,15 @@ A2C.clientSideValidation = function () {
 	//	showGlobalError();
 	//	hideLoader();
 	//}
+};
+
+//// This function is only meant to validate complex scenario's
+//// in built unobtrusive validation should handle the model [required] properties
+A2C.validate = function () {
+	var errorElement = $('span[data-valmsg-for="skills"]');
+    var errorMessage = "Select at least 3 skills";
+
+    const queryValue = document.getElementById("SearchQuery").value;
+
+    //message: 'Search cannot be blank'
 };

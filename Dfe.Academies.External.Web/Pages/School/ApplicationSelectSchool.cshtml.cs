@@ -3,6 +3,7 @@ using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Dfe.Academies.External.Web.CustomValidators;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -21,7 +22,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public string? SearchQuery { get; set; }
 
 		[BindProperty]
-		[Range(typeof(bool), "true", "true", ErrorMessage = "You must confirm that is the correct school")]
+		[ConfirmSelectionValidator(ErrorMessage = "You must confirm that is the correct school")]
 		public bool CorrectSchoolConfirmation { get; set; } = false;
 
 		public string SelectedSchoolName
