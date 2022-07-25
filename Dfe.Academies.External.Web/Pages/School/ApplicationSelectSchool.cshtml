@@ -11,41 +11,63 @@
 
 <div class="govuk-grid-column-two-thirds">
 	<div id="divApplyingToDo" class="govuk-form-group">
+		<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+			<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+		</div>
+
 		<form method="post" id="search-form" novalidate>
 			<input type="hidden" id="searchQuery"/>
 			<input type="hidden" id="applicationId" asp-for="ApplicationId"/>
 			<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+
 				<h2 class="govuk-heading-m">School details</h2>
 				<fieldset class="govuk-fieldset" data-required data-error="Search cannot be blank" aria-required="true">
-					<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-						<h2 class="govuk-fieldset__heading govuk-heading-m">
-							What is the name of the school?
-						</h2>
-					</legend>
-
-					<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
-						<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
-					</div>
-
-					<div class="govuk-form-group">
+					<div id="SearchQueryContainer" class="govuk-form-group">
+						<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+							<h2 class="govuk-fieldset__heading govuk-heading-m">
+								What is the name of the school?
+							</h2>
+						</legend>
 						<label class="govuk-hint" for="schoolSelect">Enter the name of the school, or its 6 digit unique reference number (URN) </label>
 						<div class="govuk-!-margin-6"></div>
+						<div id="SearchQueryErrorContainer" class="hideElement">
+							<div class="govuk-error-summary__body">
+								<ul class="govuk-list govuk-error-summary__list">
+									<li>
+										<span id="SearchQueryError" class="govuk-error-message"></span>
+									</li>
+								</ul>
+							</div>
+						</div>
 						<div class="js-show">
 							<select id="schoolSelect" name="schoolSelect" class="govuk-input govuk-input--width-20 "></select>
 						</div>
-						<input type="text" asp-for="SearchQuery"
-						       aria-describedby="name-reference-help" autocomplete="off" 
-						       class="govuk-input govuk-input--width-20 js-hide" 
-						       maxlength="200"  
-						       aria-expanded="false" 
+						<input type="text" asp-for="@Model.SearchQuery"
+						       aria-describedby="name-reference-help" autocomplete="off"
+						       class="govuk-input govuk-input--width-20 js-hide"
+						       maxlength="200"
+						       aria-expanded="false"
 						       role="combobox"/>
+					</div>
+
+					<div class="govuk-form-group">
 						<div id="schoolSelectedDetails" class="hideElement"></div>
+
 						<div id="confirm-school-checkbox" class="govuk-checkboxes" data-module="govuk-checkboxes">
+							<div id="ConfirmationErrorContainer" class="hideElement">
+								<div class="govuk-error-summary__body">
+									<ul class="govuk-list govuk-error-summary__list">
+										<li>
+											<span id="ConfirmationError" class="govuk-error-message"></span>
+										</li>
+									</ul>
+								</div>
+							</div>
 							<div class="govuk-checkboxes__item">
-								<input id='CorrectSchoolConfirmation'
+								<input id='ConfirmSelection'
 								       asp-for="@Model.CorrectSchoolConfirmation"
 								       class='hideElement govuk-checkboxes__input'>
-								<label id='confirm-school-label' class='hideElement govuk-label govuk-checkboxes__label' for='CorrectSchoolConfirmation'>
+								<label id='confirm-school-label' class='hideElement govuk-label govuk-checkboxes__label' for='ConfirmSelection'>
 									This is the correct school
 								</label>
 							</div>
@@ -55,9 +77,9 @@
 			</div>
 			<br/>
 			<div class="js-show">
-				<input type="submit" asp-page-handler="AddSchool" id="btnAdd" 
+				<input type="submit" asp-page-handler="AddSchool" id="btnAdd"
 				       value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"
-				       onclick="A2C.clientSideValidation()" />
+				       onclick="A2C.clientSideValidation()"/>
 			</div>
 			<noscript>
 				<input type="submit" asp-page-handler="Find" id="btnFind" value="Search" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
@@ -68,9 +90,5 @@
 
 @section Scripts {
 	<script src="/js/a2c.schoolsearch.js" asp-append-version="true"></script>
-	<script src="/js/a2c.addcustomvalidators.js" asp-append-version="true"></script>
-}
-
-@section Scripts {
 	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
