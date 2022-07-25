@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 namespace Dfe.Academies.External.Web.CustomValidators;
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-public class SearchQueryRequiredAttribute : ValidationAttribute, IClientModelValidator
+public class SearchQueryAttribute : ValidationAttribute, IClientModelValidator
 {
 	private const short MinimumLength = 4;
 
@@ -12,7 +12,7 @@ public class SearchQueryRequiredAttribute : ValidationAttribute, IClientModelVal
 	{
 		string? elementValue = Convert.ToString(value);
 
-		if (string.IsNullOrWhiteSpace(elementValue) || elementValue.Length < MinimumLength)
+		if (string.IsNullOrWhiteSpace(elementValue)) //|| elementValue.Length < MinimumLength)
 		{
 			return new ValidationResult(ErrorMessage);
 		}
@@ -24,7 +24,7 @@ public class SearchQueryRequiredAttribute : ValidationAttribute, IClientModelVal
 	{
 		MergeAttribute(context.Attributes, "data-val", "true");
 		var errorMessage = FormatErrorMessage(context.ModelMetadata.GetDisplayName());
-		MergeAttribute(context.Attributes, "data-val-searchqueryrequired", errorMessage);
+		MergeAttribute(context.Attributes, "data-val-searchquery", errorMessage);
 	}
 
 	private bool MergeAttribute(
