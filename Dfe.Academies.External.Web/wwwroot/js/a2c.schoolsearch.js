@@ -19,29 +19,33 @@ $(function () {
     A2C.searchSchools();
     //A2C.hideSelectedSchoolSectionAndConfirmCheckbox(); hidden in razor !
 
-    // TODO MR:- similar to concerns casework do we need a control cleardown e.g.
+    // TODO MR:- similar to concerns casework do we need a control cleardown e.g. ??
     //$("#schoolSelectedDetails").empty();
     //$("#autocomplete-container").empty();
 
     $('.js-hide').addClass("js-invisible");
     $('.js-show').show();
 
-    //$("#search-form").submit(function () {
-	   // Validate();
-    //});
+    document.getElementById("ConfirmSelection").checked = false;
+
+    A2C.addCustomerClientSideValidators();
 });
 
 A2C.unhideSelectedSchoolSectionAndConfirmCheckbox = function () {
     A2C.unhideElement("schoolSelectedDetails");
     A2C.unhideElement("confirm-school-label");
 
-	const elementToManipulate = document.getElementById("CorrectSchoolConfirmation");
+    const elementToManipulate = document.getElementById("ConfirmSelection");
     elementToManipulate.classList.remove("hideElement");
+};
+
+A2C.hideElement = function (elementName) {
+	const elementToManipulate = document.getElementById(elementName);
+	elementToManipulate.classList.add("hideElement");
 };
 
 A2C.unhideElement = function (elementName) {
     const elementToManipulate = document.getElementById(elementName);
-    
     elementToManipulate.classList.remove("hideElement");
     elementToManipulate.classList.add("unHideElement");
 };
@@ -59,11 +63,11 @@ A2C.searchSchools = function () {
             A2C.renderSchoolSearchOption(selectedValue);
 
             // MR:- new cloned control id='schoolSelect'
-            document.getElementById("schoolSelect").value = selectedValue; // value still not set, maybe you can't !!!!
+            //document.getElementById("schoolSelect").value = selectedValue; // value still not set, maybe you can't !!!!
 
             // MR:- accessibleAutocomplete clones <select> control and display:none
             // creates a new one, id='schoolSelect-select' within <div class='autocomplete__wrapper'>
-            document.getElementById("schoolSelect-select").value = selectedValue; // value still not set, maybe you can't !!!!
+            //document.getElementById("schoolSelect-select").value = selectedValue; // value still not set, maybe you can't !!!!
 
             setTimeout(() => {
                     // MR:- btnAdd always visible now !!!
@@ -117,10 +121,99 @@ A2C.GetSchoolSearchResults = function(query, syncResults) {
 	});
 };
 
-// MR:- below relies on formValidator declared within site.js - which in turns relies on MOJFrontend
-//let searchForm = $("#search-form");
-//const validator = formValidator(searchForm[0]);
+A2C.addCustomerClientSideValidators = function() {
+    /* Add Confirm checkbox Custom Validation config ! */
 
+    // MR:- value = useless for a checkbox!
+	$.validator.addMethod("confirmselection",
+        function (value, element, parameters) {
+            const checkboxCheckedValue = document.getElementById(element.id).checked;
+
+            if (checkboxCheckedValue !== true) {
+	            A2C.addConfirmValidationMessage();
+	            return false;
+            } else {
+	            return true;
+            }
+        });
+
+	$.validator.unobtrusive.adapters.add("confirmselection",
+		[],
+		function(options) {
+            options.rules.confirmselection = {};
+			options.messages["confirmselection"] = options.message;
+        });
+
+	/* Add Search Query Custom Validation config ! */
+    $.validator.addMethod("searchqueryrequired",
+	    function (value, element, parameters) {
+		    debugger;
+            if (value.trim().length > 0) {
+	            if (value.length > 4) {
+		            //check selected school control
+                    const selectedSchool = document.getElementById("SearchQuery").value;
+                    if (selectedSchool.trim().length === 0) {
+	                    return false;
+                    } else {
+	                    return true;
+                    }
+	            } else {
+		            return true;
+	            }
+            } else {
+	            return false;
+            }
+        });
+
+    $.validator.unobtrusive.adapters.add("searchqueryrequired",
+	    [],
+	    function (options) {
+		    options.rules.confirmselection = {};
+            options.messages["searchqueryrequired"] = options.message;
+	    });
+};
+
+A2C.addSearchQueryValidationMessage = function() {
+    A2C.unhideElement("SearchQueryErrorContainer");
+    document.getElementById("SearchQueryError").textContent = "Search cannot be blank";
+    // MR:- add left bar
+    const elementToManipulate = document.getElementById("SearchQueryContainer");
+    elementToManipulate.classList.add("govuk-form-group--error");
+};
+
+A2C.addConfirmValidationMessage = function () {
+    A2C.unhideElement("ConfirmationErrorContainer");
+    document.getElementById("ConfirmationError").textContent = "You must confirm that this is the correct school";
+    // MR:- add left bar
+    const elementToManipulate = document.getElementById("confirm-school-checkbox");
+    elementToManipulate.classList.add("govuk-form-group--error");
+};
+
+A2C.clientSideValidation = function () {
+    A2C.addcomplexCustomerValidators();
+
+	var form = $("#search-form");
+	form.validate();
+
+	debugger;
+
+	if ($(this).valid()) {
+	    // MR:- carry on - run server side code
+        debugger;
+	} else {
+		event.preventDefault();
+	}
+};
+
+//// This function is only meant to validate complex scenario's
+//// in built unobtrusive validation should handle the model [required] properties
+A2C.addcomplexCustomerValidators = function () {
+	var errorElement = $('span[data-valmsg-for="skills"]');
+    var errorMessage = "Select at least 3 skills";
+
+    const queryValue = document.getElementById("SearchQuery").value;
+
+    //message: 'Search cannot be blank'
 //validator.addValidator('SearchQuery', [{
 //	method: function (field) {
 //		return field.value.trim().length > 0;
@@ -132,46 +225,4 @@ A2C.GetSchoolSearchResults = function(query, syncResults) {
 //	},
 //	message: 'Enter search criteria higher than four characters'
 //}]);
-
-//searchForm.submit(function(event) {
-//	validator.onSubmit(event);
-//    if (validator.validate())
-//    {
-//		// MR:- carry on - run server side code
-//        alert(validator.validate());
-//	} else {
-//		event.preventDefault();
-//		showGlobalError();
-//		hideLoader();
-//	}
-//});
-
-A2C.clientSideValidation = function () {
-	A2C.validate();
-
-
-	// TODO MR:- check document.getElementById("SearchQuery").value
-
-
-	debugger;
-
-	//if (validator.validate()) {
-	//	// MR:- carry on - run server side code
-	//	alert(validator.validate());
-	//} else {
-	//	event.preventDefault();
-	//	showGlobalError();
-	//	hideLoader();
-	//}
-};
-
-//// This function is only meant to validate complex scenario's
-//// in built unobtrusive validation should handle the model [required] properties
-A2C.validate = function () {
-	var errorElement = $('span[data-valmsg-for="skills"]');
-    var errorMessage = "Select at least 3 skills";
-
-    const queryValue = document.getElementById("SearchQuery").value;
-
-    //message: 'Search cannot be blank'
 };
