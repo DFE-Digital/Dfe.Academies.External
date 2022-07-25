@@ -18,7 +18,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 {
 	private static readonly Fixture Fixture = new();
 
-    [Test]
+    //[Test]
     public async Task CreateNewApplication___Success()
     {
         // arrange
@@ -54,7 +54,7 @@ internal sealed class ConversionApplicationCreationServiceTests
         Assert.AreNotEqual(trustApplicationModel.Id, 0);
     }
 
-    [Test]
+    //[Test]
     public async Task UpdateDraftApplication___OtherRole___Success()
     {
         // arrange
@@ -85,7 +85,7 @@ internal sealed class ConversionApplicationCreationServiceTests
         Assert.DoesNotThrowAsync(() => recordModelService.UpdateDraftApplication(trustApplicationDto));
     }
 
-    [Test]
+    //[Test]
     public async Task UpdateDraftApplication___ChairRole___Success()
     {
         // arrange
