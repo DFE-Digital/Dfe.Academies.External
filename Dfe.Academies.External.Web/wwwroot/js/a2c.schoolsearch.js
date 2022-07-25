@@ -27,7 +27,7 @@ $(function () {
     $('.js-show').show();
 
     document.getElementById("ConfirmSelection").checked = false;
-    document.getElementById("SearchQuery").value = "";
+    document.getElementById("SearchQueryTextBox").value = "";
 
     A2C.addCustomerClientSideValidators();
 });
@@ -79,7 +79,7 @@ A2C.searchSchools = function () {
 };
 
 A2C.renderSchoolSearchOption = function (selectedValue) {
-    document.getElementById("SearchQuery").value = selectedValue;
+    document.getElementById("SearchQueryInput").value = selectedValue;
 
     // get full school record from an endpoint
     // render partial & set results DIV HTML
@@ -152,7 +152,7 @@ A2C.addCustomerClientSideValidators = function() {
             if (value.trim().length > 0) {
 	            if (value.length > 4) {
 		            //check selected school control
-                    const selectedSchool = document.getElementById("SearchQuery").value;
+                    const selectedSchool = document.getElementById("SearchQueryInput").value;
                     if (selectedSchool.trim().length === 0) {
 	                    A2C.addSearchQueryValidationMessage();
 	                    return false;
@@ -176,7 +176,7 @@ A2C.addCustomerClientSideValidators = function() {
 };
 
 A2C.addSearchQueryValidationMessage = function() {
-	document.getElementById("SearchQueryError").textContent = "Search cannot be blank";
+	//document.getElementById("SearchQueryError").textContent = "Search cannot be blank";
     // MR:- add left bar
     const elementToManipulate = document.getElementById("SearchQueryContainer");
     elementToManipulate.classList.add("govuk-form-group--error");
@@ -211,7 +211,7 @@ A2C.addcomplexCustomerValidators = function () {
 	var errorElement = $('span[data-valmsg-for="skills"]');
     var errorMessage = "Select at least 3 skills";
 
-    const queryValue = document.getElementById("SearchQuery").value;
+    const queryValue = document.getElementById("SearchQueryInput").value;
 
     //message: 'Search cannot be blank'
 //validator.addValidator('SearchQuery', [{

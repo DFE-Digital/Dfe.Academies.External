@@ -16,7 +16,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public int ApplicationId { get; set; }
 
 		[BindProperty]
-		[SearchQuery(ErrorMessage = "You must give the name of the school")]
+		[SearchQueryRequired(ErrorMessage = "You must give the name of the school")]
 		public string SearchQuery { get; set; } = string.Empty;
 
 		[BindProperty]

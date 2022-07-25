@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 namespace Dfe.Academies.External.Web.CustomValidators;
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-public class SearchQueryAttribute : ValidationAttribute, IClientModelValidator
+public sealed class SearchQueryRequiredAttribute : ValidationAttribute, IClientModelValidator
 {
 	private const short MinimumLength = 4;
 

@@ -27,14 +27,14 @@
 								What is the name of the school?
 							</h2>
 						</legend>
-						<label class="govuk-hint" for="schoolSelect">Enter the name of the school, or its 6 digit unique reference number (URN) </label>
-						<span asp-validation-for="SearchQuery" class="govuk-error-message" id="SearchQueryError"></span>
+						<label class="govuk-hint" 
+						       for="schoolSelect">Enter the name of the school, or its 6 digit unique reference number (URN)</label>
+						<span asp-validation-for="SearchQuery" class="govuk-error-message"></span>
 						<div class="js-show">
 							<select id="schoolSelect" name="schoolSelect" class="govuk-input govuk-input--width-20"></select>
 						</div>
 						<div class="js-hide">
-							<input type="text" asp-for="@Model.SearchQuery"
-							       aria-describedby="name-reference-help" autocomplete="off"
+							<input id='SearchQueryInput' asp-for="@Model.SearchQuery" autocomplete="off"
 							       class="govuk-input govuk-input--width-20"
 							       maxlength="200"
 							       aria-expanded="false"
@@ -46,19 +46,14 @@
 						<div id="schoolSelectedDetails" class="hideElement"></div>
 						<div id="confirm-school-checkbox" class="govuk-checkboxes" data-module="govuk-checkboxes">
 							<div id="ConfirmationErrorContainer" class="hideElement">
-								<div class="govuk-error-summary__body">
-									<ul class="govuk-list govuk-error-summary__list">
-										<li>
-											<span asp-validation-for="CorrectSchoolConfirmation" class="govuk-error-message"></span>
-										</li>
-									</ul>
-								</div>
+								<span asp-validation-for="CorrectSchoolConfirmation" class="govuk-error-message"></span>
 							</div>
 							<div class="govuk-checkboxes__item">
 								<input id='ConfirmSelection'
 								       asp-for="@Model.CorrectSchoolConfirmation"
 								       class='hideElement govuk-checkboxes__input'>
-								<label id='confirm-school-label' class='hideElement govuk-label govuk-checkboxes__label' for='ConfirmSelection'>
+								<label id='confirm-school-label' for='ConfirmSelection'
+								       class='hideElement govuk-label govuk-checkboxes__label'>
 									This is the correct school
 								</label>
 							</div>
@@ -68,12 +63,13 @@
 			</div>
 			<br/>
 			<div class="js-show">
-				<input type="submit" asp-page-handler="AddSchool" id="btnAdd"
-				       value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"
+				<input type="submit" asp-page-handler="AddSchool" id="btnAdd" value="Save and continue" 
+				       class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"
 				       onclick="A2C.clientSideValidation()"/>
 			</div>
 			<noscript>
-				<input type="submit" asp-page-handler="Find" id="btnFind" value="Search" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+				<input type="submit" asp-page-handler="Find" id="btnFind" value="Search" 
+				       class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 			</noscript>
 		</form>
 	</div>
