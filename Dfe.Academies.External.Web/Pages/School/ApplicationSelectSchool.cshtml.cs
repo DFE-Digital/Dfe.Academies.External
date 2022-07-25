@@ -17,12 +17,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public int ApplicationId { get; set; }
 
 		[BindProperty]
-		[StringLength(60, MinimumLength = 4)]
-		[Required(AllowEmptyStrings = false, ErrorMessage = "You must give the name of the school")]
+		[SearchQueryRequired(ErrorMessage = "You must give the name of the school")]
 		public string? SearchQuery { get; set; }
 
 		[BindProperty]
-		[ConfirmSelectionValidator(ErrorMessage = "You must confirm that is the correct school")]
+		[ConfirmSelection(ErrorMessage = "You must confirm that is the correct school")]
 		public bool CorrectSchoolConfirmation { get; set; } = false;
 
 		public string SelectedSchoolName
