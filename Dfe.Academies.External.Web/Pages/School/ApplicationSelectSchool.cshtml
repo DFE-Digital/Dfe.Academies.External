@@ -35,6 +35,7 @@
 								<ul class="govuk-list govuk-error-summary__list">
 									<li>
 										<span id="SearchQueryError" class="govuk-error-message"></span>
+										@Html.ValidationMessageFor(model => model.SearchQuery)
 									</li>
 								</ul>
 							</div>
@@ -59,6 +60,7 @@
 									<ul class="govuk-list govuk-error-summary__list">
 										<li>
 											<span id="ConfirmationError" class="govuk-error-message"></span>
+											@Html.ValidationMessageFor(model => model.CorrectSchoolConfirmation)
 										</li>
 									</ul>
 								</div>
