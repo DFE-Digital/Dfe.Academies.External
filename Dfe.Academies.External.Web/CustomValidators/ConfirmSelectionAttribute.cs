@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.Academies.External.Web.CustomValidators;
 
-[AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+[AttributeUsage(AttributeTargets.Property)]
 public sealed class ConfirmSelectionAttribute : ValidationAttribute, IClientModelValidator
 {
 	protected override ValidationResult IsValid(object value, ValidationContext validationContext)
