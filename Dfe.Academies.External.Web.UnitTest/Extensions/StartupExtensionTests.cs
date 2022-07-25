@@ -11,7 +11,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Extensions;
 internal sealed class StartupExtensionTests
 {
     [Test]
-    public void AddAcademiesApi___Configuration___InValid()
+    public void AddAcademiesApi___ConfigurationInvalid___ThrowsException()
     {
         // arrange
         var serviceCollection = new ServiceCollection();
@@ -24,7 +24,7 @@ internal sealed class StartupExtensionTests
     }
 
     [Test]
-    public void AddAcademiesApi___Configuration___Valid()
+    public void AddAcademiesApi___ConfigurationInvalid___ExceptionThrown()
     {
         // arrange
         var serviceCollection = new ServiceCollection();
@@ -42,7 +42,7 @@ internal sealed class StartupExtensionTests
         Assert.That(serviceCollection, Is.Not.Null);
     }
     [Test]
-    public void AddAcademisationApi___Configuration___InValid()
+    public void AddAcademisationApi___ConfigurationInvalid___ThrowsException()
     {
 	    // arrange
 	    var serviceCollection = new ServiceCollection();
@@ -55,7 +55,7 @@ internal sealed class StartupExtensionTests
     }
 
     [Test]
-    public void AddAcademisationApi___Configuration___Valid()
+    public void AddAcademisationApi___ConfigurationInvalid___ExceptionThrown()
     {
 	    // arrange
 	    var serviceCollection = new ServiceCollection();
