@@ -183,7 +183,6 @@ A2C.addSearchQueryValidationMessage = function() {
 
 A2C.addConfirmValidationMessage = function () {
     A2C.unhideElement("ConfirmationErrorContainer");
-    document.getElementById("ConfirmationError").textContent = "You must confirm that this is the correct school";
     // MR:- add left bar
     const elementToManipulate = document.getElementById("confirm-school-checkbox");
     elementToManipulate.classList.add("govuk-form-group--error");
