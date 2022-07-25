@@ -2,15 +2,30 @@
 
 public class SchoolApplyingToConvert
 {
-	public SchoolApplyingToConvert(string schoolName)
+	public SchoolApplyingToConvert(string schoolName, int urn, int applicationId, string? ukprn)
 	{
 		SchoolName = schoolName;
+		UKPRN = ukprn;
+		URN = urn;
+        ApplicationId =applicationId;
 	}
 
+	/// <summary>
+	/// This would be existing Id from GIAS 6 digit URN? OR unique Row Id
+	/// </summary>
+	public int SchoolId { get; set; }
+
+	public int ApplicationId { get; set; }
+
     /// <summary>
-    /// This would be existing Id from GIAS (?). 6 digit URN?
+    /// Another unique school Id (6 digit number) e.g. 587634
     /// </summary>
-    public int SchoolId { get; set; }
+    public int URN { get; set; }
+
+	/// <summary>
+	/// Not nullable - GIAS unique school Id ? e.g. GAT00123
+	/// </summary>
+	public string? UKPRN { get; set; }
 
     public string SchoolName { get; set; }
 

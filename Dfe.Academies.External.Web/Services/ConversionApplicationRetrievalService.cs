@@ -19,20 +19,23 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
     public List<ConversionApplication> GetCompletedApplications(string? username)
     {
-	    // TODO: Get data from Academisation API
-	    //// _resilientRequestProvider.Get();
+        // TODO: Get data from Academisation API
+        //// _resilientRequestProvider.Get();
 
-	    // TODO: filter by useremail
+        // TODO: filter by useremail
 
-	    // **** Mock Demo Data - as per Figma ****
-	    List<ConversionApplication> existingApplications = new()
-	    {
-		    new() { Id = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
-			    SchoolOrSchoolsApplyingToConvert = new()
-				    { new(schoolName: "St George’s school" ) {SchoolId = 2 } } }
-	    };
+        // **** Mock Demo Data - as per Figma ****
+        List<ConversionApplication> existingApplications = new()
+        {
+	        new() { Id = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
+		        SchoolOrSchoolsApplyingToConvert = new()
+		        { new(schoolName: "St George’s school", applicationId: int.MaxValue, urn: 101099, ukprn: null)
+			        {SchoolId = 2 }
+		        }
+	        }
+        };
 
-	    return existingApplications;
+        return existingApplications;
     }
 
     public List<ConversionApplication> GetPendingApplications(string? username)
@@ -44,27 +47,32 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
         // **** Mock Demo Data - as per Figma ****
         List<ConversionApplication> existingApplications = new()
-            {
-                new() { Id = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
-                        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
-                        {
-                            new(schoolName: "Cambridge Regional college") {SchoolId = 96 }
-                        }
-                },
-                new() { Id = 3, UserEmail = "", Application = "Form a new multi- academy trust A2B_8956",
-                        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>{
-                            new(schoolName: "Fen Ditton primary school") { SchoolId = 99 },
-                            new(schoolName: "Chesterton primary school") { SchoolId  = 98},
-                            new(schoolName: "North Cambridge academy") { SchoolId  = 97 }
-                        }
-                },
-                new() { Id = 4, UserEmail = "", Application = "Form a new single academy trust A2B_8974",
-                        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
-                        {
-                            new(schoolName: "King’s College London Maths school") { SchoolId = 95 }
-                        }
-                }
-            };
+        {
+	        new() { Id = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
+		        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+		        {
+			        new(schoolName: "Cambridge Regional college", urn: 101000, ukprn: null,  applicationId: int.MaxValue)
+				        {SchoolId = 96 }
+		        }
+	        },
+	        new() { Id = 3, UserEmail = "", Application = "Form a new multi- academy trust A2B_8956",
+		        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>{
+			        new(schoolName: "Fen Ditton primary school", urn: 101002, applicationId: int.MaxValue, ukprn: null)
+				        { SchoolId = 99 },
+			        new(schoolName: "Chesterton primary school", urn: 101003, applicationId: int.MaxValue, ukprn: null)
+				        { SchoolId  = 98},
+			        new(schoolName: "North Cambridge academy", urn: 101004, applicationId: int.MaxValue, ukprn: null)
+				        { SchoolId  = 97 }
+		        }
+	        },
+	        new() { Id = 4, UserEmail = "", Application = "Form a new single academy trust A2B_8974",
+		        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+		        {
+			        new(schoolName: "King’s College London Maths school", urn: 101005, applicationId: int.MaxValue, ukprn: null)
+				        { SchoolId = 95 }
+		        }
+	        }
+        };
 
         return existingApplications;
     }
@@ -127,15 +135,27 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         return conversionApplicationContributors;
     }
 
-    public async Task<SchoolApplyingToConvert> GetSchool(int schoolId)
+    public async Task<SchoolApplyingToConvert> GetSchool(int urn)
     {
         // TODO: Get data from Academisation API
         // _resilientRequestProvider.Get
-
+        
         // **** Mock Demo Data - as per Figma ****
-        SchoolApplyingToConvert schoolApplyingToConvert = new(schoolName: "Chesterton primary school") { SchoolId = schoolId };
-
-        return schoolApplyingToConvert;
+        if (urn == 587634)
+        {
+	        return new(schoolName: "Wise owl primary school", urn: urn, applicationId: int.MaxValue, ukprn: "GAT00123")
+		        { SchoolId = int.MaxValue };
+        }
+        else if (urn == 368489)
+        {
+	        return new(schoolName: "Wise owl secondary school", urn: urn, applicationId: int.MaxValue, ukprn: "GAT00124")
+		        { SchoolId = int.MaxValue };
+        }
+        else
+        {
+	        return new(schoolName: "Chesterton primary school", urn: 101003, applicationId: int.MaxValue, ukprn: null)
+		        { SchoolId = int.MaxValue };
+        }
     }
 
     public async Task<ConversionApplication> GetApplication(int applicationId, ApplicationTypes applicationType)
@@ -158,8 +178,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
                     // MR:- comment out below if want to test that application overview page shows a 'add school' button!!
 					SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
 					{
-						new(schoolName: "Chesterton primary school") { SchoolId = 96 }
-					},
+						new(schoolName: "Chesterton primary school", urn: 101003, applicationId: applicationId, ukprn: null)
+							{ SchoolId = 96 }
+                    },
 					ConversionStatus = 3,
 					// MR:- comment out below if want to test that application overview page shows a 'add trust' button!!
                     ExistingTrust = new(trustName: "Existing Trust Test")
@@ -175,8 +196,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	                Application = "Form a new single academy trust A2B_2549",
 	                SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
 	                {
-		                new(schoolName: "Chesterton primary school") { SchoolId = 96 }
-	                },
+		                new(schoolName: "Chesterton primary school", urn: 101003, applicationId: applicationId, ukprn: null)
+			                { SchoolId = 96 }
+                    },
 	                ConversionStatus = 3,
                     FormATrust = new(proposedTrustName: "New single academy Trust")
                 };
@@ -190,11 +212,14 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			        Application = "Form a new multi-academy trust A2B_2549",
 			        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
 			        {
-				        new(schoolName: "Chesterton primary school") { SchoolId = 96 },
-                        new(schoolName: "Newcastle primary school") { SchoolId = 97 },
-                        new(schoolName: "Another primary school") { SchoolId = 98 }
+				        new(schoolName: "Chesterton primary school", urn: 101003, applicationId: applicationId, ukprn: null)
+					        { SchoolId = 96 },
+				        new(schoolName: "Newcastle primary school", urn: 1010010, applicationId:applicationId, ukprn: null)
+					        { SchoolId = 97 },
+				        new(schoolName: "Another primary school", urn: 1010011, applicationId:applicationId, ukprn: null)
+					        { SchoolId = 98 }
 			        },
-			        ConversionStatus = 3,
+                    ConversionStatus = 3,
 			        FormATrust = new(proposedTrustName: "New multi academy trust"),
 		        };
                 break;

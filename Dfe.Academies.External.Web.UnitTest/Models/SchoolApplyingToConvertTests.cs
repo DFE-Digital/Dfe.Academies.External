@@ -13,9 +13,11 @@ internal sealed class SchoolApplyingToConvertTests
     public void SchoolOrSchoolsApplyingToConvert___PropertyCheck___Success()
     {
         // arrange
+        int applicationId = Fixture.Create<int>();
+        int urn = Fixture.Create<int>();
         string schoolName = Fixture.Create<string>();
-        
-        var conversionApplication = new SchoolApplyingToConvert(schoolName)
+
+        var conversionApplication = new SchoolApplyingToConvert(schoolName, urn, applicationId, null)
         {
 	        SchoolId = int.MaxValue
         };
