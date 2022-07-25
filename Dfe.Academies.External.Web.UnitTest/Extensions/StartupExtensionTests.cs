@@ -33,12 +33,43 @@ internal sealed class StartupExtensionTests
         serviceCollection.AddAcademiesApi(new ConfigurationBuilder()
                    .AddInMemoryCollection(new List<KeyValuePair<string, string>>
                    {
-                           new KeyValuePair<string, string>("academies:api_endpoint", "1"),
-                           new KeyValuePair<string, string>("academies:api_key", "2")
+                           new("academies-api:endpoint", "1"),
+                           new("academies-api:key", "2")
                    })
             .Build());
 
         // assert
         Assert.That(serviceCollection, Is.Not.Null);
+    }
+    [Test]
+    public void AddAcademisationApi___Configuration___InValid()
+    {
+	    // arrange
+	    var serviceCollection = new ServiceCollection();
+	    var configuration = new ConfigurationBuilder()
+		    .AddInMemoryCollection(new Dictionary<string, string>())
+		    .Build();
+
+	    // act
+	    Assert.Throws<Exception>(() => serviceCollection.AddAcademisationApi(configuration));
+    }
+
+    [Test]
+    public void AddAcademisationApi___Configuration___Valid()
+    {
+	    // arrange
+	    var serviceCollection = new ServiceCollection();
+
+	    // act
+	    serviceCollection.AddAcademisationApi(new ConfigurationBuilder()
+		    .AddInMemoryCollection(new List<KeyValuePair<string, string>>
+		    {
+			    new("academisation-api:endpoint", "1"),
+			    new("academisation-api:key", "2")
+		    })
+		    .Build());
+
+	    // assert
+	    Assert.That(serviceCollection, Is.Not.Null);
     }
 }
