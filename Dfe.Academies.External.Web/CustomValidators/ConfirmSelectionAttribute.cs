@@ -6,7 +6,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.Academies.External.Web.CustomValidators;
 
-public sealed class ConfirmSelectionValidator : ValidationAttribute, IClientModelValidator
+[AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+public sealed class ConfirmSelectionAttribute : ValidationAttribute, IClientModelValidator
 {
 	protected override ValidationResult IsValid(object value, ValidationContext validationContext)
 	{
@@ -17,11 +18,11 @@ public sealed class ConfirmSelectionValidator : ValidationAttribute, IClientMode
 	}
 
 	// below inherited from IClientValidatable ??
-	//public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
-	//{
-	//	ModelClientValidationRule mvr = new ModelClientValidationRule(errorMessage: ErrorMessage, validationType: "confirmselection");
-	//	return new[] { mvr };
-	//}
+	////public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
+	////{
+	////	ModelClientValidationRule mvr = new ModelClientValidationRule(errorMessage: ErrorMessage, validationType: "confirmselection");
+	////	return new[] { mvr };
+	////}
 
 	public void AddValidation(ClientModelValidationContext context)
 	{
