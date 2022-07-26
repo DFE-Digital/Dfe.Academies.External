@@ -26,12 +26,13 @@ internal sealed class SchoolOverviewTests
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<SchoolOverviewModel>>();
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupSchoolOverviewModel(mockLogger.Object, mockConversionApplicationRetrievalService.Object);
+		var pageModel = SetupSchoolOverviewModel(mockLogger.Object, mockConversionApplicationRetrievalService.Object, mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -48,11 +49,12 @@ internal sealed class SchoolOverviewTests
 	private static SchoolOverviewModel SetupSchoolOverviewModel(
 		ILogger<SchoolOverviewModel> mockLogger,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
+		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new SchoolOverviewModel(mockLogger, mockConversionApplicationRetrievalService)
+		return new SchoolOverviewModel(mockLogger, mockConversionApplicationRetrievalService, mockReferenceDataRetrievalService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

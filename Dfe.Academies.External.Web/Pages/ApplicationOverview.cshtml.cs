@@ -51,7 +51,8 @@ namespace Dfe.Academies.External.Web.Pages
 	    public List<ViewModels.ApplicationComponentViewModel>? SchoolComponents { get; private set; }
 
         public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger, 
-										IConversionApplicationRetrievalService conversionApplicationRetrievalService): base(conversionApplicationRetrievalService)
+										IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+										IReferenceDataRetrievalService referenceDataRetrievalService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
         {
             _logger = logger;
             _conversionApplicationRetrievalService = conversionApplicationRetrievalService;
