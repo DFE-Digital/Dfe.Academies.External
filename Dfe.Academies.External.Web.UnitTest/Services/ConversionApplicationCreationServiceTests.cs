@@ -17,6 +17,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services;
 internal sealed class ConversionApplicationCreationServiceTests
 {
 	private static readonly Fixture Fixture = new();
+	private const string testUrl = APIConstants.AcademisationAPITestUrl;
 
     //[Test]
     public async Task CreateNewApplication___Success()
@@ -137,7 +138,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		    });
 
 	    var httpClient = new HttpClient(mockMessageHandler.Object);
-	    httpClient.BaseAddress = new Uri(AcademiesAPIConstants.AcademiesAPITestUrl);
+	    httpClient.BaseAddress = new Uri(testUrl);
         // default headers would be:-
         // client.DefaultRequestHeaders.Add("ApiKey", tramsApiKey);
         // client.DefaultRequestHeaders.Add("ContentType", MediaTypeNames.Application.Json);
@@ -177,7 +178,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		    });
 
 	    var httpClient = new HttpClient(mockMessageHandler.Object);
-	    httpClient.BaseAddress = new Uri(AcademiesAPIConstants.AcademiesAPITestUrl);
+	    httpClient.BaseAddress = new Uri(testUrl);
 	    // default headers would be:-
 	    // client.DefaultRequestHeaders.Add("ApiKey", tramsApiKey);
 	    // client.DefaultRequestHeaders.Add("ContentType", MediaTypeNames.Application.Json);
