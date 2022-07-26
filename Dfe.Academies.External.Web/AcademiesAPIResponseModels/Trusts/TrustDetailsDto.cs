@@ -2,6 +2,11 @@
 
 namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels.Trusts;
 
+/// <summary>
+/// To de-serialize response from trust search && GetTrustByUkPrn :-
+/// {{api-host}}/V1/trusts?{BuildRequestUri(trustSearch)}
+/// {{api-host}}/V1/trust/{ukPrn}/
+/// </summary>
 public sealed class TrustDetailsDto
 {
 	[JsonPropertyName("giasData")]
