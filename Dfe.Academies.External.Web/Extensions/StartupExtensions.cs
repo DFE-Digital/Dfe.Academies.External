@@ -14,8 +14,8 @@ public static class StartupExtension
     /// <exception cref="Exception"></exception>
     public static void AddAcademiesApi(this IServiceCollection services, IConfiguration configuration)
     {
-        var academiesApiEndpoint = configuration["academies:api_endpoint"];
-        var academiesApiKey = configuration["academies:api_key"];
+        var academiesApiEndpoint = configuration["academies-api:endpoint"];
+        var academiesApiKey = configuration["academies-api:key"];
 
         if (string.IsNullOrWhiteSpace(academiesApiEndpoint) || string.IsNullOrWhiteSpace(academiesApiKey))
             throw new Exception("AddAcademiesApi::missing configuration");
@@ -26,6 +26,28 @@ public static class StartupExtension
             client.DefaultRequestHeaders.Add("ApiKey", academiesApiKey);
             client.DefaultRequestHeaders.Add("ContentType", MediaTypeNames.Application.Json);
         });
+    }
+
+    /// <summary>
+    /// HttpFactory for Academisation API
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuration"></param>
+    /// <exception cref="Exception"></exception>
+    public static void AddAcademisationApi(this IServiceCollection services, IConfiguration configuration)
+    {
+	    var academisationApiEndpoint = configuration["academisation-api:endpoint"];
+	    var academisationApiKey = configuration["academisation-api:key"];
+
+	    if (string.IsNullOrWhiteSpace(academisationApiEndpoint) || string.IsNullOrWhiteSpace(academisationApiKey))
+		    throw new Exception("AddAcademisationApi::missing configuration");
+
+	    services.AddHttpClient("AcademisationClient", client =>
+	    {
+		    client.BaseAddress = new Uri(academisationApiEndpoint);
+		    client.DefaultRequestHeaders.Add("ApiKey", academisationApiKey);
+		    client.DefaultRequestHeaders.Add("ContentType", MediaTypeNames.Application.Json);
+	    });
     }
 
     /// <summary>
