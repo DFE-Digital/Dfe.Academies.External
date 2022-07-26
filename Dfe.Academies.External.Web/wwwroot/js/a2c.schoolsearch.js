@@ -27,7 +27,7 @@ $(function () {
     $('.js-show').show();
 
     document.getElementById("ConfirmSelection").checked = false;
-    document.getElementById("SearchQueryTextBox").value = "";
+    document.getElementById("SearchQueryInput").value = "";
 
     A2C.addCustomerClientSideValidators();
 });
