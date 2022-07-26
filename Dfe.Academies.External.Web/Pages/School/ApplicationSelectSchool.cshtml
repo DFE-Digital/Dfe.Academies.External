@@ -9,6 +9,8 @@
 	<a asp-page="YourApplications" class="govuk-back-link">Back</a>
 }
 
+<div class="ccms-loader govuk-!-display-none"></div>
+
 <div class="govuk-grid-column-two-thirds">
 	<div id="divApplyingToDo" class="govuk-form-group">
 		<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
@@ -31,16 +33,15 @@
 						<label class="govuk-hint"
 						       for="schoolSelect">Enter the name of the school, or its 6 digit unique reference number (URN)</label>
 						<span asp-validation-for="SearchQuery" class="govuk-error-message"></span>
-						<div class="js-show">
-							<select id="schoolSelect" name="schoolSelect" class="govuk-input govuk-input--width-20"></select>
-						</div>
-						<div>
-							<input id='SearchQueryInput' asp-for="@Model.SearchQuery" autocomplete="off"
-							       class="govuk-input govuk-input--width-20"
-							       maxlength="200"
-							       aria-expanded="false"
-							       role="combobox"/>
-						</div>
+						<input id='SearchQueryInput' asp-for="@Model.SearchQuery"
+						       class="govuk-input govuk-input--width-20"
+						       maxlength="100"
+						       type="search" aria-valuetext="" 
+						       aria-describedby="search-hint search-error"/>
+						<div id="autocomplete-container"></div>
+@*						<ul class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden" id="search__listbox" role="listbox">
+							<li class="autocomplete__option autocomplete__option--no-results">No results found.</li>
+						</ul>*@
 					</div>
 
 					<div class="govuk-form-group">
@@ -75,6 +76,8 @@
 		</form>
 	</div>
 </div>
+
+
 
 @section Scripts {
 	<script src="/js/a2c.schoolsearch.js" asp-append-version="true"></script>

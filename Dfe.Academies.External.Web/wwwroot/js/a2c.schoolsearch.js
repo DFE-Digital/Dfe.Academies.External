@@ -17,11 +17,6 @@ let debounceTimeout;
 
 $(function () {
     A2C.searchSchools();
-    //A2C.hideSelectedSchoolSectionAndConfirmCheckbox(); hidden in razor !
-
-    // TODO MR:- similar to concerns casework do we need a control cleardown e.g. ??
-    //$("#schoolSelectedDetails").empty();
-    //$("#autocomplete-container").empty();
 
     $('.js-hide').addClass("js-invisible");
     $('.js-show').show();
@@ -30,7 +25,22 @@ $(function () {
     document.getElementById("SearchQueryInput").value = "";
 
     A2C.addCustomerClientSideValidators();
+
+    $("#SearchQueryInput").focusin(function () {
+	    A2C.clearResults();
+    });
+
+    // MR:- accessibleAutocomplete clones original control - so hide original
+    $("#SearchQueryInput").hide("fast");
 });
+
+// MR:- similar to concerns casework clearing down controls
+A2C.clearResults = function () {
+    $("#schoolSelectedDetails").empty();
+	$("#autocomplete-container").empty();
+	//// $(".autocomplete__menu").addClass("autocomplete__menu--hidden");
+};
+
 
 A2C.unhideSelectedSchoolSectionAndConfirmCheckbox = function () {
     A2C.unhideElement("schoolSelectedDetails");
@@ -52,35 +62,33 @@ A2C.unhideElement = function (elementName) {
 };
 
 A2C.searchSchools = function () {
-	accessibleAutocomplete.enhanceSelectElement({
-        selectElement: document.querySelector('#schoolSelect'),
-        //id: - Not required if using enhanceSelectElement.
+	let autocompleteContainer = document.getElementById("autocomplete-container"); // MR:- this is just a plain old DIV
+    const input = $("#SearchQueryInput"); // MR:- this is now input type=text
+
+    accessibleAutocomplete({
+        element: autocompleteContainer,
+	    id: input.attr("id"),
+	    name: input.attr("name"),
         source: debounceSuggest,
         confirmOnBlur: false,
-        defaultValue: '', // MR:- must have !! otherwise accessibleAutocomplete code blows up !!!
 		displayMenu: 'overlay',
         minLength: 4,
         onConfirm: (function (selectedValue) {
+	        //// input.attr("aria-valuetext", trustUkprn);
+            input.val(selectedValue);
+
             A2C.renderSchoolSearchOption(selectedValue);
 
-            // MR:- new cloned control id='schoolSelect'
-            //document.getElementById("schoolSelect").value = selectedValue; // value still not set, maybe you can't !!!!
+            let originalSearchInput = $("#autocomplete-container #SearchQueryInput");
+            originalSearchInput.val(selectedValue);
 
-            // MR:- accessibleAutocomplete clones <select> control and display:none
-            // creates a new one, id='schoolSelect-select' within <div class='autocomplete__wrapper'>
-            //document.getElementById("schoolSelect-select").value = selectedValue; // value still not set, maybe you can't !!!!
-
-            setTimeout(() => {
-                    // MR:- btnAdd always visible now !!!
-				},
-				2000);
+            // MR:- ??
+            //$(".autocomplete__menu").removeClass("autocomplete__menu--hidden");
 		})
-	});
+    });
 };
 
 A2C.renderSchoolSearchOption = function (selectedValue) {
-    document.getElementById("SearchQueryInput").value = selectedValue;
-
     // get full school record from an endpoint
     // render partial & set results DIV HTML
     // unhide selected school section of screen
@@ -127,9 +135,7 @@ A2C.addCustomerClientSideValidators = function() {
 
     // MR:- value = useless for a checkbox!
 	$.validator.addMethod("confirmselection", function (value, element) {
-            const checkboxCheckedValue = document.getElementById(element.id).checked;
-
-            debugger;
+            const checkboxCheckedValue = document.getElementById(element.id).checked; 
 
             if (checkboxCheckedValue !== true) {
 	            A2C.addConfirmValidationMessage();
@@ -142,11 +148,11 @@ A2C.addCustomerClientSideValidators = function() {
 	$.validator.unobtrusive.adapters.add("confirmselection", function (options) {
             options.rules["confirmselection"] = options.params;
             options.messages["confirmselection"] = options.message;
-            //options.rules.confirmselection = {};
-        });
+	});
 
 	/* Add Search Query Custom Validation config ! */
     $.validator.addMethod('searchqueryrequired', function (value, element) {
+			// TODO MR:- this is now a textbox and debugger now gets hit !!
 		    debugger;
             if (value.trim().length > 0) {
 	            if (value.length > 4) {
