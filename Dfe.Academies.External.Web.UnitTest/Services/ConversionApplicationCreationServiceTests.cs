@@ -1,15 +1,15 @@
-﻿using System;
+﻿using AutoFixture;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using NUnit.Framework;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoFixture;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
@@ -137,8 +137,12 @@ internal sealed class ConversionApplicationCreationServiceTests
 		    });
 
 	    var httpClient = new HttpClient(mockMessageHandler.Object);
+	    httpClient.BaseAddress = new Uri(AcademiesAPIConstants.AcademiesAPITestUrl);
+        // default headers would be:-
+        // client.DefaultRequestHeaders.Add("ApiKey", tramsApiKey);
+        // client.DefaultRequestHeaders.Add("ContentType", MediaTypeNames.Application.Json);
 
-	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
 	    var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
 	    int applicationId = Fixture.Create<int>();
@@ -173,8 +177,12 @@ internal sealed class ConversionApplicationCreationServiceTests
 		    });
 
 	    var httpClient = new HttpClient(mockMessageHandler.Object);
+	    httpClient.BaseAddress = new Uri(AcademiesAPIConstants.AcademiesAPITestUrl);
+	    // default headers would be:-
+	    // client.DefaultRequestHeaders.Add("ApiKey", tramsApiKey);
+	    // client.DefaultRequestHeaders.Add("ContentType", MediaTypeNames.Application.Json);
 
-	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
 	    var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
 	    int applicationId = Fixture.Create<int>();
