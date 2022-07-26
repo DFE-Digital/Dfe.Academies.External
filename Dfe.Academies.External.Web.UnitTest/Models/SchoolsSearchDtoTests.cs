@@ -1,5 +1,5 @@
 ﻿using AutoFixture;
-using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.Models;
@@ -18,14 +18,14 @@ internal sealed class SchoolsSearchDtoTests
 		string town = Fixture.Create<string>();
 		string fullUkPostcode = Fixture.Create<string>();
 
-		var schoolSearch = new SchoolsSearchDto(schoolName, urn, street, town, fullUkPostcode);
+		var schoolSearch = new SchoolsSearchDto(schoolName, urn,"", street, town, fullUkPostcode);
 
 		// act
 		// nothing!
 
 		// assert
 		Assert.That(schoolSearch, Is.Not.Null);
-		Assert.That(schoolSearch.SchoolName, Is.EqualTo(schoolName));
+		Assert.That(schoolSearch.Name, Is.EqualTo(schoolName));
 		Assert.That(schoolSearch.Urn, Is.EqualTo(urn));
 		Assert.That(schoolSearch.Street, Is.EqualTo(street));
 		Assert.That(schoolSearch.Town, Is.EqualTo(town));
