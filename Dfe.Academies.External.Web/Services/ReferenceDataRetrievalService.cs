@@ -1,6 +1,9 @@
 ﻿using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
-using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Base;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Trusts;
 using Dfe.Academies.External.Web.ViewModels;
+using System.Web;
 
 namespace Dfe.Academies.External.Web.Services;
 
@@ -36,16 +39,16 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 
 			// **** Mock Demo Data - as per Figma - to be removed ! ****
 			IList<SchoolsSearchDto> schoolsSearchDtos = new List<SchoolsSearchDto>();
-			schoolsSearchDtos.Add(new SchoolsSearchDto("Wise Owl primary school", 587634, "21 test road", "sheffield", "S1 2JF"));
-			schoolsSearchDtos.Add(new SchoolsSearchDto("Wise Owl secondary school", 368489, "21 test road", "sheffield", "S1 2JF"));
+			schoolsSearchDtos.Add(new SchoolsSearchDto("Wise Owl primary school", 587634,"", "21 test road", "sheffield", "S1 2JF"));
+			schoolsSearchDtos.Add(new SchoolsSearchDto("Wise Owl secondary school", 368489,"", "21 test road", "sheffield", "S1 2JF"));
 
 			// do a bit of manual linqage
 			IEnumerable<SchoolsSearchDto> schoolsSearchResults = new List<SchoolsSearchDto>();
-			if (!string.IsNullOrWhiteSpace(schoolSearch.SchoolName))
+			if (!string.IsNullOrWhiteSpace(schoolSearch.Name))
 			{
 				schoolsSearchResults =
-					schoolsSearchDtos.Where(s => s.SchoolName.ToLower().Trim().Contains(schoolSearch.SchoolName)
-					                             || s.SchoolName.ToLower().Trim().EndsWith(schoolSearch.SchoolName)).ToList();
+					schoolsSearchDtos.Where(s => s.Name.ToLower().Trim().Contains(schoolSearch.Name)
+					                             || s.Name.ToLower().Trim().EndsWith(schoolSearch.Name)).ToList();
 			}
 			else if (!string.IsNullOrWhiteSpace(schoolSearch.Urn) && !schoolsSearchResults.Any())
 			{
@@ -56,7 +59,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 			// Map SchoolsSearchDto to view model
 			if (schoolsSearchResults.Any())
 				schools = schoolsSearchResults.Select(c =>
-					new SchoolSearchResultViewModel(schoolName: c.SchoolName, urn: c.Urn, street: c.Street, town: c.Town, fullUkPostcode: c.FullUkPostcode)
+					new SchoolSearchResultViewModel(schoolName: c.Name, urn: c.Urn, street: c.Street, town: c.Town, fullUkPostcode: c.FullUkPostcode)
 					{
 						// TODO MR:- others?? depends what we get back from API
 					}).ToList();
@@ -105,5 +108,73 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 			_logger.LogError("ReferenceDataRetrievalService::GetSchool::Exception - {Message}", ex.Message);
 			throw;
 		}
+	}
+
+	///<inheritdoc/>
+	public async Task<ApiListWrapper<TrustSearchDto>> GetTrustsByPagination(TrustSearch trustSearch)
+	{
+		try
+		{
+			ApiListWrapper<TrustSearchDto> result = null;
+			var httpClient = _httpClientFactory.CreateClient(AcademiesAPIHttpClientName);
+			string apiurl = $"{httpClient.BaseAddress}/V1/trusts?{BuildTrustSearchRequestUri(trustSearch)}";
+
+			// TODO MR:- api endpoint to build will look like this:-
+			// $"/{EndpointsVersion}/trusts?{BuildTrustSearchRequestUri(trustSearch)}"
+
+			// TODO: Get data from Academisation API - returns ApiListWrapper<TrustSearchDto>
+			//var APIresult = await _resilientRequestProvider.GetAsync<ApiListWrapper<TrustSearchDto>>(apiurl);
+
+			return result;
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError("ReferenceDataRetrievalService::GetTrustsByPagination::Exception - {Message}", ex.Message);
+			throw;
+		}
+	}
+
+	///<inheritdoc/>
+	public async Task<TrustDetailsDto> GetTrustByUkPrn(string ukPrn)
+	{
+		try
+		{
+			TrustDetailsDto result = null;
+			var httpClient = _httpClientFactory.CreateClient(AcademiesAPIHttpClientName);
+
+			// TODO MR:- api endpoint to build will look like this:-
+			//"/{EndpointsVersion}/trust/{ukPrn}"
+			string apiurl = $"{httpClient.BaseAddress}/trust/{ukPrn}?api-version=V1/";
+
+			// TODO: Get data from Academisation API - returns ApiWrapper<TrustDetailsDto>
+			// var result = await _resilientRequestProvider.GetAsync<ApiWrapper<TrustDetailsDto>>(apiurl);
+
+			return result;
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError("ReferenceDataRetrievalService::GetTrustByUkPrn::Exception - {Message}", ex.Message);
+			throw;
+		}
+	}
+
+	public string BuildTrustSearchRequestUri(TrustSearch trustSearch)
+	{
+		var queryParams = HttpUtility.ParseQueryString(string.Empty);
+		if (!string.IsNullOrEmpty(trustSearch.GroupName))
+		{
+			queryParams.Add("groupName", trustSearch.GroupName);
+		}
+		if (!string.IsNullOrEmpty(trustSearch.Ukprn))
+		{
+			queryParams.Add("ukprn", trustSearch.Ukprn);
+		}
+		if (!string.IsNullOrEmpty(trustSearch.CompaniesHouseNumber))
+		{
+			queryParams.Add("companiesHouseNumber", trustSearch.CompaniesHouseNumber);
+		}
+		queryParams.Add("page", trustSearch.Page.ToString());
+
+		return HttpUtility.UrlEncode(queryParams.ToString());
 	}
 }
