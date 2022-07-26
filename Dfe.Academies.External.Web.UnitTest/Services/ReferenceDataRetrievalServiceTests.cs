@@ -1,4 +1,4 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -39,7 +39,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 	    var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
-	    SchoolSearch schoolSearch = new SchoolSearch(schoolName,urn.ToString());
+	    SchoolSearch schoolSearch = new SchoolSearch(schoolName,urn.ToString(), "");
 
 	    // act
 	    var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -84,4 +84,12 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	    Assert.That(school.Urn, Is.EqualTo(urn));
 	    Assert.That(school.Name, Is.EqualTo("Chesterton primary school"));
     }
+
+	// TODO MR:- GetTrustsByPagination() - success
+
+	// TODO MR:- GetTrustsByPagination() - failure
+
+	// TODO MR:- GetTrustByUkPrn() - success
+
+	// TODO MR:- GetTrustByUkPrn() - failure
 }
