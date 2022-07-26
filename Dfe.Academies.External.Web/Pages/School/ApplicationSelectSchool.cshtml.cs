@@ -81,6 +81,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
+		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> OnPostAddSchool()
 		{
 			if (!ModelState.IsValid)

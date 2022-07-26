@@ -16,6 +16,7 @@
 		</div>
 
 		<form method="post" id="search-form" novalidate>
+			@Html.AntiForgeryToken()
 			<input type="hidden" id="applicationId" asp-for="ApplicationId"/>
 			<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 
@@ -27,13 +28,13 @@
 								What is the name of the school?
 							</h2>
 						</legend>
-						<label class="govuk-hint" 
+						<label class="govuk-hint"
 						       for="schoolSelect">Enter the name of the school, or its 6 digit unique reference number (URN)</label>
 						<span asp-validation-for="SearchQuery" class="govuk-error-message"></span>
 						<div class="js-show">
 							<select id="schoolSelect" name="schoolSelect" class="govuk-input govuk-input--width-20"></select>
 						</div>
-						<div class="js-hide">
+						<div>
 							<input id='SearchQueryInput' asp-for="@Model.SearchQuery" autocomplete="off"
 							       class="govuk-input govuk-input--width-20"
 							       maxlength="200"
@@ -63,12 +64,12 @@
 			</div>
 			<br/>
 			<div class="js-show">
-				<input type="submit" asp-page-handler="AddSchool" id="btnAdd" value="Save and continue" 
+				<input type="submit" asp-page-handler="AddSchool" id="btnAdd" value="Save and continue"
 				       class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"
 				       onclick="A2C.clientSideValidation()"/>
 			</div>
 			<noscript>
-				<input type="submit" asp-page-handler="Find" id="btnFind" value="Search" 
+				<input type="submit" asp-page-handler="Find" id="btnFind" value="Search"
 				       class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 			</noscript>
 		</form>

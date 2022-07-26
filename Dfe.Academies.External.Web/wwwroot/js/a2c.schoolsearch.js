@@ -126,9 +126,10 @@ A2C.addCustomerClientSideValidators = function() {
     /* Add Confirm checkbox Custom Validation config ! */
 
     // MR:- value = useless for a checkbox!
-	$.validator.addMethod("confirmselection",
-        function (value, element, parameters) {
+	$.validator.addMethod("confirmselection", function (value, element) {
             const checkboxCheckedValue = document.getElementById(element.id).checked;
+
+            debugger;
 
             if (checkboxCheckedValue !== true) {
 	            A2C.addConfirmValidationMessage();
@@ -138,16 +139,14 @@ A2C.addCustomerClientSideValidators = function() {
             }
         });
 
-	$.validator.unobtrusive.adapters.add("confirmselection",
-		function (options) {
+	$.validator.unobtrusive.adapters.add("confirmselection", function (options) {
             options.rules["confirmselection"] = options.params;
             options.messages["confirmselection"] = options.message;
-            options.rules.confirmselection = {};
+            //options.rules.confirmselection = {};
         });
 
 	/* Add Search Query Custom Validation config ! */
-    $.validator.addMethod('searchqueryrequired',
-	    function (value, element, parameters) {
+    $.validator.addMethod('searchqueryrequired', function (value, element) {
 		    debugger;
             if (value.trim().length > 0) {
 	            if (value.length > 4) {
@@ -167,8 +166,7 @@ A2C.addCustomerClientSideValidators = function() {
             }
         });
 
-    $.validator.unobtrusive.adapters.add('searchqueryrequired',
-	    function (options) {
+    $.validator.unobtrusive.adapters.add('searchqueryrequired', function (options) {
             options.rules["searchqueryrequired"] = options.params;
             options.messages["searchqueryrequired"] = options.message;
 	    });

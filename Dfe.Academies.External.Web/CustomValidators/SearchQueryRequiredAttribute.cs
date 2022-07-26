@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿//// See this for more information:- http://programersnotebook.blogspot.com/2013/03/customizing-validation-attributes-in-mvc.html
+
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.Academies.External.Web.CustomValidators;
 
@@ -12,7 +14,7 @@ public sealed class SearchQueryRequiredAttribute : ValidationAttribute, IClientM
 	{
 		string? elementValue = Convert.ToString(value);
 
-		if (string.IsNullOrWhiteSpace(elementValue)) //|| elementValue.Length < MinimumLength)
+		if (string.IsNullOrWhiteSpace(elementValue) || elementValue.Length < MinimumLength)
 		{
 			return new ValidationResult(ErrorMessage);
 		}
@@ -22,6 +24,7 @@ public sealed class SearchQueryRequiredAttribute : ValidationAttribute, IClientM
 
 	public void AddValidation(ClientModelValidationContext context)
 	{
+		// this is tagging on the HTML 5 data attributes that make this work client side
 		MergeAttribute(context.Attributes, "data-val", "true");
 		var errorMessage = FormatErrorMessage(context.ModelMetadata.GetDisplayName());
 		MergeAttribute(context.Attributes, "data-val-searchqueryrequired", errorMessage);
