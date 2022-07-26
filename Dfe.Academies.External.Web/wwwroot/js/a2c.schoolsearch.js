@@ -152,10 +152,13 @@ A2C.addCustomerClientSideValidators = function() {
 
 	/* Add Search Query Custom Validation config ! */
     $.validator.addMethod('searchqueryrequired', function (value, element) {
-			// TODO MR:- this is now a textbox and debugger now gets hit !!
-		    debugger;
+			// MR:- this is now a textbox and debugger now gets hit !!
+			console.log(value.trim());
+			console.log(value.trim().length);
+
             if (value.trim().length > 0) {
-	            if (value.length > 4) {
+                if (value.trim().length > 4) {
+	                // debugger;
 		            //check selected school control
                     const selectedSchool = document.getElementById("SearchQueryInput").value;
                     if (selectedSchool.trim().length === 0) {
@@ -165,7 +168,7 @@ A2C.addCustomerClientSideValidators = function() {
 	                    return true;
                     }
 	            } else {
-		            return true;
+		            return false;
 	            }
             } else {
 	            return false;
@@ -198,11 +201,8 @@ A2C.clientSideValidation = function () {
 	var form = $("#search-form");
 	form.validate();
 
-	debugger;
-
 	if ($(this).valid()) {
 	    // MR:- carry on - run server side code
-        debugger;
 	} else {
 		event.preventDefault();
 	}
