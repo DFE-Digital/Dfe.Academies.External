@@ -14,7 +14,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
     {
         _httpClientFactory = httpClientFactory;
         _logger = logger;
-        _resilientRequestProvider = new ResilientRequestProvider(httpClientFactory.CreateClient(HttpClientName));
+        _resilientRequestProvider = new ResilientRequestProvider(httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
     }
 
     public List<ConversionApplication> GetCompletedApplications(string? username)
@@ -133,29 +133,6 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         };
 
         return conversionApplicationContributors;
-    }
-
-    public async Task<SchoolApplyingToConvert> GetSchool(int urn)
-    {
-        // TODO: Get data from Academisation API
-        // _resilientRequestProvider.Get
-        
-        // **** Mock Demo Data - as per Figma ****
-        if (urn == 587634)
-        {
-	        return new(schoolName: "Wise owl primary school", urn: urn, applicationId: int.MaxValue, ukprn: "GAT00123")
-		        { SchoolId = int.MaxValue };
-        }
-        else if (urn == 368489)
-        {
-	        return new(schoolName: "Wise owl secondary school", urn: urn, applicationId: int.MaxValue, ukprn: "GAT00124")
-		        { SchoolId = int.MaxValue };
-        }
-        else
-        {
-	        return new(schoolName: "Chesterton primary school", urn: 101003, applicationId: int.MaxValue, ukprn: null)
-		        { SchoolId = int.MaxValue };
-        }
     }
 
     public async Task<ConversionApplication> GetApplication(int applicationId, ApplicationTypes applicationType)

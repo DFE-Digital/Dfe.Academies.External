@@ -6,20 +6,19 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 {
     private readonly ILogger<ConversionApplicationCreationService> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
-    private const string BaseUrl = "http://127.0.0.1:8000/";
+    private readonly ResilientRequestProvider _resilientRequestProvider;
 
     public ConversionApplicationCreationService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationCreationService> logger) : base(httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
         _logger = logger;
+        _resilientRequestProvider = new ResilientRequestProvider(httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
     }
 
 	public async Task<ConversionApplication> CreateNewApplication(ConversionApplication application)
     {
-        ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(HttpClientName));
-
         // TODO: await API response from Academisation API
-        // await apiRequestProvider.PostAsync<>();
+        // await _resilientRequestProvider.PostAsync<>();
         application.Id = int.MaxValue;
 
         return application;
@@ -27,26 +26,23 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
     public Task UpdateDraftApplication(ConversionApplication application)
     {
-        ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(HttpClientName));
-
         // TODO: await API response from Academisation API
-        //await apiRequestProvider.PutAsync<>();
+        //await _resilientRequestProvider.PutAsync<>();
 
         return Task.CompletedTask;
     }
 
     public async Task AddSchoolToApplication(int applicationId, int schoolUkUrn, string name)
     {
-	    const string apiurl = $"{BaseUrl}/ConversionApplication/V1/AddSchool/";
-
 	    try
 	    {
 		    ConversionApplicationApiPostResult result;
-            ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(HttpClientName));
+		    var httpClient = _httpClientFactory.CreateClient(AcademisationAPIHttpClientName);
 		    SchoolApplyingToConvert school = new(name, schoolUkUrn, applicationId,null);
-
-			// TODO: await API response from Academisation API
-			result = await apiRequestProvider.PostAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
+		    string apiurl = $"{httpClient.BaseAddress}/ConversionApplication/V1/AddSchool/";
+            
+            // TODO: await API response from Academisation API
+            result = await _resilientRequestProvider.PostAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
 	    }
 	    catch (Exception ex)
 	    {

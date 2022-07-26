@@ -61,6 +61,7 @@ namespace Dfe.Academies.External.Web.Services
             // clear headers before putting on bearer / auth, otherwise buggo
             this.ClearRequestHeaders(this._client);
 
+            // api Key for academies API added by client factory
             if (!string.IsNullOrEmpty(header))
             {
                 this.AddHeaderParameter(this._client, header);

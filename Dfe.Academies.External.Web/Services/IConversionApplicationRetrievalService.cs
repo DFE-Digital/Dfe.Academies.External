@@ -12,8 +12,6 @@ public interface IConversionApplicationRetrievalService
 	Task<List<ConversionApplicationComponent>> GetSchoolApplicationComponents(int schoolId);
 
 	Task<List<ConversionApplicationContributor>> GetConversionApplicationContributors(int applicationId);
-
-	Task<SchoolApplyingToConvert> GetSchool(int schoolId);
-
+	
 	Task<ConversionApplication> GetApplication(int applicationId, ApplicationTypes applicationType);
 }
