@@ -1,15 +1,17 @@
 /**
- * Copyright (c) 2022
- *
- * School search Javascript to wire up to a local GET endpoint which will then in turn call
- * and academies API endpoint to perform a school search.
- * Depends upon components JQuery and accessible-autocomplete which are injected in _layout file.
- *
-  * Dependencies:-
- * 1) https://www.npmjs.com/package/accessible-autocomplete
- *      accessible-autocomplete is a JavaScript autocomplete built from the ground up to be accessible.
- * 2) JQuery - for $.ajax && selectElement: $('#schoolSelect')[0] && $('#schoolSelectedDetails').html
-  */
+* Copyright (c) 2022
+*
+* School search Javascript to wire up to a local GET endpoint which will then in turn call
+* and academies API endpoint to perform a school search.
+* Depends upon components JQuery and accessible-autocomplete which are injected in _layout file.
+*
+* Dependencies:-
+* 1) https://www.npmjs.com/package/accessible-autocomplete
+*      accessible-autocomplete is a JavaScript autocomplete built from the ground up to be accessible.
+* 2) JQuery - for  $("#SearchQueryInput") && $.ajax() && $('#schoolSelectedDetails').html && $("#SearchQueryInput").hide
+*                  && $("#schoolSelectedDetails").empty()
+*                  && $.validator() && $(this).valid() - for clientside validation
+*/
 
 var A2C = window.A2C || {};
 
@@ -37,10 +39,10 @@ $(function () {
 // MR:- similar to concerns casework clearing down controls
 A2C.clearResults = function () {
     $("#schoolSelectedDetails").empty();
-	$("#autocomplete-container").empty();
+    $("#autocomplete-container").empty();
+    // MR:- from concerns casework - not sure what this is for !
 	//// $(".autocomplete__menu").addClass("autocomplete__menu--hidden");
 };
-
 
 A2C.unhideSelectedSchoolSectionAndConfirmCheckbox = function () {
     A2C.unhideElement("schoolSelectedDetails");
@@ -63,7 +65,7 @@ A2C.unhideElement = function (elementName) {
 
 A2C.searchSchools = function () {
 	let autocompleteContainer = document.getElementById("autocomplete-container"); // MR:- this is just a plain old DIV
-    const input = $("#SearchQueryInput"); // MR:- this is now input type=text
+    const input = $("#SearchQueryInput"); // MR:- this is input type=text, which gets cloned
 
     accessibleAutocomplete({
         element: autocompleteContainer,
@@ -82,7 +84,7 @@ A2C.searchSchools = function () {
             let originalSearchInput = $("#autocomplete-container #SearchQueryInput");
             originalSearchInput.val(selectedValue);
 
-            // MR:- ??
+            // MR:- from concerns casework - not sure what this is for !
             //$(".autocomplete__menu").removeClass("autocomplete__menu--hidden");
 		})
     });
@@ -99,6 +101,7 @@ A2C.renderSchoolSearchOption = function (selectedValue) {
         success: function (response) {
 	        A2C.renderSelectedSchool(response);
             A2C.unhideSelectedSchoolSectionAndConfirmCheckbox();
+            A2C.clearErrorBars(); // clear any existing name not input err
         }
     });
 };
@@ -116,7 +119,7 @@ function debounceSuggest(query, syncResults) {
 
 A2C.GetSchoolSearchResults = function(query, syncResults) {
 	$.ajax({
-		url: 'school/Search', // this calls a controller endpoint
+		url: 'school/Search',
 		type: 'GET',
 		data: { 'searchQuery': query },
 		success: function(response) {
@@ -132,18 +135,17 @@ A2C.GetSchoolSearchResults = function(query, syncResults) {
 
 A2C.addCustomerClientSideValidators = function() {
     /* Add Confirm checkbox Custom Validation config ! */
+    $.validator.addMethod("confirmselection", function (value, element) {
+	    // MR:- value = useless for a checkbox!
+        const checkboxCheckedValue = document.getElementById(element.id).checked; 
 
-    // MR:- value = useless for a checkbox!
-	$.validator.addMethod("confirmselection", function (value, element) {
-            const checkboxCheckedValue = document.getElementById(element.id).checked; 
-
-            if (checkboxCheckedValue !== true) {
-	            A2C.addConfirmValidationMessage();
-	            return false;
-            } else {
-	            return true;
-            }
-        });
+        if (checkboxCheckedValue !== true) {
+            A2C.addConfirmValidationMessage();
+            return false;
+        } else {
+            return true;
+        }
+    });
 
 	$.validator.unobtrusive.adapters.add("confirmselection", function (options) {
             options.rules["confirmselection"] = options.params;
@@ -152,25 +154,22 @@ A2C.addCustomerClientSideValidators = function() {
 
 	/* Add Search Query Custom Validation config ! */
     $.validator.addMethod('searchqueryrequired', function (value, element) {
-			// MR:- this is now a textbox and debugger now gets hit !!
-			console.log(value.trim());
-			console.log(value.trim().length);
-
-            if (value.trim().length > 0) {
+	    if (value.trim().length > 0) {
                 if (value.trim().length > 4) {
-	                // debugger;
-		            //check selected school control
+	                //check selected school control
                     const selectedSchool = document.getElementById("SearchQueryInput").value;
                     if (selectedSchool.trim().length === 0) {
-	                    A2C.addSearchQueryValidationMessage();
+                        A2C.addSearchQueryValidationMessage("You must choose a school from the list");
 	                    return false;
                     } else {
 	                    return true;
                     }
-	            } else {
+                } else {
+	                A2C.addSearchQueryValidationMessage("Search must be more than 4 characters");
 		            return false;
 	            }
             } else {
+                A2C.addSearchQueryValidationMessage("You must give the name of the school");
 	            return false;
             }
         });
@@ -181,14 +180,36 @@ A2C.addCustomerClientSideValidators = function() {
 	    });
 };
 
-A2C.addSearchQueryValidationMessage = function() {
-	//document.getElementById("SearchQueryError").textContent = "Search cannot be blank";
+A2C.clearErrorBars = function () {
+    if (document.getElementById("SearchQueryContainer").classList.contains("govuk-form-group--error")) {
+	    document.getElementById("SearchQueryContainer").classList.remove("govuk-form-group--error");
+    }
+
+    if (document.getElementById("ConfirmationErrorContainer").classList.contains("govuk-form-group--error")) {
+        document.getElementById("ConfirmationErrorContainer").classList.remove("govuk-form-group--error");
+    }
+
+    if (document.getElementById("confirm-school-checkbox").classList.contains("govuk-form-group--error")) {
+        document.getElementById("confirm-school-checkbox").classList.remove("govuk-form-group--error");
+    }
+};
+
+A2C.addSearchQueryValidationMessage = function (errorMessage) {
+	A2C.clearErrorBars();
+
+    // TODO MR:- this always errors, but no idea why at this point !!!!!
+    //id="SearchQueryInput-error" = span
+    //const span = document.getElementById('SearchQueryInput-error');
+    //span.textContent = errorMessage;
+
     // MR:- add left bar
     const elementToManipulate = document.getElementById("SearchQueryContainer");
     elementToManipulate.classList.add("govuk-form-group--error");
 };
 
 A2C.addConfirmValidationMessage = function () {
+	A2C.clearErrorBars();
+
     A2C.unhideElement("ConfirmationErrorContainer");
     // MR:- add left bar
     const elementToManipulate = document.getElementById("confirm-school-checkbox");
@@ -208,24 +229,8 @@ A2C.clientSideValidation = function () {
 	}
 };
 
-//// This function is only meant to validate complex scenario's
-//// in built unobtrusive validation should handle the model [required] properties
-A2C.addcomplexCustomerValidators = function () {
-	var errorElement = $('span[data-valmsg-for="skills"]');
-    var errorMessage = "Select at least 3 skills";
-
-    const queryValue = document.getElementById("SearchQueryInput").value;
-
-    //message: 'Search cannot be blank'
-//validator.addValidator('SearchQuery', [{
-//	method: function (field) {
-//		return field.value.trim().length > 0;
-//	},
-//	message: 'Search cannot be blank'
-//}, {
-//	method: function (field) {
-//		return (field.value.length > 3);
-//	},
-//	message: 'Enter search criteria higher than four characters'
-//}]);
+A2C.clearCheckboxValidation = function (checked) {
+	if (checked === true) {
+		A2C.clearErrorBars();
+	}
 };

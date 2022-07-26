@@ -53,7 +53,8 @@
 							<div class="govuk-checkboxes__item">
 								<input id='ConfirmSelection'
 								       asp-for="@Model.CorrectSchoolConfirmation"
-								       class='hideElement govuk-checkboxes__input'>
+								       class='hideElement govuk-checkboxes__input'
+								       onclick="A2C.clearCheckboxValidation(this.checked);">
 								<label id='confirm-school-label' for='ConfirmSelection'
 								       class='hideElement govuk-label govuk-checkboxes__label'>
 									This is the correct school

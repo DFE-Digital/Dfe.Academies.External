@@ -90,18 +90,16 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// so, currently get the 'You must give the name of the school' validation warning
 				// rather than the "You must choose a school from the list" (code below)
 
+				//// 2nd phase validation - check selected school
+				if (string.IsNullOrWhiteSpace(SearchQuery))
+				{
+					ModelState.AddModelError("InvalidSchool", "You must give the name of the school");
+				}
+
 				// error messages component consumes ViewData["Errors"]
 				PopulateValidationMessages();
 				return Page();
 			}
-
-			//// 2nd phase validation - is SelectedUrn >0
-			////if (SelectedUrn == 0)
-			////{
-			////	ModelState.AddModelError("InvalidSchool", "You must choose a school from the list");
-			////	PopulateValidationMessages();
-			////	return Page();
-			////}
 
 			try
 			{
