@@ -1,9 +1,11 @@
 ﻿using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using NUnit.Framework;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -15,7 +17,9 @@ namespace Dfe.Academies.External.Web.UnitTest.Services;
 [Parallelizable(ParallelScope.All)]
 internal sealed class ReferenceDataRetrievalServiceTests
 {
-    [Test]
+	private const string testUrl = APIConstants.AcademiesAPITestUrl;
+
+	[Test]
     public async Task SearchSchools___ApiReturns200___Success()
     {
 	    // arrange
@@ -34,8 +38,12 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		    });
 
 	    var httpClient = new HttpClient(mockMessageHandler.Object);
+	    httpClient.BaseAddress = new Uri(testUrl);
+	    // default headers would be:-
+	    // client.DefaultRequestHeaders.Add("ApiKey", tramsApiKey);
+	    // client.DefaultRequestHeaders.Add("ContentType", MediaTypeNames.Application.Json);
 
-	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
 	    var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
@@ -70,8 +78,12 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		    });
 
 	    var httpClient = new HttpClient(mockMessageHandler.Object);
+	    httpClient.BaseAddress = new Uri(testUrl);
+	    // default headers would be:-
+	    // client.DefaultRequestHeaders.Add("ApiKey", tramsApiKey);
+	    // client.DefaultRequestHeaders.Add("ContentType", MediaTypeNames.Application.Json);
 
-	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
 	    var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 

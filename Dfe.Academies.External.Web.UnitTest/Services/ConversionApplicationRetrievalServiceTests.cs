@@ -1,20 +1,24 @@
-﻿using System.Linq;
+﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using NUnit.Framework;
+using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Dfe.Academies.External.Web.Enums;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
 [Parallelizable(ParallelScope.All)]
 internal sealed class ConversionApplicationRetrievalServiceTests
 {
+	private const string testUrl = APIConstants.AcademisationAPITestUrl;
+
     [Test]
     public void ConversionApplicationRetrievalService___GetPendingApplications___Success()
     {
@@ -34,6 +38,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
             });
 
         var httpClient = new HttpClient(mockMessageHandler.Object);
+        httpClient.BaseAddress = new Uri(testUrl);
 
         mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
@@ -67,6 +72,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
             });
 
         var httpClient = new HttpClient(mockMessageHandler.Object);
+        httpClient.BaseAddress = new Uri(testUrl);
 
         mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
@@ -100,6 +106,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
             });
 
         var httpClient = new HttpClient(mockMessageHandler.Object);
+        httpClient.BaseAddress = new Uri(testUrl);
 
         mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
@@ -133,6 +140,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
             });
 
         var httpClient = new HttpClient(mockMessageHandler.Object);
+        httpClient.BaseAddress = new Uri(testUrl);
 
         mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
@@ -166,6 +174,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
             });
 
         var httpClient = new HttpClient(mockMessageHandler.Object);
+        httpClient.BaseAddress = new Uri(testUrl);
 
         mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
@@ -200,8 +209,9 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		    });
 
 	    var httpClient = new HttpClient(mockMessageHandler.Object);
+	    httpClient.BaseAddress = new Uri(testUrl);
 
-	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
 	    var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
@@ -238,6 +248,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
             });
 
         var httpClient = new HttpClient(mockMessageHandler.Object);
+        httpClient.BaseAddress = new Uri(testUrl);
 
         mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
@@ -276,6 +287,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
             });
 
         var httpClient = new HttpClient(mockMessageHandler.Object);
+        httpClient.BaseAddress = new Uri(testUrl);
 
         mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
