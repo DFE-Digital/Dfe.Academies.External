@@ -4,8 +4,8 @@ namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels.Trusts;
 
 /// <summary>
 /// To de-serialize response from trust search && GetTrustByUkPrn :-
-/// {{api-host}}/V1/trusts?{BuildRequestUri(trustSearch)}
-/// {{api-host}}/V1/trust/{ukPrn}/
+/// {{api-host}}/trusts?api-version=V1&groupName=grammar
+/// {{api-host}}/trust/10058464?api-version=V1
 /// </summary>
 public sealed class TrustDetailsDto
 {

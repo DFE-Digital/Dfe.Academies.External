@@ -120,10 +120,10 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 			string apiurl = $"{httpClient.BaseAddress}/V1/trusts?{BuildTrustSearchRequestUri(trustSearch)}";
 
 			// TODO MR:- api endpoint to build will look like this:-
-			// $"/{EndpointsVersion}/trusts?{BuildTrustSearchRequestUri(trustSearch)}"
+			// {{api-host}}/trusts?api-version=V1&groupName=grammar
 
 			// TODO: Get data from Academisation API - returns ApiListWrapper<TrustSearchDto>
-			//var APIresult = await _resilientRequestProvider.GetAsync<ApiListWrapper<TrustSearchDto>>(apiurl);
+			// var APIresult = await _resilientRequestProvider.GetAsync<ApiListWrapper<TrustSearchDto>>(apiurl);
 
 			return result;
 		}
@@ -143,7 +143,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 			var httpClient = _httpClientFactory.CreateClient(AcademiesAPIHttpClientName);
 
 			// TODO MR:- api endpoint to build will look like this:-
-			//"/{EndpointsVersion}/trust/{ukPrn}"
+			// {{api-host}}/trust/10058464?api-version=V1
 			string apiurl = $"{httpClient.BaseAddress}/trust/{ukPrn}?api-version=V1/";
 
 			// TODO: Get data from Academisation API - returns ApiWrapper<TrustDetailsDto>

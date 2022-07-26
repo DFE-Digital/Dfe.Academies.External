@@ -4,7 +4,7 @@ namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 
 /// <summary>
 /// To de-serialize response from :-
-/// {{api-host}}/establishments?Name=wise&api-version=V1&Urn=101934&ukprn=10006563
+/// {{api-host}}/establishments?api-version=V1&Name=wise&Urn=101934&ukprn=10006563
 /// </summary>
 public sealed class SchoolsSearchDto
 {
