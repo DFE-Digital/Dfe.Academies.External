@@ -17,7 +17,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		[SearchQueryRequired(ErrorMessage = "You must give the name of the school")]
-		public string SearchQuery { get; set; } = string.Empty;
+		public string? SearchQuery { get; set; } = string.Empty;
 
 		[BindProperty]
 		[ConfirmSelection(ErrorMessage = "You must confirm that this is the correct school")]
