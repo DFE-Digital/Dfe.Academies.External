@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.ViewModels;
 
 namespace Dfe.Academies.External.Web.Services;
@@ -52,5 +53,25 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 				}).ToList();
 
 		return schools;
+	}
+
+	public async Task<EstablishmentResponse> GetSchool(int urn)
+	{
+		// TODO: Get data from Academisation API
+		// _resilientRequestProvider.Get
+
+		// **** Mock Demo Data - as per Figma ****
+		if (urn == 587634)
+		{
+			return new(name: "Wise owl primary school", urn: urn, ukprn: "GAT00123", "94 Forest Road", "Manchester", "MC4 3TR");
+		}
+		else if (urn == 368489)
+		{
+			return new(name: "Wise owl secondary school", urn: urn, ukprn: "GAT00124", "99 Forest Road", "Manchester", "MC4 3TR");
+		}
+		else
+		{
+			return new(name: "Chesterton primary school", urn: 101003, ukprn: null, "94 Forest Road", "stoke-on-trent", "ST4 3TR");
+		}
 	}
 }
