@@ -153,10 +153,10 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		// act
-		var applicationRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
 
 		// assert
-		var ex = Assert.ThrowsAsync<HttpRequestException>(() => applicationRetrievalService.GetSchool(urn));
+		var ex = Assert.ThrowsAsync<HttpRequestException>(() => referenceDataRetrievalService.GetSchool(urn));
 	}
 
 	//[Test]
@@ -231,5 +231,34 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		//Assert.AreEqual(ukprn, trustDetailsDto.Establishments.FirstOrDefault().ukprn); // TODO MR:- property is missing from object but definitely within JSON
 	}
 
-	// TODO MR:- GetTrustByUkPrn() - failure
+	//[Test]
+	public async Task GetTrustByUkPrn___ApiReturns500___Failure()
+	{
+		// arrange
+		var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+		var mockFactory = new Mock<IHttpClientFactory>();
+		int ukprn = 587634;
+
+		var mockMessageHandler = new Mock<HttpMessageHandler>();
+		mockMessageHandler.Protected()
+			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+			.ReturnsAsync(new HttpResponseMessage
+			{
+				StatusCode = HttpStatusCode.OK,
+				Content = new StringContent(expected)
+			});
+
+		var httpClient = new HttpClient(mockMessageHandler.Object);
+		httpClient.BaseAddress = new Uri(TestUrl);
+
+		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+
+		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
+
+		// act
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+
+		// assert
+		var ex = Assert.ThrowsAsync<HttpRequestException>(() => referenceDataRetrievalService.GetTrustByUkPrn(ukprn.ToString()));
+	}
 }
