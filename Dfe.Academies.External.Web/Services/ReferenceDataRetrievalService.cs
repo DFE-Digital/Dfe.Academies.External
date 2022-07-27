@@ -10,14 +10,14 @@ namespace Dfe.Academies.External.Web.Services;
 public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataRetrievalService
 {
 	private readonly ILogger<ReferenceDataRetrievalService> _logger;
-	private readonly IHttpClientFactory _httpClientFactory;
+	private readonly HttpClient _httpClient;
 	private readonly ResilientRequestProvider _resilientRequestProvider;
 
 	public ReferenceDataRetrievalService(IHttpClientFactory httpClientFactory, ILogger<ReferenceDataRetrievalService> logger) : base(httpClientFactory)
 	{
-		_httpClientFactory = httpClientFactory;
 		_logger = logger;
-		_resilientRequestProvider = new ResilientRequestProvider(httpClientFactory.CreateClient(AcademiesAPIHttpClientName));
+		_httpClient = httpClientFactory.CreateClient(AcademiesAPIHttpClientName);
+		_resilientRequestProvider = new ResilientRequestProvider(_httpClient);
 	}
 
 	///<inheritdoc/>
@@ -25,16 +25,14 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 	{
 		try
 		{
-			var httpClient = _httpClientFactory.CreateClient(AcademiesAPIHttpClientName);
-
 			//{{api-host}}/establishments?api-version=V1&Urn=101934&ukprn=10006563&Name=wise
 			// TODO MR:- buildURIfunc
-			string apiurl = $"{httpClient.BaseAddress}/establishments?api-version=V1/";
+			string apiurl = $"{_httpClient.BaseAddress}/establishments?api-version=V1";
 
 			IList<SchoolSearchResultViewModel> schools = new List<SchoolSearchResultViewModel>();
 
 			// TODO: Get data from Academisation API - returns ApiListWrapper<??>
-			//var result = await _resilientRequestProvider.GetAsync<EstablishmentResponse>(apiurl);
+			// var APIresult = await _resilientRequestProvider.GetAsync<EstablishmentResponse>(apiurl);
 			/// API returns list<SchoolsSearchDto>
 
 			// **** Mock Demo Data - as per Figma - to be removed ! ****
@@ -79,13 +77,12 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		try
 		{
 			EstablishmentResponse result;
-			var httpClient = _httpClientFactory.CreateClient(AcademiesAPIHttpClientName);
 
 			// {{api-host}}/establishment/urn/101934?api-version=V1
-			string apiurl = $"{httpClient.BaseAddress}/establishment/urn/{urn}?api-version=V1/";
-			
+			string apiurl = $"{_httpClient.BaseAddress}/establishment/urn/{urn}?api-version=V1";
+
 			// TODO: Get data from Academisation API - returns EstablishmentResponse
-			// result = await _resilientRequestProvider.GetAsync<EstablishmentResponse>(apiurl);
+			// APIresult = await _resilientRequestProvider.GetAsync<EstablishmentResponse>(apiurl);
 
 			// **** Mock Demo Data - as per Figma ****
 			if (urn == 587634)
@@ -116,14 +113,16 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		try
 		{
 			ApiListWrapper<TrustSearchDto> result = null;
-			var httpClient = _httpClientFactory.CreateClient(AcademiesAPIHttpClientName);
-			string apiurl = $"{httpClient.BaseAddress}/V1/trusts?{BuildTrustSearchRequestUri(trustSearch)}";
+			string apiurl = $"{_httpClient.BaseAddress}/V1/trusts?{BuildTrustSearchRequestUri(trustSearch)}";
 
 			// TODO MR:- api endpoint to build will look like this:-
 			// {{api-host}}/trusts?api-version=V1&groupName=grammar
 
 			// TODO: Get data from Academisation API - returns ApiListWrapper<TrustSearchDto>
 			// var APIresult = await _resilientRequestProvider.GetAsync<ApiListWrapper<TrustSearchDto>>(apiurl);
+
+			// **** Mock Demo Data - as per Figma ****
+			//result.Data.Add(new TrustSearchDto());
 
 			return result;
 		}
@@ -140,14 +139,15 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		try
 		{
 			TrustDetailsDto result = null;
-			var httpClient = _httpClientFactory.CreateClient(AcademiesAPIHttpClientName);
 
-			// TODO MR:- api endpoint to build will look like this:-
+			// MR:- api endpoint to build will look like this:-
 			// {{api-host}}/trust/10058464?api-version=V1
-			string apiurl = $"{httpClient.BaseAddress}/trust/{ukPrn}?api-version=V1/";
+			string apiurl = $"{_httpClient.BaseAddress}/trust/{ukPrn}?api-version=V1";
 
 			// TODO: Get data from Academisation API - returns ApiWrapper<TrustDetailsDto>
-			// var result = await _resilientRequestProvider.GetAsync<ApiWrapper<TrustDetailsDto>>(apiurl);
+			// var APIresult = await _resilientRequestProvider.GetAsync<ApiWrapper<TrustDetailsDto>>(apiurl);
+
+			// **** Mock Demo Data - as per Figma ****
 
 			return result;
 		}

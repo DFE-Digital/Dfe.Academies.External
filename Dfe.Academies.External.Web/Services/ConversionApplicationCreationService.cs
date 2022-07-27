@@ -5,14 +5,14 @@ namespace Dfe.Academies.External.Web.Services;
 public sealed class ConversionApplicationCreationService : BaseService, IConversionApplicationCreationService
 {
     private readonly ILogger<ConversionApplicationCreationService> _logger;
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly HttpClient _httpClient;
     private readonly ResilientRequestProvider _resilientRequestProvider;
 
     public ConversionApplicationCreationService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationCreationService> logger) : base(httpClientFactory)
     {
-        _httpClientFactory = httpClientFactory;
         _logger = logger;
-        _resilientRequestProvider = new ResilientRequestProvider(httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
+        _httpClient = httpClientFactory.CreateClient(AcademisationAPIHttpClientName);
+        _resilientRequestProvider = new ResilientRequestProvider(_httpClient);
     }
 
 	public async Task<ConversionApplication> CreateNewApplication(ConversionApplication application)
@@ -37,9 +37,8 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	    try
 	    {
 		    ConversionApplicationApiPostResult result;
-		    var httpClient = _httpClientFactory.CreateClient(AcademisationAPIHttpClientName);
 		    SchoolApplyingToConvert school = new(name, schoolUkUrn, applicationId,null);
-		    string apiurl = $"{httpClient.BaseAddress}/ConversionApplication/V1/AddSchool/";
+		    string apiurl = $"{_httpClient.BaseAddress}/ConversionApplication/V1/AddSchool/";
             
             // TODO: await API response from Academisation API
             result = await _resilientRequestProvider.PostAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);

@@ -7,13 +7,13 @@ namespace Dfe.Academies.External.Web.Services;
 public sealed class ConversionApplicationRetrievalService : BaseService, IConversionApplicationRetrievalService
 {
     private readonly ILogger<ConversionApplicationRetrievalService> _logger;
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly HttpClient _httpClient;
     private readonly ResilientRequestProvider _resilientRequestProvider;
 
     public ConversionApplicationRetrievalService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationRetrievalService> logger) : base(httpClientFactory)
     {
-        _httpClientFactory = httpClientFactory;
         _logger = logger;
+        _httpClient = httpClientFactory.CreateClient(AcademiesAPIHttpClientName);
         _resilientRequestProvider = new ResilientRequestProvider(httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
     }
 
