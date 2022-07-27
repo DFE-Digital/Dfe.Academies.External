@@ -8,17 +8,19 @@ namespace Dfe.Academies.External.Shared.Tests.Factory
 	{
 		public static IList<TrustSearchDto> BuildListTrustSummaryDto()
 		{
-			Fixture fixture = new Fixture();
+			Fixture fixture = new();
 			return new List<TrustSearchDto>
 			{
-				new TrustSearchDto(
-					fixture.Create<string>(), 
-					fixture.Create<string>(), 
-					fixture.Create<string>(), 
-					fixture.Create<string>(),
-					fixture.Create<string>(),
-					GroupContactAddressFactory.BuildGroupContactAddressDto(),
-					EstablishmentFactory.BuildListEstablishmentSummaryDto())
+				new()
+				{
+					UkPrn = fixture.Create<string>(),
+					Urn = fixture.Create<string>(),
+					GroupName = fixture.Create<string>(),
+					CompaniesHouseNumber = fixture.Create<string>(),
+					TrustType = fixture.Create<string>(),
+					GroupContactAddress = GroupContactAddressFactory.BuildGroupContactAddressDto(),
+					Establishments = EstablishmentFactory.BuildListEstablishmentSummaryDto()
+				}
 			};
 		}
 		

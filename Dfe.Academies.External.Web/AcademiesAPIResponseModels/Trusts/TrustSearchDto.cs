@@ -5,25 +5,25 @@ namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels.Trusts;
 public sealed class TrustSearchDto
 {
 	[JsonPropertyName("ukprn")]
-	public string UkPrn { get; }
+	public string UkPrn { get; set; }
 
 	[JsonPropertyName("urn")]
-	public string Urn { get; }
+	public string Urn { get; set; }
 
 	[JsonPropertyName("groupName")]
-	public string GroupName { get; }
+	public string GroupName { get; set; }
 
 	[JsonPropertyName("companiesHouseNumber")]
-	public string CompaniesHouseNumber { get; }
+	public string CompaniesHouseNumber { get; set; }
 
 	[JsonPropertyName("trustType")]
-	public string TrustType { get; }
+	public string TrustType { get; set; }
 
 	[JsonPropertyName("trustAddress")]
-	public GroupContactAddressDto GroupContactAddress { get; }
+	public GroupContactAddressDto GroupContactAddress { get; set; }
 
 	[JsonPropertyName("establishments")]
-	public List<EstablishmentSummaryDto> Establishments { get; }
+	public List<EstablishmentSummaryDto> Establishments { get; set; }
 
 	//[JsonConstructor]
 	//public TrustSearchDto(string ukprn, string urn, string groupName,
