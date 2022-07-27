@@ -26,7 +26,6 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		try
 		{
 			//{{api-host}}/establishments?api-version=V1&Urn=101934&ukprn=10006563&Name=wise
-			// MR:- buildURIfunc
 			string apiurl = $"{_httpClient.BaseAddress}/establishments?{BuildSchoolSearchRequestUri(schoolSearch, "V1")}";
 
 			IList<SchoolSearchResultViewModel> schools = new List<SchoolSearchResultViewModel>();
@@ -59,38 +58,6 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 			//// API returns EstablishmentResponse
 			var APIresult = await _resilientRequestProvider.GetAsync<EstablishmentResponse>(apiurl);
 
-			//// **** Mock Demo Data - as per Figma ****
-			//if (urn == 587634)
-			//{
-			//	result = new(name: "Wise owl primary school", urn: urn, ukprn: "GAT00123", "94 Forest Road", "Manchester", "MC4 3TR");
-			//}
-			//else if (urn == 368489)
-			//{
-			//	result = new(name: "Wise owl secondary school", urn: urn, ukprn: "GAT00124", "99 Forest Road", "Manchester", "MC4 3TR");
-			//}
-			//else
-			//{
-			//	result = new(name: "Chesterton primary school", urn: 101003, ukprn: null, "94 Forest Road", "stoke-on-trent", "ST4 3TR");
-			//}
-
-			// convert SchoolsSearchDto -> view model ?
-			//var result = new EstablishmentResponse(name:APIresult.Name,
-			//	urn: APIresult.Urn,
-			//	ukprn: APIresult.Ukprn,
-			//	street: APIresult.Address.Street,
-			//	town: APIresult.Address.Town,
-			//	fullUkPostcode: APIresult.Address.Postcode
-			//);
-
-			//"address": {
-			//	"street": "Greenford Road",
-			//	"locality": null,
-			//	"additionalLine": null,
-			//	"town": "Greenford",
-			//	"county": "Middlesex",
-			//	"postcode": "UB6 9AW"
-			//},
-
 			return APIresult;
 		}
 		catch (Exception ex)
@@ -106,11 +73,9 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		try
 		{
 			ApiListWrapper<TrustSearchDto> result = null;
-			string apiurl = $"{_httpClient.BaseAddress}/V1/trusts?{BuildTrustSearchRequestUri(trustSearch)}";
-
-			// TODO MR:- api endpoint to build will look like this:-
 			// {{api-host}}/trusts?api-version=V1&groupName=grammar
-
+			string apiurl = $"{_httpClient.BaseAddress}/V1/trusts?{BuildTrustSearchRequestUri(trustSearch)}";
+			
 			// TODO: Get data from Academisation API - returns ApiListWrapper<TrustSearchDto>
 			// var APIresult = await _resilientRequestProvider.GetAsync<ApiListWrapper<TrustSearchDto>>(apiurl);
 
