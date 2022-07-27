@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
@@ -292,4 +293,112 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		// assert
 		var ex = Assert.ThrowsAsync<HttpRequestException>(() => referenceDataRetrievalService.GetTrustByUkPrn(ukprn.ToString()));
 	}
+
+	[Test]
+	public void BuildTrustSearchRequestUri___NameOnly___Success()
+	{
+		// arrange
+		var mockFactory = new Mock<IHttpClientFactory>();
+		var mockMessageHandler = new Mock<HttpMessageHandler>();
+		mockMessageHandler.Protected()
+			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+			.ReturnsAsync(new HttpResponseMessage
+			{
+				StatusCode = HttpStatusCode.OK
+			});
+
+		var httpClient = new HttpClient(mockMessageHandler.Object);
+		httpClient.BaseAddress = new Uri(TestUrl);
+
+		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+
+		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
+
+		string name = "wise";
+		TrustSearch trustSearch = new TrustSearch(name, string.Empty, string.Empty);
+		
+		// act
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var builtUri = referenceDataRetrievalService.BuildTrustSearchRequestUri(trustSearch);
+
+		// assert
+		Assert.That(builtUri, Is.Not.Null);
+		Assert.AreEqual("groupName%3dwise%26page%3d1", builtUri);
+		var decodedUri = HttpUtility.UrlDecode(builtUri);
+		Assert.AreEqual("groupName=wise&page=1", decodedUri);
+	}
+
+	[Test]
+	public void BuildTrustSearchRequestUri___UkPrnOnly___Success()
+	{
+		// arrange
+		var mockFactory = new Mock<IHttpClientFactory>();
+		var mockMessageHandler = new Mock<HttpMessageHandler>();
+		mockMessageHandler.Protected()
+			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+			.ReturnsAsync(new HttpResponseMessage
+			{
+				StatusCode = HttpStatusCode.OK
+			});
+
+		var httpClient = new HttpClient(mockMessageHandler.Object);
+		httpClient.BaseAddress = new Uri(TestUrl);
+
+		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+
+		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
+
+		string ukPrn = "10058464"; // ALCESTER GRAMMAR SCHOOL
+		TrustSearch trustSearch = new TrustSearch(string.Empty, ukPrn, string.Empty);
+
+		// act
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var builtUri = referenceDataRetrievalService.BuildTrustSearchRequestUri(trustSearch);
+
+		// assert
+		Assert.That(builtUri, Is.Not.Null);
+		Assert.AreEqual("ukprn%3d10058464%26page%3d1", builtUri);
+		var decodedUri = HttpUtility.UrlDecode(builtUri);
+		Assert.AreEqual("ukprn=10058464&page=1", decodedUri);
+	}
+
+	[Test]
+	public void BuildTrustSearchRequestUri___CompaniesHouseNumberOnly___Success()
+	{
+		// arrange
+		var mockFactory = new Mock<IHttpClientFactory>();
+		var mockMessageHandler = new Mock<HttpMessageHandler>();
+		mockMessageHandler.Protected()
+			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+			.ReturnsAsync(new HttpResponseMessage
+			{
+				StatusCode = HttpStatusCode.OK
+			});
+
+		var httpClient = new HttpClient(mockMessageHandler.Object);
+		httpClient.BaseAddress = new Uri(TestUrl);
+
+		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+
+		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
+
+		string companiesHouseNumber = "07485466"; // ALCESTER GRAMMAR SCHOOL
+		TrustSearch trustSearch = new TrustSearch(string.Empty, string.Empty, companiesHouseNumber);
+
+		// act
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var builtUri = referenceDataRetrievalService.BuildTrustSearchRequestUri(trustSearch);
+
+		// assert
+		Assert.That(builtUri, Is.Not.Null);
+		Assert.AreEqual("companiesHouseNumber%3d07485466%26page%3d1", builtUri);
+		var decodedUri = HttpUtility.UrlDecode(builtUri);
+		Assert.AreEqual("companiesHouseNumber=07485466&page=1", decodedUri);
+	}
+
+	// BuildSchoolSearchRequestUri - name only
+
+	// BuildSchoolSearchRequestUri - urn only
+
+	// BuildSchoolSearchRequestUri - UKPRN only
 }
