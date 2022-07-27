@@ -9,18 +9,18 @@ namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 public sealed class SchoolsSearchDto
 {
 	[JsonConstructor]
-	public SchoolsSearchDto(string name, string urn, string ukprn) =>
+	public SchoolsSearchDto(string urn, string name, string ukprn) =>
 		(Urn, Name, Ukprn) =
-		(int.Parse(urn), name, ukprn);
+		(urn, name, ukprn);
 
 	[JsonPropertyName("urn")]
-	public int Urn { get; }
+	public string Urn { get; set; }
 
 	[JsonPropertyName("name")]
-	public string Name { get; }
+	public string Name { get; set; }
 
 	[JsonPropertyName("ukprn")]
-	public string Ukprn { get; }
+	public string Ukprn { get; set; }
 
 	// TODO MR:- current establishments search API doesn't return address details
 	//[JsonPropertyName("street")]
