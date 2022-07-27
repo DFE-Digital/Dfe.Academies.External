@@ -1,5 +1,4 @@
 ﻿using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
-using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Base;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Trusts;
 using Dfe.Academies.External.Web.ViewModels;
@@ -72,7 +71,6 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 	{
 		try
 		{
-			//ApiListWrapper<TrustSearchDto> APIresult = null;
 			// {{api-host}}/trusts?api-version=V1&groupName=grammar
 			string apiurl = $"{_httpClient.BaseAddress}/trusts?{BuildTrustSearchRequestUri(trustSearch)}&api-version=V1";
 			
@@ -93,18 +91,14 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 	{
 		try
 		{
-			TrustDetailsDto result = null;
-
 			// MR:- api endpoint to build will look like this:-
 			// {{api-host}}/trust/10058464?api-version=V1
 			string apiurl = $"{_httpClient.BaseAddress}/trust/{ukPrn}?api-version=V1";
 
-			// TODO: Get data from Academisation API - returns ApiWrapper<TrustDetailsDto>
-			// var APIresult = await _resilientRequestProvider.GetAsync<ApiWrapper<TrustDetailsDto>>(apiurl);
-
-			// **** Mock Demo Data - as per Figma ****
-
-			return result;
+			// API - returns ApiWrapper<TrustDetailsDto>
+			var APIresult = await _resilientRequestProvider.GetAsync<TrustDetailsDto>(apiurl);
+			
+			return APIresult;
 		}
 		catch (Exception ex)
 		{

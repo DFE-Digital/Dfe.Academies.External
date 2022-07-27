@@ -46,7 +46,7 @@ internal sealed class ReferenceDataRetrievalServiceIntegrationTests: BaseIntegra
 	}
 
 	[Test]
-	public async Task GetTrusts___ApiReturns200___Success()
+	public async Task GetTrusts___Success()
 	{
 		// arrange
 		var referenceDataRetrievalService = _factory.Services.GetRequiredService<IReferenceDataRetrievalService>();
@@ -61,5 +61,18 @@ internal sealed class ReferenceDataRetrievalServiceIntegrationTests: BaseIntegra
 		//Assert.That(Is.GreaterThanOrEqualTo(1), trusts.Count());
 	}
 
-	// TODO MR:- GetTrustByUkPrn___ApiReturns200___Success()
+	[Test]
+	public async Task GetTrustByUkPrn___Success()
+	{
+		// arrange
+		var referenceDataRetrievalService = _factory.Services.GetRequiredService<IReferenceDataRetrievalService>();
+		const string ukprn = "10058464";
+
+		// act
+		var trustDetails = await referenceDataRetrievalService.GetTrustByUkPrn(ukprn);
+
+		// assert
+		Assert.That(trustDetails, Is.Not.Null);
+		//Assert.That(Is.GreaterThanOrEqualTo(1), trustDetails.Count());
+	}
 }

@@ -225,14 +225,14 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var ex = Assert.ThrowsAsync<HttpRequestException>(() => referenceDataRetrievalService.GetTrusts(trustSearch));
 	}
 
-	//[Test]
+	[Test]
 	public async Task GetTrustByUkPrn___ApiReturns200___Success()
 	{
 		// arrange
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getTrustResponse.json";
 		string expected = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = new Mock<IHttpClientFactory>();
-		int ukprn = 587634;
+		string ukprn = "10058464";
 
 		var mockMessageHandler = new Mock<HttpMessageHandler>();
 		mockMessageHandler.Protected()
@@ -252,7 +252,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
-		var trustDetailsDto = await referenceDataRetrievalService.GetTrustByUkPrn(ukprn.ToString());
+		var trustDetailsDto = await referenceDataRetrievalService.GetTrustByUkPrn(ukprn);
 
 		// assert
 		Assert.That(trustDetailsDto, Is.Not.Null);
@@ -263,10 +263,8 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public async Task GetTrustByUkPrn___ApiReturns500___Failure()
 	{
 		// arrange
-		//string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getTrustResponse.json";
-		//string expected = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = new Mock<IHttpClientFactory>();
-		int ukprn = 587634;
+		string ukprn = "10058464";
 
 		var mockMessageHandler = new Mock<HttpMessageHandler>();
 		mockMessageHandler.Protected()
@@ -287,7 +285,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
 
 		// assert
-		var ex = Assert.ThrowsAsync<HttpRequestException>(() => referenceDataRetrievalService.GetTrustByUkPrn(ukprn.ToString()));
+		var ex = Assert.ThrowsAsync<HttpRequestException>(() => referenceDataRetrievalService.GetTrustByUkPrn(ukprn));
 	}
 
 	[Test]
