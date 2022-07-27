@@ -1,34 +1,85 @@
+using System.Text.Json.Serialization;
+
 namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 
 public class EstablishmentResponse
 {
-    public EstablishmentResponse(string name, int urn, string? ukprn, string street, string town, string fullUkPostcode)
-    {
-	    Name = name;
-	    Ukprn = ukprn;
-	    Urn = urn;
-	    Address = new AddressResponse(street: street, town:town, fullUkPostcode: fullUkPostcode);
-    }
+    //public EstablishmentResponse(string establishmentName, int urn, string? ukprn, string street, string town, string postcode)
+    //{
+    // Name = establishmentName;
+    // Ukprn = ukprn;
+    // Urn = urn;
+    // Address = new AddressResponse(street: street, town:town, fullUkPostcode: postcode);
+    //}
 
-    public int Urn { get; set; }
+    [JsonPropertyName("urn")]
+    public string Urn { get; set; }
     public string LocalAuthorityCode { get; set; }
     public string LocalAuthorityName { get; set; }
+
+    [JsonPropertyName("establishmentNumber")]
     public string Number { get; set; }
+
+    [JsonPropertyName("establishmentName")]
     public string Name { get; set; }
+
+    //establishmentType
+
+    //establishmentTypeGroup
+
+    //establishmentStatus
+
+    //reasonEstablishmentOpened
+
     public string OpenDate { get; set; }
+
+    //reasonEstablishmentClosed
+
     public string CloseDate { get; set; }
+
+    //phaseOfEducation
+
     public string StatutoryLowAge { get; set; }
     public string StatutoryHighAge { get; set; }
+
+    //boarders
+
     public string NurseryProvision { get; set; }
+
+    //officialSixthForm
+
+    //gender
+
+    //religiousCharacter
+
     public string ReligiousEthos { get; set; }
+
+    //diocese
+
+    //admissionsPolicy
+
     public string SchoolCapacity { get; set; }
+
+    //specialClasses
+
+    //census
+
+    //trustSchoolFlag
+
+    //trusts
+
     public string SchoolSponsorFlag { get; set; }
     public string SchoolSponsors { get; set; }
     public string FederationFlag { get; set; }
-    public string Ukprn { get; set; }
+    //federations
+
+    public string ukprn { get; set; }
+
     public string FeheiIdentifier { get; set; }
     public string FurtherEducationType { get; set; }
     public string OfstedLastInspection { get; set; }
+
+    //ofstedSpecialMeasures
     public string LastChangedDate { get; set; }
     public AddressResponse Address { get; set; }
     public string SchoolWebsite { get; set; }
@@ -69,18 +120,44 @@ public class EstablishmentResponse
     public string SenUnitOnRoll { get; set; }
     public string SenUnitCapacity { get; set; }
 
+    //gor
+
+    //districtAdministrative
+
+    //administractiveWard
+
+    //parliamentaryConstituency
+
+    //urbanRural
+
     public string GSSLACode { get; set; }
     public string Easting { get; set; }
     public string Northing { get; set; }
     public string CensusAreaStatisticWard { get; set; }
 
+    //msoa
+
+    //lsoa
+
     public string SENStat { get; set; }
     public string SENNoStat { get; set; }
     public string BoardingEstablishment { get; set; }
     public string PropsName { get; set; }
+
+    //previousLocalAuthority
+
     public string PreviousEstablishmentNumber { get; set; }
     public string OfstedRating { get; set; }
     public string RSCRegion { get; set; }
     public string Country { get; set; }
+
+    [JsonPropertyName("uprn")]
     public string UPRN { get; set; }
+
+    //misEstablishment
+    //"misFurtherEducationEstablishment": null,
+    //"viewAcademyConversion": null,
+    //"smartData": null,
+    //"financial": null,
+    //"concerns": null
 }

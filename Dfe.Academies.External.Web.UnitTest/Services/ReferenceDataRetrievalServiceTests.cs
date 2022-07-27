@@ -43,15 +43,12 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 	    var httpClient = new HttpClient(mockMessageHandler.Object);
 	    httpClient.BaseAddress = new Uri(TestUrl);
-		// default headers would be:-
-		// httpClient.DefaultRequestHeaders.Add("ApiKey", tramsApiKey);
-		// httpClient.DefaultRequestHeaders.Add("ContentType", MediaTypeNames.Application.Json);
 
 		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
 	    var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
-	    SchoolSearch schoolSearch = new SchoolSearch(schoolName,urn.ToString(), "");
+	    SchoolSearch schoolSearch = new (schoolName,urn.ToString(), string.Empty);
 
 	    // act
 	    var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -63,14 +60,15 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	    Assert.AreEqual(expectedCount, searchSchools.Count);
     }
 
-	//[Test]
+	[Test]
 	public async Task SearchSchools___ApiReturns500___Failure()
 	{
 		// arrange
-		var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/schoolSearchResponse.json";
+		string expected = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = new Mock<IHttpClientFactory>();
-		string schoolName = "wise"; // TODO MR:- this value hard coded in dummy data at present !!!!!!
-		int urn = 587634; // TODO MR:- this value hard coded in dummy data at present !!!!!!
+		string schoolName = "wise";
+		int urn = 587634;
 
 		var mockMessageHandler = new Mock<HttpMessageHandler>();
 		mockMessageHandler.Protected()
@@ -87,7 +85,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
-		SchoolSearch schoolSearch = new SchoolSearch(schoolName, urn.ToString(), "");
+		SchoolSearch schoolSearch = new SchoolSearch(schoolName, urn.ToString(), string.Empty);
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -99,10 +97,10 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	[Test]
     public async Task GetSchool___ApiReturns200___Success()
     {
-	    // arrange
-	    var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-	    int urn = 101003; // TODO MR:- this value hard coded in dummy data at present !!!!!!
-	    int schoolId = int.MaxValue;
+		// arrange
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getSchoolResponse.json";
+		string expected = await File.ReadAllTextAsync(fullFilePath);
+		int urn = 101934;
 	    var mockFactory = new Mock<IHttpClientFactory>();
 
 	    var mockMessageHandler = new Mock<HttpMessageHandler>();
@@ -127,17 +125,17 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 	    // assert
 	    Assert.That(school, Is.Not.Null);
-	    Assert.That(school.Urn, Is.EqualTo(urn));
-	    Assert.That(school.Name, Is.EqualTo("Chesterton primary school"));
+	    Assert.That(school.Urn, Is.EqualTo(urn.ToString()));
+	    Assert.That(school.Name, Is.EqualTo("The Cardinal Wiseman Catholic School"));
     }
 
-	//[Test]
+	[Test]
 	public async Task GetSchool___ApiReturns500___Failure()
 	{
 		// arrange
-		var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-		int urn = 101003; // TODO MR:- this value hard coded in dummy data at present !!!!!!
-		int schoolId = int.MaxValue; 
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getSchoolResponse.json";
+		string expected = await File.ReadAllTextAsync(fullFilePath);
+		int urn = 101003; 
 		var mockFactory = new Mock<IHttpClientFactory>();
 
 		var mockMessageHandler = new Mock<HttpMessageHandler>();
@@ -167,7 +165,8 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public async Task GetTrustsByPagination___ApiReturns200___Success()
 	{
 		// arrange
-		var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getTrustSearchResponse.json";
+		string expected = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = new Mock<IHttpClientFactory>();
 		string name = "wise";
 		int ukprn = 587634;
@@ -188,7 +187,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
-		TrustSearch trustSearch = new TrustSearch(name, ukprn.ToString(), "");
+		TrustSearch trustSearch = new (name, ukprn.ToString(), string.Empty);
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -204,7 +203,8 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public async Task GetTrustsByPagination___ApiReturns500___Failure()
 	{
 		// arrange
-		var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getTrustSearchResponse.json";
+		string expected = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = new Mock<IHttpClientFactory>();
 		string name = "wise";
 		int ukprn = 587634;
@@ -224,7 +224,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
-		TrustSearch trustSearch = new TrustSearch(name, ukprn.ToString(), "");
+		TrustSearch trustSearch = new (name, ukprn.ToString(), string.Empty);
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -237,7 +237,8 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public async Task GetTrustByUkPrn___ApiReturns200___Success()
 	{
 		// arrange
-		var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getTrustResponse.json";
+		string expected = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = new Mock<IHttpClientFactory>();
 		int ukprn = 587634;
 
@@ -270,7 +271,8 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public async Task GetTrustByUkPrn___ApiReturns500___Failure()
 	{
 		// arrange
-		var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getTrustResponse.json";
+		string expected = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = new Mock<IHttpClientFactory>();
 		int ukprn = 587634;
 
@@ -318,7 +320,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		string name = "wise";
-		TrustSearch trustSearch = new TrustSearch(name, string.Empty, string.Empty);
+		TrustSearch trustSearch = new (name, string.Empty, string.Empty);
 		
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -352,7 +354,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		string ukPrn = "10058464"; // ALCESTER GRAMMAR SCHOOL
-		TrustSearch trustSearch = new TrustSearch(string.Empty, ukPrn, string.Empty);
+		TrustSearch trustSearch = new (string.Empty, ukPrn, string.Empty);
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -386,7 +388,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		string companiesHouseNumber = "07485466"; // ALCESTER GRAMMAR SCHOOL
-		TrustSearch trustSearch = new TrustSearch(string.Empty, string.Empty, companiesHouseNumber);
+		TrustSearch trustSearch = new (string.Empty, string.Empty, companiesHouseNumber);
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -420,7 +422,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		string name = "wise";
-		SchoolSearch schoolSearch = new SchoolSearch(name, string.Empty, string.Empty);
+		SchoolSearch schoolSearch = new (name, string.Empty, string.Empty);
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -454,7 +456,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		string urn = "101934"; // The Cardinal Wiseman Catholic School
-		SchoolSearch schoolSearch = new SchoolSearch(string.Empty, urn , string.Empty);
+		SchoolSearch schoolSearch = new (string.Empty, urn , string.Empty);
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -488,7 +490,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		string ukprn = "10015453"; // The Cardinal Wiseman Catholic School
-		SchoolSearch schoolSearch = new SchoolSearch(string.Empty, string.Empty, ukprn);
+		SchoolSearch schoolSearch = new (string.Empty, string.Empty, ukprn);
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);

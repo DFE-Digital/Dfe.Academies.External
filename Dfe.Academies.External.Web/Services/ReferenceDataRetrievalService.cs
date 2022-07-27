@@ -53,31 +53,45 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 	{
 		try
 		{
-			EstablishmentResponse result;
-
 			// {{api-host}}/establishment/urn/101934?api-version=V1
 			string apiurl = $"{_httpClient.BaseAddress}/establishment/urn/{urn}?api-version=V1";
 
-			// TODO: Get data from Academisation API - returns EstablishmentResponse
-			// APIresult = await _resilientRequestProvider.GetAsync<EstablishmentResponse>(apiurl);
+			//// API returns EstablishmentResponse
+			var APIresult = await _resilientRequestProvider.GetAsync<EstablishmentResponse>(apiurl);
 
-			// **** Mock Demo Data - as per Figma ****
-			if (urn == 587634)
-			{
-				result = new(name: "Wise owl primary school", urn: urn, ukprn: "GAT00123", "94 Forest Road", "Manchester", "MC4 3TR");
-			}
-			else if (urn == 368489)
-			{
-				result = new(name: "Wise owl secondary school", urn: urn, ukprn: "GAT00124", "99 Forest Road", "Manchester", "MC4 3TR");
-			}
-			else
-			{
-				result = new(name: "Chesterton primary school", urn: 101003, ukprn: null, "94 Forest Road", "stoke-on-trent", "ST4 3TR");
-			}
+			//// **** Mock Demo Data - as per Figma ****
+			//if (urn == 587634)
+			//{
+			//	result = new(name: "Wise owl primary school", urn: urn, ukprn: "GAT00123", "94 Forest Road", "Manchester", "MC4 3TR");
+			//}
+			//else if (urn == 368489)
+			//{
+			//	result = new(name: "Wise owl secondary school", urn: urn, ukprn: "GAT00124", "99 Forest Road", "Manchester", "MC4 3TR");
+			//}
+			//else
+			//{
+			//	result = new(name: "Chesterton primary school", urn: 101003, ukprn: null, "94 Forest Road", "stoke-on-trent", "ST4 3TR");
+			//}
 
 			// convert SchoolsSearchDto -> view model ?
+			//var result = new EstablishmentResponse(name:APIresult.Name,
+			//	urn: APIresult.Urn,
+			//	ukprn: APIresult.Ukprn,
+			//	street: APIresult.Address.Street,
+			//	town: APIresult.Address.Town,
+			//	fullUkPostcode: APIresult.Address.Postcode
+			//);
 
-			return result;
+			//"address": {
+			//	"street": "Greenford Road",
+			//	"locality": null,
+			//	"additionalLine": null,
+			//	"town": "Greenford",
+			//	"county": "Middlesex",
+			//	"postcode": "UB6 9AW"
+			//},
+
+			return APIresult;
 		}
 		catch (Exception ex)
 		{
