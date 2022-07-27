@@ -12,6 +12,7 @@ namespace Dfe.Academies.External.Shared.Tests.Factory
 		
 		public static IConfigurationBuilder ConfigurationUserSecretsBuilder(this IConfigurationBuilder configurationBuilder)
 		{
+			// TODO MR:- check this re: dot net core 6 !!
 			return configurationBuilder.AddUserSecrets<Program>();
 		}
 		
