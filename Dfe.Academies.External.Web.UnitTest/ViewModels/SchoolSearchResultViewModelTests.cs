@@ -21,6 +21,7 @@ internal sealed class SchoolSearchResultViewModelTests
 
 		var schoolSearchResultViewModel = new SchoolSearchResultViewModel(urn, name, UKPRN)
 		{
+			Street = street,
 			Town = town,
 			FullUkPostcode = fullUkPostcode,
 			Address3 = "address3",

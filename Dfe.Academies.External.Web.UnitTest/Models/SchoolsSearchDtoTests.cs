@@ -13,9 +13,9 @@ internal sealed class SchoolsSearchDtoTests
 	{
 		// arrange
 		string schoolName = Fixture.Create<string>();
-		string urn = Fixture.Create<int>().ToString();
+		int urn = Fixture.Create<int>();
 
-		var schoolSearch = new SchoolsSearchDto(schoolName, urn,string.Empty);
+		var schoolSearch = new SchoolsSearchDto(schoolName, urn.ToString(), string.Empty);
 
 		// act
 		// nothing!
