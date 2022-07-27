@@ -33,9 +33,6 @@
         /// <param name="token">
         /// The token.
         /// </param>
-        /// <param name="header">
-        /// The header.
-        /// </param>
         /// <typeparam name="TResult">
         /// </typeparam>
         /// <typeparam name="TData">
@@ -43,7 +40,7 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<TResult> PostAsync<TResult, TData>(string uri, TData data, string token = "", string header = "");
+        Task<TResult> PostAsync<TResult, TData>(string uri, TData data, string token = "");
 
         /// <summary>
         /// The put async.
@@ -57,15 +54,12 @@
         /// <param name="token">
         /// The token.
         /// </param>
-        /// <param name="header">
-        /// The header.
-        /// </param>
         /// <typeparam name="TResult">
         /// </typeparam>
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<TResult> PutAsync<TResult>(string uri, TResult data, string token = "", string header = "");
+        Task<TResult> PutAsync<TResult>(string uri, TResult data, string token = "");
 
         /// <summary>
         /// The delete async.

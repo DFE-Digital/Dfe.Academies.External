@@ -33,8 +33,7 @@ namespace Dfe.Academies.External.Web.Services
         {
             TResult result = default;
 
-            // clear headers before putting on bearer / auth, otherwise buggo
-            this.ClearRequestHeaders(this._client);
+            //this.ClearRequestHeaders(this._client); // MR:- commented out as headers set up StartupExtension
 
             // don't always have token e.g. token / login 
             if (!string.IsNullOrEmpty(token))
@@ -52,20 +51,13 @@ namespace Dfe.Academies.External.Web.Services
         }
 
         /// <inheritdoc/>
-        public async Task<TResult> PostAsync<TResult, TData>(string uri, TData data, string token = "", string header = "")
+        public async Task<TResult> PostAsync<TResult, TData>(string uri, TData data, string token = "")
         {
             TResult result = default;
             var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            // clear headers before putting on bearer / auth, otherwise buggo
-            this.ClearRequestHeaders(this._client);
-
-            // api Key for academies API added by client factory
-            if (!string.IsNullOrEmpty(header))
-            {
-                this.AddHeaderParameter(this._client, header);
-            }
+            //this.ClearRequestHeaders(this._client); // MR:- commented out as headers set up StartupExtension
 
             // don't always have token e.g. token / login 
             if (!string.IsNullOrEmpty(token))
@@ -83,18 +75,12 @@ namespace Dfe.Academies.External.Web.Services
         }
         
         /// <inheritdoc/>
-        public async Task<TResult> PutAsync<TResult>(string uri, TResult data, string token = "", string header = "")
+        public async Task<TResult> PutAsync<TResult>(string uri, TResult data, string token = "")
         {
             TResult result = default;
             var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
 
-            // clear headers before putting on bearer / auth, otherwise buggo
-            this.ClearRequestHeaders(this._client);
-
-            if (!string.IsNullOrEmpty(header))
-            {
-                this.AddHeaderParameter(this._client, header);
-            }
+            //this.ClearRequestHeaders(this._client); // MR:- commented out as headers set up StartupExtension
 
             // don't always have token e.g. token / login 
             if (!string.IsNullOrEmpty(token))
@@ -114,8 +100,7 @@ namespace Dfe.Academies.External.Web.Services
         /// <inheritdoc/>
         public async Task<bool> DeleteAsync(string uri, string token = "")
         {
-            // clear headers before putting on bearer / auth, otherwise buggo
-            this.ClearRequestHeaders(this._client);
+	        //this.ClearRequestHeaders(this._client); // MR:- commented out as headers set up StartupExtension
 
             // don't always have token e.g. token / login 
             if (!string.IsNullOrEmpty(token))
@@ -150,38 +135,19 @@ namespace Dfe.Academies.External.Web.Services
             return result;
         }
 
-        /// <summary>
-        /// The add header parameter.
-        /// </summary>
-        /// <param name="httpClient">
-        /// The http client.
-        /// </param>
-        /// <param name="parameter">
-        /// The parameter.
-        /// </param>
-        private void AddHeaderParameter(HttpClient httpClient, string parameter)
-        {
-            if (httpClient == null)
-                return;
+        // MR:- commented out as headers set up StartupExtension
+        ///// <summary>
+        ///// The clear request headers.
+        ///// </summary>
+        ///// <param name="httpClient">
+        ///// The http client.
+        ///// </param>
+        //private void ClearRequestHeaders(HttpClient httpClient)
+        //{
+        //    httpClient.DefaultRequestHeaders.Clear();
+        //    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //}
 
-            if (string.IsNullOrEmpty(parameter))
-                return;
-
-            httpClient.DefaultRequestHeaders.Add(parameter, Guid.NewGuid().ToString());
-        }
-
-        /// <summary>
-        /// The clear request headers.
-        /// </summary>
-        /// <param name="httpClient">
-        /// The http client.
-        /// </param>
-        private void ClearRequestHeaders(HttpClient httpClient)
-        {
-            httpClient.DefaultRequestHeaders.Clear();
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        }
-        
         /// <summary>
         /// The add bearer token authentication header.
         /// </summary>
