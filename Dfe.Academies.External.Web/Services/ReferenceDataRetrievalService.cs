@@ -72,7 +72,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 	{
 		try
 		{
-			ApiListWrapper<TrustSearchDto> result = null;
+			ApiListWrapper<TrustSearchDto> APIresult = null;
 			// {{api-host}}/trusts?api-version=V1&groupName=grammar
 			string apiurl = $"{_httpClient.BaseAddress}/V1/trusts?{BuildTrustSearchRequestUri(trustSearch)}";
 			
@@ -82,7 +82,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 			// **** Mock Demo Data - as per Figma ****
 			//result.Data.Add(new TrustSearchDto());
 
-			return result;
+			return APIresult;
 		}
 		catch (Exception ex)
 		{
