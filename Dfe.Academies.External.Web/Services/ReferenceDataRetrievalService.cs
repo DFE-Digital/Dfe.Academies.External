@@ -68,25 +68,22 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 	}
 
 	///<inheritdoc/>
-	public async Task<ApiListWrapper<TrustSearchDto>> GetTrustsByPagination(TrustSearch trustSearch)
+	public async Task<List<TrustSearchDto>> GetTrusts(TrustSearch trustSearch)
 	{
 		try
 		{
-			ApiListWrapper<TrustSearchDto> APIresult = null;
+			//ApiListWrapper<TrustSearchDto> APIresult = null;
 			// {{api-host}}/trusts?api-version=V1&groupName=grammar
-			string apiurl = $"{_httpClient.BaseAddress}/V1/trusts?{BuildTrustSearchRequestUri(trustSearch)}";
+			string apiurl = $"{_httpClient.BaseAddress}/trusts?{BuildTrustSearchRequestUri(trustSearch)}&api-version=V1";
 			
-			// TODO: Get data from Academisation API - returns ApiListWrapper<TrustSearchDto>
-			// var APIresult = await _resilientRequestProvider.GetAsync<ApiListWrapper<TrustSearchDto>>(apiurl);
-
-			// **** Mock Demo Data - as per Figma ****
-			//result.Data.Add(new TrustSearchDto());
+			// API returns ApiListWrapper<TrustSearchDto>
+			var APIresult = await _resilientRequestProvider.GetAsync<List<TrustSearchDto>>(apiurl);
 
 			return APIresult;
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError("ReferenceDataRetrievalService::GetTrustsByPagination::Exception - {Message}", ex.Message);
+			_logger.LogError("ReferenceDataRetrievalService::GetTrusts::Exception - {Message}", ex.Message);
 			throw;
 		}
 	}

@@ -26,7 +26,7 @@ public interface IReferenceDataRetrievalService
 	/// </summary>
 	/// <param name="trustSearch"></param>
 	/// <returns></returns>
-	Task<ApiListWrapper<TrustSearchDto>> GetTrustsByPagination(TrustSearch trustSearch);
+	Task<List<TrustSearchDto>> GetTrusts(TrustSearch trustSearch);
 
 	/// <summary>
 	/// Method to call academies API Get Trust endpoint
