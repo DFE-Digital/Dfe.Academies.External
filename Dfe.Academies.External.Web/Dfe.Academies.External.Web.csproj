@@ -19,4 +19,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.4" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="Dfe.Academies.External.Integration.Tests" />
+	</ItemGroup>
+
 </Project>
