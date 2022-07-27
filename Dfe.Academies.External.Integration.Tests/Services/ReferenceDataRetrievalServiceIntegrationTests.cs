@@ -45,7 +45,21 @@ internal sealed class ReferenceDataRetrievalServiceIntegrationTests: BaseIntegra
 		//Assert.That(Is.GreaterThanOrEqualTo(1), school.Count());
 	}
 
-	// TODO MR:- GetTrustsByPagination___ApiReturns200___Success()
+	[Test]
+	public async Task GetTrusts___ApiReturns200___Success()
+	{
+		// arrange
+		var referenceDataRetrievalService = _factory.Services.GetRequiredService<IReferenceDataRetrievalService>();
+
+		const string name = "grammar";
+		
+		// act
+		var trusts = await referenceDataRetrievalService.GetTrusts(TrustFactory.BuildTrustSearch(groupName: name));
+
+		// assert
+		Assert.That(trusts, Is.Not.Null);
+		//Assert.That(Is.GreaterThanOrEqualTo(1), trusts.Count());
+	}
 
 	// TODO MR:- GetTrustByUkPrn___ApiReturns200___Success()
 }
