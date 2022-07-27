@@ -25,10 +25,10 @@ public sealed class TrustSearchDto
 	[JsonPropertyName("establishments")]
 	public List<EstablishmentSummaryDto> Establishments { get; }
 
-	[JsonConstructor]
-	public TrustSearchDto(string ukprn, string urn, string groupName,
-		string companiesHouseNumber, string trustType, GroupContactAddressDto groupContactAddress,
-		List<EstablishmentSummaryDto> establishments) =>
-		(UkPrn, Urn, GroupName, CompaniesHouseNumber, TrustType, GroupContactAddress, Establishments) =
-		(ukprn, urn, groupName, companiesHouseNumber, trustType, groupContactAddress, establishments);
+	//[JsonConstructor]
+	//public TrustSearchDto(string ukprn, string urn, string groupName,
+	//	string companiesHouseNumber, string trustType, GroupContactAddressDto groupContactAddress,
+	//	List<EstablishmentSummaryDto> establishments) =>
+	//	(UkPrn, Urn, GroupName, CompaniesHouseNumber, TrustType, GroupContactAddress, Establishments) =
+	//	(ukprn, urn, groupName, companiesHouseNumber, trustType, groupContactAddress, establishments);
 }
