@@ -26,41 +26,18 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		try
 		{
 			//{{api-host}}/establishments?api-version=V1&Urn=101934&ukprn=10006563&Name=wise
-			// TODO MR:- buildURIfunc
-			string apiurl = $"{_httpClient.BaseAddress}/establishments?api-version=V1";
+			// MR:- buildURIfunc
+			string apiurl = $"{_httpClient.BaseAddress}/establishments?{BuildSchoolSearchRequestUri(schoolSearch, "V1")}";
 
 			IList<SchoolSearchResultViewModel> schools = new List<SchoolSearchResultViewModel>();
 
-			// TODO: Get data from Academisation API - returns ApiListWrapper<??>
-			// var APIresult = await _resilientRequestProvider.GetAsync<EstablishmentResponse>(apiurl);
-			/// API returns list<SchoolsSearchDto>
+			//// API returns list<SchoolsSearchDto>
+			var schoolsSearchResults = await _resilientRequestProvider.GetAsync<List<SchoolsSearchDto>>(apiurl);
 
-			// **** Mock Demo Data - as per Figma - to be removed ! ****
-			IList<SchoolsSearchDto> schoolsSearchDtos = new List<SchoolsSearchDto>();
-			schoolsSearchDtos.Add(new SchoolsSearchDto("Wise Owl primary school", 587634,"", "21 test road", "sheffield", "S1 2JF"));
-			schoolsSearchDtos.Add(new SchoolsSearchDto("Wise Owl secondary school", 368489,"", "21 test road", "sheffield", "S1 2JF"));
-
-			// do a bit of manual linqage
-			IEnumerable<SchoolsSearchDto> schoolsSearchResults = new List<SchoolsSearchDto>();
-			if (!string.IsNullOrWhiteSpace(schoolSearch.Name))
-			{
-				schoolsSearchResults =
-					schoolsSearchDtos.Where(s => s.Name.ToLower().Trim().Contains(schoolSearch.Name)
-					                             || s.Name.ToLower().Trim().EndsWith(schoolSearch.Name)).ToList();
-			}
-			else if (!string.IsNullOrWhiteSpace(schoolSearch.Urn) && !schoolsSearchResults.Any())
-			{
-				schoolsSearchResults =
-					schoolsSearchDtos.Where(s => s.Urn == int.Parse(schoolSearch.Urn.ToLower().Trim())).ToList();
-			}
-
-			// Map SchoolsSearchDto to view model
+			// convert SchoolsSearchDto -> view model
 			if (schoolsSearchResults.Any())
 				schools = schoolsSearchResults.Select(c =>
-					new SchoolSearchResultViewModel(schoolName: c.Name, urn: c.Urn, street: c.Street, town: c.Town, fullUkPostcode: c.FullUkPostcode)
-					{
-						// TODO MR:- others?? depends what we get back from API
-					}).ToList();
+					new SchoolSearchResultViewModel(name: c.Name, urn: int.Parse(c.Urn), ukprn: c.Ukprn)).ToList();
 
 			return schools;
 		}
@@ -97,6 +74,8 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 			{
 				result = new(name: "Chesterton primary school", urn: 101003, ukprn: null, "94 Forest Road", "stoke-on-trent", "ST4 3TR");
 			}
+
+			// convert SchoolsSearchDto -> view model ?
 
 			return result;
 		}
@@ -158,9 +137,11 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		}
 	}
 
+	//// Public method, so can write unit tests !!!!
 	public string BuildTrustSearchRequestUri(TrustSearch trustSearch)
 	{
 		var queryParams = HttpUtility.ParseQueryString(string.Empty);
+
 		if (!string.IsNullOrEmpty(trustSearch.GroupName))
 		{
 			queryParams.Add("groupName", trustSearch.GroupName);
@@ -173,7 +154,33 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		{
 			queryParams.Add("companiesHouseNumber", trustSearch.CompaniesHouseNumber);
 		}
+
 		queryParams.Add("page", trustSearch.Page.ToString());
+
+		return HttpUtility.UrlEncode(queryParams.ToString());
+	}
+
+	//// Public method, so can write unit tests !!!!
+	public string BuildSchoolSearchRequestUri(SchoolSearch schoolSearch, string apiVersionNumber)
+	{
+		var queryParams = HttpUtility.ParseQueryString(string.Empty);
+
+		if (!string.IsNullOrEmpty(schoolSearch.Name))
+		{
+			queryParams.Add("name", schoolSearch.Name);
+		}
+
+		if (!string.IsNullOrEmpty(schoolSearch.Urn))
+		{
+			queryParams.Add("Urn", schoolSearch.Urn);
+		}
+
+		if (!string.IsNullOrEmpty(schoolSearch.Ukprn))
+		{
+			queryParams.Add("ukprn", schoolSearch.Ukprn);
+		}
+
+		queryParams.Add("api-version", apiVersionNumber);
 
 		return HttpUtility.UrlEncode(queryParams.ToString());
 	}

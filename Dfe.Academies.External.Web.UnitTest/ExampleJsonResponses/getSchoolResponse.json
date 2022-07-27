@@ -1,0 +1,267 @@
+{
+  "urn": "101934",
+  "localAuthorityCode": "307",
+  "localAuthorityName": "Ealing",
+  "establishmentNumber": "4603",
+  "establishmentName": "The Cardinal Wiseman Catholic School",
+  "establishmentType": {
+    "name": "Voluntary aided school",
+    "code": "02"
+  },
+  "establishmentTypeGroup": {
+    "name": "Local authority maintained schools",
+    "code": "4"
+  },
+  "establishmentStatus": {
+    "name": "Open",
+    "code": "1"
+  },
+  "reasonEstablishmentOpened": {
+    "name": "Not applicable",
+    "code": "00"
+  },
+  "openDate": null,
+  "reasonEstablishmentClosed": {
+    "name": "Not applicable",
+    "code": "00"
+  },
+  "closeDate": null,
+  "phaseOfEducation": {
+    "name": "Secondary",
+    "code": "4"
+  },
+  "statutoryLowAge": "11",
+  "statutoryHighAge": "18",
+  "boarders": {
+    "name": "No boarders",
+    "code": "1"
+  },
+  "nurseryProvision": "No Nursery Classes",
+  "officialSixthForm": {
+    "name": "Has a sixth form",
+    "code": "1"
+  },
+  "gender": {
+    "name": "Mixed",
+    "code": "3"
+  },
+  "religiousCharacter": {
+    "name": "Roman Catholic",
+    "code": "03"
+  },
+  "religiousEthos": "Does not apply",
+  "diocese": {
+    "name": "Archdiocese of Westminster",
+    "code": "RC01"
+  },
+  "admissionsPolicy": {
+    "name": "Non-selective",
+    "code": "4"
+  },
+  "schoolCapacity": "1865",
+  "specialClasses": {
+    "name": "No Special Classes",
+    "code": "2"
+  },
+  "census": {
+    "censusDate": "21-01-2021",
+    "numberOfPupils": "1964",
+    "numberOfBoys": "958",
+    "numberOfGirls": "1006",
+    "percentageSen": "6.4",
+    "percentageFsm": "9.7",
+    "percentageEnglishNotFirstLanguage": "47.7",
+    "perceantageEnglishFirstLanguage": "52.3",
+    "percentageFirstLanguageUnclassified": "0",
+    "numberEligableForFSM": "133",
+    "numberEligableForFSM6Years": "209",
+    "percentageEligableForFSM6Years": "14"
+  },
+  "trustSchoolFlag": {
+    "name": "Not applicable",
+    "code": "0"
+  },
+  "trusts": {
+    "name": null,
+    "code": null
+  },
+  "schoolSponsorFlag": "Not applicable",
+  "schoolSponsors": null,
+  "federationFlag": "Not under a federation",
+  "federations": {
+    "name": null,
+    "code": null
+  },
+  "ukprn": "10006563",
+  "feheiIdentifier": null,
+  "furtherEducationType": "Not applicable",
+  "ofstedLastInspection": "04-07-2018",
+  "ofstedSpecialMeasures": {
+    "name": "Not applicable",
+    "code": "0"
+  },
+  "lastChangedDate": "17-05-2022",
+  "address": {
+    "street": "Greenford Road",
+    "locality": null,
+    "additionalLine": null,
+    "town": "Greenford",
+    "county": "Middlesex",
+    "postcode": "UB6 9AW"
+  },
+  "schoolWebsite": "www.wiseman.ealing.sch.uk",
+  "telephoneNumber": "02085758222",
+  "headteacherTitle": "Mr",
+  "headteacherFirstName": "Michael",
+  "headteacherLastName": "Kiely",
+  "headteacherPreferredJobTitle": "Headteacher",
+  "inspectorateName": null,
+  "inspectorateReport": null,
+  "dateOfLastInspectionVisit": null,
+  "dateOfNextInspectionVisit": null,
+  "teenMoth": "Not applicable",
+  "teenMothPlaces": null,
+  "ccf": "Not applicable",
+  "senpru": "Not applicable",
+  "ebd": "Not applicable",
+  "placesPRU": null,
+  "ftProv": null,
+  "edByOther": "Not applicable",
+  "section14Approved": "Not applicable",
+  "seN1": null,
+  "seN2": null,
+  "seN3": null,
+  "seN4": null,
+  "seN5": null,
+  "seN6": null,
+  "seN7": null,
+  "seN8": null,
+  "seN9": null,
+  "seN10": null,
+  "seN11": null,
+  "seN12": null,
+  "seN13": null,
+  "typeOfResourcedProvision": null,
+  "resourcedProvisionOnRoll": null,
+  "resourcedProvisionOnCapacity": null,
+  "senUnitOnRoll": null,
+  "senUnitCapacity": null,
+  "gor": {
+    "name": "London",
+    "code": "H"
+  },
+  "districtAdministrative": {
+    "name": "Ealing",
+    "code": "E09000009"
+  },
+  "administractiveWard": {
+    "name": "Greenford Broadway",
+    "code": "E05013523"
+  },
+  "parliamentaryConstituency": {
+    "name": "Ealing North",
+    "code": "E14000675"
+  },
+  "urbanRural": {
+    "name": "(England/Wales) Urban major conurbation",
+    "code": "A1"
+  },
+  "gsslaCode": "E09000009",
+  "easting": "514424",
+  "northing": "181988",
+  "censusAreaStatisticWard": null,
+  "msoa": {
+    "name": "Ealing 012",
+    "code": "E02000249"
+  },
+  "lsoa": {
+    "name": "Ealing 012C",
+    "code": "E01001261"
+  },
+  "senStat": null,
+  "senNoStat": null,
+  "boardingEstablishment": null,
+  "propsName": null,
+  "previousLocalAuthority": {
+    "name": null,
+    "code": "999"
+  },
+  "previousEstablishmentNumber": null,
+  "ofstedRating": "Outstanding",
+  "rscRegion": "North-West London and South-Central England",
+  "country": null,
+  "uprn": "12141188",
+  "misEstablishment": {
+    "siteName": null,
+    "webLink": "http://www.ofsted.gov.uk/inspection-reports/find-inspection-report/provider/ELS/101934",
+    "laestab": "3074603",
+    "schoolName": "The Cardinal Wiseman Catholic School",
+    "ofstedPhase": "Secondary",
+    "typeOfEducation": "Voluntary Aided School",
+    "schoolOpenDate": null,
+    "sixthForm": "Has a sixth form",
+    "designatedReligiousCharacter": "Roman Catholic",
+    "religiousEthos": "Does not apply",
+    "faithGrouping": "Christian",
+    "ofstedRegion": "London",
+    "region": "London",
+    "localAuthority": "Ealing",
+    "parliamentaryConstituency": "Ealing North",
+    "postcode": "UB6 9AW",
+    "incomeDeprivationAffectingChildrenIndexQuintile": "3",
+    "totalNumberOfPupils": "1964",
+    "latestSection8InspectionNumberSinceLastFullInspection": null,
+    "section8InspectionRelatedToCurrentSchoolUrn": null,
+    "urnAtTimeOfSection8Inspection": "",
+    "schoolNameAtTimeOfSection8Inspection": null,
+    "schoolTypeAtTimeOfSection8Inspection": null,
+    "numberOfSection8InspectionsSinceLastFullInspection": "",
+    "dateOfLatestSection8Inspection": null,
+    "section8InspectionPublicationDate": null,
+    "latestSection8InspectionConvertedToFullInspection": "",
+    "section8InspectionOverallOutcome": null,
+    "inspectionNumberOfLatestFullInspection": "10052737",
+    "inspectionType": "S5 Inspection",
+    "inspectionTypeGrouping": "S5 Inspection",
+    "inspectionStartDate": "03/07/2018",
+    "inspectionEndDate": "04/07/2018",
+    "publicationDate": "10/09/2018",
+    "latestFullInspectionRelatesToCurrentSchoolUrn": "Yes",
+    "schoolUrnAtTimeOfLastFullInspection": "101934",
+    "laestabAtTimeOfLastFullInspection": "3074603",
+    "schoolNameAtTimeOfLastFullInspection": "The Cardinal Wiseman Catholic School",
+    "schoolTypeAtTimeOfLastFullInspection": "Voluntary Aided School",
+    "overallEffectiveness": "1",
+    "categoryOfConcern": "",
+    "qualityOfEducation": "9",
+    "behaviourAndAttitudes": "9",
+    "personalDevelopment": "9",
+    "effectivenessOfLeadershipAndManagement": "1",
+    "safeguardingIsEffective": "Yes",
+    "earlyYearsProvision": "9",
+    "sixthFormProvision": "1",
+    "previousFullInspectionNumber": "ITS449425",
+    "previousInspectionStartDate": "14/10/2014",
+    "previousInspectionEndDate": "15/10/2014",
+    "previousPublicationDate": "10/11/2014",
+    "previousFullInspectionRelatesToUrnOfCurrentSchool": "Yes",
+    "urnAtTheTimeOfPreviousFullInspection": "101934",
+    "laestabAtTheTimeOfPreviousFullInspection": "3074603",
+    "schoolNameAtTheTimeOfPreviousFullInspection": "The Cardinal Wiseman Catholic School",
+    "schoolTypeAtTheTimeOfPreviousFullInspection": "Voluntary Aided School",
+    "previousFullInspectionOverallEffectiveness": "2",
+    "previousCategoryOfConcern": "",
+    "previousQualityOfEducation": "9",
+    "previousBehaviourAndAttitudes": "9",
+    "previousPersonalDevelopment": "9",
+    "previousEffectivenessOfLeadershipAndManagement": "2",
+    "previousIsSafeguardingEffective": "9",
+    "previousEarlyYearsProvision": "9",
+    "previousSixthFormProvision": "2"
+  },
+  "misFurtherEducationEstablishment": null,
+  "viewAcademyConversion": null,
+  "smartData": null,
+  "financial": null,
+  "concerns": null
+}
