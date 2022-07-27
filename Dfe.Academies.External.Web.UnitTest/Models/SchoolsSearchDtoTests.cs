@@ -13,12 +13,9 @@ internal sealed class SchoolsSearchDtoTests
 	{
 		// arrange
 		string schoolName = Fixture.Create<string>();
-		int urn = Fixture.Create<int>();
-		string street = Fixture.Create<string>();
-		string town = Fixture.Create<string>();
-		string fullUkPostcode = Fixture.Create<string>();
+		string urn = Fixture.Create<int>().ToString();
 
-		var schoolSearch = new SchoolsSearchDto(schoolName, urn,"", street, town, fullUkPostcode);
+		var schoolSearch = new SchoolsSearchDto(schoolName, urn,string.Empty);
 
 		// act
 		// nothing!
@@ -27,8 +24,5 @@ internal sealed class SchoolsSearchDtoTests
 		Assert.That(schoolSearch, Is.Not.Null);
 		Assert.That(schoolSearch.Name, Is.EqualTo(schoolName));
 		Assert.That(schoolSearch.Urn, Is.EqualTo(urn));
-		Assert.That(schoolSearch.Street, Is.EqualTo(street));
-		Assert.That(schoolSearch.Town, Is.EqualTo(town));
-		Assert.That(schoolSearch.FullUkPostcode, Is.EqualTo(fullUkPostcode));
 	}
 }
