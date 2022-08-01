@@ -10,7 +10,7 @@ internal sealed class EstablishmentResponseTests
 	private static readonly Fixture Fixture = new();
 
 	[Test]
-	public void EstablishmentResponse___PropertyCheck___Success()
+	public void EstablishmentResponse___Constructor______PropertiesSet()
 	{
 		// arrange
 		int urn = Fixture.Create<int>();

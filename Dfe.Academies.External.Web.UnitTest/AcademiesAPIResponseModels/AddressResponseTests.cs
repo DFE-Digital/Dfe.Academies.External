@@ -10,7 +10,7 @@ internal sealed class AddressResponseTests
 	private static readonly Fixture Fixture = new();
 
 	[Test]
-	public void AddressResponse___PropertyCheck___Success()
+	public void AddressResponse___Constructor______PropertiesSet()
 	{
 		// arrange
 		string street = Fixture.Create<string>();
