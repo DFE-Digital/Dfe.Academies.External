@@ -25,12 +25,17 @@ internal sealed class PupilNumbersModelTests
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<PupilNumbersModel>>();
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupPupilNumbersModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
+		var pageModel = SetupPupilNumbersModel(mockLogger.Object,
+			mockConversionApplicationCreationService.Object,
+			mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -45,11 +50,14 @@ internal sealed class PupilNumbersModelTests
 	private static PupilNumbersModel SetupPupilNumbersModel(
 		ILogger<PupilNumbersModel> mockLogger,
 		IConversionApplicationCreationService mockConversionApplicationCreationService,
+		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
+		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new PupilNumbersModel(mockLogger, mockConversionApplicationCreationService)
+		return new PupilNumbersModel(mockLogger, mockConversionApplicationRetrievalService,
+			mockReferenceDataRetrievalService, mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,
