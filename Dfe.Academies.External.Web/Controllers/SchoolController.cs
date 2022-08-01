@@ -6,37 +6,37 @@ using System.Net;
 
 namespace Dfe.Academies.External.Web.Controllers
 {
-	// TODO MR:- baseController
 	// [Authorize]
-	public class SchoolController : Controller
+	public class SchoolController : BaseController
 	{
-		private const int SearchQueryMinLength = 3;
 		private readonly ILogger<SchoolController> _logger;
-		private readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
 
 		public SchoolController(ILogger<SchoolController> logger,
-								IReferenceDataRetrievalService referenceDataRetrievalService)
+								IReferenceDataRetrievalService referenceDataRetrievalService,
+								IConversionApplicationRetrievalService conversionApplicationRetrievalService) 
+			: base(logger, referenceDataRetrievalService, conversionApplicationRetrievalService)
 		{
 			_logger = logger;
-			_referenceDataRetrievalService = referenceDataRetrievalService;
 		}
 
 		[HttpGet]
 		[Route("school/SchoolOverview/{appId}/{applyingSchoolId}")]
 		[Route("school/school/school-overview")]
-		public async Task<IActionResult> Overview(int appId, int applyingSchoolId)
+		public async Task<IActionResult> SchoolOverview(int appId, int applyingSchoolId)
 		{
 			try
 			{
 				// TODO MR:- drop appId && applyingSchoolId into cache !!
-				return View("SchoolOverview");
+				var applicationDetails = await LoadAndSetApplicationDetails(appId);
+				var school = await _referenceDataRetrievalService.GetSchool(applyingSchoolId);
+
+				return View();
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError("SchoolController::Overview::Overview::Exception - {Message}", ex.Message);
+				_logger.LogError("SchoolController::SchoolOverview::Exception - {Message}", ex.Message);
+				return CatchErrorAndRedirect(ex);
 			}
-
-			return null;
 		}
 
 		[HttpGet]
@@ -73,7 +73,7 @@ namespace Dfe.Academies.External.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError("SchoolController::Search::OnGetSchoolsSearchResult::Exception - {Message}", ex.Message);
+				_logger.LogError("SchoolController::Search::Exception - {Message}", ex.Message);
 
 				// TODO MR:- ?? concerns casework returns below which makes sense.
 				// Would need to amend controller method to return Task<ActionResult>
@@ -108,7 +108,7 @@ namespace Dfe.Academies.External.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError("SchoolController::DisplaySearchResult::OnGetSchoolsSearchResult::Exception - {Message}", ex.Message);
+				_logger.LogError("SchoolController::ReturnSchoolDetailsPartialViewPopulated::Exception - {Message}", ex.Message);
 				return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
 			}
 		}
