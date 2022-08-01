@@ -4,10 +4,21 @@ namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 
 public class EstablishmentResponse
 {
-	//public EstablishmentResponse()
-	//{
-	//	Address = new AddressResponse();
-	//}
+	/// <summary>
+	/// System.Text de-serialization requires this !!!
+	/// </summary>
+	public EstablishmentResponse()
+	{
+		Address = new AddressResponse();
+	}
+
+	public EstablishmentResponse(string name, string urn, string ukprn, string street, string town, string fullUkPostcode)
+	{
+		Urn = urn;
+		Name = name;
+		Ukprn = ukprn;
+		Address = new AddressResponse(street:street, town:town, fullUkPostcode: fullUkPostcode);
+	}
 
 	[JsonPropertyName("urn")]
 	public string Urn { get; set; }

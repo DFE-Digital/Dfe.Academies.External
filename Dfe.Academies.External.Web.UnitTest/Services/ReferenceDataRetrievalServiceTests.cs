@@ -124,7 +124,12 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	    Assert.That(school, Is.Not.Null);
 	    Assert.That(school.Urn, Is.EqualTo(urn.ToString()));
 	    Assert.That(school.Name, Is.EqualTo("The Cardinal Wiseman Catholic School"));
-	    Assert.That(school.Address.Town, Is.EqualTo("Greenford Road"));
+	    Assert.That(school.Address.Street, Is.EqualTo("Greenford Road"));
+	    Assert.That(school.Address.Locality, Is.EqualTo(null));
+	    Assert.That(school.Address.AdditionalLine, Is.EqualTo(null));
+	    Assert.That(school.Address.Town, Is.EqualTo("Greenford"));
+	    Assert.That(school.Address.County, Is.EqualTo("Middlesex"));
+	    Assert.That(school.Address.Postcode, Is.EqualTo("UB6 9AW"));
 	}
 
 	[Test]
