@@ -124,7 +124,8 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	    Assert.That(school, Is.Not.Null);
 	    Assert.That(school.Urn, Is.EqualTo(urn.ToString()));
 	    Assert.That(school.Name, Is.EqualTo("The Cardinal Wiseman Catholic School"));
-    }
+	    Assert.That(school.Address.Town, Is.EqualTo("Greenford Road"));
+	}
 
 	[Test]
 	public async Task GetSchool___ApiReturns500___Failure()

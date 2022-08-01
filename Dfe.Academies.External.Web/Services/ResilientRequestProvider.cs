@@ -127,11 +127,17 @@ namespace Dfe.Academies.External.Web.Services
         /// </returns>
         private async Task<TResult> ConvertResponseContent<TResult>(HttpResponseMessage response)
         {
+	        var options = new JsonSerializerOptions
+	        {
+		        AllowTrailingCommas = true,
+		        PropertyNameCaseInsensitive = true
+	        };
+
             // Alternative JsonConvert below :- using a stream instead - faster & more efficient
             await using var stream = await response.Content.ReadAsStreamAsync();
             using var reader = new StreamReader(stream);
             string text = reader.ReadToEnd();
-            TResult result = await Task.Run(() => JsonSerializer.Deserialize<TResult>(text));
+            TResult result = await Task.Run(() => JsonSerializer.Deserialize<TResult>(text, options));
             return result;
         }
 

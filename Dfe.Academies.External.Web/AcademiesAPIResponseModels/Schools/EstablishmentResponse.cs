@@ -4,6 +4,10 @@ namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 
 public class EstablishmentResponse
 {
+	//public EstablishmentResponse()
+	//{
+	//	Address = new AddressResponse();
+	//}
 
 	[JsonPropertyName("urn")]
 	public string Urn { get; set; }
@@ -14,8 +18,12 @@ public class EstablishmentResponse
 	[JsonPropertyName("establishmentName")]
 	public string Name { get; set; }
 
+	[JsonInclude]
 	public AddressResponse Address { get; set; }
 
 	[JsonPropertyName("uprn")]
 	public string UPRN { get; set; }
+
+	[JsonPropertyName("ukprn")]
+	public string Ukprn { get; set; }
 }

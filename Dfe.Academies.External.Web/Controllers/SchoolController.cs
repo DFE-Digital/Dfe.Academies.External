@@ -55,7 +55,7 @@ namespace Dfe.Academies.External.Web.Controllers
 					return Enumerable.Empty<string>();
 				}
 
-				var schoolSearch = new SchoolSearch(searchQuery, searchQuery, searchQuery);
+				var schoolSearch = new SchoolSearch(searchQuery, string.Empty, string.Empty);
 				var schoolSearchResponse = await _referenceDataRetrievalService.SearchSchools(schoolSearch);
 
 				// TODO MR:- ?? concerns casework returns a JSON array, should we do this? Depends what API returns
