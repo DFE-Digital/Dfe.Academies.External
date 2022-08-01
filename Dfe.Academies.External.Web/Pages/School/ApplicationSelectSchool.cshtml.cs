@@ -20,7 +20,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public string? SearchQuery { get; set; } = string.Empty;
 
 		[BindProperty]
-		[ConfirmSelection(ErrorMessage = "You must confirm that this is the correct school")]
+		[ConfirmTrue(ErrorMessage = "You must confirm that this is the correct school")]
 		public bool CorrectSchoolConfirmation { get; set; } = false;
 
 		public string SelectedSchoolName
