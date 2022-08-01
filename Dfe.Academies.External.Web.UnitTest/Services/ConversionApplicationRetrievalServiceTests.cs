@@ -1,14 +1,14 @@
-﻿using System.Linq;
+﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using NUnit.Framework;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Dfe.Academies.External.Web.Enums;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
@@ -178,41 +178,6 @@ internal sealed class ConversionApplicationRetrievalServiceTests
         // assert
         Assert.That(applicationContributors, Is.Not.Null);
         Assert.AreEqual(expectedCount, applicationContributors.Count, "Count is not correct");
-    }
-
-    [Test]
-    public async Task ConversionApplicationRetrievalService___GetSchool___Success()
-    {
-	    // arrange
-	    var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-	    int urn = 101003; // TODO MR:- this value hard coded in dummy data at present !!!!!!
-        int schoolId = int.MaxValue; // TODO MR:- this value hard coded in dummy data at present !!!!!!
-	    var mockFactory = new Mock<IHttpClientFactory>();
-
-	    var mockMessageHandler = new Mock<HttpMessageHandler>();
-	    mockMessageHandler.Protected()
-		    .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-		    .ReturnsAsync(new HttpResponseMessage
-		    {
-			    StatusCode = HttpStatusCode.OK,
-			    Content = new StringContent(expected)
-		    });
-
-	    var httpClient = new HttpClient(mockMessageHandler.Object);
-
-	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
-	    var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-
-	    // act
-	    var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
-	    var school = await applicationRetrievalService.GetSchool(urn);
-
-	    // assert
-	    Assert.That(school, Is.Not.Null);
-	    Assert.That(school.SchoolId, Is.EqualTo(schoolId));
-	    Assert.That(school.URN, Is.EqualTo(urn));
-        Assert.That(school.SchoolName, Is.EqualTo("Chesterton primary school"));
     }
 
     [Test]

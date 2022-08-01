@@ -8,10 +8,13 @@ namespace Dfe.Academies.External.Web.Pages.Base;
 public abstract class BasePageEditModel : BasePageModel
 {
 	private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
+	private readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
 
-	protected BasePageEditModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService)
+	protected BasePageEditModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
+								IReferenceDataRetrievalService referenceDataRetrievalService)
 	{
 		_conversionApplicationRetrievalService = conversionApplicationRetrievalService;
+		_referenceDataRetrievalService = referenceDataRetrievalService;
 	}
 
 	public async Task<ConversionApplication?> LoadAndSetApplicationDetails(int applicationId, ApplicationTypes applicationType)
@@ -28,18 +31,18 @@ public abstract class BasePageEditModel : BasePageModel
 		return applicationDetails;
 	}
 
-	public async Task<SchoolApplyingToConvert?> LoadAndSetSchoolDetails(int schoolId)
+	public async Task<SchoolApplyingToConvert?> LoadAndSetSchoolDetails(int applicationId, int schoolId)
 	{
-		var schoolDetails = await _conversionApplicationRetrievalService.GetSchool(schoolId);
+		var schoolDetails = await _referenceDataRetrievalService.GetSchool(schoolId);
 
 		if (schoolDetails != null)
 		{
-			SchoolCacheValuesViewModel cachedValuesViewModel = new(schoolDetails.SchoolId, schoolDetails.SchoolName);
+			SchoolCacheValuesViewModel cachedValuesViewModel = new(schoolDetails.Urn, schoolDetails.Name);
 
 			ViewDataHelper.StoreSerialisedValue(nameof(SchoolCacheValuesViewModel), ViewData, cachedValuesViewModel);
 		}
 
-		return schoolDetails;
+		return new SchoolApplyingToConvert(schoolDetails.Name, schoolDetails.Urn, applicationId, schoolDetails.Ukprn);
 	}
 
 	protected string SetSchoolApplicationComponentUriFromName(string componentName)

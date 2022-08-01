@@ -22,7 +22,10 @@ namespace Dfe.Academies.External.Web.Pages
 
         public List<ApplicationComponentViewModel> Components { get; set; } = new();
 
-        public SchoolOverviewModel(ILogger<SchoolOverviewModel> logger, IConversionApplicationRetrievalService conversionApplicationRetrievalService) : base(conversionApplicationRetrievalService)
+        public SchoolOverviewModel(ILogger<SchoolOverviewModel> logger, 
+									IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+									IReferenceDataRetrievalService referenceDataRetrievalService) 
+	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
         {
 	        _logger = logger;
 	        _conversionApplicationRetrievalService = conversionApplicationRetrievalService;
@@ -39,9 +42,9 @@ namespace Dfe.Academies.External.Web.Pages
 		        TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 		        var conversionApplication = await LoadAndSetApplicationDetails(draftConversionApplication.Id, draftConversionApplication.ApplicationType);
 
-                // TODO MR:- get SchoolId from cache
+                // TODO MR:- get SchoolId / ApplicationId from cache
                 // var schoolCacheViewModel = ViewDataHelper.GetSerialisedValue<SchoolCacheValuesViewModel>(nameof(SchoolCacheValuesViewModel), ViewData) ?? new SchoolCacheValuesViewModel();
-                var selectedSchool = await LoadAndSetSchoolDetails(99);
+                var selectedSchool = await LoadAndSetSchoolDetails(99,99);
 
                 // Grab other values from API
                 if (selectedSchool != null)

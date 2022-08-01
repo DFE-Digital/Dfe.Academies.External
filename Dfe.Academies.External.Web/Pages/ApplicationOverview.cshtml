@@ -59,7 +59,7 @@
 				}
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell govuk-!-text-align-right">
-						<a asp-page="ApplicationSelectSchool" class="govuk-button govuk-button--secondary" data-module="govuk-button">Add a school</a>
+						<a asp-page="school/applicationselectschool" class="govuk-button" data-module="govuk-button">Add a school</a>
 					</td>
 				</tr>
 			}
@@ -83,7 +83,7 @@
             @if (string.IsNullOrWhiteSpace(Model.NameOfTrustToJoin)){
                 <tr class="govuk-table__row">
                     <td class="govuk-table__cell govuk-!-text-align-right">
-                        <a asp-page="ApplicationSelectTrust" class="govuk-button govuk-button--secondary" data-module="govuk-button">Add a trust</a>
+                        <a asp-page="trust/ApplicationSelectTrust" class="govuk-button govuk-button--secondary" data-module="govuk-button">Add a trust</a>
                     </td>
                 </tr>
             }

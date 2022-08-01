@@ -1,4 +1,4 @@
-﻿using System;
+﻿using AutoFixture;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.Extensions.Logging;
@@ -9,7 +9,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoFixture;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
@@ -138,7 +137,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 	    var httpClient = new HttpClient(mockMessageHandler.Object);
 
-	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
 	    var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
 	    int applicationId = Fixture.Create<int>();
@@ -174,7 +173,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 	    var httpClient = new HttpClient(mockMessageHandler.Object);
 
-	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
 	    var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
 	    int applicationId = Fixture.Create<int>();

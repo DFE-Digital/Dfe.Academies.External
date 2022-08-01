@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="GovUk.Frontend.AspNetCore" Version="0.5.1" />
+    <PackageReference Include="jQuery.Validation" Version="1.19.5" />
   </ItemGroup>
 
   <ItemGroup>

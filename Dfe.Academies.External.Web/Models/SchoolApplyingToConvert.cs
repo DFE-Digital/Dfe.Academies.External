@@ -7,7 +7,7 @@ public class SchoolApplyingToConvert
 		SchoolName = schoolName;
 		UKPRN = ukprn;
 		URN = urn;
-        ApplicationId =applicationId;
+        ApplicationId = applicationId;
 	}
 
 	/// <summary>
@@ -28,6 +28,8 @@ public class SchoolApplyingToConvert
 	public string? UKPRN { get; set; }
 
     public string SchoolName { get; set; }
+
+    public Address Address { get; set; }
 
     public List<ConversionApplicationComponent> SchoolApplicationComponents { get; set; } = new();
 
