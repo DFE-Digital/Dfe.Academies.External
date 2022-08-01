@@ -50,16 +50,16 @@ namespace Dfe.Academies.External.Web.Controllers
 				// Double check search query.
 				if (string.IsNullOrEmpty(searchQuery) || searchQuery.Length < SearchQueryMinLength)
 				{
-					// TODO MR:- ?? concerns casework returns a JSON array, should we do this? Depends what API returns
-                    //return new JsonResult(Array.Empty<SchoolSearchResultViewModel>());
+					// TODO MR:- ?? concerns casework returns a JSON array, should we do this?
+                    // return new JsonResult(Array.Empty<SchoolSearchResultViewModel>());
 					return Enumerable.Empty<string>();
 				}
 
 				var schoolSearch = new SchoolSearch(searchQuery, searchQuery);
 				var schoolSearchResponse = await _referenceDataRetrievalService.SearchSchools(schoolSearch);
 
-				// TODO MR:- ?? concerns casework returns a JSON array, should we do this? Depends what API returns
-				//return new JsonResult(schoolSearchResponse);
+				// TODO MR:- ?? concerns casework returns a JSON array, should we do this?
+				// return new JsonResult(schoolSearchResponse);
 
 				if (schoolSearchResponse.Any())
 				{
@@ -76,7 +76,7 @@ namespace Dfe.Academies.External.Web.Controllers
 
 				// TODO MR:- ?? concerns casework returns below which makes sense.
 				// Would need to amend controller method to return Task<ActionResult>
-				//return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+				// return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
 				return Enumerable.Empty<string>();
 			}
 		}
