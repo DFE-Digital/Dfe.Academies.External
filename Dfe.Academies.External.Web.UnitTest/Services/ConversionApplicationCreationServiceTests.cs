@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using NUnit.Framework;
-using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -17,7 +16,6 @@ namespace Dfe.Academies.External.Web.UnitTest.Services;
 internal sealed class ConversionApplicationCreationServiceTests
 {
 	private static readonly Fixture Fixture = new();
-	private const string testUrl = APIConstants.AcademisationAPITestUrl;
 
     //[Test]
     public async Task CreateNewApplication___Success()
@@ -138,10 +136,6 @@ internal sealed class ConversionApplicationCreationServiceTests
 		    });
 
 	    var httpClient = new HttpClient(mockMessageHandler.Object);
-	    httpClient.BaseAddress = new Uri(testUrl);
-        // default headers would be:-
-        // client.DefaultRequestHeaders.Add("ApiKey", tramsApiKey);
-        // client.DefaultRequestHeaders.Add("ContentType", MediaTypeNames.Application.Json);
 
         mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
@@ -178,10 +172,6 @@ internal sealed class ConversionApplicationCreationServiceTests
 		    });
 
 	    var httpClient = new HttpClient(mockMessageHandler.Object);
-	    httpClient.BaseAddress = new Uri(testUrl);
-	    // default headers would be:-
-	    // client.DefaultRequestHeaders.Add("ApiKey", tramsApiKey);
-	    // client.DefaultRequestHeaders.Add("ContentType", MediaTypeNames.Application.Json);
 
         mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
