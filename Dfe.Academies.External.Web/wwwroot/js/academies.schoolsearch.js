@@ -13,12 +13,12 @@
 *                  && $.validator() && $(this).valid() - for clientside validation
 */
 
-var A2C = window.A2C || {};
+var academies = window.academies || {};
 
 let debounceTimeout;
 
 $(function () {
-    A2C.searchSchools();
+    academies.searchSchools();
 
     $('.js-hide').addClass("js-invisible");
     $('.js-show').show();
@@ -26,10 +26,10 @@ $(function () {
     document.getElementById("ConfirmSelection").checked = false;
     document.getElementById("SearchQueryInput").value = "";
 
-    A2C.addCustomerClientSideValidators();
+    academies.addCustomerClientSideValidators();
 
     $("#SearchQueryInput").focusin(function () {
-	    A2C.clearResults();
+	    academies.clearResults();
     });
 
     // MR:- accessibleAutocomplete clones original control - so hide original
@@ -37,33 +37,33 @@ $(function () {
 });
 
 // MR:- similar to concerns casework clearing down controls
-A2C.clearResults = function () {
+academies.clearResults = function () {
     $("#schoolSelectedDetails").empty();
     $("#autocomplete-container").empty();
     // MR:- from concerns casework - not sure what this is for !
 	//// $(".autocomplete__menu").addClass("autocomplete__menu--hidden");
 };
 
-A2C.unhideSelectedSchoolSectionAndConfirmCheckbox = function () {
-    A2C.unhideElement("schoolSelectedDetails");
-    A2C.unhideElement("confirm-school-label");
+academies.unhideSelectedSchoolSectionAndConfirmCheckbox = function () {
+    academies.unhideElement("schoolSelectedDetails");
+    academies.unhideElement("confirm-school-label");
 
     const elementToManipulate = document.getElementById("ConfirmSelection");
     elementToManipulate.classList.remove("hideElement");
 };
 
-A2C.hideElement = function (elementName) {
+academies.hideElement = function (elementName) {
 	const elementToManipulate = document.getElementById(elementName);
 	elementToManipulate.classList.add("hideElement");
 };
 
-A2C.unhideElement = function (elementName) {
+academies.unhideElement = function (elementName) {
     const elementToManipulate = document.getElementById(elementName);
     elementToManipulate.classList.remove("hideElement");
     elementToManipulate.classList.add("unHideElement");
 };
 
-A2C.searchSchools = function () {
+academies.searchSchools = function () {
 	let autocompleteContainer = document.getElementById("autocomplete-container"); // MR:- this is just a plain old DIV
     const input = $("#SearchQueryInput"); // MR:- this is input type=text, which gets cloned
 
@@ -79,7 +79,7 @@ A2C.searchSchools = function () {
 	        //// input.attr("aria-valuetext", trustUkprn);
             input.val(selectedValue);
 
-            A2C.renderSchoolSearchOption(selectedValue);
+            academies.renderSchoolSearchOption(selectedValue);
 
             let originalSearchInput = $("#autocomplete-container #SearchQueryInput");
             originalSearchInput.val(selectedValue);
@@ -90,7 +90,7 @@ A2C.searchSchools = function () {
     });
 };
 
-A2C.renderSchoolSearchOption = function (selectedValue) {
+academies.renderSchoolSearchOption = function (selectedValue) {
     // get full school record from an endpoint
     // render partial & set results DIV HTML
     // unhide selected school section of screen
@@ -99,25 +99,25 @@ A2C.renderSchoolSearchOption = function (selectedValue) {
         type: 'GET',
         data: { 'selectedSchool': selectedValue }, // selected value will be in the format 'Wise owl primary school (587634)'
         success: function (response) {
-	        A2C.renderSelectedSchool(response);
-            A2C.unhideSelectedSchoolSectionAndConfirmCheckbox();
-            A2C.clearErrorBars(); // clear any existing name not input err
+	        academies.renderSelectedSchool(response);
+            academies.unhideSelectedSchoolSectionAndConfirmCheckbox();
+            academies.clearErrorBars(); // clear any existing name not input err
         }
     });
 };
 
-A2C.renderSelectedSchool = function (responseHtml) {
+academies.renderSelectedSchool = function (responseHtml) {
     $('#schoolSelectedDetails').html(responseHtml);
 };
 
 function debounceSuggest(query, syncResults) {
     clearTimeout(debounceTimeout);
     debounceTimeout = setTimeout(() => {
-	    A2C.GetSchoolSearchResults(query, syncResults);
+	    academies.GetSchoolSearchResults(query, syncResults);
     }, 500);
 }
 
-A2C.GetSchoolSearchResults = function(query, syncResults) {
+academies.GetSchoolSearchResults = function(query, syncResults) {
 	$.ajax({
 		url: 'school/Search',
 		type: 'GET',
@@ -133,14 +133,14 @@ A2C.GetSchoolSearchResults = function(query, syncResults) {
 	});
 };
 
-A2C.addCustomerClientSideValidators = function() {
+academies.addCustomerClientSideValidators = function() {
     /* Add Confirm checkbox Custom Validation config ! */
     $.validator.addMethod("confirmselection", function (value, element) {
 	    // MR:- value = useless for a checkbox!
         const checkboxCheckedValue = document.getElementById(element.id).checked; 
 
         if (checkboxCheckedValue !== true) {
-            A2C.addConfirmValidationMessage();
+            academies.addConfirmValidationMessage();
             return false;
         } else {
             return true;
@@ -159,17 +159,17 @@ A2C.addCustomerClientSideValidators = function() {
 	                //check selected school control
                     const selectedSchool = document.getElementById("SearchQueryInput").value;
                     if (selectedSchool.trim().length === 0) {
-                        A2C.addSearchQueryValidationMessage("You must choose a school from the list");
+                        academies.addSearchQueryValidationMessage("You must choose a school from the list");
 	                    return false;
                     } else {
 	                    return true;
                     }
                 } else {
-	                A2C.addSearchQueryValidationMessage("Search must be more than 4 characters");
+	                academies.addSearchQueryValidationMessage("Search must be more than 4 characters");
 		            return false;
 	            }
             } else {
-                A2C.addSearchQueryValidationMessage("You must give the name of the school");
+                academies.addSearchQueryValidationMessage("You must give the name of the school");
 	            return false;
             }
         });
@@ -180,7 +180,7 @@ A2C.addCustomerClientSideValidators = function() {
 	    });
 };
 
-A2C.clearErrorBars = function () {
+academies.clearErrorBars = function () {
     if (document.getElementById("SearchQueryContainer").classList.contains("govuk-form-group--error")) {
 	    document.getElementById("SearchQueryContainer").classList.remove("govuk-form-group--error");
     }
@@ -194,8 +194,8 @@ A2C.clearErrorBars = function () {
     }
 };
 
-A2C.addSearchQueryValidationMessage = function (errorMessage) {
-	A2C.clearErrorBars();
+academies.addSearchQueryValidationMessage = function (errorMessage) {
+	academies.clearErrorBars();
 
     // TODO MR:- this always errors, but no idea why at this point !!!!!
     //id="SearchQueryInput-error" = span
@@ -207,17 +207,17 @@ A2C.addSearchQueryValidationMessage = function (errorMessage) {
     elementToManipulate.classList.add("govuk-form-group--error");
 };
 
-A2C.addConfirmValidationMessage = function () {
-	A2C.clearErrorBars();
+academies.addConfirmValidationMessage = function () {
+	academies.clearErrorBars();
 
-    A2C.unhideElement("ConfirmationErrorContainer");
+    academies.unhideElement("ConfirmationErrorContainer");
     // MR:- add left bar
     const elementToManipulate = document.getElementById("confirm-school-checkbox");
     elementToManipulate.classList.add("govuk-form-group--error");
 };
 
-A2C.clientSideValidation = function () {
-    A2C.addcomplexCustomerValidators();
+academies.clientSideValidation = function () {
+    academies.addcomplexCustomerValidators();
 
 	var form = $("#search-form");
 	form.validate();
@@ -229,8 +229,8 @@ A2C.clientSideValidation = function () {
 	}
 };
 
-A2C.clearCheckboxValidation = function (checked) {
+academies.clearCheckboxValidation = function (checked) {
 	if (checked === true) {
-		A2C.clearErrorBars();
+		academies.clearErrorBars();
 	}
 };
