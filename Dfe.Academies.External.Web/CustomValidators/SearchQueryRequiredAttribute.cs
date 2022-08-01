@@ -10,7 +10,7 @@ public sealed class SearchQueryRequiredAttribute : ValidationAttribute, IClientM
 {
 	private const short MinimumLength = 4;
 
-	protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+	protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
 	{
 		string? elementValue = Convert.ToString(value);
 
@@ -19,7 +19,7 @@ public sealed class SearchQueryRequiredAttribute : ValidationAttribute, IClientM
 			return new ValidationResult(ErrorMessage);
 		}
 		else
-			return ValidationResult.Success;
+			return ValidationResult.Success!;
 	}
 
 	public void AddValidation(ClientModelValidationContext context)
