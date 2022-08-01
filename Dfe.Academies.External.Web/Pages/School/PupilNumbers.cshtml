@@ -28,9 +28,24 @@
 				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>
+				
+				TODO MR:- other inputs - PAN ! SchoolCapacityPublishedAdmissionsNumber
 
 				<div class="govuk-form-group">
-					TODO MR:- other inputs !
+					<label for="ProjectedPupilNumbersYear1" class="govuk-label">What is the projected pupil number for the academy's first year?</label>
+					<input type="number" asp-for="ProjectedPupilNumbersYear1" id="ProjectedPupilNumbersYear1" class="govuk-input govuk-input--width-20"/>
+				</div>
+				<div class="govuk-form-group">
+					<label for="ProjectedPupilNumbersYear2" class="govuk-label">What is the projected pupil number for the academy's second year?</label>
+					<input type="number" asp-for="ProjectedPupilNumbersYear2" id="ProjectedPupilNumbersYear2" class="govuk-input govuk-input--width-20"/>
+				</div>
+				<div class="govuk-form-group">
+					<label for="ProjectedPupilNumbersYear3" class="govuk-label">What is the projected pupil number for the academy's third year?</label>
+					<input type="number" asp-for="ProjectedPupilNumbersYear3" id="ProjectedPupilNumbersYear3" class="govuk-input govuk-input--width-20"/>
+				</div>
+				<div class="govuk-form-group">
+					<label for="SchoolCapacityAssumptions" class="govuk-label">What are your projected pupil numbers based on?</label>
+					<textarea asp-for="SchoolCapacityAssumptions" id="SchoolCapacityAssumptions" class="govuk-input govuk-input--width-20" cols="40" rows="5"></textarea>
 				</div>
 			</fieldset>
 		</div>
