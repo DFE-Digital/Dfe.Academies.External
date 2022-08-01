@@ -29,11 +29,19 @@ builder.Services
 			.AllowAnonymousToPage("/ApplicationOverview")
 			.AllowAnonymousToPage("/WhatIsYourRole")
 			.AllowAnonymousToPage("/SchoolOverview")
-			;
+			.AllowAnonymousToPage("/school/ApplicationSelectSchool");
+	})
+	.AddViewOptions(options =>
+	{
+		options.HtmlHelperOptions.ClientValidationEnabled = true;
 	})
 	.AddRazorPagesOptions(options =>
 	{
 		options.Conventions.Add(new PageRouteTransformerConvention(new HyphenateRouteParameterTransformer()));
+	})
+	.AddMvcOptions(options =>
+	{
+		options.MaxModelValidationErrors = 50;
 	});
 
 builder.Services.AddAuthentication(options =>
@@ -114,6 +122,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+// MR:- need below because search methods are in a controller !
+app.MapControllers();
 
 app.UseSession();
 

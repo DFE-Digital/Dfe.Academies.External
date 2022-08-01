@@ -52,7 +52,8 @@ namespace Dfe.Academies.External.Web.Pages
 
         public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger, 
 										IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-										IReferenceDataRetrievalService referenceDataRetrievalService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+										IReferenceDataRetrievalService referenceDataRetrievalService
+        ) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
         {
             _logger = logger;
             _conversionApplicationRetrievalService = conversionApplicationRetrievalService;
