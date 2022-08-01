@@ -17,22 +17,14 @@ namespace Dfe.Academies.External.Shared.Tests.Factory
 			return new List<EstablishmentSummaryDto> { new (Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>()) };
 		}
 
-		public static EstablishmentDto BuildEstablishmentDto(string schoolCapacity = "1000")
+		public static EstablishmentDto BuildEstablishmentDto()
 		{
 			return new EstablishmentDto(
 				Fixture.Create<string>(),
 				Fixture.Create<string>(),
 				Fixture.Create<string>(),
-				Fixture.Create<string>(),
-				Fixture.Create<string>(),
-				Fixture.Create<string>(),
-				Fixture.Create<string>(),
-				Fixture.Create<string>(),
-				Fixture.Create<EstablishmentTypeDto>(),
-				BuildCensusDto(),
-				Fixture.Create<string>(),
-				schoolCapacity
-				);
+				Fixture.Create<EstablishmentTypeDto>()
+			);
 		}
 
 		public static List<EstablishmentDto> BuildListEstablishmentDto()
@@ -41,11 +33,6 @@ namespace Dfe.Academies.External.Shared.Tests.Factory
 			{
 				BuildEstablishmentDto()
 			};
-		}
-	
-		public static CensusDto BuildCensusDto(string numberOfPupils = "100")
-		{
-			return new CensusDto(numberOfPupils);
 		}
 	}
 }

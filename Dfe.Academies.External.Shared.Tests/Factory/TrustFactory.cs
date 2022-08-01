@@ -18,8 +18,7 @@ namespace Dfe.Academies.External.Shared.Tests.Factory
 					GroupName = fixture.Create<string>(),
 					CompaniesHouseNumber = fixture.Create<string>(),
 					TrustType = fixture.Create<string>(),
-					GroupContactAddress = GroupContactAddressFactory.BuildGroupContactAddressDto(),
-					Establishments = EstablishmentFactory.BuildListEstablishmentSummaryDto()
+					GroupContactAddress = GroupContactAddressFactory.BuildGroupContactAddressDto()
 				}
 			};
 		}
@@ -33,8 +32,7 @@ namespace Dfe.Academies.External.Shared.Tests.Factory
 		{
 			return new TrustDetailsDto(
 				GiasDataFactory.BuildGiasDataDto(ukPrn),
-				IfdDataFactory.BuildIfdDataDto(),
-				EstablishmentFactory.BuildListEstablishmentDto());
+				IfdDataFactory.BuildIfdDataDto());
 		}
 	}
 }
