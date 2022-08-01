@@ -1,0 +1,54 @@
+﻿using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Dfe.Academies.External.Web.Controllers
+{
+    public class BaseController : Controller
+    {
+        public const int SearchQueryMinLength = 3;
+        private readonly ILogger<BaseController> _logger;
+        public readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
+        public readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
+
+        public BaseController(ILogger<BaseController> logger,
+                                IReferenceDataRetrievalService referenceDataRetrievalService,
+                                IConversionApplicationRetrievalService conversionApplicationRetrievalService)
+        {
+            _logger = logger;
+            _referenceDataRetrievalService = referenceDataRetrievalService;
+            _conversionApplicationRetrievalService = conversionApplicationRetrievalService; 
+        }
+
+        protected IActionResult CatchErrorAndRedirect(Exception ex)
+        {
+            _logger.LogError("BaseController::CatchErrorAndRedirect::Exception - {Message}", ex.Message);
+            return RedirectToAction("Error", "academies");
+        }
+
+        protected async Task<ApplicationCacheValuesViewModel> LoadAndSetApplicationDetails(int applicationId)
+        {
+            ApplicationCacheValuesViewModel cachedValuesViewModel = null;
+            var applicationDetails = await _conversionApplicationRetrievalService.GetApplication(applicationId, Enums.ApplicationTypes.FormNewMat);
+
+            if (applicationDetails != null)
+            {
+                cachedValuesViewModel = new(applicationDetails.Id, applicationDetails.ApplicationType, 
+                                                                            applicationDetails.ApplicationReference);
+
+                ViewDataHelper.StoreSerialisedValue(nameof(ApplicationCacheValuesViewModel), ViewData, cachedValuesViewModel);
+            }
+
+            if (applicationId !=0)
+            {
+                if (applicationDetails != null)
+                {
+                    //applicationDetails = EntityToModelMapper.ApplicationResponseToBaseApplicationDetails(CurrentApplication);
+                    //ViewData[Constants.CurrentUserViewDataKey] = User.GetUserId();
+                }
+            }
+
+            return cachedValuesViewModel;
+        }
+    }
+}
