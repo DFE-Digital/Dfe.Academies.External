@@ -8,12 +8,10 @@ namespace Dfe.Academies.External.Web.Pages.School
     public class PupilNumbersModel : BasePageEditModel
     {
         private readonly ILogger<PupilNumbersModel> _logger;
-        private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
         private readonly IConversionApplicationCreationService _academisationCreationService;
         private const string NextStepPage = "/SchoolOverview";
 
         //// MR:- selected school props for UI rendering
-
         public int SchoolId { get; private set; }
 
         public string SchoolName { get; private set; } = string.Empty;
@@ -25,15 +23,16 @@ namespace Dfe.Academies.External.Web.Pages.School
         public int ProjectedPupilNumbersYear1 { get; set; }
         public int ProjectedPupilNumbersYear2 { get; set; }
         public int ProjectedPupilNumbersYear3 { get; set; }
-        public string SchoolCapacityAssumptions { get; set; }
+        public string SchoolCapacityAssumptions { get; set; } = string.Empty;
 
 
-        public PupilNumbersModel(ILogger<PupilNumbersModel> logger, 
-                                IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-                                IConversionApplicationCreationService academisationCreationService) : base(conversionApplicationRetrievalService)
+        public PupilNumbersModel(ILogger<PupilNumbersModel> logger,
+						        IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+						        IReferenceDataRetrievalService referenceDataRetrievalService,
+                                IConversionApplicationCreationService academisationCreationService) 
+	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
         {
             _logger = logger;
-            _conversionApplicationRetrievalService = conversionApplicationRetrievalService;
             _academisationCreationService = academisationCreationService;
         }
 
@@ -69,7 +68,7 @@ namespace Dfe.Academies.External.Web.Pages.School
                 var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
                 // TODO MR:- call API endpoint to log pupil numbers
-                //await _academisationCreationService.UpdateDraftApplication(draftConversionApplication);
+                //await _academisationCreationService.UpdateSchoolPupilNumbers(draftConversionApplication);
 
                 // update temp store for next step - application overview
                 TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
