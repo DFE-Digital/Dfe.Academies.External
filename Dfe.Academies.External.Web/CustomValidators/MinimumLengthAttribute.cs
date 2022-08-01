@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Dfe.Academies.External.Web.CustomValidators;
 
 [AttributeUsage(AttributeTargets.Property)]
-public sealed class SearchQueryRequiredAttribute : ValidationAttribute, IClientModelValidator
+public sealed class MinimumLengthAttribute : ValidationAttribute, IClientModelValidator
 {
 	private const short MinimumLength = 4;
 
