@@ -2,16 +2,21 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-    public class PupilNumbersModel : BasePageEditModel
+	public class PupilNumbersModel : BasePageEditModel
     {
         private readonly ILogger<PupilNumbersModel> _logger;
         private readonly IConversionApplicationCreationService _academisationCreationService;
         private const string NextStepPage = "/SchoolOverview";
 
         //// MR:- selected school props for UI rendering
+        [BindProperty]
+        public int ApplicationId { get; set; }
+
+        [BindProperty]
         public int SchoolId { get; private set; }
 
         public string SchoolName { get; private set; } = string.Empty;
@@ -19,11 +24,26 @@ namespace Dfe.Academies.External.Web.Pages.School
         public string ApplicationReferenceNumber { get; private set; } = string.Empty;
 
         //// MR:- VM props to capture pupil numbers data
-        public int SchoolCapacityPublishedAdmissionsNumber { get; set; }
-        public int ProjectedPupilNumbersYear1 { get; set; }
-        public int ProjectedPupilNumbersYear2 { get; set; }
-        public int ProjectedPupilNumbersYear3 { get; set; }
-        public string SchoolCapacityAssumptions { get; set; } = string.Empty;
+
+        [BindProperty]
+		[Required(ErrorMessage = "You must give the school's published admissions number (PAN)")]
+        public int? SchoolCapacityPublishedAdmissionsNumber { get; set; }
+
+        [BindProperty]
+        [Required(ErrorMessage = "You must give the projected pupil number for the academy's first year")]
+        public int? ProjectedPupilNumbersYear1 { get; set; }
+
+        [BindProperty]
+        [Required(ErrorMessage = "You must give the projected pupil number for the academy's second year")]
+        public int? ProjectedPupilNumbersYear2 { get; set; }
+
+        [BindProperty]
+        [Required(ErrorMessage = "You must give the projected pupil number for the academy's third year")]
+        public int? ProjectedPupilNumbersYear3 { get; set; }
+
+        [BindProperty]
+        [Required(ErrorMessage = "You must give what your projected pupil numbers based on")]
+        public string? SchoolCapacityAssumptions { get; set; } = string.Empty;
 
 
         public PupilNumbersModel(ILogger<PupilNumbersModel> logger,
@@ -38,7 +58,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
         public async Task OnGetAsync()
         {
-            // TODO MR:- grab existing pupil numbers
+            // TODO MR:- grab existing pupil numbers - applicationId && SchoolId combination !
             try
             {
                 //// on load - grab draft application from temp
