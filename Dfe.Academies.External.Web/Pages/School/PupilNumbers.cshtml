@@ -17,19 +17,21 @@
 	</p>
 
 	<form method="post" name="frmPupilNumbers" novalidate="">
-			@Html.AntiForgeryToken()
-			<input type="hidden" value="@Model.SchoolId"/>
-			<partial name="_HiddenFields"/>
+		@Html.AntiForgeryToken()
+		<input type="hidden" value="@Model.SchoolId"/>
+		<partial name="_HiddenFields"/>
 
-			<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
-			<h1 class="govuk-heading-l">Future pupil numbers</h1>
+		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 			<fieldset class="govuk-fieldset">
-				<legend id="role-hint" class="govuk-fieldset__legend">What is your role?</legend>
+				<legend id="role-hint" class="govuk-fieldset__legend">Future pupil numbers</legend>
 				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>
 				
-				TODO MR:- other inputs - PAN ! SchoolCapacityPublishedAdmissionsNumber
+				<div class="govuk-form-group">
+					<label for="SchoolCapacityPublishedAdmissionsNumber" class="govuk-label">What is the school's published admissions number (PAN) ?</label>
+					<input type="number" asp-for="SchoolCapacityPublishedAdmissionsNumber" id="SchoolCapacityPublishedAdmissionsNumber" class="govuk-input govuk-input--width-20"/>
+				</div>
 
 				<div class="govuk-form-group">
 					<label for="ProjectedPupilNumbersYear1" class="govuk-label">What is the projected pupil number for the academy's first year?</label>
@@ -52,5 +54,4 @@
 		<br/>
 		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 	</form>
-	
 </div>

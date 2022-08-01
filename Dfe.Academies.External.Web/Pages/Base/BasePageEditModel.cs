@@ -54,7 +54,7 @@ public abstract class BasePageEditModel : BasePageModel
 			case "performance and safeguarding":
 				return "/ApplicationSchoolPerformanceAndSafeguarding";
 			case "pupil numbers":
-				return "/ApplicationSchoolPupilNumbers";
+				return "School/PupilNumbers";
 			case "finances":
 				return "/ApplicationSchoolFinances";
 			case "partnerships and affiliations":
