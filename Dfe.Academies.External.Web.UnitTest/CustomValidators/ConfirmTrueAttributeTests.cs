@@ -3,13 +3,13 @@ using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.CustomValidators;
 
-internal sealed class ConfirmSelectionAttributeTests
+internal sealed class ConfirmTrueAttributeTests
 {
 	[Test]
-	public void ConfirmSelectionAttribute___Success___ReturnsTrue()
+	public void ConfirmTrueAttribute___Success___ReturnsTrue()
 	{
 		// arrange
-		var searchQueryRequiredAttribute = new ConfirmSelectionAttribute();
+		var searchQueryRequiredAttribute = new ConfirmTrueAttribute();
 
 		// act
 		var result = searchQueryRequiredAttribute.IsValid(true);
@@ -20,10 +20,10 @@ internal sealed class ConfirmSelectionAttributeTests
 	}
 
 	[Test]
-	public void ConfirmSelectionAttribute___Success___ReturnsFalse()
+	public void ConfirmTrueAttribute___Success___ReturnsFalse()
 	{
 		// arrange
-		var searchQueryRequiredAttribute = new ConfirmSelectionAttribute();
+		var searchQueryRequiredAttribute = new ConfirmTrueAttribute();
 
 		// act
 		var result = searchQueryRequiredAttribute.IsValid(false);
@@ -34,10 +34,10 @@ internal sealed class ConfirmSelectionAttributeTests
 	}
 
 	[Test]
-	public void ConfirmSelectionAttribute___NonBoolean___ReturnsFalse()
+	public void ConfirmTrueAttribute___NonBoolean___ReturnsFalse()
 	{
 		// arrange
-		var searchQueryRequiredAttribute = new ConfirmSelectionAttribute();
+		var searchQueryRequiredAttribute = new ConfirmTrueAttribute();
 
 		// act
 		var result = searchQueryRequiredAttribute.IsValid(null);

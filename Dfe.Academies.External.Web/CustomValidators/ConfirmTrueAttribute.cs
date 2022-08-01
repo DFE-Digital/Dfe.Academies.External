@@ -7,14 +7,14 @@ using System.ComponentModel.DataAnnotations;
 namespace Dfe.Academies.External.Web.CustomValidators;
 
 [AttributeUsage(AttributeTargets.Property)]
-public sealed class ConfirmSelectionAttribute : ValidationAttribute, IClientModelValidator
+public sealed class ConfirmTrueAttribute : ValidationAttribute, IClientModelValidator
 {
-	protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+	protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
 	{
 		if (!Convert.ToBoolean(value))
 			return new ValidationResult(ErrorMessage);
 		else
-			return ValidationResult.Success;
+			return ValidationResult.Success!;
 	}
 
 	// below inherited from IClientValidatable ??
