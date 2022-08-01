@@ -23,11 +23,12 @@ namespace Dfe.Academies.External.Web.Controllers
 
 		[HttpGet]
 		[Route("school/SchoolOverview/{appId}/{applyingSchoolId}")]
-		[Route("school/school/SchoolOverview")]
+		[Route("school/school/school-overview")]
 		public async Task<IActionResult> Overview(int appId, int applyingSchoolId)
 		{
 			try
 			{
+				// TODO MR:- drop appId && applyingSchoolId into cache !!
 				return View("SchoolOverview");
 			}
 			catch (Exception ex)
