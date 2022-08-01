@@ -1,5 +1,5 @@
 ﻿using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
-using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Base;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Trusts;
 using Dfe.Academies.External.Web.ViewModels;
 
