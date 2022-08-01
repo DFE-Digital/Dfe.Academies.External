@@ -50,21 +50,21 @@ public abstract class BasePageEditModel : BasePageModel
 		switch (componentName.ToLower().Trim())
 		{
 			case "contact details":
-				return "/ApplicationSchoolContactDetails";
+				return "/school/ApplicationSchoolContactDetails";
 			case "performance and safeguarding":
-				return "/ApplicationSchoolPerformanceAndSafeguarding";
+				return "/school/ApplicationSchoolPerformanceAndSafeguarding";
 			case "pupil numbers":
-				return "School/PupilNumbers";
+				return "/school/PupilNumbers";
 			case "finances":
-				return "/ApplicationSchoolFinances";
+				return "/school/ApplicationSchoolFinances";
 			case "partnerships and affiliations":
-				return "/ApplicationSchoolPartnershipsAndAffliates";
+				return "/school/ApplicationSchoolPartnershipsAndAffliates";
 			case "religious education":
-				return "/ApplicationSchoolReligiousEducation";
+				return "/school/ApplicationSchoolReligiousEducation";
 			case "land and buildings":
-				return "/ApplicationSchoolLandAndBuildings";
+				return "/school/ApplicationSchoolLandAndBuildings";
 			case "local authority":
-				return "/ApplicationSchoolLocalAuthority";
+				return "/school/ApplicationSchoolLocalAuthority";
 			default:
 				return string.Empty;
 		}

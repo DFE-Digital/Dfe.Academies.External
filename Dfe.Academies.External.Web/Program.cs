@@ -29,7 +29,8 @@ builder.Services
 			.AllowAnonymousToPage("/ApplicationOverview")
 			.AllowAnonymousToPage("/WhatIsYourRole")
 			.AllowAnonymousToPage("/SchoolOverview")
-			.AllowAnonymousToPage("/school/ApplicationSelectSchool");
+			.AllowAnonymousToPage("/school/ApplicationSelectSchool")
+			.AllowAnonymousToPage("/school/PupilNumbers");
 	})
 	.AddViewOptions(options =>
 	{
