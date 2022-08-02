@@ -1,5 +1,5 @@
 ﻿using AutoFixture;
-using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.AcademiesAPIResponseModels;
@@ -20,7 +20,7 @@ internal sealed class EstablishmentResponseTests
 		string town = Fixture.Create<string>();
 		string fullUkPostcode = Fixture.Create<string>();
 		
-		var establishmentResponse = new EstablishmentResponse(schoolName, urn, ukprn, street, town, fullUkPostcode);
+		var establishmentResponse = new EstablishmentResponse(schoolName, urn.ToString(), ukprn, street, town, fullUkPostcode);
 
 		// act
 		// nothing!
@@ -28,7 +28,7 @@ internal sealed class EstablishmentResponseTests
 		// assert
 		Assert.That(establishmentResponse, Is.Not.Null);
 		Assert.That(establishmentResponse.Name, Is.EqualTo(schoolName));
-		Assert.That(establishmentResponse.Urn, Is.EqualTo(urn));
+		Assert.That(establishmentResponse.Urn, Is.EqualTo(urn.ToString()));
 		Assert.That(establishmentResponse.Ukprn, Is.EqualTo(ukprn));
 		Assert.That(establishmentResponse.Address.Street, Is.EqualTo(street));
 		Assert.That(establishmentResponse.Address.Town, Is.EqualTo(town));
