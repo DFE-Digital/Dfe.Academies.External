@@ -26,9 +26,4 @@
     <ProjectReference Include="..\Dfe.Academies.External.Web\Dfe.Academies.External.Web.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="AcademiesAPIResponseModels\" />
-    <Folder Include="TagHelpers\" />
-  </ItemGroup>
-
 </Project>
