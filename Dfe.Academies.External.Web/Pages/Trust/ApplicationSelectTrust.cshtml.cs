@@ -82,7 +82,46 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 		    }
 	    }
 
-	    public async Task<IActionResult> OnPostFind()
+	    [ValidateAntiForgeryToken]
+	    public async Task<ActionResult> OnPostAddTrust()
+	    {
+		    if (!ModelState.IsValid)
+		    {
+			    // MR:- if you enter an incorrect name into the autocomplete, then the hidden input is blank (not populated in JS)
+			    // so, currently get the 'You must give the trust of the school' validation warning
+			    // rather than the "You must choose a trust from the list" (code below)
+
+			    //// 2nd phase validation - check selected trust
+			    if (string.IsNullOrWhiteSpace(SearchQuery))
+			    {
+				    ModelState.AddModelError("InvalidTrust", "You must give the name of the trust");
+			    }
+
+			    // error messages component consumes ViewData["Errors"]
+			    PopulateValidationMessages();
+			    return Page();
+		    }
+
+		    try
+		    {
+			    //// grab draft application from temp
+			    var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+			    await _conversionApplicationCreationService.AddTrustToApplication(draftConversionApplication.Id, SelectedUkPrn, SelectedTrustName);
+
+			    // update temp store for next step - application overview
+			    TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+			    return RedirectToPage(NextTrustStepPage);
+		    }
+		    catch (Exception ex)
+		    {
+			    _logger.LogError("Trust::ApplicationSelectSchoolModel::OnPostAddTrust::Exception - {Message}", ex.Message);
+			    return Page();
+		    }
+	    }
+
+		public async Task<IActionResult> OnPostFind()
 	    {
 		    var query = SearchQuery;
 
