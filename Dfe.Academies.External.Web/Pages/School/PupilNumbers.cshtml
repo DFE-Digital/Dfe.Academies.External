@@ -10,7 +10,12 @@
 }
 
 <div class="govuk-grid-column-two-thirds">
-	<h1 class="govuk-heading-xl">@Model.SchoolName</h1>
+	<span class="govuk-caption-l">
+		@Model.SchoolName
+	</span>
+	<h1 class="govuk-heading-l">
+		Future pupil numbers
+	</h1>
 
 	<p class="govuk-body">
 		<strong>Application reference number:</strong>&nbsp;&nbsp;@Model.ApplicationReferenceNumber
@@ -23,7 +28,6 @@
 
 		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 			<fieldset class="govuk-fieldset">
-				<legend id="role-hint" class="govuk-fieldset__legend">Future pupil numbers</legend>
 				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>
