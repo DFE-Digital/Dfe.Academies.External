@@ -1,7 +1,16 @@
+using System.Text.Json.Serialization;
+
 namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels
 {
     public class AddressResponse
     {
+		/// <summary>
+		/// System.Text de-serialization requires this !!!
+		/// </summary>
+	    public AddressResponse()
+	    {
+	    }
+
 	    public AddressResponse(string street, string town, string fullUkPostcode)
 	    {
 		    Street = street;
@@ -9,11 +18,22 @@ namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels
 		    Postcode = fullUkPostcode;
 	    }
 
-        public string Street { get; set; }
-        public string? Locality { get; set; }
-        public string? AdditionalLine { get; set; }
-        public string Town { get; set; }
-        public string? County { get; set; }
-        public string Postcode { get; set; }
+	    [JsonPropertyName("street")]
+		public string Street { get; set; }
+
+		[JsonPropertyName("locality")]
+		public string? Locality { get; set; }
+
+		[JsonPropertyName("additionalLine")]
+		public string? AdditionalLine { get; set; }
+
+		[JsonPropertyName("town")]
+		public string Town { get; set; }
+
+		[JsonPropertyName("county")]
+		public string? County { get; set; }
+
+		[JsonPropertyName("postcode")]
+		public string Postcode { get; set; }
     }
 }
