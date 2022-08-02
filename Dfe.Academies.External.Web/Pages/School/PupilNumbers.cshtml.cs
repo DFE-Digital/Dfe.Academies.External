@@ -21,8 +21,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 
         public string SchoolName { get; private set; } = string.Empty;
 
-        public string ApplicationReferenceNumber { get; private set; } = string.Empty;
-
         //// MR:- VM props to capture pupil numbers data
 
         [BindProperty]

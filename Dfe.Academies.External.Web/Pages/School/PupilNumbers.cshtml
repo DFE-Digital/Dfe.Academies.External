@@ -17,10 +17,6 @@
 		Future pupil numbers
 	</h1>
 
-	<p class="govuk-body">
-		<strong>Application reference number:</strong>&nbsp;&nbsp;@Model.ApplicationReferenceNumber
-	</p>
-
 	<form method="post" name="frmPupilNumbers" novalidate="">
 		@Html.AntiForgeryToken()
 		<input type="hidden" value="@Model.SchoolId"/>
