@@ -208,7 +208,7 @@ academies.addConfirmValidationMessage = function () {
 	elementToManipulate.classList.add("govuk-form-group--error");
 };
 
-academies.clientSideValidation = function () {
+academies.trustSearchClientSideValidation = function () {
 	//academies.addcomplexCustomValidators();
 
 	var form = $("#search-form");
