@@ -21,7 +21,7 @@ public class EstablishmentResponse
 	}
 
 	/// <summary>
-	/// This is ONLY a school identifier
+	/// Unique identifier for a school.
 	/// </summary>
 	[JsonPropertyName("urn")]
 	public string Urn { get; set; }
@@ -34,10 +34,16 @@ public class EstablishmentResponse
 
 	[JsonInclude]
 	public AddressResponse Address { get; set; }
-
-	[JsonPropertyName("uprn")]
-	public string UPRN { get; set; }
-
+	
+	/// <summary>
+	/// Unique identifier for a trust. urn is null on trust search
+	/// </summary>
 	[JsonPropertyName("ukprn")]
 	public string Ukprn { get; set; }
+
+	/// <summary>
+	/// Some other identifier
+	/// </summary>
+	[JsonPropertyName("uprn")]
+	public string UPRN { get; set; }
 }

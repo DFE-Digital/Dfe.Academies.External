@@ -10,7 +10,14 @@ public class SchoolSearch
 		(Name, Urn, Ukprn) = (name, urn, ukprn);
 
 	public string Name { get; }
+
+	/// <summary>
+	/// Unique identifier for a school.
+	/// </summary>
 	public string Urn { get; }
 
+	/// <summary>
+	/// Unique identifier for a trust. urn is null on trust search
+	/// </summary>
 	public string Ukprn { get; set; }
 }

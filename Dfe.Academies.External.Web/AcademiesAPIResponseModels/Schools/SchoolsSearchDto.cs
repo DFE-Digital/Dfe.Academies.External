@@ -13,12 +13,18 @@ public sealed class SchoolsSearchDto
 		(Urn, Name, Ukprn) =
 		(urn, name, ukprn);
 
+	/// <summary>
+	/// Unique identifier for a school.
+	/// </summary>
 	[JsonPropertyName("urn")]
 	public string Urn { get; set; }
 
 	[JsonPropertyName("name")]
 	public string Name { get; set; }
 
+	/// <summary>
+	/// Unique identifier for a trust. urn is null on trust search
+	/// </summary>
 	[JsonPropertyName("ukprn")]
 	public string Ukprn { get; set; }
 
