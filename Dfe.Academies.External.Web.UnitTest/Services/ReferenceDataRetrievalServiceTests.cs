@@ -52,12 +52,12 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
-		var trustsByPagination = await referenceDataRetrievalService.GetTrusts(trustSearch);
+		var trusts = await referenceDataRetrievalService.GetTrusts(trustSearch);
 
 		// assert
-		Assert.That(trustsByPagination, Is.Not.Null);
-		Assert.AreEqual(true, trustsByPagination.Any());
-		Assert.AreEqual(expectedCount, trustsByPagination.Count);
+		Assert.That(trusts, Is.Not.Null);
+		Assert.AreEqual(true, trusts.Any());
+		Assert.AreEqual(expectedCount, trusts.Count);
 	}
 	
 	[Test]
@@ -118,14 +118,18 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
-		var trustDetailsDto = await referenceDataRetrievalService.GetTrustByUkPrn(ukprn);
+		var trusts = await referenceDataRetrievalService.GetTrustByUkPrn(ukprn);
 
 		// assert
-		Assert.That(trustDetailsDto, Is.Not.Null);
-		//Assert.AreEqual(ukprn, trustDetailsDto.Establishments.FirstOrDefault().ukprn); // TODO MR:- property is missing from object but definitely within JSON
+		Assert.That(trusts, Is.Not.Null);
+		Assert.AreEqual(ukprn, trusts?.FirstOrDefault()?.UkPrn);
+		Assert.AreEqual(null, trusts?.FirstOrDefault()?.Urn);
+		Assert.AreEqual("ALCESTER GRAMMAR SCHOOL", trusts?.FirstOrDefault()?.Name);
+		Assert.AreEqual("07485466", trusts?.FirstOrDefault()?.CompaniesHouseNumber);
+		Assert.AreEqual("Standalone", trusts?.FirstOrDefault()?.TypeDescription);
 	}
 
-	//[Test]
+	[Test]
 	public async Task GetTrustByUkPrn___ApiReturns500___Failure()
 	{
 		// arrange
