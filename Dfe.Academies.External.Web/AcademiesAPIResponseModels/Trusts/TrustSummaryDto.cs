@@ -29,6 +29,6 @@ public class TrustSummaryDto
 	[JsonPropertyName("trustType")]
 	public string TypeDescription { get; set; }
 
-	[JsonInclude]
+	[JsonPropertyName("trustAddress")]
 	public AddressResponse TrustAddress { get; set; }
 }
