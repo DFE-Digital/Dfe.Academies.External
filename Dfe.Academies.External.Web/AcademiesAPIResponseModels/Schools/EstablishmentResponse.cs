@@ -20,6 +20,9 @@ public class EstablishmentResponse
 		Address = new AddressResponse(street:street, town:town, fullUkPostcode: fullUkPostcode);
 	}
 
+	/// <summary>
+	/// This is ONLY a school identifier
+	/// </summary>
 	[JsonPropertyName("urn")]
 	public string Urn { get; set; }
 
