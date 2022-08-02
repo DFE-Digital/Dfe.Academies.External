@@ -98,16 +98,16 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 	}
 
 	///<inheritdoc/>
-	public async Task<TrustDetailsDto> GetTrustByUkPrn(string ukPrn)
+	public async Task<List<TrustSummaryDto>> GetTrustByUkPrn(string ukPrn)
 	{
 		try
 		{
 			// MR:- api endpoint to build will look like this:-
-			// {{api-host}}/trust/10058464?api-version=V1
-			string apiurl = $"{_httpClient.BaseAddress}/trust/{ukPrn}?api-version=V1";
+			// {{api-host}}/trusts?ukprn=10058464&api-version=V1
+			string apiurl = $"{_httpClient.BaseAddress}/trusts?ukprn={ukPrn}&api-version=V1";
 
 			// API - returns ApiWrapper<TrustDetailsDto>
-			var APIresult = await _resilientRequestProvider.GetAsync<TrustDetailsDto>(apiurl);
+			var APIresult = await _resilientRequestProvider.GetAsync<List<TrustSummaryDto>>(apiurl);
 			
 			return APIresult;
 		}
