@@ -4,6 +4,9 @@ namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels.Trusts;
 
 public sealed class EstablishmentDto
 {
+	/// <summary>
+	/// Unique identifier for a school.
+	/// </summary>
 	[JsonPropertyName("urn")]
 	public string Urn { get; }
 

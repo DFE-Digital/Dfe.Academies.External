@@ -9,7 +9,12 @@ namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 public sealed class TrustSearch : PageSearch
 {
 	public string GroupName { get; }
+
+	/// <summary>
+	/// Unique identifier for a trust. urn is null on trust search
+	/// </summary>
 	public string Ukprn { get; }
+
 	public string CompaniesHouseNumber { get; }
 
 	public TrustSearch(string groupName, string ukprn, string companiesHouseNumber) => 
