@@ -35,23 +35,40 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
         return Task.CompletedTask;
     }
 
-    public async Task AddSchoolToApplication(int applicationId, int schoolUkUrn, string name)
+    public async Task AddSchoolToApplication(int applicationId, int schoolUrn, string name)
     {
-	    const string apiurl = $"{BaseUrl}/ConversionApplication/V1/AddSchool/";
-
 	    try
 	    {
 		    ConversionApplicationApiPostResult result;
             ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(HttpClientName));
-		    SchoolApplyingToConvert school = new(name, schoolUkUrn, applicationId,null);
+		    SchoolApplyingToConvert school = new(name, schoolUrn, applicationId,null);
 
 			// TODO: await API response from Academisation API
-			result = await apiRequestProvider.PostAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
+			//result = await apiRequestProvider.PostAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
 	    }
 	    catch (Exception ex)
 	    {
 		    _logger.LogError("ConversionApplicationCreationService::AddSchoolToApplication::Exception - {Message}", ex.Message);
             throw;
+	    }
+    }
+
+    public Task AddTrustToApplication(int applicationId, int trustUkPrn, string name)
+    {
+	    try
+	    {
+		    ConversionApplicationApiPostResult result;
+		    ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(HttpClientName));
+		    //SchoolApplyingToConvert school = new(name, trustUkPrn, applicationId, null);
+
+            // TODO: await API response from Academisation API
+            //result = await apiRequestProvider.PostAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
+            return Task.CompletedTask;
+        }
+	    catch (Exception ex)
+	    {
+		    _logger.LogError("ConversionApplicationCreationService::AddSchoolToApplication::Exception - {Message}", ex.Message);
+		    throw;
 	    }
     }
 }

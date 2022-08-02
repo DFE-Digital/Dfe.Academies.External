@@ -189,4 +189,8 @@ internal sealed class ConversionApplicationCreationServiceTests
         // now we could test the exception itself
         //Assert.That(ex.Message == "Blah");
     }
+
+    // TODO MR:- AddTrustToApplication() - success
+
+    // TODO MR:- AddTrustToApplication() - fail
 }
