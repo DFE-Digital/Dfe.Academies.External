@@ -15,7 +15,7 @@ public sealed class SchoolSearchResultViewModel
 	}
 
 	/// <summary>
-	/// Another unique school Id (6 digit number) e.g. 587634
+	/// Unique school Id (6 digit number) e.g. 587634
 	/// </summary>
 	public int URN { get; set; }
 
