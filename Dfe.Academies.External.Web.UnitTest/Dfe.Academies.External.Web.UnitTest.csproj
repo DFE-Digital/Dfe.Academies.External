@@ -8,7 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Factories\APIConstants.cs" />
+    <None Remove="ExampleJsonResponses\getSchoolResponse.json" />
+    <None Remove="ExampleJsonResponses\schoolSearchResponse.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ExampleJsonResponses\getSchoolResponse.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExampleJsonResponses\schoolSearchResponse.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -24,11 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dfe.Academies.External.Web\Dfe.Academies.External.Web.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="AcademiesAPIResponseModels\" />
-    <Folder Include="TagHelpers\" />
   </ItemGroup>
 
 </Project>
