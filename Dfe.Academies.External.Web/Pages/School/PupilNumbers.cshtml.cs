@@ -56,14 +56,26 @@ namespace Dfe.Academies.External.Web.Pages.School
 
         public async Task OnGetAsync()
         {
-            // TODO MR:- grab existing pupil numbers - applicationId && SchoolId combination !
-            try
+	        try
             {
                 //// on load - grab draft application from temp
                 var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
                 //// MR:- Need to drop into this pages cache here ready for post / server callback !
                 TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+                // TODO MR:- get SchoolId / ApplicationId from cache
+                // var schoolCacheViewModel = ViewDataHelper.GetSerialisedValue<SchoolCacheValuesViewModel>(nameof(SchoolCacheValuesViewModel), ViewData) ?? new SchoolCacheValuesViewModel();
+                var selectedSchool = await LoadAndSetSchoolDetails(99, 99);
+
+                // Grab other values from API
+                if (selectedSchool != null)
+                {
+	                // TODO MR:- grab existing pupil numbers from API endpoint - applicationId && SchoolId combination !
+
+
+	                PopulateUiModel(selectedSchool);
+                }
             }
             catch (Exception ex)
             {
@@ -115,6 +127,13 @@ namespace Dfe.Academies.External.Web.Pages.School
                     }
                 }
             }
+        }
+
+        private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+        {
+            ApplicationId = selectedSchool.ApplicationId;
+	        SchoolId = selectedSchool.SchoolId;
+	        SchoolName = selectedSchool.SchoolName;
         }
     }
 }

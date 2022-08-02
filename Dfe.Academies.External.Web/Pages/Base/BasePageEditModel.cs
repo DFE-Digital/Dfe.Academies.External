@@ -7,19 +7,19 @@ namespace Dfe.Academies.External.Web.Pages.Base;
 
 public abstract class BasePageEditModel : BasePageModel
 {
-	private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
+	public readonly IConversionApplicationRetrievalService ConversionApplicationRetrievalService;
 	private readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
 
 	protected BasePageEditModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 								IReferenceDataRetrievalService referenceDataRetrievalService)
 	{
-		_conversionApplicationRetrievalService = conversionApplicationRetrievalService;
+		ConversionApplicationRetrievalService = conversionApplicationRetrievalService;
 		_referenceDataRetrievalService = referenceDataRetrievalService;
 	}
 
 	public async Task<ConversionApplication?> LoadAndSetApplicationDetails(int applicationId, ApplicationTypes applicationType)
 	{
-		var applicationDetails = await _conversionApplicationRetrievalService.GetApplication(applicationId, applicationType);
+		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(applicationId, applicationType);
 
 		if (applicationDetails != null)
 		{
