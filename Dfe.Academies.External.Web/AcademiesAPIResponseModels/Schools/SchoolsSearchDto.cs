@@ -6,7 +6,7 @@ namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 /// To de-serialize response from :-
 /// {{api-host}}/establishments?api-version=V1&Name=wise&Urn=101934&ukprn=10006563
 /// </summary>
-public sealed class SchoolsSearchDto
+public record SchoolsSearchDto
 {
 	[JsonConstructor]
 	public SchoolsSearchDto(string urn, string name, string ukprn) =>
