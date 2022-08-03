@@ -8,16 +8,16 @@ namespace Dfe.Academies.External.Web.Controllers
     {
         public const int SearchQueryMinLength = 3;
         private readonly ILogger<BaseController> _logger;
-        public readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
-        public readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
+        public readonly IReferenceDataRetrievalService ReferenceDataRetrievalService;
+        public readonly IConversionApplicationRetrievalService ConversionApplicationRetrievalService;
 
         public BaseController(ILogger<BaseController> logger,
                                 IReferenceDataRetrievalService referenceDataRetrievalService,
                                 IConversionApplicationRetrievalService conversionApplicationRetrievalService)
         {
             _logger = logger;
-            _referenceDataRetrievalService = referenceDataRetrievalService;
-            _conversionApplicationRetrievalService = conversionApplicationRetrievalService; 
+            ReferenceDataRetrievalService = referenceDataRetrievalService;
+            ConversionApplicationRetrievalService = conversionApplicationRetrievalService; 
         }
 
         protected IActionResult CatchErrorAndRedirect(Exception ex)
@@ -29,7 +29,7 @@ namespace Dfe.Academies.External.Web.Controllers
         protected async Task<ApplicationCacheValuesViewModel?> LoadAndSetApplicationDetails(int applicationId)
         {
             ApplicationCacheValuesViewModel? cachedValuesViewModel = null;
-            var applicationDetails = await _conversionApplicationRetrievalService.GetApplication(applicationId, Enums.ApplicationTypes.FormNewMat);
+            var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(applicationId, Enums.ApplicationTypes.FormNewMat);
 
             if (Object.ReferenceEquals(applicationDetails, null))
             {
