@@ -30,7 +30,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		int expectedCount = 12;
 		var mockFactory = new Mock<IHttpClientFactory>();
 		string schoolName = "wise";
-		int urn = 587634;
+		int urn = 101934;
 
 		var mockMessageHandler = new Mock<HttpMessageHandler>();
 		mockMessageHandler.Protected()
@@ -58,6 +58,9 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		Assert.That(searchSchools, Is.Not.Null);
 		Assert.AreEqual(true, searchSchools.Any());
 		Assert.AreEqual(expectedCount, searchSchools.Count);
+		Assert.That(searchSchools?.FirstOrDefault()?.SchoolName, Is.EqualTo("The Cardinal Wiseman Catholic School"));
+		Assert.That(searchSchools?.FirstOrDefault()?.URN, Is.EqualTo(101934));
+		Assert.That(searchSchools?.FirstOrDefault()?.UKPRN, Is.EqualTo("10006563"));
 	}
 
 	[Test]
@@ -123,13 +126,16 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		// assert
 		Assert.That(school, Is.Not.Null);
 		Assert.That(school.Urn, Is.EqualTo(urn.ToString()));
-		Assert.That(school.Name, Is.EqualTo("The Cardinal Wiseman Catholic School"));
+		Assert.That(school.EstablishmentNumber, Is.EqualTo("4603"));
+		Assert.That(school.EstablishmentName, Is.EqualTo("The Cardinal Wiseman Catholic School"));
 		Assert.That(school.Address.Street, Is.EqualTo("Greenford Road"));
 		Assert.That(school.Address.Locality, Is.EqualTo(null));
 		Assert.That(school.Address.AdditionalLine, Is.EqualTo(null));
 		Assert.That(school.Address.Town, Is.EqualTo("Greenford"));
 		Assert.That(school.Address.County, Is.EqualTo("Middlesex"));
 		Assert.That(school.Address.Postcode, Is.EqualTo("UB6 9AW"));
+		Assert.That(school.Ukprn, Is.EqualTo("10006563"));
+		Assert.That(school.UPRN, Is.EqualTo("12141188"));
 	}
 
 	[Test]
@@ -304,7 +310,12 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		Assert.AreEqual(null, trusts?.FirstOrDefault()?.Urn);
 		Assert.AreEqual("ALCESTER GRAMMAR SCHOOL", trusts?.FirstOrDefault()?.GroupName);
 		Assert.AreEqual("07485466", trusts?.FirstOrDefault()?.CompaniesHouseNumber);
-		Assert.AreEqual("Alcester", trusts?.FirstOrDefault()?.GroupContactAddress.Town);
+		Assert.AreEqual(null, trusts?.FirstOrDefault()?.TrustAddress.Street);
+		Assert.AreEqual(null, trusts?.FirstOrDefault()?.TrustAddress.Locality);
+		Assert.AreEqual("Birmingham Road", trusts?.FirstOrDefault()?.TrustAddress.AdditionalLine);
+		Assert.AreEqual("Alcester", trusts?.FirstOrDefault()?.TrustAddress.Town);
+		Assert.AreEqual(null, trusts?.FirstOrDefault()?.TrustAddress.County);
+		Assert.AreEqual("B49 5ED", trusts?.FirstOrDefault()?.TrustAddress.Postcode);
 	}
 	
 	[Test]
@@ -371,9 +382,16 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		Assert.That(trusts, Is.Not.Null);
 		Assert.AreEqual(ukprn, trusts?.FirstOrDefault()?.UkPrn);
 		Assert.AreEqual(null, trusts?.FirstOrDefault()?.Urn);
-		Assert.AreEqual("ALCESTER GRAMMAR SCHOOL", trusts?.FirstOrDefault()?.Name);
+		Assert.AreEqual(ukprn, trusts?.FirstOrDefault()?.UkPrn);
+		Assert.AreEqual(null, trusts?.FirstOrDefault()?.Urn);
+		Assert.AreEqual("ALCESTER GRAMMAR SCHOOL", trusts?.FirstOrDefault()?.GroupName);
 		Assert.AreEqual("07485466", trusts?.FirstOrDefault()?.CompaniesHouseNumber);
-		Assert.AreEqual("Standalone", trusts?.FirstOrDefault()?.TypeDescription);
+		Assert.AreEqual(null, trusts?.FirstOrDefault()?.TrustAddress.Street);
+		Assert.AreEqual(null, trusts?.FirstOrDefault()?.TrustAddress.Locality);
+		Assert.AreEqual("Birmingham Road", trusts?.FirstOrDefault()?.TrustAddress.AdditionalLine);
+		Assert.AreEqual("Alcester", trusts?.FirstOrDefault()?.TrustAddress.Town);
+		Assert.AreEqual(null, trusts?.FirstOrDefault()?.TrustAddress.County);
+		Assert.AreEqual("B49 5ED", trusts?.FirstOrDefault()?.TrustAddress.Postcode);
 	}
 
 	[Test]

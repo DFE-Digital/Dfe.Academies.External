@@ -98,7 +98,7 @@ namespace Dfe.Academies.External.Web.Controllers
 				int urn = Convert.ToInt32(schoolSplit[^1]);
 				var result = await _referenceDataRetrievalService.GetSchool(urn);
 
-				var vm = new SchoolDetailsViewModel(schoolName: result.Name,
+				var vm = new SchoolDetailsViewModel(schoolName: result.EstablishmentName,
 					urn: Convert.ToInt32(result.Urn),
 					street: result.Address.Street,
 					town: result.Address.Town,

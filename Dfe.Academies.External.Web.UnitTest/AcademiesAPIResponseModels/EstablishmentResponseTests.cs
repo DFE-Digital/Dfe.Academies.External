@@ -27,7 +27,7 @@ internal sealed class EstablishmentResponseTests
 
 		// assert
 		Assert.That(establishmentResponse, Is.Not.Null);
-		Assert.That(establishmentResponse.Name, Is.EqualTo(schoolName));
+		Assert.That(establishmentResponse.EstablishmentName, Is.EqualTo(schoolName));
 		Assert.That(establishmentResponse.Urn, Is.EqualTo(urn));
 		Assert.That(establishmentResponse.Ukprn, Is.EqualTo(ukprn));
 		Assert.That(establishmentResponse.Address.Street, Is.EqualTo(street));

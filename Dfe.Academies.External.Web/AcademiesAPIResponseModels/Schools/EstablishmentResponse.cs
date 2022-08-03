@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 
 public record EstablishmentResponse
@@ -15,7 +13,7 @@ public record EstablishmentResponse
 	public EstablishmentResponse(string name, string urn, string ukprn, string street, string town, string fullUkPostcode)
 	{
 		Urn = urn;
-		Name = name;
+		EstablishmentName = name;
 		Ukprn = ukprn;
 		Address = new AddressResponse(street:street, town:town, fullUkPostcode: fullUkPostcode);
 	}
@@ -23,27 +21,21 @@ public record EstablishmentResponse
 	/// <summary>
 	/// Unique identifier for a school.
 	/// </summary>
-	[JsonPropertyName("urn")]
 	public string Urn { get; set; }
 
-	[JsonPropertyName("establishmentNumber")]
-	public string Number { get; set; }
+	public string EstablishmentNumber { get; set; }
 
-	[JsonPropertyName("establishmentName")]
-	public string Name { get; set; }
+	public string EstablishmentName { get; set; }
 
-	[JsonInclude]
 	public AddressResponse Address { get; set; }
 	
 	/// <summary>
 	/// Unique identifier for a trust. urn is null on trust search
 	/// </summary>
-	[JsonPropertyName("ukprn")]
 	public string Ukprn { get; set; }
 
 	/// <summary>
 	/// Some other identifier
 	/// </summary>
-	[JsonPropertyName("uprn")]
 	public string UPRN { get; set; }
 }
