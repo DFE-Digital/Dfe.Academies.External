@@ -49,22 +49,34 @@ public abstract class BasePageEditModel : BasePageModel
 	{
 		switch (componentName.ToLower().Trim())
 		{
-			case "contact details":
-				return "/school/ApplicationSchoolContactDetails";
-			case "performance and safeguarding":
-				return "/school/ApplicationSchoolPerformanceAndSafeguarding";
-			case "pupil numbers":
-				return "/school/PupilNumbers";
+			// V1:-
+			case "about the conversion":
+				return "/school/AboutTheConversion";
+			case "further information":
+				return "/school/FurtherInformation";
 			case "finances":
-				return "/school/ApplicationSchoolFinances";
-			case "partnerships and affiliations":
-				return "/school/ApplicationSchoolPartnershipsAndAffliates";
-			case "religious education":
-				return "/school/ApplicationSchoolReligiousEducation";
+				return "/school/Finances";
+			case "future pupil numbers":
+				return "/school/PupilNumbers";
 			case "land and buildings":
-				return "/school/ApplicationSchoolLandAndBuildings";
-			case "local authority":
-				return "/school/ApplicationSchoolLocalAuthority";
+				return "/school/LandAndBuildings";
+			case "consultation":
+				return "/school/ApplicationSchoolConsultation";
+			case "pre-opening support grant":
+				return "/school/ApplicationPreOpeningSupportGrant";
+			case "declaration":
+				return "/school/ApplicationDeclaration";
+			//// V2:-
+			////case "contact details":
+			////	return "/school/ApplicationSchoolContactDetails";
+			////case "performance and safeguarding":
+			////	return "/school/ApplicationSchoolPerformanceAndSafeguarding";
+			////case "partnerships and affiliations":
+			////	return "/school/ApplicationSchoolPartnershipsAndAffliates";
+			////case "religious education":
+			////	return "/school/ApplicationSchoolReligiousEducation";
+			////case "local authority":
+			////	return "/school/ApplicationSchoolLocalAuthority";
 			default:
 				return string.Empty;
 		}

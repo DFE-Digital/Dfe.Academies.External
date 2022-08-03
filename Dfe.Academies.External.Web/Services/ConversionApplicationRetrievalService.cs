@@ -99,20 +99,27 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
     public async Task<List<ConversionApplicationComponent>> GetSchoolApplicationComponents(int schoolId)
     {
-        // TODO: Get data from Academisation API
-        //// _resilientRequestProvider.Get();
-
+        // TODO: MR:- not sure the below will be totally driven from API as this data separation is for UI only !!!
+        // Depends how data is stored in back end / returned by API
+        
         // **** Mock Demo Data - as per Figma ****
         List<ConversionApplicationComponent> conversionApplicationComponents = new()
         {
-            new(name:"Contact details") {Id = 1, SchoolId = schoolId, Status = Status.Completed},
-            new(name:"Performance and safeguarding") {Id = 2, SchoolId = schoolId, Status = Status.InProgress},
-            new(name:"Pupil numbers") {Id = 3, SchoolId = schoolId, Status = Status.NotStarted},
-            new(name:"Finances") {Id = 4, SchoolId = schoolId, Status = Status.NotStarted},
-            new(name:"Partnerships and affiliations") {Id = 5, SchoolId = schoolId, Status = Status.NotStarted},
-            new(name:"Religious education") {Id = 6, SchoolId = schoolId, Status = Status.NotStarted},
+            //V1:-
+            new(name:"About the conversion") {Id = 1, SchoolId = schoolId, Status = Status.InProgress},
+            new(name:"Further information") {Id = 1, SchoolId = schoolId, Status = Status.NotStarted},
+            new(name:"Finances") {Id = 4, SchoolId = schoolId, Status = Status.NotStarted}, // existing
+            new(name:"Future pupil numbers") {Id = 3, SchoolId = schoolId, Status = Status.NotStarted},
             new(name:"Land and buildings") {Id = 7, SchoolId = schoolId, Status = Status.NotStarted},
-            new(name:"Local authority") {Id = 8, SchoolId = schoolId, Status = Status.NotStarted}
+            new(name:"Consultation") {Id = 7, SchoolId = schoolId, Status = Status.NotStarted},
+            new(name:"Pre-opening support grant") {Id = 7, SchoolId = schoolId, Status = Status.NotStarted},
+            new(name:"Declaration") {Id = 7, SchoolId = schoolId, Status = Status.NotStarted}
+            //// V2 below:-
+            ////new(name:"Contact details") {Id = 1, SchoolId = schoolId, Status = Status.Completed},
+            ////new(name:"Performance and safeguarding") {Id = 2, SchoolId = schoolId, Status = Status.InProgress},
+            ////new(name:"Partnerships and affiliations") {Id = 5, SchoolId = schoolId, Status = Status.NotStarted},
+            ////new(name:"Religious education") {Id = 6, SchoolId = schoolId, Status = Status.NotStarted},
+            ////new(name:"Local authority") {Id = 8, SchoolId = schoolId, Status = Status.NotStarted}
         };
 
         return conversionApplicationComponents;
