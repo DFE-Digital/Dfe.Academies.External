@@ -47,38 +47,18 @@ public abstract class BasePageEditModel : BasePageModel
 
 	protected string SetSchoolApplicationComponentUriFromName(string componentName)
 	{
-		switch (componentName.ToLower().Trim())
+		return componentName.ToLower().Trim() switch
 		{
 			// V1:-
-			case "about the conversion":
-				return "/school/AboutTheConversion";
-			case "further information":
-				return "/school/FurtherInformation";
-			case "finances":
-				return "/school/Finances";
-			case "future pupil numbers":
-				return "/school/PupilNumbers";
-			case "land and buildings":
-				return "/school/LandAndBuildings";
-			case "consultation":
-				return "/school/ApplicationSchoolConsultation";
-			case "pre-opening support grant":
-				return "/school/ApplicationPreOpeningSupportGrant";
-			case "declaration":
-				return "/school/ApplicationDeclaration";
-			//// V2:-
-			////case "contact details":
-			////	return "/school/ApplicationSchoolContactDetails";
-			////case "performance and safeguarding":
-			////	return "/school/ApplicationSchoolPerformanceAndSafeguarding";
-			////case "partnerships and affiliations":
-			////	return "/school/ApplicationSchoolPartnershipsAndAffliates";
-			////case "religious education":
-			////	return "/school/ApplicationSchoolReligiousEducation";
-			////case "local authority":
-			////	return "/school/ApplicationSchoolLocalAuthority";
-			default:
-				return string.Empty;
-		}
+			"about the conversion" => "/school/AboutTheConversion",
+			"further information" => "/school/FurtherInformation",
+			"finances" => "/school/Finances",
+			"future pupil numbers" => "/school/PupilNumbers",
+			"land and buildings" => "/school/LandAndBuildings",
+			"consultation" => "/school/ApplicationSchoolConsultation",
+			"pre-opening support grant" => "/school/ApplicationPreOpeningSupportGrant",
+			"declaration" => "/school/ApplicationDeclaration",
+			_ => string.Empty
+		};
 	}
 }
