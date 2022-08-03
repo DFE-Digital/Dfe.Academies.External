@@ -1,7 +1,7 @@
 ﻿@page
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Dfe.Academies.External.Web.Extensions
-@model Dfe.Academies.External.Web.Pages.SchoolOverviewModel
+@model SchoolOverviewModel
 @{
 	ViewData["Title"] = "Apply to become an academy - School Overview";
 }
@@ -25,5 +25,5 @@
 
 	<a asp-page="ApplicationOverview" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
 </div>
-<input type="hidden" value="@Model.SchoolId"/>
+<input type="hidden" value="@Model.URN"/>
 <partial name="_HiddenFields"/>

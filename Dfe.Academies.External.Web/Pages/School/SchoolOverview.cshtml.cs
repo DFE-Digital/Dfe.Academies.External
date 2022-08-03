@@ -4,13 +4,13 @@ using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 
-namespace Dfe.Academies.External.Web.Pages
+namespace Dfe.Academies.External.Web.Pages.School
 {
     public class SchoolOverviewModel : BasePageEditModel
     {
 	    private readonly ILogger<SchoolOverviewModel> _logger;
 
-	    public int SchoolId { get; private set; }
+	    public int URN { get; private set; }
 
         public string SchoolName { get; private set; } = string.Empty;
 
@@ -62,12 +62,12 @@ namespace Dfe.Academies.External.Web.Pages
             var applicationCacheViewModel = ViewDataHelper.GetSerialisedValue<ApplicationCacheValuesViewModel>(nameof(ApplicationCacheValuesViewModel), ViewData) ?? new ApplicationCacheValuesViewModel();
 
             ApplicationType = applicationCacheViewModel.ApplicationType;
-            SchoolId = selectedSchool.SchoolId;
+            URN = selectedSchool.URN;
             SchoolName = selectedSchool.SchoolName;
 
             SchoolComponentsViewModel componentsVm = new()
             {
-	            SchoolId = selectedSchool.SchoolId,
+	            URN = selectedSchool.URN,
 	            ApplicationId = applicationCacheViewModel.ApplicationId,
 	            // Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
 	            SchoolComponents = selectedSchool.SchoolApplicationComponents.Select(c =>

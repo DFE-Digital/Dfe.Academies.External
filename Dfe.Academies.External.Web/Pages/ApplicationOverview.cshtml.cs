@@ -141,7 +141,7 @@ namespace Dfe.Academies.External.Web.Pages
 		        {
 			        SchoolComponentsViewModel componentsVm = new() 
 			        {
-				        SchoolId = school.SchoolId,
+				        URN = school.URN,
 				        ApplicationId = conversionApplication.Id,
 				        SchoolComponents = school.SchoolApplicationComponents.Select(c =>
 					        new ApplicationComponentViewModel(name: c.Name,

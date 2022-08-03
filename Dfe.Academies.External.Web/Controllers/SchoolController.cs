@@ -20,15 +20,16 @@ namespace Dfe.Academies.External.Web.Controllers
 		}
 
 		[HttpGet]
-		[Route("school/SchoolOverview/{appId}/{applyingSchoolId}")]
+		[Route("school/SchoolOverview/{appId}/{schoolUrn}")]
 		[Route("school/school/school-overview")]
-		public async Task<IActionResult> SchoolOverview(int appId, int applyingSchoolId)
+		public async Task<IActionResult> SchoolOverview(int appId, int schoolUrn)
 		{
 			try
 			{
-				// TODO MR:- drop appId && applyingSchoolId into cache !!
-				var applicationDetails = await LoadAndSetApplicationDetails(appId);
-				var school = await _referenceDataRetrievalService.GetSchool(applyingSchoolId);
+				await LoadAndSetApplicationDetails(appId);
+				var school = await _referenceDataRetrievalService.GetSchool(schoolUrn);
+
+				// TODO MR:- drop applyingSchoolId into cache using school var !!
 
 				return View();
 			}
