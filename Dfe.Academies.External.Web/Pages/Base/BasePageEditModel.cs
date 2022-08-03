@@ -7,19 +7,19 @@ namespace Dfe.Academies.External.Web.Pages.Base;
 
 public abstract class BasePageEditModel : BasePageModel
 {
-	private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
+	public readonly IConversionApplicationRetrievalService ConversionApplicationRetrievalService;
 	private readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
 
 	protected BasePageEditModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 								IReferenceDataRetrievalService referenceDataRetrievalService)
 	{
-		_conversionApplicationRetrievalService = conversionApplicationRetrievalService;
+		ConversionApplicationRetrievalService = conversionApplicationRetrievalService;
 		_referenceDataRetrievalService = referenceDataRetrievalService;
 	}
 
 	public async Task<ConversionApplication?> LoadAndSetApplicationDetails(int applicationId, ApplicationTypes applicationType)
 	{
-		var applicationDetails = await _conversionApplicationRetrievalService.GetApplication(applicationId, applicationType);
+		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(applicationId, applicationType);
 
 		if (applicationDetails != null)
 		{
@@ -50,21 +50,21 @@ public abstract class BasePageEditModel : BasePageModel
 		switch (componentName.ToLower().Trim())
 		{
 			case "contact details":
-				return "/ApplicationSchoolContactDetails";
+				return "/school/ApplicationSchoolContactDetails";
 			case "performance and safeguarding":
-				return "/ApplicationSchoolPerformanceAndSafeguarding";
+				return "/school/ApplicationSchoolPerformanceAndSafeguarding";
 			case "pupil numbers":
-				return "/ApplicationSchoolPupilNumbers";
+				return "/school/PupilNumbers";
 			case "finances":
-				return "/ApplicationSchoolFinances";
+				return "/school/ApplicationSchoolFinances";
 			case "partnerships and affiliations":
-				return "/ApplicationSchoolPartnershipsAndAffliates";
+				return "/school/ApplicationSchoolPartnershipsAndAffliates";
 			case "religious education":
-				return "/ApplicationSchoolReligiousEducation";
+				return "/school/ApplicationSchoolReligiousEducation";
 			case "land and buildings":
-				return "/ApplicationSchoolLandAndBuildings";
+				return "/school/ApplicationSchoolLandAndBuildings";
 			case "local authority":
-				return "/ApplicationSchoolLocalAuthority";
+				return "/school/ApplicationSchoolLocalAuthority";
 			default:
 				return string.Empty;
 		}
