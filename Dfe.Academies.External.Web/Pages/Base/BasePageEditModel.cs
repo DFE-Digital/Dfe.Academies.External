@@ -31,9 +31,9 @@ public abstract class BasePageEditModel : BasePageModel
 		return applicationDetails;
 	}
 
-	public async Task<SchoolApplyingToConvert?> LoadAndSetSchoolDetails(int applicationId, int schoolId)
+	public async Task<SchoolApplyingToConvert?> LoadAndSetSchoolDetails(int applicationId, int urn)
 	{
-		var schoolDetails = await _referenceDataRetrievalService.GetSchool(schoolId);
+		var schoolDetails = await _referenceDataRetrievalService.GetSchool(urn);
 
 		if (schoolDetails != null)
 		{
