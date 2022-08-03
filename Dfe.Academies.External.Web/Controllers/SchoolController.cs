@@ -13,8 +13,7 @@ namespace Dfe.Academies.External.Web.Controllers
 
 		public SchoolController(ILogger<SchoolController> logger,
 								IReferenceDataRetrievalService referenceDataRetrievalService,
-								IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-								ILoggerFactory logFactory) 
+								IConversionApplicationRetrievalService conversionApplicationRetrievalService) 
 			: base(logger, referenceDataRetrievalService, conversionApplicationRetrievalService)
 		{
 			_logger = logger;
