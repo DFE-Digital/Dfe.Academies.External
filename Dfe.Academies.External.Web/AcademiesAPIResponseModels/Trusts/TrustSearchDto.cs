@@ -22,9 +22,6 @@ public record TrustSearchDto
 	[JsonPropertyName("companiesHouseNumber")]
 	public string CompaniesHouseNumber { get; set; }
 
-	[JsonPropertyName("trustType")]
-	public string TrustType { get; set; }
-
 	[JsonPropertyName("trustAddress")]
 	public GroupContactAddressDto GroupContactAddress { get; set; }
 }
