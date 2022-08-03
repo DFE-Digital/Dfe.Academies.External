@@ -29,7 +29,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         {
 	        new() { Id = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
 		        SchoolOrSchoolsApplyingToConvert = new()
-		        { new(schoolName: "St George’s school", applicationId: int.MaxValue, urn: 101099, ukprn: null)
+		        { new(schoolName: "St George’s school", applicationId: int.MaxValue, urn: 101934, ukprn: null)
 			        {SchoolId = 2 }
 		        }
 	        }
@@ -51,24 +51,24 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	        new() { Id = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
 		        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
 		        {
-			        new(schoolName: "Cambridge Regional college", urn: 101000, ukprn: null,  applicationId: int.MaxValue)
+			        new(schoolName: "Cambridge Regional college", urn: 101934, ukprn: null,  applicationId: int.MaxValue)
 				        {SchoolId = 96 }
 		        }
 	        },
 	        new() { Id = 3, UserEmail = "", Application = "Form a new multi- academy trust A2B_8956",
 		        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>{
-			        new(schoolName: "Fen Ditton primary school", urn: 101002, applicationId: int.MaxValue, ukprn: null)
+			        new(schoolName: "Fen Ditton primary school", urn: 101934, applicationId: int.MaxValue, ukprn: null)
 				        { SchoolId = 99 },
-			        new(schoolName: "Chesterton primary school", urn: 101003, applicationId: int.MaxValue, ukprn: null)
+			        new(schoolName: "Chesterton primary school", urn: 101934, applicationId: int.MaxValue, ukprn: null)
 				        { SchoolId  = 98},
-			        new(schoolName: "North Cambridge academy", urn: 101004, applicationId: int.MaxValue, ukprn: null)
+			        new(schoolName: "North Cambridge academy", urn: 101934, applicationId: int.MaxValue, ukprn: null)
 				        { SchoolId  = 97 }
 		        }
 	        },
 	        new() { Id = 4, UserEmail = "", Application = "Form a new single academy trust A2B_8974",
 		        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
 		        {
-			        new(schoolName: "King’s College London Maths school", urn: 101005, applicationId: int.MaxValue, ukprn: null)
+			        new(schoolName: "King’s College London Maths school", urn: 101934, applicationId: int.MaxValue, ukprn: null)
 				        { SchoolId = 95 }
 		        }
 	        }
@@ -162,7 +162,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
                     // MR:- comment out below if want to test that application overview page shows a 'add school' button!!
 					SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
 					{
-						new(schoolName: "Chesterton primary school", urn: 101003, applicationId: applicationId, ukprn: null)
+						new(schoolName: "Chesterton primary school", urn: 101934, applicationId: applicationId, ukprn: null)
 							{ SchoolId = 96 }
                     },
 					ConversionStatus = 3,
@@ -180,7 +180,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	                Application = "Form a new single academy trust A2B_2549",
 	                SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
 	                {
-		                new(schoolName: "Chesterton primary school", urn: 101003, applicationId: applicationId, ukprn: null)
+		                new(schoolName: "Chesterton primary school", urn: 101934, applicationId: applicationId, ukprn: null)
 			                { SchoolId = 96 }
                     },
 	                ConversionStatus = 3,
@@ -196,11 +196,11 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			        Application = "Form a new multi-academy trust A2B_2549",
 			        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
 			        {
-				        new(schoolName: "Chesterton primary school", urn: 101003, applicationId: applicationId, ukprn: null)
+				        new(schoolName: "Chesterton primary school", urn: 101934, applicationId: applicationId, ukprn: null)
 					        { SchoolId = 96 },
-				        new(schoolName: "Newcastle primary school", urn: 1010010, applicationId:applicationId, ukprn: null)
+				        new(schoolName: "Newcastle primary school", urn: 101934, applicationId:applicationId, ukprn: null)
 					        { SchoolId = 97 },
-				        new(schoolName: "Another primary school", urn: 1010011, applicationId:applicationId, ukprn: null)
+				        new(schoolName: "Another primary school", urn: 101934, applicationId:applicationId, ukprn: null)
 					        { SchoolId = 98 }
 			        },
                     ConversionStatus = 3,
