@@ -48,10 +48,9 @@
 				{
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell govuk-!-text-align-right">
-							<a asp-controller="School"
-							   asp-action="SchoolOverview"
+							<a asp-page="school/SchoolOverview"
 							   asp-route-appId="@Model.ApplicationId"
-							   asp-route-schoolUrn="@school.URN"
+							   asp-route-urn="@school.URN"
 							   class="govuk-link">
 								@school.SchoolName
 							</a>
