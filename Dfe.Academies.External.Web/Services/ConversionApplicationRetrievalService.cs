@@ -14,7 +14,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
     {
         _httpClientFactory = httpClientFactory;
         _logger = logger;
-        _resilientRequestProvider = new ResilientRequestProvider(httpClientFactory.CreateClient(HttpClientName));
+        _resilientRequestProvider = new ResilientRequestProvider(httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
     }
 
     public List<ConversionApplication> GetCompletedApplications(string? username)

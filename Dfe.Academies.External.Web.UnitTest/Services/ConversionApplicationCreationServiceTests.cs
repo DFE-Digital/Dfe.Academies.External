@@ -118,7 +118,7 @@ internal sealed class ConversionApplicationCreationServiceTests
     /// <summary>
     /// call add school endpoint and mock HttpStatusCode.Created
     /// </summary>
-    [Test]
+    //[Test]
     public async Task AddSchoolToApplication___ApiReturns201___Created()
     {
 	    // arrange
@@ -154,7 +154,7 @@ internal sealed class ConversionApplicationCreationServiceTests
     /// <summary>
     /// call add school endpoint and mock HttpStatusCode.InternalServerError
     /// </summary>
-    [Test]
+    //[Test]
     public async Task AddSchoolToApplication___ApiReturns500___InternalServerError()
     {
 	    // arrange
