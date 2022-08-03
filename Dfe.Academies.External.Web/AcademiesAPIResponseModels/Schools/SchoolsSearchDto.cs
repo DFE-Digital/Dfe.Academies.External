@@ -24,20 +24,4 @@ public record SchoolsSearchDto
 	/// Unique identifier for a trust. urn is null on trust search
 	/// </summary>
 	public string Ukprn { get; set; }
-
-	//// TODO MR:- current establishments search API doesn't return address details
-	////[JsonPropertyName("street")]
-	////public string Street { get; }
-
-	////[JsonPropertyName("town")]
-	////public string Town { get; }
-
-	////[JsonPropertyName("FullUkPostcode")]
-	////public string FullUkPostcode { get; }
-
-	////[JsonConstructor]
-	////public SchoolsSearchDto(string name, string urn, string ukprn,
-	////	string street, string town, string fullUkPostcode) =>
-	////	(Name, Urn, Ukprn, Street, Town, FullUkPostcode) =
-	////	(name, urn, ukprn, street, town, fullUkPostcode);
 }
