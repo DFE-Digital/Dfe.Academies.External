@@ -20,7 +20,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 	    public short TotalNumberOfSections => 8;
 
-        public List<ApplicationComponentViewModel> Components { get; set; } = new();
+        public SchoolComponentsViewModel SchoolComponents { get; private set; }
 
         public SchoolOverviewModel(ILogger<SchoolOverviewModel> logger, 
 									IConversionApplicationRetrievalService conversionApplicationRetrievalService,
@@ -71,12 +71,20 @@ namespace Dfe.Academies.External.Web.Pages
             SchoolName = selectedSchool.SchoolName;
             CompletedSections = 0; // TODO MR:- what logic drives this, component exists / hasData??
 
-            // Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
-            Components = selectedSchool.SchoolApplicationComponents.Select(c =>
-	            new ApplicationComponentViewModel(name: c.Name, uri: SetSchoolApplicationComponentUriFromName(c.Name))
-	            {
-		            Status = c.Status
-	            }).ToList();
+            SchoolComponentsViewModel componentsVm = new()
+            {
+	            SchoolId = selectedSchool.SchoolId,
+	            ApplicationId = applicationCacheViewModel.ApplicationId,
+	            // Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
+	            SchoolComponents = selectedSchool.SchoolApplicationComponents.Select(c =>
+		            new ApplicationComponentViewModel(name: c.Name,
+			            uri: SetSchoolApplicationComponentUriFromName(c.Name))
+		            {
+			            Status = c.Status
+		            }).ToList()
+            };
+
+            SchoolComponents = componentsVm;
         }
 
         public override void PopulateValidationMessages()

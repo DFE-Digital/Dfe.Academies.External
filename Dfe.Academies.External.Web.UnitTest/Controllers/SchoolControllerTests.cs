@@ -21,7 +21,8 @@ internal sealed class SchoolControllerTests
         // arrange
         var mockLogger = new Mock<ILogger<SchoolController>>();
         var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-        var schoolController = new SchoolController(mockLogger.Object, mockReferenceDataRetrievalService.Object);
+        var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+        var schoolController = new SchoolController(mockLogger.Object, mockReferenceDataRetrievalService.Object, mockConversionApplicationRetrievalService.Object);
         string schoolName = "wise";
 
         // act
@@ -44,7 +45,8 @@ internal sealed class SchoolControllerTests
 	    // arrange
 	    var mockLogger = new Mock<ILogger<SchoolController>>();
 	    var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-	    var schoolController = new SchoolController(mockLogger.Object, mockReferenceDataRetrievalService.Object);
+	    var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+        var schoolController = new SchoolController(mockLogger.Object, mockReferenceDataRetrievalService.Object, mockConversionApplicationRetrievalService.Object);
 	    string selectedSchool = "Wise owl primary school (587634)"; // selected value will be in the format 'Wise owl primary school (587634)'
 
         // act

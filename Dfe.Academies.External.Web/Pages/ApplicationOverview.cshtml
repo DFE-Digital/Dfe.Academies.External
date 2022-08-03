@@ -35,7 +35,7 @@
 		{
 			<tr class="govuk-table__row">
 				<td class="govuk-table__cell govuk-!-text-align-right">
-					<a asp-page="ApplicationSelectSchool" class="govuk-button" data-module="govuk-button">Add a school</a>
+					<a asp-page="school/applicationselectschool" class="govuk-button" data-module="govuk-button">Add a school</a>
 				</td>
 			</tr>
 		}
@@ -48,7 +48,7 @@
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell govuk-!-text-align-right">
 							<a asp-controller="School"
-							   asp-action="Overview"
+							   asp-action="SchoolOverview"
 							   asp-route-appId="@Model.ApplicationId"
 							   asp-route-applyingSchoolId="@school.SchoolId"
 							   class="govuk-link">
@@ -83,14 +83,14 @@
             @if (string.IsNullOrWhiteSpace(Model.NameOfTrustToJoin)){
                 <tr class="govuk-table__row">
                     <td class="govuk-table__cell govuk-!-text-align-right">
-                        <a asp-page="trust/ApplicationSelectTrust" class="govuk-button govuk-button--secondary" data-module="govuk-button">Add a trust</a>
+                        <a asp-page="trust/applicationselecttrust" class="govuk-button govuk-button--secondary" data-module="govuk-button">Add a trust</a>
                     </td>
                 </tr>
             }
             else{
 	            <tr class="govuk-table__row">
 		            <td class="govuk-table__cell">
-			            <a asp-page="ApplicationSelectTrust" class="govuk-link">@Model.NameOfTrustToJoin</a>
+			            <a asp-page="trust/applicationselecttrust" class="govuk-link">@Model.NameOfTrustToJoin</a>
 		            </td>
 		            <td class="govuk-table__cell govuk-!-text-align-right">
 			            @{

@@ -23,10 +23,7 @@
 
 	<p class="govuk-body">You have completed @Model.CompletedSections of @Model.TotalNumberOfSections sections.</p>
 	
-	@if (Model.Components.Any())
-	{
-		<partial name="_SchoolComponentsStatusPartial" model="Model.Components"/>
-	}
+	<partial name="_SchoolComponentsStatusPartial" model="Model.SchoolComponents"/>
 	
 	<input type="hidden" value="@Model.SchoolId"/>
 </div>

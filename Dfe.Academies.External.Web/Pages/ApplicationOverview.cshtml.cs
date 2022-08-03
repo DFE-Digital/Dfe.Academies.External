@@ -2,6 +2,7 @@ using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages
@@ -48,7 +49,7 @@ namespace Dfe.Academies.External.Web.Pages
 	    /// <summary>
 	    /// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
 	    /// </summary>
-	    public List<ViewModels.ApplicationComponentViewModel>? SchoolComponents { get; private set; }
+        public SchoolComponentsViewModel SchoolComponents { get; private set; }
 
         public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger, 
 										IConversionApplicationRetrievalService conversionApplicationRetrievalService,
@@ -76,7 +77,10 @@ namespace Dfe.Academies.External.Web.Pages
 
 	                if (school != null)
 	                {
-		                school.SchoolApplicationComponents =
+
+
+
+                        school.SchoolApplicationComponents =
 			                await _conversionApplicationRetrievalService.GetSchoolApplicationComponents(school.SchoolId);
                     }
 
@@ -134,12 +138,21 @@ namespace Dfe.Academies.External.Web.Pages
 
 		        // Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
 		        if (school != null)
-			        SchoolComponents = school.SchoolApplicationComponents.Select(c =>
-				        new ViewModels.ApplicationComponentViewModel(name: c.Name,
-					        uri: SetSchoolApplicationComponentUriFromName(c.Name))
-				        {
-					        Status = c.Status
-				        }).ToList();
+		        {
+			        SchoolComponentsViewModel componentsVm = new() 
+			        {
+				        SchoolId = school.SchoolId,
+				        ApplicationId = conversionApplication.Id,
+				        SchoolComponents = school.SchoolApplicationComponents.Select(c =>
+					        new ApplicationComponentViewModel(name: c.Name,
+						        uri: SetSchoolApplicationComponentUriFromName(c.Name))
+					        {
+						        Status = c.Status
+					        }).ToList()
+			        };
+
+			        SchoolComponents = componentsVm;
+		        }
 	        }
         }
 
