@@ -1,5 +1,5 @@
 ﻿using AutoFixture;
-using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.AcademiesAPIResponseModels;
@@ -13,7 +13,7 @@ internal sealed class EstablishmentResponseTests
 	public void EstablishmentResponse___Constructor______PropertiesSet()
 	{
 		// arrange
-		int urn = Fixture.Create<int>();
+		string urn = Fixture.Create<string>();
 		string schoolName = Fixture.Create<string>();
 		string ukprn = Fixture.Create<string>();
 		string street = Fixture.Create<string>();
