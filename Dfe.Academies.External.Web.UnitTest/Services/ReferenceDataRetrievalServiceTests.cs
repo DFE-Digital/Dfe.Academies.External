@@ -271,8 +271,8 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		string expected = await File.ReadAllTextAsync(fullFilePath);
 		int expectedCount = 10;
 		var mockFactory = new Mock<IHttpClientFactory>();
-		string name = "wise";
-		int ukprn = 587634;
+		string name = "grammar";
+		string ukprn = "10058464";
 		
 		var mockMessageHandler = new Mock<HttpMessageHandler>();
 		mockMessageHandler.Protected()
@@ -290,7 +290,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
-		TrustSearch trustSearch = new (name, ukprn.ToString(), string.Empty);
+		TrustSearch trustSearch = new (name, ukprn, string.Empty);
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -300,6 +300,11 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		Assert.That(trusts, Is.Not.Null);
 		Assert.AreEqual(true, trusts.Any());
 		Assert.AreEqual(expectedCount, trusts.Count);
+		Assert.AreEqual(ukprn, trusts?.FirstOrDefault()?.UkPrn);
+		Assert.AreEqual(null, trusts?.FirstOrDefault()?.Urn);
+		Assert.AreEqual("ALCESTER GRAMMAR SCHOOL", trusts?.FirstOrDefault()?.GroupName);
+		Assert.AreEqual("07485466", trusts?.FirstOrDefault()?.CompaniesHouseNumber);
+		Assert.AreEqual("Alcester", trusts?.FirstOrDefault()?.GroupContactAddress.Town);
 	}
 	
 	[Test]
@@ -307,9 +312,9 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	{
 		// arrange
 		var mockFactory = new Mock<IHttpClientFactory>();
-		string name = "wise";
-		int ukprn = 587634;
-		
+		string name = "grammar";
+		string ukprn = "10058464";
+
 		var mockMessageHandler = new Mock<HttpMessageHandler>();
 		mockMessageHandler.Protected()
 			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
@@ -324,7 +329,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
-		TrustSearch trustSearch = new (name, ukprn.ToString(), string.Empty);
+		TrustSearch trustSearch = new (name, ukprn, string.Empty);
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
