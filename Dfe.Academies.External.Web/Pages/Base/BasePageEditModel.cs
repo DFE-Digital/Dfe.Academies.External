@@ -37,12 +37,12 @@ public abstract class BasePageEditModel : BasePageModel
 
 		if (schoolDetails != null)
 		{
-			SchoolCacheValuesViewModel cachedValuesViewModel = new(int.Parse(schoolDetails.Urn), schoolDetails.Name);
+			SchoolCacheValuesViewModel cachedValuesViewModel = new(urn, schoolDetails.Name);
 
 			ViewDataHelper.StoreSerialisedValue(nameof(SchoolCacheValuesViewModel), ViewData, cachedValuesViewModel);
 		}
 
-		return new SchoolApplyingToConvert(schoolDetails.Name, int.Parse(schoolDetails.Urn), applicationId, schoolDetails.UPRN);
+		return new SchoolApplyingToConvert(schoolDetails.Name, urn, applicationId, schoolDetails.UPRN);
 	}
 
 	protected string SetSchoolApplicationComponentUriFromName(string componentName)
