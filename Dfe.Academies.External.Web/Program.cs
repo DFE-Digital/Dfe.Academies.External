@@ -30,7 +30,7 @@ builder.Services
 			.AllowAnonymousToPage("/YourApplications")
 			.AllowAnonymousToPage("/ApplicationOverview")
 			.AllowAnonymousToPage("/WhatIsYourRole")
-			.AllowAnonymousToPage("/SchoolOverview")
+			.AllowAnonymousToPage("/school/SchoolOverview")
 			.AllowAnonymousToPage("/school/ApplicationSelectSchool")
 			.AllowAnonymousToPage("/school/PupilNumbers");
 	})
@@ -46,13 +46,6 @@ builder.Services
 	{
 		options.MaxModelValidationErrors = 50;
 	});
-
-// MR:- additional routing config so that controller -> pages folder works !!
-builder.Services.Configure<RazorViewEngineOptions>(o =>
-{
-	o.ViewLocationFormats.Clear();
-	o.ViewLocationFormats.Add("/Pages/{1}/{0}" + RazorViewEngine.ViewExtension);
-});
 
 builder.Services.AddAuthentication(options =>
 	{
