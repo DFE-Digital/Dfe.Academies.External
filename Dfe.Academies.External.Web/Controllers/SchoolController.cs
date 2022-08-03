@@ -1,4 +1,4 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -56,7 +56,7 @@ namespace Dfe.Academies.External.Web.Controllers
 					return Enumerable.Empty<string>();
 				}
 
-				var schoolSearch = new SchoolSearch(searchQuery, searchQuery);
+				var schoolSearch = new SchoolSearch(searchQuery, string.Empty, string.Empty);
 				var schoolSearchResponse = await _referenceDataRetrievalService.SearchSchools(schoolSearch);
 
 				// TODO MR:- ?? concerns casework returns a JSON array, should we do this?

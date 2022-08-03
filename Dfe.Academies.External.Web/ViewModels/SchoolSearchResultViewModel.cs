@@ -5,13 +5,11 @@
 /// </summary>
 public sealed class SchoolSearchResultViewModel
 {
-	public SchoolSearchResultViewModel(string schoolName, int urn, string street, string town, string fullUkPostcode)
+	public SchoolSearchResultViewModel(int urn, string name,  string ukprn)
 	{
 		URN = urn;
-		SchoolName = schoolName;
-		Street = street;
-		Town = town;
-		FullUkPostcode = fullUkPostcode;
+		SchoolName = name;
+		UKPRN = ukprn;
 	}
 
 	/// <summary>
@@ -31,18 +29,18 @@ public sealed class SchoolSearchResultViewModel
 	/// </summary>
 	public string? EstablishmentNumber { get; set; }
 
-	// registered address
-	public string Street { get; set; }
+	// registered address - not returned by trams / academies search school endpoint currently
+	public string Street { get; set; } = string.Empty;
 
 	public string? Locality { get; set; }
 
 	public string? Address3 { get; set; }
 
-	public string Town { get; set; }
+	public string Town { get; set; } = string.Empty;
 
 	public string? CountyDescription { get; set; }
 
-	public string FullUkPostcode { get; set; }
+	public string FullUkPostcode { get; set; } = string.Empty;
 
-    public string DisplayName => $"{SchoolName} ({URN})";
+	public string DisplayName => $"{SchoolName} ({URN})";
 }
