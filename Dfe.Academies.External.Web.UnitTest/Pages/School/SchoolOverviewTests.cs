@@ -10,7 +10,7 @@ using Moq;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
-namespace Dfe.Academies.External.Web.UnitTest.Pages;
+namespace Dfe.Academies.External.Web.UnitTest.Pages.School;
 
 [Parallelizable(ParallelScope.All)]
 internal sealed class SchoolOverviewTests
@@ -28,6 +28,8 @@ internal sealed class SchoolOverviewTests
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<SchoolOverviewModel>>();
+		int urn = 101934;
+		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
@@ -36,7 +38,7 @@ internal sealed class SchoolOverviewTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync();
+		await pageModel.OnGetAsync(urn, applicationId);
 
 		// assert
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
