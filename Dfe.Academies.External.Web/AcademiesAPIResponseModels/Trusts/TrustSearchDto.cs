@@ -2,7 +2,7 @@
 
 namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels.Trusts;
 
-public sealed class TrustSearchDto
+public record TrustSearchDto
 {
 	/// <summary>
 	/// Unique identifier for a trust. urn is null on trust search

@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels
 {
-    public class AddressResponse
+    public record AddressResponse
     {
 		/// <summary>
 		/// System.Text de-serialization requires this !!!

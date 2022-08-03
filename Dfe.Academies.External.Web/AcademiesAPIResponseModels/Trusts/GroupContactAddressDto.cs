@@ -2,7 +2,7 @@
 
 namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels.Trusts;
 
-public sealed class GroupContactAddressDto
+public record GroupContactAddressDto
 {
 	[JsonPropertyName("street")]
 	public string Street { get; }
