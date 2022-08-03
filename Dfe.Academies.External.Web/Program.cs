@@ -4,6 +4,7 @@ using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -45,6 +46,13 @@ builder.Services
 	{
 		options.MaxModelValidationErrors = 50;
 	});
+
+// MR:- additional routing config so that controller -> pages folder works !!
+builder.Services.Configure<RazorViewEngineOptions>(o =>
+{
+	o.ViewLocationFormats.Clear();
+	o.ViewLocationFormats.Add("/Pages/{1}/{0}" + RazorViewEngine.ViewExtension);
+});
 
 builder.Services.AddAuthentication(options =>
 	{
