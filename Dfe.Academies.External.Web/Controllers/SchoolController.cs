@@ -6,38 +6,18 @@ using System.Net;
 
 namespace Dfe.Academies.External.Web.Controllers
 {
-	// [Authorize]
+	// TODO MR:- [Authorize]
 	public class SchoolController : BaseController
 	{
 		private readonly ILogger<SchoolController> _logger;
 
 		public SchoolController(ILogger<SchoolController> logger,
 								IReferenceDataRetrievalService referenceDataRetrievalService,
-								IConversionApplicationRetrievalService conversionApplicationRetrievalService) 
+								IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+								ILoggerFactory logFactory) 
 			: base(logger, referenceDataRetrievalService, conversionApplicationRetrievalService)
 		{
 			_logger = logger;
-		}
-
-		[HttpGet]
-		[Route("school/SchoolOverview/{appId}/{schoolUrn}")]
-		[Route("school/school/school-overview")]
-		public async Task<IActionResult> SchoolOverview(int appId, int schoolUrn)
-		{
-			try
-			{
-				await LoadAndSetApplicationDetails(appId);
-				var school = await _referenceDataRetrievalService.GetSchool(schoolUrn);
-
-				// TODO MR:- drop applyingSchoolId into cache using school var !!
-
-				return View();
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("SchoolController::SchoolOverview::Exception - {Message}", ex.Message);
-				return CatchErrorAndRedirect(ex);
-			}
 		}
 
 		[HttpGet]
@@ -57,8 +37,10 @@ namespace Dfe.Academies.External.Web.Controllers
 					return Enumerable.Empty<string>();
 				}
 
+				// TODO MR:- if searchQuery = numeric it's a urn ?
+
 				var schoolSearch = new SchoolSearch(searchQuery, string.Empty, string.Empty);
-				var schoolSearchResponse = await _referenceDataRetrievalService.SearchSchools(schoolSearch);
+				var schoolSearchResponse = await ReferenceDataRetrievalService.SearchSchools(schoolSearch);
 
 				// TODO MR:- ?? concerns casework returns a JSON array, should we do this?
 				// return new JsonResult(schoolSearchResponse);
@@ -97,7 +79,7 @@ namespace Dfe.Academies.External.Web.Controllers
 					.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
 				int urn = Convert.ToInt32(schoolSplit[^1]);
-				var result = await _referenceDataRetrievalService.GetSchool(urn);
+				var result = await ReferenceDataRetrievalService.GetSchool(urn);
 
 				var vm = new SchoolDetailsViewModel(schoolName: result.Name,
 					urn: Convert.ToInt32(result.Urn),
@@ -113,5 +95,25 @@ namespace Dfe.Academies.External.Web.Controllers
 				return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
 			}
 		}
+
+		//[HttpGet]
+		//[Route("school/SchoolOverview/{appId}/{schoolUrn}")]
+		//[Route("school/school/school-overview")]
+		//public async Task<IActionResult> SchoolOverview(int appId, int schoolUrn)
+		//{
+		//	try
+		//	{
+		//		await LoadAndSetApplicationDetails(appId);
+		//		var school = await ReferenceDataRetrievalService.GetSchool(schoolUrn);
+		//		// https://stackoverflow.com/questions/46772632/how-pass-objects-from-one-page-to-another-on-asp-net-core-with-razor-pages
+		//		return RedirectToPage("SchoolOverview", "SchoolApplication", 
+		//			new { urn = schoolUrn, applicationId = appId });
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		_logger.LogError("SchoolController::SchoolOverview::Exception - {Message}", ex.Message);
+		//		return CatchErrorAndRedirect(ex);
+		//	}
+		//}
 	}
 }
