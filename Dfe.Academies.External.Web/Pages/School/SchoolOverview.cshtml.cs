@@ -26,7 +26,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	        _logger = logger;
         }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int urn, int appId)
         {
 	        try
 	        {
@@ -37,9 +37,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		        TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 		        var conversionApplication = await LoadAndSetApplicationDetails(draftConversionApplication.Id, draftConversionApplication.ApplicationType);
 
-                // TODO MR:- get SchoolId / ApplicationId from cache
                 // var schoolCacheViewModel = ViewDataHelper.GetSerialisedValue<SchoolCacheValuesViewModel>(nameof(SchoolCacheValuesViewModel), ViewData) ?? new SchoolCacheValuesViewModel();
-                var selectedSchool = await LoadAndSetSchoolDetails(99,99);
+                var selectedSchool = await LoadAndSetSchoolDetails(appId,urn);
 
                 // Grab other values from API
                 if (selectedSchool != null)
