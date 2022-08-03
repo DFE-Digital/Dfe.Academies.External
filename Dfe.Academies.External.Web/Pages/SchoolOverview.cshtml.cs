@@ -1,3 +1,4 @@
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -8,19 +9,14 @@ namespace Dfe.Academies.External.Web.Pages
     public class SchoolOverviewModel : BasePageEditModel
     {
 	    private readonly ILogger<SchoolOverviewModel> _logger;
-	    private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
 
 	    public int SchoolId { get; private set; }
 
         public string SchoolName { get; private set; } = string.Empty;
 
-        public string ApplicationReferenceNumber { get; private set; } = string.Empty;
+        public ApplicationTypes ApplicationType { get; private set; }
 
-        public short CompletedSections { get; private set; }
-
-	    public short TotalNumberOfSections => 8;
-
-        public SchoolComponentsViewModel SchoolComponents { get; private set; }
+        public SchoolComponentsViewModel SchoolComponents { get; private set; } = new();
 
         public SchoolOverviewModel(ILogger<SchoolOverviewModel> logger, 
 									IConversionApplicationRetrievalService conversionApplicationRetrievalService,
@@ -28,7 +24,6 @@ namespace Dfe.Academies.External.Web.Pages
 	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
         {
 	        _logger = logger;
-	        _conversionApplicationRetrievalService = conversionApplicationRetrievalService;
         }
 
         public async Task OnGetAsync()
@@ -49,7 +44,7 @@ namespace Dfe.Academies.External.Web.Pages
                 // Grab other values from API
                 if (selectedSchool != null)
                 {
-	                selectedSchool.SchoolApplicationComponents = await _conversionApplicationRetrievalService
+	                selectedSchool.SchoolApplicationComponents = await ConversionApplicationRetrievalService
 		                .GetSchoolApplicationComponents(selectedSchool.SchoolId);
 
 	                PopulateUiModel(selectedSchool);
@@ -65,11 +60,10 @@ namespace Dfe.Academies.External.Web.Pages
         {
             // MR:- below equals cached ApplicationReferenceNumber
             var applicationCacheViewModel = ViewDataHelper.GetSerialisedValue<ApplicationCacheValuesViewModel>(nameof(ApplicationCacheValuesViewModel), ViewData) ?? new ApplicationCacheValuesViewModel();
-            ApplicationReferenceNumber = applicationCacheViewModel.ApplicationReference;
 
+            ApplicationType = applicationCacheViewModel.ApplicationType;
             SchoolId = selectedSchool.SchoolId;
             SchoolName = selectedSchool.SchoolName;
-            CompletedSections = 0; // TODO MR:- what logic drives this, component exists / hasData??
 
             SchoolComponentsViewModel componentsVm = new()
             {

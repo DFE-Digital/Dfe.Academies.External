@@ -1,5 +1,6 @@
 ﻿@page
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Dfe.Academies.External.Web.Extensions
 @model Dfe.Academies.External.Web.Pages.SchoolOverviewModel
 @{
 	ViewData["Title"] = "Apply to become an academy - School Overview";
@@ -11,21 +12,18 @@
 }
 
 <div class="govuk-grid-column-two-thirds">
-	<h1 class="govuk-heading-xl">@Model.SchoolName</h1>
-
-	<p class="govuk-body">
-		<strong>Application reference number:</strong>&nbsp;&nbsp;@Model.ApplicationReferenceNumber
-	</p>
+	<h1 class="govuk-heading-xl">@Model.ApplicationType.GetDescription()</h1>
+	<span class="govuk-caption-l">
+		@Model.SchoolName
+	</span>
 
 	<p class="govuk-body govuk-radios__conditional">You must complete each section.<br/>
 		You can save your progress as you go.
 	</p>
 
-	<p class="govuk-body">You have completed @Model.CompletedSections of @Model.TotalNumberOfSections sections.</p>
-	
 	<partial name="_SchoolComponentsStatusPartial" model="Model.SchoolComponents"/>
-	
-	<input type="hidden" value="@Model.SchoolId"/>
-</div>
 
+	<a asp-page="ApplicationOverview" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+</div>
+<input type="hidden" value="@Model.SchoolId"/>
 <partial name="_HiddenFields"/>
