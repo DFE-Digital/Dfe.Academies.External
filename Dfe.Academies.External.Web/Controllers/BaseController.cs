@@ -26,26 +26,18 @@ namespace Dfe.Academies.External.Web.Controllers
             return RedirectToAction("Error", "academies");
         }
 
-        protected async Task<ApplicationCacheValuesViewModel> LoadAndSetApplicationDetails(int applicationId)
+        protected async Task<ApplicationCacheValuesViewModel?> LoadAndSetApplicationDetails(int applicationId)
         {
-            ApplicationCacheValuesViewModel cachedValuesViewModel = null;
+            ApplicationCacheValuesViewModel? cachedValuesViewModel = null;
             var applicationDetails = await _conversionApplicationRetrievalService.GetApplication(applicationId, Enums.ApplicationTypes.FormNewMat);
 
-            if (applicationDetails != null)
+            if (Object.ReferenceEquals(applicationDetails, null))
             {
-                cachedValuesViewModel = new(applicationDetails.Id, applicationDetails.ApplicationType, 
-                                                                            applicationDetails.ApplicationReference);
+	            if (applicationDetails == null) return cachedValuesViewModel;
+	            cachedValuesViewModel = new(applicationDetails.Id, applicationDetails.ApplicationType,
+		            applicationDetails.ApplicationReference);
 
-                ViewDataHelper.StoreSerialisedValue(nameof(ApplicationCacheValuesViewModel), ViewData, cachedValuesViewModel);
-            }
-
-            if (applicationId !=0)
-            {
-                if (applicationDetails != null)
-                {
-                    //applicationDetails = EntityToModelMapper.ApplicationResponseToBaseApplicationDetails(CurrentApplication);
-                    //ViewData[Constants.CurrentUserViewDataKey] = User.GetUserId();
-                }
+	            ViewDataHelper.StoreSerialisedValue(nameof(ApplicationCacheValuesViewModel), ViewData, cachedValuesViewModel);
             }
 
             return cachedValuesViewModel;

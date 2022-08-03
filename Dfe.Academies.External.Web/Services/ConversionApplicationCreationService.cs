@@ -38,7 +38,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
     {
 	    try
 	    {
-		    ConversionApplicationApiPostResult result;
+		    //ConversionApplicationApiPostResult result;
             ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
 		    SchoolApplyingToConvert school = new(name, schoolUkUrn, applicationId,null);
 
