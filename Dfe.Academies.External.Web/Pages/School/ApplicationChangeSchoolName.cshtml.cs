@@ -25,7 +25,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public SelectOption ChangeName { get; set; }
 
 		[BindProperty]
-		public string? ChangeSchoolNameReason { get; set; } = string.Empty;
+		public string? ChangeSchoolNameReason { get; set; }
 
 		public bool ChangeSchoolNameReasonError
 		{
