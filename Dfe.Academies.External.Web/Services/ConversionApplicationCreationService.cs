@@ -17,7 +17,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
     {
         ResilientRequestProvider apiRequestProvider = new (_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
 
-        // TODO: await API response from Academisation API
+        // TODO: wire up Academisation API
         // await apiRequestProvider.PostAsync<>();
         application.Id = int.MaxValue;
 
@@ -28,7 +28,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
     {
         ResilientRequestProvider apiRequestProvider = new (_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
 
-        // TODO: await API response from Academisation API
+        // TODO: wire up Academisation API
         //await apiRequestProvider.PutAsync<>();
 
         return Task.CompletedTask;
@@ -38,17 +38,32 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
     {
 	    try
 	    {
-		    //ConversionApplicationApiPostResult result;
             ResilientRequestProvider apiRequestProvider = new (_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
 		    SchoolApplyingToConvert school = new(name, schoolUkUrn, applicationId,null);
 
-			// TODO: await API response from Academisation API
-			//result = await apiRequestProvider.PostAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
-	    }
-	    catch (Exception ex)
+            // TODO: wire up Academisation API
+            // var result = await apiRequestProvider.PostAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
+        }
+        catch (Exception ex)
 	    {
 		    _logger.LogError("ConversionApplicationCreationService::AddSchoolToApplication::Exception - {Message}", ex.Message);
             throw;
+	    }
+    }
+
+    public async Task ApplicationAddJoinTrustReasons(ConversionApplication application, string applicationJoinTrustReason)
+    {
+	    try
+	    {
+		    ResilientRequestProvider apiRequestProvider = new(_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
+
+		    // TODO: wire up Academisation API
+		    // var result = await apiRequestProvider.PostAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
+	    }
+	    catch (Exception ex)
+	    {
+		    _logger.LogError("ConversionApplicationCreationService::ApplicationAddJoinTrustReasons::Exception - {Message}", ex.Message);
+		    throw;
 	    }
     }
 }

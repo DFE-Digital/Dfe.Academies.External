@@ -70,9 +70,8 @@ namespace Dfe.Academies.External.Web.Pages.School
                 //// grab draft application from temp= null
                 var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-                // TODO MR:- call API endpoint to log ApplicationJoinTrustReason
                 // MR:- save away ApplicationJoinTrustReason
-                // await _academisationCreationService.ApplicationJoinTrustReasons(draftConversionApplication);
+                await _academisationCreationService.ApplicationAddJoinTrustReasons(draftConversionApplication, ApplicationJoinTrustReason);
 
                 // update temp store for next step - application overview
                 TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
