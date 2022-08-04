@@ -46,9 +46,12 @@ public enum KeyPersonRole
     Other = 5
 }
 
-public enum A2CSelectOption
+public enum SelectOption
 {
+	[Description("Yes")]
     Yes = 907660000,
+    [Description("No")]
     No = 907660001,
+    [Description("Unknown")]
     Unknown = 907660002
 }
