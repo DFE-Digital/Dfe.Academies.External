@@ -7,8 +7,9 @@ namespace Dfe.Academies.External.Web.Pages.Base;
 
 public abstract class BasePageEditModel : BasePageModel
 {
-	public readonly IConversionApplicationRetrievalService ConversionApplicationRetrievalService;
+	private const string SchoolOverviewPath = "school/SchoolOverview";
 	private readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
+	public readonly IConversionApplicationRetrievalService ConversionApplicationRetrievalService;
 
 	protected BasePageEditModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 								IReferenceDataRetrievalService referenceDataRetrievalService)
@@ -45,6 +46,15 @@ public abstract class BasePageEditModel : BasePageModel
 		return new SchoolApplyingToConvert(schoolDetails.Name, urn, applicationId, schoolDetails.UPRN);
 	}
 
+	public void LoadAndStoreCachedConversionApplication()
+	{
+		//// on load - grab draft application from temp
+		var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+		//// MR:- Need to drop into this pages cache here ready for post / server callback !
+		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+	}
+
 	protected string SetSchoolApplicationComponentUriFromName(string componentName)
 	{
 		return componentName.ToLower().Trim() switch
@@ -60,5 +70,11 @@ public abstract class BasePageEditModel : BasePageModel
 			"declaration" => "/school/ApplicationDeclaration",
 			_ => string.Empty
 		};
+	}
+
+	protected string BuildSchoolOverviewUrl(int applicationId, int urn)
+	{
+		// MR:- https://localhost:44350/school/school-overview?appId=2147483647&urn=101934
+		return $"{SchoolOverviewPath}?appId={applicationId}&urn={urn}";
 	}
 }
