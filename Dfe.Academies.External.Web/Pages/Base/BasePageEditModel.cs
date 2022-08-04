@@ -7,19 +7,19 @@ namespace Dfe.Academies.External.Web.Pages.Base;
 
 public abstract class BasePageEditModel : BasePageModel
 {
-	private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
+	public readonly IConversionApplicationRetrievalService ConversionApplicationRetrievalService;
 	private readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
 
 	protected BasePageEditModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 								IReferenceDataRetrievalService referenceDataRetrievalService)
 	{
-		_conversionApplicationRetrievalService = conversionApplicationRetrievalService;
+		ConversionApplicationRetrievalService = conversionApplicationRetrievalService;
 		_referenceDataRetrievalService = referenceDataRetrievalService;
 	}
 
 	public async Task<ConversionApplication?> LoadAndSetApplicationDetails(int applicationId, ApplicationTypes applicationType)
 	{
-		var applicationDetails = await _conversionApplicationRetrievalService.GetApplication(applicationId, applicationType);
+		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(applicationId, applicationType);
 
 		if (applicationDetails != null)
 		{
@@ -31,42 +31,34 @@ public abstract class BasePageEditModel : BasePageModel
 		return applicationDetails;
 	}
 
-	public async Task<SchoolApplyingToConvert?> LoadAndSetSchoolDetails(int applicationId, int schoolId)
+	public async Task<SchoolApplyingToConvert?> LoadAndSetSchoolDetails(int applicationId, int urn)
 	{
-		var schoolDetails = await _referenceDataRetrievalService.GetSchool(schoolId);
+		var schoolDetails = await _referenceDataRetrievalService.GetSchool(urn);
 
 		if (schoolDetails != null)
 		{
-			SchoolCacheValuesViewModel cachedValuesViewModel = new(int.Parse(schoolDetails.Urn), schoolDetails.Name);
+			SchoolCacheValuesViewModel cachedValuesViewModel = new(urn, schoolDetails.Name);
 
 			ViewDataHelper.StoreSerialisedValue(nameof(SchoolCacheValuesViewModel), ViewData, cachedValuesViewModel);
 		}
 
-		return new SchoolApplyingToConvert(schoolDetails.Name, int.Parse(schoolDetails.Urn), applicationId, schoolDetails.UPRN);
+		return new SchoolApplyingToConvert(schoolDetails.Name, urn, applicationId, schoolDetails.UPRN);
 	}
 
 	protected string SetSchoolApplicationComponentUriFromName(string componentName)
 	{
-		switch (componentName.ToLower().Trim())
+		return componentName.ToLower().Trim() switch
 		{
-			case "contact details":
-				return "/ApplicationSchoolContactDetails";
-			case "performance and safeguarding":
-				return "/ApplicationSchoolPerformanceAndSafeguarding";
-			case "pupil numbers":
-				return "/ApplicationSchoolPupilNumbers";
-			case "finances":
-				return "/ApplicationSchoolFinances";
-			case "partnerships and affiliations":
-				return "/ApplicationSchoolPartnershipsAndAffliates";
-			case "religious education":
-				return "/ApplicationSchoolReligiousEducation";
-			case "land and buildings":
-				return "/ApplicationSchoolLandAndBuildings";
-			case "local authority":
-				return "/ApplicationSchoolLocalAuthority";
-			default:
-				return string.Empty;
-		}
+			// V1:-
+			"about the conversion" => "/school/AboutTheConversion",
+			"further information" => "/school/FurtherInformation",
+			"finances" => "/school/Finances",
+			"future pupil numbers" => "/school/PupilNumbers",
+			"land and buildings" => "/school/LandAndBuildings",
+			"consultation" => "/school/ApplicationSchoolConsultation",
+			"pre-opening support grant" => "/school/ApplicationPreOpeningSupportGrant",
+			"declaration" => "/school/ApplicationDeclaration",
+			_ => string.Empty
+		};
 	}
 }

@@ -1,22 +1,29 @@
-﻿@model List<Dfe.Academies.External.Web.ViewModels.ApplicationComponentViewModel>
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Dfe.Academies.External.Web.TagHelpers
+@model Dfe.Academies.External.Web.ViewModels.SchoolComponentsViewModel
 
-<table class="govuk-table">
-    <tbody class="govuk-table__body">
-    @foreach (var component in Model)
-    {
-        <tr class="govuk-table__row">
-            <td class="govuk-table__cell">
-                <a href="@component.URI" aria-describedby="component-@(component.Name)-status" class="govuk-link">
-                    @component.Name
-                </a>
-            </td>
-            <td class="govuk-table__cell govuk-!-text-align-right">
-                @{
-                    var statusValue = (int)component.Status;
-                }
-                <status enumvalue=@statusValue></status>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>  
+@if (Model.SchoolComponents.Any())
+{
+	<table class="govuk-table">
+		<tbody class="govuk-table__body">
+		@foreach (var component in Model.SchoolComponents)
+		{
+			<tr class="govuk-table__row">
+				<td class="govuk-table__cell">
+					<a asp-page="@component.URI" aria-describedby="component-@(component.Name)-status" class="govuk-link"
+					   asp-route-appId="@Model.ApplicationId"
+					   asp-route-schoolUrn="@Model.URN">
+						@component.Name
+					</a>
+				</td>
+				<td class="govuk-table__cell govuk-!-text-align-right">
+					@{
+						var statusValue = (int)component.Status;
+					}
+					<status enumvalue=@statusValue></status>
+				</td>
+			</tr>
+		}
+		</tbody>
+	</table>  
+}

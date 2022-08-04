@@ -15,7 +15,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 	public async Task<ConversionApplication> CreateNewApplication(ConversionApplication application)
     {
-        ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
+        ResilientRequestProvider apiRequestProvider = new (_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
 
         // TODO: await API response from Academisation API
         // await apiRequestProvider.PostAsync<>();
@@ -26,7 +26,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
     public Task UpdateDraftApplication(ConversionApplication application)
     {
-        ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
+        ResilientRequestProvider apiRequestProvider = new (_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
 
         // TODO: await API response from Academisation API
         //await apiRequestProvider.PutAsync<>();
@@ -34,13 +34,13 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
         return Task.CompletedTask;
     }
 
-    public async Task AddSchoolToApplication(int applicationId, int schoolUrn, string name)
+    public async Task AddSchoolToApplication(int applicationId, int schoolUkUrn, string name)
     {
 	    try
 	    {
-		    ConversionApplicationApiPostResult result;
-            ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
-		    SchoolApplyingToConvert school = new(name, schoolUrn, applicationId,null);
+		    //ConversionApplicationApiPostResult result;
+            ResilientRequestProvider apiRequestProvider = new (_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
+		    SchoolApplyingToConvert school = new(name, schoolUkUrn, applicationId,null);
 
 			// TODO: await API response from Academisation API
 			//result = await apiRequestProvider.PostAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
@@ -57,13 +57,13 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	    try
 	    {
 		    ConversionApplicationApiPostResult result;
-		    ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(HttpClientName));
+		    ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
 		    //SchoolApplyingToConvert school = new(name, trustUkPrn, applicationId, null);
 
-            // TODO: await API response from Academisation API
-            //result = await apiRequestProvider.PostAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
-            return Task.CompletedTask;
-        }
+		    // TODO: await API response from Academisation API
+		    //result = await apiRequestProvider.PostAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
+		    return Task.CompletedTask;
+	    }
 	    catch (Exception ex)
 	    {
 		    _logger.LogError("ConversionApplicationCreationService::AddSchoolToApplication::Exception - {Message}", ex.Message);

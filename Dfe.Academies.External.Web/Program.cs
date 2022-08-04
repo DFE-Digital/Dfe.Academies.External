@@ -22,14 +22,16 @@ builder.Services
 			.AllowAnonymousToPage("/Accessibility")
 			.AllowAnonymousToPage("/Cookies")
 			.AllowAnonymousToPage("/Terms")
+			.AllowAnonymousToPage("/Privacy")
 			.AllowAnonymousToPage("/WhatYouWillNeed")
 			// TODO :- below is temporary config UNTIL auth is sorted - just for demo reasons !!
 			.AllowAnonymousToPage("/WhatAreYouApplyingToDo")
 			.AllowAnonymousToPage("/YourApplications")
 			.AllowAnonymousToPage("/ApplicationOverview")
 			.AllowAnonymousToPage("/WhatIsYourRole")
-			.AllowAnonymousToPage("/SchoolOverview")
-			.AllowAnonymousToPage("/school/ApplicationSelectSchool");
+			.AllowAnonymousToPage("/school/SchoolOverview")
+			.AllowAnonymousToPage("/school/ApplicationSelectSchool")
+			.AllowAnonymousToPage("/school/PupilNumbers");
 	})
 	.AddViewOptions(options =>
 	{
