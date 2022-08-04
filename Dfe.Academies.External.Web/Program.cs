@@ -29,7 +29,7 @@ builder.Services
 			.AllowAnonymousToPage("/YourApplications")
 			.AllowAnonymousToPage("/ApplicationOverview")
 			.AllowAnonymousToPage("/WhatIsYourRole")
-			.AllowAnonymousToPage("/SchoolOverview")
+			.AllowAnonymousToPage("/school/SchoolOverview")
 			.AllowAnonymousToPage("/school/ApplicationSelectSchool")
 			.AllowAnonymousToPage("/school/PupilNumbers");
 	})
