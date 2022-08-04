@@ -1,0 +1,28 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.School.ApplicationJoinTrustReasonsModel
+@{
+	ViewData["Title"] = "Apply to become an academy - School Pupil Numbers";
+}
+
+@section BeforeMain
+{
+	<a asp-page="SchoolOverview" class="govuk-back-link">Back to school overview</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<span class="govuk-caption-l">
+		@Model.SchoolName
+	</span>
+	<h1 class="govuk-heading-l">
+		Future pupil numbers
+	</h1>
+
+	<form method="post" name="frmPupilNumbers" novalidate="">
+		@Html.AntiForgeryToken()
+		<input type="hidden" value="@Model.Urn"/>
+		<partial name="_HiddenFields"/>
+
+		<br/>
+		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+	</form>
+</div>
