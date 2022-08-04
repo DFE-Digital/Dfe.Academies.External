@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Services;
+﻿using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
+using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -35,12 +36,12 @@ namespace Dfe.Academies.External.Web.Controllers
 					return Enumerable.Empty<string>();
 				}
 
-				var schoolSearch = new TrustSearch(searchQuery, searchQuery, searchQuery);
-				var schoolSearchResponse = await _referenceDataRetrievalService.SearchTrusts(schoolSearch);
+				var trustSearch = new TrustSearch(searchQuery, searchQuery, searchQuery);
+				var trustSearchResponse = await _referenceDataRetrievalService.GetTrusts(trustSearch);
 
-				if (schoolSearchResponse.Any())
+				if (trustSearchResponse.Any())
 				{
-					return schoolSearchResponse.Select(x => x.DisplayName).AsEnumerable();
+					return trustSearchResponse.Select(x => x.GroupName).AsEnumerable();
 				}
 				else
 				{
@@ -69,19 +70,22 @@ namespace Dfe.Academies.External.Web.Controllers
 					.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
 				int ukprn = Convert.ToInt32(schoolSplit[^1]);
-				var result = await _referenceDataRetrievalService.GetTrust(ukprn);
+				var result = await _referenceDataRetrievalService.GetTrustByUkPrn(ukprn.ToString());
 
-				var vm = new TrustDetailsViewModel(trustName: result.Name,
+				// API returns a List<> for a singular Get, for some unknown reason!
+				var trust = result.FirstOrDefault();
+
+				var vm = new TrustDetailsViewModel(trustName: trust.GroupName,
 					ukprn: ukprn,
-					street: result.Address.Street,
-					town: result.Address.Town,
-					fullUkPostcode: result.Address.Postcode);
+					street: trust.TrustAddress.Street,
+					town: trust.TrustAddress.Town,
+					fullUkPostcode: trust.TrustAddress.Postcode);
 
 				return PartialView("_TrustDetails", vm);
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError("SchoolController::ReturnTrustDetailsPartialViewPopulated::Exception - {Message}", ex.Message);
+				_logger.LogError("TrustController::ReturnTrustDetailsPartialViewPopulated::Exception - {Message}", ex.Message);
 				return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
 			}
 		}
