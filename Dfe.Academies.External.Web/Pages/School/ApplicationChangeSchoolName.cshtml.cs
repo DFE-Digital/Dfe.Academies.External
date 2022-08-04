@@ -100,7 +100,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-				return RedirectToPage(BuildSchoolOverviewUrl(ApplicationId, Urn));
+				return RedirectToPage(SchoolOverviewPath, new { appId = ApplicationId, urn = Urn });
 			}
 			catch (Exception ex)
 			{
