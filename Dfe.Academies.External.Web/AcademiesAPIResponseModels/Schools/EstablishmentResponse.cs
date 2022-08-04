@@ -2,20 +2,19 @@ namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 
 public record EstablishmentResponse
 {
-	/// <summary>
-	/// System.Text de-serialization requires this !!!
-	/// </summary>
-	public EstablishmentResponse()
-	{
-		Address = new AddressResponse();
-	}
-
-	public EstablishmentResponse(string name, string urn, string ukprn, string street, string town, string fullUkPostcode)
+	public EstablishmentResponse(string urn,
+		string establishmentNumber,
+		string establishmentName, 
+		string ukprn,
+		string uprn,
+		AddressResponse address)
 	{
 		Urn = urn;
-		EstablishmentName = name;
+		EstablishmentNumber = establishmentNumber;
+		EstablishmentName = establishmentName;
 		Ukprn = ukprn;
-		Address = new AddressResponse(street:street, town:town, fullUkPostcode: fullUkPostcode);
+		UPRN = uprn;
+		Address = address;
 	}
 
 	/// <summary>
@@ -23,7 +22,7 @@ public record EstablishmentResponse
 	/// </summary>
 	public string Urn { get; set; }
 
-	public string EstablishmentNumber { get; set; }
+	public string EstablishmentNumber { get; set; } 
 
 	public string EstablishmentName { get; set; }
 
