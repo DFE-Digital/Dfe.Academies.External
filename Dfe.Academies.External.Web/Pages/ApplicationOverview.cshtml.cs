@@ -46,10 +46,10 @@ namespace Dfe.Academies.External.Web.Pages
         /// </summary>
         public Status TrustConversionStatus { get; private set; }
 
-	    /// <summary>
-	    /// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
-	    /// </summary>
-        public SchoolComponentsViewModel SchoolComponents { get; private set; }
+        /// <summary>
+        /// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
+        /// </summary>
+        public SchoolComponentsViewModel SchoolComponents { get; private set; } = new();
 
         public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger, 
 										IConversionApplicationRetrievalService conversionApplicationRetrievalService,
@@ -141,7 +141,7 @@ namespace Dfe.Academies.External.Web.Pages
 		        {
 			        SchoolComponentsViewModel componentsVm = new() 
 			        {
-				        SchoolId = school.SchoolId,
+				        URN = school.URN,
 				        ApplicationId = conversionApplication.Id,
 				        SchoolComponents = school.SchoolApplicationComponents.Select(c =>
 					        new ApplicationComponentViewModel(name: c.Name,
