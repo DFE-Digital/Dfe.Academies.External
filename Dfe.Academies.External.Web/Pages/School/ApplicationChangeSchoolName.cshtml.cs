@@ -1,23 +1,12 @@
-<<<<<<< HEAD
-using Dfe.Academies.External.Web.Enums;
-=======
->>>>>>> stubbing new page
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-<<<<<<< HEAD
 using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class ApplicationChangeSchoolNameModel : BasePageEditModel
-=======
-
-namespace Dfe.Academies.External.Web.Pages.School
-{
-    public class ApplicationChangeSchoolNameModel : BasePageEditModel
->>>>>>> stubbing new page
 	{
 	    private readonly ILogger<ApplicationChangeSchoolNameModel> _logger;
 	    private readonly IConversionApplicationCreationService _academisationCreationService;
@@ -29,14 +18,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    [BindProperty]
 	    public int Urn { get; private set; }
 
-<<<<<<< HEAD
 		//// MR:- VM props to capture data
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
-		public SelectOption ChangeName { get; set; }
+		public int? ChangeName { get; set; }
 
 		[BindProperty]
-		public string? ChangeSchoolNameReason { get; set; }
+		//[Required(ErrorMessage = "You must provide details")]
+		public string? ChangeSchoolNameReason { get; set; } = string.Empty;
 
 		public bool ChangeSchoolNameReasonError
 		{
@@ -50,9 +39,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return false;
 			}
 		}
-=======
-		//// MR:- VM props to capture pupil numbers data
->>>>>>> stubbing new page
 
 		public ApplicationChangeSchoolNameModel(ILogger<ApplicationChangeSchoolNameModel> logger,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
@@ -64,7 +50,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			_academisationCreationService = academisationCreationService;
 		}
 
-<<<<<<< HEAD
 		public async Task OnGetAsync(int urn, int appId)
 		{
 			try
@@ -81,13 +66,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 					PopulateUiModel(selectedSchool);
 				}
-=======
-		public async Task OnGetAsync()
-		{
-			try
-			{
-				// TODO
->>>>>>> stubbing new page
 			}
 			catch (Exception ex)
 			{
@@ -95,7 +73,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-<<<<<<< HEAD
 		public async Task<IActionResult> OnPostAsync()
 		{
 			if (!ModelState.IsValid)
@@ -105,7 +82,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			if (ChangeName == SelectOption.Yes && string.IsNullOrWhiteSpace(ChangeSchoolNameReason))
+			// TODO:- fix below !!!
+			if (ChangeName == 0 && string.IsNullOrWhiteSpace(ChangeSchoolNameReason))
 			{
 				ModelState.AddModelError("ChangeSchoolNameReasonNotEntered", "You must provide details");
 				PopulateValidationMessages();
@@ -123,7 +101,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-				return RedirectToPage(SchoolOverviewPath, new { appId = ApplicationId, urn = Urn });
+				return RedirectToPage(BuildSchoolOverviewUrl(ApplicationId, Urn));
 			}
 			catch (Exception ex)
 			{
@@ -132,8 +110,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-=======
->>>>>>> stubbing new page
 		public override void PopulateValidationMessages()
 		{
 			ViewData["Errors"] = ConvertModelStateToDictionary();
