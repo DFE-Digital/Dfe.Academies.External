@@ -17,4 +17,6 @@ public record TrustSearchDto
 	public string CompaniesHouseNumber { get; set; }
 
 	public GroupContactAddressDto TrustAddress { get; set; }
+
+	public string DisplayName => $"{GroupName} ({UkPrn})";
 }

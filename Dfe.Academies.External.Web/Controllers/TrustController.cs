@@ -8,17 +8,13 @@ namespace Dfe.Academies.External.Web.Controllers
 {
 	// TODO MR:- baseController
 	// [Authorize]
-	public class TrustController : Controller
+	public class TrustController : BaseController
 	{
-		private const int SearchQueryMinLength = 3;
 		private readonly ILogger<TrustController> _logger;
-		private readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
 
-		public TrustController(ILogger<TrustController> logger,
-			IReferenceDataRetrievalService referenceDataRetrievalService)
+		public TrustController(ILogger<TrustController> logger, IReferenceDataRetrievalService referenceDataRetrievalService) : base(referenceDataRetrievalService)
 		{
 			_logger = logger;
-			_referenceDataRetrievalService = referenceDataRetrievalService;
 		}
 
 		[HttpGet]
@@ -37,11 +33,11 @@ namespace Dfe.Academies.External.Web.Controllers
 				}
 
 				var trustSearch = new TrustSearch(searchQuery, searchQuery, searchQuery);
-				var trustSearchResponse = await _referenceDataRetrievalService.GetTrusts(trustSearch);
+				var trustSearchResponse = await ReferenceDataRetrievalService.GetTrusts(trustSearch);
 
 				if (trustSearchResponse.Any())
 				{
-					return trustSearchResponse.Select(x => x.GroupName).AsEnumerable();
+					return trustSearchResponse.Select(x => x.DisplayName).AsEnumerable();
 				}
 				else
 				{
@@ -56,21 +52,26 @@ namespace Dfe.Academies.External.Web.Controllers
 			}
 		}
 
+		/// <summary>
+		/// https://localhost:44350/trust/trust/ReturnTrustDetailsPartialViewPopulated?selectedTrust=THE%20STAFFORDSHIRE%20SCHOOLS%20MULTI%20ACADEMY%20TRUST
+		/// </summary>
+		/// <param name="selectedTrust"></param>
+		/// <returns></returns>
 		[HttpGet]
 		[Route("trust/ReturnTrustDetailsPartialViewPopulated")]
-		[Route("trust/trust/ReturnSchoolDetailsPartialViewPopulated")]
+		[Route("trust/trust/ReturnTrustDetailsPartialViewPopulated")]
 		public async Task<IActionResult> ReturnTrustDetailsPartialViewPopulated(string selectedTrust)
 		{
 			try
 			{
 				// Remove whitespace and trailing ) then split removing empty entries
-				var schoolSplit = selectedTrust
+				var trustSplit = selectedTrust
 					.Trim()
 					.Replace(")", string.Empty)
 					.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
-				int ukprn = Convert.ToInt32(schoolSplit[^1]);
-				var result = await _referenceDataRetrievalService.GetTrustByUkPrn(ukprn.ToString());
+				int ukprn = Convert.ToInt32(trustSplit[^1]);
+				var result = await ReferenceDataRetrievalService.GetTrustByUkPrn(ukprn.ToString());
 
 				// API returns a List<> for a singular Get, for some unknown reason!
 				var trust = result.FirstOrDefault();
