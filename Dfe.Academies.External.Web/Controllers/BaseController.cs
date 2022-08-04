@@ -8,44 +8,30 @@ namespace Dfe.Academies.External.Web.Controllers
     {
         public const int SearchQueryMinLength = 3;
         private readonly ILogger<BaseController> _logger;
-        public readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
-        public readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
+        public readonly IReferenceDataRetrievalService ReferenceDataRetrievalService;
+        public readonly IConversionApplicationRetrievalService ConversionApplicationRetrievalService;
 
         public BaseController(ILogger<BaseController> logger,
                                 IReferenceDataRetrievalService referenceDataRetrievalService,
                                 IConversionApplicationRetrievalService conversionApplicationRetrievalService)
         {
             _logger = logger;
-            _referenceDataRetrievalService = referenceDataRetrievalService;
-            _conversionApplicationRetrievalService = conversionApplicationRetrievalService; 
+            ReferenceDataRetrievalService = referenceDataRetrievalService;
+            ConversionApplicationRetrievalService = conversionApplicationRetrievalService; 
         }
 
-        protected IActionResult CatchErrorAndRedirect(Exception ex)
+        protected async Task<ApplicationCacheValuesViewModel?> LoadAndSetApplicationDetails(int applicationId)
         {
-            _logger.LogError("BaseController::CatchErrorAndRedirect::Exception - {Message}", ex.Message);
-            return RedirectToAction("Error", "academies");
-        }
+            ApplicationCacheValuesViewModel? cachedValuesViewModel = null;
+            var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(applicationId, Enums.ApplicationTypes.FormNewMat);
 
-        protected async Task<ApplicationCacheValuesViewModel> LoadAndSetApplicationDetails(int applicationId)
-        {
-            ApplicationCacheValuesViewModel cachedValuesViewModel = null;
-            var applicationDetails = await _conversionApplicationRetrievalService.GetApplication(applicationId, Enums.ApplicationTypes.FormNewMat);
-
-            if (applicationDetails != null)
+            if (Object.ReferenceEquals(applicationDetails, null))
             {
-                cachedValuesViewModel = new(applicationDetails.Id, applicationDetails.ApplicationType, 
-                                                                            applicationDetails.ApplicationReference);
+	            if (applicationDetails == null) return cachedValuesViewModel;
+	            cachedValuesViewModel = new(applicationDetails.Id, applicationDetails.ApplicationType,
+		            applicationDetails.ApplicationReference);
 
-                ViewDataHelper.StoreSerialisedValue(nameof(ApplicationCacheValuesViewModel), ViewData, cachedValuesViewModel);
-            }
-
-            if (applicationId !=0)
-            {
-                if (applicationDetails != null)
-                {
-                    //applicationDetails = EntityToModelMapper.ApplicationResponseToBaseApplicationDetails(CurrentApplication);
-                    //ViewData[Constants.CurrentUserViewDataKey] = User.GetUserId();
-                }
+	            ViewDataHelper.StoreSerialisedValue(nameof(ApplicationCacheValuesViewModel), ViewData, cachedValuesViewModel);
             }
 
             return cachedValuesViewModel;
