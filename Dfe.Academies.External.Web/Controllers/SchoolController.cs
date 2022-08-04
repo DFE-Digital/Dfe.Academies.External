@@ -6,7 +6,7 @@ using System.Net;
 
 namespace Dfe.Academies.External.Web.Controllers
 {
-	// [Authorize]
+	// TODO MR:- [Authorize]
 	public class SchoolController : BaseController
 	{
 		private readonly ILogger<SchoolController> _logger;
@@ -17,26 +17,6 @@ namespace Dfe.Academies.External.Web.Controllers
 			: base(logger, referenceDataRetrievalService, conversionApplicationRetrievalService)
 		{
 			_logger = logger;
-		}
-
-		[HttpGet]
-		[Route("school/SchoolOverview/{appId}/{applyingSchoolId}")]
-		[Route("school/school/school-overview")]
-		public async Task<IActionResult> SchoolOverview(int appId, int applyingSchoolId)
-		{
-			try
-			{
-				// TODO MR:- drop appId && applyingSchoolId into cache !!
-				var applicationDetails = await LoadAndSetApplicationDetails(appId);
-				var school = await _referenceDataRetrievalService.GetSchool(applyingSchoolId);
-
-				return View();
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("SchoolController::SchoolOverview::Exception - {Message}", ex.Message);
-				return CatchErrorAndRedirect(ex);
-			}
 		}
 
 		[HttpGet]
@@ -56,8 +36,10 @@ namespace Dfe.Academies.External.Web.Controllers
 					return Enumerable.Empty<string>();
 				}
 
+				// TODO MR:- if searchQuery = numeric it's a urn ?
+
 				var schoolSearch = new SchoolSearch(searchQuery, string.Empty, string.Empty);
-				var schoolSearchResponse = await _referenceDataRetrievalService.SearchSchools(schoolSearch);
+				var schoolSearchResponse = await ReferenceDataRetrievalService.SearchSchools(schoolSearch);
 
 				// TODO MR:- ?? concerns casework returns a JSON array, should we do this?
 				// return new JsonResult(schoolSearchResponse);
@@ -96,7 +78,7 @@ namespace Dfe.Academies.External.Web.Controllers
 					.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
 				int urn = Convert.ToInt32(schoolSplit[^1]);
-				var result = await _referenceDataRetrievalService.GetSchool(urn);
+				var result = await ReferenceDataRetrievalService.GetSchool(urn);
 
 				var vm = new SchoolDetailsViewModel(schoolName: result.EstablishmentName,
 					urn: Convert.ToInt32(result.Urn),

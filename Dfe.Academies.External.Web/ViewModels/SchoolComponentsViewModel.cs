@@ -9,7 +9,7 @@ public class SchoolComponentsViewModel
 
 	public int ApplicationId { get; set; }
 
-	public int SchoolId { get; set; }
+	public int URN { get; set; }
 
 	public List<ApplicationComponentViewModel> SchoolComponents { get; set; }
 }

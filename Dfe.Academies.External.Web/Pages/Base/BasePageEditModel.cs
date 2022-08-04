@@ -31,42 +31,34 @@ public abstract class BasePageEditModel : BasePageModel
 		return applicationDetails;
 	}
 
-	public async Task<SchoolApplyingToConvert?> LoadAndSetSchoolDetails(int applicationId, int schoolId)
+	public async Task<SchoolApplyingToConvert?> LoadAndSetSchoolDetails(int applicationId, int urn)
 	{
-		var schoolDetails = await _referenceDataRetrievalService.GetSchool(schoolId);
+		var schoolDetails = await _referenceDataRetrievalService.GetSchool(urn);
 
 		if (schoolDetails != null)
 		{
-			SchoolCacheValuesViewModel cachedValuesViewModel = new(int.Parse(schoolDetails.Urn), schoolDetails.EstablishmentName);
+			SchoolCacheValuesViewModel cachedValuesViewModel = new(urn, schoolDetails.EstablishmentName);
 
 			ViewDataHelper.StoreSerialisedValue(nameof(SchoolCacheValuesViewModel), ViewData, cachedValuesViewModel);
 		}
 
-		return new SchoolApplyingToConvert(schoolDetails.EstablishmentName, int.Parse(schoolDetails.Urn), applicationId, schoolDetails.UPRN);
+		return new SchoolApplyingToConvert(schoolDetails.EstablishmentName, urn, applicationId, schoolDetails.UPRN);
 	}
 
 	protected string SetSchoolApplicationComponentUriFromName(string componentName)
 	{
-		switch (componentName.ToLower().Trim())
+		return componentName.ToLower().Trim() switch
 		{
-			case "contact details":
-				return "/school/ApplicationSchoolContactDetails";
-			case "performance and safeguarding":
-				return "/school/ApplicationSchoolPerformanceAndSafeguarding";
-			case "pupil numbers":
-				return "/school/PupilNumbers";
-			case "finances":
-				return "/school/ApplicationSchoolFinances";
-			case "partnerships and affiliations":
-				return "/school/ApplicationSchoolPartnershipsAndAffliates";
-			case "religious education":
-				return "/school/ApplicationSchoolReligiousEducation";
-			case "land and buildings":
-				return "/school/ApplicationSchoolLandAndBuildings";
-			case "local authority":
-				return "/school/ApplicationSchoolLocalAuthority";
-			default:
-				return string.Empty;
-		}
+			// V1:-
+			"about the conversion" => "/school/AboutTheConversion",
+			"further information" => "/school/FurtherInformation",
+			"finances" => "/school/Finances",
+			"future pupil numbers" => "/school/PupilNumbers",
+			"land and buildings" => "/school/LandAndBuildings",
+			"consultation" => "/school/ApplicationSchoolConsultation",
+			"pre-opening support grant" => "/school/ApplicationPreOpeningSupportGrant",
+			"declaration" => "/school/ApplicationDeclaration",
+			_ => string.Empty
+		};
 	}
 }
