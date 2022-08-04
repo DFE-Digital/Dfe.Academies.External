@@ -18,8 +18,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    [BindProperty]
 	    public int Urn { get; private set; }
 
-	    public string SchoolName { get; private set; } = string.Empty;
-
 	    //// MR:- VM props to capture pupil numbers data
         [BindProperty]
 	    [Required(ErrorMessage = "You must provide details")]
@@ -109,7 +107,6 @@ namespace Dfe.Academies.External.Web.Pages.School
         {
             ApplicationId = selectedSchool.ApplicationId;
             Urn = selectedSchool.URN;
-            SchoolName = selectedSchool.SchoolName;
         }
     }
 }
