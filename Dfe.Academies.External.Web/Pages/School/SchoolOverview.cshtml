@@ -1,0 +1,29 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Dfe.Academies.External.Web.Extensions
+@model SchoolOverviewModel
+@{
+	ViewData["Title"] = "Apply to become an academy - School Overview";
+}
+
+@section BeforeMain
+{
+	<a asp-page="../ApplicationOverview" class="govuk-back-link">Back to application overview</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<h1 class="govuk-heading-xl">@Model.ApplicationType.GetDescription()</h1>
+	<span class="govuk-caption-l">
+		@Model.SchoolName
+	</span>
+
+	<p class="govuk-body govuk-radios__conditional">You must complete each section.<br/>
+		You can save your progress as you go.
+	</p>
+
+	<partial name="_SchoolComponentsStatusPartial" model="Model.SchoolComponents"/>
+
+	<a asp-page="../ApplicationOverview" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+</div>
+<input type="hidden" value="@Model.URN"/>
+<partial name="_HiddenFields"/>
