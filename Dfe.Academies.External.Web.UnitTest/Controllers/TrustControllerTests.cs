@@ -31,6 +31,8 @@ internal sealed class TrustControllerTests
         string expectedJson = await File.ReadAllTextAsync(fullFilePath);
         var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
+        // TODO MR:- need to throw the mockFactory into the DI pipeline so that  ResilientRequestProvider consumes it
+
         // act
         var result = await trustController.Search(trustName);
 
@@ -50,6 +52,8 @@ internal sealed class TrustControllerTests
 	    string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getTrustResponse.json";
 	    string expectedJson = await File.ReadAllTextAsync(fullFilePath);
         var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+
+        // TODO MR:- need to throw the mockFactory into the DI pipeline so that  ResilientRequestProvider consumes it
 
         // act
         IActionResult result = await trustController.ReturnTrustDetailsPartialViewPopulated(selectedTrust);
