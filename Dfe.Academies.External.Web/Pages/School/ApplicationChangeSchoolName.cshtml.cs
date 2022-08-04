@@ -2,10 +2,11 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-    public class ApplicationChangeSchoolNameModel : BasePageEditModel
+	public class ApplicationChangeSchoolNameModel : BasePageEditModel
 	{
 	    private readonly ILogger<ApplicationChangeSchoolNameModel> _logger;
 	    private readonly IConversionApplicationCreationService _academisationCreationService;
@@ -17,7 +18,27 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    [BindProperty]
 	    public int Urn { get; private set; }
 
-		//// MR:- VM props to capture pupil numbers data
+		//// MR:- VM props to capture data
+		[BindProperty]
+		[Required(ErrorMessage = "You must provide details")]
+		public int? ChangeName { get; set; }
+
+		[BindProperty]
+		//[Required(ErrorMessage = "You must provide details")]
+		public string? ChangeSchoolNameReason { get; set; } = string.Empty;
+
+		public bool ChangeSchoolNameReasonError
+		{
+			get
+			{
+				if (!ModelState.IsValid && ModelState.Keys.Contains("ChangeSchoolNameReasonNotEntered"))
+				{
+					return true;
+				}
+
+				return false;
+			}
+		}
 
 		public ApplicationChangeSchoolNameModel(ILogger<ApplicationChangeSchoolNameModel> logger,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
@@ -29,15 +50,63 @@ namespace Dfe.Academies.External.Web.Pages.School
 			_academisationCreationService = academisationCreationService;
 		}
 
-		public async Task OnGetAsync()
+		public async Task OnGetAsync(int urn, int appId)
 		{
 			try
 			{
-				// TODO
+				LoadAndStoreCachedConversionApplication();
+
+				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+
+				// Grab other values from API
+				if (selectedSchool != null)
+				{
+					// TODO MR:- grab existing school name change deets from API endpoint - applicationId && SchoolId combination !
+
+
+					PopulateUiModel(selectedSchool);
+				}
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError("School::ApplicationChangeSchoolNameModel::OnGetAsync::Exception - {Message}", ex.Message);
+			}
+		}
+
+		public async Task<IActionResult> OnPostAsync()
+		{
+			if (!ModelState.IsValid)
+			{
+				// error messages component consumes ViewData["Errors"]
+				PopulateValidationMessages();
+				return Page();
+			}
+
+			// TODO:- fix below !!!
+			if (ChangeName == 0 && string.IsNullOrWhiteSpace(ChangeSchoolNameReason))
+			{
+				ModelState.AddModelError("ChangeSchoolNameReasonNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return Page();
+			}
+
+			try
+			{
+				//// grab draft application from temp= null
+				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+				// MR:- save away ApplicationJoinTrustReason
+				await _academisationCreationService.ApplicationChangeSchoolNameAndReason(draftConversionApplication, ChangeName, ChangeSchoolNameReason);
+
+				// update temp store for next step - application overview
+				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+				return RedirectToPage(BuildSchoolOverviewUrl(ApplicationId, Urn));
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("School::ApplicationChangeSchoolNameModel::OnPostAsync::Exception - {Message}", ex.Message);
+				return Page();
 			}
 		}
 
