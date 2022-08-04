@@ -22,7 +22,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 	    //// MR:- VM props to capture pupil numbers data
         [BindProperty]
-	    [Required(ErrorMessage = "You must give what your projected pupil numbers based on")]
+	    [Required(ErrorMessage = "You must provide details")]
 	    public string? ApplicationJoinTrustReason { get; set; } = string.Empty;
 
         public ApplicationJoinTrustReasonsModel(ILogger<ApplicationJoinTrustReasonsModel> logger,
