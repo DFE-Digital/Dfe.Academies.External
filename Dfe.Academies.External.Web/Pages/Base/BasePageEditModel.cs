@@ -7,10 +7,11 @@ namespace Dfe.Academies.External.Web.Pages.Base;
 
 public abstract class BasePageEditModel : BasePageModel
 {
-	public readonly IConversionApplicationRetrievalService ConversionApplicationRetrievalService;
+	private const string SchoolOverviewPath = "school/SchoolOverview";
 	private readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
+	public readonly IConversionApplicationRetrievalService ConversionApplicationRetrievalService;
 
-	protected BasePageEditModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
+	protected BasePageEditModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 								IReferenceDataRetrievalService referenceDataRetrievalService)
 	{
 		ConversionApplicationRetrievalService = conversionApplicationRetrievalService;
@@ -60,5 +61,12 @@ public abstract class BasePageEditModel : BasePageModel
 			"declaration" => "/school/ApplicationDeclaration",
 			_ => string.Empty
 		};
+	}
+
+	protected string BuildSchoolOverviewUrl(int applicationId, int urn)
+	{
+		// MR:- https://localhost:44350/school/school-overview?appId=2147483647&urn=101934
+		return $"{SchoolOverviewPath}?appId={applicationId}&urn={urn}";
+				return string.Empty;
 	}
 }
