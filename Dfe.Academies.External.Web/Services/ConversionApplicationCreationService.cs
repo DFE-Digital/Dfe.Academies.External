@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
 
@@ -80,6 +81,23 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	    catch (Exception ex)
 	    {
 		    _logger.LogError("ConversionApplicationCreationService::AddTrustToApplication::Exception - {Message}", ex.Message);
+		    throw;
+	    }
+    }
+
+    public async Task ApplicationChangeSchoolNameAndReason(ConversionApplication application, SelectOption changeName,
+	    string changeSchoolNameReason)
+    {
+	    try
+	    {
+		    ResilientRequestProvider apiRequestProvider = new(_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
+
+            // TODO: wire up Academisation API
+            // var result = await apiRequestProvider.PostAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
+        }
+        catch (Exception ex)
+	    {
+		    _logger.LogError("ConversionApplicationCreationService::ApplicationChangeSchoolNameAndReason::Exception - {Message}", ex.Message);
 		    throw;
 	    }
     }
