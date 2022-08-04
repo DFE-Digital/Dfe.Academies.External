@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
 
@@ -9,4 +10,7 @@ public interface IConversionApplicationCreationService
     Task UpdateDraftApplication(ConversionApplication application);
 
     Task AddSchoolToApplication(int applicationId, int schoolUkUrn, string name);
+
+    Task ApplicationChangeSchoolNameAndReason(ConversionApplication application, SelectOption changeName,
+	    string changeSchoolNameReason);
 }
