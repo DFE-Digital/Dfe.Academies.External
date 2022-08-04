@@ -1,12 +1,15 @@
 ﻿@page
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.ApplicationChangeSchoolNameModel
 @{
-	ViewData["Title"] = "Apply to become an academy - School Pupil Numbers";
+	ViewData["Title"] = "Apply to become an academy - Changing the name of the school";
 }
 
 @section BeforeMain
 {
-	<a asp-page="SchoolOverview" class="govuk-back-link">Back to school overview</a>
+	<a asp-page="../SchoolOverview" class="govuk-back-link">Back to about the conversion</a>
 }
 
 <div class="govuk-grid-column-two-thirds">
@@ -21,16 +24,16 @@
 		<partial name="_HiddenFields"/>
 
 @*		//MR:- from A2C sip*@
-		<div class="govuk-radios">
-			<a2c-radio-item is-checked="@((string) ViewData[FieldConstants.SipSchoolConversionChangeName] == ((int) Enums.A2CSelectOption.Yes).ToString())"
+@*		<div class="govuk-radios">
+			<a2c-radio-item is-checked="@((string) ViewData[FieldConstants.SipSchoolConversionChangeName] == ((int) SelectOption.Yes).ToString())"
 					        conditional-field-name="explain-change"
-					        conditional-field-value="@((int) Enums.A2CSelectOption.Yes)"
+					        conditional-field-value="@((int) SelectOption.Yes)"
 					        label-text="Yes"
-					        radio-value="@((int) Enums.A2CSelectOption.Yes)"
+					        radio-value="@((int) SelectOption.Yes)"
 					        field-name="@FieldConstants.SipSchoolConversionChangeName">
 			</a2c-radio-item>
 
-			<div class="govuk-radios__conditional" id="explain-change" style="@((string) ViewData[FieldConstants.SipSchoolConversionChangeName] != ((int) Enums.A2CSelectOption.Yes).ToString() ? "display: none" : "")"> 
+			<div class="govuk-radios__conditional" id="explain-change" style="@((string) ViewData[FieldConstants.SipSchoolConversionChangeName] != ((int) SelectOption.Yes).ToString() ? "display: none" : "")"> 
 				<div class="govuk-form-group">
 					<a2c-label field-name="@FieldConstants.SipSchoolConversionChangeNameValue"
 							    label-text="What's the proposed new name?"
@@ -47,14 +50,51 @@
 				</div> 
 			</div>
 
-			<a2c-radio-item is-checked="@((string) ViewData[FieldConstants.SipSchoolConversionChangeName] == ((int) Enums.A2CSelectOption.No).ToString())"
+			<a2c-radio-item is-checked="@((string) ViewData[FieldConstants.SipSchoolConversionChangeName] == ((int) SelectOption.No).ToString())"
 					        conditional-field-name="explain-change"
-					        conditional-field-value="@((int) Enums.A2CSelectOption.Yes)"
+					        conditional-field-value="@((int) SelectOption.Yes)"
 					        label-text="No"
-					        radio-value="@((int) Enums.A2CSelectOption.No)"
+					        radio-value="@((int) SelectOption.No)"
 					        field-name="@FieldConstants.SipSchoolConversionChangeName">
 			</a2c-radio-item>
-		</div>
+		</div>*@
+		
+		<div class="govuk-form-group">
+			<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+				@foreach (var selectOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+				{
+					<div class="govuk-radios__item">
+						<input type="radio"
+						       asp-for="ChangeName"
+						       value="@Convert.ToInt32(selectOption)"
+						       id="selectoption@(selectOption)"
+						       class="govuk-radios__input"
+						       data-aria-controls="selectoption-@(selectOption.ToString().ToLower())"
+						       aria-expanded="False"/>
+						<label for="selectoption@(selectOption)" class="govuk-label govuk-radios__label">
+							@selectOption.GetDescription()
+						</label>
+					</div>
+					@if (selectOption == SelectOption.Yes)
+					{
+						<div class="@(Model.ChangeSchoolNameReasonError ? "govuk-form-group--error" : "govuk-radios__conditional") 
+	                                            @(Model.ChangeName != SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+						     id="selectoption-yes" aria-expanded="false">
+							<div class="govuk-form-group govuk-error-summary__list">
+								<label for="selectoption-yes" class="govuk-label">What's the proposed new name?</label>
+								<span class="govuk-hint govuk-body govuk-!-margin-bottom-5">
+									You can change this later
+								</span>
+								<a href="#ChangeSchoolNameReasonNotEntered" class="@(Model.ChangeSchoolNameReasonError ? "govuk-error-message" : "govuk-visually-hidden")">
+									You must give your role
+								</a>
+								<input type="text" asp-for="ChangeSchoolNameReason" id="ChangeSchoolNameReason" class="govuk-input govuk-input--width-20" maxlength="100"/>
+							</div>
+						</div>
+					}
+				}
+			</div>
+		</div>		
 
 		<br/>
 		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
