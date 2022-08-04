@@ -18,12 +18,12 @@ public class SchoolApplyingToConvert
 	public int ApplicationId { get; set; }
 
     /// <summary>
-    /// Another unique school Id (6 digit number) e.g. 587634
+    /// Unique school Id (6 digit number) e.g. 101934
     /// </summary>
     public int URN { get; set; }
 
 	/// <summary>
-	/// Not nullable - GIAS unique school Id ? e.g. GAT00123
+	/// GIAS unique school Id ? e.g. GAT00123
 	/// </summary>
 	public string? UKPRN { get; set; }
 

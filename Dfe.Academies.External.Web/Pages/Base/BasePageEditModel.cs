@@ -71,10 +71,4 @@ public abstract class BasePageEditModel : BasePageModel
 			_ => string.Empty
 		};
 	}
-
-	protected string BuildSchoolOverviewUrl(int applicationId, int urn)
-	{
-		// MR:- https://localhost:44350/school/school-overview?appId=2147483647&urn=101934
-		return $"{SchoolOverviewPath}?appId={applicationId}&urn={urn}";
-	}
 }
