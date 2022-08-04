@@ -51,4 +51,22 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
             throw;
 	    }
     }
+
+    public Task AddTrustToApplication(int applicationId, int trustUkPrn, string name)
+    {
+	    try
+	    {
+		    ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
+		    //SchoolApplyingToConvert school = new(name, trustUkPrn, applicationId, null);
+
+		    // TODO: await API response from Academisation API
+		    // var result = await apiRequestProvider.PostAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
+		    return Task.CompletedTask;
+	    }
+	    catch (Exception ex)
+	    {
+		    _logger.LogError("ConversionApplicationCreationService::AddSchoolToApplication::Exception - {Message}", ex.Message);
+		    throw;
+	    }
+    }
 }
