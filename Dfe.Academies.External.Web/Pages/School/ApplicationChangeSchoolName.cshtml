@@ -10,18 +10,51 @@
 }
 
 <div class="govuk-grid-column-two-thirds">
-	<span class="govuk-caption-l">
-		Conversion key details
-	</span>
 	<h1 class="govuk-heading-l">
+		<span class="govuk-caption-l">Conversion key details</span>
 		Changing the name of the school
-	</h1>
+	</h1> 
 
 	<form method="post" name="frmPupilNumbers" novalidate="">
 		@Html.AntiForgeryToken()
 		<input type="hidden" value="@Model.Urn"/>
 		<partial name="_HiddenFields"/>
 
+@*		//MR:- from A2C sip*@
+		<div class="govuk-radios">
+			<a2c-radio-item is-checked="@((string) ViewData[FieldConstants.SipSchoolConversionChangeName] == ((int) Enums.A2CSelectOption.Yes).ToString())"
+					        conditional-field-name="explain-change"
+					        conditional-field-value="@((int) Enums.A2CSelectOption.Yes)"
+					        label-text="Yes"
+					        radio-value="@((int) Enums.A2CSelectOption.Yes)"
+					        field-name="@FieldConstants.SipSchoolConversionChangeName">
+			</a2c-radio-item>
+
+			<div class="govuk-radios__conditional" id="explain-change" style="@((string) ViewData[FieldConstants.SipSchoolConversionChangeName] != ((int) Enums.A2CSelectOption.Yes).ToString() ? "display: none" : "")"> 
+				<div class="govuk-form-group">
+					<a2c-label field-name="@FieldConstants.SipSchoolConversionChangeNameValue"
+							    label-text="What's the proposed new name?"
+							    view-data="@ViewData">
+					</a2c-label>
+					<span class="govuk-hint govuk-body govuk-!-margin-bottom-5">
+						You can change this later
+					</span>
+					<input id="@FieldConstants.SipSchoolConversionChangeNameValue"
+							name="@FieldConstants.SipSchoolConversionChangeNameValue"
+							class="govuk-input govuk-!-width-two-thirds"
+							type="text"
+							value="@ViewData[FieldConstants.SipSchoolConversionChangeNameValue]">
+				</div> 
+			</div>
+
+			<a2c-radio-item is-checked="@((string) ViewData[FieldConstants.SipSchoolConversionChangeName] == ((int) Enums.A2CSelectOption.No).ToString())"
+					        conditional-field-name="explain-change"
+					        conditional-field-value="@((int) Enums.A2CSelectOption.Yes)"
+					        label-text="No"
+					        radio-value="@((int) Enums.A2CSelectOption.No)"
+					        field-name="@FieldConstants.SipSchoolConversionChangeName">
+			</a2c-radio-item>
+		</div>
 
 		<br/>
 		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
