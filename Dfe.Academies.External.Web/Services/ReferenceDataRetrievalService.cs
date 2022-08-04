@@ -1,5 +1,7 @@
 ﻿using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Trusts;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.ViewModels;
 using System.Web;
 
@@ -86,6 +88,70 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		}
 
 		queryParams.Add("api-version", apiVersionNumber);
+
+		return HttpUtility.UrlEncode(queryParams.ToString());
+	}
+
+	///<inheritdoc/>
+	public async Task<List<TrustSearchDto>> GetTrusts(TrustSearch trustSearch)
+	{
+		try
+		{
+			// {{api-host}}/trusts?api-version=V1&groupName=grammar
+			string apiurl = $"{_httpClient.BaseAddress}/trusts?{BuildTrustSearchRequestUri(trustSearch)}&api-version=V1";
+			
+			// API returns ApiListWrapper<TrustSearchDto>
+			var APIresult = await _resilientRequestProvider.GetAsync<List<TrustSearchDto>>(apiurl);
+
+			return APIresult;
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError("ReferenceDataRetrievalService::GetTrusts::Exception - {Message}", ex.Message);
+			throw;
+		}
+	}
+
+	///<inheritdoc/>
+	public async Task<List<TrustSummaryDto>> GetTrustByUkPrn(string ukPrn)
+	{
+		try
+		{
+			// MR:- api endpoint to build will look like this:-
+			// {{api-host}}/trusts?ukprn=10058464&api-version=V1
+			string apiurl = $"{_httpClient.BaseAddress}/trusts?ukprn={ukPrn}&api-version=V1";
+
+			// API - returns ApiWrapper<TrustDetailsDto>
+			var APIresult = await _resilientRequestProvider.GetAsync<List<TrustSummaryDto>>(apiurl);
+			
+			return APIresult;
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError("ReferenceDataRetrievalService::GetTrustByUkPrn::Exception - {Message}", ex.Message);
+			throw;
+		}
+	}
+
+	//// Public method, so can write unit tests !!!!
+	public string BuildTrustSearchRequestUri(TrustSearch trustSearch)
+	{
+		var queryParams = HttpUtility.ParseQueryString(string.Empty);
+
+		if (!string.IsNullOrEmpty(trustSearch.GroupName))
+		{
+			queryParams.Add("groupName", trustSearch.GroupName);
+		}
+		if (!string.IsNullOrEmpty(trustSearch.Ukprn))
+		{
+			queryParams.Add("ukprn", trustSearch.Ukprn);
+		}
+		if (!string.IsNullOrEmpty(trustSearch.CompaniesHouseNumber))
+		{
+			queryParams.Add("companiesHouseNumber", trustSearch.CompaniesHouseNumber);
+		}
+
+		queryParams.Add("page", trustSearch.Page.ToString());
 
 		return HttpUtility.UrlEncode(queryParams.ToString());
 	}

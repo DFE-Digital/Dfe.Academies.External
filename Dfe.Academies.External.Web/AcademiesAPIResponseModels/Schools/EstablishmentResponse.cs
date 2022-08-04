@@ -1,49 +1,40 @@
-using System.Text.Json.Serialization;
-
 namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 
 public record EstablishmentResponse
 {
-	/// <summary>
-	/// System.Text de-serialization requires this !!!
-	/// </summary>
-	public EstablishmentResponse()
-	{
-		Address = new AddressResponse();
-	}
-
-	public EstablishmentResponse(string name, string urn, string ukprn, string street, string town, string fullUkPostcode)
+	public EstablishmentResponse(string urn,
+		string establishmentNumber,
+		string establishmentName, 
+		string ukprn,
+		string uprn,
+		AddressResponse address)
 	{
 		Urn = urn;
-		Name = name;
+		EstablishmentNumber = establishmentNumber;
+		EstablishmentName = establishmentName;
 		Ukprn = ukprn;
-		Address = new AddressResponse(street:street, town:town, fullUkPostcode: fullUkPostcode);
+		UPRN = uprn;
+		Address = address;
 	}
 
 	/// <summary>
 	/// Unique identifier for a school.
 	/// </summary>
-	[JsonPropertyName("urn")]
 	public string Urn { get; set; }
 
-	[JsonPropertyName("establishmentNumber")]
-	public string Number { get; set; }
+	public string EstablishmentNumber { get; set; } 
 
-	[JsonPropertyName("establishmentName")]
-	public string Name { get; set; }
+	public string EstablishmentName { get; set; }
 
-	[JsonInclude]
 	public AddressResponse Address { get; set; }
 	
 	/// <summary>
 	/// Unique identifier for a trust. urn is null on trust search
 	/// </summary>
-	[JsonPropertyName("ukprn")]
 	public string Ukprn { get; set; }
 
 	/// <summary>
 	/// Some other identifier
 	/// </summary>
-	[JsonPropertyName("uprn")]
 	public string UPRN { get; set; }
 }
