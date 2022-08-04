@@ -23,7 +23,7 @@ internal sealed class EstablishmentResponseTests
 		string town = Fixture.Create<string>();
 		string fullUkPostcode = Fixture.Create<string>();
 		
-		AddressResponse address = new AddressResponse(street, town, fullUkPostcode);
+		AddressResponse address = new (street, town, fullUkPostcode);
 
 		var establishmentResponse = new EstablishmentResponse(urn,establishmentNumber, schoolName, ukprn, uprn, address);
 
