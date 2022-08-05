@@ -93,7 +93,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		    ResilientRequestProvider apiRequestProvider = new(_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
 
             // TODO: wire up Academisation API
-            // var result = await apiRequestProvider.PostAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
+            // var result = await apiRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, application);
         }
         catch (Exception ex)
 	    {
