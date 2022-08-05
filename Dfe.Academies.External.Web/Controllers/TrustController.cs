@@ -2,6 +2,7 @@
 using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 
 namespace Dfe.Academies.External.Web.Controllers
 {
@@ -36,7 +37,7 @@ namespace Dfe.Academies.External.Web.Controllers
 				}
 
 				var schoolSearch = new TrustSearch(searchQuery, searchQuery, searchQuery);
-				var schoolSearchResponse = await _referenceDataRetrievalService.SearchTrusts(schoolSearch);
+				var schoolSearchResponse = await _referenceDataRetrievalService.GetTrusts(schoolSearch);
 
 				if (schoolSearchResponse.Any())
 				{
@@ -69,13 +70,16 @@ namespace Dfe.Academies.External.Web.Controllers
 					.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
 				int ukprn = Convert.ToInt32(schoolSplit[^1]);
-				var result = await _referenceDataRetrievalService.GetTrust(ukprn);
+				var trusts = await _referenceDataRetrievalService.GetTrustByUkPrn(ukprn.ToString());
 
-				var vm = new TrustDetailsViewModel(trustName: result.Name,
+				// MR:- search returns list<> so need to do below:-
+				var trust = trusts.FirstOrDefault();
+
+				var vm = new TrustDetailsViewModel(trustName: trust.GroupName,
 					ukprn: ukprn,
-					street: result.Address.Street,
-					town: result.Address.Town,
-					fullUkPostcode: result.Address.Postcode);
+					street: trust.TrustAddress.Street,
+					town: trust.TrustAddress.Town,
+					fullUkPostcode: trust.TrustAddress.Postcode);
 
 				return PartialView("_TrustDetails", vm);
 			}
