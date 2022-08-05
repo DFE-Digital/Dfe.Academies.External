@@ -21,7 +21,7 @@ internal sealed class ApplicationChangeSchoolNameModelTests
 	/// </summary>
 	/// <returns></returns>
 	[Test]
-	public async Task ApplicationChangeSchoolNameModel___OnGetAsync___Valid()
+	public async Task OnGetAsync___Valid___NullErrors()
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -48,9 +48,9 @@ internal sealed class ApplicationChangeSchoolNameModelTests
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
-	// TODO MR:- ApplicationChangeSchoolNameModel___OnPostAsync___ModelIsValid___InValid
+	// TODO MR:- OnPostAsync___ModelIsValid___InValid
 
-	// TODO MR:- ApplicationChangeSchoolNameModel___OnPostAsync___ModelIsValid___Valid
+	// TODO MR:- OnPostAsync___ModelIsValid___Valid
 
 	private static ApplicationChangeSchoolNameModel SetupApplicationChangeSchoolNameModel(
 		ILogger<ApplicationChangeSchoolNameModel> mockLogger,
