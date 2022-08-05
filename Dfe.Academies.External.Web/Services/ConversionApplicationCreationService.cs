@@ -7,7 +7,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 {
     private readonly ILogger<ConversionApplicationCreationService> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
-
+    
     public ConversionApplicationCreationService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationCreationService> logger) : base(httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;

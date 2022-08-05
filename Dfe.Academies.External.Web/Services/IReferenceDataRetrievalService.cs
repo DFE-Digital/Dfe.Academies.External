@@ -1,4 +1,5 @@
 ﻿using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Trusts;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 using Dfe.Academies.External.Web.ViewModels;
 
@@ -19,4 +20,18 @@ public interface IReferenceDataRetrievalService
 	/// <param name="urn"></param>
 	/// <returns></returns>
 	Task<EstablishmentResponse> GetSchool(int urn);
+
+	/// <summary>
+	/// Method to call academies API Trusts Search endpoint
+	/// </summary>
+	/// <param name="trustSearch"></param>
+	/// <returns></returns>
+	Task<List<TrustSearchDto>> GetTrusts(TrustSearch trustSearch);
+
+	/// <summary>
+	/// Method to call academies API Get Trust endpoint
+	/// </summary>
+	/// <param name="ukPrn"></param>
+	/// <returns></returns>
+	Task<List<TrustSummaryDto>> GetTrustByUkPrn(string ukPrn);
 }

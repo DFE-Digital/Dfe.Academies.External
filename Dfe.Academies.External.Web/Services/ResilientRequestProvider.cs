@@ -31,8 +31,6 @@ namespace Dfe.Academies.External.Web.Services
         /// <inheritdoc/>
         public async Task<TResult> GetAsync<TResult>(string uri, string token = "")
         {
-            TResult result = default;
-
             //this.ClearRequestHeaders(this._client); // MR:- commented out as headers set up StartupExtension
 
             // don't always have token e.g. token / login 
@@ -41,11 +39,7 @@ namespace Dfe.Academies.External.Web.Services
                 this.AddBearerTokenAuthenticationHeader(this._client, token);
             }
 
-            var response = await this._client.GetAsync(uri);
-            response.EnsureSuccessStatusCode();
-
-            // using stream reader as below
-            result = await this.ConvertResponseContent<TResult>(response);
+            var result = await _client.GetFromJsonAsync<TResult>(uri);
 
             return result;
         }
