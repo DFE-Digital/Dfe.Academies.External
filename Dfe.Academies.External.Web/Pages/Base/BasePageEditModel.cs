@@ -55,15 +55,6 @@ public abstract class BasePageEditModel : BasePageModel
 		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 	}
 
-	public void LoadAndStoreCachedConversionApplication()
-	{
-		//// on load - grab draft application from temp
-		var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-		//// MR:- Need to drop into this pages cache here ready for post / server callback !
-		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-	}
-
 	protected string SetSchoolApplicationComponentUriFromName(string componentName)
 	{
 		return componentName.ToLower().Trim() switch
