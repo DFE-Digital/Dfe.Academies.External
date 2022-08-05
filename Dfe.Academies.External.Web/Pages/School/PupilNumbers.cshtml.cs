@@ -17,7 +17,7 @@ namespace Dfe.Academies.External.Web.Pages.School
         public int ApplicationId { get; set; }
 
         [BindProperty]
-        public int SchoolId { get; private set; }
+        public int Urn { get; private set; }
 
         public string SchoolName { get; private set; } = string.Empty;
 
@@ -54,24 +54,18 @@ namespace Dfe.Academies.External.Web.Pages.School
             _academisationCreationService = academisationCreationService;
         }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int urn, int appId)
         {
 	        try
             {
-                //// on load - grab draft application from temp
-                var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+	            LoadAndStoreCachedConversionApplication();
 
-                //// MR:- Need to drop into this pages cache here ready for post / server callback !
-                TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-                // TODO MR:- get SchoolId / ApplicationId from cache
-                // var schoolCacheViewModel = ViewDataHelper.GetSerialisedValue<SchoolCacheValuesViewModel>(nameof(SchoolCacheValuesViewModel), ViewData) ?? new SchoolCacheValuesViewModel();
-                var selectedSchool = await LoadAndSetSchoolDetails(99, 99);
+                var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
 
                 // Grab other values from API
                 if (selectedSchool != null)
                 {
-	                // TODO MR:- grab existing pupil numbers from API endpoint - applicationId && SchoolId combination !
+	                // TODO MR:- grab existing pupil numbers from API endpoint to populate VM - applicationId && SchoolId combination !
 
 
 	                PopulateUiModel(selectedSchool);
@@ -132,7 +126,7 @@ namespace Dfe.Academies.External.Web.Pages.School
         private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
         {
             ApplicationId = selectedSchool.ApplicationId;
-	        SchoolId = selectedSchool.SchoolId;
+            Urn = selectedSchool.URN;
 	        SchoolName = selectedSchool.SchoolName;
         }
     }
