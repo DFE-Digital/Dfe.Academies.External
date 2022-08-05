@@ -19,7 +19,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Controllers;
 internal sealed class SchoolControllerTests
 {
     [Test]
-    public async Task SchoolController___Search___ReturnsResult()
+    public async Task Seach___ResultsFound___ResultsReturned()
     {
         // arrange
         var mockLogger = new Mock<ILogger<SchoolController>>();
@@ -42,7 +42,7 @@ internal sealed class SchoolControllerTests
     }
 
     [Test]
-    public async Task SchoolController___ReturnSchoolDetailsPartialViewPopulated___ReturnsPartialView()
+    public async Task ReturnSchoolDetailsPartialViewPopulated___ValidSchool___ReturnsPartialView()
     {
 	    // arrange
 	    var mockLogger = new Mock<ILogger<SchoolController>>();
