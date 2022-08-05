@@ -45,7 +45,7 @@ internal sealed class ApplicationJoinTrustReasonsModelTests
 		await pageModel.OnGetAsync(urn, applicationId);
 
 		// assert
-		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
+		Assert.AreEqual(null,pageModel.TempData["Errors"]);
 	}
 
 	// TODO MR:- OnPostAsync___ModelIsValid___InValid
