@@ -2,6 +2,19 @@
 
 public record TrustSearchDto
 {
+	public TrustSearchDto(string ukprn,
+		string urn,
+		string groupName,
+		string companiesHouseNumber,
+		GroupContactAddressDto trustAddress)
+	{
+		UkPrn = ukprn;
+		Urn = urn;
+		GroupName = groupName;
+		CompaniesHouseNumber = companiesHouseNumber;
+		TrustAddress = trustAddress;
+	}
+
 	/// <summary>
 	/// Unique identifier for a trust. urn is null on trust search
 	/// </summary>
