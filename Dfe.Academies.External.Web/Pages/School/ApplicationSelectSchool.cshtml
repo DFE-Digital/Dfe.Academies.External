@@ -1,0 +1,86 @@
+﻿@page
+@model ApplicationSelectSchoolModel
+@{
+	ViewData["Title"] = "Apply to become an academy - School Details";
+}
+
+@section BeforeMain
+{
+	<a asp-page="YourApplications" class="govuk-back-link">Back</a>
+}
+
+<div class="ccms-loader govuk-!-display-none"></div>
+
+<div class="govuk-grid-column-two-thirds">
+	<div id="divApplyingToDo" class="govuk-form-group">
+		<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+			<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+		</div>
+
+		<form method="post" id="search-form" novalidate>
+			@Html.AntiForgeryToken()
+			<input type="hidden" id="applicationId" asp-for="ApplicationId"/>
+			<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+
+				<h2 class="govuk-heading-m">School details</h2>
+				<fieldset class="govuk-fieldset" data-required data-error="Search cannot be blank" aria-required="true">
+					<div id="SearchQueryContainer" class="govuk-form-group">
+						<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+							<h2 class="govuk-fieldset__heading govuk-heading-m">
+								What is the name of the school?
+							</h2>
+						</legend>
+						<label class="govuk-hint"
+						       for="schoolSelect">Enter the name of the school, or its 6 digit unique reference number (URN)</label>
+						<span asp-validation-for="SearchQuery" class="govuk-error-message"></span>
+						<input id='SearchQueryInput' asp-for="@Model.SearchQuery"
+						       class="govuk-input govuk-input--width-20"
+						       maxlength="100"
+						       type="search" aria-valuetext="" 
+						       aria-describedby="search-hint search-error"/>
+						<div id="autocomplete-container"></div>
+@*						<ul class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden" id="search__listbox" role="listbox">
+							<li class="autocomplete__option autocomplete__option--no-results">No results found.</li>
+						</ul>*@
+					</div>
+
+					<div class="govuk-form-group">
+						<div id="schoolSelectedDetails" class="hideElement"></div>
+						<div id="confirm-school-checkbox" class="govuk-checkboxes" data-module="govuk-checkboxes">
+							<div id="ConfirmationErrorContainer" class="hideElement">
+								<span asp-validation-for="CorrectSchoolConfirmation" class="govuk-error-message"></span>
+							</div>
+							<div class="govuk-checkboxes__item">
+								<input id='ConfirmSelection'
+								       asp-for="@Model.CorrectSchoolConfirmation"
+								       class='hideElement govuk-checkboxes__input'
+								       onclick="academies.clearCheckboxValidation(this.checked);">
+								<label id='confirm-school-label' for='ConfirmSelection'
+								       class='hideElement govuk-label govuk-checkboxes__label'>
+									This is the correct school
+								</label>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+			<br/>
+			<div class="js-show">
+				<input type="submit" asp-page-handler="AddSchool" id="btnAdd" value="Save and continue"
+				       class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"
+				       onclick="academies.clientSideValidation()"/>
+			</div>
+			<noscript>
+				<input type="submit" asp-page-handler="Find" id="btnFind" value="Search"
+				       class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+			</noscript>
+		</form>
+	</div>
+</div>
+
+
+
+@section Scripts {
+	<script src="/js/academies.schoolsearch.js" asp-append-version="true"></script>
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

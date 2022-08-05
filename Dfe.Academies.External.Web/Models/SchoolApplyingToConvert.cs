@@ -2,21 +2,36 @@
 
 public class SchoolApplyingToConvert
 {
-	public SchoolApplyingToConvert(string schoolName)
+	public SchoolApplyingToConvert(string schoolName, int urn, int applicationId, string? ukprn)
 	{
 		SchoolName = schoolName;
+		UKPRN = ukprn;
+		URN = urn;
+        ApplicationId = applicationId;
 	}
 
-    public int Id { get; set; }
+	/// <summary>
+	/// This would be existing Id from GIAS 6 digit URN? OR unique Row Id
+	/// </summary>
+	public int SchoolId { get; set; }
+
+	public int ApplicationId { get; set; }
 
     /// <summary>
-    /// This would be existing Id from GIAS (?). 6 digit URN?
+    /// Unique school Id (6 digit number) e.g. 101934
     /// </summary>
-    public int SchoolId { get; set; }
+    public int URN { get; set; }
+
+	/// <summary>
+	/// GIAS unique school Id ? e.g. GAT00123
+	/// </summary>
+	public string? UKPRN { get; set; }
 
     public string SchoolName { get; set; }
 
-    public List<ConversionApplicationComponent> ConversionApplicationComponents { get; set; } = new();
+    public Address Address { get; set; }
+
+    public List<ConversionApplicationComponent> SchoolApplicationComponents { get; set; } = new();
 
     // TODO MR:- contact head - or list<Contact> with a type?
 

@@ -13,11 +13,13 @@ internal sealed class SchoolApplyingToConvertTests
     public void SchoolOrSchoolsApplyingToConvert___PropertyCheck___Success()
     {
         // arrange
+        int applicationId = Fixture.Create<int>();
+        int urn = Fixture.Create<int>();
         string schoolName = Fixture.Create<string>();
-        
-        var conversionApplication = new SchoolApplyingToConvert(schoolName)
+
+        var conversionApplication = new SchoolApplyingToConvert(schoolName, urn, applicationId, null)
         {
-            Id = int.MaxValue
+	        SchoolId = int.MaxValue
         };
 
         // act
@@ -25,7 +27,7 @@ internal sealed class SchoolApplyingToConvertTests
 
         // assert
         Assert.That(conversionApplication, Is.Not.Null);
-        Assert.That(conversionApplication.Id, Is.EqualTo(int.MaxValue));
+        Assert.That(conversionApplication.SchoolId, Is.EqualTo(int.MaxValue));
         Assert.That(conversionApplication.SchoolName, Is.EqualTo(schoolName));
     }
 }

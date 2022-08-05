@@ -27,16 +27,28 @@ builder.Services
 			.AllowAnonymousToPage("/Accessibility")
 			.AllowAnonymousToPage("/Cookies")
 			.AllowAnonymousToPage("/Terms")
+			.AllowAnonymousToPage("/Privacy")
 			.AllowAnonymousToPage("/WhatYouWillNeed")
 			// TODO :- below is temporary config UNTIL auth is sorted - just for demo reasons !!
-            .AllowAnonymousToPage("/WhatAreYouApplyingToDo")
-            .AllowAnonymousToPage("/YourApplications")
-            .AllowAnonymousToPage("/WhatIsYourRole")
-			;
+			.AllowAnonymousToPage("/WhatAreYouApplyingToDo")
+			.AllowAnonymousToPage("/YourApplications")
+			.AllowAnonymousToPage("/ApplicationOverview")
+			.AllowAnonymousToPage("/WhatIsYourRole")
+			.AllowAnonymousToPage("/school/SchoolOverview")
+			.AllowAnonymousToPage("/school/ApplicationSelectSchool")
+			.AllowAnonymousToPage("/school/PupilNumbers");
+	})
+	.AddViewOptions(options =>
+	{
+		options.HtmlHelperOptions.ClientValidationEnabled = true;
 	})
 	.AddRazorPagesOptions(options =>
 	{
 		options.Conventions.Add(new PageRouteTransformerConvention(new HyphenateRouteParameterTransformer()));
+	})
+	.AddMvcOptions(options =>
+	{
+		options.MaxModelValidationErrors = 50;
 	});
 
 builder.Services.AddAuthentication(options =>
@@ -94,6 +106,16 @@ builder.Host.UseSerilog((ctx, lc) => lc
 	.WriteTo.Console(new RenderedCompactJsonFormatter())
 	.WriteTo.Sentry());
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+	{
+		options.Cookie.HttpOnly = true;
+		options.Cookie.SameSite = SameSiteMode.Strict;
+		options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+		options.Cookie.IsEssential = true;
+	}
+);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -117,5 +139,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+// MR:- need below because search methods are in a controller !
+app.MapControllers();
+
+app.UseSession();
 
 app.Run();

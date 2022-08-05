@@ -67,7 +67,7 @@ internal sealed class ConversionApplicationTests
     //        TrustName = "Pudsey School"
     //    };
 
-    //    conversionApplication.ConversionApplicationComponents.AddRange(new List<ConversionApplicationComponent>
+    //    conversionApplication.SchoolApplicationComponents.AddRange(new List<ConversionApplicationComponent>
     //    {
     //        new(name:"Contact details") {Id = 1, Status = Status.NotStarted},
     //        new(name:"Performance and safeguarding") {Id = 2, Status = Status.NotStarted},
@@ -99,7 +99,7 @@ internal sealed class ConversionApplicationTests
     //        TrustName = "Pudsey School"
     //    };
 
-    //    conversionApplication.ConversionApplicationComponents.AddRange(new List<ConversionApplicationComponent>
+    //    conversionApplication.SchoolApplicationComponents.AddRange(new List<ConversionApplicationComponent>
     //    {
     //        new(name:"Contact details") {Id = 1, Status = Status.Completed},
     //        new(name:"Performance and safeguarding") {Id = 2, Status = Status.InProgress},
@@ -131,7 +131,7 @@ internal sealed class ConversionApplicationTests
     //        TrustName = "Pudsey School"
     //    };
 
-    //    conversionApplication.ConversionApplicationComponents.AddRange(new List<ConversionApplicationComponent>
+    //    conversionApplication.SchoolApplicationComponents.AddRange(new List<ConversionApplicationComponent>
     //    {
     //        new(name:"Contact details") {Id = 1, Status = Status.Completed},
     //        new(name:"Performance and safeguarding") {Id = 2, Status = Status.Completed},

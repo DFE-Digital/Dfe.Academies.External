@@ -13,23 +13,33 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
     private readonly IConversionApplicationCreationService _academisationCreationService;
     private const string NextStepPage = "/WhatIsYourRole";
 
-        public WhatAreYouApplyingToDoModel(ILogger<WhatAreYouApplyingToDoModel> logger, 
-                                            IConversionApplicationCreationService academisationCreationService)
-        {
-            _logger = logger;
-            _academisationCreationService = academisationCreationService;
-        }
+    public WhatAreYouApplyingToDoModel(ILogger<WhatAreYouApplyingToDoModel> logger, 
+                                        IConversionApplicationCreationService academisationCreationService)
+    {
+        _logger = logger;
+        _academisationCreationService = academisationCreationService;
+    }
 
     [BindProperty]
     [RequiredEnum(ErrorMessage = "Select an application type")]
     public ApplicationTypes ApplicationType { get; set; }
 
-        public async Task OnGetAsync()
-        {
-            // like on load - if navigating backwards from NextStepPage - will need to set model value from somewhere!
-            // _draftConversionApplication = _tempDataHelperService.GetSerialisedValue<ConversionApplication>("draftConversionApplication", TempData) ?? new ConversionApplication();
-            // ApplicationType = _draftConversionApplication.ApplicationType;
+    public async Task OnGetAsync()
+    {
+	    try
+	    {
+		    // like on load - if navigating backwards from NextStepPage - will need to set model value from somewhere!
+		    //// on load - grab draft application from temp
+		    var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+		    //// MR:- Need to drop into this pages cache here ready for post / server callback !
+		    TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
         }
+	    catch (Exception ex)
+	    {
+		    _logger.LogError("Application::WhatAreYouApplyingToDoModel::OnGetAsync::Exception - {Message}", ex.Message);
+	    }
+    }
 
     public async Task<IActionResult> OnPostAsync()
     {
@@ -40,41 +50,30 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
             return Page();
         }
 
-            var applicationTypeSelected = ApplicationType;
-            try
+        try
+        {
+	        var applicationTypeSelected = ApplicationType;
+            var _draftConversionApplication = new ConversionApplication
             {
-                var _draftConversionApplication = new ConversionApplication
-                {
-                    ApplicationType = applicationTypeSelected,
-                    UserEmail = "Auth user"
-                };
+                ApplicationType = applicationTypeSelected,
+                UserEmail = "Auth user"
+            };
 
-                _draftConversionApplication = await _academisationCreationService.CreateNewApplication(_draftConversionApplication);
+            _draftConversionApplication = await _academisationCreationService.CreateNewApplication(_draftConversionApplication);
 
-                if(_draftConversionApplication != null)
-                    // MR:- plop newApplication.Id somewhere so NextStepPage can pick this up !
-                    TempDataHelper.StoreSerialisedValue("draftConversionApplication", TempData, _draftConversionApplication);
-            }
-            catch (Exception ex)
+            if (_draftConversionApplication != null)
             {
-                _logger.LogError("Application::WhatAreYouApplyingToDoModel::OnPostAsync::Exception - {Message}", ex.Message);
-                return Page();
-            }
-            
-            switch (applicationTypeSelected)
-            {
-                case ApplicationTypes.JoinMat:
-                    TempData["applicationTypeSelected"] = applicationTypeSelected;
-                    return RedirectToPage(NextStepPage);
-                case ApplicationTypes.FormNewMat:
-                    TempData["applicationTypeSelected"] = applicationTypeSelected;
-                    return RedirectToPage(NextStepPage);
-                case ApplicationTypes.FormNewSingleAcademyTrust:
-                    TempData["applicationTypeSelected"] = applicationTypeSelected;
-                    return RedirectToPage(NextStepPage);
+	            // MR:- plop newApplication.Id somewhere so NextStepPage can pick this up !
+	            TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, _draftConversionApplication);
             }
 
-        return Page();
+            return RedirectToPage(NextStepPage);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Application::WhatAreYouApplyingToDoModel::OnPostAsync::Exception - {Message}", ex.Message);
+            return Page();
+        }
     }
 
     public override void PopulateValidationMessages()

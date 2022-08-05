@@ -5,12 +5,14 @@ namespace Dfe.Academies.External.Web.Pages.Base;
 
 public abstract class BasePageModel : PageModel
 {
-    public BasePageModel()
+	public bool UserHasSubmitApplicationRole { get; private set; } = false;
+
+    public ValidationErrorMessagesViewModel ValidationErrorMessagesViewModel { get; set; }
+
+    protected BasePageModel()
     {
         this.ValidationErrorMessagesViewModel = new ValidationErrorMessagesViewModel();
     }
-
-    public ValidationErrorMessagesViewModel ValidationErrorMessagesViewModel { get; set; }
 
     public IReadOnlyDictionary<string, IEnumerable<string>?> ConvertModelStateToDictionary()
     {

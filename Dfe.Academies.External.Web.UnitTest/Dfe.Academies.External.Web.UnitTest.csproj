@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,6 +6,28 @@
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ExampleJsonResponses\getSchoolResponse.json" />
+    <None Remove="ExampleJsonResponses\getTrustResponse.json" />
+    <None Remove="ExampleJsonResponses\getTrustSearchResponse.json" />
+    <None Remove="ExampleJsonResponses\schoolSearchResponse.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ExampleJsonResponses\getSchoolResponse.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExampleJsonResponses\getTrustResponse.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExampleJsonResponses\getTrustSearchResponse.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExampleJsonResponses\schoolSearchResponse.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.17.0" />
@@ -20,6 +42,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dfe.Academies.External.Web\Dfe.Academies.External.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="AcademiesAPIResponseModels\Trusts\" />
   </ItemGroup>
 
 </Project>
