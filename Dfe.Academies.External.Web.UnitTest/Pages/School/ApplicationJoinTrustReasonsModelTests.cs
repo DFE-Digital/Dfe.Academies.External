@@ -21,7 +21,7 @@ internal sealed class ApplicationJoinTrustReasonsModelTests
 	/// </summary>
 	/// <returns></returns>
 	[Test]
-	public async Task ApplicationJoinTrustReasonsModel___OnGetAsync___Valid()
+	public async Task OnGetAsync___Valid___NullErrors()
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -48,9 +48,9 @@ internal sealed class ApplicationJoinTrustReasonsModelTests
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
-	// TODO MR:- ApplicationJoinTrustReasonsModel___OnPostAsync___ModelIsValid___InValid
+	// TODO MR:- OnPostAsync___ModelIsValid___InValid
 
-	// TODO MR:- ApplicationJoinTrustReasonsModel___OnPostAsync___ModelIsValid___Valid
+	// TODO MR:- OnPostAsync___ModelIsValid___Valid
 
 	private static ApplicationJoinTrustReasonsModel SetupApplicationJoinTrustReasonsModel(
 		ILogger<ApplicationJoinTrustReasonsModel> mockLogger,
