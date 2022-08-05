@@ -1,24 +1,19 @@
-﻿using Dfe.Academies.External.Web.Services;
+﻿using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
+using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 
 namespace Dfe.Academies.External.Web.Controllers
 {
-	// TODO MR:- baseController
 	// [Authorize]
-	public class TrustController : Controller
+	public class TrustController : BaseController
 	{
-		private const int SearchQueryMinLength = 3;
 		private readonly ILogger<TrustController> _logger;
-		private readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
 
-		public TrustController(ILogger<TrustController> logger,
-			IReferenceDataRetrievalService referenceDataRetrievalService)
+		public TrustController(ILogger<TrustController> logger, IReferenceDataRetrievalService referenceDataRetrievalService) : base(referenceDataRetrievalService)
 		{
 			_logger = logger;
-			_referenceDataRetrievalService = referenceDataRetrievalService;
 		}
 
 		[HttpGet]
@@ -36,12 +31,12 @@ namespace Dfe.Academies.External.Web.Controllers
 					return Enumerable.Empty<string>();
 				}
 
-				var schoolSearch = new TrustSearch(searchQuery, searchQuery, searchQuery);
-				var schoolSearchResponse = await _referenceDataRetrievalService.GetTrusts(schoolSearch);
+				var trustSearch = new TrustSearch(searchQuery, searchQuery, searchQuery);
+				var trusts = await ReferenceDataRetrievalService.GetTrusts(trustSearch);
 
-				if (schoolSearchResponse.Any())
+				if (trusts.Any())
 				{
-					return schoolSearchResponse.Select(x => x.DisplayName).AsEnumerable();
+					return trusts.Select(x => x.DisplayName).AsEnumerable();
 				}
 				else
 				{
@@ -58,19 +53,19 @@ namespace Dfe.Academies.External.Web.Controllers
 
 		[HttpGet]
 		[Route("trust/ReturnTrustDetailsPartialViewPopulated")]
-		[Route("trust/trust/ReturnSchoolDetailsPartialViewPopulated")]
+		[Route("trust/trust/ReturnTrustDetailsPartialViewPopulated")]
 		public async Task<IActionResult> ReturnTrustDetailsPartialViewPopulated(string selectedTrust)
 		{
 			try
 			{
 				// Remove whitespace and trailing ) then split removing empty entries
-				var schoolSplit = selectedTrust
+				var trustSplit = selectedTrust
 					.Trim()
 					.Replace(")", string.Empty)
 					.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
-				int ukprn = Convert.ToInt32(schoolSplit[^1]);
-				var trusts = await _referenceDataRetrievalService.GetTrustByUkPrn(ukprn.ToString());
+				int ukprn = Convert.ToInt32(trustSplit[^1]);
+				var trusts = await ReferenceDataRetrievalService.GetTrustByUkPrn(ukprn.ToString());
 
 				// MR:- search returns list<> so need to do below:-
 				var trust = trusts.FirstOrDefault();
@@ -85,7 +80,7 @@ namespace Dfe.Academies.External.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError("SchoolController::ReturnTrustDetailsPartialViewPopulated::Exception - {Message}", ex.Message);
+				_logger.LogError("TrustController::ReturnTrustDetailsPartialViewPopulated::Exception - {Message}", ex.Message);
 				return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
 			}
 		}
