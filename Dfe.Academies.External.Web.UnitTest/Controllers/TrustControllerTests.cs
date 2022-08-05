@@ -19,7 +19,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Controllers;
 internal sealed class TrustControllerTests
 {
     [Test]
-    public async Task TrustController___Search___ReturnsResult()
+    public async Task Search___ResultsFound___ResultsReturned()
     {
         // arrange
         var mockLogger = new Mock<ILogger<TrustController>>();
@@ -42,7 +42,7 @@ internal sealed class TrustControllerTests
     }
 
     [Test]
-    public async Task TrustController___ReturnSchoolDetailsPartialViewPopulated___ReturnsPartialView()
+    public async Task ReturnTrustDetailsPartialViewPopulated___ValidTrust___ReturnsPartialView()
     {
 	    // arrange
 	    var mockLogger = new Mock<ILogger<TrustController>>();
