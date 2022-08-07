@@ -17,7 +17,7 @@ namespace Dfe.Academies.External.Web.Pages.School
         public int ApplicationId { get; set; }
 
         [BindProperty]
-        public int SchoolId { get; private set; }
+        public int Urn { get; private set; }
 
         public string SchoolName { get; private set; } = string.Empty;
 
@@ -132,7 +132,7 @@ namespace Dfe.Academies.External.Web.Pages.School
         private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
         {
             ApplicationId = selectedSchool.ApplicationId;
-	        SchoolId = selectedSchool.SchoolId;
+            Urn = selectedSchool.URN;
 	        SchoolName = selectedSchool.SchoolName;
         }
     }
