@@ -1,0 +1,25 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.School.SchoolConversionKeyDetailsModel
+@{
+	ViewData["Title"] = "Apply to become an academy - About the conversion";
+}
+
+@section BeforeMain
+{
+	<a asp-page="../ApplicationOverview" class="govuk-back-link">Back to application overview</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<span class="govuk-caption-l">
+		@Model.SchoolName
+	</span>
+	<span class="govuk-caption-l">
+		About the conversion
+	</span>
+	
+
+
+	<a asp-page="../ApplicationOverview" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+</div>
+<input type="hidden" asp-for="Urn"/>
+<partial name="_HiddenFields"/>
