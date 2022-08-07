@@ -19,7 +19,8 @@
 
 	<form method="post" name="frmApplicationJoinTrustReason" novalidate="">
 		@Html.AntiForgeryToken()
-		<input type="hidden" value="@Model.Urn"/>
+		<input type="hidden" asp-for="Urn"/>
+		<input type="hidden" asp-for="ApplicationId"/>
 		<partial name="_HiddenFields"/>
 		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 			<fieldset class="govuk-fieldset">
