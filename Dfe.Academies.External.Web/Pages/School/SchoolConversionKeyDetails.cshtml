@@ -10,18 +10,18 @@
 }
 
 <div class="govuk-grid-column-two-thirds">
-	<div class="govuk-grid-column-two-thirds">
-		<span class="govuk-caption-l">
-			@Model.SchoolName
-		</span>
-		<h1 class="govuk-heading-l">
-			About the conversion
-		</h1>
-	</div>
-	
+	<span class="govuk-caption-l">
+		@Model.SchoolName
+	</span>
+	<h1 class="govuk-heading-l">
+		About the conversion
+	</h1>
+
 @foreach (var component in Model.ViewModel)
 {
-	@* render component.Title *@
+	<h2 class="govuk-heading-m">
+		@component.Title
+	</h2>
 	<table class="govuk-table">
 		<tbody class="govuk-table__body">
 			<tr>
