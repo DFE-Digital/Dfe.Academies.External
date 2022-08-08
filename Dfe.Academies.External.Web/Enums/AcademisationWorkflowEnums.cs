@@ -46,17 +46,18 @@ public enum KeyPersonRole
     Other = 5
 }
 
+public enum SelectOption
+{
+	[Description("Yes")]
+	Yes = 907660000,
+	[Description("No")]
+	No = 907660001
+}
+
 public enum SchoolConversionComponentStatus
 {
 	Ignore = -1,
 	NotStarted = 0,
 	Incomplete = 1,
 	Complete = 2
-}
-public enum SelectOption
-{
-	[Description("Yes")]
-    Yes = 907660000,
-    [Description("No")]
-    No = 907660001
 }
