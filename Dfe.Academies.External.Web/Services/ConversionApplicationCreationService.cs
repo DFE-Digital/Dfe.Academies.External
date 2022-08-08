@@ -101,4 +101,21 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		    throw;
 	    }
     }
+
+    public async Task ApplicationChangeSchoolNameAndReason(ConversionApplication application, SelectOption changeName,
+	    string changeSchoolNameReason)
+    {
+	    try
+	    {
+		    ResilientRequestProvider apiRequestProvider = new(_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
+
+            // TODO: wire up Academisation API
+            // var result = await apiRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, application);
+        }
+        catch (Exception ex)
+	    {
+		    _logger.LogError("ConversionApplicationCreationService::ApplicationChangeSchoolNameAndReason::Exception - {Message}", ex.Message);
+		    throw;
+	    }
+    }
 }

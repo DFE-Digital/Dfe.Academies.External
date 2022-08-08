@@ -15,7 +15,6 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School;
 [Parallelizable(ParallelScope.All)]
 internal sealed class ApplicationChangeSchoolNameModelTests
 {
-<<<<<<< HEAD
 	/// <summary>
 	/// "draftConversionApplication" in temp storage
 	/// from previous step in the new application wizard
@@ -73,7 +72,4 @@ internal sealed class ApplicationChangeSchoolNameModelTests
 			MetadataProvider = pageContext.ViewData.ModelMetadata
 		};
 	}
-=======
-	// TODO
->>>>>>> stubbing new page
 }
