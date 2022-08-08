@@ -45,3 +45,11 @@ public enum KeyPersonRole
     [Description("Other")]
     Other = 5
 }
+
+public enum SelectOption
+{
+	[Description("Yes")]
+    Yes = 907660000,
+    [Description("No")]
+    No = 907660001
+}
