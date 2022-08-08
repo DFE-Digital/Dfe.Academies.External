@@ -67,24 +67,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 			ApplicationId = selectedSchool.ApplicationId;
 			Urn = selectedSchool.URN;
 			SchoolName = selectedSchool.SchoolName;
-			// TODO MR:- sort out sections
+			// TODO MR:- sort out sections - setup VM from what we get back from API
+			// MR:- section to use :- SchoolConversionComponentHeadingViewModel
 		}
 
 		// MR:- stuff from A2C-sip
-		//public enum A2CStatus
-		//{
-		//	Ignore = -1,
-		//	NotStarted = 0,
-		//	Incomplete = 1,
-		//	Complete = 2
-		//}
 
 		//var reviewSectionSchoolName = new QandAReviewModel
 		//{
 		//		Title = "The school joining the trust",
 		//		ChangeReference = "AddSchool",
 		//		OrgType = Enums.OrganisationType.School,
-		// Status = (Enums.A2CStatus) ViewData[$"status-{reviewSectionSchoolName.ChangeReference}"]; // 
+		// Status = (Enums.SchoolConversionComponentStatus) ViewData[$"status-{reviewSectionSchoolName.ChangeReference}"];
 		//};
 
 		//reviewSectionSchoolName.QuestionsAndAnswers.Add(new QandAModel
@@ -92,7 +86,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//	Question = "The name of the school",
 		//	Answer = ((string) ViewData[FieldConstants.SchoolName]).DisplayNoInfoIfNullOrEmpty(),
 		//	FieldName = FieldConstants.SchoolName,
-		//Status = (Enums.A2CStatus) ViewData[$"status-{reviewSectionMainContact.ChangeReference}"]; // 
+		//Status = (Enums.SchoolConversionComponentStatus) ViewData[$"status-{reviewSectionMainContact.ChangeReference}"];
 		//});
 
 		//var reviewSectionMainContact = new QandAReviewModel
@@ -234,7 +228,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//	Title = "Date for conversion",
 		//	ChangeReference = "ConversionTargetDate",
 		//	OrgType = Enums.OrganisationType.School,
-		// Status = (Enums.A2CStatus) ViewData[$"status-{reviewSectionTargetDate.ChangeReference}"];
+		// Status = (Enums.SchoolConversionComponentStatus) ViewData[$"status-{reviewSectionTargetDate.ChangeReference}"];
 		//};
 
 		//var targetDate = Constants.NoInfo;
@@ -242,10 +236,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//{
 		//	switch (long.Parse(ViewData[FieldConstants.SipSchoolConversionTargetDateDifferent].ToString()))
 		//	{
-		//		case (int)Enums.A2CSelectOption.Yes: // MR:- this enum in school change name branch
+		//		case (int)Enums.A2CSelectOption.Yes: // MR:- this enum in school change name branch -> SelectOption
 		//			targetDate = "Yes";
 		//			break;
-		//		case (int)Enums.A2CSelectOption.No: // MR:- this enum in school change name branch
+		//		case (int)Enums.A2CSelectOption.No: // MR:- this enum in school change name branch -> SelectOption
 		//			targetDate = "No";
 		//			break;
 		//	}
@@ -281,7 +275,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//	Title = "Reasons for joining",
 		//	ChangeReference = "ConversionRationale",
 		//	OrgType = Enums.OrganisationType.School,
-		// Status = (Enums.A2CStatus)ViewData[$"status-{reviewSectionRationale.ChangeReference}"];
+		// Status = (Enums.SchoolConversionComponentStatus)ViewData[$"status-{reviewSectionRationale.ChangeReference}"];
 		//};
 
 		//reviewSectionRationale.QuestionsAndAnswers.Add(new QandAModel
@@ -298,7 +292,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//	Title = "Changing the name of the school",
 		//	ChangeReference = "ConversionNameChange",
 		//	OrgType = Enums.OrganisationType.School,
-		// Status = (Enums.A2CStatus)ViewData[$"status-{reviewSectionName.ChangeReference}"];
+		// Status = (Enums.SchoolConversionComponentStatus)ViewData[$"status-{reviewSectionName.ChangeReference}"];
 		//};
 
 		//var nameChange = Constants.NoInfo;
@@ -306,10 +300,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//{
 		//	switch (long.Parse(ViewData[FieldConstants.SipSchoolConversionChangeName].ToString()))
 		//	{
-		//		case (int)Enums.A2CSelectOption.Yes: // MR:- this enum in school change name branch
+		//		case (int)Enums.A2CSelectOption.Yes: // MR:- this enum in school change name branch -> SelectOption
 		//			nameChange = "Yes";
 		//			break;
-		//		case (int)Enums.A2CSelectOption.No: // MR:- this enum in school change name branch
+		//		case (int)Enums.A2CSelectOption.No: // MR:- this enum in school change name branch -> SelectOption
 		//			nameChange = "No";
 		//			break;
 		//	}
