@@ -19,7 +19,41 @@
 		</h1>
 	</div>
 	
-@*	stuff from A2c-sip		
+@foreach (var component in Model.ViewModel)
+{
+	@* render component.Title *@
+	<table class="govuk-table">
+		<tbody class="govuk-table__body">
+			<tr>
+				<td>@* render 'start section' OR 'change xxx'
+
+					<a asp-page="@component.URI" aria-describedby="component-@(component.Name)-status" class="govuk-button govuk-button--secondary"
+					   asp-route-appId="@Model.ApplicationId"
+					   asp-route-schoolUrn="@Model.Urn">
+						Start Section
+					</a>					
+					OR
+					<a asp-page="@component.URI" aria-describedby="component-@(component.Name)-status" class="govuk-link"
+					   asp-route-appId="@Model.ApplicationId"
+					   asp-route-schoolUrn="@Model.Urn">
+						Change your answers
+					</a>
+
+					*@</td>
+				<td></td>
+			</tr>
+			@*render partial <tr> for each component.Section*@
+			@foreach (var conversionComponent in component.Sections)
+			{
+				<partial name="_SchoolConversionComponentPartial" model="@conversionComponent"/>
+			}
+
+		</tbody>
+	</table>  
+	<div class="govuk-!-margin-6"></div>
+}
+
+	@*	stuff from A2c-sip		
 	<partial name="_ReviewSection" model="@reviewSectionSchoolName"/>
 		<partial name="_ReviewSection" model="@reviewSectionMainContact"/>
 		<partial name="_ReviewSection" model="@reviewSectionTargetDate"/>
