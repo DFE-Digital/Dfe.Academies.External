@@ -21,24 +21,9 @@ internal sealed class ConversionApplicationCreationServiceTests
     public async Task CreateNewApplication___Success()
     {
         // arrange
-        var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-        var mockFactory = new Mock<IHttpClientFactory>();
-
-        var mockMessageHandler = new Mock<HttpMessageHandler>();
-        mockMessageHandler.Protected()
-            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(expected)
-            });
-
-        var httpClient = new HttpClient(mockMessageHandler.Object);
-
-        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+        var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+        var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.Created, expectedJson);
         var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
-
         var trustApplicationDto = ConversionApplicationTestDataFactory.BuildNewConversionApplicationNoRoles();
 
         // act
@@ -50,31 +35,16 @@ internal sealed class ConversionApplicationCreationServiceTests
         Assert.AreEqual(trustApplicationModel.ApplicationType, trustApplicationDto.ApplicationType);
         Assert.AreEqual(trustApplicationModel.UserEmail, trustApplicationDto.UserEmail);
         Assert.AreEqual(trustApplicationModel.Application, trustApplicationDto.Application);
-        Assert.AreNotEqual(0,trustApplicationModel.Id);
+        Assert.AreNotEqual(trustApplicationModel.Id, 0);
     }
 
     //[Test]
     public async Task UpdateDraftApplication___OtherRole___Success()
     {
         // arrange
-        var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-        var mockFactory = new Mock<IHttpClientFactory>();
-
-        var mockMessageHandler = new Mock<HttpMessageHandler>();
-        mockMessageHandler.Protected()
-            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(expected)
-            });
-
-        var httpClient = new HttpClient(mockMessageHandler.Object);
-
-        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+        var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+        var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
         var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
-
         var trustApplicationDto = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithOtherRole();
 
         // act
@@ -88,24 +58,9 @@ internal sealed class ConversionApplicationCreationServiceTests
     public async Task UpdateDraftApplication___ChairRole___Success()
     {
         // arrange
-        var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-        var mockFactory = new Mock<IHttpClientFactory>();
-
-        var mockMessageHandler = new Mock<HttpMessageHandler>();
-        mockMessageHandler.Protected()
-            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(expected)
-            });
-
-        var httpClient = new HttpClient(mockMessageHandler.Object);
-
-        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+        var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+        var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
         var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
-
         var trustApplicationDto = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
         // act
@@ -122,23 +77,8 @@ internal sealed class ConversionApplicationCreationServiceTests
     public async Task AddSchoolToApplication___ApiReturns201___Created()
     {
 	    // arrange
-	    var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-	    var mockFactory = new Mock<IHttpClientFactory>();
-
-	    var mockMessageHandler = new Mock<HttpMessageHandler>();
-	    mockMessageHandler.Protected()
-		    .Setup<Task<HttpResponseMessage>>("SendAsync", 
-			    ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-		    .ReturnsAsync(new HttpResponseMessage
-		    {
-			    StatusCode = HttpStatusCode.Created,
-			    Content = new StringContent(expected)
-		    });
-
-	    var httpClient = new HttpClient(mockMessageHandler.Object);
-
-        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+	    var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+	    var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.Created, expectedJson);
 	    var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
 	    int applicationId = Fixture.Create<int>();
         int urn = Fixture.Create<int>();
@@ -158,23 +98,8 @@ internal sealed class ConversionApplicationCreationServiceTests
     public async Task AddSchoolToApplication___ApiReturns500___InternalServerError()
     {
 	    // arrange
-	    var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-	    var mockFactory = new Mock<IHttpClientFactory>();
-
-	    var mockMessageHandler = new Mock<HttpMessageHandler>();
-	    mockMessageHandler.Protected()
-		    .Setup<Task<HttpResponseMessage>>("SendAsync",
-			    ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-		    .ReturnsAsync(new HttpResponseMessage
-		    {
-			    StatusCode = HttpStatusCode.InternalServerError,
-			    Content = new StringContent(expected)
-		    });
-
-	    var httpClient = new HttpClient(mockMessageHandler.Object);
-
-        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+	    var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+	    var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, expectedJson);
 	    var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
 	    int applicationId = Fixture.Create<int>();
 	    int urn = Fixture.Create<int>();
@@ -188,5 +113,70 @@ internal sealed class ConversionApplicationCreationServiceTests
 
         // now we could test the exception itself
         //Assert.That(ex.Message == "Blah");
+    }
+
+    /// <summary>
+    /// call endpoint and mock HttpStatusCode.Created
+    /// </summary>
+    //[Test]
+    public async Task ApplicationAddJoinTrustReasons___ApiReturns201___Created()
+    {
+        // arrange
+        var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+        var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.Created, expectedJson);
+        var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
+        string ApplicationAddJoinTrustReason = Fixture.Create<string>();
+        var trustApplicationDto = ConversionApplicationTestDataFactory.BuildNewConversionApplicationNoRoles();
+
+        // act
+        var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
+
+        // assert
+        Assert.DoesNotThrowAsync(() => recordModelService.ApplicationAddJoinTrustReasons(trustApplicationDto, ApplicationAddJoinTrustReason));
+    }
+
+    /// <summary>
+    /// call endpoint and mock HttpStatusCode.InternalServerError
+    /// </summary>
+    //[Test]
+    public async Task ApplicationAddJoinTrustReasons___ApiReturns500___InternalServerError()
+    {
+        // arrange
+        var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+        var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, expectedJson);
+        var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
+        int applicationId = Fixture.Create<int>();
+        string ApplicationAddJoinTrustReason = Fixture.Create<string>();
+        var trustApplicationDto = ConversionApplicationTestDataFactory.BuildNewConversionApplicationNoRoles();
+
+        // act
+        var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
+
+        // assert
+        var ex = Assert.ThrowsAsync<HttpRequestException>(() => recordModelService.ApplicationAddJoinTrustReasons(trustApplicationDto, ApplicationAddJoinTrustReason));
+
+        // now we could test the exception itself
+        //Assert.That(ex.Message == "Blah");
+    }
+
+    private Mock<IHttpClientFactory> SetupMockHttpClientFactory(HttpStatusCode expectedStatusCode, string expectedJson)
+    {
+	    var mockFactory = new Mock<IHttpClientFactory>();
+
+	    var mockMessageHandler = new Mock<HttpMessageHandler>();
+	    mockMessageHandler.Protected()
+		    .Setup<Task<HttpResponseMessage>>("SendAsync",
+			    ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+		    .ReturnsAsync(new HttpResponseMessage
+		    {
+			    StatusCode = expectedStatusCode,
+			    Content = new StringContent(expectedJson)
+		    });
+
+	    var httpClient = new HttpClient(mockMessageHandler.Object);
+
+	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+
+	    return mockFactory;
     }
 }

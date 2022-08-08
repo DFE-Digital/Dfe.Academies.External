@@ -8,5 +8,9 @@ public interface IConversionApplicationCreationService
 
     Task UpdateDraftApplication(ConversionApplication application);
 
-    Task AddSchoolToApplication(int applicationId, int schoolUkUrn, string name);
+    Task AddSchoolToApplication(int applicationId, int schoolUrn, string name);
+
+    Task AddTrustToApplication(int applicationId, int trustUkPrn, string name);
+
+    Task ApplicationAddJoinTrustReasons(ConversionApplication application, string applicationJoinTrustReason);
 }
