@@ -1,0 +1,31 @@
+﻿@model Dfe.Academies.External.Web.ViewModels.TrustDetailsViewModel
+
+<dl class="govuk-summary-list govuk-summary-list--no-border">
+	<div class="govuk-summary-list__row">
+		<dt class="govuk-summary-list__key">
+			Trust Name
+		</dt>
+		<dd class="govuk-summary-list__value">
+			@Model.TrustName
+		</dd>
+	</div>
+	<div class="govuk-summary-list__row">
+		<dt class="govuk-summary-list__key">
+			Ukprn
+		</dt>
+		<dd class="govuk-summary-list__value">
+			@Model.Ukprn
+		</dd>
+	</div>
+	<div class="govuk-summary-list__row">
+		<dt class="govuk-summary-list__key">
+			Address
+		</dt>
+		<dd class="govuk-summary-list__value">
+			@Model.Street<br>
+			@Model.Locality<br>
+			@Model.Town<br>
+			@Model.FullUkPostcode
+		</dd>
+	</div>
+</dl>

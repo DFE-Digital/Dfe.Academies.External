@@ -11,10 +11,7 @@ namespace Dfe.Academies.External.Web.Controllers
 	{
 		private readonly ILogger<SchoolController> _logger;
 
-		public SchoolController(ILogger<SchoolController> logger,
-								IReferenceDataRetrievalService referenceDataRetrievalService,
-								IConversionApplicationRetrievalService conversionApplicationRetrievalService) 
-			: base(logger, referenceDataRetrievalService, conversionApplicationRetrievalService)
+		public SchoolController(ILogger<SchoolController> logger, IReferenceDataRetrievalService referenceDataRetrievalService) : base(referenceDataRetrievalService)
 		{
 			_logger = logger;
 		}
