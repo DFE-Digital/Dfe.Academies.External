@@ -1,6 +1,7 @@
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
@@ -13,9 +14,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private readonly ILogger<PupilNumbersModel> _logger;
 
 		//// MR:- selected school props for UI rendering
-		[BindProperty] public int ApplicationId { get; set; }
+		[BindProperty] 
+		public int ApplicationId { get; set; }
 
-		[BindProperty] public int Urn { get; private set; }
+		[BindProperty] 
+		public int Urn { get; private set; }
 
 		public string SchoolName { get; private set; } = string.Empty;
 
@@ -23,6 +26,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		// TODO MR:- some representation of section & answers
 		// e.g. 'contact details' -> 'name of headteacher' / 'name of chair'
+		public List<SchoolConversionComponentHeadingViewModel> ViewModel { get; set; }
+
 
 		public SchoolConversionKeyDetailsModel(ILogger<PupilNumbersModel> logger,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
@@ -33,11 +38,22 @@ namespace Dfe.Academies.External.Web.Pages.School
 			_logger = logger;
 		}
 
-		public async Task OnGetAsync()
+		public async Task OnGetAsync(int urn, int appId)
 		{
 			try
 			{
-				// TODO MR:-
+				LoadAndStoreCachedConversionApplication();
+
+				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+
+				// Grab other values from API
+				if (selectedSchool != null)
+				{
+					// TODO MR:- grab existing reasons for joining from API endpoint - applicationId && SchoolId combination !
+
+
+					PopulateUiModel(selectedSchool);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -68,7 +84,40 @@ namespace Dfe.Academies.External.Web.Pages.School
 			Urn = selectedSchool.URN;
 			SchoolName = selectedSchool.SchoolName;
 			// TODO MR:- sort out sections - setup VM from what we get back from API
-			// MR:- section to use :- SchoolConversionComponentHeadingViewModel
+
+			SchoolConversionComponentHeadingViewModel heading1 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationSchool,
+																		"/school/ApplicationSelectSchool");
+
+			// TODO MR:- fo answer, consume SchoolConversionComponentSectionViewModel.NoInfoAnswer if string.isnullorempty()
+			heading1.Sections.Add(new (SchoolConversionComponentSectionViewModel.NameOfSchoolSectionName, "TBC"));
+
+			SchoolConversionComponentHeadingViewModel heading2 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationContactDetails,
+				"/school/ContactDetails");
+			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherNameSectionName, "TBC"));
+			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherEmailSectionName, "TBC"));
+			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherTelNoSectionName, "TBC"));
+			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsChairNameSectionName, "TBC"));
+			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsChairEmailSectionName, "TBC"));
+			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsChairTelNoSectionName, "TBC"));
+			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsMainContactWhomSectionName, "TBC"));
+			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsApproversFullNameSectionName, "TBC"));
+			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsApproversEmailSectionName, "TBC"));
+
+			SchoolConversionComponentHeadingViewModel heading3 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationPreferredDateForConversion,
+				"/school/ApplicationConversionTargetDate");
+			heading3.Sections.Add(new(SchoolConversionComponentSectionViewModel.ApplicationConversionTargetDateSectionName, "TBC"));
+
+			SchoolConversionComponentHeadingViewModel heading4 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationJoinTrustReason,
+				"/school/ApplicationJoinTrustReasons");
+			heading4.Sections.Add(new(SchoolConversionComponentSectionViewModel.ReasonsForJoiningTrustSectionName, "TBC"));
+
+			SchoolConversionComponentHeadingViewModel heading5 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationSchoolNameChange,
+				"/school/ApplicationChangeSchoolName");
+			heading5.Sections.Add(new(SchoolConversionComponentSectionViewModel.NameOfSchoolChangingSectionName, "TBC"));
+
+			var vm = new List<SchoolConversionComponentHeadingViewModel> { heading1, heading2, heading3, heading4, heading5 };
+
+			ViewModel = vm;
 		}
 
 		// MR:- stuff from A2C-sip
