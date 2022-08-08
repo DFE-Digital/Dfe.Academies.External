@@ -33,6 +33,7 @@ builder.Services
 			.AllowAnonymousToPage("/school/ApplicationSelectSchool")
 			.AllowAnonymousToPage("/school/PupilNumbers")
 			.AllowAnonymousToPage("/school/ApplicationJoinTrustReasons")
+			.AllowAnonymousToPage("/school/ApplicationChangeSchoolName")
 			.AllowAnonymousToPage("/trust/ApplicationSelectTrust");
 	})
 	.AddViewOptions(options =>
