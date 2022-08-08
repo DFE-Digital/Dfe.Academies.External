@@ -33,12 +33,11 @@ internal sealed class SchoolControllerTests
         int expectedCount = 12;
 
         var mockSchoolControllerLogger = new Mock<ILogger<SchoolController>>();
-        var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
         var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
         var mockReferenceDataRetrievalServiceLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
         var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockReferenceDataRetrievalServiceLogger.Object);
         
-        var schoolController = new SchoolController(mockSchoolControllerLogger.Object, referenceDataRetrievalService, mockConversionApplicationRetrievalService.Object);
+        var schoolController = new SchoolController(mockSchoolControllerLogger.Object, referenceDataRetrievalService);
 
         // act
         var result = await schoolController.Search(schoolName);
@@ -60,10 +59,9 @@ internal sealed class SchoolControllerTests
         var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 	    var mockLogger = new Mock<ILogger<SchoolController>>();
 	    var mockReferenceDataRetrievalServiceLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
-        var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
         var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockReferenceDataRetrievalServiceLogger.Object);
 
-        var schoolController = new SchoolController(mockLogger.Object, referenceDataRetrievalService, mockConversionApplicationRetrievalService.Object);
+        var schoolController = new SchoolController(mockLogger.Object, referenceDataRetrievalService);
 
         // act
         PartialViewResult result = (PartialViewResult)await schoolController.ReturnSchoolDetailsPartialViewPopulated(selectedSchool);
