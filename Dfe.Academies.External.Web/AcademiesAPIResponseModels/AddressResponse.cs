@@ -1,20 +1,20 @@
 namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels
 {
-    public record AddressResponse
-    {
+	public record AddressResponse
+	{
 		/// <summary>
 		/// System.Text de-serialization requires this !!!
 		/// </summary>
-	    public AddressResponse()
-	    {
-	    }
+		public AddressResponse()
+		{
+		}
 
-	    public AddressResponse(string street, string town, string fullUkPostcode)
-	    {
-		    Street = street;
-		    Town = town;
-		    Postcode = fullUkPostcode;
-	    }
+		public AddressResponse(string street, string town, string fullUkPostcode)
+		{
+			Street = street;
+			Town = town;
+			Postcode = fullUkPostcode;
+		}
 
 		public string Street { get; set; }
 
@@ -27,5 +27,5 @@ namespace Dfe.Academies.External.Web.AcademiesAPIResponseModels
 		public string? County { get; set; }
 
 		public string Postcode { get; set; }
-    }
+	}
 }

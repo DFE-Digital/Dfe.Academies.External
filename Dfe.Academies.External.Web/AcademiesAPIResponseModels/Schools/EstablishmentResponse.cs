@@ -4,7 +4,7 @@ public record EstablishmentResponse
 {
 	public EstablishmentResponse(string urn,
 		string establishmentNumber,
-		string establishmentName, 
+		string establishmentName,
 		string ukprn,
 		string uprn,
 		AddressResponse address)
@@ -22,12 +22,12 @@ public record EstablishmentResponse
 	/// </summary>
 	public string Urn { get; set; }
 
-	public string EstablishmentNumber { get; set; } 
+	public string EstablishmentNumber { get; set; }
 
 	public string EstablishmentName { get; set; }
 
 	public AddressResponse Address { get; set; }
-	
+
 	/// <summary>
 	/// Unique identifier for a trust. urn is null on trust search
 	/// </summary>
