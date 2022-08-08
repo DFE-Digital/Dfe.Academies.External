@@ -71,19 +71,20 @@ namespace Dfe.Academies.External.Web.Pages.School
 		}
 
 		// MR:- stuff from A2C-sip
-		//	var reviewSectionSchoolName = new QandAReviewModel
-		//	{
+		//var reviewSectionSchoolName = new QandAReviewModel
+		//{
 		//		Title = "The school joining the trust",
 		//		ChangeReference = "AddSchool",
-		//		OrgType = Enums.OrganisationType.School
-		//	};
-		//	reviewSectionSchoolName.Status = (Enums.A2CStatus) ViewData[$"status-{reviewSectionSchoolName.ChangeReference}"];
+		//		OrgType = Enums.OrganisationType.School,
+		// Status = (Enums.A2CStatus) ViewData[$"status-{reviewSectionSchoolName.ChangeReference}"]; // 
+		//};
 
-		//	reviewSectionSchoolName.QuestionsAndAnswers.Add(new QandAModel
+		//reviewSectionSchoolName.QuestionsAndAnswers.Add(new QandAModel
 		//{
 		//	Question = "The name of the school",
 		//	Answer = ((string) ViewData[FieldConstants.SchoolName]).DisplayNoInfoIfNullOrEmpty(),
-		//	FieldName = FieldConstants.SchoolName
+		//	FieldName = FieldConstants.SchoolName,
+		//Status = (Enums.A2CStatus) ViewData[$"status-{reviewSectionMainContact.ChangeReference}"]; // 
 		//});
 
 		//var reviewSectionMainContact = new QandAReviewModel
@@ -91,14 +92,15 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//	Title = "Contact details",
 		//	ChangeReference = "ConversionMainContact",
 		//	OrgType = Enums.OrganisationType.School
+		// Status = MR:- none = section heading
 		//};
-		//reviewSectionMainContact.Status = (Enums.A2CStatus) ViewData[$"status-{reviewSectionMainContact.ChangeReference}"];
 
 		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
 		//{
 		//	Question = "Name of headteacher",
 		//	Answer = ((string) ViewData[FieldConstants.SipSchoolConversionContactHeadName]).DisplayNoInfoIfNullOrEmpty(),
 		//	FieldName = FieldConstants.SipSchoolConversionContactHeadName
+		// Status = MR:- none - data filled in or no i.e. do we have a name of headteacher?
 		//});
 
 		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
@@ -106,6 +108,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//	Question = "Headteacher's email address",
 		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionContactHeadEmail]).DisplayNoInfoIfNullOrEmpty(),
 		//	FieldName = FieldConstants.SipSchoolConversionContactHeadEmail
+		// Status = MR:- none - data filled in or no i.e. do we have an headteacher email?
 		//});
 
 		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
@@ -113,6 +116,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//	Question = "Headteacher's telephone number",
 		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionContactHeadTel]).DisplayNoInfoIfNullOrEmpty(),
 		//	FieldName = FieldConstants.SipSchoolConversionContactHeadTel
+		// Status = MR:- none - data filled in or no i.e. do we have an headteacher tel number?
 		//});
 
 		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
@@ -120,6 +124,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//	Question = "Name of the chair of the governing body",
 		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionContactChairName]).DisplayNoInfoIfNullOrEmpty(),
 		//	FieldName = FieldConstants.SipSchoolConversionContactChairName
+		// Status = MR:- none - data filled in or no i.e. do we have an chair of the governing body?
 		//});
 
 		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
@@ -127,6 +132,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//	Question = "Chair's email address",
 		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionContactChairEmail]).DisplayNoInfoIfNullOrEmpty(),
 		//	FieldName = FieldConstants.SipSchoolConversionContactChairEmail
+		// Status = MR:- none - data filled in or no i.e. do we have an chair of the governing body email?
 		//});
 
 		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
@@ -134,6 +140,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//	Question = "Chair's telephone number",
 		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionContactChairTel]).DisplayNoInfoIfNullOrEmpty(),
 		//	FieldName = FieldConstants.SipSchoolConversionContactChairTel
+		// Status = MR:- none - data filled in or no i.e. do we have an chair of the governing tel number?
 		//});
 
 		//var mainContactForConversionAnswer = Constants.NoInfo;
@@ -202,14 +209,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//	FieldName = FieldConstants.SipSchoolConversionApproverContactEmail
 		//});
 
-
 		//var reviewSectionTargetDate = new QandAReviewModel
 		//{
 		//	Title = "Date for conversion",
 		//	ChangeReference = "ConversionTargetDate",
-		//	OrgType = Enums.OrganisationType.School
+		//	OrgType = Enums.OrganisationType.School,
+		// Status = (Enums.A2CStatus) ViewData[$"status-{reviewSectionTargetDate.ChangeReference}"];
 		//};
-		//reviewSectionTargetDate.Status = (Enums.A2CStatus)ViewData[$"status-{reviewSectionTargetDate.ChangeReference}"];
 
 		//var targetDate = Constants.NoInfo;
 		//if (!string.IsNullOrEmpty((string)ViewData[FieldConstants.SipSchoolConversionTargetDateDifferent]))
@@ -252,9 +258,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//{
 		//	Title = "Reasons for joining",
 		//	ChangeReference = "ConversionRationale",
-		//	OrgType = Enums.OrganisationType.School
+		//	OrgType = Enums.OrganisationType.School,
+		// Status = (Enums.A2CStatus)ViewData[$"status-{reviewSectionRationale.ChangeReference}"];
 		//};
-		//reviewSectionRationale.Status = (Enums.A2CStatus)ViewData[$"status-{reviewSectionRationale.ChangeReference}"];
 
 		//reviewSectionRationale.QuestionsAndAnswers.Add(new QandAModel
 		//{
@@ -268,10 +274,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//{
 		//	Title = "Changing the name of the school",
 		//	ChangeReference = "ConversionNameChange",
-		//	OrgType = Enums.OrganisationType.School
+		//	OrgType = Enums.OrganisationType.School,
+		// Status = (Enums.A2CStatus)ViewData[$"status-{reviewSectionName.ChangeReference}"];
 		//};
-		//reviewSectionName.Status = (Enums.A2CStatus)ViewData[$"status-{reviewSectionName.ChangeReference}"];
-
+		
 		//var nameChange = Constants.NoInfo;
 		//if (!string.IsNullOrEmpty((string)ViewData[FieldConstants.SipSchoolConversionChangeName]))
 		//{
