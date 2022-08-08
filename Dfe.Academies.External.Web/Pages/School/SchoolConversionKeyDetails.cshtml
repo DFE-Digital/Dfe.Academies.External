@@ -1,4 +1,6 @@
 ﻿@page
+@using Dfe.Academies.External.Web.Enums
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.SchoolConversionKeyDetailsModel
 @{
 	ViewData["Title"] = "Apply to become an academy - About the conversion";
@@ -17,49 +19,57 @@
 		About the conversion
 	</h1>
 
-@foreach (var component in Model.ViewModel)
-{
-	<h2 class="govuk-heading-m">
-		@component.Title
-	</h2>
-	<table class="govuk-table">
-		<tbody class="govuk-table__body">
-			<tr>
-				<td>@* render 'start section' OR 'change xxx'
+	@foreach (var component in Model.ViewModel)
+	{
+		<h2 class="govuk-heading-m">
+			@component.Title
+		</h2>
+		<table class="govuk-table">
+			<tbody class="govuk-table__body">
+				<tr class="govuk-table__row">
+					<td class="govuk-table__cell">
+						@if (component.Status == SchoolConversionComponentStatus.NotStarted)
+						{
+							<a asp-page="@component.URI" aria-describedby="component-not started" class="govuk-button govuk-button--secondary"
+							   asp-route-appId="@Model.ApplicationId"
+							   asp-route-urn="@Model.Urn">
+								Start Section
+							</a>
+						}
+						else
+						{
+							<a asp-page="@component.URI" aria-describedby="component-change" class="govuk-link"
+							   asp-route-appId="@Model.ApplicationId"
+							   asp-route-urn="@Model.Urn">
+								Change your answers
+							</a>							
+						}
+						
+						@* render 'start section' OR 'change xxx' based upon
+						<a asp-page="@component.URI" aria-describedby="component-@(component.Name)-status" class="govuk-button govuk-button--secondary"
+						   asp-route-appId="@Model.ApplicationId"
+						   asp-route-schoolUrn="@Model.Urn">
+							Start Section
+						</a>					
+						OR
+						<a asp-page="@component.URI" aria-describedby="component-@(component.Name)-status" class="govuk-link"
+						   asp-route-appId="@Model.ApplicationId"
+						   asp-route-schoolUrn="@Model.Urn">
+							Change your answers
+						</a>*@
+					</td>
+					<td class="govuk-table__cell"></td>
+				</tr>
+				@*render partial <tr> for each component.Section*@
+				@foreach (var conversionComponent in component.Sections)
+				{
+					<partial name="_SchoolConversionComponentPartial" model="@conversionComponent"/>
+				}
 
-					<a asp-page="@component.URI" aria-describedby="component-@(component.Name)-status" class="govuk-button govuk-button--secondary"
-					   asp-route-appId="@Model.ApplicationId"
-					   asp-route-schoolUrn="@Model.Urn">
-						Start Section
-					</a>					
-					OR
-					<a asp-page="@component.URI" aria-describedby="component-@(component.Name)-status" class="govuk-link"
-					   asp-route-appId="@Model.ApplicationId"
-					   asp-route-schoolUrn="@Model.Urn">
-						Change your answers
-					</a>
-
-					*@</td>
-				<td></td>
-			</tr>
-			@*render partial <tr> for each component.Section*@
-			@foreach (var conversionComponent in component.Sections)
-			{
-				<partial name="_SchoolConversionComponentPartial" model="@conversionComponent"/>
-			}
-
-		</tbody>
-	</table>  
-	<div class="govuk-!-margin-6"></div>
-}
-
-	@*	stuff from A2c-sip		
-	<partial name="_ReviewSection" model="@reviewSectionSchoolName"/>
-		<partial name="_ReviewSection" model="@reviewSectionMainContact"/>
-		<partial name="_ReviewSection" model="@reviewSectionTargetDate"/>
-		<partial name="_ReviewSection" model="@reviewSectionRationale"/>
-		<partial name="_ReviewSection" model="@reviewSectionName"/>*@
-
+			</tbody>
+		</table>  
+		<div class="govuk-!-margin-6"></div>
+	}
 
 	<a asp-page="SchoolOverview" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
 </div>
