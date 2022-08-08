@@ -46,28 +46,261 @@ namespace Dfe.Academies.External.Web.Pages.School
 		}
 
 		public override void PopulateValidationMessages()
-        {
-	        ViewData["Errors"] = ConvertModelStateToDictionary();
+		{
+			ViewData["Errors"] = ConvertModelStateToDictionary();
 
-	        if (!ModelState.IsValid)
-	        {
-		        foreach (var modelStateError in ConvertModelStateToDictionary())
-		        {
-			        // MR:- add friendly message for validation summary
-			        if (!this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey(modelStateError.Key))
-			        {
-				        this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add(modelStateError.Key, modelStateError.Value);
-			        }
-		        }
-	        }
-        }
+			if (!ModelState.IsValid)
+			{
+				foreach (var modelStateError in ConvertModelStateToDictionary())
+				{
+					// MR:- add friendly message for validation summary
+					if (!this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey(modelStateError.Key))
+					{
+						this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add(modelStateError.Key, modelStateError.Value);
+					}
+				}
+			}
+		}
 
-        private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
-        {
-	        ApplicationId = selectedSchool.ApplicationId;
-	        Urn = selectedSchool.URN;
-	        SchoolName = selectedSchool.SchoolName;
+		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		{
+			ApplicationId = selectedSchool.ApplicationId;
+			Urn = selectedSchool.URN;
+			SchoolName = selectedSchool.SchoolName;
 			// TODO MR:- sort out sections
-        }
-    }
+		}
+
+		// MR:- stuff from A2C-sip
+		//	var reviewSectionSchoolName = new QandAReviewModel
+		//	{
+		//		Title = "The school joining the trust",
+		//		ChangeReference = "AddSchool",
+		//		OrgType = Enums.OrganisationType.School
+		//	};
+		//	reviewSectionSchoolName.Status = (Enums.A2CStatus) ViewData[$"status-{reviewSectionSchoolName.ChangeReference}"];
+
+		//	reviewSectionSchoolName.QuestionsAndAnswers.Add(new QandAModel
+		//{
+		//	Question = "The name of the school",
+		//	Answer = ((string) ViewData[FieldConstants.SchoolName]).DisplayNoInfoIfNullOrEmpty(),
+		//	FieldName = FieldConstants.SchoolName
+		//});
+
+		//var reviewSectionMainContact = new QandAReviewModel
+		//{
+		//	Title = "Contact details",
+		//	ChangeReference = "ConversionMainContact",
+		//	OrgType = Enums.OrganisationType.School
+		//};
+		//reviewSectionMainContact.Status = (Enums.A2CStatus) ViewData[$"status-{reviewSectionMainContact.ChangeReference}"];
+
+		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
+		//{
+		//	Question = "Name of headteacher",
+		//	Answer = ((string) ViewData[FieldConstants.SipSchoolConversionContactHeadName]).DisplayNoInfoIfNullOrEmpty(),
+		//	FieldName = FieldConstants.SipSchoolConversionContactHeadName
+		//});
+
+		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
+		//{
+		//	Question = "Headteacher's email address",
+		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionContactHeadEmail]).DisplayNoInfoIfNullOrEmpty(),
+		//	FieldName = FieldConstants.SipSchoolConversionContactHeadEmail
+		//});
+
+		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
+		//{
+		//	Question = "Headteacher's telephone number",
+		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionContactHeadTel]).DisplayNoInfoIfNullOrEmpty(),
+		//	FieldName = FieldConstants.SipSchoolConversionContactHeadTel
+		//});
+
+		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
+		//{
+		//	Question = "Name of the chair of the governing body",
+		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionContactChairName]).DisplayNoInfoIfNullOrEmpty(),
+		//	FieldName = FieldConstants.SipSchoolConversionContactChairName
+		//});
+
+		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
+		//{
+		//	Question = "Chair's email address",
+		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionContactChairEmail]).DisplayNoInfoIfNullOrEmpty(),
+		//	FieldName = FieldConstants.SipSchoolConversionContactChairEmail
+		//});
+
+		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
+		//{
+		//	Question = "Chair's telephone number",
+		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionContactChairTel]).DisplayNoInfoIfNullOrEmpty(),
+		//	FieldName = FieldConstants.SipSchoolConversionContactChairTel
+		//});
+
+		//var mainContactForConversionAnswer = Constants.NoInfo;
+		//var showAdditionalInfo = false;
+
+		//if ((string)ViewData[FieldConstants.SipSchoolConversionMainContact] == ((int)Enums.A2CMainConversionContact.HeadTeacher).ToString())
+		//{
+		//	mainContactForConversionAnswer = "The headteacher";
+		//}
+		//else if ((string)ViewData[FieldConstants.SipSchoolConversionMainContact] == ((int)Enums.A2CMainConversionContact.ChairOfGoverningBody).ToString())
+		//{
+		//	mainContactForConversionAnswer = "The chair of the governing body";
+		//}
+		//else if ((string)ViewData[FieldConstants.SipSchoolConversionMainContact] == ((int)Enums.A2CMainConversionContact.Other).ToString())
+		//{
+		//	mainContactForConversionAnswer = "Someone else";
+		//	showAdditionalInfo = true;
+		//}
+
+		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
+		//{
+		//	Question = "Who is the main contact for the conversion?",
+		//	Answer = mainContactForConversionAnswer,
+		//	FieldName = FieldConstants.SipSchoolConversionMainContact,
+		//	ShowAdditionalInfo = showAdditionalInfo,
+		//	AdditionalInfo = new List<QandAModel>
+		//		{
+		//			new QandAModel
+		//			{
+		//				Question = "Name",
+		//				Answer = ((string) ViewData[FieldConstants.SipSchoolConversionMainContactOtherName]).DisplayNoInfoIfNullOrEmpty(),
+		//				FieldName = FieldConstants.SipSchoolConversionMainContactOtherName
+		//			},
+		//			new QandAModel
+		//			{
+		//				Question = "Email",
+		//				Answer = ((string) ViewData[FieldConstants.SipSchoolConversionMainContactOtherEmail]).DisplayNoInfoIfNullOrEmpty(),
+		//				FieldName = FieldConstants.SipSchoolConversionMainContactOtherEmail
+		//			},
+		//			new QandAModel
+		//			{
+		//				Question = "Telephone number",
+		//				Answer = ((string) ViewData[FieldConstants.SipSchoolConversionMainContactOtherTelephone]).DisplayNoInfoIfNullOrEmpty(),
+		//				FieldName = FieldConstants.SipSchoolConversionMainContactOtherTelephone
+		//			},
+		//			new QandAModel
+		//			{
+		//				Question = "Role",
+		//				Answer = ((string) ViewData[FieldConstants.SipSchoolConversionMainContactOtherRole]).DisplayNoInfoIfNullOrEmpty(),
+		//				FieldName = FieldConstants.SipSchoolConversionMainContactOtherRole
+		//			}
+		//		}
+		//});
+
+		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
+		//{
+		//	Question = "Approver's full name",
+		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionApproverContactName]).DisplayNoInfoIfNullOrEmpty(),
+		//	FieldName = FieldConstants.SipSchoolConversionApproverContactName
+		//});
+
+		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
+		//{
+		//	Question = "Approver's email address",
+		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionApproverContactEmail]).DisplayNoInfoIfNullOrEmpty(),
+		//	FieldName = FieldConstants.SipSchoolConversionApproverContactEmail
+		//});
+
+
+		//var reviewSectionTargetDate = new QandAReviewModel
+		//{
+		//	Title = "Date for conversion",
+		//	ChangeReference = "ConversionTargetDate",
+		//	OrgType = Enums.OrganisationType.School
+		//};
+		//reviewSectionTargetDate.Status = (Enums.A2CStatus)ViewData[$"status-{reviewSectionTargetDate.ChangeReference}"];
+
+		//var targetDate = Constants.NoInfo;
+		//if (!string.IsNullOrEmpty((string)ViewData[FieldConstants.SipSchoolConversionTargetDateDifferent]))
+		//{
+		//	switch (long.Parse(ViewData[FieldConstants.SipSchoolConversionTargetDateDifferent].ToString()))
+		//	{
+		//		case (int)Enums.A2CSelectOption.Yes:
+		//			targetDate = "Yes";
+		//			break;
+		//		case (int)Enums.A2CSelectOption.No:
+		//			targetDate = "No";
+		//			break;
+		//	}
+		//}
+
+		//reviewSectionTargetDate.QuestionsAndAnswers.Add(new QandAModel
+		//{
+		//	Question = "Do you want the conversion to happen on a particular date?",
+		//	Answer = targetDate,
+		//	FieldName = FieldConstants.SipSchoolConversionTargetDateDifferent,
+		//	ShowAdditionalInfo = targetDate == "Yes",
+		//	AdditionalInfo = new List<QandAModel>
+		//		{
+		//			new QandAModel
+		//			{
+		//				Question = "PreferredDate",
+		//				Answer = ((string) ViewData[FieldConstants.SipSchoolConversionTargetDateDate]).DisplayNoInfoIfNullOrEmpty(),
+		//				FieldName = FieldConstants.SipSchoolConversionTargetDateDate
+		//			},
+		//			new QandAModel
+		//			{
+		//				Question = "Explain why you want to convert on this date?",
+		//				Answer = ((string) ViewData[FieldConstants.SipSchoolConversionTargetDateExplained]).DisplayNoInfoIfNullOrEmpty(),
+		//				FieldName = FieldConstants.SipSchoolConversionTargetDateExplained
+		//			}
+		//		}
+		//});
+
+		//var reviewSectionRationale = new QandAReviewModel
+		//{
+		//	Title = "Reasons for joining",
+		//	ChangeReference = "ConversionRationale",
+		//	OrgType = Enums.OrganisationType.School
+		//};
+		//reviewSectionRationale.Status = (Enums.A2CStatus)ViewData[$"status-{reviewSectionRationale.ChangeReference}"];
+
+		//reviewSectionRationale.QuestionsAndAnswers.Add(new QandAModel
+		//{
+		//	Question = "Why does the school want to join this trust in particular?",
+		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionReasonsForJoining]).DisplayNoInfoIfNullOrEmpty(),
+		//	FieldName = FieldConstants.SipSchoolConversionReasonsForJoining,
+		//	IsVisible = ((string)ViewData[$"{FieldConstants.SipSchoolConversionReasonsForJoining}-visible"]).SafeBoolConvertDefaultTrue()
+		//});
+
+		//var reviewSectionName = new QandAReviewModel
+		//{
+		//	Title = "Changing the name of the school",
+		//	ChangeReference = "ConversionNameChange",
+		//	OrgType = Enums.OrganisationType.School
+		//};
+		//reviewSectionName.Status = (Enums.A2CStatus)ViewData[$"status-{reviewSectionName.ChangeReference}"];
+
+		//var nameChange = Constants.NoInfo;
+		//if (!string.IsNullOrEmpty((string)ViewData[FieldConstants.SipSchoolConversionChangeName]))
+		//{
+		//	switch (long.Parse(ViewData[FieldConstants.SipSchoolConversionChangeName].ToString()))
+		//	{
+		//		case (int)Enums.A2CSelectOption.Yes:
+		//			nameChange = "Yes";
+		//			break;
+		//		case (int)Enums.A2CSelectOption.No:
+		//			nameChange = "No";
+		//			break;
+		//	}
+		//}
+
+		//reviewSectionName.QuestionsAndAnswers.Add(new QandAModel
+		//{
+		//	Question = "Is the school planning to change its name when it becomes an academy?",
+		//	Answer = nameChange,
+		//	FieldName = FieldConstants.SipSchoolConversionChangeName,
+		//	ShowAdditionalInfo = nameChange == "Yes",
+		//	AdditionalInfo = new List<QandAModel>
+		//		{
+		//			new QandAModel
+		//			{
+		//				Question = "What's the proposed new name?",
+		//				Answer = ((string) ViewData[FieldConstants.SipSchoolConversionChangeNameValue]).DisplayNoInfoIfNullOrEmpty(),
+		//				FieldName = FieldConstants.SipSchoolConversionChangeNameValue
+		//			}
+		//		}
+		//});
+	}
 }
