@@ -11,7 +11,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	/// </summary>
 	public class SchoolConversionKeyDetailsModel : BasePageEditModel
 	{
-		private readonly ILogger<PupilNumbersModel> _logger;
+		private readonly ILogger<SchoolConversionKeyDetailsModel> _logger;
 
 		//// MR:- selected school props for UI rendering
 		[BindProperty] 
@@ -26,7 +26,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public List<SchoolConversionComponentHeadingViewModel> ViewModel { get; set; } = new();
 
 
-		public SchoolConversionKeyDetailsModel(ILogger<PupilNumbersModel> logger,
+		public SchoolConversionKeyDetailsModel(ILogger<SchoolConversionKeyDetailsModel> logger,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService)
