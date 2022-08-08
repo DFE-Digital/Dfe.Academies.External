@@ -60,7 +60,7 @@ public abstract class BasePageEditModel : BasePageModel
 		return componentName.ToLower().Trim() switch
 		{
 			// V1:-
-			"about the conversion" => "/school/AboutTheConversion",
+			"about the conversion" => "/school/SchoolConversionKeyDetails",
 			"further information" => "/school/FurtherInformation",
 			"finances" => "/school/Finances",
 			"future pupil numbers" => "/school/PupilNumbers",
