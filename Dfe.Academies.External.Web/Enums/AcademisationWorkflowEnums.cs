@@ -45,3 +45,11 @@ public enum KeyPersonRole
     [Description("Other")]
     Other = 5
 }
+
+public enum SchoolConversionComponentStatus
+{
+	Ignore = -1,
+	NotStarted = 0,
+	Incomplete = 1,
+	Complete = 2
+}
