@@ -22,11 +22,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public string SchoolName { get; private set; } = string.Empty;
 
-		//// MR:- VM props to capture pupil numbers data
-
-		// TODO MR:- some representation of section & answers
-		// e.g. 'contact details' -> 'name of headteacher' / 'name of chair'
-		public List<SchoolConversionComponentHeadingViewModel> ViewModel { get; set; }
+		//// MR:- VM props to show school conversion data
+		public List<SchoolConversionComponentHeadingViewModel> ViewModel { get; set; } = new();
 
 
 		public SchoolConversionKeyDetailsModel(ILogger<PupilNumbersModel> logger,
@@ -49,7 +46,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// Grab other values from API
 				if (selectedSchool != null)
 				{
-					// TODO MR:- grab existing reasons for joining from API endpoint - applicationId && SchoolId combination !
+					// TODO MR:- grab data from API endpoint - applicationId && SchoolId combination !
 
 
 					PopulateUiModel(selectedSchool);
