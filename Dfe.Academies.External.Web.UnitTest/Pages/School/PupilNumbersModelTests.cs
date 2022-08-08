@@ -20,7 +20,7 @@ internal sealed class PupilNumbersModelTests
 	/// </summary>
 	/// <returns></returns>
 	[Test]
-	public async Task PupilNumbersModel___OnGetAsync___Valid()
+	public async Task OnGetAsync___Valid___NullErrors()
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -28,6 +28,8 @@ internal sealed class PupilNumbersModelTests
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<PupilNumbersModel>>();
+		int urn = 101934;
+		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
@@ -39,13 +41,15 @@ internal sealed class PupilNumbersModelTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync();
+		await pageModel.OnGetAsync(urn,applicationId);
 
 		// assert
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
-	// TODO MR:- test for OnPostAsync()
+	// TODO MR:- OnPostAsync___ModelIsValid___InValid
+
+	// TODO MR:- OnPostAsync___ModelIsValid___Valid
 
 	private static PupilNumbersModel SetupPupilNumbersModel(
 		ILogger<PupilNumbersModel> mockLogger,
