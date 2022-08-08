@@ -10,16 +10,24 @@
 }
 
 <div class="govuk-grid-column-two-thirds">
-	<span class="govuk-caption-l">
-		@Model.SchoolName
-	</span>
-	<span class="govuk-caption-l">
-		About the conversion
-	</span>
+	<div class="govuk-grid-column-two-thirds">
+		<span class="govuk-caption-l">
+			@Model.SchoolName
+		</span>
+		<h1 class="govuk-heading-l">
+			About the conversion
+		</h1>
+	</div>
 	
+@*	stuff from A2c-sip		
+	<partial name="_ReviewSection" model="@reviewSectionSchoolName"/>
+		<partial name="_ReviewSection" model="@reviewSectionMainContact"/>
+		<partial name="_ReviewSection" model="@reviewSectionTargetDate"/>
+		<partial name="_ReviewSection" model="@reviewSectionRationale"/>
+		<partial name="_ReviewSection" model="@reviewSectionName"/>*@
 
 
-	<a asp-page="../ApplicationOverview" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+	<a asp-page="SchoolOverview" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
 </div>
 <input type="hidden" asp-for="Urn"/>
 <partial name="_HiddenFields"/>
