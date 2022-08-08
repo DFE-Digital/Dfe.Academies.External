@@ -29,7 +29,7 @@ public sealed class SchoolConversionComponentHeadingViewModel
 	/// <summary>
 	/// MR:- this is overall status i.e. if headteacher && chair && main contact not filled in !!
 	/// </summary>
-	public SchoolConversionComponentStatus Status { get; set; }
+	public SchoolConversionComponentStatus Status { get; set; } = SchoolConversionComponentStatus.NotStarted;
 
 	// MR:- need a URI similar to ApplicationComponentViewModel - to render 'start section' button
 	public string URI { get; set; }
