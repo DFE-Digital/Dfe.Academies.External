@@ -71,6 +71,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 		}
 
 		// MR:- stuff from A2C-sip
+		//public enum A2CStatus
+		//{
+		//	Ignore = -1,
+		//	NotStarted = 0,
+		//	Incomplete = 1,
+		//	Complete = 2
+		//}
+
 		//var reviewSectionSchoolName = new QandAReviewModel
 		//{
 		//		Title = "The school joining the trust",
@@ -98,6 +106,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
 		//{
 		//	Question = "Name of headteacher",
+		// MR:- below sets text to public const string NoInfo = "You have not added any information";
 		//	Answer = ((string) ViewData[FieldConstants.SipSchoolConversionContactHeadName]).DisplayNoInfoIfNullOrEmpty(),
 		//	FieldName = FieldConstants.SipSchoolConversionContactHeadName
 		// Status = MR:- none - data filled in or no i.e. do we have a name of headteacher?
@@ -106,6 +115,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
 		//{
 		//	Question = "Headteacher's email address",
+		// MR:- below sets text to public const string NoInfo = "You have not added any information";
 		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionContactHeadEmail]).DisplayNoInfoIfNullOrEmpty(),
 		//	FieldName = FieldConstants.SipSchoolConversionContactHeadEmail
 		// Status = MR:- none - data filled in or no i.e. do we have an headteacher email?
@@ -114,6 +124,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
 		//{
 		//	Question = "Headteacher's telephone number",
+		// MR:- below sets text to public const string NoInfo = "You have not added any information";
 		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionContactHeadTel]).DisplayNoInfoIfNullOrEmpty(),
 		//	FieldName = FieldConstants.SipSchoolConversionContactHeadTel
 		// Status = MR:- none - data filled in or no i.e. do we have an headteacher tel number?
@@ -122,6 +133,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
 		//{
 		//	Question = "Name of the chair of the governing body",
+		// MR:- below sets text to public const string NoInfo = "You have not added any information";
 		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionContactChairName]).DisplayNoInfoIfNullOrEmpty(),
 		//	FieldName = FieldConstants.SipSchoolConversionContactChairName
 		// Status = MR:- none - data filled in or no i.e. do we have an chair of the governing body?
@@ -130,6 +142,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
 		//{
 		//	Question = "Chair's email address",
+		// MR:- below sets text to public const string NoInfo = "You have not added any information";
 		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionContactChairEmail]).DisplayNoInfoIfNullOrEmpty(),
 		//	FieldName = FieldConstants.SipSchoolConversionContactChairEmail
 		// Status = MR:- none - data filled in or no i.e. do we have an chair of the governing body email?
@@ -138,6 +151,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
 		//{
 		//	Question = "Chair's telephone number",
+		// MR:- below sets text to public const string NoInfo = "You have not added any information";
 		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionContactChairTel]).DisplayNoInfoIfNullOrEmpty(),
 		//	FieldName = FieldConstants.SipSchoolConversionContactChairTel
 		// Status = MR:- none - data filled in or no i.e. do we have an chair of the governing tel number?
@@ -171,24 +185,28 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//			new QandAModel
 		//			{
 		//				Question = "Name",
+		// MR:- below sets text to public const string NoInfo = "You have not added any information";
 		//				Answer = ((string) ViewData[FieldConstants.SipSchoolConversionMainContactOtherName]).DisplayNoInfoIfNullOrEmpty(),
 		//				FieldName = FieldConstants.SipSchoolConversionMainContactOtherName
 		//			},
 		//			new QandAModel
 		//			{
 		//				Question = "Email",
+		// MR:- below sets text to public const string NoInfo = "You have not added any information";
 		//				Answer = ((string) ViewData[FieldConstants.SipSchoolConversionMainContactOtherEmail]).DisplayNoInfoIfNullOrEmpty(),
 		//				FieldName = FieldConstants.SipSchoolConversionMainContactOtherEmail
 		//			},
 		//			new QandAModel
 		//			{
 		//				Question = "Telephone number",
+		// MR:- below sets text to public const string NoInfo = "You have not added any information";
 		//				Answer = ((string) ViewData[FieldConstants.SipSchoolConversionMainContactOtherTelephone]).DisplayNoInfoIfNullOrEmpty(),
 		//				FieldName = FieldConstants.SipSchoolConversionMainContactOtherTelephone
 		//			},
 		//			new QandAModel
 		//			{
 		//				Question = "Role",
+		// MR:- below sets text to public const string NoInfo = "You have not added any information";
 		//				Answer = ((string) ViewData[FieldConstants.SipSchoolConversionMainContactOtherRole]).DisplayNoInfoIfNullOrEmpty(),
 		//				FieldName = FieldConstants.SipSchoolConversionMainContactOtherRole
 		//			}
@@ -198,6 +216,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
 		//{
 		//	Question = "Approver's full name",
+		// MR:- below sets text to public const string NoInfo = "You have not added any information";
 		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionApproverContactName]).DisplayNoInfoIfNullOrEmpty(),
 		//	FieldName = FieldConstants.SipSchoolConversionApproverContactName
 		//});
@@ -205,6 +224,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//reviewSectionMainContact.QuestionsAndAnswers.Add(new QandAModel
 		//{
 		//	Question = "Approver's email address",
+		// MR:- below sets text to public const string NoInfo = "You have not added any information";
 		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionApproverContactEmail]).DisplayNoInfoIfNullOrEmpty(),
 		//	FieldName = FieldConstants.SipSchoolConversionApproverContactEmail
 		//});
@@ -222,10 +242,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//{
 		//	switch (long.Parse(ViewData[FieldConstants.SipSchoolConversionTargetDateDifferent].ToString()))
 		//	{
-		//		case (int)Enums.A2CSelectOption.Yes:
+		//		case (int)Enums.A2CSelectOption.Yes: // MR:- this enum in school change name branch
 		//			targetDate = "Yes";
 		//			break;
-		//		case (int)Enums.A2CSelectOption.No:
+		//		case (int)Enums.A2CSelectOption.No: // MR:- this enum in school change name branch
 		//			targetDate = "No";
 		//			break;
 		//	}
@@ -242,12 +262,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//			new QandAModel
 		//			{
 		//				Question = "PreferredDate",
+		// MR:- below sets text to public const string NoInfo = "You have not added any information";
 		//				Answer = ((string) ViewData[FieldConstants.SipSchoolConversionTargetDateDate]).DisplayNoInfoIfNullOrEmpty(),
 		//				FieldName = FieldConstants.SipSchoolConversionTargetDateDate
 		//			},
 		//			new QandAModel
 		//			{
 		//				Question = "Explain why you want to convert on this date?",
+		// MR:- below sets text to public const string NoInfo = "You have not added any information";
 		//				Answer = ((string) ViewData[FieldConstants.SipSchoolConversionTargetDateExplained]).DisplayNoInfoIfNullOrEmpty(),
 		//				FieldName = FieldConstants.SipSchoolConversionTargetDateExplained
 		//			}
@@ -265,6 +287,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//reviewSectionRationale.QuestionsAndAnswers.Add(new QandAModel
 		//{
 		//	Question = "Why does the school want to join this trust in particular?",
+		// MR:- below sets text to public const string NoInfo = "You have not added any information";
 		//	Answer = ((string)ViewData[FieldConstants.SipSchoolConversionReasonsForJoining]).DisplayNoInfoIfNullOrEmpty(),
 		//	FieldName = FieldConstants.SipSchoolConversionReasonsForJoining,
 		//	IsVisible = ((string)ViewData[$"{FieldConstants.SipSchoolConversionReasonsForJoining}-visible"]).SafeBoolConvertDefaultTrue()
@@ -277,16 +300,16 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//	OrgType = Enums.OrganisationType.School,
 		// Status = (Enums.A2CStatus)ViewData[$"status-{reviewSectionName.ChangeReference}"];
 		//};
-		
+
 		//var nameChange = Constants.NoInfo;
 		//if (!string.IsNullOrEmpty((string)ViewData[FieldConstants.SipSchoolConversionChangeName]))
 		//{
 		//	switch (long.Parse(ViewData[FieldConstants.SipSchoolConversionChangeName].ToString()))
 		//	{
-		//		case (int)Enums.A2CSelectOption.Yes:
+		//		case (int)Enums.A2CSelectOption.Yes: // MR:- this enum in school change name branch
 		//			nameChange = "Yes";
 		//			break;
-		//		case (int)Enums.A2CSelectOption.No:
+		//		case (int)Enums.A2CSelectOption.No: // MR:- this enum in school change name branch
 		//			nameChange = "No";
 		//			break;
 		//	}
@@ -303,6 +326,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//			new QandAModel
 		//			{
 		//				Question = "What's the proposed new name?",
+		// MR:- below sets text to public const string NoInfo = "You have not added any information";
 		//				Answer = ((string) ViewData[FieldConstants.SipSchoolConversionChangeNameValue]).DisplayNoInfoIfNullOrEmpty(),
 		//				FieldName = FieldConstants.SipSchoolConversionChangeNameValue
 		//			}
