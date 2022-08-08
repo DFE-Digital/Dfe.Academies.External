@@ -7,10 +7,11 @@ namespace Dfe.Academies.External.Web.Pages.Base;
 
 public abstract class BasePageEditModel : BasePageModel
 {
-	public readonly IConversionApplicationRetrievalService ConversionApplicationRetrievalService;
 	private readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
+	public readonly IConversionApplicationRetrievalService ConversionApplicationRetrievalService;
+	public const string SchoolOverviewPath = "SchoolOverview";
 
-	protected BasePageEditModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
+	protected BasePageEditModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 								IReferenceDataRetrievalService referenceDataRetrievalService)
 	{
 		ConversionApplicationRetrievalService = conversionApplicationRetrievalService;
@@ -43,6 +44,15 @@ public abstract class BasePageEditModel : BasePageModel
 		}
 
 		return new SchoolApplyingToConvert(schoolDetails.EstablishmentName, urn, applicationId, schoolDetails.UPRN);
+	}
+
+	public void LoadAndStoreCachedConversionApplication()
+	{
+		//// on load - grab draft application from temp
+		var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+		//// MR:- Need to drop into this pages cache here ready for post / server callback !
+		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 	}
 
 	protected string SetSchoolApplicationComponentUriFromName(string componentName)

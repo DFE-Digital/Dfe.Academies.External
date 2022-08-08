@@ -1,0 +1,40 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.School.ApplicationJoinTrustReasonsModel
+@{
+	ViewData["Title"] = "Apply to become an academy - School Pupil Numbers";
+}
+
+@section BeforeMain
+{
+	<a asp-page="SchoolOverview" class="govuk-back-link">Back to school overview</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<span class="govuk-caption-l">
+		Conversion key details
+	</span>
+	<h1 class="govuk-heading-l">
+		Reasons for joining
+	</h1>
+
+	<form method="post" name="frmApplicationJoinTrustReason" novalidate="">
+		@Html.AntiForgeryToken()
+		<input type="hidden" asp-for="Urn"/>
+		<input type="hidden" asp-for="ApplicationId"/>
+		<partial name="_HiddenFields"/>
+		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+			<fieldset class="govuk-fieldset">
+				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+				</div>
+
+				<div class="govuk-form-group">
+					<label for="ApplicationJoinTrustReason" class="govuk-label">Why does the school want to join this trust in particular?</label>
+					<textarea asp-for="ApplicationJoinTrustReason" id="ApplicationJoinTrustReason" class="govuk-textarea" cols="40" rows="5"></textarea>
+				</div>
+			</fieldset>
+		</div>
+		<br/>
+		<input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+	</form>
+</div>
