@@ -41,9 +41,13 @@ public abstract class BasePageEditModel : BasePageModel
 			SchoolCacheValuesViewModel cachedValuesViewModel = new(urn, schoolDetails.EstablishmentName);
 
 			ViewDataHelper.StoreSerialisedValue(nameof(SchoolCacheValuesViewModel), ViewData, cachedValuesViewModel);
-		}
 
-		return new SchoolApplyingToConvert(schoolDetails.EstablishmentName, urn, applicationId, schoolDetails.UPRN);
+			return new SchoolApplyingToConvert(schoolDetails.EstablishmentName, urn, applicationId, schoolDetails.UPRN);
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	public void LoadAndStoreCachedConversionApplication()
