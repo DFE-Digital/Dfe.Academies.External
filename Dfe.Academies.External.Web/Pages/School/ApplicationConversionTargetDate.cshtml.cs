@@ -1,15 +1,16 @@
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-    public class ApplicationConversionTargetDateModel : BasePageEditModel
+	public class ApplicationConversionTargetDateModel : BasePageEditModel
     {
 	    private readonly ILogger<ApplicationConversionTargetDateModel> _logger;
 	    private readonly IConversionApplicationCreationService _academisationCreationService;
-	    private const string NextStepPage = "/SchoolOverview";
 
 	    //// MR:- selected school props for UI rendering
 	    [BindProperty]
@@ -21,10 +22,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    public string SchoolName { get; private set; } = string.Empty;
 
 		//// MR:- VM props to capture data
-		///
-		//// MR:- below is yes/no - conditional radio?? re-use SelectOption Enum !
+
 		[BindProperty]
-        public int? TargetDateDifferent { get; set; }
+		[Required(ErrorMessage = "You must provide details")]
+		public SelectOption TargetDateDifferent { get; set; }
 
 		/// <summary>
 		/// Full 'Date' representation of date selected
@@ -92,13 +93,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
+				// binding var check
+				var x = TargetDateDifferent;
+				var y = TargetDate;
+				var z = TargetDateExplained;
+
 				// TODO MR:- call API endpoint to log data
-				//await _academisationCreationService.UpdateSchoolConversionDate(draftConversionApplication);
+				// await _academisationCreationService.UpdateSchoolConversionDate(TargetDate, TargetDateExplained);
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-				return RedirectToPage(NextStepPage);
+				return RedirectToPage(SchoolOverviewPath, new { appId = ApplicationId, urn = Urn });
 			}
 			catch (Exception ex)
 			{
@@ -129,6 +135,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 			ApplicationId = selectedSchool.ApplicationId;
 			Urn = selectedSchool.URN;
 			SchoolName = selectedSchool.SchoolName;
+			// TODO MR:- bind below from API data
+			//TargetDateDifferent = ;
+			//TargetDate = ;
+			//TargetDateExplained = ;
 		}
 	}
 }
