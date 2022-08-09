@@ -29,7 +29,7 @@ namespace Dfe.Academies.External.Web.Controllers
 				if (string.IsNullOrEmpty(searchQuery) || searchQuery.Length < SearchQueryMinLength)
 				{
 					// TODO MR:- ?? concerns casework returns a JSON array, should we do this?
-                    // return new JsonResult(Array.Empty<SchoolSearchResultViewModel>());
+					// return new JsonResult(Array.Empty<SchoolSearchResultViewModel>());
 					return Enumerable.Empty<string>();
 				}
 
@@ -70,7 +70,7 @@ namespace Dfe.Academies.External.Web.Controllers
 			{
 				// Remove whitespace and trailing ) then split removing empty entries
 				var schoolSplit = selectedSchool
-                    .Trim()
+					.Trim()
 					.Replace(")", string.Empty)
 					.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
