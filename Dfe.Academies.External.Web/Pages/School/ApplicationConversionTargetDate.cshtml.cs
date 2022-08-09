@@ -125,14 +125,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (TargetDateDifferent == SelectOption.Yes && !TargetDate.HasValue)
 			{
-				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must provide details");
+				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must select a conversion date");
 				PopulateValidationMessages();
 				return Page();
 			}
 
 			if (TargetDateDifferent == SelectOption.Yes && string.IsNullOrWhiteSpace(TargetDateExplained))
 			{
-				ModelState.AddModelError("TargetDateExplainedNotEntered", "You must provide details");
+				ModelState.AddModelError("TargetDateExplainedNotEntered", "You must explain why you want to convert on this date");
 				PopulateValidationMessages();
 				return Page();
 			}

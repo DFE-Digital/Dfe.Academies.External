@@ -48,10 +48,10 @@
 							@selectOption.GetDescription()
 						</label>
 					</div>
-					@if (selectOption == SelectOption.Yes)
+					@if (selectOption == SelectOption.Yes || Model.TargetDateDifferent == SelectOption.Yes)
 					{
 						<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional") 
-			                                            @(Model.TargetDateDifferent != SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+			                                            @(selectOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 						     id="selectoption-yes" aria-expanded="false">
 							<div class="govuk-form-group govuk-error-summary__list">
 								<fieldset class="govuk-fieldset" role="group" aria-describedby="conversion-date-different-date-hint">
@@ -62,7 +62,7 @@
 										For example, 1 9 2022
 									</div>
 									<a href="#SchoolConversionTargetDateNotEntered" class="@(Model.SchoolConversionTargetDateError ? "govuk-error-message" : "govuk-visually-hidden")">
-										You must explain why you want to convert on this date
+										You must select a conversion date
 									</a>
 									<govuk-date field-name="SchoolConversionTargetDate"
 									            field-data="@Model.TargetDate"
