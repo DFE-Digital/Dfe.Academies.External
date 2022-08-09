@@ -24,42 +24,6 @@
 		<input type="hidden" asp-for="ApplicationId"/>
 		<partial name="_HiddenFields"/>
 
-@*		//MR:- from A2C sip*@
-@*		<div class="govuk-radios">
-			<a2c-radio-item is-checked="@((string) ViewData[FieldConstants.SipSchoolConversionChangeName] == ((int) SelectOption.Yes).ToString())"
-					        conditional-field-name="explain-change"
-					        conditional-field-value="@((int) SelectOption.Yes)"
-					        label-text="Yes"
-					        radio-value="@((int) SelectOption.Yes)"
-					        field-name="@FieldConstants.SipSchoolConversionChangeName">
-			</a2c-radio-item>
-
-			<div class="govuk-radios__conditional" id="explain-change" style="@((string) ViewData[FieldConstants.SipSchoolConversionChangeName] != ((int) SelectOption.Yes).ToString() ? "display: none" : "")"> 
-				<div class="govuk-form-group">
-					<a2c-label field-name="@FieldConstants.SipSchoolConversionChangeNameValue"
-							    label-text="What's the proposed new name?"
-							    view-data="@ViewData">
-					</a2c-label>
-					<span class="govuk-hint govuk-body govuk-!-margin-bottom-5">
-						You can change this later
-					</span>
-					<input id="@FieldConstants.SipSchoolConversionChangeNameValue"
-							name="@FieldConstants.SipSchoolConversionChangeNameValue"
-							class="govuk-input govuk-!-width-two-thirds"
-							type="text"
-							value="@ViewData[FieldConstants.SipSchoolConversionChangeNameValue]">
-				</div> 
-			</div>
-
-			<a2c-radio-item is-checked="@((string) ViewData[FieldConstants.SipSchoolConversionChangeName] == ((int) SelectOption.No).ToString())"
-					        conditional-field-name="explain-change"
-					        conditional-field-value="@((int) SelectOption.Yes)"
-					        label-text="No"
-					        radio-value="@((int) SelectOption.No)"
-					        field-name="@FieldConstants.SipSchoolConversionChangeName">
-			</a2c-radio-item>
-		</div>*@
-		
 		<div class="govuk-form-group">
 			<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
 				@foreach (var selectOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
