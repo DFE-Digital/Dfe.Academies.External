@@ -49,9 +49,9 @@ public enum KeyPersonRole
 public enum SelectOption
 {
 	[Description("Yes")]
-	Yes = 907660000,
+	Yes = 1,
 	[Description("No")]
-	No = 907660001
+	No = 2
 }
 
 public enum SchoolConversionComponentStatus
