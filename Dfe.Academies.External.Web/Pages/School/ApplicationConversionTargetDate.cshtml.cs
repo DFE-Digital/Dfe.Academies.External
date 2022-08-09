@@ -21,6 +21,16 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    public string SchoolName { get; private set; } = string.Empty;
 
 		//// MR:- VM props to capture data
+		///
+		//// MR:- below is yes/no - conditional radio?? re-use SelectOption Enum !
+		[BindProperty]
+        public int? TargetDateDifferent { get; set; }
+
+		[BindProperty]
+		public DateTime? TargetDateDate { get; set; }
+
+		[BindProperty]
+		public string? TargetDateExplained { get; set; }
 
 		public ApplicationConversionTargetDateModel(ILogger<ApplicationConversionTargetDateModel> logger,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
