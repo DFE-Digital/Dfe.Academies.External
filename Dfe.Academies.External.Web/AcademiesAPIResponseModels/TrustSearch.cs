@@ -17,6 +17,6 @@ public sealed class TrustSearch : PageSearch
 
 	public string CompaniesHouseNumber { get; }
 
-	public TrustSearch(string groupName, string ukprn, string companiesHouseNumber) => 
+	public TrustSearch(string groupName, string ukprn, string companiesHouseNumber) =>
 		(GroupName, Ukprn, CompaniesHouseNumber) = (groupName, ukprn, companiesHouseNumber);
 }

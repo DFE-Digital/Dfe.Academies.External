@@ -17,47 +17,47 @@ namespace Dfe.Academies.External.Web.TagHelpers;
 [HtmlTargetElement("status")]
 public class CustomStatusTagHelper : TagHelper
 {
-    [HtmlAttributeName("enumvalue")]
-    public string StatusEnumValue { get; set; } = string.Empty;
+	[HtmlAttributeName("enumvalue")]
+	public string StatusEnumValue { get; set; } = string.Empty;
 
-    public override void Init(TagHelperContext context)
-    {
-    }
+	public override void Init(TagHelperContext context)
+	{
+	}
 
-    public override void Process(TagHelperContext context, TagHelperOutput output)
-    {
-        output.TagName = "strong";
-        output.TagMode = TagMode.StartTagAndEndTag;
+	public override void Process(TagHelperContext context, TagHelperOutput output)
+	{
+		output.TagName = "strong";
+		output.TagMode = TagMode.StartTagAndEndTag;
 
-        var statusEnum = (Status)Convert.ToInt16(StatusEnumValue);
+		var statusEnum = (Status)Convert.ToInt16(StatusEnumValue);
 
-        switch (statusEnum)
-        {
-            case Status.NotStarted:
-                output.AddClass("govuk-tag", HtmlEncoder.Default);
-                output.AddClass("app-task-list__tag", HtmlEncoder.Default);
-                output.AddClass("govuk-tag--grey", HtmlEncoder.Default);
-                output.Content.Append("Not Started");
-                return;
-            case Status.InProgress:
-                //// output.AddClass("govuk-tag app-task-list__tag govuk-tag--blue govuk-!-text-align-right", HtmlEncoder.Default);
-                output.AddClass("govuk-tag", HtmlEncoder.Default);
-                output.AddClass("app-task-list__tag", HtmlEncoder.Default);
-                output.AddClass("govuk-tag--blue", HtmlEncoder.Default);
-                output.Content.Append("In Progress");
-                return;
-            case Status.Completed:
-                output.AddClass("govuk-tag", HtmlEncoder.Default);
-                output.AddClass("app-task-list__tag", HtmlEncoder.Default);
-                output.Content.Append("Completed");
-                return;
-            default:
-                return;
-        }
+		switch (statusEnum)
+		{
+			case Status.NotStarted:
+				output.AddClass("govuk-tag", HtmlEncoder.Default);
+				output.AddClass("app-task-list__tag", HtmlEncoder.Default);
+				output.AddClass("govuk-tag--grey", HtmlEncoder.Default);
+				output.Content.Append("Not Started");
+				return;
+			case Status.InProgress:
+				//// output.AddClass("govuk-tag app-task-list__tag govuk-tag--blue govuk-!-text-align-right", HtmlEncoder.Default);
+				output.AddClass("govuk-tag", HtmlEncoder.Default);
+				output.AddClass("app-task-list__tag", HtmlEncoder.Default);
+				output.AddClass("govuk-tag--blue", HtmlEncoder.Default);
+				output.Content.Append("In Progress");
+				return;
+			case Status.Completed:
+				output.AddClass("govuk-tag", HtmlEncoder.Default);
+				output.AddClass("app-task-list__tag", HtmlEncoder.Default);
+				output.Content.Append("Completed");
+				return;
+			default:
+				return;
+		}
 
-        //var sb = new StringBuilder();
-        //sb.AppendFormat("<span>Hi! {0}</span>", this.Name);
+		//var sb = new StringBuilder();
+		//sb.AppendFormat("<span>Hi! {0}</span>", this.Name);
 
-        //output.PreContent.SetHtmlContent(sb.ToString());
-    }
+		//output.PreContent.SetHtmlContent(sb.ToString());
+	}
 }
