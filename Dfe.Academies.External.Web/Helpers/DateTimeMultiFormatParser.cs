@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Dfe.Academies.External.Web.TagHelpers;
+namespace Dfe.Academies.External.Web.Helpers;
 public static class DateTimeMultiFormatParser
 {
 	public static bool TryParse(string input, out DateTime date) =>
