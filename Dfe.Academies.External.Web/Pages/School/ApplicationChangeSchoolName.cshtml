@@ -40,7 +40,7 @@
 							@selectOption.GetDescription()
 						</label>
 					</div>
-					@if (selectOption == SelectOption.Yes)
+					@if (selectOption == SelectOption.Yes || Model.ChangeName == SelectOption.Yes)
 					{
 						<div class="@(Model.ChangeSchoolNameReasonError ? "govuk-form-group--error" : "govuk-radios__conditional") 
 	                                            @(selectOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
