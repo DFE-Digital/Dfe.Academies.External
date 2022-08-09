@@ -26,8 +26,21 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
         public int? TargetDateDifferent { get; set; }
 
+		/// <summary>
+		/// Full 'Date' representation of date selected
+		/// i.e. day + month + year entered !
+		/// </summary>
 		[BindProperty]
-		public DateTime? TargetDateDate { get; set; }
+		public DateTime? TargetDate { get; set; }
+
+		[BindProperty] // MR:- don't know whether I need this
+		public string? TargetDateDay { get; set; }
+
+		[BindProperty] // MR:- don't know whether I need this
+		public string? TargetDateMonth { get; set; }
+
+		[BindProperty] // MR:- don't know whether I need this
+		public string? TargetDateYear { get; set; }
 
 		[BindProperty]
 		public string? TargetDateExplained { get; set; }
