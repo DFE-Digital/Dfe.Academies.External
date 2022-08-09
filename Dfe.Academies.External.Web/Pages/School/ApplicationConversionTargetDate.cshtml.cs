@@ -46,6 +46,41 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public string? TargetDateExplained { get; set; }
 
+		public bool HasError {
+			get
+			{
+				var bools = new[] { SchoolConversionTargetDateError, TargetDateExplainedError };
+
+				return bools.Any(b => b);
+			}
+		}
+
+		public bool SchoolConversionTargetDateError
+		{
+			get
+			{
+				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolConversionTargetDateNotEntered"))
+				{
+					return true;
+				}
+
+				return false;
+			}
+		}
+
+		public bool TargetDateExplainedError
+		{
+			get
+			{
+				if (!ModelState.IsValid && ModelState.Keys.Contains("TargetDateExplainedNotEntered"))
+				{
+					return true;
+				}
+
+				return false;
+			}
+		}
+
 		public ApplicationConversionTargetDateModel(ILogger<ApplicationConversionTargetDateModel> logger,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
@@ -84,6 +119,20 @@ namespace Dfe.Academies.External.Web.Pages.School
 			if (!ModelState.IsValid)
 			{
 				// error messages component consumes ViewData["Errors"]
+				PopulateValidationMessages();
+				return Page();
+			}
+
+			if (TargetDateDifferent == SelectOption.Yes && !TargetDate.HasValue)
+			{
+				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return Page();
+			}
+
+			if (TargetDateDifferent == SelectOption.Yes && string.IsNullOrWhiteSpace(TargetDateExplained))
+			{
+				ModelState.AddModelError("TargetDateExplainedNotEntered", "You must provide details");
 				PopulateValidationMessages();
 				return Page();
 			}
