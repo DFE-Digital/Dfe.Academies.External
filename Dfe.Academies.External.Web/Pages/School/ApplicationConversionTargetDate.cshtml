@@ -1,0 +1,31 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.School.ApplicationConversionTargetDateModel
+@{
+	ViewData["Title"] = "Apply to become an academy - Conversion target date";
+}
+
+@section BeforeMain
+{
+	<a asp-page="SchoolOverview" class="govuk-back-link">Back to school overview</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<span class="govuk-caption-l">
+		@Model.SchoolName
+	</span>
+	<h1 class="govuk-heading-l">
+		Conversion target date
+	</h1>
+
+	<form method="post" name="frmPupilNumbers" novalidate="">
+		@Html.AntiForgeryToken()
+		<input type="hidden" asp-for="Urn"/>
+		<input type="hidden" asp-for="ApplicationId"/>		
+		<partial name="_HiddenFields"/>
+		
+		TODO:- content
+
+		<br/>
+		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+	</form>
+</div>
