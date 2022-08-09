@@ -43,7 +43,7 @@
 					@if (selectOption == SelectOption.Yes)
 					{
 						<div class="@(Model.ChangeSchoolNameReasonError ? "govuk-form-group--error" : "govuk-radios__conditional") 
-	                                            @(Model.ChangeName != SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+	                                            @(selectOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 						     id="selectoption-yes" aria-expanded="false">
 							<div class="govuk-form-group govuk-error-summary__list">
 								<label for="selectoption-yes" class="govuk-label">What's the proposed new name?</label>
