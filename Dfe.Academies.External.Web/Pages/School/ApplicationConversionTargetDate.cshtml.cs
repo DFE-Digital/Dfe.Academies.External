@@ -143,11 +143,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				// binding var check
-				var x = TargetDateDifferent;
-				var y = TargetDate;
-				var z = TargetDateExplained;
-
 				// TODO MR:- call API endpoint to log data
 				// await _academisationCreationService.UpdateSchoolConversionDate(TargetDate, TargetDateExplained);
 
