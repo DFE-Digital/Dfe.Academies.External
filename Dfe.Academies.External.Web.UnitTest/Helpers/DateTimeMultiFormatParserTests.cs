@@ -1,12 +1,20 @@
 ﻿using Dfe.Academies.External.Web.Helpers;
 using NUnit.Framework;
 using System;
+using System.Globalization;
 
 namespace Dfe.Academies.External.Web.UnitTest.Helpers;
 
+[TestFixture]
 [Parallelizable(ParallelScope.All)]
 internal sealed class DateTimeMultiFormatParserTests
 {
+	[SetUp]
+	public void SetUp()
+	{
+		CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-GB");
+	}
+
 	[Test]
 	public void TryParse___InvalidDateString___ReturnsFalseAndEmptyDate()
 	{
