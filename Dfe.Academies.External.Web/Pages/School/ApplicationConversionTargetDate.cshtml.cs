@@ -11,9 +11,10 @@ namespace Dfe.Academies.External.Web.Pages.School
     {
 	    private readonly ILogger<ApplicationConversionTargetDateModel> _logger;
 	    private readonly IConversionApplicationCreationService _academisationCreationService;
+	    private const string NextStepPage = "/ConversionRationale";
 
-	    //// MR:- selected school props for UI rendering
-	    [BindProperty]
+		//// MR:- selected school props for UI rendering
+		[BindProperty]
 	    public int ApplicationId { get; set; }
 
 	    [BindProperty]
@@ -150,10 +151,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// TODO MR:- call API endpoint to log data
 				// await _academisationCreationService.UpdateSchoolConversionDate(TargetDate, TargetDateExplained);
 
-				// update temp store for next step - application overview
+				// update temp store for next step
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-				return RedirectToPage(SchoolOverviewPath, new { appId = ApplicationId, urn = Urn });
+				// need to go onto next step in process 'reasons for conversion page'
+				return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
 			}
 			catch (Exception ex)
 			{
