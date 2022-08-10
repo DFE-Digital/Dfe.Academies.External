@@ -49,7 +49,15 @@ public enum KeyPersonRole
 public enum SelectOption
 {
 	[Description("Yes")]
-    Yes = 1,
-    [Description("No")]
-    No = 2
+	Yes = 1,
+	[Description("No")]
+	No = 2
+}
+
+public enum SchoolConversionComponentStatus
+{
+	Ignore = -1,
+	NotStarted = 0,
+	Incomplete = 1,
+	Complete = 2
 }

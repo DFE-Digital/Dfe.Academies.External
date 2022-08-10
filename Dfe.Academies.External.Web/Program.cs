@@ -35,6 +35,7 @@ builder.Services
 			.AllowAnonymousToPage("/school/ApplicationJoinTrustReasons")
 			.AllowAnonymousToPage("/school/ApplicationChangeSchoolName")
 			.AllowAnonymousToPage("/school/ApplicationConversionTargetDate")
+			.AllowAnonymousToPage("/school/SchoolConversionKeyDetails")
 			.AllowAnonymousToPage("/trust/ApplicationSelectTrust");
 	})
 	.AddViewOptions(options =>
