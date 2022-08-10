@@ -33,7 +33,7 @@
 							<a asp-page="@component.URI" aria-describedby="component-not started" class="govuk-button govuk-button--secondary"
 							   asp-route-appId="@Model.ApplicationId"
 							   asp-route-urn="@Model.Urn">
-								Start Section
+								Start section
 							</a>
 						}
 						else
@@ -44,19 +44,6 @@
 								Change your answers
 							</a>							
 						}
-						
-						@* render 'start section' OR 'change xxx' based upon
-						<a asp-page="@component.URI" aria-describedby="component-@(component.Name)-status" class="govuk-button govuk-button--secondary"
-						   asp-route-appId="@Model.ApplicationId"
-						   asp-route-schoolUrn="@Model.Urn">
-							Start Section
-						</a>					
-						OR
-						<a asp-page="@component.URI" aria-describedby="component-@(component.Name)-status" class="govuk-link"
-						   asp-route-appId="@Model.ApplicationId"
-						   asp-route-schoolUrn="@Model.Urn">
-							Change your answers
-						</a>*@
 					</td>
 					<td class="govuk-table__cell"></td>
 				</tr>
