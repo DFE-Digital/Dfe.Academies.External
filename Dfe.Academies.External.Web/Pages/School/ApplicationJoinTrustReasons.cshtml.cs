@@ -10,9 +10,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 	{
 	    private readonly ILogger<ApplicationJoinTrustReasonsModel> _logger;
 	    private readonly IConversionApplicationCreationService _academisationCreationService;
+	    private const string NextStepPage = "ApplicationChangeSchoolName";
 
-	    //// MR:- selected school props for UI rendering
-	    [BindProperty]
+        //// MR:- selected school props for UI rendering
+        [BindProperty]
 	    public int ApplicationId { get; set; }
 
 	    [BindProperty]
@@ -73,10 +74,10 @@ namespace Dfe.Academies.External.Web.Pages.School
                 // MR:- save away ApplicationJoinTrustReason
                 await _academisationCreationService.ApplicationAddJoinTrustReasons(draftConversionApplication, ApplicationJoinTrustReason);
 
-                // update temp store for next step - application overview
+                // update temp store for next step
                 TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-                return RedirectToPage("ApplicationChangeSchoolName", new { appId = ApplicationId, urn = Urn});
+                return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn});
             }
             catch (Exception ex)
             {

@@ -97,7 +97,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// MR:- save away ApplicationJoinTrustReason
 				await _academisationCreationService.ApplicationChangeSchoolNameAndReason(draftConversionApplication, ChangeName, ChangeSchoolNameReason);
 
-				// update temp store for next step - application overview
+				// update temp store for next step - application overview as last step in process
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
 				return RedirectToPage(SchoolOverviewPath, new { appId = ApplicationId, urn = Urn });
