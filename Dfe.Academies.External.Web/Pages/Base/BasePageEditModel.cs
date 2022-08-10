@@ -2,6 +2,9 @@
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
+using System;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Dfe.Academies.External.Web.Pages.Base;
 
@@ -36,14 +39,9 @@ public abstract class BasePageEditModel : BasePageModel
 	{
 		var schoolDetails = await _referenceDataRetrievalService.GetSchool(urn);
 
-		if (schoolDetails != null)
-		{
-			SchoolCacheValuesViewModel cachedValuesViewModel = new(urn, schoolDetails.EstablishmentName);
+		CacheSelectedSchool(schoolDetails);
 
-			ViewDataHelper.StoreSerialisedValue(nameof(SchoolCacheValuesViewModel), ViewData, cachedValuesViewModel);
-		}
-
-		return new SchoolApplyingToConvert(schoolDetails.EstablishmentName, urn, applicationId, schoolDetails.UPRN);
+		return ConvertApiResponseToModel(schoolDetails, applicationId);
 	}
 
 	public void LoadAndStoreCachedConversionApplication()
@@ -70,5 +68,27 @@ public abstract class BasePageEditModel : BasePageModel
 			"declaration" => "/school/ApplicationDeclaration",
 			_ => string.Empty
 		};
+	}
+
+	private void CacheSelectedSchool(EstablishmentResponse? schoolDetails)
+	{
+		if (schoolDetails != null)
+		{
+			SchoolCacheValuesViewModel cachedValuesViewModel = new(Convert.ToInt32(schoolDetails.Urn), schoolDetails.EstablishmentName);
+
+			ViewDataHelper.StoreSerialisedValue(nameof(SchoolCacheValuesViewModel), ViewData, cachedValuesViewModel);
+		}
+	}
+
+	private SchoolApplyingToConvert? ConvertApiResponseToModel(EstablishmentResponse? schoolDetails, int applicationId)
+	{
+		if (schoolDetails != null)
+		{
+			return new SchoolApplyingToConvert(schoolDetails.EstablishmentName, Convert.ToInt32(schoolDetails.Urn), applicationId, schoolDetails.UPRN);
+		}
+		else
+		{
+			return null;
+		}
 	}
 }
