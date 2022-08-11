@@ -27,8 +27,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         // **** Mock Demo Data - as per Figma ****
         List<ConversionApplication> existingApplications = new()
         {
-	        new() { Id = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
-		        SchoolOrSchoolsApplyingToConvert = new()
+	        new() { ApplicationId = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
+		        Schools = new()
 		        { new(schoolName: "St George’s school", applicationId: int.MaxValue, urn: 101934, ukprn: null)
 			        {SchoolId = 2 }
 		        }
@@ -48,15 +48,15 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         // **** Mock Demo Data - as per Figma ****
         List<ConversionApplication> existingApplications = new()
         {
-	        new() { Id = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
-		        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+	        new() { ApplicationId = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
+		        Schools = new List<SchoolApplyingToConvert>
 		        {
 			        new(schoolName: "Cambridge Regional college", urn: 101934, ukprn: null,  applicationId: int.MaxValue)
 				        {SchoolId = 96 }
 		        }
 	        },
-	        new() { Id = 3, UserEmail = "", Application = "Form a new multi- academy trust A2B_8956",
-		        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>{
+	        new() { ApplicationId = 3, UserEmail = "", Application = "Form a new multi- academy trust A2B_8956",
+		        Schools = new List<SchoolApplyingToConvert>{
 			        new(schoolName: "Fen Ditton primary school", urn: 101934, applicationId: int.MaxValue, ukprn: null)
 				        { SchoolId = 99 },
 			        new(schoolName: "Chesterton primary school", urn: 101934, applicationId: int.MaxValue, ukprn: null)
@@ -65,8 +65,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 				        { SchoolId  = 97 }
 		        }
 	        },
-	        new() { Id = 4, UserEmail = "", Application = "Form a new single academy trust A2B_8974",
-		        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+	        new() { ApplicationId = 4, UserEmail = "", Application = "Form a new single academy trust A2B_8974",
+		        Schools = new List<SchoolApplyingToConvert>
 		        {
 			        new(schoolName: "King’s College London Maths school", urn: 101934, applicationId: int.MaxValue, ukprn: null)
 				        { SchoolId = 95 }
@@ -115,11 +115,11 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
             new(name:"Pre-opening support grant") {Id = 7, SchoolId = schoolId, Status = Status.NotStarted},
             new(name:"Declaration") {Id = 7, SchoolId = schoolId, Status = Status.NotStarted}
             //// V2 below:-
-            ////new(name:"Contact details") {Id = 1, SchoolId = schoolId, Status = Status.Completed},
-            ////new(name:"Performance and safeguarding") {Id = 2, SchoolId = schoolId, Status = Status.InProgress},
-            ////new(name:"Partnerships and affiliations") {Id = 5, SchoolId = schoolId, Status = Status.NotStarted},
-            ////new(name:"Religious education") {Id = 6, SchoolId = schoolId, Status = Status.NotStarted},
-            ////new(name:"Local authority") {Id = 8, SchoolId = schoolId, Status = Status.NotStarted}
+            ////new(name:"Contact details") {ApplicationId = 1, SchoolId = schoolId, Status = Status.Completed},
+            ////new(name:"Performance and safeguarding") {ApplicationId = 2, SchoolId = schoolId, Status = Status.InProgress},
+            ////new(name:"Partnerships and affiliations") {ApplicationId = 5, SchoolId = schoolId, Status = Status.NotStarted},
+            ////new(name:"Religious education") {ApplicationId = 6, SchoolId = schoolId, Status = Status.NotStarted},
+            ////new(name:"Local authority") {ApplicationId = 8, SchoolId = schoolId, Status = Status.NotStarted}
         };
 
         return conversionApplicationComponents;
@@ -135,7 +135,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
         {
             new(firstName: "Phillip", surname:"Frond", SchoolRoles.Chair, null) 
 											{ApplicationId = applicationId},
-            new(firstName: "Robert", surname: "Phillips", role:SchoolRoles.Other ,  otherRoleNotListed: "PA to the headteacher") 
+            new(firstName: "Robert", surname: "Phillips", role:SchoolRoles.Other ,  otherRoleName: "PA to the headteacher") 
 											{ApplicationId = applicationId}
         };
 
@@ -155,12 +155,12 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	        case ApplicationTypes.JoinMat:
 		        conversionApplication = new()
 		        {
-			        Id = applicationId,
+			        ApplicationId = applicationId,
 			        ApplicationType = applicationType,
 			        UserEmail = "",
 			        Application = "Join a multi-academy trust A2B_2549",
                     // MR:- comment out below if want to test that application overview page shows a 'add school' button!!
-					SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+					Schools = new List<SchoolApplyingToConvert>
 					{
 						new(schoolName: "Chesterton primary school", urn: 101934, applicationId: applicationId, ukprn: null)
 							{ SchoolId = 96 }
@@ -174,11 +174,11 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
                 // MR:- this application is rare
                 conversionApplication = new()
                 {
-	                Id = applicationId,
+	                ApplicationId = applicationId,
 	                ApplicationType = applicationType,
 	                UserEmail = "",
 	                Application = "Form a new single academy trust A2B_2549",
-	                SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+	                Schools = new List<SchoolApplyingToConvert>
 	                {
 		                new(schoolName: "Chesterton primary school", urn: 101934, applicationId: applicationId, ukprn: null)
 			                { SchoolId = 96 }
@@ -190,11 +190,11 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	        case ApplicationTypes.FormNewMat:
 		        conversionApplication = new()
 		        {
-			        Id = applicationId,
+			        ApplicationId = applicationId,
 			        ApplicationType = applicationType,
 			        UserEmail = "",
 			        Application = "Form a new multi-academy trust A2B_2549",
-			        SchoolOrSchoolsApplyingToConvert = new List<SchoolApplyingToConvert>
+			        Schools = new List<SchoolApplyingToConvert>
 			        {
 				        new(schoolName: "Chesterton primary school", urn: 101934, applicationId: applicationId, ukprn: null)
 					        { SchoolId = 96 },

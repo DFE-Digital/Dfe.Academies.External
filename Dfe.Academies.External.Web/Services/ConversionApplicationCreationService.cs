@@ -20,7 +20,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
         // TODO: wire up Academisation API
         // var result = await apiRequestProvider.PostAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
-        application.Id = int.MaxValue;
+        application.ApplicationId = int.MaxValue;
 
         return application;
     }

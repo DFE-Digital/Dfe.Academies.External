@@ -72,7 +72,7 @@ public class ViewDataHelperTests
         // assert - grab value back to see if it's stored
         var storedValue = ViewDataHelper.GetSerialisedValue<ConversionApplication>(storageKey, pageModel.ViewData);
 
-        Assert.AreEqual(conversionApplication.Id, storedValue.Id);
+        Assert.AreEqual(conversionApplication.ApplicationId, storedValue.ApplicationId);
         Assert.AreEqual(conversionApplication.ApplicationType, storedValue.ApplicationType);
         Assert.AreEqual(conversionApplication.UserEmail, storedValue.UserEmail);
         Assert.AreEqual(conversionApplication.Application, storedValue.Application);
@@ -96,7 +96,7 @@ public class ViewDataHelperTests
         // assert - grab value back to see if it's stored
         var storedValue = ViewDataHelper.GetSerialisedValue<ConversionApplication>(storageKey, pageModel.ViewData);
 
-        Assert.AreEqual(conversionApplication.Id, storedValue.Id);
+        Assert.AreEqual(conversionApplication.ApplicationId, storedValue.ApplicationId);
         Assert.AreEqual(conversionApplication.ApplicationType, storedValue.ApplicationType);
         Assert.AreEqual(conversionApplication.UserEmail, storedValue.UserEmail);
         Assert.AreEqual(conversionApplication.Application, storedValue.Application);

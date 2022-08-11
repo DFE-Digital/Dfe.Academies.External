@@ -3,12 +3,12 @@
 namespace Dfe.Academies.External.Web.Models;
 public class ConversionApplication
 {
-    public int Id { get; set; }
+    public int ApplicationId { get; set; }
 
     /// <summary>
     /// e.g. 'A2B_xxx'
     /// </summary>
-    public string ApplicationReference => $"A2B_{Id}";
+    public string ApplicationReference => $"A2B_{ApplicationId}";
 
     public ApplicationTypes ApplicationType { get; set; }
 
@@ -16,11 +16,12 @@ public class ConversionApplication
 
     public string? Application { get; set; }
 
-    public List<SchoolApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; set; } = new();
+    public List<SchoolApplyingToConvert> Schools { get; set; } = new();
     
-    public List<ConversionApplicationContributor> ConversionApplicationContributors { get; set; } = new();
+    public List<ConversionApplicationContributor> Contributors { get; set; } = new();
 
-    public SchoolRoles? SchoolRole { get; set; }
+	// TODO MR:- below needs ripping out and will be a Contributor within the List<Contributor>
+	public SchoolRoles? SchoolRole { get; set; }
 
     public string? OtherRoleNotListed { get; set; }
 
