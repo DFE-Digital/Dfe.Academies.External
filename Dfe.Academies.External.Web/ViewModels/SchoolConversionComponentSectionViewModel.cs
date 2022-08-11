@@ -1,6 +1,6 @@
 ﻿namespace Dfe.Academies.External.Web.ViewModels;
 
-public sealed class SchoolConversionComponentSectionViewModel
+public class SchoolConversionComponentSectionViewModel : SchoolQuestionAndAnswerViewModel
 {
 	public const string NoInfoAnswer = "You have not added any information";
 	// section 1 - school joining trust
@@ -22,20 +22,7 @@ public sealed class SchoolConversionComponentSectionViewModel
 	// section 5 - school changing name section
 	public const string NameOfSchoolChangingSectionName = "Is the school planning to change its name when it becomes an academy?";
 
-	public SchoolConversionComponentSectionViewModel(string name, string answer)
+	public SchoolConversionComponentSectionViewModel(string name, string answer) : base(name, answer)
 	{
-		Name = name;
-		Answer = answer;
 	}
-
-	/// <summary>
-	/// Name of section e.g. 'name of headteacher'
-	/// </summary>
-	public string Name { get; set; }
-
-	//// MR:- below sets text to public const string NoInfo = "You have not added any information";
-	//// Answer = ((string) ViewData[FieldConstants.SipSchoolConversionMainContactOtherName]).DisplayNoInfoIfNullOrEmpty(),
-	public string Answer { get; set; }
-
-	// FieldName = FieldConstants.SipSchoolConversionMainContactOtherName // MR:- ??
 }
