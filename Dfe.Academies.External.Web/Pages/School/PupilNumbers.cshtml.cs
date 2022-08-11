@@ -10,7 +10,6 @@ namespace Dfe.Academies.External.Web.Pages.School
     {
         private readonly ILogger<PupilNumbersModel> _logger;
         private readonly IConversionApplicationCreationService _academisationCreationService;
-        private const string NextStepPage = "/SchoolOverview";
 
         //// MR:- selected school props for UI rendering
         [BindProperty]
@@ -97,7 +96,7 @@ namespace Dfe.Academies.External.Web.Pages.School
                 // update temp store for next step - application overview
                 TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-                return RedirectToPage(NextStepPage);
+                return RedirectToPage("PupilNumbersSummary", new { appId = ApplicationId, urn = Urn });
             }
             catch (Exception ex)
             {
