@@ -3,7 +3,6 @@ using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -16,7 +15,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    public int ApplicationId { get; set; }
 
 	    [BindProperty]
-	    public int Urn { get; private set; }
+	    public int Urn { get; set; }
 
 	    public string SchoolName { get; private set; } = string.Empty;
 
