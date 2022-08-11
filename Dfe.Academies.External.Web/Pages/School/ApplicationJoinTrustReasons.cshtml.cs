@@ -17,7 +17,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    public int ApplicationId { get; set; }
 
 	    [BindProperty]
-	    public int Urn { get; private set; }
+	    public int Urn { get; set; }
 
 	    //// MR:- VM props to capture pupil numbers data
         [BindProperty]
