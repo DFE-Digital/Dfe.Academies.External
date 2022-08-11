@@ -11,7 +11,7 @@ namespace Dfe.Academies.External.Web.Pages.School
     {
 	    private readonly ILogger<ApplicationConversionTargetDateModel> _logger;
 	    private readonly IConversionApplicationCreationService _academisationCreationService;
-	    private const string NextStepPage = "/ConversionRationale";
+	    private const string NextStepPage = "ApplicationJoinTrustReasons";
 
 		//// MR:- selected school props for UI rendering
 		[BindProperty]
