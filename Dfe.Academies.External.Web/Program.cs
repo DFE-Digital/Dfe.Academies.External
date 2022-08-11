@@ -4,14 +4,19 @@ using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Serilog;
+using Serilog.Events;
+using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
+builder.Services.AddSentry();
 
 //https://github.com/gunndabad/govuk-frontend-aspnetcore  
 builder.Services.AddGovUkFrontend();
+//// builder.Services.UseSerilog();
 
 builder.Services
 	.AddRazorPages(options =>
@@ -100,6 +105,12 @@ builder.Services.AddAcademiesApi(configuration);
 // Internal Service
 builder.Services.AddInternalServices();
 
+builder.Host.UseSerilog((ctx, lc) => lc
+	.MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+	.Enrich.FromLogContext()
+	.WriteTo.Console(new RenderedCompactJsonFormatter())
+	.WriteTo.Sentry());
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 	{
@@ -125,6 +136,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Enable Sentry middleware for performance monitoring
+app.UseSentryTracing();
+app.UseSerilogRequestLogging();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -136,4 +151,3 @@ app.MapControllers();
 app.UseSession();
 
 app.Run();
-
