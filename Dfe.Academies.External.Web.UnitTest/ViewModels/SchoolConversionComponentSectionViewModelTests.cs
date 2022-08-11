@@ -16,14 +16,14 @@ internal sealed class SchoolConversionComponentSectionViewModelTests
 		string name = Fixture.Create<string>();
 		string answer = Fixture.Create<string>();
 
-		var conversionApplicationAuditEntry = new SchoolConversionComponentSectionViewModel(name, answer);
+		var schoolConversionComponentSectionViewModel = new SchoolConversionComponentSectionViewModel(name, answer);
 
 		// act
 		// nothing!
 
 		// assert
-		Assert.That(conversionApplicationAuditEntry, Is.Not.Null);
-		Assert.That(conversionApplicationAuditEntry.Name, Is.EqualTo(name));
-		Assert.That(conversionApplicationAuditEntry.Answer, Is.EqualTo(answer));
+		Assert.That(schoolConversionComponentSectionViewModel, Is.Not.Null);
+		Assert.That(schoolConversionComponentSectionViewModel.Name, Is.EqualTo(name));
+		Assert.That(schoolConversionComponentSectionViewModel.Answer, Is.EqualTo(answer));
 	}
 }
