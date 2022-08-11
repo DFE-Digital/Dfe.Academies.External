@@ -2,7 +2,7 @@
 
 public class SchoolPupilNumbersSummaryHeadingViewModel : SchoolQuestionAndAnswerSectionViewModel
 {
-	public const string Heading = "Changing the name of the school";
+	public const string Heading = "Future pupil numbers";
 
 	public SchoolPupilNumbersSummaryHeadingViewModel(string title, string uRi) : base(title, uRi)
 	{
