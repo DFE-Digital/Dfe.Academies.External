@@ -21,7 +21,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    public string SchoolName { get; private set; } = string.Empty;
 
 	    //// MR:- VM props to show school conversion data
-	    public List<SchoolConversionComponentHeadingViewModel> ViewModel { get; set; } = new();
+	    public List<SchoolPupilNumbersSummaryHeadingViewModel> ViewModel { get; set; } = new();
 
 	    public PupilNumbersSummaryModel(ILogger<PupilNumbersSummaryModel> logger,
 		    IConversionApplicationRetrievalService conversionApplicationRetrievalService,
@@ -77,25 +77,20 @@ namespace Dfe.Academies.External.Web.Pages.School
 			ApplicationId = selectedSchool.ApplicationId;
 			Urn = selectedSchool.URN;
 			SchoolName = selectedSchool.SchoolName;
-			// TODO MR:- sort out sections - setup VM from what we get back from API
 
-			SchoolConversionComponentHeadingViewModel heading1 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationSchool,
+			SchoolPupilNumbersSummaryHeadingViewModel heading1 = new(SchoolPupilNumbersSummaryHeadingViewModel.Heading,
 																		"/school/PupilNumbers");
 
-			// TODO MR:- fo answer, consume SchoolConversionComponentSectionViewModel.NoInfoAnswer if string.isnullorempty()
+			// TODO MR:- for answer, consume QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
+			// OR data from API
 
-			//Projected pupil numbers on roll in the year the academy opens (year 1)
-			heading1.Sections.Add(new(SchoolConversionComponentSectionViewModel.NameOfSchoolSectionName, "TBC"));
+			heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr1, "TBC"));
+			heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr2, "TBC"));
+			heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr3, "TBC"));
+			heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.NumbersBasedUpon, "TBC"));
+			heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PAN, "TBC"));
 
-			// "Projected pupil numbers on roll in the following year after the academy has opened (year 2)"
-
-			// "Projected pupil numbers on roll in the following year (year 3)",
-
-			// "What do you base these projected numbers on?",
-
-			//  "What is the school's published admissions number (PAN)?",
-
-			var vm = new List<SchoolConversionComponentHeadingViewModel> { heading1  };
+			var vm = new List<SchoolPupilNumbersSummaryHeadingViewModel> { heading1  };
 
 			ViewModel = vm;
 		}
