@@ -4,19 +4,25 @@ using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Serilog;
-using Serilog.Events;
-using Serilog.Formatting.Compact;
+//using Serilog;
+//using Serilog.Events;
+//using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
-// Add services to the container.
-builder.Services.AddSentry();
+// Add sentry to the container.
+builder.WebHost.UseSentry();
+
+//// builder.Services.UseSerilog();
+//builder.Host.UseSerilog((ctx, lc) => lc
+//	.MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+//	.Enrich.FromLogContext()
+//	.WriteTo.Console(new RenderedCompactJsonFormatter())
+//	.WriteTo.Sentry());
 
 //https://github.com/gunndabad/govuk-frontend-aspnetcore  
 builder.Services.AddGovUkFrontend();
-//// builder.Services.UseSerilog();
 
 builder.Services
 	.AddRazorPages(options =>
@@ -105,12 +111,6 @@ builder.Services.AddAcademiesApi(configuration);
 // Internal Service
 builder.Services.AddInternalServices();
 
-builder.Host.UseSerilog((ctx, lc) => lc
-	.MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-	.Enrich.FromLogContext()
-	.WriteTo.Console(new RenderedCompactJsonFormatter())
-	.WriteTo.Sentry());
-
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 	{
@@ -120,17 +120,6 @@ builder.Services.AddSession(options =>
 		options.Cookie.IsEssential = true;
 	}
 );
-
-//
-//webBuilder.UseSentry(o =>
-//{
-//	o.Dsn = "https://4d1ecd28676d4b06b3784f427733c754@o1042804.ingest.sentry.io/6047969";
-//	// When configuring for the first time, to see what the SDK is doing:
-//	o.Debug = true;
-//	// Set TracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-//	// We recommend adjusting this value in production.
-//	o.TracesSampleRate = 1.0;
-//});
 
 var app = builder.Build();
 
@@ -147,9 +136,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// Enable Sentry middleware for performance monitoring
+// Enable automatic tracing integration.
+// If running with .NET 5 or below, make sure to put this middleware
+// right after `UseRouting()`.
 app.UseSentryTracing();
-app.UseSerilogRequestLogging();
+
+//app.UseSerilogRequestLogging();
 
 app.UseAuthentication();
 app.UseAuthorization();
