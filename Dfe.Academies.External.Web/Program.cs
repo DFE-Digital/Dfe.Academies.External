@@ -121,17 +121,6 @@ builder.Services.AddSession(options =>
 	}
 );
 
-//
-//webBuilder.UseSentry(o =>
-//{
-//	o.Dsn = "https://4d1ecd28676d4b06b3784f427733c754@o1042804.ingest.sentry.io/6047969";
-//	// When configuring for the first time, to see what the SDK is doing:
-//	o.Debug = true;
-//	// Set TracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-//	// We recommend adjusting this value in production.
-//	o.TracesSampleRate = 1.0;
-//});
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
