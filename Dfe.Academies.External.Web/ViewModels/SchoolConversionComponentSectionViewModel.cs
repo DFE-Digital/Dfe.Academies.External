@@ -2,7 +2,6 @@
 
 public class SchoolConversionComponentSectionViewModel : SchoolQuestionAndAnswerViewModel
 {
-	public const string NoInfoAnswer = "You have not added any information";
 	// section 1 - school joining trust
 	public const string NameOfSchoolSectionName = "The name of the school";
 	// section 2 - contact details section

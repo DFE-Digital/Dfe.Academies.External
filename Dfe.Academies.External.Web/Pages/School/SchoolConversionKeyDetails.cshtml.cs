@@ -85,7 +85,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			SchoolConversionComponentHeadingViewModel heading1 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationSchool,
 																		"/school/ApplicationSelectSchool");
 
-			// TODO MR:- fo answer, consume SchoolConversionComponentSectionViewModel.NoInfoAnswer if string.isnullorempty()
+			// TODO MR:- fo answer, consume QuestionAndAnswerConstants.NoInfoAnswer if string.isnullorempty()
 			heading1.Sections.Add(new (SchoolConversionComponentSectionViewModel.NameOfSchoolSectionName, "TBC"));
 
 			SchoolConversionComponentHeadingViewModel heading2 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationContactDetails,
