@@ -80,11 +80,21 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// TODO MR:- sort out sections - setup VM from what we get back from API
 
 			SchoolConversionComponentHeadingViewModel heading1 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationSchool,
-																		"/school/ApplicationSelectSchool");
+																		"/school/PupilNumbers");
 
 			// TODO MR:- fo answer, consume SchoolConversionComponentSectionViewModel.NoInfoAnswer if string.isnullorempty()
+
+			//Projected pupil numbers on roll in the year the academy opens (year 1)
 			heading1.Sections.Add(new(SchoolConversionComponentSectionViewModel.NameOfSchoolSectionName, "TBC"));
-			
+
+			// "Projected pupil numbers on roll in the following year after the academy has opened (year 2)"
+
+			// "Projected pupil numbers on roll in the following year (year 3)",
+
+			// "What do you base these projected numbers on?",
+
+			//  "What is the school's published admissions number (PAN)?",
+
 			var vm = new List<SchoolConversionComponentHeadingViewModel> { heading1  };
 
 			ViewModel = vm;
