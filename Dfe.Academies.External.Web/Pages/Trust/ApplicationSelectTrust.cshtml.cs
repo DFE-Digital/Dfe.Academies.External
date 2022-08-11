@@ -107,7 +107,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 			    //// grab draft application from temp
 			    var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			    await _conversionApplicationCreationService.AddTrustToApplication(draftConversionApplication.Id, SelectedUkPrn, SelectedTrustName);
+			    await _conversionApplicationCreationService.AddTrustToApplication(draftConversionApplication.ApplicationId, SelectedUkPrn, SelectedTrustName);
 
 			    // update temp store for next step - application overview
 			    TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -149,7 +149,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 	    {
 		    if (conversionApplication != null)
 		    {
-			    ApplicationId = conversionApplication.Id;
+			    ApplicationId = conversionApplication.ApplicationId;
 			    // other view model properties initialized within properties
 		    }
 	    }

@@ -65,7 +65,7 @@ internal sealed class WhatIsYourRoleModelTests
     // TODO MR:- WhatIsYourRoleModel___OnPostAsync___ModelIsValid___InValid
 
     // TODO MR:- WhatIsYourRoleModel___OnPostAsync___ModelIsValid___InValid - manual model data check
-    // if (SchoolRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleNotListed))
+    // if (SchoolRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleName))
 
     // TODO MR:- WhatIsYourRoleModel___OnPostAsync___ModelIsValid___Valid
 

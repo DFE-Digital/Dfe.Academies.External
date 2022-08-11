@@ -69,11 +69,11 @@ namespace Dfe.Academies.External.Web.Pages
 
 		        //// MR:- Need to drop into this pages cache here ready for post / server callback !
 		        TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-                var conversionApplication = await LoadAndSetApplicationDetails(draftConversionApplication.Id, draftConversionApplication.ApplicationType);
+                var conversionApplication = await LoadAndSetApplicationDetails(draftConversionApplication.ApplicationId, draftConversionApplication.ApplicationType);
 
                 if (conversionApplication != null)
                 {
-	                var school = conversionApplication.SchoolOrSchoolsApplyingToConvert.FirstOrDefault();
+	                var school = conversionApplication.Schools.FirstOrDefault();
 
 	                if (school != null)
 	                {
@@ -103,13 +103,13 @@ namespace Dfe.Academies.External.Web.Pages
         {
 	        if (conversionApplication != null)
 	        {
-		        ApplicationId = conversionApplication.Id;
+		        ApplicationId = conversionApplication.ApplicationId;
                 ApplicationType = conversionApplication.ApplicationType;
 		        ApplicationReferenceNumber = conversionApplication.ApplicationReference;
 		        CompletedSections = 0; // TODO MR:- what logic drives this !
 		        ApplicationStatus = "incomplete"; // TODO MR:- what logic drives this !
 		        ConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
-		        SchoolOrSchoolsApplyingToConvert = conversionApplication.SchoolOrSchoolsApplyingToConvert;
+		        SchoolOrSchoolsApplyingToConvert = conversionApplication.Schools;
 		        NameOfTrustToJoin = conversionApplication.TrustName;
 
 		        if (conversionApplication.ApplicationType == ApplicationTypes.FormNewMat)
@@ -142,7 +142,7 @@ namespace Dfe.Academies.External.Web.Pages
 			        SchoolComponentsViewModel componentsVm = new() 
 			        {
 				        URN = school.URN,
-				        ApplicationId = conversionApplication.Id,
+				        ApplicationId = conversionApplication.ApplicationId,
 				        SchoolComponents = school.SchoolApplicationComponents.Select(c =>
 					        new ApplicationComponentViewModel(name: c.Name,
 						        uri: SetSchoolApplicationComponentUriFromName(c.Name))

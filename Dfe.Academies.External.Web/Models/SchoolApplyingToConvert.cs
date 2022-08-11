@@ -11,7 +11,7 @@ public class SchoolApplyingToConvert
 	}
 
 	/// <summary>
-	/// This would be existing Id from GIAS 6 digit URN? OR unique Row Id
+	/// TODO MR:- needs ripping out, replaced by URN
 	/// </summary>
 	public int SchoolId { get; set; }
 
@@ -29,14 +29,44 @@ public class SchoolApplyingToConvert
 
     public string SchoolName { get; set; }
 
-    public Address Address { get; set; }
+	//// School Contacts / Key people
 
-    public List<ConversionApplicationComponent> SchoolApplicationComponents { get; set; } = new();
+	public string SchoolConversionContactHeadName { get; set; }
+	public string SchoolConversionContactHeadEmail { get; set; }
+	public string SchoolConversionContactHeadTel { get; set; }
+	public string SchoolConversionContactChairName { get; set; }
+	public string SchoolConversionContactChairEmail { get; set; }
+	public string SchoolConversionContactChairTel { get; set; }
+	public string SchoolConversionContactRole { get; set; }
+	public string SchoolConversionMainContactOtherName { get; set; }
+	public string SchoolConversionMainContactOtherEmail { get; set; }
+	public string SchoolConversionMainContactOtherTelephone { get; set; }
+	public string SchoolConversionMainContactOtherRole { get; set; }
+	public string SchoolConversionApproverContactName { get; set; }
+	public string SchoolConversionApproverContactEmail { get; set; }
 
-    // TODO MR:- contact head - or list<Contact> with a type?
+	//// ApplicationConversionTargetDate
+	public DateTime SchoolConversionTargetDate { get; set; }
+	public string SchoolConversionTargetDateExplained { get; set; }
 
-    // TODO MR:- contact chair - or list<Contact> with a type?
+	//// ApplicationChangeSchoolName
+	public string ProposedNewSchoolName { get; set; }
 
+	//// ApplicationJoinTrustReasons 
+	public string ApplicationJoinTrustReason { get; set; }
+
+	//// Pupil Numbers
+	public int? ProjectedPupilNumbersYear1 { get; set; }
+    public int? ProjectedPupilNumbersYear2 { get; set; }
+    public int? ProjectedPupilNumbersYear3 { get; set; }
+    public string? SchoolCapacityAssumptions { get; set; }
+    public int? SchoolCapacityPublishedAdmissionsNumber { get; set; }
+
+	/// <summary>
+	/// TODO MR:- is below more a VM thing?
+	/// </summary>
+	public List<ConversionApplicationComponent> SchoolApplicationComponents { get; set; } = new();
+	
     //// MR:- below props from A2C-SIP - ApplyingSchool object
     public bool? SchoolOfstedInspectedButReportNotPublished { get; set; }
 
@@ -54,17 +84,11 @@ public class SchoolApplyingToConvert
 
     public string? SchoolAdSafeguardingExplain { get; set; }
 
-    // TODO:- other props from A2C-SIP - ApplyingSchool object
-
     public List<SchoolLoan> SchoolLoans { get; set; } = new();
 
     public List<SchoolLease> SchoolLeases { get; set; } = new();
 
-    public List<SchoolContact> SchoolContacts { get; set; } = new();
-
     public SchoolFinances SchoolFinances { get; set; } = new();
-
-    public SchoolPupils SchoolPupils { get; set; } = new();
 
     public SchoolLandAndBuildings SchoolLandAndBuildings { get; set; } = new();
 }

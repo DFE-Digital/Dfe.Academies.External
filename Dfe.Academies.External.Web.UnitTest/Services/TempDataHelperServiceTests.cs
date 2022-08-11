@@ -73,7 +73,7 @@ public class TempDataHelperTests
         // assert - grab value back to see if it's stored
         var storedValue = TempDataHelper.GetSerialisedValue<ConversionApplication>(storageKey, pageModel.TempData);
 
-        Assert.AreEqual(conversionApplication.Id, storedValue.Id);
+        Assert.AreEqual(conversionApplication.ApplicationId, storedValue.ApplicationId);
         Assert.AreEqual(conversionApplication.ApplicationType, storedValue.ApplicationType);
         Assert.AreEqual(conversionApplication.UserEmail, storedValue.UserEmail);
         Assert.AreEqual(conversionApplication.Application, storedValue.Application);
@@ -97,7 +97,7 @@ public class TempDataHelperTests
         // assert - grab value back to see if it's stored
         var storedValue = TempDataHelper.GetSerialisedValue<ConversionApplication>(storageKey, pageModel.TempData);
 
-        Assert.AreEqual(conversionApplication.Id, storedValue.Id);
+        Assert.AreEqual(conversionApplication.ApplicationId, storedValue.ApplicationId);
         Assert.AreEqual(conversionApplication.ApplicationType, storedValue.ApplicationType);
         Assert.AreEqual(conversionApplication.UserEmail, storedValue.UserEmail);
         Assert.AreEqual(conversionApplication.Application, storedValue.Application);

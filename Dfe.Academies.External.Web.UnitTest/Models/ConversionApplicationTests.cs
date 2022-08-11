@@ -13,7 +13,7 @@ internal sealed class ConversionApplicationTests
         // arrange
         var conversionApplication = new ConversionApplication
         {
-            Id = int.MaxValue,
+            ApplicationId = int.MaxValue,
             ApplicationType = ApplicationTypes.FormNewMat,
             UserEmail = "mark.robinson@education.gov.uk",
             Application = "test",
@@ -25,13 +25,13 @@ internal sealed class ConversionApplicationTests
 
         // assert
         Assert.That(conversionApplication, Is.Not.Null);
-        Assert.That(conversionApplication.Id, Is.EqualTo(int.MaxValue));
+        Assert.That(conversionApplication.ApplicationId, Is.EqualTo(int.MaxValue));
         Assert.That(conversionApplication.ApplicationType, Is.EqualTo(ApplicationTypes.FormNewMat));
         Assert.That(conversionApplication.UserEmail, Is.EqualTo("mark.robinson@education.gov.uk"));
         Assert.That(conversionApplication.Application, Is.EqualTo("test"));
         Assert.That(conversionApplication.ConversionStatus, Is.EqualTo(1));
-        Assert.That(conversionApplication.SchoolOrSchoolsApplyingToConvert.Count, Is.EqualTo(0));
-        Assert.That(conversionApplication.ConversionApplicationContributors.Count, Is.EqualTo(0));
+        Assert.That(conversionApplication.Schools.Count, Is.EqualTo(0));
+        Assert.That(conversionApplication.Contributors.Count, Is.EqualTo(0));
     }
 
     //[Test]
@@ -40,7 +40,7 @@ internal sealed class ConversionApplicationTests
     //    // arrange
     //    var conversionApplication = new ConversionApplication
     //    {
-    //        Id = int.MaxValue,
+    //        ApplicationId = int.MaxValue,
     //        ApplicationType = ApplicationTypes.FormNewMat,
     //        UserEmail = "mark.robinson@education.gov.uk",
     //        Application = "test",
@@ -60,7 +60,7 @@ internal sealed class ConversionApplicationTests
     //    // arrange
     //    var conversionApplication = new ConversionApplication
     //    {
-    //        Id = int.MaxValue,
+    //        ApplicationId = int.MaxValue,
     //        ApplicationType = ApplicationTypes.FormNewMat,
     //        UserEmail = "mark.robinson@education.gov.uk",
     //        Application = "test",
@@ -69,14 +69,14 @@ internal sealed class ConversionApplicationTests
 
     //    conversionApplication.SchoolApplicationComponents.AddRange(new List<ConversionApplicationComponent>
     //    {
-    //        new(name:"Contact details") {Id = 1, Status = Status.NotStarted},
-    //        new(name:"Performance and safeguarding") {Id = 2, Status = Status.NotStarted},
-    //        new(name:"Pupil numbers") {Id = 3, Status = Status.NotStarted},
-    //        new(name:"Finances") {Id = 4, Status = Status.NotStarted},
-    //        new(name:"Partnerships and affiliations") {Id = 5, Status = Status.NotStarted},
-    //        new(name:"Religious education") {Id = 6, Status = Status.NotStarted},
-    //        new(name:"Land and buildings") {Id = 7, Status = Status.NotStarted},
-    //        new(name:"Local authority") {Id = 8, Status = Status.NotStarted}
+    //        new(name:"Contact details") {ApplicationId = 1, Status = Status.NotStarted},
+    //        new(name:"Performance and safeguarding") {ApplicationId = 2, Status = Status.NotStarted},
+    //        new(name:"Pupil numbers") {ApplicationId = 3, Status = Status.NotStarted},
+    //        new(name:"Finances") {ApplicationId = 4, Status = Status.NotStarted},
+    //        new(name:"Partnerships and affiliations") {ApplicationId = 5, Status = Status.NotStarted},
+    //        new(name:"Religious education") {ApplicationId = 6, Status = Status.NotStarted},
+    //        new(name:"Land and buildings") {ApplicationId = 7, Status = Status.NotStarted},
+    //        new(name:"Local authority") {ApplicationId = 8, Status = Status.NotStarted}
     //    });
 
     //    // act
@@ -92,7 +92,7 @@ internal sealed class ConversionApplicationTests
     //    // arrange
     //    var conversionApplication = new ConversionApplication
     //    {
-    //        Id = int.MaxValue,
+    //        ApplicationId = int.MaxValue,
     //        ApplicationType = ApplicationTypes.FormNewMat,
     //        UserEmail = "mark.robinson@education.gov.uk",
     //        Application = "test",
@@ -101,14 +101,14 @@ internal sealed class ConversionApplicationTests
 
     //    conversionApplication.SchoolApplicationComponents.AddRange(new List<ConversionApplicationComponent>
     //    {
-    //        new(name:"Contact details") {Id = 1, Status = Status.Completed},
-    //        new(name:"Performance and safeguarding") {Id = 2, Status = Status.InProgress},
-    //        new(name:"Pupil numbers") {Id = 3, Status = Status.NotStarted},
-    //        new(name:"Finances") {Id = 4, Status = Status.NotStarted},
-    //        new(name:"Partnerships and affiliations") {Id = 5, Status = Status.NotStarted},
-    //        new(name:"Religious education") {Id = 6, Status = Status.NotStarted},
-    //        new(name:"Land and buildings") {Id = 7, Status = Status.NotStarted},
-    //        new(name:"Local authority") {Id = 8, Status = Status.NotStarted}
+    //        new(name:"Contact details") {ApplicationId = 1, Status = Status.Completed},
+    //        new(name:"Performance and safeguarding") {ApplicationId = 2, Status = Status.InProgress},
+    //        new(name:"Pupil numbers") {ApplicationId = 3, Status = Status.NotStarted},
+    //        new(name:"Finances") {ApplicationId = 4, Status = Status.NotStarted},
+    //        new(name:"Partnerships and affiliations") {ApplicationId = 5, Status = Status.NotStarted},
+    //        new(name:"Religious education") {ApplicationId = 6, Status = Status.NotStarted},
+    //        new(name:"Land and buildings") {ApplicationId = 7, Status = Status.NotStarted},
+    //        new(name:"Local authority") {ApplicationId = 8, Status = Status.NotStarted}
     //    });
 
     //    // act
@@ -124,7 +124,7 @@ internal sealed class ConversionApplicationTests
     //    // arrange
     //    var conversionApplication = new ConversionApplication
     //    {
-    //        Id = int.MaxValue,
+    //        ApplicationId = int.MaxValue,
     //        ApplicationType = ApplicationTypes.FormNewMat,
     //        UserEmail = "mark.robinson@education.gov.uk",
     //        Application = "test",
@@ -133,14 +133,14 @@ internal sealed class ConversionApplicationTests
 
     //    conversionApplication.SchoolApplicationComponents.AddRange(new List<ConversionApplicationComponent>
     //    {
-    //        new(name:"Contact details") {Id = 1, Status = Status.Completed},
-    //        new(name:"Performance and safeguarding") {Id = 2, Status = Status.Completed},
-    //        new(name:"Pupil numbers") {Id = 3, Status = Status.Completed},
-    //        new(name:"Finances") {Id = 4, Status = Status.Completed},
-    //        new(name:"Partnerships and affiliations") {Id = 5, Status = Status.Completed},
-    //        new(name:"Religious education") {Id = 6, Status = Status.Completed},
-    //        new(name:"Land and buildings") {Id = 7, Status = Status.Completed},
-    //        new(name:"Local authority") {Id = 8, Status = Status.Completed}
+    //        new(name:"Contact details") {ApplicationId = 1, Status = Status.Completed},
+    //        new(name:"Performance and safeguarding") {ApplicationId = 2, Status = Status.Completed},
+    //        new(name:"Pupil numbers") {ApplicationId = 3, Status = Status.Completed},
+    //        new(name:"Finances") {ApplicationId = 4, Status = Status.Completed},
+    //        new(name:"Partnerships and affiliations") {ApplicationId = 5, Status = Status.Completed},
+    //        new(name:"Religious education") {ApplicationId = 6, Status = Status.Completed},
+    //        new(name:"Land and buildings") {ApplicationId = 7, Status = Status.Completed},
+    //        new(name:"Local authority") {ApplicationId = 8, Status = Status.Completed}
     //    });
 
     //    // act

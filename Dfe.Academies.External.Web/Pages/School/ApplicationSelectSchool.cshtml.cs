@@ -106,7 +106,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// grab draft application from temp
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				await _conversionApplicationCreationService.AddSchoolToApplication(draftConversionApplication.Id, SelectedUrn, SelectedSchoolName);
+				await _conversionApplicationCreationService.AddSchoolToApplication(draftConversionApplication.ApplicationId, SelectedUrn, SelectedSchoolName);
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -148,7 +148,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			if (conversionApplication != null)
 			{
-				ApplicationId = conversionApplication.Id;
+				ApplicationId = conversionApplication.ApplicationId;
 				// other view model properties initialized within properties
 			}
 		}

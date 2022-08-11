@@ -63,7 +63,7 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
 
             if (_draftConversionApplication != null)
             {
-	            // MR:- plop newApplication.Id somewhere so NextStepPage can pick this up !
+	            // MR:- plop newApplication.ApplicationId somewhere so NextStepPage can pick this up !
 	            TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, _draftConversionApplication);
             }
 
