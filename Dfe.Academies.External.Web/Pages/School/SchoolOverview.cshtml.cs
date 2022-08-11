@@ -10,7 +10,7 @@ namespace Dfe.Academies.External.Web.Pages.School
     {
 	    private readonly ILogger<SchoolOverviewModel> _logger;
 
-	    public int URN { get; private set; }
+	    public int URN { get; set; }
 
         public string SchoolName { get; private set; } = string.Empty;
 
