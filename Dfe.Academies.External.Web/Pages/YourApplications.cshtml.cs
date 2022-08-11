@@ -1,4 +1,3 @@
-using Dfe.Academies.External.Web.Logger;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -13,9 +12,9 @@ namespace Dfe.Academies.External.Web.Pages
         public List<ConversionApplication> CompletedApplications { get; set; } = new();
 
         private readonly IConversionApplicationRetrievalService _conversionApplications;
-        private readonly ILoggerClass _logger;
+        private readonly ILogger _logger;
 
-        public HomeModel(IConversionApplicationRetrievalService conversionApplications, ILoggerClass logger)
+        public HomeModel(IConversionApplicationRetrievalService conversionApplications, ILogger<HomeModel> logger)
         {
             _conversionApplications = conversionApplications;
             _logger = logger;
@@ -34,8 +33,7 @@ namespace Dfe.Academies.External.Web.Pages
             }
             catch (Exception ex)
             {
-                _logger.Logger(ex.Message);
-                //_logger.LogError("Application::HomeModel::OnGet::Exception - {Message}", ex.Message);
+	            _logger.LogError("Application::HomeModel::OnGet::Exception - {Message}", ex.Message);
             }
         }
 
