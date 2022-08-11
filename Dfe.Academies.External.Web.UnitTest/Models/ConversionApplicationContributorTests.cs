@@ -21,7 +21,7 @@ internal sealed class ConversionApplicationContributorTests
 
         var applicationComponent = new ConversionApplicationContributor(firstName, surName, schoolRole, role)
         {
-            Id = int.MaxValue
+            ContributorId = int.MaxValue
         };
 
         // act
@@ -29,9 +29,9 @@ internal sealed class ConversionApplicationContributorTests
 
         // assert
         Assert.That(applicationComponent, Is.Not.Null);
-        Assert.That(applicationComponent.Id, Is.EqualTo(int.MaxValue));
-        Assert.That(applicationComponent.Person.FirstName, Is.EqualTo(firstName));
-        Assert.That(applicationComponent.Person.Surname, Is.EqualTo(surName));
+        Assert.That(applicationComponent.ContributorId, Is.EqualTo(int.MaxValue));
+        Assert.That(applicationComponent.FirstName, Is.EqualTo(firstName));
+        Assert.That(applicationComponent.Surname, Is.EqualTo(surName));
         Assert.That(applicationComponent.Role, Is.EqualTo(schoolRole));
     }
 }

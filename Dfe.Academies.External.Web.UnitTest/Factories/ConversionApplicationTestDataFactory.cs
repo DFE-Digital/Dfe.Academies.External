@@ -14,7 +14,7 @@ internal static class ConversionApplicationTestDataFactory
         return new ConversionApplication
         {
             UserEmail = Fixture.Create<string>(),
-            Id = int.MaxValue,
+            ApplicationId = int.MaxValue,
             ApplicationType = ApplicationTypes.FormNewMat,
             Application = Fixture.Create<string>()
         };
@@ -25,7 +25,7 @@ internal static class ConversionApplicationTestDataFactory
         return new ConversionApplication
         {
             UserEmail = Fixture.Create<string>(),
-            Id = int.MaxValue,
+            ApplicationId = int.MaxValue,
             ApplicationType = ApplicationTypes.FormNewMat,
             Application = Fixture.Create<string>(),
             SchoolRole = SchoolRoles.Other,
@@ -38,7 +38,7 @@ internal static class ConversionApplicationTestDataFactory
         return new ConversionApplication
         {
             UserEmail = Fixture.Create<string>(),
-            Id = int.MaxValue,
+            ApplicationId = int.MaxValue,
             ApplicationType = ApplicationTypes.FormNewMat,
             Application = Fixture.Create<string>(),
             SchoolRole = SchoolRoles.Chair

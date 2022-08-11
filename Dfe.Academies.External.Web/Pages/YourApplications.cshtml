@@ -37,7 +37,7 @@
 	                            </th>
                                 <td class="govuk-table__cell">@data.TrustName</td>
                                 <td class="govuk-table__cell">
-                                    @foreach (var schs in data.SchoolOrSchoolsApplyingToConvert)
+                                    @foreach (var schs in data.Schools)
                                     {
                                         <ul><li>@Html.Raw(@schs.SchoolName)</li></ul>
                                     }
@@ -82,7 +82,7 @@
 	                            </th>
                                 <td class="govuk-table__cell">@data.TrustName</td>
                                 <td class="govuk-table__cell">
-                                    @foreach (var schs in data.SchoolOrSchoolsApplyingToConvert)
+                                    @foreach (var schs in data.Schools)
                                     {
                                         <ul><li>@Html.Raw(@schs.SchoolName)</li></ul>
                                     }

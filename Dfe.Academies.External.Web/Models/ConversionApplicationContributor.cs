@@ -4,24 +4,24 @@ namespace Dfe.Academies.External.Web.Models;
 
 public class ConversionApplicationContributor
 {
-    public ConversionApplicationContributor(string firstName, string surname, SchoolRoles role, string? otherRoleNotListed)
+    public ConversionApplicationContributor(string firstName, string surname, SchoolRoles role, string? otherRoleName)
     {
-        Role = role;
-        OtherRoleNotListed = otherRoleNotListed;
-        Person = new Person(firstName, surname);
+	    FirstName = firstName;
+        Surname = surname;
+		Role = role;
+        OtherRoleName = otherRoleName;
     }
-    public int Id { get; set; }
+    public int ContributorId { get; set; }
 
     public int ApplicationId { get; set; }
 
-    public SchoolRoles Role { get; set; }
+    public string FirstName { get; set; }
 
-    public string? OtherRoleNotListed { get; set; }
+    public string Surname { get; set; }
 
-    public int PersonId { get; set; }
+    public string? EmailAddress { get; set; }
 
-    public Person Person { get; set; }
+	public SchoolRoles Role { get; set; }
 
-
-    // TODO:- other props, maybe UserId from auth / user email from auth?
+    public string? OtherRoleName { get; set; }
 }

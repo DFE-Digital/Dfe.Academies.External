@@ -211,11 +211,11 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
 	    // assert
 	    Assert.That(application, Is.Not.Null);
-	    Assert.That(application.Id, Is.EqualTo(applicationId));
+	    Assert.That(application.ApplicationId, Is.EqualTo(applicationId));
         Assert.That(application.Application, Is.EqualTo("Form a new multi-academy trust A2B_2549"));
-        Assert.AreEqual(expectedCount, application.SchoolOrSchoolsApplyingToConvert.Count, "Count is not correct");
-        Assert.That(application.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()?.SchoolName, Is.EqualTo("Chesterton primary school"));
-        Assert.That(application.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()?.SchoolId, Is.EqualTo(96));
+        Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
+        Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("Chesterton primary school"));
+        Assert.That(application.Schools.FirstOrDefault()?.SchoolId, Is.EqualTo(96));
     }
 
     [Test]
@@ -249,11 +249,11 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
         // assert
         Assert.That(application, Is.Not.Null);
-        Assert.That(application.Id, Is.EqualTo(applicationId));
+        Assert.That(application.ApplicationId, Is.EqualTo(applicationId));
         Assert.That(application.Application, Is.EqualTo("Join a multi-academy trust A2B_2549"));
-        Assert.AreEqual(expectedCount, application.SchoolOrSchoolsApplyingToConvert.Count, "Count is not correct");
-        Assert.That(application.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()?.SchoolName, Is.EqualTo("Chesterton primary school"));
-        Assert.That(application.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()?.SchoolId, Is.EqualTo(96));
+        Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
+        Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("Chesterton primary school"));
+        Assert.That(application.Schools.FirstOrDefault()?.SchoolId, Is.EqualTo(96));
     }
 
     [Test]
@@ -287,10 +287,10 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
         // assert
         Assert.That(application, Is.Not.Null);
-        Assert.That(application.Id, Is.EqualTo(applicationId));
+        Assert.That(application.ApplicationId, Is.EqualTo(applicationId));
         Assert.That(application.Application, Is.EqualTo("Form a new single academy trust A2B_2549"));
-        Assert.AreEqual(expectedCount, application.SchoolOrSchoolsApplyingToConvert.Count, "Count is not correct");
-        Assert.That(application.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()?.SchoolName, Is.EqualTo("Chesterton primary school"));
-        Assert.That(application.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()?.SchoolId, Is.EqualTo(96));
+        Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
+        Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("Chesterton primary school"));
+        Assert.That(application.Schools.FirstOrDefault()?.SchoolId, Is.EqualTo(96));
     }
 }
