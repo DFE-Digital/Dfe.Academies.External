@@ -17,17 +17,14 @@ internal sealed class SchoolApplyingToConvertTests
         int urn = Fixture.Create<int>();
         string schoolName = Fixture.Create<string>();
 
-        var conversionApplication = new SchoolApplyingToConvert(schoolName, urn, applicationId, null)
-        {
-	        SchoolId = int.MaxValue
-        };
+        var conversionApplication = new SchoolApplyingToConvert(schoolName, urn, applicationId, null);
 
         // act
         // nothing!
 
         // assert
         Assert.That(conversionApplication, Is.Not.Null);
-        Assert.That(conversionApplication.SchoolId, Is.EqualTo(int.MaxValue));
+        Assert.That(conversionApplication.URN, Is.EqualTo(urn));
         Assert.That(conversionApplication.SchoolName, Is.EqualTo(schoolName));
     }
 }
