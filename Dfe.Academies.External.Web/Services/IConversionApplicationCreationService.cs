@@ -13,8 +13,8 @@ public interface IConversionApplicationCreationService
 
     Task AddTrustToApplication(int applicationId, int trustUkPrn, string name);
 
-    Task ApplicationAddJoinTrustReasons(ConversionApplication application, string applicationJoinTrustReason);
+    Task ApplicationAddJoinTrustReasons(int applicationId, string applicationJoinTrustReason, int schoolUrn);
 
     Task ApplicationChangeSchoolNameAndReason(ConversionApplication application, SelectOption changeName,
-	    string changeSchoolNameReason);
+	    string changeSchoolNameReason, int schoolUrn);
 }
