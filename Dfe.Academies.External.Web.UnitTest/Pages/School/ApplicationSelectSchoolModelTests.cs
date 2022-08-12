@@ -139,7 +139,13 @@ internal sealed class ApplicationSelectSchoolModelTests
         Assert.That(pageModel.SelectedSchoolName, Is.EqualTo(""));
     }
 
-    private static ApplicationSelectSchoolModel SetupApplicationSelectSchoolModel(
+    // TODO MR:- OnPostAsync___ModelIsValid___Invalid
+    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
+
+    // TODO MR:- OnPostAsync___ModelIsValid___Valid
+    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
+
+	private static ApplicationSelectSchoolModel SetupApplicationSelectSchoolModel(
         ILogger<ApplicationSelectSchoolModel> mockLogger,
         IConversionApplicationCreationService mockConversionApplicationCreationService,
         bool isAuthenticated = false)

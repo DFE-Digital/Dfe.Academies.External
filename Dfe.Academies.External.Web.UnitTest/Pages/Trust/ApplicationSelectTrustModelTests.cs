@@ -15,8 +15,34 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.Trust;
 [Parallelizable(ParallelScope.All)]
 public class ApplicationSelectTrustModelTests
 {
-    [Test]
-    public async Task TestSelectedUrnProperty__Valid()
+	/// <summary>
+	/// "draftConversionApplication" in temp storage
+	/// from previous step in the new application wizard
+	/// </summary>
+	/// <returns></returns>
+	[Test]
+	public async Task OnGetAsync___Valid___NullErrors()
+	{
+		// arrange
+		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockLogger = new Mock<ILogger<ApplicationSelectTrustModel>>();
+
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+
+		// act
+		var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
+		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
+
+		// act
+		await pageModel.OnGetAsync();
+
+		// assert
+		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
+	}
+
+	[Test]
+    public async Task SearchQuery___Valid__SelectedUrnValid()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -39,7 +65,7 @@ public class ApplicationSelectTrustModelTests
     }
 
     [Test]
-    public async Task TestSelectedUrnProperty__Invalid()
+    public async Task SearchQuery___Empty___SelectedUrnZero()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -62,7 +88,7 @@ public class ApplicationSelectTrustModelTests
     }
 
     [Test]
-    public async Task TestSelectedSchoolProperty__Valid()
+    public async Task SearchQuery___Valid___SelectedTrustNameNotEmpty()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -85,7 +111,7 @@ public class ApplicationSelectTrustModelTests
     }
 
     [Test]
-    public async Task TestSelectedSchoolProperty__Invalid()
+    public async Task SearchQuery___Empty__SelectedTrustNameEmpty()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
