@@ -96,6 +96,7 @@ builder.Services.AddAuthorization(options =>
 
 // Academies API
 builder.Services.AddAcademiesApi(configuration);
+builder.Services.AddAcademisationApi(configuration);
 
 // Internal Service
 builder.Services.AddInternalServices();
