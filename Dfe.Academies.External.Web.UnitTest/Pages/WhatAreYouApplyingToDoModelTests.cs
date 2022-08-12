@@ -73,7 +73,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
         Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
         // assert
-        if (errors != null) Assert.AreEqual(1,errors.Count);
+        Assert.AreEqual(1,errors.Count);
     }
 
     [Test]
