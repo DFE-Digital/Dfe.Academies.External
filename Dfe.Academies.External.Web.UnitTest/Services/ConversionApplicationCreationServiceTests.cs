@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using NUnit.Framework;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -126,13 +127,14 @@ internal sealed class ConversionApplicationCreationServiceTests
         var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.Created, expectedJson);
         var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
         string ApplicationAddJoinTrustReason = Fixture.Create<string>();
-        var trustApplicationDto = ConversionApplicationTestDataFactory.BuildNewConversionApplicationNoRoles();
+        int applicationId = Fixture.Create<int>();
+		int urn = Fixture.Create<int>();
 
-        // act
-        var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
+		// act
+		var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
 
         // assert
-        Assert.DoesNotThrowAsync(() => recordModelService.ApplicationAddJoinTrustReasons(trustApplicationDto, ApplicationAddJoinTrustReason));
+        Assert.DoesNotThrowAsync(() => recordModelService.ApplicationAddJoinTrustReasons(applicationId, ApplicationAddJoinTrustReason, urn));
     }
 
     /// <summary>
@@ -146,14 +148,14 @@ internal sealed class ConversionApplicationCreationServiceTests
         var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, expectedJson);
         var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
         int applicationId = Fixture.Create<int>();
-        string ApplicationAddJoinTrustReason = Fixture.Create<string>();
-        var trustApplicationDto = ConversionApplicationTestDataFactory.BuildNewConversionApplicationNoRoles();
+        int urn = Fixture.Create<int>();
+		string ApplicationAddJoinTrustReason = Fixture.Create<string>();
 
         // act
         var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
 
         // assert
-        var ex = Assert.ThrowsAsync<HttpRequestException>(() => recordModelService.ApplicationAddJoinTrustReasons(trustApplicationDto, ApplicationAddJoinTrustReason));
+        var ex = Assert.ThrowsAsync<HttpRequestException>(() => recordModelService.ApplicationAddJoinTrustReasons(applicationId, ApplicationAddJoinTrustReason, urn));
 
         // now we could test the exception itself
         //Assert.That(ex.Message == "Blah");
