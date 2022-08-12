@@ -72,7 +72,7 @@ namespace Dfe.Academies.External.Web.Pages.School
                 var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
                 // MR:- save away ApplicationJoinTrustReason
-                await _academisationCreationService.ApplicationAddJoinTrustReasons(draftConversionApplication, ApplicationJoinTrustReason);
+                await _academisationCreationService.ApplicationAddJoinTrustReasons(ApplicationId, ApplicationJoinTrustReason, Urn);
 
                 // update temp store for next step
                 TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
