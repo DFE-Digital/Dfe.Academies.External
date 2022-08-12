@@ -1,9 +1,10 @@
-﻿using Dfe.Academies.External.Web.Enums;
-using Dfe.Academies.External.Web.Services;
+﻿using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using NUnit.Framework;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -15,29 +16,18 @@ namespace Dfe.Academies.External.Web.UnitTest.Services;
 [Parallelizable(ParallelScope.All)]
 internal sealed class ConversionApplicationRetrievalServiceTests
 {
-    [Test]
-    public void ConversionApplicationRetrievalService___GetPendingApplications___Success()
+	private const string TestUrl = APIConstants.AcademiesAPITestUrl;
+
+	[Test]
+    public async Task GetPendingApplications___Success()
     {
-        // arrange
-        var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-        int expectedCount = 3; // TODO: 
+		// arrange
+		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+		int expectedCount = 3; // TODO: 
         string userEmail = string.Empty; // TODO: filter by useremail
-        var mockFactory = new Mock<IHttpClientFactory>();
+        var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
-        var mockMessageHandler = new Mock<HttpMessageHandler>();
-        mockMessageHandler.Protected()
-            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(expected)
-            });
-
-        var httpClient = new HttpClient(mockMessageHandler.Object);
-
-        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
-        var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
         // act
         var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -49,28 +39,15 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     }
 
     [Test]
-    public void ConversionApplicationRetrievalService___GetCompletedApplications___Success()
+    public async Task GetCompletedApplications___Success()
     {
         // arrange
-        var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+        var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
         int expectedCount = 1; // TODO: 
         string userEmail = string.Empty; // TODO: filter by useremail
-        var mockFactory = new Mock<IHttpClientFactory>();
+        var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
-        var mockMessageHandler = new Mock<HttpMessageHandler>();
-        mockMessageHandler.Protected()
-            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(expected)
-            });
-
-        var httpClient = new HttpClient(mockMessageHandler.Object);
-
-        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
-        var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
         // act
         var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -82,28 +59,15 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     }
 
     [Test]
-    public async Task ConversionApplicationRetrievalService___GetConversionApplicationAuditEntries___Success()
+    public async Task GetConversionApplicationAuditEntries___Success()
     {
         // arrange
-        var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+        var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
         int expectedCount = 3; // TODO: 
         int applicationId = 99; // TODO: 
-        var mockFactory = new Mock<IHttpClientFactory>();
+        var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
-        var mockMessageHandler = new Mock<HttpMessageHandler>();
-        mockMessageHandler.Protected()
-            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(expected)
-            });
-
-        var httpClient = new HttpClient(mockMessageHandler.Object);
-
-        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
-        var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
         // act
         var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -115,32 +79,20 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     }
 
     [Test]
-    public async Task ConversionApplicationRetrievalService___GetSchoolApplicationComponents___Success()
+    public async Task GetSchoolApplicationComponents___Success()
     {
         // arrange
-        var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+        var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
         int expectedCount = 8; // TODO: 
         int applicationId = 99; // TODO: 
-        var mockFactory = new Mock<IHttpClientFactory>();
+        int URN = 96; // TODO: 
+        var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
-        var mockMessageHandler = new Mock<HttpMessageHandler>();
-        mockMessageHandler.Protected()
-            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(expected)
-            });
-
-        var httpClient = new HttpClient(mockMessageHandler.Object);
-
-        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
-        var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
         // act
         var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
-        var applicationComponentStatuses = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId);
+        var applicationComponentStatuses = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
 
         // assert
         Assert.That(applicationComponentStatuses, Is.Not.Null);
@@ -148,28 +100,15 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     }
 
     [Test]
-    public async Task ConversionApplicationRetrievalService___GetConversionApplicationContributors___Success()
+    public async Task GetConversionApplicationContributors___Success()
     {
         // arrange
-        var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+        var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
         int expectedCount = 2; // TODO: 
         int applicationId = int.MaxValue; // TODO: 
-        var mockFactory = new Mock<IHttpClientFactory>();
+        var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
-        var mockMessageHandler = new Mock<HttpMessageHandler>();
-        mockMessageHandler.Protected()
-            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(expected)
-            });
-
-        var httpClient = new HttpClient(mockMessageHandler.Object);
-
-        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
-        var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
         // act
         var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -181,33 +120,22 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     }
 
     [Test]
-    public async Task ConversionApplicationRetrievalService___GetApplication___FormNewMat___Success()
+    public async Task GetApplication___FormNewMat___Success()
     {
-	    // arrange
-	    var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-	    int applicationId = 1; // TODO MR:- this value hard coded in dummy data at present !!!!!!
+		// arrange
+		//string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		//string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+		int applicationId = 3; // TODO MR:- this value hard coded in dummy data at present !!!!!!
 	    int expectedCount = 3; // TODO MR:- this value hard coded in dummy data at present !!!!!!
-        var mockFactory = new Mock<IHttpClientFactory>();
-        ApplicationTypes applicationType = ApplicationTypes.FormNewMat;
+	    int expectedURN = 101934;
+	    var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
-	    var mockMessageHandler = new Mock<HttpMessageHandler>();
-	    mockMessageHandler.Protected()
-		    .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-		    .ReturnsAsync(new HttpResponseMessage
-		    {
-			    StatusCode = HttpStatusCode.OK,
-			    Content = new StringContent(expected)
-		    });
-
-	    var httpClient = new HttpClient(mockMessageHandler.Object);
-
-	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
-	    var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
 	    // act
 	    var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
-	    var application = await applicationRetrievalService.GetApplication(applicationId, applicationType);
+	    var application = await applicationRetrievalService.GetApplication(applicationId);
 
 	    // assert
 	    Assert.That(application, Is.Not.Null);
@@ -215,37 +143,27 @@ internal sealed class ConversionApplicationRetrievalServiceTests
         Assert.That(application.Application, Is.EqualTo("Form a new multi-academy trust A2B_2549"));
         Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
         Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("Chesterton primary school"));
-        Assert.That(application.Schools.FirstOrDefault()?.SchoolId, Is.EqualTo(96));
+        Assert.That(application.Schools.FirstOrDefault()?.URN, Is.EqualTo(expectedURN));
     }
 
     [Test]
-    public async Task ConversionApplicationRetrievalService___GetApplication___JoinAMat___Success()
+    public async Task GetApplication___JoinAMat___Success()
     {
-        // arrange
-        var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-        int applicationId = 1; // TODO MR:- this value hard coded in dummy data at present !!!!!!
+		// arrange
+		//string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		//string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+		int applicationId = 2; // TODO MR:- this value hard coded in dummy data at present !!!!!!
         int expectedCount = 1; // TODO MR:- this value hard coded in dummy data at present !!!!!!
-        var mockFactory = new Mock<IHttpClientFactory>();
-        ApplicationTypes applicationType = ApplicationTypes.JoinMat;
+        int expectedURN = 101934;
 
-        var mockMessageHandler = new Mock<HttpMessageHandler>();
-        mockMessageHandler.Protected()
-            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(expected)
-            });
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
-        var httpClient = new HttpClient(mockMessageHandler.Object);
-
-        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
-        var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
         // act
         var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
-        var application = await applicationRetrievalService.GetApplication(applicationId, applicationType);
+        var application = await applicationRetrievalService.GetApplication(applicationId);
 
         // assert
         Assert.That(application, Is.Not.Null);
@@ -253,37 +171,26 @@ internal sealed class ConversionApplicationRetrievalServiceTests
         Assert.That(application.Application, Is.EqualTo("Join a multi-academy trust A2B_2549"));
         Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
         Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("Chesterton primary school"));
-        Assert.That(application.Schools.FirstOrDefault()?.SchoolId, Is.EqualTo(96));
+        Assert.That(application.Schools.FirstOrDefault()?.URN, Is.EqualTo(expectedURN));
     }
 
     [Test]
-    public async Task ConversionApplicationRetrievalService___GetApplication___FormNewSingleAcademyTrust___Success()
+    public async Task GetApplication___FormNewSingleAcademyTrust___Success()
     {
-        // arrange
-        var expected = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-        int applicationId = 1; // TODO MR:- this value hard coded in dummy data at present !!!!!!
+		// arrange
+		//string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		//string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+		int applicationId = 4; // TODO MR:- this value hard coded in dummy data at present !!!!!!
         int expectedCount = 1; // TODO MR:- this value hard coded in dummy data at present !!!!!!
-        var mockFactory = new Mock<IHttpClientFactory>();
-        ApplicationTypes applicationType = ApplicationTypes.FormNewSingleAcademyTrust;
+		int expectedURN = 101934;
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
-        var mockMessageHandler = new Mock<HttpMessageHandler>();
-        mockMessageHandler.Protected()
-            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(expected)
-            });
-
-        var httpClient = new HttpClient(mockMessageHandler.Object);
-
-        mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
-        var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
         // act
         var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
-        var application = await applicationRetrievalService.GetApplication(applicationId, applicationType);
+        var application = await applicationRetrievalService.GetApplication(applicationId);
 
         // assert
         Assert.That(application, Is.Not.Null);
@@ -291,6 +198,28 @@ internal sealed class ConversionApplicationRetrievalServiceTests
         Assert.That(application.Application, Is.EqualTo("Form a new single academy trust A2B_2549"));
         Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
         Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("Chesterton primary school"));
-        Assert.That(application.Schools.FirstOrDefault()?.SchoolId, Is.EqualTo(96));
+        Assert.That(application.Schools.FirstOrDefault()?.URN, Is.EqualTo(expectedURN));
+    }
+
+    private Mock<IHttpClientFactory> SetupMockHttpClientFactory(HttpStatusCode expectedStatusCode, string expectedJson)
+    {
+	    var mockFactory = new Mock<IHttpClientFactory>();
+
+	    var mockMessageHandler = new Mock<HttpMessageHandler>();
+	    mockMessageHandler.Protected()
+		    .Setup<Task<HttpResponseMessage>>("SendAsync",
+			    ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+		    .ReturnsAsync(new HttpResponseMessage
+		    {
+			    StatusCode = expectedStatusCode,
+			    Content = new StringContent(expectedJson)
+		    });
+
+	    var httpClient = new HttpClient(mockMessageHandler.Object);
+	    httpClient.BaseAddress = new Uri(TestUrl);
+
+	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+
+	    return mockFactory;
     }
 }
