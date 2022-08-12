@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ExampleJsonResponses\getApplicationResponse.json" />
     <None Remove="ExampleJsonResponses\getSchoolResponse.json" />
     <None Remove="ExampleJsonResponses\getTrustResponse.json" />
     <None Remove="ExampleJsonResponses\getTrustSearchResponse.json" />
@@ -15,6 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ExampleJsonResponses\getApplicationResponse.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ExampleJsonResponses\getSchoolResponse.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -47,5 +51,7 @@
   <ItemGroup>
     <Folder Include="AcademiesAPIResponseModels\Trusts\" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties examplejsonresponses_4getapplicationresponse_1json__JsonSchema="https://github.com/fbecart/zinoma/releases/latest/download/zinoma-schema.json" /></VisualStudio></ProjectExtensions>
 
 </Project>
