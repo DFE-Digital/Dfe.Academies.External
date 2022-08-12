@@ -55,7 +55,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
     }
 
     [Test]
-    public async Task OnPostAsync___ModelIsValid___Invalid()
+    public async Task OnPostAsync___ModelStateInvalid___ViewDataPopulated()
     {
         // arrange
         var expectedErrorText = "Test Err";
@@ -77,7 +77,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
     }
 
     [Test]
-    public async Task OnPostAsync___ModelIsValid___Valid()
+    public async Task OnPostAsync___ModelStateValid___ViewDataEmpty()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
