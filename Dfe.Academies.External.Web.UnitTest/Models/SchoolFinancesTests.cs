@@ -9,10 +9,9 @@ internal sealed class SchoolFinancesTests
 	private static readonly Fixture Fixture = new();
 
 	[Test]
-	public void SchoolFinances___PropertyCheck___Success()
+	public void Constructor___PropertiesSet()
 	{
 		// arrange
-		string proposedTrustName = Fixture.Create<string>();
 		decimal capitalCarryForwardAtEndMarchCurrentYear = new decimal(90000);
 
 		var applicationComponent = new SchoolFinances

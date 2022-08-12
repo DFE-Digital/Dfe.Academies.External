@@ -9,7 +9,7 @@ internal sealed class PersonTests
 	private static readonly Fixture Fixture = new();
 
 	[Test]
-	public void Person___PropertyCheck___Success()
+	public void Constructor___PropertiesSet()
 	{
 		// arrange
 		string firstName = Fixture.Create<string>();

@@ -10,7 +10,7 @@ internal sealed class ApplicationAuditViewModelTests
 	private static readonly Fixture Fixture = new();
 
 	[Test]
-	public void ApplicationAuditViewModel___PropertyCheck___Success()
+	public void Constructor___PropertiesSet()
 	{
 		// arrange
 		string what = Fixture.Create<string>();
@@ -18,7 +18,7 @@ internal sealed class ApplicationAuditViewModelTests
 		string who = Fixture.Create<string>();
 
 
-		var conversionApplicationAuditEntry = new ApplicationAuditViewModel(who,what)
+		var conversionApplicationAuditEntry = new ApplicationAuditViewModel(who, what)
 		{
 			When = when
 		};
