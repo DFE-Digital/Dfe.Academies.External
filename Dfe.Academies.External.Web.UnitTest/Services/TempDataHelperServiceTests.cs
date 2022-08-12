@@ -13,7 +13,7 @@ using NUnit.Framework;
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
 [Parallelizable(ParallelScope.All)]
-public class TempDataHelperTests
+internal sealed class TempDataHelperTests
 {
     [Test]
     public void TempDataHelperService___GetNonSerialisedValue___Success()

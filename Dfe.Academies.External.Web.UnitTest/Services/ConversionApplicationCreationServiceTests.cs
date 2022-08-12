@@ -163,7 +163,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 
     // TODO MR:- ApplicationChangeSchoolNameAndReason - ApiReturns500___InternalServerError()
 
-    private Mock<IHttpClientFactory> SetupMockHttpClientFactory(HttpStatusCode expectedStatusCode, string expectedJson)
+    private static Mock<IHttpClientFactory> SetupMockHttpClientFactory(HttpStatusCode expectedStatusCode, string expectedJson)
     {
 	    var mockFactory = new Mock<IHttpClientFactory>();
 
