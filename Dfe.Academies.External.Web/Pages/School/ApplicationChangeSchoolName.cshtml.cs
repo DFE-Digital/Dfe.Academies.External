@@ -25,13 +25,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public SelectOption ChangeName { get; set; }
 
 		[BindProperty]
-		public string? ChangeSchoolNameReason { get; set; }
+		public string? ChangeSchoolName { get; set; }
 
-		public bool ChangeSchoolNameReasonError
+		public bool ChangeSchoolNameError
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("ChangeSchoolNameReasonNotEntered"))
+				if (!ModelState.IsValid && ModelState.Keys.Contains("ChangeSchoolNameNotEntered"))
 				{
 					return true;
 				}
@@ -82,9 +82,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			if (ChangeName == SelectOption.Yes && string.IsNullOrWhiteSpace(ChangeSchoolNameReason))
+			if (ChangeName == SelectOption.Yes && string.IsNullOrWhiteSpace(ChangeSchoolName))
 			{
-				ModelState.AddModelError("ChangeSchoolNameReasonNotEntered", "You must provide details");
+				ModelState.AddModelError("ChangeSchoolNameNotEntered", "You must provide details");
 				PopulateValidationMessages();
 				return Page();
 			}
@@ -95,7 +95,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 				// MR:- save away ApplicationJoinTrustReason
-				await _academisationCreationService.ApplicationChangeSchoolNameAndReason(draftConversionApplication, ChangeName, ChangeSchoolNameReason);
+				await _academisationCreationService.ApplicationChangeSchoolNameAndReason(draftConversionApplication, ChangeName, ChangeSchoolName);
 
 				// update temp store for next step - application overview as last step in process
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
