@@ -130,7 +130,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			//schoolUpdating.ChangeSchoolNameReason = changeSchoolNameReason
 
 			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, application);
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
 		}
 		catch (Exception ex)
 	    {
@@ -144,17 +144,17 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
     {
 	    try
 	    {
-		    // MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
-		    // to grab current application data
-		    // before then patching ConversionApplication returned with data from application object
+			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
+			// to grab current application data
+			// before then patching ConversionApplication returned with data from application object
 
-		    // application can contain multiple schools so need to grab one being changed via linqage
-		    //var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
+			// application can contain multiple schools so need to grab one being changed via linqage
+			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
 			//schoolUpdating.SchoolConversionTargetDate = targetDate
 			//schoolUpdating.SchoolConversionTargetDateExplained = targetDateExplained
 
 			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, application);
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
 		}
 		catch (Exception ex)
 	    {
@@ -182,11 +182,38 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			//schoolUpdating.SchoolCapacityPublishedAdmissionsNumber = schoolCapacityPublishedAdmissionsNumber
 
 			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, application);
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
 		}
 		catch (Exception ex)
 	    {
 		    _logger.LogError("ConversionApplicationCreationService::ApplicationSchoolFuturePupilNumbers::Exception - {Message}", ex.Message);
+		    throw;
+	    }
+	}
+
+    public async Task ApplicationSchoolContacts(ApplicationSchoolContacts schoolContacts)
+    {
+	    try
+	    {
+			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
+			// to grab current application data
+			// before then patching ConversionApplication returned with data from application object
+
+			// application can contain multiple schools so need to grab one being changed via linqage
+			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolContacts.schoolUrn);
+			//schoolUpdating.SchoolConversionContactHeadName = schoolContacts.SchoolConversionContactHeadName;
+			//schoolUpdating.SchoolConversionContactHeadEmail = schoolContacts.SchoolConversionContactHeadEmail;
+			//schoolUpdating.SchoolConversionContactHeadTel = schoolContacts.SchoolConversionContactHeadTel;
+			//schoolUpdating.SchoolConversionContactChairName = schoolContacts.SchoolConversionContactChairName;
+			//schoolUpdating.SchoolConversionContactChairEmail = schoolContacts.SchoolConversionContactChairEmail;
+			// ETC.....
+
+			// TODO: wire up Academisation API / what object does a PUT return
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, application);
+		}
+		catch (Exception ex)
+	    {
+		    _logger.LogError("ConversionApplicationCreationService::ApplicationSchoolContacts::Exception - {Message}", ex.Message);
 		    throw;
 	    }
 	}
