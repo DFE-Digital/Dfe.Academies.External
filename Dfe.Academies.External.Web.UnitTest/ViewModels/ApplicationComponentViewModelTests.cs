@@ -10,7 +10,7 @@ internal sealed class ApplicationComponentViewModelTests
 	private static readonly Fixture Fixture = new();
 
 	[Test]
-	public void ApplicationComponentViewModel___PropertyCheck___Success()
+	public void Constructor___PropertiesSet()
 	{
 		// arrange
 		string name = Fixture.Create<string>();
