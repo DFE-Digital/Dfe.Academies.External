@@ -139,9 +139,55 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	    }
     }
 
-	// TODO MR:- school conversion target date
+    public async Task ApplicationSchoolTargetConversionDate(int applicationId, int schoolUrn, DateTime targetDate,
+	    string targetDateExplained)
+    {
+	    try
+	    {
+		    // MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
+		    // to grab current application data
+		    // before then patching ConversionApplication returned with data from application object
 
-	// TODO MR:- pupil numbers
+		    // application can contain multiple schools so need to grab one being changed via linqage
+		    //var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
+			//schoolUpdating.SchoolConversionTargetDate = targetDate
+			//schoolUpdating.SchoolConversionTargetDateExplained = targetDateExplained
 
-	//var schoolUpdating = application.Schools.FirstOrDefault( s=> s.URN ==);
+			// TODO: wire up Academisation API / what object does a PUT return
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, application);
+		}
+		catch (Exception ex)
+	    {
+		    _logger.LogError("ConversionApplicationCreationService::ApplicationSchoolTargetConversionDate::Exception - {Message}", ex.Message);
+		    throw;
+	    }
+	}
+
+    public async Task ApplicationSchoolFuturePupilNumbers(int applicationId, int schoolUrn, int projectedPupilNumbersYear1,
+	    int projectedPupilNumbersYear2, int projectedPupilNumbersYear3, string schoolCapacityAssumptions,
+	    int schoolCapacityPublishedAdmissionsNumber)
+    {
+	    try
+	    {
+			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
+			// to grab current application data
+			// before then patching ConversionApplication returned with data from application object
+
+			// application can contain multiple schools so need to grab one being changed via linqage
+			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
+			//schoolUpdating.ProjectedPupilNumbersYear1 = projectedPupilNumbersYear1
+			//schoolUpdating.ProjectedPupilNumbersYear2 = projectedPupilNumbersYear2
+			//schoolUpdating.ProjectedPupilNumbersYear3 = projectedPupilNumbersYear3
+			//schoolUpdating.SchoolCapacityAssumptions = schoolCapacityAssumptions
+			//schoolUpdating.SchoolCapacityPublishedAdmissionsNumber = schoolCapacityPublishedAdmissionsNumber
+
+			// TODO: wire up Academisation API / what object does a PUT return
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, application);
+		}
+		catch (Exception ex)
+	    {
+		    _logger.LogError("ConversionApplicationCreationService::ApplicationSchoolFuturePupilNumbers::Exception - {Message}", ex.Message);
+		    throw;
+	    }
+	}
 }
