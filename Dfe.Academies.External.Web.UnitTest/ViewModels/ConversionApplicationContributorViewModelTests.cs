@@ -10,7 +10,7 @@ internal sealed class ConversionApplicationContributorViewModelTests
 	private static readonly Fixture Fixture = new();
 
 	[Test]
-	public void ConversionApplicationContributorViewModel___PropertyCheck___Success()
+	public void Constructor___PropertiesSet()
 	{
 		// arrange
 		string fullname = Fixture.Create<string>();

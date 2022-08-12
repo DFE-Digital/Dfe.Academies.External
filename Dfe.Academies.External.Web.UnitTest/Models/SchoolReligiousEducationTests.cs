@@ -9,7 +9,7 @@ internal sealed class SchoolReligiousEducationTests
 	private static readonly Fixture Fixture = new();
 
 	[Test]
-	public void SchoolReligiousEducation___PropertyCheck___Success()
+	public void Constructor___PropertiesSet()
 	{
 		// arrange
 		string faithDioceseName = Fixture.Create<string>();

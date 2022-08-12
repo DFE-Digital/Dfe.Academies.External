@@ -10,7 +10,7 @@ internal sealed class NewTrustKeyPersonTests
 	private static readonly Fixture Fixture = new();
 
 	[Test]
-	public void NewTrustKeyPerson___PropertyCheck___Success()
+	public void Constructor___PropertiesSet()
 	{
 		// arrange
 		string firstName = Fixture.Create<string>();

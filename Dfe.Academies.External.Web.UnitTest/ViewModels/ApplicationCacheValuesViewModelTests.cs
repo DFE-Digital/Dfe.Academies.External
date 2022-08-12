@@ -10,7 +10,7 @@ internal sealed class ApplicationCacheValuesViewModelTests
 	private static readonly Fixture Fixture = new();
 
 	[Test]
-	public void ApplicationCacheValuesViewModel___PropertyCheck___Success()
+	public void Constructor___PropertiesSet()
 	{
 		// arrange
 		int applicationId = int.MaxValue;
