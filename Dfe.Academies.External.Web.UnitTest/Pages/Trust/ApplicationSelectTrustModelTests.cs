@@ -15,11 +15,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.Trust;
 [Parallelizable(ParallelScope.All)]
 public class ApplicationSelectTrustModelTests
 {
-    // TODO MR:- OnGetAsync() / OnPostAsync()
-
-
     [Test]
-    public async Task ApplicationSelectTrustModel___TestSelectedUrnProperty__Valid()
+    public async Task TestSelectedUrnProperty__Valid()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -42,7 +39,7 @@ public class ApplicationSelectTrustModelTests
     }
 
     [Test]
-    public async Task ApplicationSelectTrustModel___TestSelectedUrnProperty__InValid()
+    public async Task TestSelectedUrnProperty__InValid()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -65,7 +62,7 @@ public class ApplicationSelectTrustModelTests
     }
 
     [Test]
-    public async Task ApplicationSelectTrustModel___TestSelectedSchoolProperty__Valid()
+    public async Task TestSelectedSchoolProperty__Valid()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -88,7 +85,7 @@ public class ApplicationSelectTrustModelTests
     }
 
     [Test]
-    public async Task ApplicationSelectTrustModel___TestSelectedSchoolProperty__InValid()
+    public async Task TestSelectedSchoolProperty__InValid()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -110,7 +107,13 @@ public class ApplicationSelectTrustModelTests
         Assert.That(pageModel.SelectedTrustName, Is.EqualTo(""));
     }
 
-    private static ApplicationSelectTrustModel SetupApplicationSelectSchoolModel(
+    // TODO MR:- OnPostAsync___ModelIsValid___InValid
+    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
+
+    // TODO MR:- OnPostAsync___ModelIsValid___Valid
+    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
+
+	private static ApplicationSelectTrustModel SetupApplicationSelectSchoolModel(
         ILogger<ApplicationSelectTrustModel> mockLogger,
         IConversionApplicationCreationService mockConversionApplicationCreationService,
         bool isAuthenticated = false)

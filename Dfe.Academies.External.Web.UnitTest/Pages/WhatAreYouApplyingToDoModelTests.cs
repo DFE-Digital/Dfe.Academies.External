@@ -17,7 +17,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages;
 internal sealed class WhatAreYouApplyingToDoModelTests
 {
     [Test]
-    public async Task WhatAreYouApplyingToDoModel___OnGetAsync___Valid()
+    public async Task OnGetAsync___Valid___NullErrors()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
@@ -34,7 +34,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
     }
 
     [Test]
-    public async Task WhatAreYouApplyingToDoModel___OnGetAsync___InValid()
+    public async Task OnGetAsync___InValid__HasErrors()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
@@ -55,7 +55,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
     }
 
     [Test]
-    public async Task WhatAreYouApplyingToDoModel___OnPostAsync___ModelIsValid___InValid()
+    public async Task OnPostAsync___ModelIsValid___InValid()
     {
         // arrange
         var expectedErrorText = "Test Err";
@@ -77,7 +77,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
     }
 
     [Test]
-    public async Task WhatAreYouApplyingToDoModel___OnPostAsync___ModelIsValid___Valid()
+    public async Task OnPostAsync___ModelIsValid___Valid()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
