@@ -13,7 +13,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages;
 internal sealed class ErrorModelTests
 {
 	[Test]
-	public void ErrorModel___OnGetAsync___Valid()
+	public void OnGetAsync___Valid___NullErrors()
 	{
 		// arrange
 		var mockLogger = new Mock<ILogger<ErrorModel>>();

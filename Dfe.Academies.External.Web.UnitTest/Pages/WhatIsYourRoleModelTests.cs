@@ -21,7 +21,7 @@ internal sealed class WhatIsYourRoleModelTests
     /// </summary>
     /// <returns></returns>
     [Test]
-    public async Task WhatIsYourRoleModel___OnGetAsync___Valid()
+    public async Task OnGetAsync___Valid___NullErrors()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -47,7 +47,7 @@ internal sealed class WhatIsYourRoleModelTests
     /// </summary>
     /// <returns></returns>
     [Test]
-    public async Task WhatIsYourRoleModel___OnGetAsync___InValid()
+    public async Task OnGetAsync___Invalid()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
@@ -62,18 +62,18 @@ internal sealed class WhatIsYourRoleModelTests
         Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
     }
 
-    // TODO MR:- WhatIsYourRoleModel___OnPostAsync___ModelIsValid___InValid
+    // TODO MR:- OnPostAsync___Model___Invalid
+    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
-    // TODO MR:- WhatIsYourRoleModel___OnPostAsync___ModelIsValid___InValid - manual model data check
-    // if (SchoolRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleName))
+    // TODO MR:- OnPostAsync___Model___Valid
+    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
-    // TODO MR:- WhatIsYourRoleModel___OnPostAsync___ModelIsValid___Valid
-
-
-    // TODO MR:- WhatIsYourRoleModel___OnPostAsync___ModelIsValid___InValid = without "draftConversionApplication" in temp storage
-
-
-    private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(
+	// TODO MR:- WhatIsYourRoleModel___OnPostAsync___ModelIsValid___Invalid - manual model data check
+	// if (SchoolRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleName))
+    
+	// TODO MR:- OnPostAsync___Model___Invalid = without "draftConversionApplication" in temp storage
+    
+	private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(
         ILogger<WhatIsYourRoleModel> mockLogger, 
         IConversionApplicationCreationService mockAcademisationCreationService,
         bool isAuthenticated = false)
