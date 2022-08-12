@@ -19,8 +19,8 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 	private const string TestUrl = APIConstants.AcademiesAPITestUrl;
 
 	[Test]
-    public async Task GetPendingApplications___Success()
-    {
+    public async Task GetPendingApplications___ApiReturns200___Success()
+	{
 		// arrange
 		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
 		int expectedCount = 3; // TODO: 
@@ -39,8 +39,8 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     }
 
     [Test]
-    public async Task GetCompletedApplications___Success()
-    {
+    public async Task GetCompletedApplications___ApiReturns200___Success()
+	{
         // arrange
         var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
         int expectedCount = 1; // TODO: 
@@ -59,8 +59,8 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     }
 
     [Test]
-    public async Task GetConversionApplicationAuditEntries___Success()
-    {
+    public async Task GetConversionApplicationAuditEntries___ApiReturns200___Success()
+	{
         // arrange
         var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
         int expectedCount = 3; // TODO: 
@@ -79,8 +79,8 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     }
 
     [Test]
-    public async Task GetSchoolApplicationComponents___Success()
-    {
+    public async Task GetSchoolApplicationComponents___ApiReturns200___Success()
+	{
         // arrange
         var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
         int expectedCount = 8; // TODO: 
@@ -100,8 +100,8 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     }
 
     [Test]
-    public async Task GetConversionApplicationContributors___Success()
-    {
+    public async Task GetConversionApplicationContributors___ApiReturns200___Success()
+	{
         // arrange
         var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
         int expectedCount = 2; // TODO: 
@@ -120,8 +120,8 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     }
 
     [Test]
-    public async Task GetApplication___FormNewMat___Success()
-    {
+    public async Task GetApplication___FormNewMat___ApiReturns200___Success()
+	{
 		// arrange
 		//string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
 		//string expectedJson = await File.ReadAllTextAsync(fullFilePath);
@@ -147,8 +147,8 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     }
 
     [Test]
-    public async Task GetApplication___JoinAMat___Success()
-    {
+    public async Task GetApplication___JoinAMat___ApiReturns200___Success()
+	{
 		// arrange
 		//string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
 		//string expectedJson = await File.ReadAllTextAsync(fullFilePath);
@@ -175,8 +175,8 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     }
 
     [Test]
-    public async Task GetApplication___FormNewSingleAcademyTrust___Success()
-    {
+    public async Task GetApplication___FormNewSingleAcademyTrust___ApiReturns200___Success()
+	{
 		// arrange
 		//string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
 		//string expectedJson = await File.ReadAllTextAsync(fullFilePath);
