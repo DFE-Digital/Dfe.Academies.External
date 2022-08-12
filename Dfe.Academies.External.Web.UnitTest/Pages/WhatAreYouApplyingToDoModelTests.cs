@@ -34,7 +34,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
     }
 
     [Test]
-    public async Task OnGetAsync___InValid__HasErrors()
+    public async Task OnGetAsync___Invalid__HasErrors()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
@@ -55,7 +55,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
     }
 
     [Test]
-    public async Task OnPostAsync___ModelIsValid___InValid()
+    public async Task OnPostAsync___ModelIsValid___Invalid()
     {
         // arrange
         var expectedErrorText = "Test Err";

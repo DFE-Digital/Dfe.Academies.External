@@ -47,7 +47,7 @@ internal sealed class PupilNumbersModelTests
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
-	// TODO MR:- OnPostAsync___ModelIsValid___InValid
+	// TODO MR:- OnPostAsync___ModelIsValid___Invalid
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	// TODO MR:- OnPostAsync___ModelIsValid___Valid

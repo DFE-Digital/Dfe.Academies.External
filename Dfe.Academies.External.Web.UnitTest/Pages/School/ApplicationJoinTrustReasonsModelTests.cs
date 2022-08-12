@@ -48,7 +48,7 @@ internal sealed class ApplicationJoinTrustReasonsModelTests
 		Assert.AreEqual(null,pageModel.TempData["Errors"]);
 	}
 
-	// TODO MR:- OnPostAsync___ModelIsValid___InValid
+	// TODO MR:- OnPostAsync___ModelIsValid___Invalid
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	// TODO MR:- OnPostAsync___ModelIsValid___Valid

@@ -39,7 +39,7 @@ public class ApplicationSelectTrustModelTests
     }
 
     [Test]
-    public async Task TestSelectedUrnProperty__InValid()
+    public async Task TestSelectedUrnProperty__Invalid()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -85,7 +85,7 @@ public class ApplicationSelectTrustModelTests
     }
 
     [Test]
-    public async Task TestSelectedSchoolProperty__InValid()
+    public async Task TestSelectedSchoolProperty__Invalid()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -107,7 +107,7 @@ public class ApplicationSelectTrustModelTests
         Assert.That(pageModel.SelectedTrustName, Is.EqualTo(""));
     }
 
-    // TODO MR:- OnPostAsync___ModelIsValid___InValid
+    // TODO MR:- OnPostAsync___ModelIsValid___Invalid
     // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
     // TODO MR:- OnPostAsync___ModelIsValid___Valid
