@@ -35,16 +35,16 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		        //// MR:- Need to drop into this pages cache here ready for post / server callback !
 		        TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-		        var conversionApplication = await LoadAndSetApplicationDetails(draftConversionApplication.ApplicationId, draftConversionApplication.ApplicationType);
+		        //var conversionApplication = await LoadAndSetApplicationDetails(draftConversionApplication.ApplicationId);
 
                 // var schoolCacheViewModel = ViewDataHelper.GetSerialisedValue<SchoolCacheValuesViewModel>(nameof(SchoolCacheValuesViewModel), ViewData) ?? new SchoolCacheValuesViewModel();
-                var selectedSchool = await LoadAndSetSchoolDetails(appId,urn);
+                var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
 
                 // Grab other values from API
                 if (selectedSchool != null)
                 {
 	                selectedSchool.SchoolApplicationComponents = await ConversionApplicationRetrievalService
-		                .GetSchoolApplicationComponents(selectedSchool.SchoolId);
+		                .GetSchoolApplicationComponents(appId, urn);
 
 	                PopulateUiModel(selectedSchool);
                 }
