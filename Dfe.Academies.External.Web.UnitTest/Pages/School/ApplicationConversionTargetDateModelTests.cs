@@ -112,8 +112,10 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 		}
 
 		// TODO MR:- OnPostAsync___ModelIsValid___InValid
+		// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 		// TODO MR:- OnPostAsync___ModelIsValid___Valid
+		// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 		private static ApplicationConversionTargetDateModel SetupApplicationConversionTargetDateModel(
 			ILogger<ApplicationConversionTargetDateModel> mockLogger,

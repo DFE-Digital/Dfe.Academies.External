@@ -15,7 +15,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages;
 internal sealed class HomeModelTests
 {
     [Test]
-    public void HomeModel___OnGet___Valid()
+    public void OnGetAsync___Valid___NullErrors()
     {
         // arrange
         var mockConversionApplicationsService = new Mock<IConversionApplicationRetrievalService>();
@@ -30,9 +30,13 @@ internal sealed class HomeModelTests
         Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
     }
 
-    // TODO :- HomeModel___OnGet___InValid() i.e. API failure
+    // TODO MR:- OnPostAsync___ModelIsValid___InValid
+    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
-    private static HomeModel SetupHomeModel(
+    // TODO MR:- OnPostAsync___ModelIsValid___Valid
+    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
+
+	private static HomeModel SetupHomeModel(
 	    ILogger<HomeModel> mockLogger, IConversionApplicationRetrievalService mockConversionApplicationsService, bool isAuthenticated = false)
     {
         (PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);

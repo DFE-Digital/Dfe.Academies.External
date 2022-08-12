@@ -12,7 +12,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages;
 internal sealed class CookiesModelTests
 {
 	[Test]
-	public void CookiesModel___OnGet___Valid()
+	public void OnGetAsync___Valid___NullErrors()
 	{
 		// arrange
 		var pageModel = SetupCookiesModel();
