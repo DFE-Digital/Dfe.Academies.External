@@ -21,9 +21,9 @@ public abstract class BasePageEditModel : BasePageModel
 		_referenceDataRetrievalService = referenceDataRetrievalService;
 	}
 
-	public async Task<ConversionApplication?> LoadAndSetApplicationDetails(int applicationId, ApplicationTypes applicationType)
+	public async Task<ConversionApplication?> LoadAndSetApplicationDetails(int applicationId)
 	{
-		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(applicationId, applicationType);
+		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(applicationId);
 
 		if (applicationDetails != null)
 		{
