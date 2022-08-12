@@ -69,7 +69,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 		        //// MR:- Need to drop into this pages cache here ready for post / server callback !
 		        TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-                var conversionApplication = await LoadAndSetApplicationDetails(draftConversionApplication.ApplicationId, draftConversionApplication.ApplicationType);
+                var conversionApplication = await LoadAndSetApplicationDetails(draftConversionApplication.ApplicationId);
 
                 if (conversionApplication != null)
                 {
@@ -81,7 +81,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 
                         school.SchoolApplicationComponents =
-			                await _conversionApplicationRetrievalService.GetSchoolApplicationComponents(school.SchoolId);
+			                await _conversionApplicationRetrievalService.GetSchoolApplicationComponents(draftConversionApplication.ApplicationId, school.URN);
                     }
 
 	                PopulateUiModel(conversionApplication, school);
