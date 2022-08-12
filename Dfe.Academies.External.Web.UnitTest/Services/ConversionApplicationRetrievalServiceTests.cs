@@ -201,7 +201,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
         Assert.That(application.Schools.FirstOrDefault()?.URN, Is.EqualTo(expectedURN));
     }
 
-    private Mock<IHttpClientFactory> SetupMockHttpClientFactory(HttpStatusCode expectedStatusCode, string expectedJson)
+    private static Mock<IHttpClientFactory> SetupMockHttpClientFactory(HttpStatusCode expectedStatusCode, string expectedJson)
     {
 	    var mockFactory = new Mock<IHttpClientFactory>();
 

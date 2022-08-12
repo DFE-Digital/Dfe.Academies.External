@@ -12,7 +12,7 @@ using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
-public class ViewDataHelperTests
+internal sealed class ViewDataHelperTests
 {
     [Test]
     public void ViewDataHelper___GetNonSerialisedValue___Success()
