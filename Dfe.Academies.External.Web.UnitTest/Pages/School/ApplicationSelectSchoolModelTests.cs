@@ -48,7 +48,7 @@ internal sealed class ApplicationSelectSchoolModelTests
     // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	[Test]
-    public async Task TestSelectedUrnProperty__Valid()
+    public async Task SearchQuery___Valid__SelectedUrnValid()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -71,7 +71,7 @@ internal sealed class ApplicationSelectSchoolModelTests
     }
 
     [Test]
-    public async Task TestSelectedUrnProperty__Invalid()
+    public async Task SearchQuery___Empty___SelectedUrnZero()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -94,7 +94,7 @@ internal sealed class ApplicationSelectSchoolModelTests
     }
 
     [Test]
-    public async Task TestSelectedSchoolProperty__Valid()
+    public async Task SearchQuery___Valid___SelectedSchoolNameNotEmpty()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -117,7 +117,7 @@ internal sealed class ApplicationSelectSchoolModelTests
     }
 
     [Test]
-    public async Task TestSelectedSchoolProperty__Invalid()
+    public async Task SearchQuery___Empty__SelectedSchoolNameEmpty()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
