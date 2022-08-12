@@ -6,79 +6,109 @@ namespace Dfe.Academies.External.Web.Services;
 public sealed class ConversionApplicationCreationService : BaseService, IConversionApplicationCreationService
 {
     private readonly ILogger<ConversionApplicationCreationService> _logger;
-    private readonly IHttpClientFactory _httpClientFactory;
-    
-    public ConversionApplicationCreationService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationCreationService> logger) : base(httpClientFactory)
+    private readonly HttpClient _httpClient;
+    private readonly ResilientRequestProvider _resilientRequestProvider;
+
+	public ConversionApplicationCreationService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationCreationService> logger) : base(httpClientFactory)
     {
-        _httpClientFactory = httpClientFactory;
-        _logger = logger;
-    }
+	    _httpClient = httpClientFactory.CreateClient(AcademisationAPIHttpClientName);
+		_logger = logger;
+		_resilientRequestProvider = new ResilientRequestProvider(_httpClient);
+	}
 
 	public async Task<ConversionApplication> CreateNewApplication(ConversionApplication application)
     {
-        ResilientRequestProvider apiRequestProvider = new (_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
+		//https://academies-academisation-api-dev.azurewebsites.net/application/99
+		string apiurl = $"{_httpClient.BaseAddress}/application/?api-version=V1";
 
-        // TODO: wire up Academisation API
-        // var result = await apiRequestProvider.PostAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
-        application.ApplicationId = int.MaxValue;
+		// TODO: wire up Academisation API
+		// var result = await _resilientRequestProvider.PostAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
+		application.ApplicationId = int.MaxValue; // result.ApplicationId;
 
         return application;
     }
 
-    public Task UpdateDraftApplication(ConversionApplication application)
+    public async Task UpdateDraftApplication(ConversionApplication application)
     {
-        ResilientRequestProvider apiRequestProvider = new (_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
+		// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
+		// to grab current application data
+		// before then patching ConversionApplication returned with data from application object
 
-        // TODO: wire up Academisation API
-        // var result = await apiRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
+		//https://academies-academisation-api-dev.azurewebsites.net/application/99
+		string apiurl = $"{_httpClient.BaseAddress}/application/{application.ApplicationId}?api-version=V1";
 
-        return Task.CompletedTask;
+		// TODO: wire up Academisation API / what object does a PUT return
+		// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
     }
 
-    public async Task AddSchoolToApplication(int applicationId, int schoolUkUrn, string name)
+    public async Task AddSchoolToApplication(int applicationId, int schoolUrn, string name)
     {
 	    try
 	    {
-            ResilientRequestProvider apiRequestProvider = new (_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
-		    SchoolApplyingToConvert school = new(name, schoolUkUrn, applicationId,null);
+			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
+			// to grab current application data
+			// before then patching ConversionApplication returned with data from application object
 
-            // TODO: wire up Academisation API
-            // var result = await apiRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
-        }
-        catch (Exception ex)
+			//https://academies-academisation-api-dev.azurewebsites.net/application/99
+			string apiurl = $"{_httpClient.BaseAddress}/application/{applicationId}?api-version=V1";
+
+			SchoolApplyingToConvert school = new(name, schoolUrn, applicationId,null);
+
+			//application.Schools.Add(school);
+
+			// TODO: wire up Academisation API / what object does a PUT return
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
+		}
+		catch (Exception ex)
 	    {
 		    _logger.LogError("ConversionApplicationCreationService::AddSchoolToApplication::Exception - {Message}", ex.Message);
             throw;
 	    }
     }
 
-    public async Task ApplicationAddJoinTrustReasons(ConversionApplication application, string applicationJoinTrustReason)
+    public async Task ApplicationAddJoinTrustReasons(int applicationId, string applicationJoinTrustReason, int schoolUrn)
     {
 	    try
 	    {
-		    ResilientRequestProvider apiRequestProvider = new(_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
+			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
+			// to grab current application data
+			// before then patching ConversionApplication returned with data from application object
 
-            // TODO: wire up Academisation API
-            // var result = await apiRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
-        }
-        catch (Exception ex)
+			//https://academies-academisation-api-dev.azurewebsites.net/application/99
+			string apiurl = $"{_httpClient.BaseAddress}/application/{applicationId}?api-version=V1";
+
+			// application can contain multiple schools so need to grab one being changed via linqage
+			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
+			//schoolUpdating.ApplicationJoinTrustReason = applicationJoinTrustReason;
+
+			// TODO: wire up Academisation API / what object does a PUT return
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
+	    }
+		catch (Exception ex)
 	    {
 		    _logger.LogError("ConversionApplicationCreationService::ApplicationAddJoinTrustReasons::Exception - {Message}", ex.Message);
 		    throw;
 	    }
     }
 
-    public Task AddTrustToApplication(int applicationId, int trustUkPrn, string name)
+    public async Task AddTrustToApplication(int applicationId, int trustUkPrn, string name)
     {
 	    try
 	    {
-		    ResilientRequestProvider apiRequestProvider = new ResilientRequestProvider(_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
+			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
+			// to grab current application data
+			// before then patching ConversionApplication returned with data from application object
 
-		    // TODO: await API response from Academisation API
-		    // var result = await apiRequestProvider.PostAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, school);
-		    return Task.CompletedTask;
-	    }
-	    catch (Exception ex)
+			//https://academies-academisation-api-dev.azurewebsites.net/application/99
+			string apiurl = $"{_httpClient.BaseAddress}/application/{applicationId}?api-version=V1";
+
+			// TODO MR:- add to existing / form new route to think about here !
+			// application.Trust = new trust();
+
+			// TODO: wire up Academisation API / what object does a PUT return
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
+		}
+		catch (Exception ex)
 	    {
 		    _logger.LogError("ConversionApplicationCreationService::AddTrustToApplication::Exception - {Message}", ex.Message);
 		    throw;
@@ -86,19 +116,32 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
     }
 
     public async Task ApplicationChangeSchoolNameAndReason(ConversionApplication application, SelectOption changeName,
-	    string changeSchoolNameReason)
+	    string changeSchoolNameReason, int schoolUrn)
     {
 	    try
 	    {
-		    ResilientRequestProvider apiRequestProvider = new(_httpClientFactory.CreateClient(AcademisationAPIHttpClientName));
+			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
+			// to grab current application data
+			// before then patching ConversionApplication returned with data from application object
 
-		    // TODO: wire up Academisation API
-		    // var result = await apiRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, application);
-	    }
-	    catch (Exception ex)
+			// application can contain multiple schools so need to grab one being changed via linqage
+			var schoolUpdating = application.Schools.FirstOrDefault( s=> s.URN == schoolUrn);
+			//schoolUpdating.ProposedNewSchoolName
+			//schoolUpdating.ChangeSchoolNameReason = changeSchoolNameReason
+
+			// TODO: wire up Academisation API / what object does a PUT return
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, application);
+		}
+		catch (Exception ex)
 	    {
 		    _logger.LogError("ConversionApplicationCreationService::ApplicationChangeSchoolNameAndReason::Exception - {Message}", ex.Message);
 		    throw;
 	    }
     }
+
+	// TODO MR:- school conversion target date
+
+	// TODO MR:- pupil numbers
+
+	//var schoolUpdating = application.Schools.FirstOrDefault( s=> s.URN ==);
 }
