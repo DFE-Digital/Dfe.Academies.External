@@ -11,7 +11,7 @@ internal sealed class ConversionApplicationAuditEntryTests
     private static readonly Fixture Fixture = new();
 
     [Test]
-    public void ConversionApplicationAuditEntry___PropertyCheck___Success()
+    public void Constructor___PropertiesSet()
     {
         // arrange
         string createdBy = Fixture.Create<string>();

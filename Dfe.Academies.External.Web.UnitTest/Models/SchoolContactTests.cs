@@ -9,7 +9,7 @@ internal sealed class SchoolContactTests
 	private static readonly Fixture Fixture = new();
 
 	[Test]
-	public void SchoolContact___PropertyCheck___Success()
+	public void Constructor___PropertiesSet()
 	{
 		// arrange
 		string firstName = Fixture.Create<string>();

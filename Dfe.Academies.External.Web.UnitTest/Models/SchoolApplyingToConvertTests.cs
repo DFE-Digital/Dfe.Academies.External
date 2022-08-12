@@ -10,7 +10,7 @@ internal sealed class SchoolApplyingToConvertTests
     private static readonly Fixture Fixture = new();
 
     [Test]
-    public void SchoolOrSchoolsApplyingToConvert___PropertyCheck___Success()
+    public void Constructor___PropertiesSet()
     {
         // arrange
         int applicationId = Fixture.Create<int>();

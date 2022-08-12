@@ -9,7 +9,7 @@ internal sealed class ExistingTrustTests
 	private static readonly Fixture Fixture = new();
 
 	[Test]
-	public void ExistingTrust___PropertyCheck___Success()
+	public void Constructor___PropertiesSet()
 	{
 		// arrange
 		string trustName = Fixture.Create<string>();

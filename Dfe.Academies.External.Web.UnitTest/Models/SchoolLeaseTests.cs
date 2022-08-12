@@ -9,7 +9,7 @@ internal sealed class SchoolLeaseTests
 	private static readonly Fixture Fixture = new();
 
 	[Test]
-	public void SchoolLease___PropertyCheck___Success()
+	public void Constructor___PropertiesSet()
 	{
 		// arrange
 		string purpose = Fixture.Create<string>();
