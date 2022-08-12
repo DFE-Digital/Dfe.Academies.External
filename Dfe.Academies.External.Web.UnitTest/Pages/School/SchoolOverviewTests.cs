@@ -21,7 +21,7 @@ internal sealed class SchoolOverviewTests
 	/// </summary>
 	/// <returns></returns>
 	[Test]
-	public async Task SchoolOverviewModel___OnGetAsync___Valid()
+	public async Task OnGetAsync___Valid___NullErrors()
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -44,9 +44,11 @@ internal sealed class SchoolOverviewTests
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
-	// TODO MR:- SchoolOverviewModel___OnPostAsync___ModelIsValid___InValid
+	// TODO MR:- OnPostAsync___ModelIsValid___Invalid
+	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
-	// TODO MR:- SchoolOverviewModel___OnPostAsync___ModelIsValid___Valid
+	// TODO MR:- OnPostAsync___ModelIsValid___Valid
+	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static SchoolOverviewModel SetupSchoolOverviewModel(
 		ILogger<SchoolOverviewModel> mockLogger,

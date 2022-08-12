@@ -21,7 +21,7 @@ internal sealed class ApplicationSelectSchoolModelTests
     /// </summary>
     /// <returns></returns>
     [Test]
-    public async Task ApplicationSelectSchoolModel___OnGetAsync___Valid()
+    public async Task OnGetAsync___Valid___NullErrors()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -41,10 +41,14 @@ internal sealed class ApplicationSelectSchoolModelTests
         Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
     }
 
-    // TODO MR:- test for OnPostAsync()
+    // TODO MR:- OnPostAsync___ModelIsValid___Invalid
+    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
-    [Test]
-    public async Task ApplicationSelectSchoolModel___TestSelectedUrnProperty__Valid()
+    // TODO MR:- OnPostAsync___ModelIsValid___Valid
+    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
+
+	[Test]
+    public async Task SearchQuery___Valid__SelectedUrnValid()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -67,7 +71,7 @@ internal sealed class ApplicationSelectSchoolModelTests
     }
 
     [Test]
-    public async Task ApplicationSelectSchoolModel___TestSelectedUrnProperty__InValid()
+    public async Task SearchQuery___Empty___SelectedUrnZero()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -90,7 +94,7 @@ internal sealed class ApplicationSelectSchoolModelTests
     }
 
     [Test]
-    public async Task ApplicationSelectSchoolModel___TestSelectedSchoolProperty__Valid()
+    public async Task SearchQuery___Valid___SelectedSchoolNameNotEmpty()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -113,7 +117,7 @@ internal sealed class ApplicationSelectSchoolModelTests
     }
 
     [Test]
-    public async Task ApplicationSelectSchoolModel___TestSelectedSchoolProperty__InValid()
+    public async Task SearchQuery___Empty__SelectedSchoolNameEmpty()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -135,7 +139,13 @@ internal sealed class ApplicationSelectSchoolModelTests
         Assert.That(pageModel.SelectedSchoolName, Is.EqualTo(""));
     }
 
-    private static ApplicationSelectSchoolModel SetupApplicationSelectSchoolModel(
+    // TODO MR:- OnPostAsync___ModelIsValid___Invalid
+    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
+
+    // TODO MR:- OnPostAsync___ModelIsValid___Valid
+    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
+
+	private static ApplicationSelectSchoolModel SetupApplicationSelectSchoolModel(
         ILogger<ApplicationSelectSchoolModel> mockLogger,
         IConversionApplicationCreationService mockConversionApplicationCreationService,
         bool isAuthenticated = false)
