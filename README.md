@@ -58,7 +58,7 @@ Finally build the solution; the main project to set as the "Start Up Project" sh
 
 Before contributing please read the following to get a better understanding of the standards and structure followed with this project.
 
-There is no pre-defined test code coverage %age to aim for.
+There is no pre-defined test code coverage %age to aim for currently.
 
 ### Project Architecture
 
@@ -79,11 +79,12 @@ There are 2 API's configured / consumed by the application. These are:-
 - AcademiesAPIResponseModels - these are the trams / academies API models
 - Models - these are the academisation API models
 - Attributes - For custom required attributes
-- Custom validators - For custom ValidationAttribute. These are consumed by the scholl & trust search pages mostly
+- Custom validators - For custom ValidationAttribute. These are consumed by the school & trust search pages mostly
 - Controllers - these have been created for trust & school search to call via ajax
 - Extensions - static code helpers
 - Helpers - A date and time helper consumed by the gov uk date input tag helper
 - Pages - Container for razor pages and partial views. Partial views of note are:-
+ 
 | Partial name | purpose |
 | - | - |
 | `_ErrorMessages` | This is to display error messages using gov UK design standards (https://design-system.service.gov.uk/components/error-summary/). This is consumed pretty much on every page |
@@ -93,12 +94,12 @@ There are 2 API's configured / consumed by the application. These are:-
 | `_SchoolDetails` | Contains HTML to render school summary details |
 | `_TrustDetails` | Contains HTML to render trust summary details |
 
-There are currently 2 base abstract classes to inherit from a razor page. These are:-
+There are currently 2 base abstract classes to inherit from in a razor page. These are:-
 - BasePageModel - Contains ValidationErrorMessagesViewModel property which is consumed across all pages. Contains UserHasSubmitApplicationRole property which means current user has elevated privileges and contains a helper func called ConvertModelStateToDictionary()
 - BasePageEditModel - Inherits off BasePageModel and extends with crud based data functionality common across all pages
 
 - Services - these are the middleware to interface to the API layers from within the pages. Injected using Dependency Injection. Currently these are:-
-- 
+
 | Service | purpose |
 | - | - |
 | `BaseService` | Base abstract class to encapsulate common functionality |
@@ -127,7 +128,7 @@ When working on the project, make sure you do not break any unit tests. You shou
 
 ### Unit Tests
 
-There is no pre-defined test code coverage %age to aim for.
+There is no pre-defined test code coverage %age to aim for currently.
 
 The Moq library is used to spin up mock objects such as a HttpClient to test the API integration.
 
@@ -172,9 +173,9 @@ https://webapp-t1dv-sip-a2c.azurewebsites.net/
 - [AspNet](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-6.0) - A cross-platform, high-performance, open-source framework for building modern, cloud-enabled, Internet-connected apps.
 - [NUnit](https://nunit.org/) - A unit-testing framework for all .NET languages.
 - [GovUk.Frontend.AspNetCore](https://www.nuget.org/packages/GovUk.Frontend.AspNetCore) -
-- [accessible-autocomplete] (https://github.com/alphagov/accessible-autocomplete) - library used on the school & trust search pages
-- [jQuery.Validation] - (https://jqueryvalidation.org/documentation/) - Added to have client side validation. Mainly used on the school & trust search pages
-- [jQuery] - (https://api.jquery.com/) - Needed for school & trust search pages consumed by accessible-autocomplete library
+- [accessible-autocomplete](https://github.com/alphagov/accessible-autocomplete) - library used on the school & trust search pages
+- [jQuery.Validation](https://jqueryvalidation.org/documentation/) - Added to have client side validation. Mainly used on the school & trust search pages
+- [jQuery](https://api.jquery.com/) - Needed for school & trust search pages consumed by accessible-autocomplete library
 
 ### Dot Net Core Dependency Injection
 
