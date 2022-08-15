@@ -1,4 +1,4 @@
-# Dfe-Academies-External-Web
+# Dfe Academies External Web
 
 Web Application to contain any functionality accessed externally (i.e. outside DfE offices). Initially, for 'apply to become an academy'.
 
@@ -6,9 +6,13 @@ Web Application to contain any functionality accessed externally (i.e. outside D
 
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
+  - [User Secrets](#user-secrets)
   - [Installing](#installing)
 - [Contributing](#contributing)
   - [Project Architecture](#project-architecture)
+  - [Code structure](#code-structure)
+  - [Caching](#caching)
+  - [Error handling - model state errors](#error-handling-model-state-errors)
 - [Running the Tests](#running-the-tests)
   - [Unit Tests](#unit-tests)
 - [Deployment](#deployment)
@@ -29,7 +33,7 @@ dotnet --version
 
 This is all that is required to run this project.
 
-## User Secrets
+### User Secrets
 
 You will need to configure user secrets to be able to run / contribute to the project. It will look similar to below:-
 {
@@ -71,7 +75,7 @@ There are 2 API's configured / consumed by the application. These are:-
 1) Existing trams / academies API. Code for this resides within GitHub here:- https://github.com/DFE-Digital/trams-data-api .Dev URL here:- https://trams-external-api.azurewebsites.net/
 2) New academisation API. Code for this resides within GitHub here:- https://github.com/DFE-Digital/academies-academisation-api .Dev URL here:- https://academies-academisation-api-dev.azurewebsites.net/
 
-## Code structure
+### Code structure
 - AcademiesAPIResponseModels - these are the trams / academies API models
 - Models - these are the academisation API models
 - Attributes - For custom required attributes
@@ -94,6 +98,7 @@ There are currently 2 base abstract classes to inherit from a razor page. These 
 - BasePageEditModel - Inherits off BasePageModel and extends with crud based data functionality common across all pages
 
 - Services - these are the middleware to interface to the API layers from within the pages. Injected using Dependency Injection. Currently these are:-
+- 
 | Service | purpose |
 | - | - |
 | `BaseService` | Base abstract class to encapsulate common functionality |
@@ -105,13 +110,13 @@ There are currently 2 base abstract classes to inherit from a razor page. These 
 - Tag Helpers - Two helpers to render HTML e.g. date input in gov UK standards format - GovUkDateInputTagHelper (https://design-system.service.gov.uk/patterns/dates/)
 - View Models - Helper classes to aid rendering data in the format the UI designs demand
 
-## Caching
+### Caching
 The application uses ViewData[] to store selected application id / application json and selected school urn as they progress through the wizard sections. 
 It uses the helper ViewDataHelper.cs to push & pull the data into the ViewData[].
 
 Application Id and urn (school id) are also passed around the application through URL parameters. This maybe changed / refactored in the future for security reasons.
 
-## Error handling - model state errors
+### Error handling model state errors
 These are pushed into ViewData["Errors"] in a method in each page (this could definately be refactored to be better !!!) to be read by the error messages partial
 
 ## Running the Tests
@@ -152,7 +157,7 @@ TODO:- check with wystan on dictionary definition of each component of name - **
 
 Using NUnit - https://docs.nunit.org/
 
-<small>^ [Back to Top](#Dfe-Academies-External-Web)</small>
+<small>^ [Back to Top](#dfe-academies-external-web)</small>
 
 ## Deployment
 
@@ -175,7 +180,7 @@ https://webapp-t1dv-sip-a2c.azurewebsites.net/
 
 http://www.jiodev.com/aspnet/core/fundamentals/startup
 
-<small>^ [Back to Top](#Dfe-Academies-External-Web)</small>
+<small>^ [Back to Top](#dfe-academies-external-web)</small>
 
 ---
 
@@ -192,6 +197,6 @@ This is then setup inside `HostBuilder` in `Program.cs`.
 Here are some tutorials followed to set up the logging:
 - [Best Logging Practices for your Dot Net Applications](https://coralogix.com/log-analytics-blog/net-logging-best-practices-for-your-net-application/)
 
-<small>^ [Back to Top](#Dfe-Academies-External-Web)</small>
+<small>^ [Back to Top](#dfe-academies-external-web)</small>
 
 
