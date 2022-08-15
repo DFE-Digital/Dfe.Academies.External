@@ -94,7 +94,7 @@ There are 2 API's configured / consumed by the application. These are:-
 | `_TrustDetails` | Contains HTML to render trust summary details |
 
 There are currently 2 base abstract classes to inherit from a razor page. These are:-
-- BasePageModel - ******
+- BasePageModel - Contains ValidationErrorMessagesViewModel property which is consumed across all pages. Contains UserHasSubmitApplicationRole property which means current user has elevated privileges and contains a helper func called ConvertModelStateToDictionary()
 - BasePageEditModel - Inherits off BasePageModel and extends with crud based data functionality common across all pages
 
 - Services - these are the middleware to interface to the API layers from within the pages. Injected using Dependency Injection. Currently these are:-
