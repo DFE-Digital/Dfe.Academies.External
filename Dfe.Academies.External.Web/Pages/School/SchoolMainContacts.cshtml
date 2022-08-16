@@ -92,17 +92,12 @@
 									@conversionContactType.GetDescription()
 								</label>
 							</div>
-							@if (conversionContactType == MainConversionContact.HeadTeacher || Model.ViewModel.ContactRole == MainConversionContact.HeadTeacher)
+							@if (conversionContactType == MainConversionContact.Other || Model.ViewModel.ContactRole == MainConversionContact.Other)
 							{
 								// TODO MR:- conditional inputs !!!!
-							}
-							else if (conversionContactType == MainConversionContact.ChairOfGoverningBody || Model.ViewModel.ContactRole == MainConversionContact.ChairOfGoverningBody)
-							{
-								// TODO MR:- conditional inputs !!!!
-							}
-							else if (conversionContactType == MainConversionContact.Other || Model.ViewModel.ContactRole == MainConversionContact.Other)
-							{
-								// TODO MR:- conditional inputs !!!!
+@*								@Model.ViewModel.MainContactOtherName
+								@Model.ViewModel.MainContactOtherEmail
+								@Model.ViewModel.MainContactOtherTelephone*@
 							}
 						}
 					</div >
