@@ -22,7 +22,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public string SigninApproverQuestionText { get; private set; } = string.Empty;
 
-		// TODO MR:- bind properties for UI - LOTS !!!
 		[BindProperty]
 		public ApplicationSchoolContactsViewModel ViewModel { get; set; }
 
