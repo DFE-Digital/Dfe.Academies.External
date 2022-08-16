@@ -15,11 +15,34 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.Trust;
 [Parallelizable(ParallelScope.All)]
 public class ApplicationSelectTrustModelTests
 {
-    // TODO MR:- OnGetAsync() / OnPostAsync()
+	/// <summary>
+	/// "draftConversionApplication" in temp storage
+	/// from previous step in the new application wizard
+	/// </summary>
+	/// <returns></returns>
+	[Test]
+	public async Task OnGetAsync___Valid___NullErrors()
+	{
+		// arrange
+		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockLogger = new Mock<ILogger<ApplicationSelectTrustModel>>();
 
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
-    [Test]
-    public async Task ApplicationSelectTrustModel___TestSelectedUrnProperty__Valid()
+		// act
+		var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
+		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
+
+		// act
+		await pageModel.OnGetAsync();
+
+		// assert
+		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
+	}
+
+	[Test]
+    public async Task SearchQuery___Valid__SelectedUrnValid()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -42,7 +65,7 @@ public class ApplicationSelectTrustModelTests
     }
 
     [Test]
-    public async Task ApplicationSelectTrustModel___TestSelectedUrnProperty__InValid()
+    public async Task SearchQuery___Empty___SelectedUrnZero()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -65,7 +88,7 @@ public class ApplicationSelectTrustModelTests
     }
 
     [Test]
-    public async Task ApplicationSelectTrustModel___TestSelectedSchoolProperty__Valid()
+    public async Task SearchQuery___Valid___SelectedTrustNameNotEmpty()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -88,7 +111,7 @@ public class ApplicationSelectTrustModelTests
     }
 
     [Test]
-    public async Task ApplicationSelectTrustModel___TestSelectedSchoolProperty__InValid()
+    public async Task SearchQuery___Empty__SelectedTrustNameEmpty()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -110,7 +133,13 @@ public class ApplicationSelectTrustModelTests
         Assert.That(pageModel.SelectedTrustName, Is.EqualTo(""));
     }
 
-    private static ApplicationSelectTrustModel SetupApplicationSelectSchoolModel(
+    // TODO MR:- OnPostAsync___ModelIsValid___Invalid
+    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
+
+    // TODO MR:- OnPostAsync___ModelIsValid___Valid
+    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
+
+	private static ApplicationSelectTrustModel SetupApplicationSelectSchoolModel(
         ILogger<ApplicationSelectTrustModel> mockLogger,
         IConversionApplicationCreationService mockConversionApplicationCreationService,
         bool isAuthenticated = false)

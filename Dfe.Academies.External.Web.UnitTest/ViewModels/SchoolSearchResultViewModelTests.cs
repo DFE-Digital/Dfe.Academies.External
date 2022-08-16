@@ -9,7 +9,7 @@ internal sealed class SchoolSearchResultViewModelTests
 	private static readonly Fixture Fixture = new();
 
 	[Test]
-	public void SchoolSearchResultViewModel___PropertyCheck___Success()
+	public void Constructor___PropertiesSet()
 	{
 		// arrange
 		string name = Fixture.Create<string>();

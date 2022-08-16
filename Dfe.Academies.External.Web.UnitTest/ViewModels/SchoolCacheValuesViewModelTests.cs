@@ -9,7 +9,7 @@ internal sealed class SchoolCacheValuesViewModelTests
 	private static readonly Fixture Fixture = new();
 
 	[Test]
-	public void SchoolCacheValuesViewModel___PropertyCheck___Success()
+	public void Constructor___PropertiesSet()
 	{
 		// arrange
 		int schoolId = Fixture.Create<int>();

@@ -8,7 +8,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Models;
 internal sealed class ConversionApplicationTests
 {
     [Test]
-    public void ConversionApplication___PropertyCheck___Success()
+    public void Constructor___PropertiesSet()
     {
         // arrange
         var conversionApplication = new ConversionApplication

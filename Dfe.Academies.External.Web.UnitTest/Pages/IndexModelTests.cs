@@ -14,7 +14,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages;
 internal sealed class IndexModelTests
 {
 	[Test]
-	public void IndexModel___OnGet___Valid()
+	public void OnGetAsync___Valid___NullErrors()
 	{
 		// arrange
 		var mockLogger = new Mock<ILogger<IndexModel>>();

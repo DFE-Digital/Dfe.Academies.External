@@ -17,7 +17,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages;
 internal sealed class WhatAreYouApplyingToDoModelTests
 {
     [Test]
-    public async Task WhatAreYouApplyingToDoModel___OnGetAsync___Valid()
+    public async Task OnGetAsync___Valid___NullErrors()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
@@ -34,7 +34,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
     }
 
     [Test]
-    public async Task WhatAreYouApplyingToDoModel___OnGetAsync___InValid()
+    public async Task OnGetAsync___Invalid__HasErrors()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
@@ -55,7 +55,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
     }
 
     [Test]
-    public async Task WhatAreYouApplyingToDoModel___OnPostAsync___ModelIsValid___InValid()
+    public async Task OnPostAsync___ModelStateInvalid___ViewDataPopulated()
     {
         // arrange
         var expectedErrorText = "Test Err";
@@ -73,11 +73,11 @@ internal sealed class WhatAreYouApplyingToDoModelTests
         Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
         // assert
-        if (errors != null) Assert.AreEqual(1,errors.Count);
+        Assert.AreEqual(1,errors.Count);
     }
 
     [Test]
-    public async Task WhatAreYouApplyingToDoModel___OnPostAsync___ModelIsValid___Valid()
+    public async Task OnPostAsync___ModelStateValid___ViewDataEmpty()
     {
         // arrange
         var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
