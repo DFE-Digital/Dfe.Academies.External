@@ -31,6 +31,48 @@
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>
 				
+				<div class="govuk-form-group">
+					<label for="ContactHeadName" class="govuk-label">Name of headteacher</label>
+					<input type="text" asp-for="ViewModel.ContactHeadName" id="ContactHeadName" 
+							class="govuk-input govuk-input--width-20"/>
+				</div>
+
+				<div class="govuk-form-group">
+					<label for="ContactHeadEmail" class="govuk-label">Headteacher's email address</label>
+					<span class="govuk-hint">
+						We will only use this to contact you regarding your application
+					</span>
+					<input type="email" asp-for="ViewModel.ContactHeadEmail" id="ContactHeadEmail" 
+							class="govuk-input govuk-input--width-20"/>
+				</div>
+
+				<div class="govuk-form-group">
+					<label for="ContactHeadTel" class="govuk-label">Headteacher's telephone number</label>
+					<input type="number" asp-for="ViewModel.ContactHeadTel" id="ContactHeadTel" 
+							class="govuk-input govuk-input--width-20"/>
+				</div>
+
+				<div class="govuk-form-group">
+					<label for="ContactChairName" class="govuk-label">Name of the chair of the governing body</label>
+					<input type="text" asp-for="ViewModel.ContactChairName" id="ContactChairName" 
+							class="govuk-input govuk-input--width-20"/>
+				</div>
+
+				<div class="govuk-form-group">
+					<label for="ContactChairEmail" class="govuk-label">Chair's email address</label>
+					<span class="govuk-hint">
+						We will only use this to contact you regarding your application
+					</span>
+					<input type="email" asp-for="ViewModel.ContactChairEmail" id="ContactChairEmail" 
+							class="govuk-input govuk-input--width-20"/>
+				</div>
+
+				<div class="govuk-form-group">
+					<label for="ContactChairTel" class="govuk-label">Chair's telephone number</label>
+					<input type="number" asp-for="ViewModel.ContactChairTel" id="ContactChairTel" 
+							class="govuk-input govuk-input--width-20"/>
+				</div>
+
 				// TODO MR:- inputs - lots & lots !
 			</fieldset>
 		</div>
