@@ -67,22 +67,36 @@ namespace Dfe.Academies.External.Web.Pages.School
 			    // error messages component consumes ViewData["Errors"]
 			    PopulateValidationMessages();
 			    return Page();
-		    }
+			}
 
-			// TODO MR:- additional optional validation !
-			//if (ViewModel.ContactRole == MainConversionContact.HeadTeacher && string.IsNullOrWhiteSpace(ViewModel.))
-			//{
-			// ModelState.AddModelError("ChangeSchoolNameNotEntered", "You must provide details");
-			// PopulateValidationMessages();
-			// return Page();
-			//}
+			if (ViewModel.ContactRole == MainConversionContact.Other)
+			{
+				// TODO MR:- additional optional validation !
+				if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherName))
+				{
+					// ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide details");
+				}
+
+				if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
+				{
+					// ModelState.AddModelError("MainContactOtherEmailNotEntered", "You must provide details");
+				}
+
+				if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherTelephone))
+				{
+					// ModelState.AddModelError("MainContactOtherTelephoneNotEntered", "You must provide details");
+				}
+
+				PopulateValidationMessages();
+				return Page();
+			}
 
 			try
 			{
 			    //// grab draft application from temp= null
 			    var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			    // TODO MR:- save away contact details
+			    // TODO MR:- save away contact details - func in other branch
 			    //await _academisationCreationService.ApplicationSchoolMainContactDetails(draftConversionApplication, ViewModel);
 
 			    // update temp store for next step - application overview as last step in process
