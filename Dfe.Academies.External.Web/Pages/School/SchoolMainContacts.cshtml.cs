@@ -1,8 +1,6 @@
-using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
-using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
@@ -10,10 +8,9 @@ namespace Dfe.Academies.External.Web.Pages.School
     public class SchoolMainContactsModel : BasePageEditModel
 	{
 	    private readonly ILogger<SchoolMainContactsModel> _logger;
-	    private readonly IConversionApplicationCreationService _academisationCreationService;
 
-		//// MR:- selected school props for UI rendering
-		[BindProperty]
+	    //// MR:- selected school props for UI rendering
+	    [BindProperty]
 	    public int ApplicationId { get; set; }
 
 	    [BindProperty]
@@ -21,20 +18,16 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 	    public string SchoolName { get; private set; } = string.Empty;
 
-		public string SigninApproverQuestionText { get; private set; } = string.Empty;
+		// TODO MR:- bind properties for UI - LOTS !!!
 
-		[BindProperty]
-		public ApplicationSchoolContactsViewModel ViewModel { get; set; }
-
-		public SchoolMainContactsModel(ILogger<SchoolMainContactsModel> logger,
+	    public SchoolMainContactsModel(ILogger<SchoolMainContactsModel> logger,
 		    IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		    IReferenceDataRetrievalService referenceDataRetrievalService,
 		    IConversionApplicationCreationService academisationCreationService)
 		    : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 	    {
 		    _logger = logger;
-		    _academisationCreationService = academisationCreationService;
-		}
+	    }
 
 	    public async Task OnGetAsync(int urn, int appId)
 	    {
@@ -47,11 +40,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 			    // Grab other values from API
 			    if (selectedSchool != null)
 			    {
-					// TODO MR:- grab data from API endpoint - applicationId && SchoolId combination !
+				    // TODO MR:- grab data from API endpoint - applicationId && SchoolId combination !
 
-					var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData);
 
-                    PopulateUiModel(selectedSchool, draftConversionApplication.ApplicationType);
+				    PopulateUiModel(selectedSchool);
 			    }
 		    }
 		    catch (Exception ex)
@@ -60,44 +52,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    }
 	    }
 
-	    public async Task<IActionResult> OnPostAsync()
-	    {
-		    if (!ModelState.IsValid)
-		    {
-			    // error messages component consumes ViewData["Errors"]
-			    PopulateValidationMessages();
-			    return Page();
-		    }
-
-			// TODO MR:- additional optional validation !
-			//if (ViewModel.ContactRole == MainConversionContact.HeadTeacher && string.IsNullOrWhiteSpace(ViewModel.))
-			//{
-			// ModelState.AddModelError("ChangeSchoolNameNotEntered", "You must provide details");
-			// PopulateValidationMessages();
-			// return Page();
-			//}
-
-			try
-			{
-			    //// grab draft application from temp= null
-			    var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-			    // TODO MR:- save away contact details
-			    //await _academisationCreationService.ApplicationSchoolMainContactDetails(draftConversionApplication, ViewModel);
-
-			    // update temp store for next step - application overview as last step in process
-			    TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-			    return RedirectToPage("SchoolConversionKeyDetails", new { appId = ApplicationId, urn = Urn });
-		    }
-		    catch (Exception ex)
-		    {
-			    _logger.LogError("School::SchoolMainContactsModel::OnPostAsync::Exception - {Message}", ex.Message);
-			    return Page();
-		    }
-	    }
-
-		public override void PopulateValidationMessages()
+	    public override void PopulateValidationMessages()
 	    {
 		    ViewData["Errors"] = ConvertModelStateToDictionary();
 
@@ -114,17 +69,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    }
 	    }
 
-	    private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ApplicationTypes applicationType)
+	    private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	    {
 		    ApplicationId = selectedSchool.ApplicationId;
 		    Urn = selectedSchool.URN;
 		    SchoolName = selectedSchool.SchoolName;
-
-		    ViewModel = new ApplicationSchoolContactsViewModel(selectedSchool.ApplicationId, selectedSchool.URN);
-
-			SigninApproverQuestionText = applicationType == ApplicationTypes.FormNewSingleAcademyTrust
-						? "When your schools converts, we need to create a new DfE sign-in account for the academy. Please supply the most appropriate contact to be set up as the DfE Sign-in approver to manage the new academies account."
-						: "When your schools converts, we need to create a new DfE sign-in account for the academy. Please provide the most suitable contact to manage the new academies account.";
 		}
 	}
 }
