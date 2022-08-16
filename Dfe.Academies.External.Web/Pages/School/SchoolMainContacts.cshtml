@@ -89,29 +89,17 @@
 						</span>
 					</div>
 					<div class="govuk-form-group">
-@*						<a2c-label field-name="@FieldConstants.SipSchoolConversionApproverContactName"
-								   label-text="Full Name"
-								   view-data="@ViewData">
-						</a2c-label>
-						<input id="@FieldConstants.SipSchoolConversionApproverContactName"
-							   name="@FieldConstants.SipSchoolConversionApproverContactName"
-							   class="govuk-input"
-							   type="text"
-							   value="@ViewData[FieldConstants.SipSchoolConversionApproverContactName]">*@
+						<label for="ApproverContactName" class="govuk-label">Full Name</label>
+						<input type="text" asp-for="ViewModel.ApproverContactName" id="ApproverContactName" 
+								class="govuk-input govuk-input--width-20"/>
 					</div>
 					<div class="govuk-form-group">
-@*						<a2c-label field-name="@FieldConstants.SipSchoolConversionApproverContactEmail"
-								   label-text="Email address"
-								   view-data="@ViewData">
-						</a2c-label>*@
+						<label for="ApproverContactEmail" class="govuk-label">Email address</label>
 						<span class="govuk-hint">
 							We will only use this to contact you regarding your application
 						</span>
-@*						<input id="@FieldConstants.SipSchoolConversionApproverContactEmail"
-							   name="@FieldConstants.SipSchoolConversionApproverContactEmail"
-							   class="govuk-input"
-							   type="text"
-							   value="@ViewData[FieldConstants.SipSchoolConversionApproverContactEmail]">*@
+						<input type="email" asp-for="ViewModel.ApproverContactEmail" id="ApproverContactEmail" 
+								class="govuk-input govuk-input--width-20"/>
 					</div>
 				</div>
 			</fieldset>
