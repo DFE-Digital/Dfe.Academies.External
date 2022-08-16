@@ -1,4 +1,7 @@
 ﻿@page
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.SchoolMainContactsModel
 @{
 	ViewData["Title"] = "Apply to become an academy - School Main contacts";
@@ -74,9 +77,24 @@
 				</div>
 
 				<div class="govuk-form-group">
-					<fieldset class="govuk-fieldset">
-						// TODO MR:- conditional radio - select role !!!!
-					</fieldset>
+					<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+						@foreach (var conversionContactType in Enum.GetValues(typeof(MainConversionContact)).OfType<MainConversionContact>())
+						{
+							<div class="govuk-radios__item">
+								<input type="radio"
+								       asp-for="ViewModel.ContactRole"
+								       value="@Convert.ToInt32(conversionContactType)"
+								       id="ContactType@(conversionContactType)"
+								       class="govuk-radios__input"
+								       data-aria-controls="conditional-contacttype-@(conversionContactType.ToString().ToLower())"
+								       aria-expanded="False"/>
+								<label for="RoleType@(conversionContactType)" class="govuk-label govuk-radios__label">
+									@conversionContactType.GetDescription()
+								</label>
+							</div>
+							// TODO MR:- conditional radio - select role !!!!
+						}
+					</div >
 				</div>
 
 				<div class="govuk-form-group">
