@@ -88,11 +88,22 @@
 								       class="govuk-radios__input"
 								       data-aria-controls="conditional-contacttype-@(conversionContactType.ToString().ToLower())"
 								       aria-expanded="False"/>
-								<label for="RoleType@(conversionContactType)" class="govuk-label govuk-radios__label">
+								<label for="ContactType@(conversionContactType)" class="govuk-label govuk-radios__label">
 									@conversionContactType.GetDescription()
 								</label>
 							</div>
-							// TODO MR:- conditional radio - select role !!!!
+							@if (conversionContactType == MainConversionContact.HeadTeacher || Model.ViewModel.ContactRole == MainConversionContact.HeadTeacher)
+							{
+								// TODO MR:- conditional inputs !!!!
+							}
+							else if (conversionContactType == MainConversionContact.ChairOfGoverningBody || Model.ViewModel.ContactRole == MainConversionContact.ChairOfGoverningBody)
+							{
+								// TODO MR:- conditional inputs !!!!
+							}
+							else if (conversionContactType == MainConversionContact.Other || Model.ViewModel.ContactRole == MainConversionContact.Other)
+							{
+								// TODO MR:- conditional inputs !!!!
+							}
 						}
 					</div >
 				</div>
