@@ -1,6 +1,7 @@
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
@@ -19,8 +20,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    public string SchoolName { get; private set; } = string.Empty;
 
 		// TODO MR:- bind properties for UI - LOTS !!!
+		ApplicationSchoolContactsViewModel ViewModel { get; set; }
 
-	    public SchoolMainContactsModel(ILogger<SchoolMainContactsModel> logger,
+		public SchoolMainContactsModel(ILogger<SchoolMainContactsModel> logger,
 		    IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		    IReferenceDataRetrievalService referenceDataRetrievalService,
 		    IConversionApplicationCreationService academisationCreationService)
@@ -74,6 +76,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    ApplicationId = selectedSchool.ApplicationId;
 		    Urn = selectedSchool.URN;
 		    SchoolName = selectedSchool.SchoolName;
-		}
+
+		    ViewModel = new ApplicationSchoolContactsViewModel(selectedSchool.ApplicationId, selectedSchool.URN);
+	    }
 	}
 }
