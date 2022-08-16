@@ -10,9 +10,10 @@ namespace Dfe.Academies.External.Web.Pages.School
     public class SchoolMainContactsModel : BasePageEditModel
 	{
 	    private readonly ILogger<SchoolMainContactsModel> _logger;
+	    private readonly IConversionApplicationCreationService _academisationCreationService;
 
-	    //// MR:- selected school props for UI rendering
-	    [BindProperty]
+		//// MR:- selected school props for UI rendering
+		[BindProperty]
 	    public int ApplicationId { get; set; }
 
 	    [BindProperty]
@@ -32,7 +33,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 	    {
 		    _logger = logger;
-	    }
+		    _academisationCreationService = academisationCreationService;
+		}
 
 	    public async Task OnGetAsync(int urn, int appId)
 	    {
@@ -58,7 +60,44 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    }
 	    }
 
-	    public override void PopulateValidationMessages()
+	    public async Task<IActionResult> OnPostAsync()
+	    {
+		    if (!ModelState.IsValid)
+		    {
+			    // error messages component consumes ViewData["Errors"]
+			    PopulateValidationMessages();
+			    return Page();
+		    }
+
+			// TODO MR:- additional optional validation !
+		    //if (ViewModel.ContactRole == MainConversionContact.HeadTeacher && string.IsNullOrWhiteSpace(ChangeSchoolName))
+		    //{
+			   // ModelState.AddModelError("ChangeSchoolNameNotEntered", "You must provide details");
+			   // PopulateValidationMessages();
+			   // return Page();
+		    //}
+
+		    try
+		    {
+			    //// grab draft application from temp= null
+			    var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+			    // TODO MR:- save away contact details
+			    //await _academisationCreationService.ApplicationChangeSchoolNameAndReason(draftConversionApplication, ChangeName, ChangeSchoolName);
+
+			    // update temp store for next step - application overview as last step in process
+			    TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+			    return RedirectToPage("SchoolConversionKeyDetails", new { appId = ApplicationId, urn = Urn });
+		    }
+		    catch (Exception ex)
+		    {
+			    _logger.LogError("School::SchoolMainContactsModel::OnPostAsync::Exception - {Message}", ex.Message);
+			    return Page();
+		    }
+	    }
+
+		public override void PopulateValidationMessages()
 	    {
 		    ViewData["Errors"] = ConvertModelStateToDictionary();
 
