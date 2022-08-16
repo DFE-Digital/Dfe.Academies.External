@@ -70,20 +70,20 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    }
 
 			// TODO MR:- additional optional validation !
-		    //if (ViewModel.ContactRole == MainConversionContact.HeadTeacher && string.IsNullOrWhiteSpace(ChangeSchoolName))
-		    //{
-			   // ModelState.AddModelError("ChangeSchoolNameNotEntered", "You must provide details");
-			   // PopulateValidationMessages();
-			   // return Page();
-		    //}
+			//if (ViewModel.ContactRole == MainConversionContact.HeadTeacher && string.IsNullOrWhiteSpace(ViewModel.))
+			//{
+			// ModelState.AddModelError("ChangeSchoolNameNotEntered", "You must provide details");
+			// PopulateValidationMessages();
+			// return Page();
+			//}
 
-		    try
-		    {
+			try
+			{
 			    //// grab draft application from temp= null
 			    var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 			    // TODO MR:- save away contact details
-			    //await _academisationCreationService.ApplicationChangeSchoolNameAndReason(draftConversionApplication, ChangeName, ChangeSchoolName);
+			    //await _academisationCreationService.ApplicationSchoolMainContactDetails(draftConversionApplication, ViewModel);
 
 			    // update temp store for next step - application overview as last step in process
 			    TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
