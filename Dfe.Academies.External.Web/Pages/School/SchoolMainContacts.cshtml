@@ -73,7 +73,47 @@
 							class="govuk-input govuk-input--width-20"/>
 				</div>
 
-				// TODO MR:- inputs - lots & lots !
+				<div class="govuk-form-group">
+					<fieldset class="govuk-fieldset">
+						// TODO MR:- conditional radio - select role !!!!
+					</fieldset>
+				</div>
+
+				<div class="govuk-form-group">
+					<div class="govuk-fieldset__legend govuk-fieldset__legend--xs">
+						<h1 class="govuk-fieldset__heading">
+							@Model.SigninApproverQuestionText
+						</h1>
+						<span class="govuk-hint">
+							For more details on the approvers role and responsibilities please see <a href="https://help.signin.education.gov.uk/contact/approver">the approver guide</a>.
+						</span>
+					</div>
+					<div class="govuk-form-group">
+@*						<a2c-label field-name="@FieldConstants.SipSchoolConversionApproverContactName"
+								   label-text="Full Name"
+								   view-data="@ViewData">
+						</a2c-label>
+						<input id="@FieldConstants.SipSchoolConversionApproverContactName"
+							   name="@FieldConstants.SipSchoolConversionApproverContactName"
+							   class="govuk-input"
+							   type="text"
+							   value="@ViewData[FieldConstants.SipSchoolConversionApproverContactName]">*@
+					</div>
+					<div class="govuk-form-group">
+@*						<a2c-label field-name="@FieldConstants.SipSchoolConversionApproverContactEmail"
+								   label-text="Email address"
+								   view-data="@ViewData">
+						</a2c-label>*@
+						<span class="govuk-hint">
+							We will only use this to contact you regarding your application
+						</span>
+@*						<input id="@FieldConstants.SipSchoolConversionApproverContactEmail"
+							   name="@FieldConstants.SipSchoolConversionApproverContactEmail"
+							   class="govuk-input"
+							   type="text"
+							   value="@ViewData[FieldConstants.SipSchoolConversionApproverContactEmail]">*@
+					</div>
+				</div>
 			</fieldset>
 		</div>
 
