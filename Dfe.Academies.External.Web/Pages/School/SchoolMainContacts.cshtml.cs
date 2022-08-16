@@ -1,3 +1,4 @@
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -18,6 +19,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    public int Urn { get; set; }
 
 	    public string SchoolName { get; private set; } = string.Empty;
+
+		public string SigninApproverQuestionText { get; private set; } = string.Empty;
 
 		// TODO MR:- bind properties for UI - LOTS !!!
 		[BindProperty]
@@ -43,10 +46,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 			    // Grab other values from API
 			    if (selectedSchool != null)
 			    {
-				    // TODO MR:- grab data from API endpoint - applicationId && SchoolId combination !
+					// TODO MR:- grab data from API endpoint - applicationId && SchoolId combination !
 
+					var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData);
 
-				    PopulateUiModel(selectedSchool);
+                    PopulateUiModel(selectedSchool, draftConversionApplication.ApplicationType);
 			    }
 		    }
 		    catch (Exception ex)
@@ -72,13 +76,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    }
 	    }
 
-	    private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+	    private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ApplicationTypes applicationType)
 	    {
 		    ApplicationId = selectedSchool.ApplicationId;
 		    Urn = selectedSchool.URN;
 		    SchoolName = selectedSchool.SchoolName;
 
 		    ViewModel = new ApplicationSchoolContactsViewModel(selectedSchool.ApplicationId, selectedSchool.URN);
-	    }
+
+			SigninApproverQuestionText = applicationType == ApplicationTypes.FormNewSingleAcademyTrust
+						? "When your schools converts, we need to create a new DfE sign-in account for the academy. Please supply the most appropriate contact to be set up as the DfE Sign-in approver to manage the new academies account."
+						: "When your schools converts, we need to create a new DfE sign-in account for the academy. Please provide the most suitable contact to manage the new academies account.";
+		}
 	}
 }
