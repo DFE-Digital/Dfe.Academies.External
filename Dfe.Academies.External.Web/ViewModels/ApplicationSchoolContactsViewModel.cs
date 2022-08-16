@@ -20,15 +20,18 @@ public sealed class ApplicationSchoolContactsViewModel
 	[Required(ErrorMessage = "You must provide details")]
 	public string ContactHeadName { get; set; }
 
+	[EmailAddress]
 	[Required(ErrorMessage = "You must provide details")]
 	public string ContactHeadEmail { get; set; }
 
+    [Phone] // TODO MR:- what kind of phone validation?
 	[Required(ErrorMessage = "You must provide a number")]
 	public string ContactHeadTel { get; set; }
 
 	[Required(ErrorMessage = "You must provide details")]
 	public string ContactChairName { get; set; }
 
+    [EmailAddress]
 	[Required(ErrorMessage = "You must provide details")]
 	public string ContactChairEmail { get; set; }
 
@@ -41,6 +44,7 @@ public sealed class ApplicationSchoolContactsViewModel
 	[Required(ErrorMessage = "You must provide details")]
 	public string MainContactOtherName { get; set; }
 
+	[EmailAddress]
 	[Required(ErrorMessage = "You must provide details")]
 	public string MainContactOtherEmail { get; set; }
 
