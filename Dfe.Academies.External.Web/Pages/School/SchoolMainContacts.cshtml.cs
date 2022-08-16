@@ -20,7 +20,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    public string SchoolName { get; private set; } = string.Empty;
 
 		// TODO MR:- bind properties for UI - LOTS !!!
-		ApplicationSchoolContactsViewModel ViewModel { get; set; }
+		[BindProperty]
+		public ApplicationSchoolContactsViewModel ViewModel { get; set; }
 
 		public SchoolMainContactsModel(ILogger<SchoolMainContactsModel> logger,
 		    IConversionApplicationRetrievalService conversionApplicationRetrievalService,
