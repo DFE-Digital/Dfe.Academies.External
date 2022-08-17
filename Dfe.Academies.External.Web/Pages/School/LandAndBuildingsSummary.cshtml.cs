@@ -71,11 +71,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// consume QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
 
 			// 7 sections / questions
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PupilNumberYr1, "TBC"));
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PupilNumberYr2, "TBC"));
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PupilNumberYr3, "TBC"));
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.NumbersBasedUpon, "TBC"));
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PAN, "TBC"));
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.LandOwnership, "TBC"));
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorks, "TBC"));
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.SharedFacilities, "TBC"));
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.Grants, "TBC"));
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PFI, "TBC"));
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PrioritySchoolBuildingProgram, "TBC"));
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.BuildingSchoolsForTheFuture, "TBC"));
 
 			var vm = new List<SchoolLandAndBuildingsSummaryHeadingViewModel> { heading1 };
 
