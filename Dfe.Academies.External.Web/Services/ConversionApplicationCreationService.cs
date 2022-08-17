@@ -242,4 +242,32 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		    throw;
 	    }
 	}
+
+	///<inheritdoc/>
+	public async Task ApplicationSchoolLandAndBuildings(SchoolLandAndBuildings schoolLandAndBuildings)
+	{
+		try
+		{
+			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
+			// to grab current application data
+			// before then patching ConversionApplication returned with data from application object
+
+			// application can contain multiple schools so need to grab one being changed via linqage
+			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolContacts.schoolUrn);
+			//schoolUpdating.SchoolConversionContactHeadName = schoolLandAndBuildings.SchoolConversionContactHeadName;
+			//schoolUpdating.SchoolConversionContactHeadEmail = schoolLandAndBuildings.SchoolConversionContactHeadEmail;
+			//schoolUpdating.SchoolConversionContactHeadTel = schoolLandAndBuildings.SchoolConversionContactHeadTel;
+			//schoolUpdating.SchoolConversionContactChairName = schoolLandAndBuildings.SchoolConversionContactChairName;
+			//schoolUpdating.SchoolConversionContactChairEmail = schoolLandAndBuildings.SchoolConversionContactChairEmail;
+			// ETC.....
+
+			// TODO: wire up Academisation API / what object does a PUT return
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, application);
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError("ConversionApplicationCreationService::ApplicationSchoolLandAndBuildings::Exception - {Message}", ex.Message);
+			throw;
+		}
+	}
 }

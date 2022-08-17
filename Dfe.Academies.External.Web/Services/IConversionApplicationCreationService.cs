@@ -1,6 +1,5 @@
 ﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
-using Dfe.Academies.External.Web.Pages.School;
 
 namespace Dfe.Academies.External.Web.Services;
 
@@ -25,4 +24,6 @@ public interface IConversionApplicationCreationService
 		int projectedPupilNumbersYear3, string schoolCapacityAssumptions, int schoolCapacityPublishedAdmissionsNumber);
 
 	Task ApplicationSchoolContacts(ApplicationSchoolContacts schoolContacts);
+
+	Task ApplicationSchoolLandAndBuildings(SchoolLandAndBuildings schoolLandAndBuildings);
 }
