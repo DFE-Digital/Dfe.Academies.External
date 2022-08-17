@@ -105,7 +105,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
         // arrange
         var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
         int expectedCount = 2; // TODO: 
-        int applicationId = int.MaxValue; // TODO: 
+        int applicationId = 1; // TODO: 
         var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
@@ -127,7 +127,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		//string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
 		int applicationId = 3; // TODO MR:- this value hard coded in dummy data at present !!!!!!
-	    int expectedCount = 3; // TODO MR:- this value hard coded in dummy data at present !!!!!!
+	    int expectedCount = 1; // TODO MR:- this value hard coded in dummy data at present !!!!!!
 	    int expectedURN = 101934;
 	    var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
@@ -140,7 +140,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 	    // assert
 	    Assert.That(application, Is.Not.Null);
 	    Assert.That(application.ApplicationId, Is.EqualTo(applicationId));
-        Assert.That(application.Application, Is.EqualTo("Form a new multi-academy trust A2B_2549"));
+        Assert.That(application.Application, Is.EqualTo("Form a new single academy trust A2B_2549"));
         Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
         Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("Chesterton primary school"));
         Assert.That(application.Schools.FirstOrDefault()?.URN, Is.EqualTo(expectedURN));
@@ -154,7 +154,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		//string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
 		int applicationId = 2; // TODO MR:- this value hard coded in dummy data at present !!!!!!
-        int expectedCount = 1; // TODO MR:- this value hard coded in dummy data at present !!!!!!
+        int expectedCount = 3; // TODO MR:- this value hard coded in dummy data at present !!!!!!
         int expectedURN = 101934;
 
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
@@ -168,34 +168,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
         // assert
         Assert.That(application, Is.Not.Null);
         Assert.That(application.ApplicationId, Is.EqualTo(applicationId));
-        Assert.That(application.Application, Is.EqualTo("Join a multi-academy trust A2B_2549"));
-        Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
-        Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("Chesterton primary school"));
-        Assert.That(application.Schools.FirstOrDefault()?.URN, Is.EqualTo(expectedURN));
-    }
-
-    [Test]
-    public async Task GetApplication___FormNewSingleAcademyTrust___ApiReturns200___Success()
-	{
-		// arrange
-		//string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
-		//string expectedJson = await File.ReadAllTextAsync(fullFilePath);
-		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-		int applicationId = 4; // TODO MR:- this value hard coded in dummy data at present !!!!!!
-        int expectedCount = 1; // TODO MR:- this value hard coded in dummy data at present !!!!!!
-		int expectedURN = 101934;
-		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-
-		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-
-        // act
-        var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
-        var application = await applicationRetrievalService.GetApplication(applicationId);
-
-        // assert
-        Assert.That(application, Is.Not.Null);
-        Assert.That(application.ApplicationId, Is.EqualTo(applicationId));
-        Assert.That(application.Application, Is.EqualTo("Form a new single academy trust A2B_2549"));
+        Assert.That(application.Application, Is.EqualTo("Form a new multi-academy trust A2B_2549"));
         Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
         Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("Chesterton primary school"));
         Assert.That(application.Schools.FirstOrDefault()?.URN, Is.EqualTo(expectedURN));
