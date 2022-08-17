@@ -30,7 +30,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				// TODO MR:- check 3 bools
 				var bools = new[] { OtherNameError, OtherEmailError, OtherTelephoneError };
 
 				return bools.Any(b => b);
