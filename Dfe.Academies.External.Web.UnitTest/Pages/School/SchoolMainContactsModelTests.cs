@@ -17,6 +17,13 @@ internal sealed class SchoolMainContactsModelTests
 {
 	// TODO MR:- public async Task OnGetAsync___Valid___NullErrors()
 
+	// TODO MR:- Test OtherContactError() prop
+
+	// TODO MR:- Test OtherNameError() prop
+
+	// TODO MR:- Test OtherEmailError() prop
+
+	// TODO MR:- Test OtherTelephoneError() prop
 
 	// TODO MR:- OnPostAsync___ModelIsValid___Invalid
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
