@@ -11,9 +11,9 @@ public record ApplicationSchoolContacts(
 	string ContactChairEmail,
 	string ContactChairTel,
 	string ContactRole, // "headteacher", "chair of governing body", "someone else"
-	string MainContactOtherName,
-	string MainContactOtherEmail,
-	string MainContactOtherTelephone,
-	string MainContactOtherRole,
-	string ApproverContactName,
-	string ApproverContactEmail);
+	string? MainContactOtherName,
+	string? MainContactOtherEmail,
+	string? MainContactOtherTelephone,
+	string? MainContactOtherRole,
+	string? ApproverContactName,
+	string? ApproverContactEmail);
