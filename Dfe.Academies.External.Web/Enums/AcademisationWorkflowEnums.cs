@@ -61,3 +61,13 @@ public enum SchoolConversionComponentStatus
 	Incomplete = 1,
 	Complete = 2
 }
+
+public enum MainConversionContact
+{
+	[Description("The headteacher")]
+	HeadTeacher = 1,
+	[Description("The chair of the governing body")]
+	ChairOfGoverningBody = 2,
+	[Description("Someone else")]
+	Other = 3
+}
