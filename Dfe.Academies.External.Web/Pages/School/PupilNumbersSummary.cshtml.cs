@@ -24,8 +24,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 	    public PupilNumbersSummaryModel(ILogger<PupilNumbersSummaryModel> logger,
 		    IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-		    IReferenceDataRetrievalService referenceDataRetrievalService,
-		    IConversionApplicationCreationService academisationCreationService)
+		    IReferenceDataRetrievalService referenceDataRetrievalService)
 		    : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 	    {
 		    _logger = logger;
