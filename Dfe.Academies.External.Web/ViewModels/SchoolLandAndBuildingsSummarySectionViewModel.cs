@@ -2,7 +2,14 @@
 
 public class SchoolLandAndBuildingsSummarySectionViewModel : SchoolQuestionAndAnswerViewModel
 {
-	// 7 sections / questions
+	public const string LandOwnership = "As far as you're aware, who owns or holds the school's buildings and land?";
+	public const string PlannedBuildingWorks = "Are there any current or planned building works?";
+	public const string SharedFacilities = "Are there any shared facilities on site?";
+	public const string SportEnglandGrant = "Has the school had any grants from Sport England, the Big Lottery Fund, or the Football Federation??";
+	public const string PFI = "Is the school part of a Private Finance Initiative (PFI) scheme?";
+	public const string PrioritySchoolBuildingProgram = "Is the school part of the Priority School Building Programme?";
+	public const string BuildingSchoolsForTheFuture = "Is the school part of the Building Schools for the Future Programme?";
+
 	public SchoolLandAndBuildingsSummarySectionViewModel(string name, string answer) : base(name, answer)
 	{
 	}
