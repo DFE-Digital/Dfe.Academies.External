@@ -42,6 +42,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			    if (selectedSchool != null)
 			    {
 				    // TODO MR:- grab data from API endpoint - applicationId && SchoolId combination !
+					// pupil numbers are stored against the school !
 
 
 				    PopulateUiModel(selectedSchool);
