@@ -1,8 +1,11 @@
+using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using static GovUk.Frontend.AspNetCore.ComponentDefaults;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -21,17 +24,47 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    public string SchoolName { get; private set; } = string.Empty;
 
 		//// TODO MR:- VM props to capture land & buildings data
-		public string? SchoolBuildLandOwnerExplained { get; set; }
-		public bool? SchoolBuildLandSharedFacilities { get; set; } // should this be y/n enum ??
+		[BindProperty]
+		[Required(ErrorMessage = "You must provide details")]
+		public string SchoolBuildLandOwnerExplained { get; set; }
+
+		[BindProperty]
+		[RequiredEnum(ErrorMessage = "You must provide details")]
+		public SelectOption SchoolBuildLandSharedFacilities { get; set; }
+
+		[BindProperty]
 		public string? SchoolBuildLandSharedFacilitiesExplained { get; set; }
-		public bool? SchoolBuildLandWorksPlanned { get; set; } // should this be y/n enum ??
+
+		[BindProperty]
+		[RequiredEnum(ErrorMessage = "You must provide details")]
+		public SelectOption SchoolBuildLandWorksPlanned { get; set; } 
+
+		[BindProperty]
 		public string? SchoolBuildLandWorksPlannedExplained { get; set; }
+
+		[BindProperty]
 		public DateTime? SchoolBuildLandWorksPlannedDate { get; set; }
-		public bool? SchoolBuildLandGrants { get; set; } // should this be y/n enum ??
+
+		[BindProperty]
+		[RequiredEnum(ErrorMessage = "You must provide details")]
+		public SelectOption SchoolBuildLandGrants { get; set; } 
+
+		[BindProperty]
 		public string? SchoolBuildLandGrantsBody { get; set; }
-		public bool? SchoolBuildLandPriorityBuildingProgramme { get; set; } // should this be y/n enum ??
-		public bool? SchoolBuildLandFutureProgramme { get; set; } // should this be y/n enum ??
-		public bool? SchoolBuildLandPFIScheme { get; set; } // should this be y/n enum ??
+
+		[BindProperty]
+		[RequiredEnum(ErrorMessage = "You must provide details")]
+		public SelectOption SchoolBuildLandPriorityBuildingProgramme { get; set; } 
+
+		[BindProperty]
+		[RequiredEnum(ErrorMessage = "You must provide details")]
+		public SelectOption SchoolBuildLandFutureProgramme { get; set; } 
+
+		[BindProperty]
+		[RequiredEnum(ErrorMessage = "You must provide details")]
+		public SelectOption SchoolBuildLandPFIScheme { get; set; } 
+
+		[BindProperty]
 		public string? SchoolBuildLandPFISchemeType { get; set; }
 
 		public LandAndBuildingsModel(ILogger<LandAndBuildingsModel> logger,
@@ -112,6 +145,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 			SchoolName = selectedSchool.SchoolName;
 
 			// TODO MR:- populate other props
+			//string? SchoolBuildLandOwnerExplained,
+			//bool? SchoolBuildLandSharedFacilities, // should this be y/n enum ??
+			//bool? SchoolBuildLandWorksPlanned,  // should this be y/n enum ??
+			//string? SchoolBuildLandWorksPlannedExplained,
+			//	DateTime? SchoolBuildLandWorksPlannedDate,
+			//bool? SchoolBuildLandGrants, // should this be y/n enum ??
+			//string? SchoolBuildLandGrantsBody,
+			//bool? SchoolBuildLandPriorityBuildingProgramme, // should this be y/n enum ??
+			//bool? SchoolBuildLandFutureProgramme, // should this be y/n enum ??
+			//bool? SchoolBuildLandPFIScheme, // should this be y/n enum ??
+			//string? SchoolBuildLandPFISchemeType
 		}
 	}
 }
