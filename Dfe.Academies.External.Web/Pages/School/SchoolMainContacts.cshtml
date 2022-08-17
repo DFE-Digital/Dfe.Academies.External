@@ -94,10 +94,26 @@
 							</div>
 							@if (conversionContactType == MainConversionContact.Other || Model.ViewModel.ContactRole == MainConversionContact.Other)
 							{
-								// TODO MR:- conditional inputs !!!!
-@*								@Model.ViewModel.MainContactOtherName
-								@Model.ViewModel.MainContactOtherEmail
-								@Model.ViewModel.MainContactOtherTelephone*@
+								<div class="@(Model.OtherContactError ? "govuk-form-group--error" : "govuk-radios__conditional")
+	                                            @(Model.ViewModel.ContactRole != MainConversionContact.Other ? "govuk-radios__conditional--hidden" : "")"
+										id="conditional-contacttype-other" aria-expanded="false">
+									<div class="govuk-form-group govuk-error-summary__list">
+										<label for="conditional-contacttype-other" class="govuk-label">Name</label>
+										<input type="text" asp-for="@Model.ViewModel.MainContactOtherName" id="MainContactOtherName" 
+										       class="govuk-input govuk-input--width-20" />
+
+										<label for="conditional-contacttype-other" class="govuk-label">Email address</label>
+										<span class="govuk-hint">
+											We will only use this to contact you regarding your application
+										</span>
+										<input type="text" asp-for="@Model.ViewModel.MainContactOtherEmail" id="MainContactOtherEmail"
+											class="govuk-input govuk-input--width-20" />
+
+										<label for="conditional-contacttype-other" class="govuk-label">Telephone number</label>
+										<input type="text" asp-for="@Model.ViewModel.MainContactOtherTelephone" id="MainContactOtherTelephone"
+									   class="govuk-input govuk-input--width-20" />
+									</div>
+								</div>
 							}
 						}
 					</div >
