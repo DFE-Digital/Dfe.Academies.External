@@ -1,10 +1,7 @@
-﻿using Dfe.Academies.External.Web.Enums;
-using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
-using System;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Dfe.Academies.External.Web.Pages.Base;
 
@@ -68,6 +65,23 @@ public abstract class BasePageEditModel : BasePageModel
 			"declaration" => "/school/ApplicationDeclaration",
 			_ => string.Empty
 		};
+	}
+
+	protected void PopulateViewDataErrorsWithModelStateErrors()
+	{
+		ViewData["Errors"] = ConvertModelStateToDictionary();
+
+		if (!ModelState.IsValid)
+		{
+			foreach (var modelStateError in ConvertModelStateToDictionary())
+			{
+				// MR:- add friendly message for validation summary
+				if (!this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey(modelStateError.Key))
+				{
+					this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add(modelStateError.Key, modelStateError.Value);
+				}
+			}
+		}
 	}
 
 	private void CacheSelectedSchool(EstablishmentResponse? schoolDetails)
