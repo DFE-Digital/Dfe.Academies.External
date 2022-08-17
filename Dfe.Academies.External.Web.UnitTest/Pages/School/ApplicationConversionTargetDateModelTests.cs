@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 {
+	[Parallelizable(ParallelScope.All)]
 	internal sealed class ApplicationConversionTargetDateModelTests
 	{
 		// MR:- test calculated props
