@@ -6,6 +6,14 @@ namespace Dfe.Academies.External.Web.ViewModels;
 
 public sealed class ApplicationSchoolContactsViewModel
 {
+	/// <summary>
+	/// This is needed for model binding
+	/// </summary>
+	public ApplicationSchoolContactsViewModel()
+	{
+		
+	}
+
 	public ApplicationSchoolContactsViewModel(int applicationId, int urn)
 	{
 		ApplicationId = applicationId;
@@ -56,8 +64,8 @@ public sealed class ApplicationSchoolContactsViewModel
 	/// </summary>
 	public string? MainContactOtherRole { get; set; }
 
-	// TODO MR:- no validation on ticket?
+	// TODO MR:- no validation on ticket for below?
 
-	public string ApproverContactName { get; set; }
-	public string ApproverContactEmail { get; set; }
+	public string? ApproverContactName { get; set; }
+	public string? ApproverContactEmail { get; set; }
 }
