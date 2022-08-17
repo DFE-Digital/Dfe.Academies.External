@@ -44,7 +44,7 @@ public static class StartupExtension
 	    services.AddHttpClient("AcademisationClient", client =>
 	    {
 		    client.BaseAddress = new Uri(academisationApiEndpoint);
-		    client.DefaultRequestHeaders.Add("ApiKey", academisationApiKey);
+		    client.DefaultRequestHeaders.Add("x-api-key", academisationApiKey);
 		    client.DefaultRequestHeaders.Add("ContentType", MediaTypeNames.Application.Json);
 	    });
     }
