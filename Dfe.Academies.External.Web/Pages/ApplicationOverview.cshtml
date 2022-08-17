@@ -111,7 +111,10 @@
         <caption class="govuk-table__caption govuk-table__caption--l">About the conversion</caption>
         <tbody class="govuk-table__body">
             <tr class="govuk-table__row">
-                <td class="govuk-table__cell"><a asp-page="ApplicationDetails" class="govuk-link">Conversion details</a></td>
+	            <td class="govuk-table__cell">
+					<a asp-page="school/SchoolConversionKeyDetails" asp-route-appId="@Model.ApplicationId"
+					   class="govuk-link">Conversion details</a>
+	            </td>
                 <td class="govuk-table__cell govuk-!-text-align-right">
                     @{
                         var conversionStatusValue = (int)Model.ConversionStatus;
