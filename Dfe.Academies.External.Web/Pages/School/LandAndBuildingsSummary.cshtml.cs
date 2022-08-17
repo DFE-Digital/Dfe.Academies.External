@@ -42,7 +42,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				if (selectedSchool != null)
 				{
 					// TODO MR:- grab data from API endpoint - applicationId && SchoolId combination !
-
+					// land & buildings stored against the school ?????????????? not implemented 17/08/2022
 
 					PopulateUiModel(selectedSchool);
 				}
