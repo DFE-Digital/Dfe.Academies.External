@@ -49,18 +49,14 @@ public sealed class ApplicationSchoolContactsViewModel
 	[RequiredEnum(ErrorMessage = "You must provide a main contact")]
 	public MainConversionContact ContactRole { get; set; }
 
-	[Required(ErrorMessage = "You must provide details")]
-	public string MainContactOtherName { get; set; }
+	public string? MainContactOtherName { get; set; }
 
-	[EmailAddress]
-	[Required(ErrorMessage = "You must provide details")]
-	public string MainContactOtherEmail { get; set; }
+	public string? MainContactOtherEmail { get; set; }
 
-	[Required(ErrorMessage = "You must provide a number")]
-	public string MainContactOtherTelephone { get; set; }
+	public string? MainContactOtherTelephone { get; set; }
 
 	/// <summary>
-	/// only applicable if ContactRole = other
+	/// only applicable if ContactRole = other - no idea what this is
 	/// </summary>
 	public string? MainContactOtherRole { get; set; }
 
