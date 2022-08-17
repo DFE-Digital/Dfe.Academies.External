@@ -48,6 +48,7 @@ builder.Services
 			.AllowAnonymousToPage("/school/ApplicationConversionTargetDate")
 			.AllowAnonymousToPage("/school/SchoolConversionKeyDetails")
 			.AllowAnonymousToPage("/school/PupilNumbersSummary")
+			.AllowAnonymousToPage("/school/SchoolMainContacts")
 			.AllowAnonymousToPage("/trust/ApplicationSelectTrust");
 	})
 	.AddViewOptions(options =>
