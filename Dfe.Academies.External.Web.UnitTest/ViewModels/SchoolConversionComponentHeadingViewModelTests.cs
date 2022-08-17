@@ -17,15 +17,15 @@ internal sealed class SchoolConversionComponentHeadingViewModelTests
 		string title = Fixture.Create<string>();
 		string uri = Fixture.Create<string>();
 
-		var conversionApplicationAuditEntry = new SchoolConversionComponentHeadingViewModel(title, uri);
+		var schoolConversionComponentHeadingViewModel = new SchoolConversionComponentHeadingViewModel(title, uri);
 
 		// act
 		// nothing!
 
 		// assert
-		Assert.That(conversionApplicationAuditEntry, Is.Not.Null);
-		Assert.That(conversionApplicationAuditEntry.Title, Is.EqualTo(title));
-		Assert.That(conversionApplicationAuditEntry.URI, Is.EqualTo(uri));
-		Assert.That(conversionApplicationAuditEntry.Status, Is.EqualTo(SchoolConversionComponentStatus.NotStarted));
+		Assert.That(schoolConversionComponentHeadingViewModel, Is.Not.Null);
+		Assert.That(schoolConversionComponentHeadingViewModel.Title, Is.EqualTo(title));
+		Assert.That(schoolConversionComponentHeadingViewModel.URI, Is.EqualTo(uri));
+		Assert.That(schoolConversionComponentHeadingViewModel.Status, Is.EqualTo(SchoolConversionComponentStatus.NotStarted));
 	}
 }

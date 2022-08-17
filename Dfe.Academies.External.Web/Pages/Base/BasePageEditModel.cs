@@ -61,7 +61,7 @@ public abstract class BasePageEditModel : BasePageModel
 			"about the conversion" => "/school/SchoolConversionKeyDetails",
 			"further information" => "/school/FurtherInformation",
 			"finances" => "/school/Finances",
-			"future pupil numbers" => "/school/PupilNumbers",
+			"future pupil numbers" => "/school/PupilNumbersSummary",
 			"land and buildings" => "/school/LandAndBuildings",
 			"consultation" => "/school/ApplicationSchoolConsultation",
 			"pre-opening support grant" => "/school/ApplicationPreOpeningSupportGrant",
