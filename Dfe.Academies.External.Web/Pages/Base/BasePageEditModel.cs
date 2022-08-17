@@ -1,10 +1,7 @@
-﻿using Dfe.Academies.External.Web.Enums;
-using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
-using System;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Dfe.Academies.External.Web.Pages.Base;
 
