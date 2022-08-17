@@ -84,8 +84,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			SchoolConversionComponentHeadingViewModel heading1 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationSchool,
 																		"/school/ApplicationSelectSchool");
 
-			// TODO MR:- if answer comes back from API, render data from API OR
-			// consume SchoolConversionComponentSectionViewModel.NoInfoAnswer if string.IsNullOrWhiteSpace()
+			// TODO MR:- for answer, consume QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
+			// OR data from API
 			heading1.Sections.Add(new (SchoolConversionComponentSectionViewModel.NameOfSchoolSectionName, "TBC"));
 
 			SchoolConversionComponentHeadingViewModel heading2 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationContactDetails,
