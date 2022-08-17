@@ -85,5 +85,5 @@ public class SchoolApplyingToConvert
 
     public SchoolFinances SchoolFinances { get; set; } = new();
 
-    public SchoolLandAndBuildings SchoolLandAndBuildings { get; set; } = new();
+    public SchoolLandAndBuildings SchoolLandAndBuildings { get; set; }
 }
