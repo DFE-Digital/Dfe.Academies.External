@@ -1,4 +1,6 @@
-﻿namespace Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+
+namespace Dfe.Academies.External.Web.Models;
 
 public record ApplicationSchoolContacts(
 	int ApplicationId,
@@ -10,10 +12,9 @@ public record ApplicationSchoolContacts(
 	string ContactChairName,
 	string ContactChairEmail,
 	string ContactChairTel,
-	string ContactRole, // "headteacher", "chair of governing body", "someone else"
-	string MainContactOtherName,
-	string MainContactOtherEmail,
-	string MainContactOtherTelephone,
-	string MainContactOtherRole,
-	string ApproverContactName,
-	string ApproverContactEmail);
+	MainConversionContact ContactRole, // "headteacher", "chair of governing body", "someone else"
+	string? MainContactOtherName,
+	string? MainContactOtherEmail,
+	string? MainContactOtherTelephone,
+	string? ApproverContactName,
+	string? ApproverContactEmail);
