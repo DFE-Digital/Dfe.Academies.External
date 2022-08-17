@@ -1,5 +1,4 @@
-﻿using Dfe.Academies.External.Web.Pages;
-using Dfe.Academies.External.Web.Pages.School;
+﻿using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.AspNetCore.Mvc;
@@ -131,7 +130,86 @@ internal sealed class SchoolMainContactsModelTests
 		Assert.AreEqual(true, pageModel.OtherTelephoneError);
 	}
 
-	// TODO MR:- Test OtherContactError() prop
+	[Test]
+	public async Task ModelState___MainContactOtherNameNotEntered___OtherContactErrorTrue()
+	{
+		// arrange
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockLogger = new Mock<ILogger<SchoolMainContactsModel>>();
+		var expectedErrorText = "You must provide details";
+
+		var pageModel = SetupSchoolMainContactsModel(mockLogger.Object,
+			mockConversionApplicationCreationService.Object,
+			mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object);
+
+		pageModel.ModelState.AddModelError("MainContactOtherNameNotEntered", expectedErrorText);
+
+		// act
+		await pageModel.OnPostAsync();
+
+		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+
+		// assert
+		Assert.AreEqual(1, errors.Count);
+		Assert.AreEqual(true, pageModel.OtherContactError);
+	}
+
+	[Test]
+	public async Task ModelState___MainContactOtherEmailNotEntered___OtherContactErrorTrue()
+	{
+		// arrange
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockLogger = new Mock<ILogger<SchoolMainContactsModel>>();
+		var expectedErrorText = "You must provide details";
+
+		var pageModel = SetupSchoolMainContactsModel(mockLogger.Object,
+			mockConversionApplicationCreationService.Object,
+			mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object);
+
+		pageModel.ModelState.AddModelError("MainContactOtherEmailNotEntered", expectedErrorText);
+
+		// act
+		await pageModel.OnPostAsync();
+
+		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+
+		// assert
+		Assert.AreEqual(1, errors.Count);
+		Assert.AreEqual(true, pageModel.OtherContactError);
+	}
+
+	[Test]
+	public async Task ModelState___MainContactOtherTelephoneNotEntered___OtherContactErrorTrue()
+	{
+		// arrange
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockLogger = new Mock<ILogger<SchoolMainContactsModel>>();
+		var expectedErrorText = "You must provide details";
+
+		var pageModel = SetupSchoolMainContactsModel(mockLogger.Object,
+			mockConversionApplicationCreationService.Object,
+			mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object);
+
+		pageModel.ModelState.AddModelError("MainContactOtherTelephoneNotEntered", expectedErrorText);
+
+		// act
+		await pageModel.OnPostAsync();
+
+		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+
+		// assert
+		Assert.AreEqual(1, errors.Count);
+		Assert.AreEqual(true, pageModel.OtherContactError);
+	}
 
 	// TODO MR:- OnPostAsync___ModelIsValid___Invalid
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
