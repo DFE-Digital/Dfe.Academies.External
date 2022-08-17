@@ -11,7 +11,7 @@ internal sealed class SchoolLandAndBuildingsTests
 		// arrange
 		var applicationComponent = new SchoolLandAndBuildings
 		{
-			Id = int.MaxValue,
+			ApplicationId = int.MaxValue,
 			SchoolBuildLandPFIScheme = false
 		};
 
@@ -20,7 +20,7 @@ internal sealed class SchoolLandAndBuildingsTests
 
 		// assert
 		Assert.That(applicationComponent, Is.Not.Null);
-		Assert.That(applicationComponent.Id, Is.EqualTo(int.MaxValue));
+		Assert.That(applicationComponent.ApplicationId, Is.EqualTo(int.MaxValue));
 		Assert.That(applicationComponent.SchoolBuildLandPFIScheme, Is.EqualTo(false));
 	}
 }
