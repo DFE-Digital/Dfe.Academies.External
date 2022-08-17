@@ -80,16 +80,16 @@ namespace Dfe.Academies.External.Web.Pages.School
 			ApplicationId = selectedSchool.ApplicationId;
 			Urn = selectedSchool.URN;
 			SchoolName = selectedSchool.SchoolName;
-			// TODO MR:- sort out sections - setup VM from what we get back from API
 
 			SchoolConversionComponentHeadingViewModel heading1 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationSchool,
 																		"/school/ApplicationSelectSchool");
 
-			// TODO MR:- fo answer, consume QuestionAndAnswerConstants.NoInfoAnswer if string.isnullorempty()
+			// TODO MR:- if answer comes back from API, render data from API OR
+			// consume SchoolConversionComponentSectionViewModel.NoInfoAnswer if string.IsNullOrWhiteSpace()
 			heading1.Sections.Add(new (SchoolConversionComponentSectionViewModel.NameOfSchoolSectionName, "TBC"));
 
 			SchoolConversionComponentHeadingViewModel heading2 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationContactDetails,
-				"/school/ContactDetails");
+				"/school/SchoolMainContacts");
 			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherNameSectionName, "TBC"));
 			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherEmailSectionName, "TBC"));
 			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherTelNoSectionName, "TBC"));
