@@ -21,7 +21,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    public string SchoolName { get; private set; } = string.Empty;
 
 		//// TODO MR:- VM props to capture land & buildings data
-		// TODO MR:- use SchoolLandAndBuildings() ???
+		public string? SchoolBuildLandOwnerExplained { get; set; }
+		public bool? SchoolBuildLandSharedFacilities { get; set; } // should this be y/n enum ??
+		public string? SchoolBuildLandSharedFacilitiesExplained { get; set; }
+		public bool? SchoolBuildLandWorksPlanned { get; set; } // should this be y/n enum ??
+		public string? SchoolBuildLandWorksPlannedExplained { get; set; }
+		public DateTime? SchoolBuildLandWorksPlannedDate { get; set; }
+		public bool? SchoolBuildLandGrants { get; set; } // should this be y/n enum ??
+		public string? SchoolBuildLandGrantsBody { get; set; }
+		public bool? SchoolBuildLandPriorityBuildingProgramme { get; set; } // should this be y/n enum ??
+		public bool? SchoolBuildLandFutureProgramme { get; set; } // should this be y/n enum ??
+		public bool? SchoolBuildLandPFIScheme { get; set; } // should this be y/n enum ??
+		public string? SchoolBuildLandPFISchemeType { get; set; }
 
 		public LandAndBuildingsModel(ILogger<LandAndBuildingsModel> logger,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
@@ -73,8 +84,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 				// TODO MR:- call API endpoint to log land & buildings
-				var landAndBuildingsData = new SchoolLandAndBuildings();
-
+				//var landAndBuildingsData = new SchoolLandAndBuildings();
 				//await _academisationCreationService.ApplicationSchoolLandAndBuildings(landAndBuildingsData);
 
 				// update temp store for next step - application overview
