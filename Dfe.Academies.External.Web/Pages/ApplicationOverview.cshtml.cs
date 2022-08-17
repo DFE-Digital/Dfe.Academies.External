@@ -12,7 +12,7 @@ namespace Dfe.Academies.External.Web.Pages
         private readonly ILogger<ApplicationOverviewModel> _logger;
         private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
 
-        public int ApplicationId { get; private set; }
+		public int ApplicationId { get; private set; }
 
         // Below are props for UI display, shunt over to separate view model?
         public ApplicationTypes ApplicationType { get; private set; }
@@ -77,10 +77,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 	                if (school != null)
 	                {
-
-
-
-                        school.SchoolApplicationComponents =
+		                school.SchoolApplicationComponents =
 			                await _conversionApplicationRetrievalService.GetSchoolApplicationComponents(draftConversionApplication.ApplicationId, school.URN);
                     }
 
