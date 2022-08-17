@@ -1,0 +1,44 @@
+{
+	"applicationId": 1,
+	"applicationType": "JoinAMat",
+	"applicationStatus": "InProgress",
+	"contributors": [
+		{
+			"contributorId": 1,
+			"firstName": "string",
+			"lastName": "string",
+			"emailAddress": "chair@edu.gov.uk",
+			"role": "ChairOfGovernors",
+			"otherRoleName": ""
+		}
+	],
+	"schools": [
+		{
+			"id": 0,
+			"urn": 0,
+			"schoolName": "string",
+			"schoolConversionContactHeadName": "string",
+			"schoolConversionContactHeadEmail": "string",
+			"schoolConversionContactHeadTel": "string",
+			"schoolConversionContactChairName": "string",
+			"schoolConversionContactChairEmail": "string",
+			"schoolConversionContactChairTel": "string",
+			"schoolConversionContactRole": "string",
+			"schoolConversionMainContactOtherName": "string",
+			"schoolConversionMainContactOtherEmail": "string",
+			"schoolConversionMainContactOtherTelephone": "string",
+			"schoolConversionMainContactOtherRole": "string",
+			"schoolConversionApproverContactName": "string",
+			"schoolConversionApproverContactEmail": "string",
+			"schoolConversionTargetDate": "2022-08-12T10:36:21.299Z",
+			"schoolConversionTargetDateExplained": "string",
+			"proposedNewSchoolName": "string",
+			"applicationJoinTrustReason": "string",
+			"projectedPupilNumbersYear1": 0,
+			"projectedPupilNumbersYear2": 0,
+			"projectedPupilNumbersYear3": 0,
+			"schoolCapacityAssumptions": "string",
+			"schoolCapacityPublishedAdmissionsNumber": 0
+		}
+	]
+}

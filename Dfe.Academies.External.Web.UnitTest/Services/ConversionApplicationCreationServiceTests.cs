@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using NUnit.Framework;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -74,11 +75,11 @@ internal sealed class ConversionApplicationCreationServiceTests
     /// call add school endpoint and mock HttpStatusCode.Created
     /// </summary>
     //[Test]
-    public async Task AddSchoolToApplication___ApiReturns201___Created()
+    public async Task AddSchoolToApplication___ApiReturns200___Ok()
     {
 	    // arrange
 	    var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-	    var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.Created, expectedJson);
+	    var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 	    var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
 	    int applicationId = Fixture.Create<int>();
         int urn = Fixture.Create<int>();
@@ -119,20 +120,21 @@ internal sealed class ConversionApplicationCreationServiceTests
     /// call endpoint and mock HttpStatusCode.Created
     /// </summary>
     //[Test]
-    public async Task ApplicationAddJoinTrustReasons___ApiReturns201___Created()
+    public async Task ApplicationAddJoinTrustReasons___ApiReturns200___Ok()
     {
         // arrange
         var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-        var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.Created, expectedJson);
+        var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
         var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
         string ApplicationAddJoinTrustReason = Fixture.Create<string>();
-        var trustApplicationDto = ConversionApplicationTestDataFactory.BuildNewConversionApplicationNoRoles();
+        int applicationId = Fixture.Create<int>();
+		int urn = Fixture.Create<int>();
 
-        // act
-        var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
+		// act
+		var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
 
         // assert
-        Assert.DoesNotThrowAsync(() => recordModelService.ApplicationAddJoinTrustReasons(trustApplicationDto, ApplicationAddJoinTrustReason));
+        Assert.DoesNotThrowAsync(() => recordModelService.ApplicationAddJoinTrustReasons(applicationId, ApplicationAddJoinTrustReason, urn));
     }
 
     /// <summary>
@@ -146,24 +148,40 @@ internal sealed class ConversionApplicationCreationServiceTests
         var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, expectedJson);
         var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
         int applicationId = Fixture.Create<int>();
-        string ApplicationAddJoinTrustReason = Fixture.Create<string>();
-        var trustApplicationDto = ConversionApplicationTestDataFactory.BuildNewConversionApplicationNoRoles();
+        int urn = Fixture.Create<int>();
+		string ApplicationAddJoinTrustReason = Fixture.Create<string>();
 
         // act
         var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
 
         // assert
-        var ex = Assert.ThrowsAsync<HttpRequestException>(() => recordModelService.ApplicationAddJoinTrustReasons(trustApplicationDto, ApplicationAddJoinTrustReason));
+        var ex = Assert.ThrowsAsync<HttpRequestException>(() => recordModelService.ApplicationAddJoinTrustReasons(applicationId, ApplicationAddJoinTrustReason, urn));
 
         // now we could test the exception itself
         //Assert.That(ex.Message == "Blah");
     }
 
-    // TODO MR:- ApplicationChangeSchoolNameAndReason - ApiReturns201___Created()
+	// TODO MR:- ApplicationChangeSchoolNameAndReason - ApiReturns200___Ok()
 
-    // TODO MR:- ApplicationChangeSchoolNameAndReason - ApiReturns500___InternalServerError()
+	// TODO MR:- ApplicationChangeSchoolNameAndReason - ApiReturns500___InternalServerError()
 
-    private Mock<IHttpClientFactory> SetupMockHttpClientFactory(HttpStatusCode expectedStatusCode, string expectedJson)
+	// TODO MR:- ApplicationSchoolTargetConversionDate - ApiReturns200___Ok()
+
+	// TODO MR:- ApplicationSchoolTargetConversionDate - ApiReturns500___InternalServerError()
+
+	// TODO MR:- ApplicationSchoolTargetConversionDate - ApiReturns200___Ok()
+
+	// TODO MR:- ApplicationSchoolTargetConversionDate - ApiReturns500___InternalServerError()
+
+	// TODO MR:- ApplicationSchoolFuturePupilNumbers - ApiReturns200___Ok()
+
+	// TODO MR:- ApplicationSchoolFuturePupilNumbers - ApiReturns500___InternalServerError()
+
+	// TODO MR:- ApplicationSchoolContacts - ApiReturns200___Ok()
+
+	// TODO MR:- ApplicationSchoolContacts - ApiReturns500___InternalServerError()
+
+	private static Mock<IHttpClientFactory> SetupMockHttpClientFactory(HttpStatusCode expectedStatusCode, string expectedJson)
     {
 	    var mockFactory = new Mock<IHttpClientFactory>();
 

@@ -26,26 +26,12 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	{
 		// arrange
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/schoolSearchResponse.json";
-		string expected = await File.ReadAllTextAsync(fullFilePath);
+		string expectedJSON = await File.ReadAllTextAsync(fullFilePath);
 		int expectedCount = 12;
-		var mockFactory = new Mock<IHttpClientFactory>();
 		string schoolName = "wise";
 		int urn = 101934;
 
-		var mockMessageHandler = new Mock<HttpMessageHandler>();
-		mockMessageHandler.Protected()
-			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-			.ReturnsAsync(new HttpResponseMessage
-			{
-				StatusCode = HttpStatusCode.OK,
-				Content = new StringContent(expected)
-			});
-
-		var httpClient = new HttpClient(mockMessageHandler.Object);
-		httpClient.BaseAddress = new Uri(TestUrl);
-
-		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJSON);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		SchoolSearch schoolSearch = new(schoolName, urn.ToString(), string.Empty);
@@ -67,25 +53,14 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public async Task SearchSchools___ApiReturns500___Failure()
 	{
 		// arrange
-		var mockFactory = new Mock<IHttpClientFactory>();
 		string schoolName = "wise";
 		int urn = 587634;
+		string expectedJson = @"{ ""foo"": ""bar"" }";
 
-		var mockMessageHandler = new Mock<HttpMessageHandler>();
-		mockMessageHandler.Protected()
-			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-			.ReturnsAsync(new HttpResponseMessage
-			{
-				StatusCode = HttpStatusCode.InternalServerError
-			});
-
-		var httpClient = new HttpClient(mockMessageHandler.Object);
-		httpClient.BaseAddress = new Uri(TestUrl);
-
-		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, expectedJson);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
-		SchoolSearch schoolSearch = new SchoolSearch(schoolName, urn.ToString(), string.Empty);
+
+		SchoolSearch schoolSearch = new (schoolName, urn.ToString(), string.Empty);
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -99,24 +74,10 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	{
 		// arrange
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getSchoolResponse.json";
-		string expected = await File.ReadAllTextAsync(fullFilePath);
+		string expectedJSON = await File.ReadAllTextAsync(fullFilePath);
 		int urn = 101934;
-		var mockFactory = new Mock<IHttpClientFactory>();
 
-		var mockMessageHandler = new Mock<HttpMessageHandler>();
-		mockMessageHandler.Protected()
-			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-			.ReturnsAsync(new HttpResponseMessage
-			{
-				StatusCode = HttpStatusCode.OK,
-				Content = new StringContent(expected)
-			});
-
-		var httpClient = new HttpClient(mockMessageHandler.Object);
-		httpClient.BaseAddress = new Uri(TestUrl);
-
-		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJSON);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		// act
@@ -143,21 +104,9 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	{
 		// arrange
 		int urn = 101003;
-		var mockFactory = new Mock<IHttpClientFactory>();
+		string expectedJson = @"{ ""foo"": ""bar"" }";
 
-		var mockMessageHandler = new Mock<HttpMessageHandler>();
-		mockMessageHandler.Protected()
-			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-			.ReturnsAsync(new HttpResponseMessage
-			{
-				StatusCode = HttpStatusCode.InternalServerError
-			});
-
-		var httpClient = new HttpClient(mockMessageHandler.Object);
-		httpClient.BaseAddress = new Uri(TestUrl);
-
-		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, expectedJson);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		// act
@@ -171,23 +120,12 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public void BuildSchoolSearchRequestUri___NameOnly___Success()
 	{
 		// arrange
-		var mockFactory = new Mock<IHttpClientFactory>();
-		var mockMessageHandler = new Mock<HttpMessageHandler>();
-		mockMessageHandler.Protected()
-			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-			.ReturnsAsync(new HttpResponseMessage
-			{
-				StatusCode = HttpStatusCode.OK
-			});
+		string name = "wise";
+		string expectedJson = @"{ ""foo"": ""bar"" }";
 
-		var httpClient = new HttpClient(mockMessageHandler.Object);
-		httpClient.BaseAddress = new Uri(TestUrl);
-
-		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
-		string name = "wise";
 		SchoolSearch schoolSearch = new(name, string.Empty, string.Empty);
 
 		// act
@@ -205,23 +143,12 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public void BuildSchoolSearchRequestUri___UrnOnly___Success()
 	{
 		// arrange
-		var mockFactory = new Mock<IHttpClientFactory>();
-		var mockMessageHandler = new Mock<HttpMessageHandler>();
-		mockMessageHandler.Protected()
-			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-			.ReturnsAsync(new HttpResponseMessage
-			{
-				StatusCode = HttpStatusCode.OK
-			});
+		string urn = "101934"; // The Cardinal Wiseman Catholic School
+		string expectedJson = @"{ ""foo"": ""bar"" }";
 
-		var httpClient = new HttpClient(mockMessageHandler.Object);
-		httpClient.BaseAddress = new Uri(TestUrl);
-
-		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
-		string urn = "101934"; // The Cardinal Wiseman Catholic School
 		SchoolSearch schoolSearch = new(string.Empty, urn, string.Empty);
 
 		// act
@@ -239,23 +166,12 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public void BuildSchoolSearchRequestUri___UKPRNOnly___Success()
 	{
 		// arrange
-		var mockFactory = new Mock<IHttpClientFactory>();
-		var mockMessageHandler = new Mock<HttpMessageHandler>();
-		mockMessageHandler.Protected()
-			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-			.ReturnsAsync(new HttpResponseMessage
-			{
-				StatusCode = HttpStatusCode.OK
-			});
+		string ukprn = "10015453"; // The Cardinal Wiseman Catholic School
+		string expectedJson = @"{ ""foo"": ""bar"" }";
 
-		var httpClient = new HttpClient(mockMessageHandler.Object);
-		httpClient.BaseAddress = new Uri(TestUrl);
-
-		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
-		string ukprn = "10015453"; // The Cardinal Wiseman Catholic School
 		SchoolSearch schoolSearch = new(string.Empty, string.Empty, ukprn);
 
 		// act
@@ -274,26 +190,12 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	{
 		// arrange
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getTrustSearchResponse.json";
-		string expected = await File.ReadAllTextAsync(fullFilePath);
+		string expectedJSON = await File.ReadAllTextAsync(fullFilePath);
 		int expectedCount = 10;
-		var mockFactory = new Mock<IHttpClientFactory>();
 		string name = "grammar";
 		string ukprn = "10058464";
-		
-		var mockMessageHandler = new Mock<HttpMessageHandler>();
-		mockMessageHandler.Protected()
-			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-			.ReturnsAsync(new HttpResponseMessage
-			{
-				StatusCode = HttpStatusCode.OK,
-				Content = new StringContent(expected)
-			});
 
-		var httpClient = new HttpClient(mockMessageHandler.Object);
-		httpClient.BaseAddress = new Uri(TestUrl);
-
-		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJSON);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		TrustSearch trustSearch = new (name, ukprn, string.Empty);
@@ -322,24 +224,13 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public async Task GetTrusts___ApiReturns500___Failure()
 	{
 		// arrange
-		var mockFactory = new Mock<IHttpClientFactory>();
 		string name = "grammar";
 		string ukprn = "10058464";
+		string expectedJson = @"{ ""foo"": ""bar"" }";
 
-		var mockMessageHandler = new Mock<HttpMessageHandler>();
-		mockMessageHandler.Protected()
-			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-			.ReturnsAsync(new HttpResponseMessage
-			{
-				StatusCode = HttpStatusCode.InternalServerError
-			});
-
-		var httpClient = new HttpClient(mockMessageHandler.Object);
-		httpClient.BaseAddress = new Uri(TestUrl);
-
-		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, expectedJson);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
+
 		TrustSearch trustSearch = new (name, ukprn, string.Empty);
 
 		// act
@@ -354,24 +245,10 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	{
 		// arrange
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getTrustResponse.json";
-		string expected = await File.ReadAllTextAsync(fullFilePath);
-		var mockFactory = new Mock<IHttpClientFactory>();
+		string expectedJSON = await File.ReadAllTextAsync(fullFilePath);
 		string ukprn = "10058464";
 
-		var mockMessageHandler = new Mock<HttpMessageHandler>();
-		mockMessageHandler.Protected()
-			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-			.ReturnsAsync(new HttpResponseMessage
-			{
-				StatusCode = HttpStatusCode.OK,
-				Content = new StringContent(expected)
-			});
-
-		var httpClient = new HttpClient(mockMessageHandler.Object);
-		httpClient.BaseAddress = new Uri(TestUrl);
-
-		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJSON);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		// act
@@ -398,22 +275,10 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public async Task GetTrustByUkPrn___ApiReturns500___Failure()
 	{
 		// arrange
-		var mockFactory = new Mock<IHttpClientFactory>();
 		string ukprn = "10058464";
+		string expectedJson = @"{ ""foo"": ""bar"" }";
 
-		var mockMessageHandler = new Mock<HttpMessageHandler>();
-		mockMessageHandler.Protected()
-			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-			.ReturnsAsync(new HttpResponseMessage
-			{
-				StatusCode = HttpStatusCode.InternalServerError
-			});
-
-		var httpClient = new HttpClient(mockMessageHandler.Object);
-		httpClient.BaseAddress = new Uri(TestUrl);
-
-		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, expectedJson);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		// act
@@ -427,20 +292,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public void BuildTrustSearchRequestUri___NameOnly___Success()
 	{
 		// arrange
-		var mockFactory = new Mock<IHttpClientFactory>();
-		var mockMessageHandler = new Mock<HttpMessageHandler>();
-		mockMessageHandler.Protected()
-			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-			.ReturnsAsync(new HttpResponseMessage
-			{
-				StatusCode = HttpStatusCode.OK
-			});
-
-		var httpClient = new HttpClient(mockMessageHandler.Object);
-		httpClient.BaseAddress = new Uri(TestUrl);
-
-		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		string name = "wise";
@@ -461,20 +313,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public void BuildTrustSearchRequestUri___UkPrnOnly___Success()
 	{
 		// arrange
-		var mockFactory = new Mock<IHttpClientFactory>();
-		var mockMessageHandler = new Mock<HttpMessageHandler>();
-		mockMessageHandler.Protected()
-			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-			.ReturnsAsync(new HttpResponseMessage
-			{
-				StatusCode = HttpStatusCode.OK
-			});
-
-		var httpClient = new HttpClient(mockMessageHandler.Object);
-		httpClient.BaseAddress = new Uri(TestUrl);
-
-		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		string ukPrn = "10058464"; // ALCESTER GRAMMAR SCHOOL
@@ -495,20 +334,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public void BuildTrustSearchRequestUri___CompaniesHouseNumberOnly___Success()
 	{
 		// arrange
-		var mockFactory = new Mock<IHttpClientFactory>();
-		var mockMessageHandler = new Mock<HttpMessageHandler>();
-		mockMessageHandler.Protected()
-			.Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-			.ReturnsAsync(new HttpResponseMessage
-			{
-				StatusCode = HttpStatusCode.OK
-			});
-
-		var httpClient = new HttpClient(mockMessageHandler.Object);
-		httpClient.BaseAddress = new Uri(TestUrl);
-
-		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
-
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		string companiesHouseNumber = "07485466"; // ALCESTER GRAMMAR SCHOOL
@@ -523,5 +349,27 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		Assert.AreEqual("companiesHouseNumber%3d07485466%26page%3d1", builtUri);
 		var decodedUri = HttpUtility.UrlDecode(builtUri);
 		Assert.AreEqual("companiesHouseNumber=07485466&page=1", decodedUri);
+	}
+
+	private static Mock<IHttpClientFactory> SetupMockHttpClientFactory(HttpStatusCode expectedStatusCode, string expectedJson)
+	{
+		var mockFactory = new Mock<IHttpClientFactory>();
+
+		var mockMessageHandler = new Mock<HttpMessageHandler>();
+		mockMessageHandler.Protected()
+			.Setup<Task<HttpResponseMessage>>("SendAsync",
+				ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+			.ReturnsAsync(new HttpResponseMessage
+			{
+				StatusCode = expectedStatusCode,
+				Content = new StringContent(expectedJson)
+			});
+
+		var httpClient = new HttpClient(mockMessageHandler.Object);
+		httpClient.BaseAddress = new Uri(TestUrl);
+
+		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+
+		return mockFactory;
 	}
 }

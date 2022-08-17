@@ -10,11 +10,6 @@ public class SchoolApplyingToConvert
         ApplicationId = applicationId;
 	}
 
-	/// <summary>
-	/// TODO MR:- needs ripping out, replaced by URN
-	/// </summary>
-	public int SchoolId { get; set; }
-
 	public int ApplicationId { get; set; }
 
     /// <summary>
