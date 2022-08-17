@@ -26,6 +26,56 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public ApplicationSchoolContactsViewModel ViewModel { get; set; }
 
+		public bool OtherContactError
+		{
+			get
+			{
+				// TODO MR:- check 3 bools
+				var bools = new[] { OtherNameError, OtherEmailError, OtherTelephoneError };
+
+				return bools.Any(b => b);
+			}
+		}
+
+		public bool OtherNameError
+		{
+			get
+			{
+				if (!ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherNameNotEntered"))
+				{
+					return true;
+				}
+
+				return false;
+			}
+		}
+
+		public bool OtherEmailError
+		{
+			get
+			{
+				if (!ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherEmailNotEntered"))
+				{
+					return true;
+				}
+
+				return false;
+			}
+		}
+
+		public bool OtherTelephoneError
+		{
+			get
+			{
+				if (!ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherTelephoneNotEntered"))
+				{
+					return true;
+				}
+
+				return false;
+			}
+		}
+
 		public SchoolMainContactsModel(ILogger<SchoolMainContactsModel> logger,
 		    IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		    IReferenceDataRetrievalService referenceDataRetrievalService,
