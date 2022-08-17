@@ -46,10 +46,6 @@ internal sealed class PupilNumbersSummaryModelTests
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
-	// TODO MR:- OnPostAsync___ModelIsValid___InValid
-
-	// TODO MR:- OnPostAsync___ModelIsValid___Valid
-
 	private static PupilNumbersSummaryModel SetupPupilNumbersSummaryModel(
 		ILogger<PupilNumbersSummaryModel> mockLogger,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
