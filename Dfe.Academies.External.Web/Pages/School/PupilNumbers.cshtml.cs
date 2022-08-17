@@ -89,8 +89,9 @@ namespace Dfe.Academies.External.Web.Pages.School
                 //// grab draft application from temp= null
                 var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-                // TODO MR:- call API endpoint to log pupil numbers
-                //await _academisationCreationService.UpdateSchoolPupilNumbers(draftConversionApplication);
+				// TODO MR:- call API endpoint to log pupil numbers
+				// await _academisationCreationService.UpdateSchoolPupilNumbers(ApplicationId, Urn, ProjectedPupilNumbersYear1, ProjectedPupilNumbersYear2,
+				// ProjectedPupilNumbersYear3, SchoolCapacityAssumptions, SchoolCapacityPublishedAdmissionsNumber);
 
                 // update temp store for next step - application overview
                 TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -114,6 +115,11 @@ namespace Dfe.Academies.External.Web.Pages.School
             ApplicationId = selectedSchool.ApplicationId;
             Urn = selectedSchool.URN;
 	        SchoolName = selectedSchool.SchoolName;
+	        SchoolCapacityPublishedAdmissionsNumber = selectedSchool.SchoolCapacityPublishedAdmissionsNumber;
+	        ProjectedPupilNumbersYear1 = selectedSchool.ProjectedPupilNumbersYear1;
+	        ProjectedPupilNumbersYear2 = selectedSchool.ProjectedPupilNumbersYear2;
+			ProjectedPupilNumbersYear3 = selectedSchool.ProjectedPupilNumbersYear3;
+			SchoolCapacityAssumptions = selectedSchool.SchoolCapacityAssumptions;
         }
     }
 }
