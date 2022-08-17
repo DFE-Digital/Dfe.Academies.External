@@ -26,9 +26,9 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 		    // TODO: wire up Academisation API
 		    // var result = await _resilientRequestProvider.PostAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
-		    application.ApplicationId = int.MaxValue; // result.ApplicationId;
+		    application.ApplicationId = (int)application.ApplicationType; // result.ApplicationId;
 
-		    return application;
+			return application;
 		}
 	    catch (Exception ex)
 	    {
