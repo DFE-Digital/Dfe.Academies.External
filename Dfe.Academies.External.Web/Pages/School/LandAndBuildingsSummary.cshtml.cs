@@ -71,7 +71,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// Question Answer = QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
 
 			// 7 sections / questions
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.LandOwnership, "TBC"));
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.LandOwnership,
+				"TBC")
+			);
 
 			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorks, "??")
 			{
@@ -95,10 +97,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.SharedFacilitiesList,
 						"TBC"
-					),
-					new SchoolLandAndBuildingsSummarySectionViewModel(
-						"",
-						"TBC"
 					)
 				}
 			});
@@ -110,10 +108,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.GrantBodies, 
 						"TBC"
-					),
-					new SchoolLandAndBuildingsSummarySectionViewModel(
-						"",
-						"TBC"
 					)
 				}
 			});
@@ -124,30 +118,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 				{
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.PFIKind,
-						"TBC"),
-					new SchoolLandAndBuildingsSummarySectionViewModel(
-						"",
 						"TBC")
 				}
 			});
 
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PrioritySchoolBuildingProgram, "TBC")
-			{
-				SubQuestionAndAnswers = new()
-				{
-					new SchoolLandAndBuildingsSummarySectionViewModel("", "TBC"),
-					new SchoolLandAndBuildingsSummarySectionViewModel("", "TBC")
-				}
-			});
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PrioritySchoolBuildingProgram,
+				"TBC")
+			);
 
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.BuildingSchoolsForTheFuture, "TBC")
-			{
-				SubQuestionAndAnswers = new()
-				{
-					new SchoolLandAndBuildingsSummarySectionViewModel("", "TBC"),
-					new SchoolLandAndBuildingsSummarySectionViewModel("", "TBC")
-				}
-			});
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.BuildingSchoolsForTheFuture, 
+				"TBC")
+			);
 
 			var vm = new List<SchoolLandAndBuildingsSummaryHeadingViewModel> { heading1 };
 
