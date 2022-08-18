@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.School;
 
@@ -48,7 +49,275 @@ internal sealed class LandAndBuildingsModelTests
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
-	// TODO MR:- test modelstate errors !
+	[Test]
+	public async Task ModelState___SchoolBuildLandWorksPlannedExplainedNotEntered___SchoolBuildLandWorksPlannedErrorTrue()
+	{
+		// arrange
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
+		var expectedErrorText = "You must provide details";
+
+		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
+			mockConversionApplicationCreationService.Object,
+			mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object);
+
+		pageModel.ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", expectedErrorText);
+
+		// act
+		await pageModel.OnPostAsync();
+
+		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+
+		// assert
+		Assert.AreEqual(1, errors.Count);
+		Assert.AreEqual(true, pageModel.SchoolBuildLandWorksPlannedError);
+	}
+
+	[Test]
+	public async Task ModelState___SchoolBuildLandWorksPlannedDateNotEntered___SchoolBuildLandWorksPlannedDateErrorTrue()
+	{
+		// arrange
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
+		var expectedErrorText = "You must provide details";
+
+		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
+			mockConversionApplicationCreationService.Object,
+			mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object);
+
+		pageModel.ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", expectedErrorText);
+
+		// act
+		await pageModel.OnPostAsync();
+
+		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+
+		// assert
+		Assert.AreEqual(1, errors.Count);
+		Assert.AreEqual(true, pageModel.SchoolBuildLandWorksPlannedDateError);
+	}
+
+	[Test]
+	public async Task ModelState___SchoolBuildLandSharedFacilitiesExplainedNotEntered___SchoolBuildLandSharedFacilitiesExplainedErrorTrue()
+	{
+		// arrange
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
+		var expectedErrorText = "You must provide details";
+
+		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
+			mockConversionApplicationCreationService.Object,
+			mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object);
+
+		pageModel.ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", expectedErrorText);
+
+		// act
+		await pageModel.OnPostAsync();
+
+		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+
+		// assert
+		Assert.AreEqual(1, errors.Count);
+		Assert.AreEqual(true, pageModel.SchoolBuildLandSharedFacilitiesExplainedError);
+	}
+
+	[Test]
+	public async Task ModelState___SchoolBuildLandGrantsBodiesNotEntered___SchoolBuildLandGrantsBodiesErrorTrue()
+	{
+		// arrange
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
+		var expectedErrorText = "You must provide details";
+
+		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
+			mockConversionApplicationCreationService.Object,
+			mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object);
+
+		pageModel.ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", expectedErrorText);
+
+		// act
+		await pageModel.OnPostAsync();
+
+		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+
+		// assert
+		Assert.AreEqual(1, errors.Count);
+		Assert.AreEqual(true, pageModel.SchoolBuildLandGrantsBodiesError);
+	}
+
+	[Test]
+	public async Task ModelState___SchoolBuildLandPFISchemeTypeNotEntered___SchoolBuildLandPFISchemeTypeErrorTrue()
+	{
+		// arrange
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
+		var expectedErrorText = "You must provide details";
+
+		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
+			mockConversionApplicationCreationService.Object,
+			mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object);
+
+		pageModel.ModelState.AddModelError("SchoolBuildLandPFISchemeTypeNotEntered", expectedErrorText);
+
+		// act
+		await pageModel.OnPostAsync();
+
+		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+
+		// assert
+		Assert.AreEqual(1, errors.Count);
+		Assert.AreEqual(true, pageModel.SchoolBuildLandPFISchemeTypeError);
+	}
+
+	[Test]
+	public async Task ModelState___SchoolBuildLandWorksPlannedExplainedNotEntered___HasErrorTrue()
+	{
+		// arrange
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
+		var expectedErrorText = "You must provide details";
+
+		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
+			mockConversionApplicationCreationService.Object,
+			mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object);
+
+		pageModel.ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", expectedErrorText);
+
+		// act
+		await pageModel.OnPostAsync();
+
+		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+
+		// assert
+		Assert.AreEqual(1, errors.Count);
+		Assert.AreEqual(true, pageModel.HasError);
+	}
+
+	[Test]
+	public async Task ModelState___SchoolBuildLandWorksPlannedDateNotEntered___HasErrorTrue()
+	{
+		// arrange
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
+		var expectedErrorText = "You must provide details";
+
+		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
+			mockConversionApplicationCreationService.Object,
+			mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object);
+
+		pageModel.ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", expectedErrorText);
+
+		// act
+		await pageModel.OnPostAsync();
+
+		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+
+		// assert
+		Assert.AreEqual(1, errors.Count);
+		Assert.AreEqual(true, pageModel.HasError);
+	}
+
+	[Test]
+	public async Task ModelState___SchoolBuildLandSharedFacilitiesExplainedNotEntered___HasErrorTrue()
+	{
+		// arrange
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
+		var expectedErrorText = "You must provide details";
+
+		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
+			mockConversionApplicationCreationService.Object,
+			mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object);
+
+		pageModel.ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", expectedErrorText);
+
+		// act
+		await pageModel.OnPostAsync();
+
+		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+
+		// assert
+		Assert.AreEqual(1, errors.Count);
+		Assert.AreEqual(true, pageModel.HasError);
+	}
+
+	[Test]
+	public async Task ModelState___SchoolBuildLandGrantsBodiesNotEntered___HasErrorTrue()
+	{
+		// arrange
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
+		var expectedErrorText = "You must provide details";
+
+		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
+			mockConversionApplicationCreationService.Object,
+			mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object);
+
+		pageModel.ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", expectedErrorText);
+
+		// act
+		await pageModel.OnPostAsync();
+
+		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+
+		// assert
+		Assert.AreEqual(1, errors.Count);
+		Assert.AreEqual(true, pageModel.HasError);
+	}
+
+	[Test]
+	public async Task ModelState___SchoolBuildLandPFISchemeTypeNotEntered___HasErrorTrue()
+	{
+		// arrange
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
+		var expectedErrorText = "You must provide details";
+
+		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
+			mockConversionApplicationCreationService.Object,
+			mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object);
+
+		pageModel.ModelState.AddModelError("SchoolBuildLandPFISchemeTypeNotEntered", expectedErrorText);
+
+		// act
+		await pageModel.OnPostAsync();
+
+		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+
+		// assert
+		Assert.AreEqual(1, errors.Count);
+		Assert.AreEqual(true, pageModel.HasError);
+	}
 
 	// TODO MR:- OnPostAsync___ModelIsValid___Invalid
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
