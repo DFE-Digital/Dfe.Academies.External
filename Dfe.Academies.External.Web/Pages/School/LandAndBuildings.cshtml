@@ -68,9 +68,27 @@
 				</div>
 				
 				<div class="govuk-form-group">
-						// TODO MR:- SchoolBuildLandPriorityBuildingProgramme - YES / NO radio
+					<fieldset class="govuk-fieldset">
+						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+								Is the school part of the Priority School Building Programme?
+						</legend>
+						@foreach (var priorityBuildingProgrammeOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+						{
+							<div class="govuk-radios__item">
+								<input type="radio"
+								   asp-for="SchoolBuildLandPriorityBuildingProgramme"
+								   value="@Convert.ToInt32(priorityBuildingProgrammeOption)"
+								   id="SchoolBuildLandPriorityBuildingProgramme@(priorityBuildingProgrammeOption)"
+								   class="govuk-radios__input"
+								   data-aria-controls="SchoolBuildLandPriorityBuildingProgramme-@(priorityBuildingProgrammeOption.ToString().ToLower())"
+								   aria-expanded="False" />
+								<label for="SchoolBuildLandPriorityBuildingProgramme@(priorityBuildingProgrammeOption)" class="govuk-label govuk-radios__label">
+									@priorityBuildingProgrammeOption.GetDescription()
+								</label>
+							</div>
+						}
+					</fieldset>
 				</div>
-				
 				<div class="govuk-form-group">
 					<fieldset class="govuk-fieldset">
 						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
