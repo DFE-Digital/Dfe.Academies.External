@@ -5,34 +5,33 @@
 		<b>@Model.Name</b>
 	</td>
 	<td class="govuk-table__cell">
-		@Model.Answer
-		
-		@if (Model.SubQuestionAndAnswers.Any())
-		{
-			<div class="sip-overview-table__contents">
-				<dl>
-					<dt class="sip-overview-table__question">
-@*						@qAndA.Question*@
-					</dt>
-
-					<dd class="sip-overview-table__answer">
-@*						<span data-field-name="@qAndA.FieldName">@System.Net.WebUtility.HtmlDecode(qAndA.Answer)</span>*@
-
-							@foreach (var additionalInfo in Model.SubQuestionAndAnswers.ToList())
-							{
-									<dl class="govuk-body-s">
-										<dt class="">
-											@additionalInfo.Name
-										</dt>
-										<dd data-field-name="@additionalInfo.Name">
-											@additionalInfo.Answer
-										</dd>
-									</dl>
-							}
-					</dd>
-					<dd class=""></dd>
-				</dl>
-			</div>
-		}
+		<dl>
+			@if (Model.SubQuestionAndAnswers.Any())
+			{
+				<dd class="sip-overview-table__answer">
+					@foreach (var additionalInfo in Model.SubQuestionAndAnswers.ToList())
+					{
+						<dl class="govuk-body-s">
+							<dt class="">
+								@additionalInfo.Name
+							</dt>
+							<dd data-field-name="@additionalInfo.Name">
+								@additionalInfo.Answer
+							</dd>
+						</dl>
+					}
+				</dd>
+			}
+			else
+			{
+				<dd class="sip-overview-table__answer">
+					<dl class="govuk-body-s">
+						<dt class="">
+							@Model.Answer
+						</dt>
+					</dl>
+				</dd>
+			}
+		</dl>
 	</td>
 </tr>
