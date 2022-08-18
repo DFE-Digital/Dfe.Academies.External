@@ -1,4 +1,8 @@
 ﻿@page
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@using Dfe.Academies.External.Web.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.LandAndBuildingsModel
 @{
 	ViewData["Title"] = "Apply to become an academy - Land and buildings";
@@ -29,7 +33,66 @@
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>
 				
-				// TODO MR:- inputs !!!!
+				<div class="govuk-form-group">
+					<label for="SchoolBuildLandOwnerExplained" class="govuk-label">As far as you're aware, who owns or holds the school's buildings and land?</label>
+					<textarea asp-for="SchoolBuildLandOwnerExplained" id="SchoolBuildLandOwnerExplained" class="govuk-textarea" cols="40" rows="5"></textarea>
+				</div>
+				
+				<div class="govuk-form-group">
+					// TODO MR:- building works - conditional radio
+					// SchoolBuildLandWorksPlannedExplained - text
+					<div id="works-planned-date-hint" class="govuk-hint">
+						For example, 1 9 2022
+					</div>
+					<govuk-date field-name="SchoolBuildLandWorksPlannedDate"
+					            field-data="@Model.SchoolBuildLandWorksPlannedDate"
+					            field-day="@Model.WorksPlannedDateDay"
+					            field-month="@Model.WorksPlannedDateMonth"
+					            field-year="@Model.WorksPlannedDateYear">
+					</govuk-date>
+				</div>
+
+				<div class="govuk-form-group">
+					// TODO MR:- shared facilities - conditional radio
+					// SchoolBuildLandSharedFacilitiesExplained
+				</div>
+
+				<div class="govuk-form-group">
+					// TODO MR:- grants - conditional radio
+					// SchoolBuildLandGrantsBody - text
+				</div>
+				
+				<div class="govuk-form-group">
+					// TODO MR:- PFI - conditional radio
+					// SchoolBuildLandPFISchemeType - text
+				</div>
+				
+				<div class="govuk-form-group">
+						// TODO MR:- SchoolBuildLandPriorityBuildingProgramme - YES / NO radio
+				</div>
+				
+				<div class="govuk-form-group">
+					<fieldset class="govuk-fieldset">
+						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+							Is the school part of the Building Schools for the Future Programme?
+						</legend>
+						@foreach (var futureProgrammeOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+						{
+							<div class="govuk-radios__item">
+								<input type="radio"
+								       asp-for="SchoolBuildLandFutureProgramme"
+								       value="@Convert.ToInt32(futureProgrammeOption)"
+								       id="SchoolBuildLandFutureProgramme@(futureProgrammeOption)"
+								       class="govuk-radios__input"
+								       data-aria-controls="SchoolBuildLandFutureProgramme-@(futureProgrammeOption.ToString().ToLower())"
+								       aria-expanded="False"/>
+								<label for="SchoolBuildLandFutureProgramme@(futureProgrammeOption)" class="govuk-label govuk-radios__label">
+									@futureProgrammeOption.GetDescription()
+								</label>
+							</div>
+						}
+					</fieldset>
+				</div>
 			</fieldset>
 		</div>
 		<br/>

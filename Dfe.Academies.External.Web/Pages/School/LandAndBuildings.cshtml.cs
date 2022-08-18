@@ -38,6 +38,15 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public DateTime? SchoolBuildLandWorksPlannedDate { get; set; }
 
+		[BindProperty] // MR:- don't know whether I need this
+		public string? WorksPlannedDateDay { get; set; }
+
+		[BindProperty] // MR:- don't know whether I need this
+		public string? WorksPlannedDateMonth { get; set; }
+
+		[BindProperty] // MR:- don't know whether I need this
+		public string? WorksPlannedDateYear { get; set; }
+
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
 		public SelectOption SchoolBuildLandSharedFacilities { get; set; }
