@@ -35,21 +35,56 @@
 				
 				<div class="govuk-form-group">
 					<label for="SchoolBuildLandOwnerExplained" class="govuk-label">As far as you're aware, who owns or holds the school's buildings and land?</label>
-					<textarea asp-for="SchoolBuildLandOwnerExplained" id="SchoolBuildLandOwnerExplained" class="govuk-textarea" cols="40" rows="5"></textarea>
+					<textarea asp-for="SchoolBuildLandOwnerExplained" id="SchoolBuildLandOwnerExplained" class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
 				</div>
-				
-				<div class="govuk-form-group">
-					// TODO MR:- building works - conditional radio
-					// SchoolBuildLandWorksPlannedExplained - text
-					<div id="works-planned-date-hint" class="govuk-hint">
-						For example, 1 9 2022
-					</div>
-					<govuk-date field-name="SchoolBuildLandWorksPlannedDate"
-					            field-data="@Model.SchoolBuildLandWorksPlannedDate"
-					            field-day="@Model.WorksPlannedDateDay"
-					            field-month="@Model.WorksPlannedDateMonth"
-					            field-year="@Model.WorksPlannedDateYear">
-					</govuk-date>
+
+				<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+					<label class="govuk-label">Are there any current or planned building works?</label>
+					@foreach (var buildingWorksOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+					{
+						<div class="govuk-radios__item">
+							<input type="radio"
+							       asp-for="SchoolBuildLandWorksPlanned"
+							       value="@Convert.ToInt32(buildingWorksOption)"
+							       id="buildingWorksOption@(buildingWorksOption)"
+							       class="govuk-radios__input"
+							       data-aria-controls="buildingWorksOption-@(buildingWorksOption.ToString().ToLower())"
+							       aria-expanded="False"/>
+							<label for="selectoption@(buildingWorksOption)" class="govuk-label govuk-radios__label">
+								@buildingWorksOption.GetDescription()
+							</label>
+						</div>
+						@if (buildingWorksOption == SelectOption.Yes || Model.SchoolBuildLandWorksPlanned == SelectOption.Yes)
+						{
+							<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
+			                                            @(buildingWorksOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+							     id="buildingWorksOption-yes" aria-expanded="false">
+								<div class="govuk-form-group govuk-error-summary__list">
+									<fieldset class="govuk-fieldset" role="group" aria-describedby="works-planned-date-hint">
+
+										<a href="#TargetDateExplainedNotEntered" class="@(Model.SchoolBuildLandWorksPlannedError ? "govuk-error-message" : "govuk-visually-hidden")">
+											You must Provide details of the works
+										</a>
+										<label for="buildingWorksOption-yes" class="govuk-label">Provide details of the works, how they’ll be funded and whether the funding will be affected by the conversion</label>
+										<textarea asp-for="SchoolBuildLandWorksPlannedExplained" id="SchoolBuildLandWorksPlannedExplained" class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+										<div class="govuk-!-margin-6"></div>
+										<div id="works-planned-date-hint" class="govuk-hint">
+											For example, 1 9 2022
+										</div>
+										<a href="#SchoolBuildLandWorksPlannedDateNotEntered" class="@(Model.SchoolBuildLandWorksPlannedDateError ? "govuk-error-message" : "govuk-visually-hidden")">
+											You must select a scheduled date
+										</a>
+										<govuk-date field-name="SchoolBuildLandWorksPlannedDate"
+										            field-data="@Model.SchoolBuildLandWorksPlannedDate"
+										            field-day="@Model.WorksPlannedDateDay"
+										            field-month="@Model.WorksPlannedDateMonth"
+										            field-year="@Model.WorksPlannedDateYear">
+										</govuk-date>
+									</fieldset>
+								</div>
+							</div>
+						}
+					}
 				</div>
 
 				<div class="govuk-form-group">
