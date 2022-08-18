@@ -187,9 +187,23 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    Urn = selectedSchool.URN;
 		    SchoolName = selectedSchool.SchoolName;
 
-		    ViewModel = new ApplicationSchoolContactsViewModel(selectedSchool.ApplicationId, selectedSchool.URN);
+		    ViewModel = new ApplicationSchoolContactsViewModel(selectedSchool.ApplicationId, selectedSchool.URN)
+			    {
+				    ContactHeadName = selectedSchool.SchoolConversionContactHeadName,
+					ContactHeadEmail = selectedSchool.SchoolConversionContactHeadEmail,
+					ContactHeadTel = selectedSchool.SchoolConversionContactHeadTel,
+					ContactChairName = selectedSchool.SchoolConversionContactChairName,
+					ContactChairEmail = selectedSchool.SchoolConversionContactChairEmail,
+					ContactChairTel = selectedSchool.SchoolConversionContactChairTel,
+					//ContactRole = what is coming back / stored in API?
+					MainContactOtherName = selectedSchool.SchoolConversionMainContactOtherName,
+					MainContactOtherEmail = selectedSchool.SchoolConversionMainContactOtherEmail,
+					MainContactOtherTelephone = selectedSchool.SchoolConversionMainContactOtherTelephone,
+					ApproverContactName = selectedSchool.SchoolConversionApproverContactName,
+					ApproverContactEmail = selectedSchool.SchoolConversionApproverContactEmail
+			    };
 
-			SigninApproverQuestionText = applicationType == ApplicationTypes.FormNewSingleAcademyTrust
+		    SigninApproverQuestionText = applicationType == ApplicationTypes.FormNewSingleAcademyTrust
 						? "When your schools converts, we need to create a new DfE sign-in account for the academy. Please supply the most appropriate contact to be set up as the DfE Sign-in approver to manage the new academies account."
 						: "When your schools converts, we need to create a new DfE sign-in account for the academy. Please provide the most suitable contact to manage the new academies account.";
 		}
