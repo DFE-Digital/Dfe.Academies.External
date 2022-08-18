@@ -48,6 +48,8 @@ builder.Services
 			.AllowAnonymousToPage("/school/ApplicationConversionTargetDate")
 			.AllowAnonymousToPage("/school/SchoolConversionKeyDetails")
 			.AllowAnonymousToPage("/school/PupilNumbersSummary")
+			.AllowAnonymousToPage("/school/LandAndBuildingsSummary")
+			.AllowAnonymousToPage("/school/LandAndBuildings")
 			.AllowAnonymousToPage("/school/SchoolMainContacts")
 			.AllowAnonymousToPage("/trust/ApplicationSelectTrust");
 	})
