@@ -68,16 +68,64 @@ namespace Dfe.Academies.External.Web.Pages.School
 				"/school/LandAndBuildings");
 
 			// TODO MR:- if answer comes back from API, render data from API OR
-			// consume QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
+			// Question Answer = QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
 
 			// 7 sections / questions
 			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.LandOwnership, "TBC"));
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorks, "TBC"));
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.SharedFacilities, "TBC"));
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.Grants, "TBC"));
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PFI, "TBC"));
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PrioritySchoolBuildingProgram, "TBC"));
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.BuildingSchoolsForTheFuture, "TBC"));
+
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorks, "TBC")
+			{
+				SubQuestionAndAnswers = new()
+				{
+					new SchoolLandAndBuildingsSummarySectionViewModel("", "TBC"),
+					new SchoolLandAndBuildingsSummarySectionViewModel("", "TBC")
+				}
+			});
+
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.SharedFacilities, "TBC")
+			{
+				SubQuestionAndAnswers = new()
+				{
+					new SchoolLandAndBuildingsSummarySectionViewModel("", "TBC"),
+					new SchoolLandAndBuildingsSummarySectionViewModel("", "TBC")
+				}
+			});
+
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.Grants, "TBC")
+			{
+				SubQuestionAndAnswers = new()
+				{
+					new SchoolLandAndBuildingsSummarySectionViewModel("", "TBC"),
+					new SchoolLandAndBuildingsSummarySectionViewModel("", "TBC")
+				}
+			});
+
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PFI, "TBC")
+			{
+				SubQuestionAndAnswers = new()
+				{
+					new SchoolLandAndBuildingsSummarySectionViewModel("", "TBC"),
+					new SchoolLandAndBuildingsSummarySectionViewModel("", "TBC")
+				}
+			});
+
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PrioritySchoolBuildingProgram, "TBC")
+			{
+				SubQuestionAndAnswers = new()
+				{
+					new SchoolLandAndBuildingsSummarySectionViewModel("", "TBC"),
+					new SchoolLandAndBuildingsSummarySectionViewModel("", "TBC")
+				}
+			});
+
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.BuildingSchoolsForTheFuture, "TBC")
+			{
+				SubQuestionAndAnswers = new()
+				{
+					new SchoolLandAndBuildingsSummarySectionViewModel("", "TBC"),
+					new SchoolLandAndBuildingsSummarySectionViewModel("", "TBC")
+				}
+			});
 
 			var vm = new List<SchoolLandAndBuildingsSummaryHeadingViewModel> { heading1 };
 
