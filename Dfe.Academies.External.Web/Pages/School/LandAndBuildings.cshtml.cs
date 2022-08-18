@@ -76,6 +76,42 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[RequiredEnum(ErrorMessage = "You must provide details")]
 		public SelectOption SchoolBuildLandFutureProgramme { get; set; }
 
+		public bool HasError
+		{
+			get
+			{
+				var bools = new[] { SchoolBuildLandWorksPlannedError, SchoolBuildLandWorksPlannedDateError };
+
+				return bools.Any(b => b);
+			}
+		}
+
+		public bool SchoolBuildLandWorksPlannedError
+		{
+			get
+			{
+				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandWorksPlannedExplainedNotEntered"))
+				{
+					return true;
+				}
+
+				return false;
+			}
+		}
+
+		public bool SchoolBuildLandWorksPlannedDateError
+		{
+			get
+			{
+				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandWorksPlannedDateNotEntered"))
+				{
+					return true;
+				}
+
+				return false;
+			}
+		}
+
 		public LandAndBuildingsModel(ILogger<LandAndBuildingsModel> logger,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
@@ -117,17 +153,25 @@ namespace Dfe.Academies.External.Web.Pages.School
 				PopulateValidationMessages();
 				return Page();
 			}
+			
+			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandWorksPlannedExplained))
+			{
+				ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return Page();
+			}
+
+			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && !SchoolBuildLandWorksPlannedDate.HasValue)
+			{
+				ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", "You must select a scheduled completion date");
+				PopulateValidationMessages();
+				return Page();
+			}
 
 			// TODO MR:- conditional radio validation !
 			if (SchoolBuildLandSharedFacilities == SelectOption.Yes)
 			{
 				// SchoolBuildLandSharedFacilitiesExplained = mandatory !!!
-			}
-
-			if (SchoolBuildLandWorksPlanned == SelectOption.Yes)
-			{
-				// SchoolBuildLandWorksPlannedExplained = mandatory !!!
-				// SchoolBuildLandWorksPlannedDate = mandatory !!!
 			}
 
 			if (SchoolBuildLandGrants == SelectOption.Yes)
