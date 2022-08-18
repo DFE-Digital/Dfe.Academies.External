@@ -225,7 +225,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// before then patching ConversionApplication returned with data from application object
 
 			// application can contain multiple schools so need to grab one being changed via linqage
-			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolContacts.schoolUrn);
+			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolContacts.Urn);
 			//schoolUpdating.SchoolConversionContactHeadName = schoolContacts.SchoolConversionContactHeadName;
 			//schoolUpdating.SchoolConversionContactHeadEmail = schoolContacts.SchoolConversionContactHeadEmail;
 			//schoolUpdating.SchoolConversionContactHeadTel = schoolContacts.SchoolConversionContactHeadTel;
@@ -253,12 +253,12 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// before then patching ConversionApplication returned with data from application object
 
 			// application can contain multiple schools so need to grab one being changed via linqage
-			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolContacts.schoolUrn);
-			//schoolUpdating.SchoolConversionContactHeadName = schoolLandAndBuildings.SchoolConversionContactHeadName;
-			//schoolUpdating.SchoolConversionContactHeadEmail = schoolLandAndBuildings.SchoolConversionContactHeadEmail;
-			//schoolUpdating.SchoolConversionContactHeadTel = schoolLandAndBuildings.SchoolConversionContactHeadTel;
-			//schoolUpdating.SchoolConversionContactChairName = schoolLandAndBuildings.SchoolConversionContactChairName;
-			//schoolUpdating.SchoolConversionContactChairEmail = schoolLandAndBuildings.SchoolConversionContactChairEmail;
+			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolLandAndBuildings.Urn);
+			//schoolUpdating.SchoolBuildLandOwnerExplained = schoolLandAndBuildings.SchoolBuildLandOwnerExplained;
+			//schoolUpdating.SchoolBuildLandWorksPlanned = schoolLandAndBuildings.SchoolBuildLandWorksPlanned;
+			//schoolUpdating.SchoolBuildLandWorksPlannedExplained = schoolLandAndBuildings.SchoolBuildLandWorksPlannedExplained;
+			//schoolUpdating.SchoolBuildLandWorksPlannedDate = schoolLandAndBuildings.SchoolBuildLandWorksPlannedDate;
+			//schoolUpdating.SchoolBuildLandSharedFacilities = schoolLandAndBuildings.SchoolBuildLandSharedFacilities;
 			// ETC.....
 
 			// TODO: wire up Academisation API / what object does a PUT return

@@ -175,8 +175,37 @@
 						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 							Is the school part of a Private Finance Initiative (PFI) scheme?
 						</legend>
-						// TODO MR:- PFI - conditional radio
-						// SchoolBuildLandPFISchemeType - text
+						@foreach (var pfiSchemeOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+						{
+							<div class="govuk-radios__item">
+								<input type="radio"
+								   asp-for="SchoolBuildLandPFIScheme"
+								       value="@Convert.ToInt32(pfiSchemeOption)"
+								       id="pfiSchemeOption@(pfiSchemeOption)"
+								       class="govuk-radios__input"
+								       data-aria-controls="pfiSchemeOption-@(pfiSchemeOption.ToString().ToLower())"
+								       aria-expanded="False"/>
+								<label for="pfiSchemeOption@(pfiSchemeOption)" class="govuk-label govuk-radios__label">
+									@pfiSchemeOption.GetDescription()
+								</label>
+							</div>
+							@if (pfiSchemeOption == SelectOption.Yes || Model.SchoolBuildLandPFIScheme == SelectOption.Yes)
+							{
+								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
+			                                            @(pfiSchemeOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+										id="pfiSchemeOption-yes" aria-expanded="false">
+									<div class="govuk-form-group govuk-error-summary__list">
+										<a href="#SchoolBuildLandPFISchemeTypeNotEntered"
+											class="@(Model.SchoolBuildLandPFISchemeTypeError ? "govuk-error-message" : "govuk-visually-hidden")">
+											You must provide type of PFI scheme
+										</a>
+										<label for="pfiSchemeOption-yes" class="govuk-label">What kind of a PFI scheme is your school part of?</label>
+										<text asp-for="SchoolBuildLandPFISchemeType" id="SchoolBuildLandPFISchemeType"
+											class="govuk-input" maxlength="200"></text>
+									</div>
+								</div>
+							}
+						}
 					</fieldset>
 				</div>
 				
