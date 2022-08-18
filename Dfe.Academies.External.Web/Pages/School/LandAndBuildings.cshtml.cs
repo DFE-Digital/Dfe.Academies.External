@@ -5,7 +5,6 @@ using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using static GovUk.Frontend.AspNetCore.ComponentDefaults;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -80,7 +79,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				var bools = new[] { SchoolBuildLandWorksPlannedError, SchoolBuildLandWorksPlannedDateError };
+				var bools = new[] { SchoolBuildLandWorksPlannedError, 
+											SchoolBuildLandWorksPlannedDateError,
+											SchoolBuildLandSharedFacilitiesExplainedError,
+											SchoolBuildLandPFISchemeTypeError
+				};
 
 				return bools.Any(b => b);
 			}
@@ -104,6 +107,35 @@ namespace Dfe.Academies.External.Web.Pages.School
 			get
 			{
 				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandWorksPlannedDateNotEntered"))
+				{
+					return true;
+				}
+
+				return false;
+			}
+		}
+
+		public bool SchoolBuildLandSharedFacilitiesExplainedError
+		{
+			get
+			{
+				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandSharedFacilitiesExplainedNotEntered"))
+				{
+					return true;
+				}
+
+				return false;
+			}
+		}
+
+
+		// TODO MR:- SchoolBuildLandGrantsBodiesError
+
+		public bool SchoolBuildLandPFISchemeTypeError
+		{
+			get
+			{
+				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandPFISchemeTypeNotEntered"))
 				{
 					return true;
 				}
@@ -168,15 +200,19 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			// TODO MR:- conditional radio validation !
-			if (SchoolBuildLandSharedFacilities == SelectOption.Yes)
+			if (SchoolBuildLandSharedFacilities == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandSharedFacilitiesExplained))
 			{
-				// SchoolBuildLandSharedFacilitiesExplained = mandatory !!!
+				ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return Page();
 			}
 
-			if (SchoolBuildLandGrants == SelectOption.Yes)
+			// TODO MR:- conditional radio validation !
+			if (SchoolBuildLandGrants == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandGrantsBodies))
 			{
-				// SchoolBuildLandGrantsBody = mandatory !!!
+				// SchoolBuildLandGrantsBodies = mandatory !!!
+				PopulateValidationMessages();
+				return Page();
 			}
 
 			if (SchoolBuildLandPFIScheme == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandPFISchemeType))
