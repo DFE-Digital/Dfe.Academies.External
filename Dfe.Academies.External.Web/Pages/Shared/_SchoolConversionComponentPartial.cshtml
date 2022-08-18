@@ -6,6 +6,13 @@
 	</td>
 	<td class="govuk-table__cell">
 		<dl>
+			<dd class="sip-overview-table__answer">
+				<dl class="govuk-body-s">
+					<dt class="">
+						@Model.Answer
+					</dt>
+				</dl>
+			</dd>
 			@if (Model.SubQuestionAndAnswers.Any())
 			{
 				<dd class="sip-overview-table__answer">
@@ -20,16 +27,6 @@
 							</dd>
 						</dl>
 					}
-				</dd>
-			}
-			else
-			{
-				<dd class="sip-overview-table__answer">
-					<dl class="govuk-body-s">
-						<dt class="">
-							@Model.Answer
-						</dt>
-					</dl>
 				</dd>
 			}
 		</dl>

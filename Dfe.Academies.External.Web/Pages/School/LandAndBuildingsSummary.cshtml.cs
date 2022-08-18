@@ -70,12 +70,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// TODO MR:- if answer comes back from API, render data from API OR
 			// Question Answer = QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
 
-			// 7 sections / questions
 			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.LandOwnership,
 				"TBC")
 			);
 
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorks, "??")
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorks, "Yes")
 			{
 				SubQuestionAndAnswers = new()
 				{
