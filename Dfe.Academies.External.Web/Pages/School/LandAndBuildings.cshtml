@@ -39,29 +39,30 @@
 				</div>
 
 				<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-					<label class="govuk-label">Are there any current or planned building works?</label>
-					@foreach (var buildingWorksOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
-					{
-						<div class="govuk-radios__item">
-							<input type="radio"
-							       asp-for="SchoolBuildLandWorksPlanned"
-							       value="@Convert.ToInt32(buildingWorksOption)"
-							       id="buildingWorksOption@(buildingWorksOption)"
-							       class="govuk-radios__input"
-							       data-aria-controls="buildingWorksOption-@(buildingWorksOption.ToString().ToLower())"
-							       aria-expanded="False"/>
-							<label for="selectoption@(buildingWorksOption)" class="govuk-label govuk-radios__label">
-								@buildingWorksOption.GetDescription()
-							</label>
-						</div>
-						@if (buildingWorksOption == SelectOption.Yes || Model.SchoolBuildLandWorksPlanned == SelectOption.Yes)
+					<fieldset class="govuk-fieldset" role="group" aria-describedby="works-planned-date-hint">
+						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+							Are there any current or planned building works?
+						</legend>
+						@foreach (var buildingWorksOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
 						{
-							<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
+							<div class="govuk-radios__item">
+								<input type="radio"
+								       asp-for="SchoolBuildLandWorksPlanned"
+								       value="@Convert.ToInt32(buildingWorksOption)"
+								       id="buildingWorksOption@(buildingWorksOption)"
+								       class="govuk-radios__input"
+								       data-aria-controls="buildingWorksOption-@(buildingWorksOption.ToString().ToLower())"
+								       aria-expanded="False"/>
+								<label for="selectoption@(buildingWorksOption)" class="govuk-label govuk-radios__label">
+									@buildingWorksOption.GetDescription()
+								</label>
+							</div>
+							@if (buildingWorksOption == SelectOption.Yes || Model.SchoolBuildLandWorksPlanned == SelectOption.Yes)
+							{
+								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
 			                                            @(buildingWorksOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
-							     id="buildingWorksOption-yes" aria-expanded="false">
-								<div class="govuk-form-group govuk-error-summary__list">
-									<fieldset class="govuk-fieldset" role="group" aria-describedby="works-planned-date-hint">
-
+														id="buildingWorksOption-yes" aria-expanded="false">
+									<div class="govuk-form-group govuk-error-summary__list">
 										<a href="#TargetDateExplainedNotEntered" class="@(Model.SchoolBuildLandWorksPlannedError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must Provide details of the works
 										</a>
@@ -69,7 +70,7 @@
 										<textarea asp-for="SchoolBuildLandWorksPlannedExplained" id="SchoolBuildLandWorksPlannedExplained" class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
 										<div class="govuk-!-margin-6"></div>
 										<div id="works-planned-date-hint" class="govuk-hint">
-											For example, 1 9 2022
+											For example, 01 09 2022
 										</div>
 										<a href="#SchoolBuildLandWorksPlannedDateNotEntered" class="@(Model.SchoolBuildLandWorksPlannedDateError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must select a scheduled date
@@ -80,11 +81,11 @@
 										            field-month="@Model.WorksPlannedDateMonth"
 										            field-year="@Model.WorksPlannedDateYear">
 										</govuk-date>
-									</fieldset>
+									</div>
 								</div>
-							</div>
+							}
 						}
-					}
+					</fieldset>
 				</div>
 
 				<div class="govuk-form-group">
@@ -105,7 +106,7 @@
 				<div class="govuk-form-group">
 					<fieldset class="govuk-fieldset">
 						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-								Is the school part of the Priority School Building Programme?
+							Is the school part of the Priority School Building Programme?
 						</legend>
 						@foreach (var priorityBuildingProgrammeOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
 						{
