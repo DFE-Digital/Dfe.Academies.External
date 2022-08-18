@@ -10,7 +10,7 @@ public class SchoolLandAndBuildingsSummarySectionViewModel : SchoolQuestionAndAn
 	public const string SharedFacilities = "Are there any shared facilities on site?";
 	public const string SharedFacilitiesList = "List these facilities and the school’s plan for them after converting";
 
-	public const string Grants = "Has the school had any grants from Sport England, the Big Lottery Fund, or the Football Federation??";
+	public const string Grants = "Has the school had any grants from Sport England, the Big Lottery Fund, or the Football Federation?";
 	public const string GrantBodies = "Which bodies awarded the grants and what facilities did they fund?";
 
 	public const string PFI = "Is the school part of a Private Finance Initiative (PFI) scheme?";
