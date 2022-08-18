@@ -9,7 +9,30 @@
 		
 		@if (Model.SubQuestionAndAnswers.Any())
 		{
-			<span>// TODO MR:- sub Q n A's</span>
+			<div class="sip-overview-table__contents">
+				<dl>
+					<dt class="sip-overview-table__question">
+@*						@qAndA.Question*@
+					</dt>
+
+					<dd class="sip-overview-table__answer">
+@*						<span data-field-name="@qAndA.FieldName">@System.Net.WebUtility.HtmlDecode(qAndA.Answer)</span>*@
+
+							@foreach (var additionalInfo in Model.SubQuestionAndAnswers.ToList())
+							{
+									<dl class="govuk-body-s">
+										<dt class="">
+											@additionalInfo.Name
+										</dt>
+										<dd data-field-name="@additionalInfo.Name">
+											@additionalInfo.Answer
+										</dd>
+									</dl>
+							}
+					</dd>
+					<dd class=""></dd>
+				</dl>
+			</div>
 		}
 	</td>
 </tr>
