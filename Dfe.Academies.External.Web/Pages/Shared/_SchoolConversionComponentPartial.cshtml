@@ -2,11 +2,14 @@
 
 <tr class="govuk-table__row">
 	<td class="govuk-table__cell">
-		@Model.Name
+		<b>@Model.Name</b>
 	</td>
 	<td class="govuk-table__cell">
 		@Model.Answer
 		
-		<span>// TODO MR:- sub Q n A's</span>
+		@if (Model.SubQuestionAndAnswers.Any())
+		{
+			<span>// TODO MR:- sub Q n A's</span>
+		}
 	</td>
 </tr>
