@@ -64,7 +64,8 @@
 			                                            @(buildingWorksOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 														id="buildingWorksOption-yes" aria-expanded="false">
 									<div class="govuk-form-group govuk-error-summary__list">
-										<a href="#TargetDateExplainedNotEntered" class="@(Model.SchoolBuildLandWorksPlannedError ? "govuk-error-message" : "govuk-visually-hidden")">
+										<a href="#TargetDateExplainedNotEntered" 
+										   class="@(Model.SchoolBuildLandWorksPlannedError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must provide details of the works
 										</a>
 										<label for="buildingWorksOption-yes" class="govuk-label">Provide details of the works, how they’ll be funded and whether the funding will be affected by the conversion</label>
@@ -74,7 +75,8 @@
 										<div id="works-planned-date-hint" class="govuk-hint">
 											For example, 01 09 2022
 										</div>
-										<a href="#SchoolBuildLandWorksPlannedDateNotEntered" class="@(Model.SchoolBuildLandWorksPlannedDateError ? "govuk-error-message" : "govuk-visually-hidden")">
+										<a href="#SchoolBuildLandWorksPlannedDateNotEntered" 
+										   class="@(Model.SchoolBuildLandWorksPlannedDateError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must select a scheduled date
 										</a>
 										<govuk-date field-name="SchoolBuildLandWorksPlannedDate"
@@ -115,7 +117,8 @@
 			                                            @(sharedFacilitiesOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 											id="sharedFacilitiesOption-yes" aria-expanded="false">
 									<div class="govuk-form-group govuk-error-summary__list">
-										<a href="#SchoolBuildLandSharedFacilitiesExplainedNotEntered" class="@(Model.SchoolBuildLandSharedFacilitiesExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
+										<a href="#SchoolBuildLandSharedFacilitiesExplainedNotEntered" 
+										   class="@(Model.SchoolBuildLandSharedFacilitiesExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must provide list of these facilities
 										</a>
 										<label for="sharedFacilitiesOption-yes" class="govuk-label">List these facilities and the school’s plan for them after converting</label>
@@ -133,8 +136,37 @@
 						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 							Has the school had any grants from Sport England, the Big Lottery Fund, or the Football Federation?
 						</legend>
-						// TODO MR:- grants - conditional radio
-						// SchoolBuildLandGrantsBody - text
+						@foreach (var landGrantsOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+						{
+							<div class="govuk-radios__item">
+								<input type="radio"
+									   asp-for="SchoolBuildLandGrants"
+									   value="@Convert.ToInt32(landGrantsOption)"
+								       id="landGrantsOption@(landGrantsOption)"
+								       class="govuk-radios__input"
+								       data-aria-controls="landGrantsOption-@(landGrantsOption.ToString().ToLower())"
+								       aria-expanded="False"/>
+								<label for="landGrantsOption@(landGrantsOption)" class="govuk-label govuk-radios__label">
+									@landGrantsOption.GetDescription()
+								</label>
+							</div>
+							@if (landGrantsOption == SelectOption.Yes || Model.SchoolBuildLandGrants == SelectOption.Yes)
+							{
+								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
+			                                            @(landGrantsOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+											id="landGrantsOption-yes" aria-expanded="false">
+									<div class="govuk-form-group govuk-error-summary__list">
+										<a href="#SchoolBuildLandGrantsBodiesNotEntered" 
+											class="@(Model.SchoolBuildLandGrantsBodiesError ? "govuk-error-message" : "govuk-visually-hidden")">
+											You must provide list of these facilities
+										</a>
+										<label for="landGrantsOption-yes" class="govuk-label">Which bodies awarded the grants and what facilities did they fund?</label>
+										<textarea asp-for="SchoolBuildLandGrantsBodies" id="SchoolBuildLandGrantsBodies"
+										  class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+									</div>
+								</div>
+							}
+						}
 					</fieldset>
 				</div>
 				
