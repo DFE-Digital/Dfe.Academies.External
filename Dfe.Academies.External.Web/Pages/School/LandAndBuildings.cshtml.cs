@@ -30,14 +30,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption SchoolBuildLandSharedFacilities { get; set; }
-
-		[BindProperty]
-		public string? SchoolBuildLandSharedFacilitiesExplained { get; set; }
-
-		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption SchoolBuildLandWorksPlanned { get; set; } 
+		public SelectOption SchoolBuildLandWorksPlanned { get; set; }
 
 		[BindProperty]
 		public string? SchoolBuildLandWorksPlannedExplained { get; set; }
@@ -47,6 +40,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
+		public SelectOption SchoolBuildLandSharedFacilities { get; set; }
+
+		[BindProperty]
+		public string? SchoolBuildLandSharedFacilitiesExplained { get; set; }
+		
+		[BindProperty]
+		[RequiredEnum(ErrorMessage = "You must provide details")]
 		public SelectOption SchoolBuildLandGrants { get; set; } 
 
 		[BindProperty]
@@ -54,18 +54,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
+		public SelectOption SchoolBuildLandPFIScheme { get; set; }
+
+		[BindProperty]
+		public string? SchoolBuildLandPFISchemeType { get; set; }
+
+		[BindProperty]
+		[RequiredEnum(ErrorMessage = "You must provide details")]
 		public SelectOption SchoolBuildLandPriorityBuildingProgramme { get; set; } 
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption SchoolBuildLandFutureProgramme { get; set; } 
-
-		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption SchoolBuildLandPFIScheme { get; set; } 
-
-		[BindProperty]
-		public string? SchoolBuildLandPFISchemeType { get; set; }
+		public SelectOption SchoolBuildLandFutureProgramme { get; set; }
 
 		public LandAndBuildingsModel(ILogger<LandAndBuildingsModel> logger,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
@@ -110,7 +110,26 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 
 			// TODO MR:- conditional radio validation !
-			// if
+			if (SchoolBuildLandSharedFacilities == SelectOption.Yes)
+			{
+				// SchoolBuildLandSharedFacilitiesExplained = mandatory !!!
+			}
+
+			if (SchoolBuildLandWorksPlanned == SelectOption.Yes)
+			{
+				// SchoolBuildLandWorksPlannedExplained = mandatory !!!
+				// SchoolBuildLandWorksPlannedDate = mandatory !!!
+			}
+
+			if (SchoolBuildLandGrants == SelectOption.Yes)
+			{
+				// SchoolBuildLandGrantsBody = mandatory !!!
+			}
+
+			if (SchoolBuildLandPFIScheme == SelectOption.Yes)
+			{
+				// SchoolBuildLandPFISchemeType = mandatory !!!
+			}
 
 			try
 			{
