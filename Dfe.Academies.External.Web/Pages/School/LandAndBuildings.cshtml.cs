@@ -59,7 +59,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public SelectOption SchoolBuildLandGrants { get; set; } 
 
 		[BindProperty]
-		public string? SchoolBuildLandGrantsBody { get; set; }
+		public string? SchoolBuildLandGrantsBodies { get; set; }
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
@@ -97,7 +97,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// Grab other values from API
 				if (selectedSchool != null)
 				{
-					// TODO MR:- grab existing pupil numbers from API endpoint to populate VM - applicationId && SchoolId combination !
+					// TODO MR:- grab existing land & buildings data from API endpoint to populate VM - applicationId && SchoolId combination !
 					// land & buildings stored against the school ?????????????? not implemented 17/08/2022
 
 					PopulateUiModel(selectedSchool);
@@ -135,9 +135,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// SchoolBuildLandGrantsBody = mandatory !!!
 			}
 
-			if (SchoolBuildLandPFIScheme == SelectOption.Yes)
+			if (SchoolBuildLandPFIScheme == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandPFISchemeType))
 			{
-				// SchoolBuildLandPFISchemeType = mandatory !!!
+				ModelState.AddModelError("SchoolBuildLandPFISchemeTypeNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return Page();
 			}
 
 			try
@@ -171,19 +173,19 @@ namespace Dfe.Academies.External.Web.Pages.School
 			ApplicationId = selectedSchool.ApplicationId;
 			Urn = selectedSchool.URN;
 			SchoolName = selectedSchool.SchoolName;
-
-			// TODO MR:- populate other props
-			//string? SchoolBuildLandOwnerExplained,
-			//bool? SchoolBuildLandSharedFacilities, // should this be y/n enum ??
-			//bool? SchoolBuildLandWorksPlanned,  // should this be y/n enum ??
-			//string? SchoolBuildLandWorksPlannedExplained,
-			//	DateTime? SchoolBuildLandWorksPlannedDate,
-			//bool? SchoolBuildLandGrants, // should this be y/n enum ??
-			//string? SchoolBuildLandGrantsBody,
-			//bool? SchoolBuildLandPriorityBuildingProgramme, // should this be y/n enum ??
-			//bool? SchoolBuildLandFutureProgramme, // should this be y/n enum ??
-			//bool? SchoolBuildLandPFIScheme, // should this be y/n enum ??
-			//string? SchoolBuildLandPFISchemeType
+			// TODO MR:- populate other props from API - not implemented 18/08/2022
+			//SchoolBuildLandOwnerExplained = ;
+			//SchoolBuildLandWorksPlanned = ;
+			//SchoolBuildLandWorksPlannedExplained = ;
+			//SchoolBuildLandWorksPlannedDate = ;
+			//SchoolBuildLandSharedFacilities = ;
+			//SchoolBuildLandSharedFacilitiesExplained = ;
+			//SchoolBuildLandGrants = ;
+			//SchoolBuildLandGrantsBodies = ;
+			//SchoolBuildLandPFIScheme = ;
+			//SchoolBuildLandPFISchemeType = ;
+			//SchoolBuildLandPriorityBuildingProgramme = ;
+			//SchoolBuildLandFutureProgramme = ;
 		}
 	}
 }
