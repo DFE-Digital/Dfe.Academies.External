@@ -216,23 +216,6 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 					conversionApplication = new()
 					{
 						ApplicationId = applicationId,
-						ApplicationType = ApplicationTypes.JoinMat,
-						UserEmail = "",
-						Application = "Join a multi-academy trust A2B_2549",
-						// MR:- comment out below if want to test that application overview page shows a 'add school' button!!
-						Schools = new List<SchoolApplyingToConvert>
-					{
-						new(schoolName: "Chesterton primary school", urn: 101934, applicationId: applicationId, ukprn: null)
-					},
-						ConversionStatus = 3,
-						// MR:- comment out below if want to test that application overview page shows a 'add trust' button!!
-						ExistingTrust = new(trustName: "Existing Trust Test")
-					};
-					break;
-				case 3:
-					conversionApplication = new()
-					{
-						ApplicationId = applicationId,
 						ApplicationType = ApplicationTypes.FormNewMat,
 						UserEmail = "",
 						Application = "Form a new multi-academy trust A2B_2549",
@@ -246,7 +229,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 						FormATrust = new(proposedTrustName: "New multi academy trust"),
 					};
 					break;
-				case 4:
+				case 3:
 					// MR:- this application is rare
 					conversionApplication = new()
 					{
