@@ -82,6 +82,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				var bools = new[] { SchoolBuildLandWorksPlannedError, 
 											SchoolBuildLandWorksPlannedDateError,
 											SchoolBuildLandSharedFacilitiesExplainedError,
+											SchoolBuildLandGrantsBodiesError,
 											SchoolBuildLandPFISchemeTypeError
 				};
 
@@ -128,8 +129,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
+		public bool SchoolBuildLandGrantsBodiesError
+		{
+			get
+			{
+				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandGrantsBodiesNotEntered"))
+				{
+					return true;
+				}
 
-		// TODO MR:- SchoolBuildLandGrantsBodiesError
+				return false;
+			}
+		}
 
 		public bool SchoolBuildLandPFISchemeTypeError
 		{
@@ -166,7 +177,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				if (selectedSchool != null)
 				{
 					// TODO MR:- grab existing land & buildings data from API endpoint to populate VM - applicationId && SchoolId combination !
-					// land & buildings stored against the school ?????????????? not implemented 17/08/2022
+					// land & buildings stored against the school ?????????????? not implemented 18/08/2022
 
 					PopulateUiModel(selectedSchool);
 				}
@@ -207,10 +218,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			// TODO MR:- conditional radio validation !
 			if (SchoolBuildLandGrants == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandGrantsBodies))
 			{
-				// SchoolBuildLandGrantsBodies = mandatory !!!
+				ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", "You must provide details");
 				PopulateValidationMessages();
 				return Page();
 			}
