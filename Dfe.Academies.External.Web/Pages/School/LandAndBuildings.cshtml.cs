@@ -23,7 +23,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 	    public string SchoolName { get; private set; } = string.Empty;
 
-		//// TODO MR:- VM props to capture land & buildings data
+		//// MR:- VM props to capture land & buildings data
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
 		public string SchoolBuildLandOwnerExplained { get; set; }
@@ -110,6 +110,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 
 			// TODO MR:- conditional radio validation !
+			// if
 
 			try
 			{
@@ -134,8 +135,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public override void PopulateValidationMessages()
 		{
-			// TODO MR:- new base func
-			// PopulateViewDataErrorsWithModelStateErrors();
+			PopulateViewDataErrorsWithModelStateErrors();
 		}
 
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
