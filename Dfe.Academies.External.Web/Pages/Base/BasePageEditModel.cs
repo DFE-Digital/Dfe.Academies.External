@@ -70,23 +70,6 @@ public abstract class BasePageEditModel : BasePageModel
 		};
 	}
 
-	protected void PopulateViewDataErrorsWithModelStateErrors()
-	{
-		ViewData["Errors"] = ConvertModelStateToDictionary();
-
-		if (!ModelState.IsValid)
-		{
-			foreach (var modelStateError in ConvertModelStateToDictionary())
-			{
-				// MR:- add friendly message for validation summary
-				if (!this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey(modelStateError.Key))
-				{
-					this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add(modelStateError.Key, modelStateError.Value);
-				}
-			}
-		}
-	}
-
 	private void CacheSelectedSchool(EstablishmentResponse? schoolDetails)
 	{
 		if (schoolDetails != null)
