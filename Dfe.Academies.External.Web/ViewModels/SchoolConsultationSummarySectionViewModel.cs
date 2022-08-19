@@ -2,8 +2,8 @@
 
 public class SchoolConsultationSummarySectionViewModel : SchoolQuestionAndAnswerViewModel
 {
-	public const string HasTheGoverningBodyConsulted = "What is the school's published admissions number (PAN)?";
-	public const string WhenDoesTheGoverningBodyPlanToConsult = "What is the school's published admissions number (PAN)?";
+	public const string HasTheGoverningBodyConsulted = "Has the governing body consulted the relevant stakeholders?";
+	public const string WhenDoesTheGoverningBodyPlanToConsult = "When does the governing body plan to consult?";
 
 	public SchoolConsultationSummarySectionViewModel(string name, string answer) : base(name, answer)
 	{
