@@ -65,7 +65,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			SchoolName = selectedSchool.SchoolName;
 
 			SchoolConsultationSummaryHeadingViewModel heading1 = new(SchoolPupilNumbersSummaryHeadingViewModel.Heading,
-				"/school/PupilNumbers");
+				"/school/ApplicationSchoolConsultation");
 
 			// TODO MR:- for answer, consume QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
 			// OR data from API
