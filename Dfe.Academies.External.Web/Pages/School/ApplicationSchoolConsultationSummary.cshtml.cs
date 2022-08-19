@@ -70,8 +70,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// TODO MR:- for answer, consume QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
 			// OR data from API
 
-			//heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr1, "TBC"));
-
+			heading1.Sections.Add(new(SchoolConsultationSummarySectionViewModel.HasTheGoverningBodyConsulted, "??")
+			{
+				// TODO MR:- below depends on other branch in PR
+				//SubQuestionAndAnswers = new()
+				//{
+				//	new SchoolConsultationSummarySectionViewModel(
+				//		SchoolConsultationSummarySectionViewModel.WhenDoesTheGoverningBodyPlanToConsult,
+				//		"TBC"
+				//	)
+				//}
+			});
 
 			var vm = new List<SchoolConsultationSummaryHeadingViewModel> { heading1 };
 
