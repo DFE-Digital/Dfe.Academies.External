@@ -80,7 +80,6 @@ namespace Dfe.Academies.External.Web.Pages.School
         {
             if (!ModelState.IsValid)
             {
-                // error messages component consumes ViewData["Errors"]
                 PopulateValidationMessages();
                 return Page();
             }
