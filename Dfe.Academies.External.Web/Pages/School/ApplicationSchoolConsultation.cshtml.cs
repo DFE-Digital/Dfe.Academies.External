@@ -2,7 +2,6 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.ViewModels;
 
 namespace Dfe.Academies.External.Web.Pages.School
@@ -21,6 +20,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public string SchoolName { get; private set; } = string.Empty;
 
 		//// MR:- VM props to show school conversion data
+		public List<SchoolConsultationSummaryHeadingViewModel> ViewModel { get; set; } = new();
 
 		public ApplicationSchoolConsultationModel(ILogger<ApplicationSchoolConsultationModel> logger,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
@@ -64,21 +64,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 			Urn = selectedSchool.URN;
 			SchoolName = selectedSchool.SchoolName;
 
-			//SchoolPupilNumbersSummaryHeadingViewModel heading1 = new(SchoolPupilNumbersSummaryHeadingViewModel.Heading,
-			//	"/school/PupilNumbers");
+			SchoolConsultationSummaryHeadingViewModel heading1 = new(SchoolPupilNumbersSummaryHeadingViewModel.Heading,
+				"/school/PupilNumbers");
 
-			//// TODO MR:- for answer, consume QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
-			//// OR data from API
+			// TODO MR:- for answer, consume QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
+			// OR data from API
 
 			//heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr1, "TBC"));
-			//heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr2, "TBC"));
-			//heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr3, "TBC"));
-			//heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.NumbersBasedUpon, "TBC"));
-			//heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PAN, "TBC"));
 
-			//var vm = new List<SchoolPupilNumbersSummaryHeadingViewModel> { heading1 };
 
-			//ViewModel = vm;
+			var vm = new List<SchoolConsultationSummaryHeadingViewModel> { heading1 };
+
+			ViewModel = vm;
 		}
 	}
 }
