@@ -62,8 +62,8 @@ public abstract class BasePageEditModel : BasePageModel
 			"further information" => "/school/FurtherInformation",
 			"finances" => "/school/Finances",
 			"future pupil numbers" => "/school/PupilNumbersSummary",
-			"land and buildings" => "/school/LandAndBuildings",
-			"consultation" => "/school/ApplicationSchoolConsultation",
+			"land and buildings" => "/school/LandAndBuildingsSummary",
+			"consultation" => "/school/ApplicationSchoolConsultationSummary",
 			"pre-opening support grant" => "/school/ApplicationPreOpeningSupportGrant",
 			"declaration" => "/school/ApplicationDeclaration",
 			_ => string.Empty

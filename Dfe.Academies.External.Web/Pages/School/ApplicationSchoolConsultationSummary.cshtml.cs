@@ -6,9 +6,9 @@ using Dfe.Academies.External.Web.ViewModels;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-    public class ApplicationSchoolConsultationModel : BasePageEditModel
+    public class ApplicationSchoolConsultationModelSummary : BasePageEditModel
 	{
-		private readonly ILogger<ApplicationSchoolConsultationModel> _logger;
+		private readonly ILogger<ApplicationSchoolConsultationModelSummary> _logger;
 
 		//// MR:- selected school props for UI rendering
 		[BindProperty]
@@ -22,7 +22,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//// MR:- VM props to show school conversion data
 		public List<SchoolConsultationSummaryHeadingViewModel> ViewModel { get; set; } = new();
 
-		public ApplicationSchoolConsultationModel(ILogger<ApplicationSchoolConsultationModel> logger,
+		public ApplicationSchoolConsultationModelSummary(ILogger<ApplicationSchoolConsultationModelSummary> logger,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
@@ -49,7 +49,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError("School::ApplicationSchoolConsultationModel::OnGetAsync::Exception - {Message}", ex.Message);
+				_logger.LogError("School::ApplicationSchoolConsultationModelSummary::OnGetAsync::Exception - {Message}", ex.Message);
 			}
 		}
 
