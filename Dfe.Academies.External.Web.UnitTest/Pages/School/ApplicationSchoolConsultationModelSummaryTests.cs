@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Dfe.Academies.External.Web.UnitTest.Pages.School;
 
 [Parallelizable(ParallelScope.All)]
-internal sealed class ApplicationSchoolConsultationModelTests
+internal sealed class ApplicationSchoolConsultationModelSummaryTests
 {
 	/// <summary>
 	/// "draftConversionApplication" in temp storage
@@ -27,7 +27,7 @@ internal sealed class ApplicationSchoolConsultationModelTests
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<ApplicationSchoolConsultationModel>>();
+		var mockLogger = new Mock<ILogger<ApplicationSchoolConsultationModelSummary>>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
@@ -46,15 +46,15 @@ internal sealed class ApplicationSchoolConsultationModelTests
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
-	private static ApplicationSchoolConsultationModel SetupApplicationSchoolConsultationModel(
-		ILogger<ApplicationSchoolConsultationModel> mockLogger,
+	private static ApplicationSchoolConsultationModelSummary SetupApplicationSchoolConsultationModel(
+		ILogger<ApplicationSchoolConsultationModelSummary> mockLogger,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new ApplicationSchoolConsultationModel(mockLogger, mockConversionApplicationRetrievalService,
+		return new ApplicationSchoolConsultationModelSummary(mockLogger, mockConversionApplicationRetrievalService,
 			mockReferenceDataRetrievalService)
 		{
 			PageContext = pageContext,
