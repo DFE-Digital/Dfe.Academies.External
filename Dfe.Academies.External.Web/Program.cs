@@ -1,4 +1,4 @@
-using Dfe.Academies.External.Web.Extensions;
+﻿using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Routing;
 using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -49,6 +49,8 @@ builder.Services
 			.AllowAnonymousToPage("/school/SchoolConversionKeyDetails")
 			.AllowAnonymousToPage("/school/PupilNumbersSummary")
 			.AllowAnonymousToPage("/school/SchoolMainContacts")
+			.AllowAnonymousToPage("/school/ApplicationSchoolConsultationSummary")
+			.AllowAnonymousToPage("/school/ApplicationSchoolConsultation")
 			.AllowAnonymousToPage("/trust/ApplicationSelectTrust");
 	})
 	.AddViewOptions(options =>
