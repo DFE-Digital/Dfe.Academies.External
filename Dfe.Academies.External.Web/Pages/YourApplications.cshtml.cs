@@ -1,4 +1,4 @@
-using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +39,7 @@ namespace Dfe.Academies.External.Web.Pages
 
         public override void PopulateValidationMessages()
         {
-            throw new NotImplementedException();
-        }
+	        PopulateViewDataErrorsWithModelStateErrors();
+		}
     }
 }

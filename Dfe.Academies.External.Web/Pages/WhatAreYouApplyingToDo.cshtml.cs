@@ -1,4 +1,4 @@
-using Dfe.Academies.External.Web.Attributes;
+﻿using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -45,9 +45,9 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
     {
         if (!ModelState.IsValid)
         {
-            // error messages component consumes ViewData["Errors"]
-            ViewData["Errors"] = ConvertModelStateToDictionary();
-            return Page();
+			// error messages component consumes ViewData["Errors"] so populate it
+			PopulateValidationMessages();
+			return Page();
         }
 
         try
@@ -78,18 +78,6 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
 
     public override void PopulateValidationMessages()
     {
-        ViewData["Errors"] = ConvertModelStateToDictionary();
-
-        if (!ModelState.IsValid)
-        {
-            foreach (var modelStateError in ConvertModelStateToDictionary())
-            {
-                // MR:- add friendly message for validation summary
-                if (!this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey(modelStateError.Key))
-                {
-                    this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add(modelStateError.Key, modelStateError.Value);
-                }
-            }
-        }
-    }
+	    PopulateViewDataErrorsWithModelStateErrors();
+	}
 }
