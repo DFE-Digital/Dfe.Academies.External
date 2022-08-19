@@ -1,4 +1,4 @@
-using Dfe.Academies.External.Web.CustomValidators;
+﻿using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -97,8 +97,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 				    ModelState.AddModelError("InvalidTrust", "You must give the name of the trust");
 			    }
 
-			    // error messages component consumes ViewData["Errors"]
-			    PopulateValidationMessages();
+				// error messages component consumes ViewData["Errors"] so populate it
+				PopulateValidationMessages();
 			    return Page();
 		    }
 
@@ -130,19 +130,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 
 	    public override void PopulateValidationMessages()
 	    {
-		    ViewData["Errors"] = ConvertModelStateToDictionary();
-
-		    if (!ModelState.IsValid)
-		    {
-			    foreach (var modelStateError in ConvertModelStateToDictionary())
-			    {
-				    // MR:- add friendly message for validation summary
-				    if (!this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey(modelStateError.Key))
-				    {
-					    this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add(modelStateError.Key, modelStateError.Value);
-				    }
-			    }
-		    }
+		    PopulateViewDataErrorsWithModelStateErrors();
 	    }
 
 	    private void PopulateUiModel(ConversionApplication? conversionApplication)

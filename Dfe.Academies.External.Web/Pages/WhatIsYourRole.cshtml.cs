@@ -1,4 +1,4 @@
-using Dfe.Academies.External.Web.Attributes;
+﻿using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -99,6 +99,7 @@ public class WhatIsYourRoleModel : BasePageModel
     {
         ViewData["Errors"] = ConvertModelStateToDictionary();
 
+		// V2 figma has different error messages hence why code below exists !!
         if (!ModelState.IsValid)
         {
             if (ModelState.Keys.Contains("SchoolRole") && !this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey("SchoolRole"))
