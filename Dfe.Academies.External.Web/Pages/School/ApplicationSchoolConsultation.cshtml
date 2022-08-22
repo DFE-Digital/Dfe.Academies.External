@@ -52,9 +52,9 @@
 					{
                         <div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
                                           @(consultationStakeholdersOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
-							id="consultationStakeholdersOption-yes" aria-expanded="false">
+							id="consultationStakeholdersOption-no" aria-expanded="false">
 							<div class="govuk-form-group govuk-error-summary__list">
-                                <label for="consultationStakeholdersOption-yes" class="govuk-label">When does the governing body plan to consult?</label>
+                                <label for="consultationStakeholdersOption-no" class="govuk-label">When does the governing body plan to consult?</label>
 								<a href="#SchoolConsultationStakeholdersConsultNotEntered" 
 								   class="@(Model.SchoolConsultationStakeholdersConsultError ? "govuk-error-message" : "govuk-visually-hidden")">
 									You must say when

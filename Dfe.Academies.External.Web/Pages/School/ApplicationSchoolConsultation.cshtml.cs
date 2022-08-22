@@ -93,7 +93,7 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 			return Page();
 		}
 
-		if (SchoolConsultationStakeholders == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolConsultationStakeholdersConsult))
+		if (SchoolConsultationStakeholders == SelectOption.No && string.IsNullOrWhiteSpace(SchoolConsultationStakeholdersConsult))
 		{
 			ModelState.AddModelError("SchoolConsultationStakeholdersConsultNotEntered", "You must provide details");
 			PopulateValidationMessages();
