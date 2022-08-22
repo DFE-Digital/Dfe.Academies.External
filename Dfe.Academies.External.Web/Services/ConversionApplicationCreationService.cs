@@ -225,7 +225,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// before then patching ConversionApplication returned with data from application object
 
 			// application can contain multiple schools so need to grab one being changed via linqage
-			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolContacts.schoolUrn);
+			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolContacts.Urn);
 			//schoolUpdating.SchoolConversionContactHeadName = schoolContacts.SchoolConversionContactHeadName;
 			//schoolUpdating.SchoolConversionContactHeadEmail = schoolContacts.SchoolConversionContactHeadEmail;
 			//schoolUpdating.SchoolConversionContactHeadTel = schoolContacts.SchoolConversionContactHeadTel;
@@ -241,5 +241,33 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		    _logger.LogError("ConversionApplicationCreationService::ApplicationSchoolContacts::Exception - {Message}", ex.Message);
 		    throw;
 	    }
+	}
+
+	///<inheritdoc/>
+	public async Task ApplicationSchoolLandAndBuildings(SchoolLandAndBuildings schoolLandAndBuildings)
+	{
+		try
+		{
+			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
+			// to grab current application data
+			// before then patching ConversionApplication returned with data from application object
+
+			// application can contain multiple schools so need to grab one being changed via linqage
+			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolLandAndBuildings.Urn);
+			//schoolUpdating.SchoolBuildLandOwnerExplained = schoolLandAndBuildings.SchoolBuildLandOwnerExplained;
+			//schoolUpdating.SchoolBuildLandWorksPlanned = schoolLandAndBuildings.SchoolBuildLandWorksPlanned;
+			//schoolUpdating.SchoolBuildLandWorksPlannedExplained = schoolLandAndBuildings.SchoolBuildLandWorksPlannedExplained;
+			//schoolUpdating.SchoolBuildLandWorksPlannedDate = schoolLandAndBuildings.SchoolBuildLandWorksPlannedDate;
+			//schoolUpdating.SchoolBuildLandSharedFacilities = schoolLandAndBuildings.SchoolBuildLandSharedFacilities;
+			// ETC.....
+
+			// TODO: wire up Academisation API / what object does a PUT return
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, application);
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError("ConversionApplicationCreationService::ApplicationSchoolLandAndBuildings::Exception - {Message}", ex.Message);
+			throw;
+		}
 	}
 }

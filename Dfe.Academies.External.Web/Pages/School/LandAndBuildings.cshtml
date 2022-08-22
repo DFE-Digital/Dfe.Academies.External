@@ -1,0 +1,260 @@
+﻿@page
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@using Dfe.Academies.External.Web.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Dfe.Academies.External.Web.Pages.School.LandAndBuildingsModel
+@{
+	ViewData["Title"] = "Apply to become an academy - Land and buildings";
+}
+
+@section BeforeMain
+{
+	<a asp-page="LandAndBuildingsSummary" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">Back to land and buildings summary</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<span class="govuk-caption-l">
+		@Model.SchoolName
+	</span>
+	<h1 class="govuk-heading-l">
+		Land and buildings
+	</h1>
+
+	<form method="post" name="frmLandAndBuildings" novalidate="">
+		@Html.AntiForgeryToken()
+		<input type="hidden" asp-for="Urn"/>
+		<input type="hidden" asp-for="ApplicationId"/>		
+		<partial name="_HiddenFields"/>
+		
+		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+			<fieldset class="govuk-fieldset">
+				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+				</div>
+				
+				<div class="govuk-form-group">
+					<label for="SchoolBuildLandOwnerExplained" class="govuk-label">As far as you're aware, who owns or holds the school's buildings and land?</label>
+					<textarea asp-for="SchoolBuildLandOwnerExplained" id="SchoolBuildLandOwnerExplained" 
+								class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+				</div>
+
+				<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+					<fieldset class="govuk-fieldset" role="group" aria-describedby="works-planned-date-hint">
+						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+							Are there any current or planned building works?
+						</legend>
+						@foreach (var buildingWorksOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+						{
+							<div class="govuk-radios__item">
+								<input type="radio"
+								       asp-for="SchoolBuildLandWorksPlanned"
+								       value="@Convert.ToInt32(buildingWorksOption)"
+								       id="buildingWorksOption@(buildingWorksOption)"
+								       class="govuk-radios__input"
+								       data-aria-controls="buildingWorksOption-@(buildingWorksOption.ToString().ToLower())"
+								       aria-expanded="False"/>
+								<label for="buildingWorksOption@(buildingWorksOption)" class="govuk-label govuk-radios__label">
+									@buildingWorksOption.GetDescription()
+								</label>
+							</div>
+							@if (buildingWorksOption == SelectOption.Yes || Model.SchoolBuildLandWorksPlanned == SelectOption.Yes)
+							{
+								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
+			                                            @(buildingWorksOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+														id="buildingWorksOption-yes" aria-expanded="false">
+									<div class="govuk-form-group govuk-error-summary__list">
+										<a href="#TargetDateExplainedNotEntered" 
+										   class="@(Model.SchoolBuildLandWorksPlannedError ? "govuk-error-message" : "govuk-visually-hidden")">
+											You must provide details of the works
+										</a>
+										<label for="buildingWorksOption-yes" class="govuk-label">Provide details of the works, how they’ll be funded and whether the funding will be affected by the conversion</label>
+										<textarea asp-for="SchoolBuildLandWorksPlannedExplained" id="SchoolBuildLandWorksPlannedExplained" 
+													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+										<div class="govuk-!-margin-6"></div>
+										<div id="works-planned-date-hint" class="govuk-hint">
+											For example, 01 09 2022
+										</div>
+										<a href="#SchoolBuildLandWorksPlannedDateNotEntered" 
+										   class="@(Model.SchoolBuildLandWorksPlannedDateError ? "govuk-error-message" : "govuk-visually-hidden")">
+											You must select a scheduled date
+										</a>
+										<govuk-date field-name="SchoolBuildLandWorksPlannedDate"
+										            field-data="@Model.SchoolBuildLandWorksPlannedDate"
+										            field-day="@Model.WorksPlannedDateDay"
+										            field-month="@Model.WorksPlannedDateMonth"
+										            field-year="@Model.WorksPlannedDateYear">
+										</govuk-date>
+									</div>
+								</div>
+							}
+						}
+					</fieldset>
+				</div>
+
+				<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+					<fieldset class="govuk-fieldset" role="group">
+						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+							Are there any shared facilities on site?
+						</legend>
+						@foreach (var sharedFacilitiesOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+						{
+							<div class="govuk-radios__item">
+								<input type="radio"
+								   asp-for="SchoolBuildLandSharedFacilities"
+								   value="@Convert.ToInt32(sharedFacilitiesOption)"
+								   id="sharedFacilitiesOption@(sharedFacilitiesOption)"
+								       class="govuk-radios__input"
+								       data-aria-controls="sharedFacilitiesOption-@(sharedFacilitiesOption.ToString().ToLower())"
+								       aria-expanded="False"/>
+								<label for="sharedFacilitiesOption@(sharedFacilitiesOption)" class="govuk-label govuk-radios__label">
+									@sharedFacilitiesOption.GetDescription()
+								</label>
+							</div>
+							@if (sharedFacilitiesOption == SelectOption.Yes || Model.SchoolBuildLandSharedFacilities == SelectOption.Yes)
+							{
+								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
+			                                            @(sharedFacilitiesOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+											id="sharedFacilitiesOption-yes" aria-expanded="false">
+									<div class="govuk-form-group govuk-error-summary__list">
+										<a href="#SchoolBuildLandSharedFacilitiesExplainedNotEntered" 
+										   class="@(Model.SchoolBuildLandSharedFacilitiesExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
+											You must provide list of these facilities
+										</a>
+										<label for="sharedFacilitiesOption-yes" class="govuk-label">List these facilities and the school’s plan for them after converting</label>
+										<textarea asp-for="SchoolBuildLandSharedFacilitiesExplained" id="SchoolBuildLandWorksPlannedExplained" 
+													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+									</div>
+								</div>
+							}
+						}
+					</fieldset>
+				</div>
+
+				<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+					<fieldset class="govuk-fieldset" role="group">
+						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+							Has the school had any grants from Sport England, the Big Lottery Fund, or the Football Federation?
+						</legend>
+						@foreach (var landGrantsOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+						{
+							<div class="govuk-radios__item">
+								<input type="radio"
+									   asp-for="SchoolBuildLandGrants"
+									   value="@Convert.ToInt32(landGrantsOption)"
+								       id="landGrantsOption@(landGrantsOption)"
+								       class="govuk-radios__input"
+								       data-aria-controls="landGrantsOption-@(landGrantsOption.ToString().ToLower())"
+								       aria-expanded="False"/>
+								<label for="landGrantsOption@(landGrantsOption)" class="govuk-label govuk-radios__label">
+									@landGrantsOption.GetDescription()
+								</label>
+							</div>
+							@if (landGrantsOption == SelectOption.Yes || Model.SchoolBuildLandGrants == SelectOption.Yes)
+							{
+								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
+			                                            @(landGrantsOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+											id="landGrantsOption-yes" aria-expanded="false">
+									<div class="govuk-form-group govuk-error-summary__list">
+										<a href="#SchoolBuildLandGrantsBodiesNotEntered" 
+											class="@(Model.SchoolBuildLandGrantsBodiesError ? "govuk-error-message" : "govuk-visually-hidden")">
+											You must provide list of these facilities
+										</a>
+										<label for="landGrantsOption-yes" class="govuk-label">Which bodies awarded the grants and what facilities did they fund?</label>
+										<textarea asp-for="SchoolBuildLandGrantsBodies" id="SchoolBuildLandGrantsBodies"
+										  class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+									</div>
+								</div>
+							}
+						}
+					</fieldset>
+				</div>
+				
+				<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+					<fieldset class="govuk-fieldset" role="group">
+						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+							Is the school part of a Private Finance Initiative (PFI) scheme?
+						</legend>
+						@foreach (var pfiSchemeOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+						{
+							<div class="govuk-radios__item">
+								<input type="radio"
+								   asp-for="SchoolBuildLandPFIScheme"
+								       value="@Convert.ToInt32(pfiSchemeOption)"
+								       id="pfiSchemeOption@(pfiSchemeOption)"
+								       class="govuk-radios__input"
+								       data-aria-controls="pfiSchemeOption-@(pfiSchemeOption.ToString().ToLower())"
+								       aria-expanded="False"/>
+								<label for="pfiSchemeOption@(pfiSchemeOption)" class="govuk-label govuk-radios__label">
+									@pfiSchemeOption.GetDescription()
+								</label>
+							</div>
+							@if (pfiSchemeOption == SelectOption.Yes || Model.SchoolBuildLandPFIScheme == SelectOption.Yes)
+							{
+								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
+			                                            @(pfiSchemeOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+										id="pfiSchemeOption-yes" aria-expanded="false">
+									<div class="govuk-form-group govuk-error-summary__list">
+										<a href="#SchoolBuildLandPFISchemeTypeNotEntered"
+											class="@(Model.SchoolBuildLandPFISchemeTypeError ? "govuk-error-message" : "govuk-visually-hidden")">
+											You must provide type of PFI scheme
+										</a>
+										<label for="pfiSchemeOption-yes" class="govuk-label">What kind of a PFI scheme is your school part of?</label>
+										<input type="text" asp-for="SchoolBuildLandPFISchemeType" id="SchoolBuildLandPFISchemeType" class="govuk-input govuk-input--width-20" maxlength="100" />
+									</div>
+								</div>
+							}
+						}
+					</fieldset>
+				</div>
+				
+				<div class="govuk-form-group">
+					<fieldset class="govuk-fieldset">
+						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+							Is the school part of the Priority School Building Programme?
+						</legend>
+						@foreach (var priorityBuildingProgrammeOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+						{
+							<div class="govuk-radios__item">
+								<input type="radio"
+								   asp-for="SchoolBuildLandPriorityBuildingProgramme"
+								   value="@Convert.ToInt32(priorityBuildingProgrammeOption)"
+								   id="SchoolBuildLandPriorityBuildingProgramme@(priorityBuildingProgrammeOption)"
+								   class="govuk-radios__input"
+								   data-aria-controls="SchoolBuildLandPriorityBuildingProgramme-@(priorityBuildingProgrammeOption.ToString().ToLower())"
+								   aria-expanded="False" />
+								<label for="SchoolBuildLandPriorityBuildingProgramme@(priorityBuildingProgrammeOption)" class="govuk-label govuk-radios__label">
+									@priorityBuildingProgrammeOption.GetDescription()
+								</label>
+							</div>
+						}
+					</fieldset>
+				</div>
+				<div class="govuk-form-group">
+					<fieldset class="govuk-fieldset">
+						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+							Is the school part of the Building Schools for the Future Programme?
+						</legend>
+						@foreach (var futureProgrammeOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+						{
+							<div class="govuk-radios__item">
+								<input type="radio"
+								       asp-for="SchoolBuildLandFutureProgramme"
+								       value="@Convert.ToInt32(futureProgrammeOption)"
+								       id="SchoolBuildLandFutureProgramme@(futureProgrammeOption)"
+								       class="govuk-radios__input"
+								       data-aria-controls="SchoolBuildLandFutureProgramme-@(futureProgrammeOption.ToString().ToLower())"
+								       aria-expanded="False"/>
+								<label for="SchoolBuildLandFutureProgramme@(futureProgrammeOption)" class="govuk-label govuk-radios__label">
+									@futureProgrammeOption.GetDescription()
+								</label>
+							</div>
+						}
+					</fieldset>
+				</div>
+			</fieldset>
+		</div>
+		<br/>
+		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+	</form>
+</div>
