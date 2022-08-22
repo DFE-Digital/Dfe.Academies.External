@@ -55,6 +55,8 @@ builder.Services
 			.AllowAnonymousToPage("/school/LandAndBuildings")
 			.AllowAnonymousToPage("/school/ApplicationSchoolConsultationSummary")
 			.AllowAnonymousToPage("/school/ApplicationSchoolConsultation")
+			.AllowAnonymousToPage("/school/ApplicationPreOpeningSupportGrantSummary")
+			.AllowAnonymousToPage("/school/ApplicationPreOpeningSupportGrant")
 			.AllowAnonymousToPage("/trust/ApplicationSelectTrust");
 		options.Conventions.AddPageRoute("/notfound", "/error/404");
 		options.Conventions.AddPageRoute("/notfound", "/error/{code:int}");
