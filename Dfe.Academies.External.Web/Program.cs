@@ -49,6 +49,8 @@ builder.Services
 			.AllowAnonymousToPage("/school/SchoolConversionKeyDetails")
 			.AllowAnonymousToPage("/school/PupilNumbersSummary")
 			.AllowAnonymousToPage("/school/SchoolMainContacts")
+			.AllowAnonymousToPage("/school/LandAndBuildingsSummary")
+			.AllowAnonymousToPage("/school/LandAndBuildings")
 			.AllowAnonymousToPage("/trust/ApplicationSelectTrust");
 	})
 	.AddViewOptions(options =>
