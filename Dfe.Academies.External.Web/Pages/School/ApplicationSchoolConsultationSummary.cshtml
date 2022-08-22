@@ -1,0 +1,60 @@
+﻿@page
+@using Dfe.Academies.External.Web.Enums
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Dfe.Academies.External.Web.Pages.School.ApplicationSchoolConsultationModelSummary
+@{
+	ViewData["Title"] = "Apply to become an academy - Consultation";
+}
+
+@section BeforeMain
+{
+	<a asp-page="../ApplicationOverview" class="govuk-back-link">Back to application overview</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<span class="govuk-caption-l">
+		@Model.SchoolName
+	</span>
+	<h1 class="govuk-heading-l">
+		Consultation
+	</h1>
+	
+	@foreach (var question in Model.ViewModel)
+	{
+		<table class="govuk-table">
+			<tbody class="govuk-table__body">
+				<tr class="govuk-table__row">
+					<td class="govuk-table__cell">
+						@if (question.Status == SchoolConversionComponentStatus.NotStarted)
+						{
+							<a asp-page="@question.URI" aria-describedby="component-not started" class="govuk-button govuk-button--secondary"
+							   asp-route-appId="@Model.ApplicationId"
+							   asp-route-urn="@Model.Urn">
+								Start section
+							</a>
+						}
+						else
+						{
+							<a asp-page="@question.URI" aria-describedby="component-change" class="govuk-link"
+							   asp-route-appId="@Model.ApplicationId"
+							   asp-route-urn="@Model.Urn">
+								Change your answers
+							</a>
+						}
+					</td>
+					<td class="govuk-table__cell"></td>
+				</tr>
+				@foreach (var conversionComponent in question.Sections)
+				{
+					<partial name="_SchoolConversionComponentPartial" model="@conversionComponent" />
+				}
+
+			</tbody>
+		</table>
+		<div class="govuk-!-margin-6"></div>
+	}
+
+	<a asp-page="../ApplicationOverview" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+</div>
+<input type="hidden" asp-for="Urn" />
+<partial name="_HiddenFields" />

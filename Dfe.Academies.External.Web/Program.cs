@@ -50,11 +50,11 @@ builder.Services
 			.AllowAnonymousToPage("/school/ApplicationConversionTargetDate")
 			.AllowAnonymousToPage("/school/SchoolConversionKeyDetails")
 			.AllowAnonymousToPage("/school/PupilNumbersSummary")
-			.AllowAnonymousToPage("/school/LandAndBuildingsSummary")
-			.AllowAnonymousToPage("/school/LandAndBuildings")
 			.AllowAnonymousToPage("/school/SchoolMainContacts")
 			.AllowAnonymousToPage("/school/LandAndBuildingsSummary")
 			.AllowAnonymousToPage("/school/LandAndBuildings")
+			.AllowAnonymousToPage("/school/ApplicationSchoolConsultationSummary")
+			.AllowAnonymousToPage("/school/ApplicationSchoolConsultation")
 			.AllowAnonymousToPage("/trust/ApplicationSelectTrust");
 		options.Conventions.AddPageRoute("/notfound", "/error/404");
 		options.Conventions.AddPageRoute("/notfound", "/error/{code:int}");
