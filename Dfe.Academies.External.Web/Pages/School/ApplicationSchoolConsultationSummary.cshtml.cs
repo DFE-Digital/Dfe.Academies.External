@@ -1,0 +1,89 @@
+﻿using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.Pages.Base;
+using Dfe.Academies.External.Web.Services;
+using Microsoft.AspNetCore.Mvc;
+using Dfe.Academies.External.Web.ViewModels;
+
+namespace Dfe.Academies.External.Web.Pages.School
+{
+    public class ApplicationSchoolConsultationModelSummary : BasePageEditModel
+	{
+		private readonly ILogger<ApplicationSchoolConsultationModelSummary> _logger;
+
+		//// MR:- selected school props for UI rendering
+		[BindProperty]
+		public int ApplicationId { get; set; }
+
+		[BindProperty]
+		public int Urn { get; set; }
+
+		public string SchoolName { get; private set; } = string.Empty;
+
+		//// MR:- VM props to show school conversion data
+		public List<SchoolConsultationSummaryHeadingViewModel> ViewModel { get; set; } = new();
+
+		public ApplicationSchoolConsultationModelSummary(ILogger<ApplicationSchoolConsultationModelSummary> logger,
+			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+			IReferenceDataRetrievalService referenceDataRetrievalService)
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+		{
+			_logger = logger;
+		}
+
+		public async Task OnGetAsync(int urn, int appId)
+		{
+			try
+			{
+				LoadAndStoreCachedConversionApplication();
+
+				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+
+				// Grab other values from API
+				if (selectedSchool != null)
+				{
+					// TODO MR:- grab data from API endpoint - applicationId && SchoolId combination !
+
+
+					PopulateUiModel(selectedSchool);
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("School::ApplicationSchoolConsultationModelSummary::OnGetAsync::Exception - {Message}", ex.Message);
+			}
+		}
+
+		public override void PopulateValidationMessages()
+		{
+			PopulateViewDataErrorsWithModelStateErrors();
+		}
+
+		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		{
+			ApplicationId = selectedSchool.ApplicationId;
+			Urn = selectedSchool.URN;
+			SchoolName = selectedSchool.SchoolName;
+
+			SchoolConsultationSummaryHeadingViewModel heading1 = new(SchoolPupilNumbersSummaryHeadingViewModel.Heading,
+				"/school/ApplicationSchoolConsultation");
+
+			// TODO MR:- for answer, consume QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
+			// OR data from API
+
+			heading1.Sections.Add(new(SchoolConsultationSummarySectionViewModel.HasTheGoverningBodyConsulted, "??")
+			{
+				SubQuestionAndAnswers = new()
+				{
+					new SchoolConsultationSummarySectionViewModel(
+						SchoolConsultationSummarySectionViewModel.WhenDoesTheGoverningBodyPlanToConsult,
+						"TBC"
+					)
+				}
+			});
+
+			var vm = new List<SchoolConsultationSummaryHeadingViewModel> { heading1 };
+
+			ViewModel = vm;
+		}
+	}
+}
