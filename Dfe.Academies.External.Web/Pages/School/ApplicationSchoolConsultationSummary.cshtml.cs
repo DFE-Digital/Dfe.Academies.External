@@ -1,4 +1,4 @@
-using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -72,14 +72,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			heading1.Sections.Add(new(SchoolConsultationSummarySectionViewModel.HasTheGoverningBodyConsulted, "??")
 			{
-				// TODO MR:- below depends on other branch in PR
-				//SubQuestionAndAnswers = new()
-				//{
-				//	new SchoolConsultationSummarySectionViewModel(
-				//		SchoolConsultationSummarySectionViewModel.WhenDoesTheGoverningBodyPlanToConsult,
-				//		"TBC"
-				//	)
-				//}
+				SubQuestionAndAnswers = new()
+				{
+					new SchoolConsultationSummarySectionViewModel(
+						SchoolConsultationSummarySectionViewModel.WhenDoesTheGoverningBodyPlanToConsult,
+						"TBC"
+					)
+				}
 			});
 
 			var vm = new List<SchoolConsultationSummaryHeadingViewModel> { heading1 };
