@@ -1,4 +1,74 @@
 ﻿@page
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.ApplicationSchoolConsultationModel
 @{
+    ViewData["Title"] = "Apply to become an academy - Consultation";
 }
+
+@section BeforeMain
+{
+    <a asp-page="ApplicationSchoolConsultationSummary" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">
+		Back to consultation summary
+	</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">
+        @Model.SchoolName
+    </span>
+    <h1 class="govuk-heading-l">
+        Consultation
+    </h1>
+    
+	<p>
+        Schools must consult any stakeholders relevant to the conversion
+	</p>
+
+	<form method="post" name="frmChangingSchoolName" novalidate="">
+		@Html.AntiForgeryToken()
+		<input type="hidden" asp-for="Urn"/>
+		<input type="hidden" asp-for="ApplicationId"/>
+		<partial name="_HiddenFields"/>
+
+		<div class="govuk-form-group">
+			<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+				@foreach (var consultationStakeholdersOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+				{
+					<div class="govuk-radios__item">
+						<input type="radio"
+                           asp-for="SchoolConsultationStakeholders"
+						       value="@Convert.ToInt32(consultationStakeholdersOption)"
+						       id="selectoption@(consultationStakeholdersOption)"
+						       class="govuk-radios__input"
+								data-aria-controls="consultationStakeholdersOption-@(consultationStakeholdersOption.ToString().ToLower())"
+						       aria-expanded="False"/>
+                        <label for="consultationStakeholdersOption@(consultationStakeholdersOption)" class="govuk-label govuk-radios__label">
+							@consultationStakeholdersOption.GetDescription()
+						</label>
+					</div>
+                    @if (consultationStakeholdersOption == SelectOption.No || Model.SchoolConsultationStakeholders == SelectOption.No)
+					{
+                        <div class="@(Model.SchoolConsultationStakeholdersConsultError ? "govuk-form-group--error" : "govuk-radios__conditional")
+                                          @(consultationStakeholdersOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+							id="consultationStakeholdersOption-yes" aria-expanded="false">
+							<div class="govuk-form-group govuk-error-summary__list">
+                                <label for="consultationStakeholdersOption-yes" class="govuk-label">When does the governing body plan to consult?</label>
+								<a href="#SchoolConsultationStakeholdersConsultNotEntered" 
+								   class="@(Model.SchoolConsultationStakeholdersConsultError ? "govuk-error-message" : "govuk-visually-hidden")">
+									You must say when
+								</a>
+                                <textarea asp-for="SchoolConsultationStakeholdersConsult" id="SchoolBuildLandOwnerExplained"
+                                  class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+							</div>
+						</div>
+					}
+				}
+			</div>
+		</div>		
+
+		<br/>
+		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+	</form>
+</div>
