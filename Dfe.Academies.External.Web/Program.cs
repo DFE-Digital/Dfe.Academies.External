@@ -1,4 +1,4 @@
-using Dfe.Academies.External.Web.Extensions;
+﻿using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Routing;
 using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -34,6 +34,8 @@ builder.Services
 			.AllowAnonymousToPage("/Cookies")
 			.AllowAnonymousToPage("/Terms")
 			.AllowAnonymousToPage("/Privacy")
+			.AllowAnonymousToPage("/Error")
+			.AllowAnonymousToPage("/NotFound")
 			.AllowAnonymousToPage("/WhatYouWillNeed")
 			// TODO :- below is temporary config UNTIL auth is sorted - just for demo reasons !!
 			.AllowAnonymousToPage("/WhatAreYouApplyingToDo")
@@ -49,7 +51,11 @@ builder.Services
 			.AllowAnonymousToPage("/school/SchoolConversionKeyDetails")
 			.AllowAnonymousToPage("/school/PupilNumbersSummary")
 			.AllowAnonymousToPage("/school/SchoolMainContacts")
+			.AllowAnonymousToPage("/school/LandAndBuildingsSummary")
+			.AllowAnonymousToPage("/school/LandAndBuildings")
 			.AllowAnonymousToPage("/trust/ApplicationSelectTrust");
+		options.Conventions.AddPageRoute("/notfound", "/error/404");
+		options.Conventions.AddPageRoute("/notfound", "/error/{code:int}");
 	})
 	.AddViewOptions(options =>
 	{
@@ -133,6 +139,9 @@ if (!app.Environment.IsDevelopment())
 	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 	app.UseHsts();
 }
+
+// Combined with razor routing 404 display custom page NotFound
+app.UseStatusCodePagesWithReExecute("/error/{0}");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
