@@ -60,7 +60,7 @@ public abstract class BasePageEditModel : BasePageModel
 			"finances" => "/school/Finances",
 			"future pupil numbers" => "/school/PupilNumbersSummary",
 			"land and buildings" => "/school/LandAndBuildingsSummary",
-			"consultation" => "/school/ApplicationSchoolConsultation",
+			"consultation" => "/school/ApplicationSchoolConsultationSummary",
 			"pre-opening support grant" => "/school/ApplicationPreOpeningSupportGrant",
 			"declaration" => "/school/ApplicationDeclaration",
 			_ => string.Empty
