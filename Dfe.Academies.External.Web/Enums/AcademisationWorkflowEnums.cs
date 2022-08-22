@@ -71,3 +71,11 @@ public enum MainConversionContact
 	[Description("Someone else")]
 	Other = 3
 }
+
+public enum PayFundsTo
+{
+	[Description("To the school")]
+	School = 1,
+	[Description("To the trust the school is joining")]
+	Trust = 2,
+}
