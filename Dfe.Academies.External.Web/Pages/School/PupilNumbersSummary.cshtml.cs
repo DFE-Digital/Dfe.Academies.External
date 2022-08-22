@@ -24,8 +24,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 	    public PupilNumbersSummaryModel(ILogger<PupilNumbersSummaryModel> logger,
 		    IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-		    IReferenceDataRetrievalService referenceDataRetrievalService,
-		    IConversionApplicationCreationService academisationCreationService)
+		    IReferenceDataRetrievalService referenceDataRetrievalService)
 		    : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 	    {
 		    _logger = logger;
@@ -43,6 +42,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			    if (selectedSchool != null)
 			    {
 				    // TODO MR:- grab data from API endpoint - applicationId && SchoolId combination !
+					// pupil numbers are stored against the school !
 
 
 				    PopulateUiModel(selectedSchool);

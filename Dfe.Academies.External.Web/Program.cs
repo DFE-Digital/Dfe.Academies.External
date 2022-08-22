@@ -51,6 +51,8 @@ builder.Services
 			.AllowAnonymousToPage("/school/SchoolConversionKeyDetails")
 			.AllowAnonymousToPage("/school/PupilNumbersSummary")
 			.AllowAnonymousToPage("/school/SchoolMainContacts")
+			.AllowAnonymousToPage("/school/LandAndBuildingsSummary")
+			.AllowAnonymousToPage("/school/LandAndBuildings")
 			.AllowAnonymousToPage("/trust/ApplicationSelectTrust");
 		options.Conventions.AddPageRoute("/notfound", "/error/404");
 		options.Conventions.AddPageRoute("/notfound", "/error/{code:int}");

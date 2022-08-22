@@ -1,5 +1,4 @@
-﻿using Dfe.Academies.External.Web.Enums;
-using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
 public interface IConversionApplicationRetrievalService
@@ -32,8 +31,17 @@ public interface IConversionApplicationRetrievalService
 	/// <returns></returns>
 	Task<List<ConversionApplicationComponent>> GetSchoolApplicationComponents(int applicationId, int schoolId);
 
-
+	/// <summary>
+	/// Not sure whether this is needed for V1.5
+	/// </summary>
+	/// <param name="applicationId"></param>
+	/// <returns></returns>
 	Task<List<ConversionApplicationContributor>> GetConversionApplicationContributors(int applicationId);
 	
+	/// <summary>
+	/// Main getApplication method
+	/// </summary>
+	/// <param name="applicationId"></param>
+	/// <returns></returns>
 	Task<ConversionApplication> GetApplication(int applicationId);
 }

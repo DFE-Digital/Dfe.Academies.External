@@ -6,6 +6,7 @@ public abstract class SchoolQuestionAndAnswerViewModel
 	{
 		Name = name;
 		Answer = answer;
+		SubQuestionAndAnswers = new();
 	}
 
 	/// <summary>
@@ -17,5 +18,7 @@ public abstract class SchoolQuestionAndAnswerViewModel
 	//// Answer = ((string) ViewData[FieldConstants.SipSchoolConversionMainContactOtherName]).DisplayNoInfoIfNullOrEmpty(),
 	public string Answer { get; set; }
 
-	// FieldName = FieldConstants.SipSchoolConversionMainContactOtherName // MR:- ??
+	// Question can have sub-questions e.g. conditional radio
+	// i.e. 'Are there any current or planned building works?'. This has 2 sub questions:- 1) provide details, 2) When is scheduled completion date
+	public List<SchoolQuestionAndAnswerViewModel> SubQuestionAndAnswers { get; set; }
 }

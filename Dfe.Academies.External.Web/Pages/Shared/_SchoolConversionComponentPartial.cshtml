@@ -2,9 +2,33 @@
 
 <tr class="govuk-table__row">
 	<td class="govuk-table__cell">
-		@Model.Name
+		<b>@Model.Name</b>
 	</td>
 	<td class="govuk-table__cell">
-		@Model.Answer
+		<dl>
+			<dd class="sip-overview-table__answer">
+				<dl class="govuk-body-s">
+					<dt class="">
+						@Model.Answer
+					</dt>
+				</dl>
+			</dd>
+			@if (Model.SubQuestionAndAnswers.Any())
+			{
+				<dd class="sip-overview-table__answer">
+					@foreach (var additionalInfo in Model.SubQuestionAndAnswers.ToList())
+					{
+						<dl class="govuk-body-s">
+							<dt class="">
+								@additionalInfo.Name
+							</dt>
+							<dd data-field-name="@additionalInfo.Name">
+								@additionalInfo.Answer
+							</dd>
+						</dl>
+					}
+				</dd>
+			}
+		</dl>
 	</td>
 </tr>
