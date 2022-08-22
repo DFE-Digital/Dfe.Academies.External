@@ -1,4 +1,4 @@
-using Dfe.Academies.External.Web.CustomValidators;
+﻿using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -96,7 +96,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 					ModelState.AddModelError("InvalidSchool", "You must give the name of the school");
 				}
 
-				// error messages component consumes ViewData["Errors"]
 				PopulateValidationMessages();
 				return Page();
 			}
@@ -129,19 +128,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public override void PopulateValidationMessages()
 	    {
-		    ViewData["Errors"] = ConvertModelStateToDictionary();
-
-		    if (!ModelState.IsValid)
-		    {
-			    foreach (var modelStateError in ConvertModelStateToDictionary())
-			    {
-				    // MR:- add friendly message for validation summary
-				    if (!this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey(modelStateError.Key))
-				    {
-					    this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add(modelStateError.Key, modelStateError.Value);
-				    }
-			    }
-		    }
+		    PopulateViewDataErrorsWithModelStateErrors();
 	    }
 
 		private void PopulateUiModel(ConversionApplication? conversionApplication)

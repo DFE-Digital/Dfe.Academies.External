@@ -23,4 +23,21 @@ public abstract class BasePageModel : PageModel
 	}
 
 	public abstract void PopulateValidationMessages();
+
+	protected void PopulateViewDataErrorsWithModelStateErrors()
+	{
+		ViewData["Errors"] = ConvertModelStateToDictionary();
+
+		if (!ModelState.IsValid)
+		{
+			foreach (var modelStateError in ConvertModelStateToDictionary())
+			{
+				// MR:- add friendly message for validation summary
+				if (!this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey(modelStateError.Key))
+				{
+					this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add(modelStateError.Key, modelStateError.Value);
+				}
+			}
+		}
+	}
 }

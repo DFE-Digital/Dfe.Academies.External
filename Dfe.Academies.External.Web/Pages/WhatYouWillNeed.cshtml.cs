@@ -1,4 +1,4 @@
-using Dfe.Academies.External.Web.Pages.Base;
+﻿using Dfe.Academies.External.Web.Pages.Base;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -12,7 +12,7 @@ namespace Dfe.Academies.External.Web.Pages
 
         public override void PopulateValidationMessages()
         {
-            throw new NotImplementedException();
-        }
+	        PopulateViewDataErrorsWithModelStateErrors();
+		}
     }
 }
