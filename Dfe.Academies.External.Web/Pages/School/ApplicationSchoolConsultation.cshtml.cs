@@ -29,6 +29,16 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 	[BindProperty]
 	public string? SchoolConsultationStakeholdersConsult { get; set; }
 
+	public bool HasError
+	{
+		get
+		{
+			var bools = new[] { SchoolConsultationStakeholdersConsultError };
+
+			return bools.Any(b => b);
+		}
+	}
+
 	public bool SchoolConsultationStakeholdersConsultError
 {
 		get
