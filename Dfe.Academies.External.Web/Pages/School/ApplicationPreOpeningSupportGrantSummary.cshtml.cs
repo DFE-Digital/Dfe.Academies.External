@@ -20,6 +20,7 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BasePageEditModel
 	public string SchoolName { get; private set; } = string.Empty;
 
 	//// MR:- VM props to show school conversion data
+	public List<ApplicationPreOpeningSupportGrantHeadingViewModel> ViewModel { get; set; } = new();
 
 	public ApplicationPreOpeningSupportGrantSummaryModel(ILogger<ApplicationPreOpeningSupportGrantSummaryModel> logger,
 		IConversionApplicationRetrievalService conversionApplicationRetrievalService,
@@ -63,24 +64,17 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BasePageEditModel
 		Urn = selectedSchool.URN;
 		SchoolName = selectedSchool.SchoolName;
 
-		SchoolConsultationSummaryHeadingViewModel heading1 = new(SchoolPupilNumbersSummaryHeadingViewModel.Heading,
+		ApplicationPreOpeningSupportGrantHeadingViewModel heading1 = new(ApplicationPreOpeningSupportGrantHeadingViewModel.Heading,
 			"/school/ApplicationPreOpeningSupportGrant");
 
 		// TODO MR:- for answer, consume QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
 		// OR data from API
 
-		heading1.Sections.Add(new(SchoolConsultationSummarySectionViewModel.HasTheGoverningBodyConsulted, "??")
-		{
-			SubQuestionAndAnswers = new()
-			{
-				new SchoolConsultationSummarySectionViewModel(
-					SchoolConsultationSummarySectionViewModel.WhenDoesTheGoverningBodyPlanToConsult,
-					"TBC"
-				)
-			}
-		});
+		heading1.Sections.Add(new(
+			ApplicationPreOpeningSupportGrantSectionViewModel.FundsSchoolOrTrust, 
+			"Yes or No"));
 
-		var vm = new List<SchoolConsultationSummaryHeadingViewModel> { heading1 };
+		var vm = new List<ApplicationPreOpeningSupportGrantHeadingViewModel> { heading1 };
 
 		ViewModel = vm;
 	}
