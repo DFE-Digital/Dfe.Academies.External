@@ -1,4 +1,4 @@
-using Dfe.Academies.External.Web.Attributes;
+﻿using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -60,8 +60,7 @@ public class WhatIsYourRoleModel : BasePageModel
     {
         if (!ModelState.IsValid)
         {
-            // error messages component consumes ViewData["Errors"]
-            PopulateValidationMessages();
+	        PopulateValidationMessages();
             return Page();
         }
 
@@ -77,9 +76,9 @@ public class WhatIsYourRoleModel : BasePageModel
 	        //// grab draft application from temp= null
 	        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-
-            draftConversionApplication.SchoolRole = SchoolRole;
-            draftConversionApplication.OtherRoleNotListed = OtherRoleNotListed;
+			// TODO MR:- get firstname / surname / email from Auth details?????
+	        var creationContributor = new ConversionApplicationContributor("", "", SchoolRole, OtherRoleNotListed);
+	        draftConversionApplication.Contributors.Add(creationContributor);
 
             await _academisationCreationService.UpdateDraftApplication(draftConversionApplication);
 
@@ -99,7 +98,8 @@ public class WhatIsYourRoleModel : BasePageModel
     {
         ViewData["Errors"] = ConvertModelStateToDictionary();
 
-        if (!ModelState.IsValid)
+        // V2 figma has different error messages hence why code below exists !!
+		if (!ModelState.IsValid)
         {
             if (ModelState.Keys.Contains("SchoolRole") && !this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey("SchoolRole"))
             {

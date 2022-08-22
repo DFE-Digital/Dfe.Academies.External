@@ -20,11 +20,6 @@ public class ConversionApplication
     
     public List<ConversionApplicationContributor> Contributors { get; set; } = new();
 
-	// TODO MR:- below needs ripping out and will be a Contributor within the List<Contributor>
-	public SchoolRoles? SchoolRole { get; set; }
-
-    public string? OtherRoleNotListed { get; set; }
-
     public int ConversionStatus { get; set; }
 
     public NewTrust? FormATrust { get; set; }

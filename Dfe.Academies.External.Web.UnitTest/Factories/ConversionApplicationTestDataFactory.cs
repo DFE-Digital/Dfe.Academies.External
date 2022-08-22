@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System.Collections.Generic;
+using AutoFixture;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 
@@ -28,8 +29,10 @@ internal static class ConversionApplicationTestDataFactory
             ApplicationId = int.MaxValue,
             ApplicationType = ApplicationTypes.FormNewMat,
             Application = Fixture.Create<string>(),
-            SchoolRole = SchoolRoles.Other,
-            OtherRoleNotListed = Fixture.Create<string>()
+			Contributors = new()
+			{
+				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), SchoolRoles.Other, Fixture.Create<string>())
+			}
         };
     }
 
@@ -41,7 +44,10 @@ internal static class ConversionApplicationTestDataFactory
             ApplicationId = int.MaxValue,
             ApplicationType = ApplicationTypes.FormNewMat,
             Application = Fixture.Create<string>(),
-            SchoolRole = SchoolRoles.Chair
-        };
+            Contributors = new()
+            {
+	            new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), SchoolRoles.Chair, null)
+	        }
+		};
     }
 }
