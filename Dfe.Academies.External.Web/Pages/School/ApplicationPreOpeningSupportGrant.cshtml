@@ -20,7 +20,18 @@
 		Academy pre-opening support grant
 	</h1>
     
-	<p class="govuk-body">TEST - from a2c-sip !!</p>
+	<p class="govuk-body">
+        If your application is successful you will be issued with an academy order. Once issued,
+			the Department for Education will pay the pre-opening support grant into a nominated bank account.
+			@if (Model.ApplicationType != ApplicationTypes.JoinMat)
+			{
+				<p>Please go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' target='_blank'> provide information about your banking payments to DfE </a> to add your bank details.</p>
+
+				<span id="funds-paid-to-school-hint" class="govuk-hint">
+					Your application can be submitted without completing this action now, however please provide your bank details either before or shortly after submission of your application.
+				</span>
+			}
+    </p>
 
 	<form method="post" name="frmApplicationPreOpeningSupportGrant" novalidate="">
 		@Html.AntiForgeryToken()
@@ -51,8 +62,55 @@
 							</div>
 						}
                         // TODO MR:- Conditional radio's - just text && link though !!!!!!!!!
+                        // MR:- if school selected
+
+						<div class="govuk-radios__conditional"
+						     id="pay-to-school"
+						     name="pay-to-school"
+						     style="@((string) ViewData[FieldConstants.SIPSchoolSupportGrantFundsPaidTo] != ((int) PayFundsTo.School).ToString() ? "display: none" : "")">
+							<div class="govuk-form-group">
+								<p>Go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' target='_blank'>provide information about your banking payments to DfE</a> to add the school’s bank details.</p>
+								<span id="funds-paid-to-school-hint" class="govuk-hint">
+									Your application can be submitted without completing this action now, however please provide your bank details either before or shortly after submission of your application.
+								</span>
+							</div>
+
+						</div>
+
+                        // MR:- if trust selected
+						<div class="govuk-radios__conditional"
+						     id="pay-to-trust"
+						     name="pay-to-trust"
+						     style="@((string) ViewData[FieldConstants.SIPSchoolSupportGrantFundsPaidTo] != ((int) PayFundsTo.Trust).ToString() ? "display: none" : "")">
+							<div class="govuk-form-group">
+								<p>Advise the trust to go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' target='_blank'>provide information about your banking payments to DfE</a> to check their bank details are up to date.</p>
+								<span id="funds-paid-to-school-hint" class="govuk-hint">
+									Your application can be submitted without completing this action now.
+								</span>
+							</div>
+						</div>
 					</div>
 				</div>
+
+                // MR:- if ApplicationType != ApplicationTypes.JoinMat
+			    <div class="govuk-form-group">
+				    <fieldset class="govuk-fieldset">
+					    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+						    <h1 class="govuk-fieldset__heading">
+							    I confirm that:
+						    </h1>
+					    </legend>
+					    <div class="govuk-checkboxes">
+@*						    <a2c-checkbox field-name="@FieldConstants.SIPSchoolSupportGrantFundsPaidTo"
+						                  field-data="@ViewData[FieldConstants.SIPSchoolSupportGrantFundsPaidTo]"
+						                  is-checked="@((string) ViewData[FieldConstants.SIPSchoolSupportGrantFundsPaidTo] == (((int) Enums.A2CPayFundsTo.School)).ToString())"
+						                  check-box-value="@((int) Enums.A2CPayFundsTo.School)"
+						                  unchecked-value="null"
+						                  label-text="I would like the grant paying to the school">
+						    </a2c-checkbox>*@
+					    </div>
+				    </fieldset>
+			    </div>
 			</fieldset>
 		</div>
 		<br/>

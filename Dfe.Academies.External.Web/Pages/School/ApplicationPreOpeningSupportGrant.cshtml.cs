@@ -21,6 +21,8 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 
     public string SchoolName { get; private set; } = string.Empty;
 
+	public ApplicationTypes ApplicationType { get; private set; }
+
 	//// MR:- VM props to capture data
 	// enum - to school / to trust
 	[BindProperty]
@@ -42,6 +44,7 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 		try
 		{
 			LoadAndStoreCachedConversionApplication();
+			var conversionApplication = await LoadAndSetApplicationDetails(appId);
 
 			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
 
@@ -52,7 +55,7 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 				// data stored against the school ?????????????? not implemented 22/08/2022
 
 
-				PopulateUiModel(selectedSchool);
+				PopulateUiModel(selectedSchool, conversionApplication);
 			}
 		}
 		catch (Exception ex)
@@ -68,8 +71,9 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 		PopulateViewDataErrorsWithModelStateErrors();
 	}
 
-	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ConversionApplication? conversionApplication)
 	{
+		ApplicationType = conversionApplication.ApplicationType;
 		ApplicationId = selectedSchool.ApplicationId;
 		Urn = selectedSchool.URN;
 		SchoolName = selectedSchool.SchoolName;
