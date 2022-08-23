@@ -25,7 +25,7 @@
 			the Department for Education will pay the pre-opening support grant into a nominated bank account.
 			@if (Model.ApplicationType != ApplicationTypes.JoinMat)
 			{
-				<p>Please go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' target='_blank'> provide information about your banking payments to DfE </a> to add your bank details.</p>
+				<p class="govuk-body">Please go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' target='_blank'> provide information about your banking payments to DfE </a> to add your bank details.</p>
 
 				<span id="funds-paid-to-school-hint" class="govuk-hint">
 					Your application can be submitted without completing this action now, however please provide your bank details either before or shortly after submission of your application.
@@ -44,6 +44,7 @@
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>        
 		        
+				// MR:- if ApplicationType == ApplicationTypes.JoinMat
 				<div class="govuk-form-group">
 					<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
                         @foreach (var payFundsToOption in Enum.GetValues(typeof(PayFundsTo)).OfType<PayFundsTo>())
@@ -67,7 +68,7 @@
 									            : "govuk-radios__conditional--hidden")"
 											id="payto-school" aria-expanded="false">
 									<div class="govuk-form-group govuk-error-summary__list">
-										<p>Go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' target='_blank'>provide information about your banking payments to DfE</a> to add the school’s bank details.</p>
+                                        <p class="govuk-body">Go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' target='_blank'>provide information about your banking payments to DfE</a> to add the school’s bank details.</p>
 										<span id="funds-paid-to-school-hint" class="govuk-hint">
 											Your application can be submitted without completing this action now, however please provide your bank details either before or shortly after submission of your application.
 										</span>
@@ -76,18 +77,16 @@
 							}
 							else
 							{
-								// MR:- if trust selected
-@*								<div class="govuk-radios__conditional"
-								     id="pay-to-trust"
-								     name="pay-to-trust"
-								     style="@(Model.SchoolSupportGrantFundsPaidTo != ((int) PayFundsTo.Trust).ToString() ? "display: none" : "")">
-									<div class="govuk-form-group">
-										<p>Advise the trust to go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' target='_blank'>provide information about your banking payments to DfE</a> to check their bank details are up to date.</p>
-										<span id="funds-paid-to-trust-hint" class="govuk-hint">
-											Your application can be submitted without completing this action now.
-										</span>
+								<div class="@(payFundsToOption == PayFundsTo.Trust ? "govuk-radios__conditional" 
+									            : "govuk-radios__conditional--hidden")"
+								     id="payto-trust" aria-expanded="false">
+									<div class="govuk-form-group govuk-error-summary__list">
+                                        <p class="govuk-body">Advise the trust to go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' target='_blank'>provide information about your banking payments to DfE</a> to check their bank details are up to date.</p>
+                                        <span id="funds-paid-to-trust-hint" class="govuk-hint">
+                                            Your application can be submitted without completing this action now.
+                                        </span>
 									</div>
-								</div>*@
+								</div>
 							}
 						}
 					</div>
