@@ -50,24 +50,24 @@
 						{
 							<div class="govuk-radios__item">
 								<input type="radio"
-                                   asp-for="PayFundsTo"
+                                   asp-for="SchoolSupportGrantFundsPaidTo"
 									value="@Convert.ToInt32(payFundsToOption)"
-									id="payFundsToOption@(payFundsToOption)"
+									id="pay-to@(payFundsToOption)"
 									class="govuk-radios__input"
-									data-aria-controls="payFundsToOption-@(payFundsToOption.ToString().ToLower())"
+									data-aria-controls="pay-to-@(payFundsToOption.ToString().ToLower())"
 									aria-expanded="False"/>
-									<label for="payFundsToOption@(payFundsToOption)" class="govuk-label govuk-radios__label">
+									<label for="pay-to@(payFundsToOption)" class="govuk-label govuk-radios__label">
 										@payFundsToOption.GetDescription()
 									</label>
 							</div>
 						}
-                        // TODO MR:- Conditional radio's - just text && link though !!!!!!!!!
-                        // MR:- if school selected
+                        // TODO MR:- Conditional radio's
 
-						<div class="govuk-radios__conditional"
+                        // MR:- if school selected
+                        <div class="govuk-radios__conditional"
 						     id="pay-to-school"
 						     name="pay-to-school"
-						     style="@((string) ViewData[FieldConstants.SIPSchoolSupportGrantFundsPaidTo] != ((int) PayFundsTo.School).ToString() ? "display: none" : "")">
+                             style="@(Model.SchoolSupportGrantFundsPaidTo != ((int) PayFundsTo.School).ToString() ? "display: none" : "")">
 							<div class="govuk-form-group">
 								<p>Go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' target='_blank'>provide information about your banking payments to DfE</a> to add the school’s bank details.</p>
 								<span id="funds-paid-to-school-hint" class="govuk-hint">
@@ -81,10 +81,10 @@
 						<div class="govuk-radios__conditional"
 						     id="pay-to-trust"
 						     name="pay-to-trust"
-						     style="@((string) ViewData[FieldConstants.SIPSchoolSupportGrantFundsPaidTo] != ((int) PayFundsTo.Trust).ToString() ? "display: none" : "")">
+						     style="@(Model.SchoolSupportGrantFundsPaidTo != ((int) PayFundsTo.Trust).ToString() ? "display: none" : "")">
 							<div class="govuk-form-group">
 								<p>Advise the trust to go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' target='_blank'>provide information about your banking payments to DfE</a> to check their bank details are up to date.</p>
-								<span id="funds-paid-to-school-hint" class="govuk-hint">
+								<span id="funds-paid-to-trust-hint" class="govuk-hint">
 									Your application can be submitted without completing this action now.
 								</span>
 							</div>

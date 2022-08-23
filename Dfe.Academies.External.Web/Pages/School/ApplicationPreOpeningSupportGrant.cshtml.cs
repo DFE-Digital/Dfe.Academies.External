@@ -27,7 +27,7 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 	// enum - to school / to trust
 	[BindProperty]
 	[RequiredEnum(ErrorMessage = "You must provide details")]
-	public PayFundsTo PayFundsTo { get; set; }
+	public PayFundsTo SchoolSupportGrantFundsPaidTo { get; set; }
 
 	public ApplicationPreOpeningSupportGrantModel(ILogger<ApplicationPreOpeningSupportGrantModel> logger,
 		IConversionApplicationRetrievalService conversionApplicationRetrievalService,
