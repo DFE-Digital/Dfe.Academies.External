@@ -101,13 +101,22 @@
 						    </h1>
 					    </legend>
 					    <div class="govuk-checkboxes">
-@*						    <a2c-checkbox field-name="@FieldConstants.SIPSchoolSupportGrantFundsPaidTo"
+						    @*<a2c-checkbox field-name="@FieldConstants.SIPSchoolSupportGrantFundsPaidTo"
 						                  field-data="@ViewData[FieldConstants.SIPSchoolSupportGrantFundsPaidTo]"
 						                  is-checked="@((string) ViewData[FieldConstants.SIPSchoolSupportGrantFundsPaidTo] == (((int) Enums.A2CPayFundsTo.School)).ToString())"
 						                  check-box-value="@((int) Enums.A2CPayFundsTo.School)"
 						                  unchecked-value="null"
 						                  label-text="I would like the grant paying to the school">
 						    </a2c-checkbox>*@
+						    <div class="govuk-checkboxes__item">
+							    <input id='ConfirmSchoolPay'
+										asp-for="@Model.ConfirmSchoolPay"
+							           class='govuk-checkboxes__input'>
+                            <label id='confirm-school-pay' for='ConfirmSchoolPay'
+							           class='govuk-label govuk-checkboxes__label'>
+										I would like the grant paying to the school
+							    </label>
+						    </div>
 					    </div>
 				    </fieldset>
 			    </div>
