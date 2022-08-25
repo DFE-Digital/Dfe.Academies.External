@@ -31,7 +31,7 @@ internal static class ConversionApplicationTestDataFactory
             Application = Fixture.Create<string>(),
 			Contributors = new()
 			{
-				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), SchoolRoles.Other, Fixture.Create<string>())
+				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
 			}
         };
     }
@@ -46,7 +46,7 @@ internal static class ConversionApplicationTestDataFactory
             Application = Fixture.Create<string>(),
             Contributors = new()
             {
-	            new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), SchoolRoles.Chair, null)
+	            new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(), SchoolRoles.Chair, null)
 	        }
 		};
     }
