@@ -20,7 +20,7 @@ namespace Dfe.Academies.External.Web.Pages
             _logger = logger;
         }
 
-        public void OnGet()
+        public async Task OnGet()
         {           
             try
             {
@@ -29,7 +29,7 @@ namespace Dfe.Academies.External.Web.Pages
 
                 ExistingApplications = _conversionApplications.GetPendingApplications(username);
 
-                CompletedApplications = _conversionApplications.GetCompletedApplications(username);
+                CompletedApplications = await _conversionApplications.GetCompletedApplications(username);
             }
             catch (Exception ex)
             {

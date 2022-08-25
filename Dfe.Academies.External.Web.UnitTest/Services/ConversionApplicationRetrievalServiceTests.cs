@@ -51,7 +51,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
         // act
         var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
-        var expectedExistingApplicationsTestData = applicationRetrievalService.GetCompletedApplications(userEmail);
+        var expectedExistingApplicationsTestData = await applicationRetrievalService.GetCompletedApplications(userEmail);
 
         // assert
         Assert.That(expectedExistingApplicationsTestData, Is.Not.Null);
