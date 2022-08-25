@@ -164,9 +164,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		    // **** Mock Demo Data - as per Figma ****
 		    List<ConversionApplicationContributor> conversionApplicationContributors = new()
 		    {
-			    new(firstName: "Phillip", surname:"Frond", SchoolRoles.Chair, null)
+			    new(firstName: "Phillip", surname:"Frond","Phillip@email.com", SchoolRoles.Chair, null)
 				    {ApplicationId = applicationId},
-			    new(firstName: "Robert", surname: "Phillips", role:SchoolRoles.Other ,  otherRoleName: "PA to the headteacher")
+			    new(firstName: "Robert", surname: "Phillips", "Robert@email.com", role:SchoolRoles.Other ,  otherRoleName: "PA to the headteacher")
 				    {ApplicationId = applicationId}
 		    };
 
