@@ -29,6 +29,7 @@ internal sealed class ApplicationOverviewTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 
 		var mockLogger = new Mock<ILogger<ApplicationOverviewModel>>();
+		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
@@ -37,7 +38,7 @@ internal sealed class ApplicationOverviewTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync();
+		await pageModel.OnGetAsync(applicationId);
 
 		// assert
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
