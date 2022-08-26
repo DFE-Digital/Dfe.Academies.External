@@ -10,7 +10,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 	{
 	    private readonly ILogger<ApplicationSelectTrustModel> _logger;
 	    private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
-	    private const string NextTrustStepPage = "/ApplicationOverview";
+	    private const string NextStepPage = "/ApplicationOverview";
 
 	    [BindProperty]
 	    public int ApplicationId { get; set; }
@@ -112,8 +112,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 			    // update temp store for next step - application overview
 			    TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-			    return RedirectToPage(NextTrustStepPage);
-		    }
+				return RedirectToPage(NextStepPage, new { appId = draftConversionApplication.ApplicationId });
+			}
 		    catch (Exception ex)
 		    {
 			    _logger.LogError("Trust::ApplicationSelectSchoolModel::OnPostAddTrust::Exception - {Message}", ex.Message);

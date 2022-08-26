@@ -88,7 +88,7 @@ public class WhatIsYourRoleModel : BasePageModel
             // update temp store for next step - application overview
             TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-            return RedirectToPage(NextStepPage);
+            return RedirectToPage(NextStepPage, new { appId = draftConversionApplication.ApplicationId });
         }
         catch (Exception ex)
         {

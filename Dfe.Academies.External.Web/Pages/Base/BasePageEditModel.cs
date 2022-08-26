@@ -24,9 +24,7 @@ public abstract class BasePageEditModel : BasePageModel
 
 		if (applicationDetails != null)
 		{
-			ApplicationCacheValuesViewModel cachedValuesViewModel = new(applicationDetails.ApplicationId, applicationDetails.ApplicationType, applicationDetails.ApplicationReference);
-
-			ViewDataHelper.StoreSerialisedValue(nameof(ApplicationCacheValuesViewModel), ViewData, cachedValuesViewModel);
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, applicationDetails);
 		}
 
 		return applicationDetails;
