@@ -5,23 +5,23 @@ namespace Dfe.Academies.External.Web.Enums;
 public enum ApplicationTypes 
 {
     [Description("Join a multi-academy trust")]
-    JoinMat = 1,
+    JoinMat,
     [Description("Form a new multi-academy trust")]
-    FormNewMat = 2,
+    FormNewMat,
     [Description("Form new single academy trust")]
-    FormNewSingleAcademyTrust = 3
+    FormNewSingleAcademyTrust
 }
 
 public enum Status 
 {
     [Description("Cannot Start Yet")]
-    CannotStartYet = 1,
+    CannotStartYet,
     [Description("Not Started")]
-    NotStarted = 2,
+    NotStarted,
     [Description("In Progress")]
-    InProgress = 3,
+    InProgress,
     [Description("Completed")]
-    Completed = 4
+    Completed
 }
 
 public enum SchoolRoles
@@ -57,9 +57,12 @@ public enum SelectOption
 public enum SchoolConversionComponentStatus
 {
 	Ignore = -1,
-	NotStarted = 0,
+	[Description("Not Started")]
+	NotStarted,
+	[Description("Incomplete")]
 	Incomplete = 1,
-	Complete = 2
+	[Description("Complete")]
+	Complete
 }
 
 public enum MainConversionContact
@@ -77,5 +80,5 @@ public enum PayFundsTo
 	[Description("To the school")]
 	School = 1,
 	[Description("To the trust the school is joining")]
-	Trust = 2,
+	Trust = 2
 }

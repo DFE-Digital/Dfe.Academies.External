@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Dfe.Academies.External.Web.Services
 {
@@ -39,7 +40,14 @@ namespace Dfe.Academies.External.Web.Services
                 this.AddBearerTokenAuthenticationHeader(this._client, token);
             }
 
-            var result = await _client.GetFromJsonAsync<TResult>(uri);
+            JsonSerializerOptions options = new JsonSerializerOptions
+            {
+	            Converters = {
+		            new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+	            }
+            };
+
+			var result = await _client.GetFromJsonAsync<TResult>(uri, options);
 
             return result;
         }

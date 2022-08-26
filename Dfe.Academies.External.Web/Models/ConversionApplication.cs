@@ -12,10 +12,7 @@ public class ConversionApplication
 
     public ApplicationTypes ApplicationType { get; set; }
 
-	// TODO MR:- API returns ApplicationType = "JoinAMat"
-	//Enum.TryParse("Active", out StatusEnum myStatus);
-
-	public string ApplicationStatus { get; set; }
+    public string ApplicationStatus { get; set; }
 
 	public string? UserEmail { get; set; }
 
