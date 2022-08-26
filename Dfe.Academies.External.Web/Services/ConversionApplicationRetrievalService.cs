@@ -181,68 +181,13 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
     {
 	    try
 	    {
+			//baseaddress has a backslash at the end to be a valid URI !!!
 			//https://academies-academisation-api-dev.azurewebsites.net/application/99
-			string apiurl = $"{_httpClient.BaseAddress}/application/{applicationId}?api-version=V1";
-
-			ConversionApplication conversionApplication = new();
-
-			// TODO: Get data from Academisation API
-			//var application = await _resilientRequestProvider.GetAsync<ConversionApplication>(apiurl);
-
-			// **** Mock Demo Data - as per Figma ****
-			switch (applicationId)
-			{
-				case 1:
-					conversionApplication = new()
-					{
-						ApplicationId = applicationId,
-						ApplicationType = ApplicationTypes.JoinMat,
-						UserEmail = "",
-						Application = "Join a multi-academy trust A2B_2549",
-						// MR:- comment out below if want to test that application overview page shows a 'add school' button!!
-						Schools = new List<SchoolApplyingToConvert>
-					{
-						new(schoolName: "Chesterton primary school", urn: 101934, applicationId: applicationId, ukprn: null)
-					},
-						ConversionStatus = 3,
-						// MR:- comment out below if want to test that application overview page shows a 'add trust' button!!
-						ExistingTrust = new(trustName: "Existing Trust Test")
-					};
-					break;
-				case 2:
-					conversionApplication = new()
-					{
-						ApplicationId = applicationId,
-						ApplicationType = ApplicationTypes.FormNewMat,
-						UserEmail = "",
-						Application = "Form a new multi-academy trust A2B_2549",
-						Schools = new List<SchoolApplyingToConvert>
-					{
-						new(schoolName: "Chesterton primary school", urn: 101934, applicationId: applicationId, ukprn: null),
-						new(schoolName: "Newcastle primary school", urn: 101934, applicationId:applicationId, ukprn: null),
-						new(schoolName: "Another primary school", urn: 101934, applicationId:applicationId, ukprn: null)
-					},
-						ConversionStatus = 3,
-						FormATrust = new(proposedTrustName: "New multi academy trust"),
-					};
-					break;
-				case 3:
-					// MR:- this application is rare
-					conversionApplication = new()
-					{
-						ApplicationId = applicationId,
-						ApplicationType = ApplicationTypes.FormNewSingleAcademyTrust,
-						UserEmail = "",
-						Application = "Form a new single academy trust A2B_2549",
-						Schools = new List<SchoolApplyingToConvert>
-					{
-						new(schoolName: "Chesterton primary school", urn: 101934, applicationId: applicationId, ukprn: null)
-					},
-						ConversionStatus = 3,
-						FormATrust = new(proposedTrustName: "New single academy Trust")
-					};
-					break;
-			}
+			// endpoint will return 404 if id NOT found !
+			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+			
+			// Get data from Academisation API
+			var conversionApplication = await _resilientRequestProvider.GetAsync<ConversionApplication>(apiurl);
 
 			return conversionApplication;
 		}
