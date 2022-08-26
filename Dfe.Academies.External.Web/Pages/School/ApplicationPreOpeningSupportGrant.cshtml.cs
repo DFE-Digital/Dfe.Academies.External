@@ -68,6 +68,8 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 	}
 
 	// TODO MR:- Post()
+	// on post need to read SchoolSupportGrantFundsPaidTo to pass / yes-no down the wire.
+	// OR pass ConfirmSchoolPay down the wire !!
 
 	public override void PopulateValidationMessages()
 	{
