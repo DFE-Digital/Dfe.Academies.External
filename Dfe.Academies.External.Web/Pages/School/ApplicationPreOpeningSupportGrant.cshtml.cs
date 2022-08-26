@@ -85,7 +85,7 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 		try
 		{
 			LoadAndStoreCachedConversionApplication();
-			var conversionApplication = await LoadAndSetApplicationDetails(appId);
+			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
 
@@ -96,7 +96,7 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 				// data stored against the school ?????????????? not implemented 22/08/2022
 
 
-				PopulateUiModel(selectedSchool, conversionApplication);
+				PopulateUiModel(selectedSchool, draftConversionApplication);
 			}
 		}
 		catch (Exception ex)
@@ -171,8 +171,15 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 		ApplicationId = selectedSchool.ApplicationId;
 		Urn = selectedSchool.URN;
 		SchoolName = selectedSchool.SchoolName;
+		if (conversionApplication.ApplicationType != ApplicationTypes.JoinMat)
+		{
+			SchoolSupportGrantFundsPaidTo = PayFundsTo.Trust;
+			ConfirmSchoolPay = false;
+		}
+
 		// TODO MR:- populate other props from API - not implemented 22/08/2022
-		//PayFundsTo = selectedSchool.PayFundsTo;
+		//SchoolSupportGrantFundsPaidTo = selectedSchool.PayFundsTo;
+		//ConfirmSchoolPay = selectedSchool.PayFundsTo;
 	}
 }
 
