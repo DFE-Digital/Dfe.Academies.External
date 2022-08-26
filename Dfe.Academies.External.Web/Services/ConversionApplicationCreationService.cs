@@ -21,8 +21,9 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
     {
 	    try
 	    {
-		    //https://academies-academisation-api-dev.azurewebsites.net/application/99
-		    string apiurl = $"{_httpClient.BaseAddress}/application/?api-version=V1";
+		    //baseaddress has a backslash at the end to be a valid URI !!!
+			//https://academies-academisation-api-dev.azurewebsites.net/application/99
+			string apiurl = $"{_httpClient.BaseAddress}application/?api-version=V1";
 
 		    // TODO: wire up Academisation API
 		    // var result = await _resilientRequestProvider.PostAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
@@ -47,7 +48,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		    // before then patching ConversionApplication returned with data from application object
 
 		    //https://academies-academisation-api-dev.azurewebsites.net/application/99
-		    string apiurl = $"{_httpClient.BaseAddress}/application/{application.ApplicationId}?api-version=V1";
+		    string apiurl = $"{_httpClient.BaseAddress}application/{application.ApplicationId}?api-version=V1";
 
 		    // TODO: wire up Academisation API / what object does a PUT return
 		    // var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
@@ -69,7 +70,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// before then patching ConversionApplication returned with data from application object
 
 			//https://academies-academisation-api-dev.azurewebsites.net/application/99
-			string apiurl = $"{_httpClient.BaseAddress}/application/{applicationId}?api-version=V1";
+			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
 			SchoolApplyingToConvert school = new(name, schoolUrn, applicationId,null);
 
@@ -95,7 +96,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// before then patching ConversionApplication returned with data from application object
 
 			//https://academies-academisation-api-dev.azurewebsites.net/application/99
-			string apiurl = $"{_httpClient.BaseAddress}/application/{applicationId}?api-version=V1";
+			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
 			// application can contain multiple schools so need to grab one being changed via linqage
 			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
@@ -121,7 +122,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// before then patching ConversionApplication returned with data from application object
 
 			//https://academies-academisation-api-dev.azurewebsites.net/application/99
-			string apiurl = $"{_httpClient.BaseAddress}/application/{applicationId}?api-version=V1";
+			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
 			// TODO MR:- add to existing / form new route to think about here !
 			// application.Trust = new trust();
