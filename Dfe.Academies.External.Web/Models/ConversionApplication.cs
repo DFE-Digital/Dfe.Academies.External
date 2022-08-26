@@ -12,6 +12,7 @@ public class ConversionApplication
 
     public ApplicationTypes ApplicationType { get; set; }
 
+	// TODO MR:- convert this to an enum ????
     public string ApplicationStatus { get; set; }
 
 	public string? UserEmail { get; set; }
