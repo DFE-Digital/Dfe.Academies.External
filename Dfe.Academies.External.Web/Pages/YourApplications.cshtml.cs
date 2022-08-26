@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using System.Security.Claims;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -24,12 +25,11 @@ namespace Dfe.Academies.External.Web.Pages
         {           
             try
             {
-                //TODO: Get login username 
-                var username = User.Identity?.Name;
+	            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
 
-                ExistingApplications = _conversionApplications.GetPendingApplications(username);
+                ExistingApplications = _conversionApplications.GetPendingApplications(userEmail);
 
-                CompletedApplications = await _conversionApplications.GetCompletedApplications(username);
+                CompletedApplications = await _conversionApplications.GetCompletedApplications(userEmail);
             }
             catch (Exception ex)
             {
