@@ -56,8 +56,7 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
 	        var applicationTypeSelected = ApplicationType;
             var _draftConversionApplication = new ConversionApplication
             {
-                ApplicationType = applicationTypeSelected,
-                UserEmail = User.FindFirst(ClaimTypes.Email)?.Value
+                ApplicationType = applicationTypeSelected
             };
 
             _draftConversionApplication = await _academisationCreationService.CreateNewApplication(_draftConversionApplication);
