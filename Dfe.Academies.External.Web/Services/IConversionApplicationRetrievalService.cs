@@ -8,7 +8,7 @@ public interface IConversionApplicationRetrievalService
 	/// </summary>
 	/// <param name="username"></param>
 	/// <returns></returns>
-	List<ConversionApplication> GetCompletedApplications(string? username);
+	Task<List<ConversionApplication>> GetCompletedApplications(string? username);
 
 	/// <summary>
 	/// This depends on the concept of contributor and filtering by their username

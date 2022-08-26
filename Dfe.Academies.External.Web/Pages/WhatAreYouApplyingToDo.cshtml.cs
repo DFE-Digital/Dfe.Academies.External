@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages;
 
+using System.Security.Claims;
 public class WhatAreYouApplyingToDoModel : BasePageModel
 {
     private readonly ILogger<WhatAreYouApplyingToDoModel> _logger;
@@ -55,8 +56,7 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
 	        var applicationTypeSelected = ApplicationType;
             var _draftConversionApplication = new ConversionApplication
             {
-                ApplicationType = applicationTypeSelected,
-                UserEmail = "Auth user"
+                ApplicationType = applicationTypeSelected
             };
 
             _draftConversionApplication = await _academisationCreationService.CreateNewApplication(_draftConversionApplication);

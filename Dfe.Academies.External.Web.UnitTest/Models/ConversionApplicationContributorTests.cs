@@ -16,10 +16,11 @@ internal sealed class ConversionApplicationContributorTests
         // arrange
         string firstName = Fixture.Create<string>();
         string surName = Fixture.Create<string>();
+        string email = Fixture.Create<string>();
         string? role = null;
         SchoolRoles schoolRole = SchoolRoles.Chair;
 
-        var applicationComponent = new ConversionApplicationContributor(firstName, surName, schoolRole, role)
+        var applicationComponent = new ConversionApplicationContributor(firstName, surName, email, schoolRole, role)
         {
             ContributorId = int.MaxValue
         };
