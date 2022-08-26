@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages;
 
+using System.Security.Claims;
 public class WhatIsYourRoleModel : BasePageModel
 {
     private readonly ILogger<WhatIsYourRoleModel> _logger;
@@ -76,8 +77,10 @@ public class WhatIsYourRoleModel : BasePageModel
 	        //// grab draft application from temp= null
 	        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			// TODO MR:- get firstname / surname / email from Auth details?????
-	        var creationContributor = new ConversionApplicationContributor("", "", SchoolRole, OtherRoleNotListed);
+	        var firstName = User.FindFirst(ClaimTypes.GivenName)?.Value ?? "";
+	        var lastName = User.FindFirst(ClaimTypes.Surname)?.Value ?? "";
+	        var email = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
+	        var creationContributor = new ConversionApplicationContributor(firstName, lastName, email, SchoolRole, OtherRoleNotListed);
 	        draftConversionApplication.Contributors.Add(creationContributor);
 
             await _academisationCreationService.UpdateDraftApplication(draftConversionApplication);
