@@ -58,7 +58,7 @@ namespace Dfe.Academies.External.Web.Pages.School
         private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
         {
             // MR:- below equals cached ApplicationReferenceNumber
-            var applicationCacheViewModel = ViewDataHelper.GetSerialisedValue<ApplicationCacheValuesViewModel>(nameof(ApplicationCacheValuesViewModel), ViewData) ?? new ApplicationCacheValuesViewModel();
+            var applicationCacheViewModel = ViewDataHelper.GetSerialisedValue<ApplicationCacheValuesViewModel>(TempDataHelper.DraftConversionApplicationKey, ViewData) ?? new ApplicationCacheValuesViewModel();
 
             ApplicationType = applicationCacheViewModel.ApplicationType;
             URN = selectedSchool.URN;
