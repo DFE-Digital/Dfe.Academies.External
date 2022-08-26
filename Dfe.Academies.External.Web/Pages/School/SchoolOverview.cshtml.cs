@@ -30,15 +30,8 @@ namespace Dfe.Academies.External.Web.Pages.School
         {
 	        try
 	        {
-		        //// on load - grab draft application from temp
-		        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-		        //// MR:- Need to drop into this pages cache here ready for post / server callback !
-		        TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-		        //var conversionApplication = await LoadAndSetApplicationDetails(draftConversionApplication.ApplicationId);
-
-                // var schoolCacheViewModel = ViewDataHelper.GetSerialisedValue<SchoolCacheValuesViewModel>(nameof(SchoolCacheValuesViewModel), ViewData) ?? new SchoolCacheValuesViewModel();
-                var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+				var conversionApplication = await LoadAndSetApplicationDetails(appId);
+				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
 
                 // Grab other values from API
                 if (selectedSchool != null)
@@ -46,7 +39,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	                selectedSchool.SchoolApplicationComponents = await ConversionApplicationRetrievalService
 		                .GetSchoolApplicationComponents(appId, urn);
 
-	                PopulateUiModel(selectedSchool);
+	                PopulateUiModel(selectedSchool, conversionApplication);
                 }
 	        }
 	        catch (Exception ex)
@@ -55,19 +48,16 @@ namespace Dfe.Academies.External.Web.Pages.School
             }
         }
 
-        private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+        private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ConversionApplication? application)
         {
-            // MR:- below equals cached ApplicationReferenceNumber
-            var applicationCacheViewModel = ViewDataHelper.GetSerialisedValue<ApplicationCacheValuesViewModel>(TempDataHelper.DraftConversionApplicationKey, ViewData) ?? new ApplicationCacheValuesViewModel();
-
-            ApplicationType = applicationCacheViewModel.ApplicationType;
-            URN = selectedSchool.URN;
+	        URN = selectedSchool.URN;
             SchoolName = selectedSchool.SchoolName;
 
-            SchoolComponentsViewModel componentsVm = new()
+            ApplicationType = application.ApplicationType;
+			SchoolComponentsViewModel componentsVm = new()
             {
 	            URN = selectedSchool.URN,
-	            ApplicationId = applicationCacheViewModel.ApplicationId,
+	            ApplicationId = application.ApplicationId,
 	            // Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
 	            SchoolComponents = selectedSchool.SchoolApplicationComponents.Select(c =>
 		            new ApplicationComponentViewModel(name: c.Name,
