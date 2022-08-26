@@ -33,7 +33,9 @@
                         {
                             <tr class="govuk-table__row">
 	                            <th scope="row" class="govuk-table__cell">
-		                            <a asp-page="ApplicationOverview" class="govuk-link">@data.Application</a>
+		                            <a asp-page="ApplicationOverview"
+		                               asp-route-appId="@data.ApplicationId"
+		                               class="govuk-link">@data.Application</a>
 	                            </th>
                                 <td class="govuk-table__cell">@data.TrustName</td>
                                 <td class="govuk-table__cell">
@@ -78,7 +80,9 @@
                         {
                             <tr class="govuk-table__row">
 	                            <th scope="row" class="govuk-table__cell">
-		                            <a asp-page="ApplicationOverview" class="govuk-link">@data.Application</a>
+		                            <a asp-page="ApplicationOverview"
+		                               asp-route-appId="@data.ApplicationId"
+		                               class="govuk-link">@data.Application</a>
 	                            </th>
                                 <td class="govuk-table__cell">@data.TrustName</td>
                                 <td class="govuk-table__cell">
