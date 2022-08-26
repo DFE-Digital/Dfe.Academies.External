@@ -3,7 +3,6 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using Sentry.Protocol;
 
 namespace Dfe.Academies.External.Web.Pages.School;
 
@@ -25,20 +24,17 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 	public ApplicationTypes ApplicationType { get; set; }
 
 	//// MR:- VM props to capture data
-	// enum - to school / to trust
 	[BindProperty]
 	public PayFundsTo? SchoolSupportGrantFundsPaidTo { get; set; }
 
 	[BindProperty]
-	public bool? ConfirmSchoolPay { get; set; }
+	public bool ConfirmSchoolPay { get; set; }
 
 	public bool HasError
 	{
 		get
 		{
-			var bools = new[] { SchoolSupportGrantFundsPaidToError,
-				ConfirmSchoolPayError
-			};
+			var bools = new[] { SchoolSupportGrantFundsPaidToError };
 
 			return bools.Any(b => b);
 		}
@@ -49,19 +45,6 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 		get
 		{
 			if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolSupportGrantFundsPaidToNotEntered"))
-			{
-				return true;
-			}
-
-			return false;
-		}
-	}
-
-	public bool ConfirmSchoolPayError
-	{
-		get
-		{
-			if (!ModelState.IsValid && ModelState.Keys.Contains("ConfirmSchoolPayNotEntered"))
 			{
 				return true;
 			}
@@ -120,12 +103,6 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 			PopulateValidationMessages();
 			return Page();
 		}
-		else if (ApplicationType != ApplicationTypes.JoinMat && !ConfirmSchoolPay.HasValue)
-		{
-			ModelState.AddModelError("ConfirmSchoolPayNotEntered", "You must provide details");
-			PopulateValidationMessages();
-			return Page();
-		}
 
 		try
 		{
@@ -139,7 +116,7 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 			}
 			else
 			{
-				if (ConfirmSchoolPay!.Value!= true)
+				if (ConfirmSchoolPay!= true)
 				{
 					schoolSupportGrantFundsPaidTo = PayFundsTo.Trust;
 				}

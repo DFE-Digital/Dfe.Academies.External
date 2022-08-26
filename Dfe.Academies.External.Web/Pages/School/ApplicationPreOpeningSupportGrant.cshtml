@@ -103,13 +103,12 @@
 					                I confirm that:
 				                </h1>
 			                </legend>
-			                <div class="govuk-checkboxes">
-				                <div class="govuk-checkboxes__item">
-					                <input id='ConfirmSchoolPay'
-					                       asp-for="@Model.ConfirmSchoolPay"
-					                       class='govuk-checkboxes__input'>
+                            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                <div class="govuk-checkboxes__item">
+					                <input asp-for="ConfirmSchoolPay" type="checkbox"
+											class="govuk-checkboxes__input">
 					                <label id='confirm-school-pay' for='ConfirmSchoolPay'
-					                       class='govuk-label govuk-checkboxes__label'>
+											class="govuk-label govuk-checkboxes__label">
 						                I would like the grant paying to the school
 					                </label>
 				                </div>
