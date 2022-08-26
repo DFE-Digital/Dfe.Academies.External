@@ -1,7 +1,6 @@
 ﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using System.Globalization;
-using Newtonsoft.Json;
 
 namespace Dfe.Academies.External.Web.Services;
 
