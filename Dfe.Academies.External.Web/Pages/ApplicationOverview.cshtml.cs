@@ -60,28 +60,24 @@ namespace Dfe.Academies.External.Web.Pages
             _conversionApplicationRetrievalService = conversionApplicationRetrievalService;
         }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int appId)
         {
 	        try
 	        {
 		        //// on load - grab draft application from temp
-		        var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+		        var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
 
-		        //// MR:- Need to drop into this pages cache here ready for post / server callback !
-		        TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-                var conversionApplication = await LoadAndSetApplicationDetails(draftConversionApplication.ApplicationId);
-
-                if (conversionApplication != null)
+		        if (draftConversionApplication != null)
                 {
-	                var school = conversionApplication.Schools.FirstOrDefault();
+	                var school = draftConversionApplication.Schools.FirstOrDefault();
 
 	                if (school != null)
 	                {
 		                school.SchoolApplicationComponents =
-			                await _conversionApplicationRetrievalService.GetSchoolApplicationComponents(draftConversionApplication.ApplicationId, school.URN);
+			                await _conversionApplicationRetrievalService.GetSchoolApplicationComponents(appId, school.URN);
                     }
 
-	                PopulateUiModel(conversionApplication, school);
+	                PopulateUiModel(draftConversionApplication, school);
                 }
 	        }
 	        catch (Exception ex)
