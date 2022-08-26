@@ -23,25 +23,17 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
     {
 	    try
 	    {
-		    var response = await _httpClient.GetAsync($"application/contributor{email}");
-		    response.EnsureSuccessStatusCode();
-		    string responseBody = await response.Content.ReadAsStringAsync();
-		    return JsonConvert.DeserializeObject<List<ConversionApplication>>(responseBody);
+		    // **** Mock Demo Data - as per Figma - for now ****
+		    List<ConversionApplication> existingApplications = new()
+		    {
+			    new() { ApplicationId = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
+				    Schools = new()
+				    { new(schoolName: "St George’s school", applicationId: 1, urn: 101934, ukprn: null)
+				    }
+			    }
+		    };
 		    
-		    // // TODO: Get data from Academisation API
-		    // //// var applications = await _resilientRequestProvider.GetAsync();
-		    //
-		    // // **** Mock Demo Data - as per Figma - for now ****
-		    // List<ConversionApplication> existingApplications = new()
-		    // {
-			   //  new() { ApplicationId = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
-				  //   Schools = new()
-				  //   { new(schoolName: "St George’s school", applicationId: 1, urn: 101934, ukprn: null)
-				  //   }
-			   //  }
-		    // };
-		    //
-		    // return existingApplications;
+		    return existingApplications;
 		}
 	    catch (Exception ex)
 	    {
