@@ -1,9 +1,9 @@
-﻿using Dfe.Academies.External.Web.Attributes;
-using Dfe.Academies.External.Web.Enums;
+﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using Sentry.Protocol;
 
 namespace Dfe.Academies.External.Web.Pages.School;
 
@@ -21,16 +21,54 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 
     public string SchoolName { get; private set; } = string.Empty;
 
-	public ApplicationTypes ApplicationType { get; private set; }
+    [BindProperty]
+	public ApplicationTypes ApplicationType { get; set; }
 
 	//// MR:- VM props to capture data
 	// enum - to school / to trust
 	[BindProperty]
-	[RequiredEnum(ErrorMessage = "You must provide details")]
-	public PayFundsTo SchoolSupportGrantFundsPaidTo { get; set; }
+	public PayFundsTo? SchoolSupportGrantFundsPaidTo { get; set; }
 
 	[BindProperty]
 	public bool? ConfirmSchoolPay { get; set; }
+
+	public bool HasError
+	{
+		get
+		{
+			var bools = new[] { SchoolSupportGrantFundsPaidToError,
+				ConfirmSchoolPayError
+			};
+
+			return bools.Any(b => b);
+		}
+	}
+
+	public bool SchoolSupportGrantFundsPaidToError
+	{
+		get
+		{
+			if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolSupportGrantFundsPaidToNotEntered"))
+			{
+				return true;
+			}
+
+			return false;
+		}
+	}
+
+	public bool ConfirmSchoolPayError
+	{
+		get
+		{
+			if (!ModelState.IsValid && ModelState.Keys.Contains("ConfirmSchoolPayNotEntered"))
+			{
+				return true;
+			}
+
+			return false;
+		}
+	}
 
 	public ApplicationPreOpeningSupportGrantModel(ILogger<ApplicationPreOpeningSupportGrantModel> logger,
 		IConversionApplicationRetrievalService conversionApplicationRetrievalService,
@@ -67,9 +105,60 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 		}
 	}
 
-	// TODO MR:- Post()
-	// on post need to read SchoolSupportGrantFundsPaidTo to pass / yes-no down the wire.
-	// OR pass ConfirmSchoolPay down the wire !!
+	public async Task<IActionResult> OnPostAsync()
+	{
+		if (!ModelState.IsValid)
+		{
+			// error messages component consumes ViewData["Errors"]
+			PopulateValidationMessages();
+			return Page();
+		}
+
+		if (ApplicationType == ApplicationTypes.JoinMat && !SchoolSupportGrantFundsPaidTo.HasValue)
+		{
+			ModelState.AddModelError("SchoolSupportGrantFundsPaidToNotEntered", "You must provide details");
+			PopulateValidationMessages();
+			return Page();
+		}
+		else if (ApplicationType != ApplicationTypes.JoinMat && !ConfirmSchoolPay.HasValue)
+		{
+			ModelState.AddModelError("ConfirmSchoolPayNotEntered", "You must provide details");
+			PopulateValidationMessages();
+			return Page();
+		}
+
+		try
+		{
+			//// grab draft application from temp= null
+			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+			PayFundsTo schoolSupportGrantFundsPaidTo = PayFundsTo.School;
+
+			if (ApplicationType == ApplicationTypes.JoinMat)
+			{
+				schoolSupportGrantFundsPaidTo = SchoolSupportGrantFundsPaidTo!.Value;
+			}
+			else
+			{
+				if (ConfirmSchoolPay!.Value!= true)
+				{
+					schoolSupportGrantFundsPaidTo = PayFundsTo.Trust;
+				}
+			}
+
+			// TODO MR:- call API endpoint to log data
+			//await _academisationCreationService.ApplicationPreOpeningSupportGrantUpdate(schoolSupportGrantFundsPaidTo);
+
+			// update temp store for next step - application overview
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+			return RedirectToPage("ApplicationPreOpeningSupportGrantSummary", new { appId = ApplicationId, urn = Urn });
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError("School::ApplicationPreOpeningSupportGrantModel::OnPostAsync::Exception - {Message}", ex.Message);
+			return Page();
+		}
+	}
 
 	public override void PopulateValidationMessages()
 	{

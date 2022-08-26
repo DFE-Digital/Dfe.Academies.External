@@ -36,15 +36,16 @@
 	<form method="post" name="frmApplicationPreOpeningSupportGrant" novalidate="">
 		@Html.AntiForgeryToken()
 		<input type="hidden" asp-for="Urn"/>
-		<input type="hidden" asp-for="ApplicationId"/>		
-		<partial name="_HiddenFields"/>
+		<input type="hidden" asp-for="ApplicationId"/>
+        <input type="hidden" asp-for="ApplicationType" />
+        <partial name="_HiddenFields"/>
 		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 			<fieldset class="govuk-fieldset">
 				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
-				</div>        
+				</div>
 
-                @if (Model.ApplicationType == ApplicationTypes.JoinMat)
+				@if (Model.ApplicationType == ApplicationTypes.JoinMat)
                 {
                     <div class="govuk-form-group">
                         <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
