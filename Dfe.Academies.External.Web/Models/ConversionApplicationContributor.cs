@@ -4,7 +4,7 @@ namespace Dfe.Academies.External.Web.Models;
 
 public class ConversionApplicationContributor
 {
-    public ConversionApplicationContributor(string firstName, string surname, String emailAddress, SchoolRoles role, string? otherRoleName)
+    public ConversionApplicationContributor(string firstName, string surname, string emailAddress, SchoolRoles role, string? otherRoleName)
     {
 	    FirstName = firstName;
         Surname = surname;
