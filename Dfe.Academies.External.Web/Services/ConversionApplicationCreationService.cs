@@ -270,4 +270,35 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			throw;
 		}
 	}
+
+	///<inheritdoc/>
+	public async Task ApplicationPreOpeningSupportGrantUpdate(PayFundsTo schoolSupportGrantFundsPaidTo)
+	{
+		try
+		{
+			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
+			// to grab current application data
+			// before then patching ConversionApplication returned with data from application object
+
+			// application can contain multiple schools so need to grab one being changed via linqage
+			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolLandAndBuildings.Urn);
+
+			if (schoolSupportGrantFundsPaidTo == PayFundsTo.School)
+			{
+				//schoolUpdating.SchoolBuildLandOwnerExplained = schoolLandAndBuildings.SchoolBuildLandOwnerExplained;
+			}
+			else
+			{
+				//schoolUpdating.SchoolBuildLandOwnerExplained = schoolLandAndBuildings.SchoolBuildLandOwnerExplained;	
+			}
+
+			// TODO: wire up Academisation API / what object does a PUT return
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, application);
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError("ConversionApplicationCreationService::ApplicationPreOpeningSupportGrantUpdate::Exception - {Message}", ex.Message);
+			throw;
+		}
+	}
 }

@@ -122,8 +122,8 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 				}
 			}
 
-			// TODO MR:- call API endpoint to log data
-			//await _academisationCreationService.ApplicationPreOpeningSupportGrantUpdate(schoolSupportGrantFundsPaidTo);
+			// MR:- call API endpoint to log data
+			await _academisationCreationService.ApplicationPreOpeningSupportGrantUpdate(schoolSupportGrantFundsPaidTo);
 
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
