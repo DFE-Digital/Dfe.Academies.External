@@ -19,48 +19,44 @@ internal sealed class ConversionApplicationCreationServiceTests
 {
 	private static readonly Fixture Fixture = new();
 
-    [Test]
+	[Test]
     public async Task CreateNewApplication___NoContributor___ApiReturns400___BadRequest()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/newApplicationBodyNoContributor.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/createApplicationResponseInValid.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
-		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.Created, expectedJson);
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.BadRequest, expectedJson);
         var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
         var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationNoRoles();
-
-        // act
         var conversionApplicationCreationService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
-        var newApplication = await conversionApplicationCreationService.CreateNewApplication(conversionApplication);
 
-        // assert
-        Assert.That(newApplication, Is.Not.Null);
-        Assert.AreEqual(newApplication.ApplicationType, conversionApplication.ApplicationType);
-        Assert.AreEqual(newApplication.UserEmail, conversionApplication.UserEmail);
-        Assert.AreEqual(newApplication.ApplicationTitle, conversionApplication.ApplicationTitle);
-        Assert.AreNotEqual(newApplication.ApplicationId, 0);
+		// act / assert
+		var ex = Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.CreateNewApplication(conversionApplication));
+
+        // now we could test the exception itself
+        Assert.That(ex.Message == "Response status code does not indicate success: 400 (Bad Request).");
     }
 
     [Test]
     public async Task CreateNewApplication___Contributor___ApiReturns200___Success()
     {
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/newApplicationBodyValid.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/createApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.Created, expectedJson);
 	    var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
 	    var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithOtherRole();
-
-	    // act
 	    var conversionApplicationCreationService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
-	    var newApplication = await conversionApplicationCreationService.CreateNewApplication(conversionApplication);
+
+		// act
+		var newApplication = await conversionApplicationCreationService.CreateNewApplication(conversionApplication);
 
 	    // assert
 	    Assert.That(newApplication, Is.Not.Null);
 	    Assert.AreEqual(newApplication.ApplicationType, conversionApplication.ApplicationType);
-	    Assert.AreEqual(newApplication.UserEmail, conversionApplication.UserEmail);
-	    Assert.AreEqual(newApplication.ApplicationTitle, conversionApplication.ApplicationTitle);
+	    Assert.AreEqual(newApplication.ApplicationStatus, conversionApplication.ApplicationStatus);
+
 	    Assert.AreNotEqual(newApplication.ApplicationId, 0);
     }
 
@@ -223,8 +219,9 @@ internal sealed class ConversionApplicationCreationServiceTests
 		    });
 
 	    var httpClient = new HttpClient(mockMessageHandler.Object);
+	    httpClient.BaseAddress = new Uri(APIConstants.AcademiesAPITestUrl);
 
-	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+		mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
 	    return mockFactory;
     }
