@@ -8,6 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="ExampleJsonResponses\createApplicationResponse.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ExampleJsonResponses\getApplicationResponseFormASAT.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
