@@ -142,7 +142,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 	    // assert
 	    Assert.That(application, Is.Not.Null);
 	    Assert.That(application.ApplicationId, Is.EqualTo(applicationId));
-        Assert.That(application.Application, Is.EqualTo("Form new single academy trust A2B_2"));
+        Assert.That(application.ApplicationTitle, Is.EqualTo("Form new single academy trust A2B_2"));
         Assert.That(application.ApplicationStatus, Is.EqualTo(status));
 
 		Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
@@ -172,7 +172,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
         // assert
         Assert.That(application, Is.Not.Null);
         Assert.That(application.ApplicationId, Is.EqualTo(applicationId));
-        Assert.That(application.Application, Is.EqualTo("Join a multi-academy trust A2B_1"));
+        Assert.That(application.ApplicationTitle, Is.EqualTo("Join a multi-academy trust A2B_1"));
 		Assert.That(application.ApplicationStatus, Is.EqualTo(status));
 
 		Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");

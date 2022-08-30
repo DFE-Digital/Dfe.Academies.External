@@ -27,7 +27,7 @@ internal sealed class ConversionApplicationTests
         Assert.That(conversionApplication.ApplicationId, Is.EqualTo(int.MaxValue));
         Assert.That(conversionApplication.ApplicationType, Is.EqualTo(ApplicationTypes.FormAMat));
         Assert.That(conversionApplication.UserEmail, Is.EqualTo("mark.robinson@education.gov.uk"));
-        Assert.That(conversionApplication.Application, Is.EqualTo("Form a new multi-academy trust A2B_2147483647"));
+        Assert.That(conversionApplication.ApplicationTitle, Is.EqualTo("Form a new multi-academy trust A2B_2147483647"));
         Assert.That(conversionApplication.ConversionStatus, Is.EqualTo(1));
         Assert.That(conversionApplication.Schools.Count, Is.EqualTo(0));
         Assert.That(conversionApplication.Contributors.Count, Is.EqualTo(0));

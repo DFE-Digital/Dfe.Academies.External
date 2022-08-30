@@ -20,7 +20,7 @@ public class ConversionApplication
 	/// <summary>
 	/// In format:- "Form a new single academy trust A2B_2"
 	/// </summary>
-	public string Application {
+	public string ApplicationTitle {
 		get
 		{
 			return $"{ApplicationType.GetDescription()} {ApplicationReference}";
