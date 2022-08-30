@@ -4,10 +4,10 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Dfe.Academies.External.Web.Pages;
 
-using System.Security.Claims;
 public class WhatIsYourRoleModel : BasePageModel
 {
     private readonly ILogger<WhatIsYourRoleModel> _logger;
@@ -48,7 +48,7 @@ public class WhatIsYourRoleModel : BasePageModel
 		    //// on load - grab draft application from temp
 		    var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-		    //// MR:- Need to drop into this pages cache here ready for post / server callback !
+		    //// MR:- Need to drop into THIS pages cache here ready for post / server callback !
 		    TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
         }
 	    catch (Exception ex)
@@ -83,7 +83,7 @@ public class WhatIsYourRoleModel : BasePageModel
 	        var creationContributor = new ConversionApplicationContributor(firstName, lastName, email, SchoolRole, OtherRoleNotListed);
 	        draftConversionApplication.Contributors.Add(creationContributor);
 
-            await _academisationCreationService.UpdateDraftApplication(draftConversionApplication);
+            await _academisationCreationService.CreateNewApplication(draftConversionApplication);
 
             // update temp store for next step - application overview
             TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
