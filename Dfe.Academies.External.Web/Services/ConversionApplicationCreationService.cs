@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using System.Text.Json;
-using Dfe.Academies.External.Web.Enums;
+﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
