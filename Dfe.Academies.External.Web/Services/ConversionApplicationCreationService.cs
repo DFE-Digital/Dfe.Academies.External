@@ -77,7 +77,6 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	//	    //https://academies-academisation-api-dev.azurewebsites.net/application/99
 	//	    string apiurl = $"{_httpClient.BaseAddress}application/{application.ApplicationId}?api-version=V1";
 
-	//	    // TODO: wire up Academisation API / what object does a PUT return
 	//	    // var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
 	//    }
 	//    catch (Exception ex)
