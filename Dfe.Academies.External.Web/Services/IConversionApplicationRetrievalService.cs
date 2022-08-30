@@ -15,7 +15,7 @@ public interface IConversionApplicationRetrievalService
 	/// </summary>
 	/// <param name="username"></param>
 	/// <returns></returns>
-	List<ConversionApplication> GetPendingApplications(string? username);
+	Task<List<ConversionApplication>> GetPendingApplications(string? username);
 
 	/// <summary>
 	/// 
