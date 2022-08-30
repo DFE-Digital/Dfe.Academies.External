@@ -1,4 +1,5 @@
 ﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 
 namespace Dfe.Academies.External.Web.Models;
 public class ConversionApplication
@@ -16,7 +17,15 @@ public class ConversionApplication
 
 	public string? UserEmail { get; set; }
 
-    public string? Application { get; set; }
+	/// <summary>
+	/// In format:- "Form a new single academy trust A2B_2"
+	/// </summary>
+	public string Application {
+		get
+		{
+			return $"{ApplicationType.GetDescription()} {ApplicationReference}";
+		}
+	}
 
     public List<SchoolApplyingToConvert> Schools { get; set; } = new();
     

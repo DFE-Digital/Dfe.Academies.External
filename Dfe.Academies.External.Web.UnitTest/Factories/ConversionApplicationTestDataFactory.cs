@@ -16,8 +16,7 @@ internal static class ConversionApplicationTestDataFactory
         {
             UserEmail = Fixture.Create<string>(),
             ApplicationId = int.MaxValue,
-            ApplicationType = ApplicationTypes.FormAMat,
-            Application = Fixture.Create<string>()
+            ApplicationType = ApplicationTypes.FormAMat
         };
     }
 
@@ -28,8 +27,7 @@ internal static class ConversionApplicationTestDataFactory
             UserEmail = Fixture.Create<string>(),
             ApplicationId = int.MaxValue,
             ApplicationType = ApplicationTypes.FormAMat,
-            Application = Fixture.Create<string>(),
-			Contributors = new()
+            Contributors = new()
 			{
 				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
 			}
@@ -43,7 +41,6 @@ internal static class ConversionApplicationTestDataFactory
             UserEmail = Fixture.Create<string>(),
             ApplicationId = int.MaxValue,
             ApplicationType = ApplicationTypes.FormAMat,
-            Application = Fixture.Create<string>(),
             Contributors = new()
             {
 	            new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(), SchoolRoles.ChairOfGovernors, null)
