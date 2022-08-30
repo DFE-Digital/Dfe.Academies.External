@@ -1,15 +1,16 @@
-﻿using AutoFixture;
+﻿using System;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoFixture;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using NUnit.Framework;
-using System;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
@@ -18,64 +19,86 @@ internal sealed class ConversionApplicationCreationServiceTests
 {
 	private static readonly Fixture Fixture = new();
 
-    //[Test]
-    public async Task CreateNewApplication___Success()
-    {
-        // arrange
-        var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-        var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.Created, expectedJson);
+    [Test]
+    public async Task CreateNewApplication___NoContributor___ApiReturns400___BadRequest()
+	{
+		// arrange
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/newApplicationBodyNoContributor.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.Created, expectedJson);
         var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
-        var trustApplicationDto = ConversionApplicationTestDataFactory.BuildNewConversionApplicationNoRoles();
+        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationNoRoles();
 
         // act
-        var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
-        var trustApplicationModel = await recordModelService.CreateNewApplication(trustApplicationDto);
+        var conversionApplicationCreationService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
+        var newApplication = await conversionApplicationCreationService.CreateNewApplication(conversionApplication);
 
         // assert
-        Assert.That(trustApplicationModel, Is.Not.Null);
-        Assert.AreEqual(trustApplicationModel.ApplicationType, trustApplicationDto.ApplicationType);
-        Assert.AreEqual(trustApplicationModel.UserEmail, trustApplicationDto.UserEmail);
-        Assert.AreEqual(trustApplicationModel.ApplicationTitle, trustApplicationDto.ApplicationTitle);
-        Assert.AreNotEqual(trustApplicationModel.ApplicationId, 0);
+        Assert.That(newApplication, Is.Not.Null);
+        Assert.AreEqual(newApplication.ApplicationType, conversionApplication.ApplicationType);
+        Assert.AreEqual(newApplication.UserEmail, conversionApplication.UserEmail);
+        Assert.AreEqual(newApplication.ApplicationTitle, conversionApplication.ApplicationTitle);
+        Assert.AreNotEqual(newApplication.ApplicationId, 0);
     }
 
-    //[Test]
-    public async Task UpdateDraftApplication___OtherRole___Success()
+    [Test]
+    public async Task CreateNewApplication___Contributor___ApiReturns200___Success()
     {
-        // arrange
-        var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-        var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-        var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
-        var trustApplicationDto = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithOtherRole();
+		// arrange
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/newApplicationBodyValid.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.Created, expectedJson);
+	    var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
+	    var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithOtherRole();
 
-        // act
-        var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
+	    // act
+	    var conversionApplicationCreationService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
+	    var newApplication = await conversionApplicationCreationService.CreateNewApplication(conversionApplication);
 
-        // assert
-        Assert.DoesNotThrowAsync(() => recordModelService.UpdateDraftApplication(trustApplicationDto));
+	    // assert
+	    Assert.That(newApplication, Is.Not.Null);
+	    Assert.AreEqual(newApplication.ApplicationType, conversionApplication.ApplicationType);
+	    Assert.AreEqual(newApplication.UserEmail, conversionApplication.UserEmail);
+	    Assert.AreEqual(newApplication.ApplicationTitle, conversionApplication.ApplicationTitle);
+	    Assert.AreNotEqual(newApplication.ApplicationId, 0);
     }
 
-    //[Test]
-    public async Task UpdateDraftApplication___ChairRole___Success()
-    {
-        // arrange
-        var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-        var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-        var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
-        var trustApplicationDto = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+	//public async Task UpdateDraftApplication___OtherRole___Success()
+	//{
+	//    // arrange
+	//    var expectedJson = @"{ ""foo"": ""bar"" }"; 
+	//    var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+	//    var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
+	//    var trustApplicationDto = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithOtherRole();
 
-        // act
-        var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
+	//    // act
+	//    var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
 
-        // assert
-        Assert.DoesNotThrowAsync(() => recordModelService.UpdateDraftApplication(trustApplicationDto));
-    }
+	//    // assert
+	//    Assert.DoesNotThrowAsync(() => recordModelService.UpdateDraftApplication(trustApplicationDto));
+	//}
 
-    /// <summary>
-    /// call add school endpoint and mock HttpStatusCode.Created
-    /// </summary>
-    //[Test]
-    public async Task AddSchoolToApplication___ApiReturns200___Ok()
+	//public async Task UpdateDraftApplication___ChairRole___Success()
+	//{
+	//    // arrange
+	//    var expectedJson = @"{ ""foo"": ""bar"" }"; 
+	//    var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+	//    var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
+	//    var trustApplicationDto = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+
+	//    // act
+	//    var recordModelService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
+
+	//    // assert
+	//    Assert.DoesNotThrowAsync(() => recordModelService.UpdateDraftApplication(trustApplicationDto));
+	//}
+
+	/// <summary>
+	/// call add school endpoint and mock HttpStatusCode.Created
+	/// </summary>
+	//[Test]
+	public async Task AddSchoolToApplication___ApiReturns200___Ok()
     {
 	    // arrange
 	    var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
