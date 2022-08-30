@@ -1,0 +1,14 @@
+{
+	"type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+	"title": "One or more validation errors occurred.",
+	"status": 400,
+	"traceId": "00-15b6499f2fa0fa015cce024a2d1f443f-4bba7917e6403379-00",
+	"errors": {
+		"request": [
+			"The request field is required."
+		],
+		"$.contributor.role": [
+			"The JSON value could not be converted to Dfe.Academies.Academisation.IService.RequestModels.ContributorRequestModel. Path: $.contributor.role | LineNumber: 6 | BytePositionInLine: 14."
+		]
+	}
+}
