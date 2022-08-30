@@ -1,4 +1,6 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using System.Text.Json.Serialization;
+using System.Text.Json;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
@@ -21,15 +23,15 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
     {
 	    try
 	    {
-		    //baseaddress has a backslash at the end to be a valid URI !!!
-			//https://academies-academisation-api-dev.azurewebsites.net/application/99
+		    //// baseaddress has a backslash at the end to be a valid URI !!!
+			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
 			string apiurl = $"{_httpClient.BaseAddress}application/?api-version=V1";
 
-		    // TODO: wire up Academisation API
-		    // var result = await _resilientRequestProvider.PostAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
-		    application.ApplicationId = (int)application.ApplicationType; // result.ApplicationId;
+			// Push data into Academisation API
+			// JsonSerializerOptions = done within _resilientRequestProvider
+			var result = await _resilientRequestProvider.PostAsync<ConversionApplication, ConversionApplication>(apiurl, application);
 
-		    return application;
+		    return result;
 		}
 	    catch (Exception ex)
 	    {
