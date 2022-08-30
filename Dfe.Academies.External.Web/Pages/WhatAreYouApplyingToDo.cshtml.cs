@@ -7,18 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages;
 
-using System.Security.Claims;
 public class WhatAreYouApplyingToDoModel : BasePageModel
 {
     private readonly ILogger<WhatAreYouApplyingToDoModel> _logger;
-    private readonly IConversionApplicationCreationService _academisationCreationService;
     private const string NextStepPage = "/WhatIsYourRole";
 
-    public WhatAreYouApplyingToDoModel(ILogger<WhatAreYouApplyingToDoModel> logger, 
-                                        IConversionApplicationCreationService academisationCreationService)
+    public WhatAreYouApplyingToDoModel(ILogger<WhatAreYouApplyingToDoModel> logger)
     {
         _logger = logger;
-        _academisationCreationService = academisationCreationService;
     }
 
     [BindProperty]
@@ -54,18 +50,14 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
         try
         {
 	        var applicationTypeSelected = ApplicationType;
-            var _draftConversionApplication = new ConversionApplication
+            var draftConversionApplication = new ConversionApplication
             {
                 ApplicationType = applicationTypeSelected
             };
 
-            _draftConversionApplication = await _academisationCreationService.CreateNewApplication(_draftConversionApplication);
-
-            if (_draftConversionApplication != null)
-            {
-	            // MR:- plop newApplication.ApplicationId somewhere so NextStepPage can pick this up !
-	            TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, _draftConversionApplication);
-            }
+			// MR:- plop draftApplication somewhere so WhatIsYourRole page can pick this up.
+			// WhatIsYourRole page will carry on updating it and commit the API / DB !
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
             return RedirectToPage(NextStepPage);
         }

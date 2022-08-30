@@ -20,11 +20,9 @@ internal sealed class WhatAreYouApplyingToDoModelTests
     public async Task OnGetAsync___Valid___NullErrors()
     {
         // arrange
-        var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
         var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
 
-        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object,
-            mockAcademisationCreationService.Object);
+        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object);
 
         // act
         await pageModel.OnGetAsync();
@@ -37,11 +35,9 @@ internal sealed class WhatAreYouApplyingToDoModelTests
     public async Task OnGetAsync___Invalid__HasErrors()
     {
         // arrange
-        var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
         var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
 
-        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object,
-            mockAcademisationCreationService.Object);
+        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object);
 
         var routeData = pageModel.RouteData.Values;
         routeData.Add("id", "");
@@ -59,11 +55,9 @@ internal sealed class WhatAreYouApplyingToDoModelTests
     {
         // arrange
         var expectedErrorText = "Test Err";
-        var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
         var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
 
-        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object,
-            mockAcademisationCreationService.Object);
+        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object);
 
         pageModel.ModelState.AddModelError("CustomError", expectedErrorText);
 
@@ -80,11 +74,9 @@ internal sealed class WhatAreYouApplyingToDoModelTests
     public async Task OnPostAsync___ModelStateValid___ViewDataEmpty()
     {
         // arrange
-        var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
         var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
 
-        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object, 
-                                                            mockAcademisationCreationService.Object);
+        var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object);
 
         // act
         await pageModel.OnPostAsync();
@@ -97,12 +89,11 @@ internal sealed class WhatAreYouApplyingToDoModelTests
 
     private static WhatAreYouApplyingToDoModel SetupWhatAreYouApplyingToDoModel(
         ILogger<WhatAreYouApplyingToDoModel> mockLogger, 
-        IConversionApplicationCreationService mockAcademisationCreationService,
         bool isAuthenticated = false)
     {
         (PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-        return new WhatAreYouApplyingToDoModel(mockLogger, mockAcademisationCreationService)
+        return new WhatAreYouApplyingToDoModel(mockLogger)
         {
             PageContext = pageContext,
             TempData = tempData,
