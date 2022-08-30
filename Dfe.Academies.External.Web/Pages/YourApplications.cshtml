@@ -38,12 +38,12 @@
 		                               class="govuk-link">@data.ApplicationTitle</a>
 	                            </th>
                                 <td class="govuk-table__cell">@data.TrustName</td>
-                                <td class="govuk-table__cell">
-                                    @foreach (var schs in data.Schools)
-                                    {
-                                        <ul><li>@Html.Raw(@schs.SchoolName)</li></ul>
-                                    }
-                                </td>
+	                            <td class="govuk-table__cell">
+		                            @foreach (var schs in data.Schools)
+		                            {
+			                            <ul><li>@Html.Raw(@schs.SchoolName)</li></ul>
+		                            }
+	                            </td>
                             </tr>
                         }
                     }
