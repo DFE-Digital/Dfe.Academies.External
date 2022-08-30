@@ -11,6 +11,9 @@
     <Content Include="ExampleJsonResponses\createApplicationResponse.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ExampleJsonResponses\createApplicationResponseInValid.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ExampleJsonResponses\getApplicationResponseFormASAT.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -27,9 +30,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ExampleJsonResponses\newApplicationBodyValid.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ExampleJsonResponses\newApplicationBodyNoContributor.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ExampleJsonResponses\schoolSearchResponse.json">
