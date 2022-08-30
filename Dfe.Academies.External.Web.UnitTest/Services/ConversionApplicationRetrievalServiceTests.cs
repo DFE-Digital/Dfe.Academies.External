@@ -24,16 +24,81 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     public async Task GetPendingApplications___ApiReturns200___Success()
 	{
 		// arrange
-		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-		int expectedCount = 3; // TODO: 
-        string userEmail = string.Empty; // TODO: filter by useremail
+		var expectedJson = @"[
+    {
+      ""applicationId"": 1,
+      ""applicationType"": ""FormAMat"",
+      ""applicationStatus"": ""InProgress"",
+      ""contributors"": [
+        {
+          ""contributorId"": 1,
+          ""firstName"": ""Robert"",
+          ""lastName"": ""McHugh"",
+          ""emailAddress"": ""email@education.gov.uk"",
+          ""role"": ""Other"",
+          ""otherRoleName"": null
+        }
+      ],
+      ""schools"": []
+    },
+	{
+      ""applicationId"": 2,
+      ""applicationType"": ""FormAMat"",
+      ""applicationStatus"": ""InProgress"",
+      ""contributors"": [
+        {
+          ""contributorId"": 1,
+          ""firstName"": ""Robert"",
+          ""lastName"": ""McHugh"",
+          ""emailAddress"": ""email@education.gov.uk"",
+          ""role"": ""Other"",
+          ""otherRoleName"": null
+        }
+      ],
+      ""schools"": []
+    },
+	{
+      ""applicationId"": 3,
+      ""applicationType"": ""FormAMat"",
+      ""applicationStatus"": ""InProgress"",
+      ""contributors"": [
+        {
+          ""contributorId"": 1,
+          ""firstName"": ""Robert"",
+          ""lastName"": ""McHugh"",
+          ""emailAddress"": ""email@education.gov.uk"",
+          ""role"": ""Other"",
+          ""otherRoleName"": null
+        }
+      ],
+      ""schools"": []
+    },
+	{
+      ""applicationId"": 3,
+      ""applicationType"": ""FormAMat"",
+      ""applicationStatus"": ""Submitted"",
+      ""contributors"": [
+        {
+          ""contributorId"": 1,
+          ""firstName"": ""Robert"",
+          ""lastName"": ""McHugh"",
+          ""emailAddress"": ""email@education.gov.uk"",
+          ""role"": ""Other"",
+          ""otherRoleName"": null
+        }
+      ],
+      ""schools"": []
+    }
+  ]";
+		int expectedCount = 3;
+		string userEmail = "email@education.gov.uk";
         var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
         // act
         var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
-        var expectedExistingApplicationsTestData = applicationRetrievalService.GetPendingApplications(userEmail);
+        var expectedExistingApplicationsTestData = await applicationRetrievalService.GetPendingApplications(userEmail);
 
         // assert
         Assert.That(expectedExistingApplicationsTestData, Is.Not.Null);
@@ -44,9 +109,58 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     public async Task GetCompletedApplications___ApiReturns200___Success()
 	{
         // arrange
-        var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-        int expectedCount = 1; // TODO: 
-        string userEmail = string.Empty; // TODO: filter by useremail
+        var expectedJson = @"[
+    {
+      ""applicationId"": 1,
+      ""applicationType"": ""FormAMat"",
+      ""applicationStatus"": ""InProgress"",
+      ""contributors"": [
+        {
+          ""contributorId"": 1,
+          ""firstName"": ""Robert"",
+          ""lastName"": ""McHugh"",
+          ""emailAddress"": ""robert@education.gov.uk"",
+          ""role"": ""Other"",
+          ""otherRoleName"": null
+        }
+      ],
+      ""schools"": []
+    },
+  {
+      ""applicationId"": 2,
+      ""applicationType"": ""FormAMat"",
+      ""applicationStatus"": ""InProgress"",
+      ""contributors"": [
+        {
+          ""contributorId"": 1,
+          ""firstName"": ""Robert"",
+          ""lastName"": ""McHugh"",
+          ""emailAddress"": ""robert@education.gov.uk"",
+          ""role"": ""Other"",
+          ""otherRoleName"": null
+        }
+      ],
+      ""schools"": []
+    },
+  {
+      ""applicationId"": 3,
+      ""applicationType"": ""FormAMat"",
+      ""applicationStatus"": ""Submitted"",
+      ""contributors"": [
+        {
+          ""contributorId"": 1,
+          ""firstName"": ""Robert"",
+          ""lastName"": ""McHugh"",
+          ""emailAddress"": ""robert@education.gov.uk"",
+          ""role"": ""Other"",
+          ""otherRoleName"": null
+        }
+      ],
+      ""schools"": []
+    }
+  ]"; 
+        int expectedCount = 1;
+        string userEmail = "robert@education.gov.uk";
         var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();

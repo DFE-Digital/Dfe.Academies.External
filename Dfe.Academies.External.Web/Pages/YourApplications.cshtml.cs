@@ -27,7 +27,7 @@ namespace Dfe.Academies.External.Web.Pages
             {
 	            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
 
-                ExistingApplications = _conversionApplications.GetPendingApplications(userEmail);
+                ExistingApplications = await _conversionApplications.GetPendingApplications(userEmail);
 
                 CompletedApplications = await _conversionApplications.GetCompletedApplications(userEmail);
             }

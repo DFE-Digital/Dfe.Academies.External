@@ -24,17 +24,20 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
     {
 	    try
 	    {
-		    // **** Mock Demo Data - as per Figma - for now ****
-		    List<ConversionApplication> existingApplications = new()
+		    string apiurl = $"{_httpClient.BaseAddress}application/contributor/{email}?api-version=V1";
+
+		    JsonSerializerOptions options = new JsonSerializerOptions
 		    {
-			    new() { ApplicationId = 1, UserEmail = "", ApplicationType = ApplicationTypes.JoinAMat,
-				    Schools = new()
-				    { new(schoolName: "St George’s school", applicationId: 1, urn: 101934, ukprn: null)
-				    }
+			    PropertyNameCaseInsensitive = true,
+			    Converters = {
+				    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
 			    }
 		    };
-		    
-		    return existingApplications;
+
+		    // Get data from Academisation API
+		    var existingApplications = await _resilientRequestProvider.GetAsync<List<ConversionApplication>>(apiurl, options);
+
+		    return existingApplications.Where(a => a.ApplicationStatus == ApplicationStatus.Submitted).ToList();
 		}
 	    catch (Exception ex)
 	    {
@@ -44,7 +47,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
     }
 
     ///<inheritdoc/>
-	public List<ConversionApplication> GetPendingApplications(string? username)
+	public async Task<List<ConversionApplication>> GetPendingApplications(string? email)
     {
 	    try
 	    {
@@ -52,30 +55,23 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		    //// var applications = await _resilientRequestProvider.GetAsync();
 
 		    // **** Mock Demo Data - as per Figma - for now ****
-		    List<ConversionApplication> existingApplications = new()
+		    //baseaddress has a backslash at the end to be a valid URI !!!
+		    //https://academies-academisation-api-dev.azurewebsites.net/application/99
+		    // endpoint will return 404 if id NOT found !
+		    string apiurl = $"{_httpClient.BaseAddress}application/contributor/{email}?api-version=V1";
+
+		    JsonSerializerOptions options = new JsonSerializerOptions
 		    {
-			    new() { ApplicationId = 2, UserEmail = "", ApplicationType = ApplicationTypes.JoinAMat,
-				    Schools = new List<SchoolApplyingToConvert>
-				    {
-					    new(schoolName: "Cambridge Regional college", urn: 101934, ukprn: null,  applicationId: 2)
-				    }
-			    },
-			    new() { ApplicationId = 3, UserEmail = "", ApplicationType = ApplicationTypes.FormAMat,
-				    Schools = new List<SchoolApplyingToConvert>{
-					    new(schoolName: "Fen Ditton primary school", urn: 101934, applicationId: 3, ukprn: null),
-					    new(schoolName: "Chesterton primary school", urn: 101934, applicationId: 3, ukprn: null),
-					    new(schoolName: "North Cambridge academy", urn: 101934, applicationId: 3, ukprn: null)
-				    }
-			    },
-			    new() { ApplicationId = 4, UserEmail = "", ApplicationType = ApplicationTypes.FormASat,
-				    Schools = new List<SchoolApplyingToConvert>
-				    {
-					    new(schoolName: "King’s College London Maths school", urn: 101934, applicationId: 4, ukprn: null)
-				    }
+			    PropertyNameCaseInsensitive = true,
+			    Converters = {
+				    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
 			    }
 		    };
 
-		    return existingApplications;
+		    // Get data from Academisation API
+		    var existingApplications = await _resilientRequestProvider.GetAsync<List<ConversionApplication>>(apiurl, options);
+
+		    return existingApplications.Where(a => a.ApplicationStatus == ApplicationStatus.InProgress).ToList();
 		}
 	    catch (Exception ex)
 	    {
