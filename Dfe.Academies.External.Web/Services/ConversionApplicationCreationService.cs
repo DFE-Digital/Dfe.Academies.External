@@ -21,7 +21,13 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
     {
 	    try
 	    {
-		    //// baseaddress has a backslash at the end to be a valid URI !!!
+		    // guard clause - CANNOT create an application without a contributor
+		    if (!application.Contributors.Any())
+		    {
+			    throw new ArgumentException("Mandatory Contributor Missing");
+		    }
+
+			//// baseaddress has a backslash at the end to be a valid URI !!!
 			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
 			string apiurl = $"{_httpClient.BaseAddress}application/?api-version=V1";
 			CreateApplicationApiModel createApplicationApiModel;
@@ -29,28 +35,16 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// Push data into Academisation API
 			// JsonSerializerOptions = done within _resilientRequestProvider
 			var contributor = application.Contributors.FirstOrDefault();
+			
+			createApplicationApiModel =
+				new(application.ApplicationType.ToString(),
+					new ApplicationContributorApiModel(contributor.FirstName,
+						contributor.LastName,
+						contributor.EmailAddress,
+						contributor.Role.ToString(),
+						contributor.OtherRoleName)
+					);
 
-			if (contributor != null)
-			{
-				createApplicationApiModel =
-					new(application.ApplicationType.ToString(),
-						new ApplicationContributorApiModel(contributor.FirstName,
-							contributor.LastName,
-							contributor.EmailAddress,
-							contributor.Role.ToString(),
-							contributor.OtherRoleName)
-						);
-			}
-			else
-			{
-				createApplicationApiModel =
-					new(application.ApplicationType.ToString(), 
-						new ApplicationContributorApiModel(string.Empty,
-																string.Empty, 
-																string.Empty,
-																SchoolRoles.Other.ToString(),
-																null));
-			}
 
 			var result = await _resilientRequestProvider.PostAsync<ConversionApplication, CreateApplicationApiModel>(apiurl, createApplicationApiModel);
 

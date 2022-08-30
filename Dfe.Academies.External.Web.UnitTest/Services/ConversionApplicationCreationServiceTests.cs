@@ -32,10 +32,10 @@ internal sealed class ConversionApplicationCreationServiceTests
         var conversionApplicationCreationService = new ConversionApplicationCreationService(mockFactory.Object, mockLogger.Object);
 
 		// act / assert
-		var ex = Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.CreateNewApplication(conversionApplication));
+		var ex = Assert.ThrowsAsync<ArgumentException>(() => conversionApplicationCreationService.CreateNewApplication(conversionApplication));
 
         // now we could test the exception itself
-        Assert.That(ex.Message == "Response status code does not indicate success: 400 (Bad Request).");
+        Assert.That(ex.Message == "Mandatory Contributor Missing");
     }
 
     [Test]
