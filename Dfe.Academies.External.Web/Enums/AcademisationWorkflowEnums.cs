@@ -5,11 +5,11 @@ namespace Dfe.Academies.External.Web.Enums;
 public enum ApplicationTypes 
 {
     [Description("Join a multi-academy trust")]
-    JoinMat,
+    JoinAMat,
     [Description("Form a new multi-academy trust")]
-    FormNewMat,
+    FormAMat,
     [Description("Form new single academy trust")]
-    FormNewSingleAcademyTrust
+    FormASat
 }
 
 public enum Status 
@@ -27,7 +27,7 @@ public enum Status
 public enum SchoolRoles
 {
     [Description("The chair of the school's governors")]
-    Chair = 1,
+    ChairOfGovernors = 1,
     [Description("Something else")]
     Other = 2
 }
@@ -81,4 +81,13 @@ public enum PayFundsTo
 	School = 1,
 	[Description("To the trust the school is joining")]
 	Trust = 2
+}
+
+// TODO MR:- wire up to property within ConversionApplication
+public enum ApplicationStatus
+{
+	[Description("In Progress")]
+	InProgress,
+	[Description("Submitted")]
+	Submitted
 }
