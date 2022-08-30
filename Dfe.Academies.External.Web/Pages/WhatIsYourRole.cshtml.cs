@@ -83,10 +83,10 @@ public class WhatIsYourRoleModel : BasePageModel
 	        var creationContributor = new ConversionApplicationContributor(firstName, lastName, email, SchoolRole, OtherRoleNotListed);
 	        draftConversionApplication.Contributors.Add(creationContributor);
 
-            await _academisationCreationService.CreateNewApplication(draftConversionApplication);
+	        draftConversionApplication = await _academisationCreationService.CreateNewApplication(draftConversionApplication);
 
-            // update temp store for next step - application overview
-            TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+			// update temp store for next step - application overview i.e. ConversionApplication.ApplicationId
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
             return RedirectToPage(NextStepPage, new { appId = draftConversionApplication.ApplicationId });
         }
