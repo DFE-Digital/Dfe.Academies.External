@@ -26,10 +26,28 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		    //// baseaddress has a backslash at the end to be a valid URI !!!
 			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
 			string apiurl = $"{_httpClient.BaseAddress}application/?api-version=V1";
+			CreateApplicationApiModel createApplicationApiModel;
 
 			// Push data into Academisation API
 			// JsonSerializerOptions = done within _resilientRequestProvider
-			var result = await _resilientRequestProvider.PostAsync<ConversionApplication, ConversionApplication>(apiurl, application);
+			var contributor = application.Contributors.FirstOrDefault();
+
+			if (contributor != null)
+			{
+				createApplicationApiModel =
+					new(application.ApplicationType, contributor.FirstName,
+						contributor.Surname, contributor.EmailAddress,
+						contributor.Role, contributor.OtherRoleName);
+			}
+			else
+			{
+				createApplicationApiModel =
+					new(application.ApplicationType, string.Empty,
+						string.Empty, string.Empty,
+						SchoolRoles.Other, string.Empty);
+			}
+
+			var result = await _resilientRequestProvider.PostAsync<ConversionApplication, CreateApplicationApiModel>(apiurl, createApplicationApiModel);
 
 		    return result;
 		}
