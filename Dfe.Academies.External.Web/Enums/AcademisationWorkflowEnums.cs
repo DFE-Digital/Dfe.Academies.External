@@ -83,7 +83,6 @@ public enum PayFundsTo
 	Trust = 2
 }
 
-// TODO MR:- wire up to property within ConversionApplication
 public enum ApplicationStatus
 {
 	[Description("In Progress")]
