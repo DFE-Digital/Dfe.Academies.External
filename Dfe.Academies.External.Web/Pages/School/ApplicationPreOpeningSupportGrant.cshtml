@@ -23,7 +23,7 @@
 	<p class="govuk-body">
         If your application is successful you will be issued with an academy order. Once issued,
 			the Department for Education will pay the pre-opening support grant into a nominated bank account.
-			@if (Model.ApplicationType != ApplicationTypes.JoinMat)
+			@if (Model.ApplicationType != ApplicationTypes.JoinAMat)
 			{
 				<p class="govuk-body">Please go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' target='_blank'> provide information about your banking payments to DfE </a> to add your bank details.</p>
 
@@ -45,7 +45,7 @@
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>
 
-				@if (Model.ApplicationType == ApplicationTypes.JoinMat)
+				@if (Model.ApplicationType == ApplicationTypes.JoinAMat)
                 {
                     <div class="govuk-form-group">
                         <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">

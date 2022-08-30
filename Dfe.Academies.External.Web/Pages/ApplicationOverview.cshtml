@@ -31,7 +31,7 @@
 		<caption class="govuk-table__caption govuk-table__caption--l">@Model.SchoolHeaderText</caption>
 		<tbody class="govuk-table__body">
 		@*If no school selected - render button instead*@
-		@if (!Model.SchoolOrSchoolsApplyingToConvert.Any() && Model.ApplicationType != ApplicationTypes.FormNewMat)
+		@if (!Model.SchoolOrSchoolsApplyingToConvert.Any() && Model.ApplicationType != ApplicationTypes.FormAMat)
 		{
 			<tr class="govuk-table__row">
 				<td class="govuk-table__cell govuk-!-text-align-right">
@@ -42,7 +42,7 @@
 		}
 		else
 		{
-			@if (Model.ApplicationType == ApplicationTypes.FormNewMat)
+			@if (Model.ApplicationType == ApplicationTypes.FormAMat)
 			{
 				foreach (var school in Model.SchoolOrSchoolsApplyingToConvert)
 				{

@@ -18,7 +18,7 @@ internal sealed class ConversionApplicationContributorTests
         string surName = Fixture.Create<string>();
         string email = Fixture.Create<string>();
         string? role = null;
-        SchoolRoles schoolRole = SchoolRoles.Chair;
+        SchoolRoles schoolRole = SchoolRoles.ChairOfGovernors;
 
         var applicationComponent = new ConversionApplicationContributor(firstName, surName, email, schoolRole, role)
         {
