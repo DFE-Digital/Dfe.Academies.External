@@ -20,7 +20,7 @@ public class ConversionApplicationContributor
 
     public string Surname { get; set; }
 
-    public string? EmailAddress { get; set; }
+    public string EmailAddress { get; set; }
 
 	public SchoolRoles Role { get; set; }
 
