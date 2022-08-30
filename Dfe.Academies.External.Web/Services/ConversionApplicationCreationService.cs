@@ -35,16 +35,18 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			if (contributor != null)
 			{
 				createApplicationApiModel =
-					new(application.ApplicationType, contributor.FirstName,
-						contributor.Surname, contributor.EmailAddress,
-						contributor.Role, contributor.OtherRoleName);
+					new(application.ApplicationType, 
+						contributor);
 			}
 			else
 			{
 				createApplicationApiModel =
-					new(application.ApplicationType, string.Empty,
-						string.Empty, string.Empty,
-						SchoolRoles.Other, string.Empty);
+					new(application.ApplicationType, 
+						new ConversionApplicationContributor(string.Empty,
+																string.Empty, 
+																string.Empty,
+																SchoolRoles.Other,
+																null));
 			}
 
 			var result = await _resilientRequestProvider.PostAsync<ConversionApplication, CreateApplicationApiModel>(apiurl, createApplicationApiModel);
