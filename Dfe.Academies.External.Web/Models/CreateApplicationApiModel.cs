@@ -1,6 +1,4 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿namespace Dfe.Academies.External.Web.Models;
 
-namespace Dfe.Academies.External.Web.Models;
-
-public record CreateApplicationApiModel(ApplicationTypes ApplicationType,
-	ConversionApplicationContributor Contributor);
+public record CreateApplicationApiModel(string ApplicationType,
+	ApplicationContributorApiModel Contributor);

@@ -35,17 +35,22 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			if (contributor != null)
 			{
 				createApplicationApiModel =
-					new(application.ApplicationType, 
-						contributor);
+					new(application.ApplicationType.ToString(),
+						new ApplicationContributorApiModel(contributor.FirstName,
+							contributor.LastName,
+							contributor.EmailAddress,
+							contributor.Role.ToString(),
+							contributor.OtherRoleName)
+						);
 			}
 			else
 			{
 				createApplicationApiModel =
-					new(application.ApplicationType, 
-						new ConversionApplicationContributor(string.Empty,
+					new(application.ApplicationType.ToString(), 
+						new ApplicationContributorApiModel(string.Empty,
 																string.Empty, 
 																string.Empty,
-																SchoolRoles.Other,
+																SchoolRoles.Other.ToString(),
 																null));
 			}
 
