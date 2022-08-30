@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using AutoFixture;
+﻿using AutoFixture;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 
@@ -16,8 +15,9 @@ internal static class ConversionApplicationTestDataFactory
         {
             UserEmail = Fixture.Create<string>(),
             ApplicationId = int.MaxValue,
-            ApplicationType = ApplicationTypes.FormAMat
-        };
+            ApplicationType = ApplicationTypes.JoinAMat,
+            ApplicationStatus = ApplicationStatus.InProgress
+		};
     }
 
     public static ConversionApplication BuildNewConversionApplicationWithOtherRole()
@@ -26,7 +26,8 @@ internal static class ConversionApplicationTestDataFactory
         {
             UserEmail = Fixture.Create<string>(),
             ApplicationId = int.MaxValue,
-            ApplicationType = ApplicationTypes.FormAMat,
+            ApplicationType = ApplicationTypes.JoinAMat,
+			ApplicationStatus = ApplicationStatus.InProgress,
             Contributors = new()
 			{
 				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
@@ -40,8 +41,9 @@ internal static class ConversionApplicationTestDataFactory
         {
             UserEmail = Fixture.Create<string>(),
             ApplicationId = int.MaxValue,
-            ApplicationType = ApplicationTypes.FormAMat,
-            Contributors = new()
+            ApplicationType = ApplicationTypes.JoinAMat,
+            ApplicationStatus = ApplicationStatus.InProgress,
+			Contributors = new()
             {
 	            new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(), SchoolRoles.ChairOfGovernors, null)
 	        }

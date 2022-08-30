@@ -1,0 +1,16 @@
+{
+	"applicationId": 2,
+	"applicationType": "JoinAMat",
+	"applicationStatus": "InProgress",
+	"contributors": [
+		{
+			"contributorId": 2,
+			"firstName": "bob",
+			"lastName": "bob",
+			"emailAddress": "bob@test.com",
+			"role": "Other",
+			"otherRoleName": "bob"
+		}
+	],
+	"schools": []
+}

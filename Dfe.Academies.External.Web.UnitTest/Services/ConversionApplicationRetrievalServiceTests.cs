@@ -18,8 +18,6 @@ namespace Dfe.Academies.External.Web.UnitTest.Services;
 [Parallelizable(ParallelScope.All)]
 internal sealed class ConversionApplicationRetrievalServiceTests
 {
-	private const string TestUrl = APIConstants.AcademiesAPITestUrl;
-
 	[Test]
     public async Task GetPendingApplications___ApiReturns200___Success()
 	{
@@ -309,7 +307,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		    });
 
 	    var httpClient = new HttpClient(mockMessageHandler.Object);
-	    httpClient.BaseAddress = new Uri(TestUrl);
+	    httpClient.BaseAddress = new Uri(APIConstants.AcademiesAPITestUrl);
 
 	    mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
