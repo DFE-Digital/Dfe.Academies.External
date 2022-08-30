@@ -75,7 +75,7 @@ internal sealed class ViewDataHelperTests
         Assert.AreEqual(conversionApplication.ApplicationId, storedValue.ApplicationId);
         Assert.AreEqual(conversionApplication.ApplicationType, storedValue.ApplicationType);
         Assert.AreEqual(conversionApplication.UserEmail, storedValue.UserEmail);
-        Assert.AreEqual(conversionApplication.Application, storedValue.Application);
+        Assert.AreEqual(conversionApplication.ApplicationTitle, storedValue.ApplicationTitle);
     }
 
     [Test]
@@ -99,7 +99,7 @@ internal sealed class ViewDataHelperTests
         Assert.AreEqual(conversionApplication.ApplicationId, storedValue.ApplicationId);
         Assert.AreEqual(conversionApplication.ApplicationType, storedValue.ApplicationType);
         Assert.AreEqual(conversionApplication.UserEmail, storedValue.UserEmail);
-        Assert.AreEqual(conversionApplication.Application, storedValue.Application);
+        Assert.AreEqual(conversionApplication.ApplicationTitle, storedValue.ApplicationTitle);
     }
 
     private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(

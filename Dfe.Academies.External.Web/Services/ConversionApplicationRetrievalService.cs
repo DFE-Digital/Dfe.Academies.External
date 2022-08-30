@@ -1,6 +1,8 @@
 ﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using System.Globalization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Dfe.Academies.External.Web.Services;
 
@@ -25,7 +27,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		    // **** Mock Demo Data - as per Figma - for now ****
 		    List<ConversionApplication> existingApplications = new()
 		    {
-			    new() { ApplicationId = 1, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
+			    new() { ApplicationId = 1, UserEmail = "", ApplicationType = ApplicationTypes.JoinAMat,
 				    Schools = new()
 				    { new(schoolName: "St George’s school", applicationId: 1, urn: 101934, ukprn: null)
 				    }
@@ -52,20 +54,20 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		    // **** Mock Demo Data - as per Figma - for now ****
 		    List<ConversionApplication> existingApplications = new()
 		    {
-			    new() { ApplicationId = 2, UserEmail = "", Application = "Join a multi-academy trust A2B_2549",
+			    new() { ApplicationId = 2, UserEmail = "", ApplicationType = ApplicationTypes.JoinAMat,
 				    Schools = new List<SchoolApplyingToConvert>
 				    {
 					    new(schoolName: "Cambridge Regional college", urn: 101934, ukprn: null,  applicationId: 2)
 				    }
 			    },
-			    new() { ApplicationId = 3, UserEmail = "", Application = "Form a new multi- academy trust A2B_8956",
+			    new() { ApplicationId = 3, UserEmail = "", ApplicationType = ApplicationTypes.FormAMat,
 				    Schools = new List<SchoolApplyingToConvert>{
 					    new(schoolName: "Fen Ditton primary school", urn: 101934, applicationId: 3, ukprn: null),
 					    new(schoolName: "Chesterton primary school", urn: 101934, applicationId: 3, ukprn: null),
 					    new(schoolName: "North Cambridge academy", urn: 101934, applicationId: 3, ukprn: null)
 				    }
 			    },
-			    new() { ApplicationId = 4, UserEmail = "", Application = "Form a new single academy trust A2B_8974",
+			    new() { ApplicationId = 4, UserEmail = "", ApplicationType = ApplicationTypes.FormASat,
 				    Schools = new List<SchoolApplyingToConvert>
 				    {
 					    new(schoolName: "King’s College London Maths school", urn: 101934, applicationId: 4, ukprn: null)
@@ -161,7 +163,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		    // **** Mock Demo Data - as per Figma ****
 		    List<ConversionApplicationContributor> conversionApplicationContributors = new()
 		    {
-			    new(firstName: "Phillip", surname:"Frond","Phillip@email.com", SchoolRoles.Chair, null)
+			    new(firstName: "Phillip", surname:"Frond","Phillip@email.com", SchoolRoles.ChairOfGovernors, null)
 				    {ApplicationId = applicationId},
 			    new(firstName: "Robert", surname: "Phillips", "Robert@email.com", role:SchoolRoles.Other ,  otherRoleName: "PA to the headteacher")
 				    {ApplicationId = applicationId}
@@ -181,68 +183,21 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
     {
 	    try
 	    {
+			//baseaddress has a backslash at the end to be a valid URI !!!
 			//https://academies-academisation-api-dev.azurewebsites.net/application/99
-			string apiurl = $"{_httpClient.BaseAddress}/application/{applicationId}?api-version=V1";
+			// endpoint will return 404 if id NOT found !
+			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
-			ConversionApplication conversionApplication = new();
-
-			// TODO: Get data from Academisation API
-			//var application = await _resilientRequestProvider.GetAsync<ConversionApplication>(apiurl);
-
-			// **** Mock Demo Data - as per Figma ****
-			switch (applicationId)
+			JsonSerializerOptions options = new JsonSerializerOptions
 			{
-				case 1:
-					conversionApplication = new()
-					{
-						ApplicationId = applicationId,
-						ApplicationType = ApplicationTypes.JoinMat,
-						UserEmail = "",
-						Application = "Join a multi-academy trust A2B_2549",
-						// MR:- comment out below if want to test that application overview page shows a 'add school' button!!
-						Schools = new List<SchoolApplyingToConvert>
-					{
-						new(schoolName: "Chesterton primary school", urn: 101934, applicationId: applicationId, ukprn: null)
-					},
-						ConversionStatus = 3,
-						// MR:- comment out below if want to test that application overview page shows a 'add trust' button!!
-						ExistingTrust = new(trustName: "Existing Trust Test")
-					};
-					break;
-				case 2:
-					conversionApplication = new()
-					{
-						ApplicationId = applicationId,
-						ApplicationType = ApplicationTypes.FormNewMat,
-						UserEmail = "",
-						Application = "Form a new multi-academy trust A2B_2549",
-						Schools = new List<SchoolApplyingToConvert>
-					{
-						new(schoolName: "Chesterton primary school", urn: 101934, applicationId: applicationId, ukprn: null),
-						new(schoolName: "Newcastle primary school", urn: 101934, applicationId:applicationId, ukprn: null),
-						new(schoolName: "Another primary school", urn: 101934, applicationId:applicationId, ukprn: null)
-					},
-						ConversionStatus = 3,
-						FormATrust = new(proposedTrustName: "New multi academy trust"),
-					};
-					break;
-				case 3:
-					// MR:- this application is rare
-					conversionApplication = new()
-					{
-						ApplicationId = applicationId,
-						ApplicationType = ApplicationTypes.FormNewSingleAcademyTrust,
-						UserEmail = "",
-						Application = "Form a new single academy trust A2B_2549",
-						Schools = new List<SchoolApplyingToConvert>
-					{
-						new(schoolName: "Chesterton primary school", urn: 101934, applicationId: applicationId, ukprn: null)
-					},
-						ConversionStatus = 3,
-						FormATrust = new(proposedTrustName: "New single academy Trust")
-					};
-					break;
-			}
+				PropertyNameCaseInsensitive = true,
+				Converters = {
+					new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+				}
+			};
+
+			// Get data from Academisation API
+			var conversionApplication = await _resilientRequestProvider.GetAsync<ConversionApplication>(apiurl, options);
 
 			return conversionApplication;
 		}

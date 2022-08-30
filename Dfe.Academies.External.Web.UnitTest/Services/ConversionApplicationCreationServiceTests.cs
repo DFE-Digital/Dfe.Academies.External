@@ -35,7 +35,7 @@ internal sealed class ConversionApplicationCreationServiceTests
         Assert.That(trustApplicationModel, Is.Not.Null);
         Assert.AreEqual(trustApplicationModel.ApplicationType, trustApplicationDto.ApplicationType);
         Assert.AreEqual(trustApplicationModel.UserEmail, trustApplicationDto.UserEmail);
-        Assert.AreEqual(trustApplicationModel.Application, trustApplicationDto.Application);
+        Assert.AreEqual(trustApplicationModel.ApplicationTitle, trustApplicationDto.ApplicationTitle);
         Assert.AreNotEqual(trustApplicationModel.ApplicationId, 0);
     }
 

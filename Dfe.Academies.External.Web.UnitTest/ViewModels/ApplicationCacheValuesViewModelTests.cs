@@ -14,7 +14,7 @@ internal sealed class ApplicationCacheValuesViewModelTests
 	{
 		// arrange
 		int applicationId = int.MaxValue;
-		ApplicationTypes applicationType = ApplicationTypes.FormNewMat;
+		ApplicationTypes applicationType = ApplicationTypes.FormAMat;
 		string applicationReference = Fixture.Create<string>();
 
 		var conversionApplicationAuditEntry = new ApplicationCacheValuesViewModel(applicationId, applicationType, applicationReference);

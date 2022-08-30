@@ -1,4 +1,6 @@
-﻿namespace Dfe.Academies.External.Web.Services
+﻿using System.Text.Json;
+
+namespace Dfe.Academies.External.Web.Services
 {
     /// <summary>
     /// The Request Provider interface. Generic API provider interface
@@ -19,7 +21,7 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task<TResult> GetAsync<TResult>(string uri, string token = "");
+        Task<TResult> GetAsync<TResult>(string uri, JsonSerializerOptions? options = null, string token = "");
 
         /// <summary>
         /// The post async.

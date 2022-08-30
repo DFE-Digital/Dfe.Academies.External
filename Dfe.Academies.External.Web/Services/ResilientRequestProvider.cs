@@ -1,6 +1,8 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.Extensions.Options;
 
 namespace Dfe.Academies.External.Web.Services
 {
@@ -29,7 +31,7 @@ namespace Dfe.Academies.External.Web.Services
         }
         
         /// <inheritdoc/>
-        public async Task<TResult> GetAsync<TResult>(string uri, string token = "")
+        public async Task<TResult> GetAsync<TResult>(string uri, JsonSerializerOptions? options = null, string token = "")
         {
             //this.ClearRequestHeaders(this._client); // MR:- commented out as headers set up StartupExtension
 
@@ -39,9 +41,9 @@ namespace Dfe.Academies.External.Web.Services
                 this.AddBearerTokenAuthenticationHeader(this._client, token);
             }
 
-            var result = await _client.GetFromJsonAsync<TResult>(uri);
+			var result = await _client.GetFromJsonAsync<TResult>(uri, options);
 
-            return result;
+			return result;
         }
 
         /// <inheritdoc/>

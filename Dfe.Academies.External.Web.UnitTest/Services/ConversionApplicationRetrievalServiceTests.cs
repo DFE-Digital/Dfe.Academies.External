@@ -5,11 +5,13 @@ using Moq;
 using Moq.Protected;
 using NUnit.Framework;
 using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Dfe.Academies.External.Web.Enums;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
@@ -120,16 +122,16 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     }
 
     [Test]
-    public async Task GetApplication___FormNewMat___ApiReturns200___Success()
+    public async Task GetApplication___FormASat___ApiReturns200___Success()
 	{
 		// arrange
-		//string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
-		//string expectedJson = await File.ReadAllTextAsync(fullFilePath);
-		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-		int applicationId = 3; // TODO MR:- this value hard coded in dummy data at present !!!!!!
-	    int expectedCount = 1; // TODO MR:- this value hard coded in dummy data at present !!!!!!
-	    int expectedURN = 101934;
-	    var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseFormASAT.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+		int applicationId = 2;
+	    int expectedCount = 1;
+	    int expectedURN = 0;
+	    ApplicationStatus status = ApplicationStatus.InProgress;
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
@@ -140,9 +142,11 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 	    // assert
 	    Assert.That(application, Is.Not.Null);
 	    Assert.That(application.ApplicationId, Is.EqualTo(applicationId));
-        Assert.That(application.Application, Is.EqualTo("Form a new single academy trust A2B_2549"));
-        Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
-        Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("Chesterton primary school"));
+        Assert.That(application.ApplicationTitle, Is.EqualTo("Form new single academy trust A2B_2"));
+        Assert.That(application.ApplicationStatus, Is.EqualTo(status));
+
+		Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
+        Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("string"));
         Assert.That(application.Schools.FirstOrDefault()?.URN, Is.EqualTo(expectedURN));
     }
 
@@ -150,12 +154,12 @@ internal sealed class ConversionApplicationRetrievalServiceTests
     public async Task GetApplication___JoinAMat___ApiReturns200___Success()
 	{
 		// arrange
-		//string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
-		//string expectedJson = await File.ReadAllTextAsync(fullFilePath);
-		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
-		int applicationId = 2; // TODO MR:- this value hard coded in dummy data at present !!!!!!
-        int expectedCount = 3; // TODO MR:- this value hard coded in dummy data at present !!!!!!
-        int expectedURN = 101934;
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+		int applicationId = 1;
+		int expectedCount = 1;
+        int expectedURN = 0;
+        ApplicationStatus status = ApplicationStatus.InProgress;
 
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
@@ -168,9 +172,11 @@ internal sealed class ConversionApplicationRetrievalServiceTests
         // assert
         Assert.That(application, Is.Not.Null);
         Assert.That(application.ApplicationId, Is.EqualTo(applicationId));
-        Assert.That(application.Application, Is.EqualTo("Form a new multi-academy trust A2B_2549"));
-        Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
-        Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("Chesterton primary school"));
+        Assert.That(application.ApplicationTitle, Is.EqualTo("Join a multi-academy trust A2B_1"));
+		Assert.That(application.ApplicationStatus, Is.EqualTo(status));
+
+		Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
+        Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("string"));
         Assert.That(application.Schools.FirstOrDefault()?.URN, Is.EqualTo(expectedURN));
     }
 

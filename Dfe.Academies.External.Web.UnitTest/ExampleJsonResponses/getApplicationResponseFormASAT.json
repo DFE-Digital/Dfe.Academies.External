@@ -1,10 +1,10 @@
 {
-	"applicationId": 1,
-	"applicationType": "JoinAMat",
+	"applicationId": 2,
+	"applicationType": "FormASat",
 	"applicationStatus": "InProgress",
 	"contributors": [
 		{
-			"contributorId": 1,
+			"contributorId": 2,
 			"firstName": "string",
 			"lastName": "string",
 			"emailAddress": "chair@edu.gov.uk",
