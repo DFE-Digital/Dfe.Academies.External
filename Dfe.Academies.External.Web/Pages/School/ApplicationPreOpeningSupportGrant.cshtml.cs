@@ -97,7 +97,7 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 			return Page();
 		}
 
-		if (ApplicationType == ApplicationTypes.JoinMat && !SchoolSupportGrantFundsPaidTo.HasValue)
+		if (ApplicationType == ApplicationTypes.JoinAMat && !SchoolSupportGrantFundsPaidTo.HasValue)
 		{
 			ModelState.AddModelError("SchoolSupportGrantFundsPaidToNotEntered", "You must provide details");
 			PopulateValidationMessages();
@@ -110,7 +110,7 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 			PayFundsTo schoolSupportGrantFundsPaidTo = PayFundsTo.School;
 
-			if (ApplicationType == ApplicationTypes.JoinMat)
+			if (ApplicationType == ApplicationTypes.JoinAMat)
 			{
 				schoolSupportGrantFundsPaidTo = SchoolSupportGrantFundsPaidTo!.Value;
 			}
@@ -148,7 +148,7 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 		ApplicationId = selectedSchool.ApplicationId;
 		Urn = selectedSchool.URN;
 		SchoolName = selectedSchool.SchoolName;
-		if (conversionApplication.ApplicationType != ApplicationTypes.JoinMat)
+		if (conversionApplication.ApplicationType != ApplicationTypes.JoinAMat)
 		{
 			SchoolSupportGrantFundsPaidTo = PayFundsTo.Trust;
 			ConfirmSchoolPay = false;

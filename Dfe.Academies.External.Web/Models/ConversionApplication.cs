@@ -28,7 +28,7 @@ public class ConversionApplication
 
     public ExistingTrust? ExistingTrust { get; set; }
 
-    public string TrustName => (ApplicationType == ApplicationTypes.JoinMat
+    public string TrustName => (ApplicationType == ApplicationTypes.JoinAMat
         ? ExistingTrust?.TrustName
         : FormATrust?.ProposedTrustName) ?? string.Empty;
 }

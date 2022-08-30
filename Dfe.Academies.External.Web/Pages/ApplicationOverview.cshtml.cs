@@ -105,7 +105,7 @@ namespace Dfe.Academies.External.Web.Pages
 		        SchoolOrSchoolsApplyingToConvert = conversionApplication.Schools;
 		        NameOfTrustToJoin = conversionApplication.TrustName;
 
-		        if (conversionApplication.ApplicationType == ApplicationTypes.FormNewMat)
+		        if (conversionApplication.ApplicationType == ApplicationTypes.FormAMat)
 		        {
 			        TrustHeaderText = "The trust being formed";
                     SchoolHeaderText = "The schools applying to convert";
