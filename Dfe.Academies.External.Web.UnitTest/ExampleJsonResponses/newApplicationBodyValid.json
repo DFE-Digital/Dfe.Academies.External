@@ -1,0 +1,10 @@
+{
+	"applicationType": "JoinAMat",
+	"contributor": {
+		"firstName": "bob",
+		"lastName": "test",
+		"emailAddress": "bob@test.com",
+		"role": "Other",
+		"otherRoleName": "PA to Head Teacher"
+	}
+}
