@@ -23,6 +23,12 @@
     <Content Include="ExampleJsonResponses\getTrustSearchResponse.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ExampleJsonResponses\newApplicationBodyValid.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExampleJsonResponses\newApplicationBodyNoContributor.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ExampleJsonResponses\schoolSearchResponse.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
