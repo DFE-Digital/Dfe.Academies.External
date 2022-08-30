@@ -126,8 +126,11 @@ namespace Dfe.Academies.External.Web.Services
 	        var options = new JsonSerializerOptions
 	        {
 		        AllowTrailingCommas = true,
-		        PropertyNameCaseInsensitive = true
-	        };
+		        PropertyNameCaseInsensitive = true,
+		        Converters = {
+			        new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+		        }
+			};
 
             // Alternative JsonConvert below :- using a stream instead - faster & more efficient
             await using var stream = await response.Content.ReadAsStreamAsync();
