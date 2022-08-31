@@ -27,13 +27,13 @@ internal sealed class ConversionApplicationCreationServiceTests
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationNoRoles();
 
-		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.BadRequest, expectedJson);
-        var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.BadRequest, expectedJson);
+        var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
         var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		
-		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockFactory.Object, 
-																							mockLogger.Object,
-																							mockConversionApplicationRetrievalService.Object);
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object, 
+			mockConversionApplicationRetrievalService.Object);
 
 		// act / assert
 		var ex = Assert.ThrowsAsync<ArgumentException>(() => conversionApplicationCreationService.CreateNewApplication(conversionApplication));
@@ -50,12 +50,12 @@ internal sealed class ConversionApplicationCreationServiceTests
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithOtherRole();
 
-		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.Created, expectedJson);
-	    var mockLogger = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.Created, expectedJson);
+	    var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 
-		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockFactory.Object,
-			mockLogger.Object,
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
 			mockConversionApplicationRetrievalService.Object);
 
 		// act
@@ -82,13 +82,14 @@ internal sealed class ConversionApplicationCreationServiceTests
         string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
         string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		
-		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-        var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
         var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLoggerRetrievalService.Object);
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
 
 		// act
-		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockFactory.Object,
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
 			mockConversionApplicationRetrievalService);
 
@@ -110,21 +111,19 @@ internal sealed class ConversionApplicationCreationServiceTests
 	    string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
 	    string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
-	    var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, expectedJson);
-	    var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+	    var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
+	    var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
 	    var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-	    var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLoggerRetrievalService.Object);
+	    var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
 
 	    // act
-	    var conversionApplicationCreationService = new ConversionApplicationCreationService(mockFactory.Object,
+	    var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
 		    mockLoggerCreationService.Object,
 		    mockConversionApplicationRetrievalService);
 
 		// assert
-		var ex = Assert.ThrowsAsync<ArgumentException>(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId, urn, schoolName));
-
-        // now we could test the exception itself
-        //Assert.That(ex.Message == "Blah");
+		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId, urn, schoolName));
     }
 
     [Test]
@@ -137,13 +136,14 @@ internal sealed class ConversionApplicationCreationServiceTests
 	    string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
 	    string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
-	    var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-	    var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+	    var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+	    var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
 	    var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-	    var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLoggerRetrievalService.Object);
+	    var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
 
 	    // act
-	    var conversionApplicationCreationService = new ConversionApplicationCreationService(mockFactory.Object,
+	    var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
 		    mockLoggerCreationService.Object,
 		    mockConversionApplicationRetrievalService);
 
@@ -168,13 +168,14 @@ internal sealed class ConversionApplicationCreationServiceTests
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
-		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
 		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLoggerRetrievalService.Object);
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
 
 		// act
-		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockFactory.Object,
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
 			mockConversionApplicationRetrievalService);
 
@@ -197,13 +198,14 @@ internal sealed class ConversionApplicationCreationServiceTests
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
-		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, expectedJson);
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
 		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLoggerRetrievalService.Object);
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
 
 		// act
-		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockFactory.Object,
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
 			mockConversionApplicationRetrievalService);
 
