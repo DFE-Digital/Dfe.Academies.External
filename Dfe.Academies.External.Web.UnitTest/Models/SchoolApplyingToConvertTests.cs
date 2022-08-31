@@ -13,11 +13,10 @@ internal sealed class SchoolApplyingToConvertTests
     public void Constructor___PropertiesSet()
     {
         // arrange
-        int applicationId = Fixture.Create<int>();
         int urn = Fixture.Create<int>();
         string schoolName = Fixture.Create<string>();
 
-        var conversionApplication = new SchoolApplyingToConvert(schoolName, urn, applicationId, null);
+        var conversionApplication = new SchoolApplyingToConvert(schoolName, urn, null);
 
         // act
         // nothing!

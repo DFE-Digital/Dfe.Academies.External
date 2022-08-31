@@ -69,6 +69,8 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 			LoadAndStoreCachedConversionApplication();
 
 			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+			ApplicationId = appId;
+			Urn = urn;
 
 			// Grab other values from API
 			if (selectedSchool != null)
@@ -127,8 +129,6 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 
 	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
-		ApplicationId = selectedSchool.ApplicationId;
-		Urn = selectedSchool.URN;
 		SchoolName = selectedSchool.SchoolName;
 		// TODO MR:- populate other props from API - not implemented 22/08/2022
 		//SchoolConsultationStakeholders = selectedSchool.;

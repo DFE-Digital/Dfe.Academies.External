@@ -37,6 +37,8 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BasePageEditModel
 			LoadAndStoreCachedConversionApplication();
 
 			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+			ApplicationId = appId;
+			Urn = urn;
 
 			// Grab other values from API
 			if (selectedSchool != null)
@@ -60,8 +62,6 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BasePageEditModel
 
 	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
-		ApplicationId = selectedSchool.ApplicationId;
-		Urn = selectedSchool.URN;
 		SchoolName = selectedSchool.SchoolName;
 
 		ApplicationPreOpeningSupportGrantHeadingViewModel heading1 = new(ApplicationPreOpeningSupportGrantHeadingViewModel.Heading,

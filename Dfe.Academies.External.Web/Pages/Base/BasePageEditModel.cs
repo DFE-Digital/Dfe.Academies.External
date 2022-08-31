@@ -36,7 +36,7 @@ public abstract class BasePageEditModel : BasePageModel
 
 		CacheSelectedSchool(schoolDetails);
 
-		return ConvertApiResponseToModel(schoolDetails, applicationId);
+		return ConvertApiResponseToModel(schoolDetails);
 	}
 
 	public void LoadAndStoreCachedConversionApplication()
@@ -75,11 +75,11 @@ public abstract class BasePageEditModel : BasePageModel
 		}
 	}
 
-	private SchoolApplyingToConvert? ConvertApiResponseToModel(EstablishmentResponse? schoolDetails, int applicationId)
+	private SchoolApplyingToConvert? ConvertApiResponseToModel(EstablishmentResponse? schoolDetails)
 	{
 		if (schoolDetails != null)
 		{
-			return new SchoolApplyingToConvert(schoolDetails.EstablishmentName, Convert.ToInt32(schoolDetails.Urn), applicationId, schoolDetails.UPRN);
+			return new SchoolApplyingToConvert(schoolDetails.EstablishmentName, Convert.ToInt32(schoolDetails.Urn),schoolDetails.UPRN);
 		}
 		else
 		{
