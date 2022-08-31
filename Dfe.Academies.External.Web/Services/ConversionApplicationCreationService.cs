@@ -90,7 +90,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			//https://academies-academisation-api-dev.azurewebsites.net/application/99
 			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
-			SchoolApplyingToConvert school = new(name, schoolUrn, applicationId,null);
+			SchoolApplyingToConvert school = new(name, schoolUrn, null);
 
 			//application.Schools.Add(school);
 

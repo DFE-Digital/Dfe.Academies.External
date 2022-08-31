@@ -1,4 +1,4 @@
-using Dfe.Academies.External.Web.Attributes;
+﻿using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -172,6 +172,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 				LoadAndStoreCachedConversionApplication();
 
 				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+				ApplicationId = appId;
+				Urn = urn;
 
 				// Grab other values from API
 				if (selectedSchool != null)
@@ -260,8 +262,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			ApplicationId = selectedSchool.ApplicationId;
-			Urn = selectedSchool.URN;
 			SchoolName = selectedSchool.SchoolName;
 			// TODO MR:- populate other props from API - not implemented 18/08/2022
 			//SchoolBuildLandOwnerExplained = ;

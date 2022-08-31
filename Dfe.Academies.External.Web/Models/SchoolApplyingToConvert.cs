@@ -2,15 +2,12 @@
 
 public class SchoolApplyingToConvert
 {
-	public SchoolApplyingToConvert(string schoolName, int urn, int applicationId, string? ukprn)
+	public SchoolApplyingToConvert(string schoolName, int urn, string? ukprn)
 	{
 		SchoolName = schoolName;
 		UKPRN = ukprn;
 		URN = urn;
-        ApplicationId = applicationId;
 	}
-
-	public int ApplicationId { get; set; }
 
     /// <summary>
     /// Unique school Id (6 digit number) e.g. 101934
@@ -41,7 +38,7 @@ public class SchoolApplyingToConvert
 	public string SchoolConversionApproverContactEmail { get; set; }
 
 	//// ApplicationConversionTargetDate
-	public DateTime SchoolConversionTargetDate { get; set; }
+	public DateTime? SchoolConversionTargetDate { get; set; }
 	public string SchoolConversionTargetDateExplained { get; set; }
 
 	//// ApplicationChangeSchoolName

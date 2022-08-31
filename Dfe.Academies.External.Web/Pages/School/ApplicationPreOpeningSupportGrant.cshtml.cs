@@ -71,6 +71,8 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+			ApplicationId = appId;
+			Urn = urn;
 
 			// Grab other values from API
 			if (selectedSchool != null)
@@ -145,8 +147,6 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ConversionApplication? conversionApplication)
 	{
 		ApplicationType = conversionApplication.ApplicationType;
-		ApplicationId = selectedSchool.ApplicationId;
-		Urn = selectedSchool.URN;
 		SchoolName = selectedSchool.SchoolName;
 		if (conversionApplication.ApplicationType != ApplicationTypes.JoinAMat)
 		{
