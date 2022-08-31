@@ -270,7 +270,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	}
 
 	///<inheritdoc/>
-	public async Task ApplicationSchoolLandAndBuildings(SchoolLandAndBuildings schoolLandAndBuildings)
+	public async Task ApplicationSchoolLandAndBuildings(SchoolLandAndBuildings schoolLandAndBuildings, int applicationId)
 	{
 		try
 		{
@@ -280,7 +280,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 			//// baseaddress has a backslash at the end to be a valid URI !!!
 			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
-			string apiurl = $"{_httpClient.BaseAddress}application/{schoolLandAndBuildings.ApplicationId}?api-version=V1";
+			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
 			// application can contain multiple schools so need to grab one being changed via linqage
 			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolLandAndBuildings.Urn);
@@ -302,7 +302,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	}
 
 	///<inheritdoc/>
-	public async Task ApplicationPreOpeningSupportGrantUpdate(PayFundsTo schoolSupportGrantFundsPaidTo)
+	public async Task ApplicationPreOpeningSupportGrantUpdate(PayFundsTo schoolSupportGrantFundsPaidTo, int applicationId)
 	{
 		try
 		{
