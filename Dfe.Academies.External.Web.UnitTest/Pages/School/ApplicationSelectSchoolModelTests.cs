@@ -21,7 +21,7 @@ internal sealed class ApplicationSelectSchoolModelTests
     /// </summary>
     /// <returns></returns>
     [Test]
-    public async Task OnGetAsync___Valid___NullErrors()
+    public void OnGetAsync___Valid___NullErrors()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -35,7 +35,7 @@ internal sealed class ApplicationSelectSchoolModelTests
         TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
         // act
-        await pageModel.OnGetAsync();
+        pageModel.OnGetAsync();
 
         // assert
         Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
@@ -48,7 +48,7 @@ internal sealed class ApplicationSelectSchoolModelTests
     // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	[Test]
-    public async Task SearchQuery___Valid__SelectedUrnValid()
+    public void SearchQuery___Valid__SelectedUrnValid()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -62,7 +62,7 @@ internal sealed class ApplicationSelectSchoolModelTests
         TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
         // act
-        await pageModel.OnGetAsync();
+        pageModel.OnGetAsync();
 
         pageModel.SearchQuery = "Wise Owl primary school (587634)";
 
@@ -71,7 +71,7 @@ internal sealed class ApplicationSelectSchoolModelTests
     }
 
     [Test]
-    public async Task SearchQuery___Empty___SelectedUrnZero()
+    public void SearchQuery___Empty___SelectedUrnZero()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -85,7 +85,7 @@ internal sealed class ApplicationSelectSchoolModelTests
         TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
         // act
-        await pageModel.OnGetAsync();
+        pageModel.OnGetAsync();
 
         pageModel.SearchQuery = "";
 
@@ -94,7 +94,7 @@ internal sealed class ApplicationSelectSchoolModelTests
     }
 
     [Test]
-    public async Task SearchQuery___Valid___SelectedSchoolNameNotEmpty()
+    public void SearchQuery___Valid___SelectedSchoolNameNotEmpty()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -108,7 +108,7 @@ internal sealed class ApplicationSelectSchoolModelTests
         TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
         // act
-        await pageModel.OnGetAsync();
+        pageModel.OnGetAsync();
 
         pageModel.SearchQuery = "Wise Owl primary school (587634)";
 
@@ -117,7 +117,7 @@ internal sealed class ApplicationSelectSchoolModelTests
     }
 
     [Test]
-    public async Task SearchQuery___Empty__SelectedSchoolNameEmpty()
+    public void SearchQuery___Empty__SelectedSchoolNameEmpty()
     {
         // arrange
         var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
@@ -131,7 +131,7 @@ internal sealed class ApplicationSelectSchoolModelTests
         TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
         // act
-        await pageModel.OnGetAsync();
+        pageModel.OnGetAsync();
 
         pageModel.SearchQuery = "";
 
