@@ -8,8 +8,7 @@ public class SchoolApplyingToConvert
 		UKPRN = ukprn;
 		URN = urn;
         ApplicationId = applicationId;
-        LandAndBuildings = new(ApplicationId:applicationId,
-								URN:urn, 
+        LandAndBuildings = new(
 								null, null, null,
 								null, null, null,
 								null, null, null,

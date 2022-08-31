@@ -1,8 +1,6 @@
 ﻿namespace Dfe.Academies.External.Web.Models;
 
-public record SchoolLandAndBuildings(int ApplicationId,
-	int URN,
-	string? OwnerExplained,
+public record SchoolLandAndBuildings(string? OwnerExplained,
 	bool? WorksPlanned,  // should this be y/n enum ??
 	string? WorksPlannedExplained,
 	DateTime? WorksPlannedDate,

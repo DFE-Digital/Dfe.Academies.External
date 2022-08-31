@@ -14,8 +14,6 @@ internal sealed class SchoolLandAndBuildingsTests
 	public void Constructor___PropertiesSet()
 	{
 		// arrange
-		int applicationId = Fixture.Create<int>();
-		int urn = Fixture.Create<int>();
 		string? schoolBuildLandOwnerExplained = Fixture.Create<string>();
 		bool? schoolBuildLandWorksPlanned = false;
 		string? schoolBuildLandWorksPlannedExplained = Fixture.Create<string>();
@@ -29,7 +27,7 @@ internal sealed class SchoolLandAndBuildingsTests
 		bool? schoolBuildLandPriorityBuildingProgramme = false;
 		bool? schoolBuildLandFutureProgramme = false;
 		
-		var applicationComponent = new SchoolLandAndBuildings(applicationId, urn,
+		var applicationComponent = new SchoolLandAndBuildings(
 			schoolBuildLandOwnerExplained,
 			schoolBuildLandWorksPlanned,
 			schoolBuildLandWorksPlannedExplained,
@@ -49,8 +47,6 @@ internal sealed class SchoolLandAndBuildingsTests
 
 		// assert
 		Assert.That(applicationComponent, Is.Not.Null);
-		Assert.That(applicationComponent.ApplicationId, Is.EqualTo(applicationId));
-		Assert.That(applicationComponent.URN, Is.EqualTo(urn));
 		Assert.That(applicationComponent.OwnerExplained, Is.EqualTo(schoolBuildLandOwnerExplained));
 		Assert.That(applicationComponent.WorksPlanned, Is.EqualTo(schoolBuildLandWorksPlanned));
 		Assert.That(applicationComponent.WorksPlannedExplained, Is.EqualTo(schoolBuildLandWorksPlannedExplained));
