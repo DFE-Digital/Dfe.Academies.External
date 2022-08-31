@@ -35,7 +35,7 @@ internal sealed class ApplicationSelectSchoolModelTests
         TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
         // act
-        pageModel.OnGetAsync();
+        pageModel.OnGet();
 
         // assert
         Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
@@ -62,7 +62,7 @@ internal sealed class ApplicationSelectSchoolModelTests
         TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
         // act
-        pageModel.OnGetAsync();
+        pageModel.OnGet();
 
         pageModel.SearchQuery = "Wise Owl primary school (587634)";
 
@@ -85,7 +85,7 @@ internal sealed class ApplicationSelectSchoolModelTests
         TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
         // act
-        pageModel.OnGetAsync();
+        pageModel.OnGet();
 
         pageModel.SearchQuery = "";
 
@@ -108,7 +108,7 @@ internal sealed class ApplicationSelectSchoolModelTests
         TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
         // act
-        pageModel.OnGetAsync();
+        pageModel.OnGet();
 
         pageModel.SearchQuery = "Wise Owl primary school (587634)";
 
@@ -131,7 +131,7 @@ internal sealed class ApplicationSelectSchoolModelTests
         TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
         // act
-        pageModel.OnGetAsync();
+        pageModel.OnGet();
 
         pageModel.SearchQuery = "";
 

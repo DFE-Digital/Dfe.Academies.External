@@ -63,7 +63,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    _conversionApplicationCreationService = conversionApplicationCreationService;
 		}
 
-		public void OnGetAsync()
+		public void OnGet()
 		{
 			try
 			{
