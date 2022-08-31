@@ -2,12 +2,20 @@
 
 public class SchoolApplyingToConvert
 {
-	public SchoolApplyingToConvert(string schoolName, int urn, string? ukprn)
+	public SchoolApplyingToConvert(string schoolName, int urn, int applicationId, string? ukprn)
 	{
 		SchoolName = schoolName;
 		UKPRN = ukprn;
 		URN = urn;
+        ApplicationId = applicationId;
+        LandAndBuildings = new(
+								null, null, null,
+								null, null, null,
+								null, null, null,
+								null, null, null);
 	}
+
+	public int ApplicationId { get; set; }
 
     /// <summary>
     /// Unique school Id (6 digit number) e.g. 101934
@@ -76,11 +84,11 @@ public class SchoolApplyingToConvert
 
     public string? SchoolAdSafeguardingExplain { get; set; }
 
-    public List<SchoolLoan> SchoolLoans { get; set; } = new();
+    public List<SchoolLoan> Loans { get; set; } = new();
 
-    public List<SchoolLease> SchoolLeases { get; set; } = new();
+    public List<SchoolLease> Leases { get; set; } = new();
 
-    public SchoolFinances SchoolFinances { get; set; } = new();
+    public SchoolFinances Finances { get; set; } = new();
 
-    public SchoolLandAndBuildings SchoolLandAndBuildings { get; set; }
+    public SchoolLandAndBuildings LandAndBuildings { get; set; }
 }

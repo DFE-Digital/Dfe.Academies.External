@@ -1,0 +1,58 @@
+{
+	"applicationId": 2,
+	"applicationType": "JoinAMat",
+	"applicationStatus": "InProgress",
+	"contributors": [
+		{
+			"contributorId": 2,
+			"firstName": "bob",
+			"lastName": "bob",
+			"emailAddress": "bob@test.com",
+			"role": "Other",
+			"otherRoleName": "bob"
+		}
+	],
+	"schools": [
+		{
+			"id": 0,
+			"urn": 123332,
+			"schoolName": "Frank Wise School",
+			"landAndBuildings": {
+				"ownerExplained": "",
+				"worksPlanned": false,
+				"worksPlannedDate": null,
+				"worksPlannedExplained": "",
+				"facilitiesShared": false,
+				"facilitiesSharedExplained": "",
+				"grants": false,
+				"grantsAwardingBodies": "",
+				"partOfPfiScheme": false,
+				"partOfPfiSchemeType": "",
+				"partOfPrioritySchoolsBuildingProgramme": false,
+				"partOfBuildingSchoolsForFutureProgramme": false
+			},
+			"schoolConversionContactHeadName": "",
+			"schoolConversionContactHeadEmail": null,
+			"schoolConversionContactHeadTel": "",
+			"schoolConversionContactChairName": "",
+			"schoolConversionContactChairEmail": null,
+			"schoolConversionContactChairTel": "",
+			"schoolConversionContactRole": "",
+			"schoolConversionMainContactOtherName": "",
+			"schoolConversionMainContactOtherEmail": null,
+			"schoolConversionMainContactOtherTelephone": "",
+			"schoolConversionMainContactOtherRole": "",
+			"schoolConversionApproverContactName": "",
+			"schoolConversionApproverContactEmail": null,
+			"schoolConversionTargetDate": null,
+			"schoolConversionTargetDateExplained": "",
+			"proposedNewSchoolName": "",
+			"applicationJoinTrustReason": "",
+			"projectedPupilNumbersYear1": 0,
+			"projectedPupilNumbersYear2": 0,
+			"projectedPupilNumbersYear3": 0,
+			"schoolCapacityAssumptions": "",
+			"schoolCapacityPublishedAdmissionsNumber": 0
+		}
+	]
+}

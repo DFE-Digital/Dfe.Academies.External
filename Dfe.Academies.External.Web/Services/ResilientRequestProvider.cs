@@ -87,7 +87,7 @@ namespace Dfe.Academies.External.Web.Services
             var response = await this._client.PutAsync(uri, content);
             response.EnsureSuccessStatusCode();
 
-            // using stream reader as below
+            // get PUT response JSON using stream reader as below
             result = await this.ConvertResponseContent<TResult>(response);
 
             return result;
@@ -123,7 +123,9 @@ namespace Dfe.Academies.External.Web.Services
         /// </returns>
         private async Task<TResult> ConvertResponseContent<TResult>(HttpResponseMessage response)
         {
-	        var options = new JsonSerializerOptions
+	        TResult result = default;
+
+			var options = new JsonSerializerOptions
 	        {
 		        AllowTrailingCommas = true,
 		        PropertyNameCaseInsensitive = true,
@@ -136,7 +138,12 @@ namespace Dfe.Academies.External.Web.Services
             await using var stream = await response.Content.ReadAsStreamAsync();
             using var reader = new StreamReader(stream);
             string text = reader.ReadToEnd();
-            TResult result = await Task.Run(() => JsonSerializer.Deserialize<TResult>(text, options));
+
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+	            result = await Task.Run(() => JsonSerializer.Deserialize<TResult>(text, options));
+			}
+
             return result;
         }
 

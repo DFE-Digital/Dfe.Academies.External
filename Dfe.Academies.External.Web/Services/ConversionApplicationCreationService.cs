@@ -8,13 +8,17 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
     private readonly ILogger<ConversionApplicationCreationService> _logger;
     private readonly HttpClient _httpClient;
     private readonly ResilientRequestProvider _resilientRequestProvider;
+    private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
 
-	public ConversionApplicationCreationService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationCreationService> logger) : base(httpClientFactory)
+	public ConversionApplicationCreationService(IHttpClientFactory httpClientFactory, 
+												ILogger<ConversionApplicationCreationService> logger,
+												IConversionApplicationRetrievalService conversionApplicationRetrievalService) : base(httpClientFactory)
     {
 	    _httpClient = httpClientFactory.CreateClient(AcademisationAPIHttpClientName);
 		_logger = logger;
 		_resilientRequestProvider = new ResilientRequestProvider(_httpClient);
-	}
+		_conversionApplicationRetrievalService = conversionApplicationRetrievalService;
+    }
 
 	///<inheritdoc/>
 	public async Task<ConversionApplication> CreateNewApplication(ConversionApplication application)
@@ -44,8 +48,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 						contributor.Role.ToString(),
 						contributor.OtherRoleName)
 					);
-
-
+			
 			var result = await _resilientRequestProvider.PostAsync<ConversionApplication, CreateApplicationApiModel>(apiurl, createApplicationApiModel);
 
 		    return result;
@@ -56,28 +59,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		    throw;
 		}
     }
-
-	/////<inheritdoc/>
-	//public async Task UpdateDraftApplication(ConversionApplication application)
- //   {
-	//    try
-	//    {
-	//	    // MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
-	//	    // to grab current application data
-	//	    // before then patching ConversionApplication returned with data from application object
-
-	//	    //https://academies-academisation-api-dev.azurewebsites.net/application/99
-	//	    string apiurl = $"{_httpClient.BaseAddress}application/{application.ApplicationId}?api-version=V1";
-
-	//	    // var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
-	//    }
-	//    catch (Exception ex)
-	//    {
-	//	    _logger.LogError("ConversionApplicationCreationService::AddSchoolToApplication::Exception - {Message}", ex.Message);
-	//	    throw;
-	//    }
-	//}
-
+	
 	///<inheritdoc/>
 	public async Task AddSchoolToApplication(int applicationId, int schoolUrn, string name)
     {
@@ -86,16 +68,23 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
 			// to grab current application data
 			// before then patching ConversionApplication returned with data from application object
+			var application = await GetApplication(applicationId);
 
-			//https://academies-academisation-api-dev.azurewebsites.net/application/99
+			if (application.ApplicationId != applicationId)
+			{
+				throw new ArgumentException("Application not found");
+			}
+
+			//// baseaddress has a backslash at the end to be a valid URI !!!
+			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
 			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
-			SchoolApplyingToConvert school = new(name, schoolUrn, null);
+			SchoolApplyingToConvert school = new(name, schoolUrn, applicationId,null);
+			application.Schools.Add(school);
 
-			//application.Schools.Add(school);
-
-			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
+			//// structure of JSON in body is having a 'contributors' prop - same as ConversionApplication() obj
+			// MR:- no response from Academies API - Just an OK
+			var result = await _resilientRequestProvider.PutAsync<ConversionApplication>(apiurl, application);
 		}
 		catch (Exception ex)
 	    {
@@ -113,7 +102,8 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// to grab current application data
 			// before then patching ConversionApplication returned with data from application object
 
-			//https://academies-academisation-api-dev.azurewebsites.net/application/99
+			//// baseaddress has a backslash at the end to be a valid URI !!!
+			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
 			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
 			// application can contain multiple schools so need to grab one being changed via linqage
@@ -121,7 +111,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			//schoolUpdating.ApplicationJoinTrustReason = applicationJoinTrustReason;
 
 			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplication>(apiurl, application);
 	    }
 		catch (Exception ex)
 	    {
@@ -139,14 +129,15 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// to grab current application data
 			// before then patching ConversionApplication returned with data from application object
 
-			//https://academies-academisation-api-dev.azurewebsites.net/application/99
+			//// baseaddress has a backslash at the end to be a valid URI !!!
+			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
 			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
 			// TODO MR:- add to existing / form new route to think about here !
 			// application.Trust = new trust();
 
 			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplication>(apiurl, application);
 		}
 		catch (Exception ex)
 	    {
@@ -165,13 +156,17 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// to grab current application data
 			// before then patching ConversionApplication returned with data from application object
 
+			//// baseaddress has a backslash at the end to be a valid URI !!!
+			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
+			string apiurl = $"{_httpClient.BaseAddress}application/{application.ApplicationId}?api-version=V1";
+
 			// application can contain multiple schools so need to grab one being changed via linqage
 			var schoolUpdating = application.Schools.FirstOrDefault( s=> s.URN == schoolUrn);
 			//schoolUpdating.ProposedNewSchoolName
 			//schoolUpdating.ChangeSchoolNameReason = changeSchoolNameReason
 
 			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplication>(apiurl, application);
 		}
 		catch (Exception ex)
 	    {
@@ -190,13 +185,17 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// to grab current application data
 			// before then patching ConversionApplication returned with data from application object
 
+			//// baseaddress has a backslash at the end to be a valid URI !!!
+			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
+			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+
 			// application can contain multiple schools so need to grab one being changed via linqage
 			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
 			//schoolUpdating.SchoolConversionTargetDate = targetDate
 			//schoolUpdating.SchoolConversionTargetDateExplained = targetDateExplained
 
 			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplication>(apiurl, application);
 		}
 		catch (Exception ex)
 	    {
@@ -216,6 +215,10 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// to grab current application data
 			// before then patching ConversionApplication returned with data from application object
 
+			//// baseaddress has a backslash at the end to be a valid URI !!!
+			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
+			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+
 			// application can contain multiple schools so need to grab one being changed via linqage
 			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
 			//schoolUpdating.ProjectedPupilNumbersYear1 = projectedPupilNumbersYear1
@@ -225,7 +228,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			//schoolUpdating.SchoolCapacityPublishedAdmissionsNumber = schoolCapacityPublishedAdmissionsNumber
 
 			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, ConversionApplication>(apiurl, application);
+			// var result = await _resilientRequestProvider.PutAsync<ConversionApplication>(apiurl, application);
 		}
 		catch (Exception ex)
 	    {
@@ -243,6 +246,10 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// to grab current application data
 			// before then patching ConversionApplication returned with data from application object
 
+			//// baseaddress has a backslash at the end to be a valid URI !!!
+			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
+			string apiurl = $"{_httpClient.BaseAddress}application/{schoolContacts.ApplicationId}?api-version=V1";
+
 			// application can contain multiple schools so need to grab one being changed via linqage
 			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolContacts.Urn);
 			//schoolUpdating.SchoolConversionContactHeadName = schoolContacts.SchoolConversionContactHeadName;
@@ -253,7 +260,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// ETC.....
 
 			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, application);
+			// var result = await _resilientRequestProvider.PutAsync<SchoolApplyingToConvert>(apiurl, application);
 		}
 		catch (Exception ex)
 	    {
@@ -263,13 +270,17 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	}
 
 	///<inheritdoc/>
-	public async Task ApplicationSchoolLandAndBuildings(SchoolLandAndBuildings schoolLandAndBuildings)
+	public async Task ApplicationSchoolLandAndBuildings(SchoolLandAndBuildings schoolLandAndBuildings, int applicationId)
 	{
 		try
 		{
 			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
 			// to grab current application data
 			// before then patching ConversionApplication returned with data from application object
+
+			//// baseaddress has a backslash at the end to be a valid URI !!!
+			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
+			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
 			// application can contain multiple schools so need to grab one being changed via linqage
 			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolLandAndBuildings.Urn);
@@ -281,7 +292,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// ETC.....
 
 			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, application);
+			// var result = await _resilientRequestProvider.PutAsync<SchoolApplyingToConvert>(apiurl, application);
 		}
 		catch (Exception ex)
 		{
@@ -291,13 +302,17 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	}
 
 	///<inheritdoc/>
-	public async Task ApplicationPreOpeningSupportGrantUpdate(PayFundsTo schoolSupportGrantFundsPaidTo)
+	public async Task ApplicationPreOpeningSupportGrantUpdate(PayFundsTo schoolSupportGrantFundsPaidTo, int applicationId)
 	{
 		try
 		{
 			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
 			// to grab current application data
 			// before then patching ConversionApplication returned with data from application object
+
+			//// baseaddress has a backslash at the end to be a valid URI !!!
+			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
+			//string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
 			// application can contain multiple schools so need to grab one being changed via linqage
 			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolLandAndBuildings.Urn);
@@ -312,7 +327,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			}
 
 			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<ConversionApplicationApiPostResult, SchoolApplyingToConvert>(apiurl, application);
+			// var result = await _resilientRequestProvider.PutAsync<SchoolApplyingToConvert>(apiurl, application);
 		}
 		catch (Exception ex)
 		{
@@ -320,4 +335,30 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			throw;
 		}
 	}
+
+	private async Task<ConversionApplication> GetApplication(int applicationId)
+	{
+		return await _conversionApplicationRetrievalService.GetApplication(applicationId);
+	}
+
+	/////<inheritdoc/>
+	//public async Task UpdateDraftApplication(ConversionApplication application)
+	//   {
+	//    try
+	//    {
+	//	    // MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
+	//	    // to grab current application data
+	//	    // before then patching ConversionApplication returned with data from application object
+
+	//	    //https://academies-academisation-api-dev.azurewebsites.net/application/99
+	//	    string apiurl = $"{_httpClient.BaseAddress}application/{application.ApplicationId}?api-version=V1";
+
+	//	    // var result = await _resilientRequestProvider.PutAsync<ConversionApplication>(apiurl, application);
+	//    }
+	//    catch (Exception ex)
+	//    {
+	//	    _logger.LogError("ConversionApplicationCreationService::AddSchoolToApplication::Exception - {Message}", ex.Message);
+	//	    throw;
+	//    }
+	//}
 }
