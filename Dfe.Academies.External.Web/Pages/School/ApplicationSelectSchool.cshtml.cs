@@ -63,7 +63,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    _conversionApplicationCreationService = conversionApplicationCreationService;
 		}
 
-		public async Task OnGetAsync()
+		public void OnGetAsync()
 		{
 			try
 			{
@@ -120,7 +120,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		public async Task<IActionResult> OnPostFind()
+		public IActionResult OnPostFind()
 		{
 			var query = SearchQuery;
 
