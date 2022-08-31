@@ -94,7 +94,9 @@ internal sealed class ConversionApplicationCreationServiceTests
 			mockConversionApplicationRetrievalService);
 
 	    // assert
-	    Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId, urn, schoolName));
+	    Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId, 
+		    urn, 
+		    schoolName));
     }
 
     /// <summary>
@@ -123,7 +125,9 @@ internal sealed class ConversionApplicationCreationServiceTests
 		    mockConversionApplicationRetrievalService);
 
 		// assert
-		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId, urn, schoolName));
+		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId, 
+			urn, 
+			schoolName));
     }
 
     [Test]
@@ -148,7 +152,9 @@ internal sealed class ConversionApplicationCreationServiceTests
 		    mockConversionApplicationRetrievalService);
 
 		// assert
-		var ex = Assert.ThrowsAsync<ArgumentException>(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId, urn, schoolName));
+		var ex = Assert.ThrowsAsync<ArgumentException>(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId, 
+			urn, 
+			schoolName));
 
 		// now we could test the exception itself
 		Assert.That(ex.Message == "Application not found");
@@ -181,7 +187,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 		// assert
 		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.ApplicationAddJoinTrustReasons(applicationId, 
-																								applicationAddJoinTrustReason, urn));
+																								applicationAddJoinTrustReason, 
+																								urn));
     }
 
     /// <summary>
@@ -210,11 +217,9 @@ internal sealed class ConversionApplicationCreationServiceTests
 			mockConversionApplicationRetrievalService);
 
 		// assert
-		var ex = Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationAddJoinTrustReasons(applicationId, 
-																									applicationAddJoinTrustReason, urn));
-
-        // now we could test the exception itself
-        //Assert.That(ex.Message == "Blah");
+		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationAddJoinTrustReasons(applicationId, 
+																									applicationAddJoinTrustReason, 
+																									urn));
     }
 
 	// TODO MR:- AddTrustToApplication - ApiReturns200___Ok()
@@ -230,7 +235,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1; // hard coded because has to be same as example JSON
-		int urn = Fixture.Create<int>();
+		int urn = 141992; // hard coded because has to be same as example JSON
 		DateTime targetDate = Fixture.Create<DateTime>();
 		string targetDateExplained = Fixture.Create<string>();
 
@@ -262,7 +267,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1; // hard coded because has to be same as example JSON
-		int urn = Fixture.Create<int>();
+		int urn = 141992; // hard coded because has to be same as example JSON
 		DateTime targetDate = Fixture.Create<DateTime>();
 		string targetDateExplained = Fixture.Create<string>();
 
@@ -281,18 +286,83 @@ internal sealed class ConversionApplicationCreationServiceTests
 			mockConversionApplicationRetrievalService);
 
 		// assert
-		var ex = Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationSchoolTargetConversionDate(
+		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationSchoolTargetConversionDate(
 			applicationId,
 			urn,
 			targetDate,
 			targetDateExplained
 			));
-
-		// now we could test the exception itself
-		//Assert.That(ex.Message == "Blah");
 	}
 
+	[Test]
+	public async Task ApplicationSchoolTargetConversionDate___InvalidApplicationId___ArgumentException()
+	{
+		// arrange
+		int applicationId = Fixture.Create<int>();
+		int urn = 141992; // hard coded because has to be same as example JSON
+		DateTime targetDate = Fixture.Create<DateTime>();
+		string targetDateExplained = Fixture.Create<string>();
 
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		var ex = Assert.ThrowsAsync<ArgumentException>(() => conversionApplicationCreationService.ApplicationSchoolTargetConversionDate(
+			applicationId,
+			urn,
+			targetDate,
+			targetDateExplained
+		));
+
+		// now we could test the exception itself
+		Assert.That(ex.Message == "Application not found");
+	}
+
+	[Test]
+	public async Task ApplicationSchoolTargetConversionDate___InvalidUrn___ArgumentException()
+	{
+		// arrange
+		int applicationId = 1; // hard coded because has to be same as example JSON
+		int urn = Fixture.Create<int>();
+		DateTime targetDate = Fixture.Create<DateTime>();
+		string targetDateExplained = Fixture.Create<string>();
+
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		var ex = Assert.ThrowsAsync<ArgumentException>(() => conversionApplicationCreationService.ApplicationSchoolTargetConversionDate(
+			applicationId,
+			urn,
+			targetDate,
+			targetDateExplained
+		));
+
+		// now we could test the exception itself
+		Assert.That(ex.Message == "School not found");
+	}
 
 	// TODO MR:- ApplicationSchoolFuturePupilNumbers - ApiReturns200___Ok()
 
