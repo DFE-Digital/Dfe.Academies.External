@@ -119,6 +119,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public async Task<IActionResult> OnPostAsync()
 		{
+			// TODO MR:- build TargetDate from individual date components ??
+			var day = TargetDateDay;
+			var mth = TargetDateMonth;
+			var year = TargetDateYear;
+
 			if (!ModelState.IsValid)
 			{
 				PopulateValidationMessages();
@@ -144,8 +149,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				// TODO MR:- call API endpoint to log data
-				// await _academisationCreationService.UpdateSchoolConversionDate(TargetDate, TargetDateExplained);
+				// MR:- call API endpoint to log data
+				await _academisationCreationService.ApplicationSchoolTargetConversionDate(ApplicationId, Urn, TargetDate.Value, TargetDateExplained);
 
 				// update temp store for next step
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
