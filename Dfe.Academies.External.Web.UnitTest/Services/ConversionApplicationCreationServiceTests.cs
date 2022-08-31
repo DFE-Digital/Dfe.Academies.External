@@ -161,7 +161,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	public async Task ApplicationAddJoinTrustReasons___ApiReturns200___Ok()
     {
 		// arrange
-		int applicationId = 2; // hard coded because has to be same as example JSON
+		int applicationId = 1; // hard coded because has to be same as example JSON
 		int urn = Fixture.Create<int>();
 		string applicationAddJoinTrustReason = Fixture.Create<string>();
 
@@ -191,7 +191,7 @@ internal sealed class ConversionApplicationCreationServiceTests
     public async Task ApplicationAddJoinTrustReasons___ApiReturns500___InternalServerError()
     {
 		// arrange
-		int applicationId = 2; // hard coded because has to be same as example JSON
+		int applicationId = 1; // hard coded because has to be same as example JSON
 		int urn = Fixture.Create<int>();
 		string applicationAddJoinTrustReason = Fixture.Create<string>();
 
@@ -229,7 +229,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	public async Task ApplicationSchoolTargetConversionDate___ApiReturns200___Ok()
 	{
 		// arrange
-		int applicationId = 2; // hard coded because has to be same as example JSON
+		int applicationId = 1; // hard coded because has to be same as example JSON
 		int urn = Fixture.Create<int>();
 		DateTime targetDate = Fixture.Create<DateTime>();
 		string targetDateExplained = Fixture.Create<string>();
@@ -261,7 +261,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	public async Task ApplicationSchoolTargetConversionDate___ApiReturns500___InternalServerError()
 	{
 		// arrange
-		int applicationId = 2; // hard coded because has to be same as example JSON
+		int applicationId = 1; // hard coded because has to be same as example JSON
 		int urn = Fixture.Create<int>();
 		DateTime targetDate = Fixture.Create<DateTime>();
 		string targetDateExplained = Fixture.Create<string>();
