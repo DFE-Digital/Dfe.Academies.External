@@ -217,17 +217,82 @@ internal sealed class ConversionApplicationCreationServiceTests
         //Assert.That(ex.Message == "Blah");
     }
 
+	// TODO MR:- AddTrustToApplication - ApiReturns200___Ok()
+
+	// TODO MR:- AddTrustToApplication - ApiReturns500___InternalServerError()
+
 	// TODO MR:- ApplicationChangeSchoolNameAndReason - ApiReturns200___Ok()
 
 	// TODO MR:- ApplicationChangeSchoolNameAndReason - ApiReturns500___InternalServerError()
 
-	// TODO MR:- ApplicationSchoolTargetConversionDate - ApiReturns200___Ok()
+	[Test]
+	public async Task ApplicationSchoolTargetConversionDate___ApiReturns200___Ok()
+	{
+		// arrange
+		int applicationId = 2; // hard coded because has to be same as example JSON
+		int urn = Fixture.Create<int>();
+		DateTime targetDate = Fixture.Create<DateTime>();
+		string targetDateExplained = Fixture.Create<string>();
 
-	// TODO MR:- ApplicationSchoolTargetConversionDate - ApiReturns500___InternalServerError()
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
-	// TODO MR:- ApplicationSchoolTargetConversionDate - ApiReturns200___Ok()
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
 
-	// TODO MR:- ApplicationSchoolTargetConversionDate - ApiReturns500___InternalServerError()
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.ApplicationSchoolTargetConversionDate(
+			applicationId, 
+			urn,
+			targetDate,
+			targetDateExplained
+			));
+	}
+
+	[Test]
+	public async Task ApplicationSchoolTargetConversionDate___ApiReturns500___InternalServerError()
+	{
+		// arrange
+		int applicationId = 2; // hard coded because has to be same as example JSON
+		int urn = Fixture.Create<int>();
+		DateTime targetDate = Fixture.Create<DateTime>();
+		string targetDateExplained = Fixture.Create<string>();
+
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		var ex = Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationSchoolTargetConversionDate(
+			applicationId,
+			urn,
+			targetDate,
+			targetDateExplained
+			));
+
+		// now we could test the exception itself
+		//Assert.That(ex.Message == "Blah");
+	}
+
+
 
 	// TODO MR:- ApplicationSchoolFuturePupilNumbers - ApiReturns200___Ok()
 
@@ -240,6 +305,10 @@ internal sealed class ConversionApplicationCreationServiceTests
 	// TODO MR:- ApplicationSchoolLandAndBuildings - ApiReturns200___Ok()
 
 	// TODO MR:- ApplicationSchoolLandAndBuildings - ApiReturns500___InternalServerError()
+
+	// TODO MR:- ApplicationPreOpeningSupportGrantUpdate - ApiReturns200___Ok()
+
+	// TODO MR:- ApplicationPreOpeningSupportGrantUpdate - ApiReturns500___InternalServerError()
 
 	//public async Task UpdateDraftApplication___OtherRole___Success()
 	//{
