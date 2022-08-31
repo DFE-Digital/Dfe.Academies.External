@@ -51,17 +51,17 @@ internal sealed class SchoolLandAndBuildingsTests
 		Assert.That(applicationComponent, Is.Not.Null);
 		Assert.That(applicationComponent.ApplicationId, Is.EqualTo(applicationId));
 		Assert.That(applicationComponent.URN, Is.EqualTo(urn));
-		Assert.That(applicationComponent.SchoolBuildLandOwnerExplained, Is.EqualTo(schoolBuildLandOwnerExplained));
-		Assert.That(applicationComponent.SchoolBuildLandWorksPlanned, Is.EqualTo(schoolBuildLandWorksPlanned));
-		Assert.That(applicationComponent.SchoolBuildLandWorksPlannedExplained, Is.EqualTo(schoolBuildLandWorksPlannedExplained));
-		Assert.That(applicationComponent.SchoolBuildLandWorksPlannedDate, Is.EqualTo(schoolBuildLandWorksPlannedDate));
-		Assert.That(applicationComponent.SchoolBuildLandSharedFacilities, Is.EqualTo(schoolBuildLandSharedFacilities));
-		Assert.That(applicationComponent.SchoolBuildLandSharedFacilitiesExplained, Is.EqualTo(schoolBuildLandSharedFacilitiesExplained));
-		Assert.That(applicationComponent.SchoolBuildLandGrants, Is.EqualTo(schoolBuildLandGrants));
-		Assert.That(applicationComponent.SchoolBuildLandGrantsBodies, Is.EqualTo(schoolBuildLandGrantsBodies));
-		Assert.That(applicationComponent.SchoolBuildLandPFIScheme, Is.EqualTo(schoolBuildLandPfiScheme));
-		Assert.That(applicationComponent.SchoolBuildLandPFISchemeType, Is.EqualTo(schoolBuildLandPfiSchemeType));
-		Assert.That(applicationComponent.SchoolBuildLandPriorityBuildingProgramme, Is.EqualTo(schoolBuildLandPriorityBuildingProgramme));
-		Assert.That(applicationComponent.SchoolBuildLandFutureProgramme, Is.EqualTo(schoolBuildLandFutureProgramme));
+		Assert.That(applicationComponent.OwnerExplained, Is.EqualTo(schoolBuildLandOwnerExplained));
+		Assert.That(applicationComponent.WorksPlanned, Is.EqualTo(schoolBuildLandWorksPlanned));
+		Assert.That(applicationComponent.WorksPlannedExplained, Is.EqualTo(schoolBuildLandWorksPlannedExplained));
+		Assert.That(applicationComponent.WorksPlannedDate, Is.EqualTo(schoolBuildLandWorksPlannedDate));
+		Assert.That(applicationComponent.FacilitiesShared, Is.EqualTo(schoolBuildLandSharedFacilities));
+		Assert.That(applicationComponent.FacilitiesSharedExplained, Is.EqualTo(schoolBuildLandSharedFacilitiesExplained));
+		Assert.That(applicationComponent.Grants, Is.EqualTo(schoolBuildLandGrants));
+		Assert.That(applicationComponent.GrantsAwardingBodies, Is.EqualTo(schoolBuildLandGrantsBodies));
+		Assert.That(applicationComponent.PartOfPFIScheme, Is.EqualTo(schoolBuildLandPfiScheme));
+		Assert.That(applicationComponent.PartOfPFISchemeType, Is.EqualTo(schoolBuildLandPfiSchemeType));
+		Assert.That(applicationComponent.PartOfPrioritySchoolsBuildingProgramme, Is.EqualTo(schoolBuildLandPriorityBuildingProgramme));
+		Assert.That(applicationComponent.PartOfBuildingSchoolsForFutureProgramme, Is.EqualTo(schoolBuildLandFutureProgramme));
 	}
 }
