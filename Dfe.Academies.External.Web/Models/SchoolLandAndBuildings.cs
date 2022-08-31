@@ -1,17 +1,15 @@
 ﻿namespace Dfe.Academies.External.Web.Models;
 
-public record SchoolLandAndBuildings(int ApplicationId,
-	int URN,
-	string? SchoolBuildLandOwnerExplained,
-	bool? SchoolBuildLandWorksPlanned,  // should this be y/n enum ??
-	string? SchoolBuildLandWorksPlannedExplained,
-	DateTime? SchoolBuildLandWorksPlannedDate,
-	bool? SchoolBuildLandSharedFacilities, // should this be y/n enum ??
-	string? SchoolBuildLandSharedFacilitiesExplained,
-	bool? SchoolBuildLandGrants, // should this be y/n enum ??
-	string? SchoolBuildLandGrantsBodies,
-	bool? SchoolBuildLandPFIScheme, // should this be y/n enum ??
-	string? SchoolBuildLandPFISchemeType,
-	bool? SchoolBuildLandPriorityBuildingProgramme, // should this be y/n enum ??
-	bool? SchoolBuildLandFutureProgramme // should this be y/n enum ??
+public record SchoolLandAndBuildings(string? OwnerExplained,
+	bool? WorksPlanned,  // should this be y/n enum ??
+	string? WorksPlannedExplained,
+	DateTime? WorksPlannedDate,
+	bool? FacilitiesShared, // should this be y/n enum ??
+	string? FacilitiesSharedExplained,
+	bool? Grants, // should this be y/n enum ??
+	string? GrantsAwardingBodies,
+	bool? PartOfPFIScheme, // should this be y/n enum ??
+	string? PartOfPFISchemeType,
+	bool? PartOfPrioritySchoolsBuildingProgramme, // should this be y/n enum ??
+	bool? PartOfBuildingSchoolsForFutureProgramme // should this be y/n enum ??
 );
