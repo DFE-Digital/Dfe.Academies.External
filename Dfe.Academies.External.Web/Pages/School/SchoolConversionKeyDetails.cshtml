@@ -8,7 +8,7 @@
 
 @section BeforeMain
 {
-	<a asp-page="../ApplicationOverview" class="govuk-back-link">Back to application overview</a>
+    <a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back to application overview</a>
 }
 
 <div class="govuk-grid-column-two-thirds">
@@ -58,7 +58,8 @@
 		<div class="govuk-!-margin-6"></div>
 	}
 
-	<a asp-page="SchoolOverview" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+    <a asp-page="SchoolOverview" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn"
+	   class="govuk-button" data-module="govuk-button">Save and return to your application</a>
 </div>
 <input type="hidden" asp-for="Urn"/>
 <partial name="_HiddenFields"/>

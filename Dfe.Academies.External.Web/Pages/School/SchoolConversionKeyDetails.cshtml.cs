@@ -42,6 +42,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 				LoadAndStoreCachedConversionApplication();
 
 				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+				ApplicationId = appId;
+				Urn = urn;
 
 				// Grab other values from API
 				if (selectedSchool != null)
@@ -65,8 +67,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			ApplicationId = selectedSchool.ApplicationId;
-			Urn = selectedSchool.URN;
 			SchoolName = selectedSchool.SchoolName;
 
 			SchoolConversionComponentHeadingViewModel heading1 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationSchool,

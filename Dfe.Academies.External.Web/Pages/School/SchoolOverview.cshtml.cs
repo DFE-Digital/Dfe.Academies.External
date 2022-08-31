@@ -1,8 +1,10 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using System;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -10,7 +12,10 @@ namespace Dfe.Academies.External.Web.Pages.School
     {
 	    private readonly ILogger<SchoolOverviewModel> _logger;
 
-	    public int URN { get; set; }
+	    [BindProperty]
+	    public int ApplicationId { get; set; }
+
+		public int Urn { get; set; }
 
         public string SchoolName { get; private set; } = string.Empty;
 
@@ -32,9 +37,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 	        {
 				var conversionApplication = await LoadAndSetApplicationDetails(appId);
 				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+				ApplicationId = appId;
+				Urn = urn;
 
-                // Grab other values from API
-                if (selectedSchool != null)
+				// Grab other values from API
+				if (selectedSchool != null)
                 {
 	                selectedSchool.SchoolApplicationComponents = await ConversionApplicationRetrievalService
 		                .GetSchoolApplicationComponents(appId, urn);
@@ -50,7 +57,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 
         private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ConversionApplication? application)
         {
-	        URN = selectedSchool.URN;
             SchoolName = selectedSchool.SchoolName;
 
             ApplicationType = application.ApplicationType;

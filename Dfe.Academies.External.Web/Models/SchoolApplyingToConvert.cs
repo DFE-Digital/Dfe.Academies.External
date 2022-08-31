@@ -2,12 +2,11 @@
 
 public class SchoolApplyingToConvert
 {
-	public SchoolApplyingToConvert(string schoolName, int urn, int applicationId, string? ukprn)
+	public SchoolApplyingToConvert(string schoolName, int urn, string? ukprn)
 	{
 		SchoolName = schoolName;
 		UKPRN = ukprn;
 		URN = urn;
-        ApplicationId = applicationId;
         LandAndBuildings = new(
 								null, null, null,
 								null, null, null,

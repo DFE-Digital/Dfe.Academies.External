@@ -91,7 +91,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    {
 			    LoadAndStoreCachedConversionApplication();
 
-			    var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+			    ApplicationId = appId;
+			    Urn = urn;
+				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
 
 			    // Grab other values from API
 			    if (selectedSchool != null)
@@ -170,11 +172,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 	    private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ApplicationTypes applicationType)
 	    {
-		    ApplicationId = selectedSchool.ApplicationId;
-		    Urn = selectedSchool.URN;
 		    SchoolName = selectedSchool.SchoolName;
 
-		    ViewModel = new ApplicationSchoolContactsViewModel(selectedSchool.ApplicationId, selectedSchool.URN)
+		    ViewModel = new ApplicationSchoolContactsViewModel(ApplicationId, selectedSchool.URN)
 			    {
 				    ContactHeadName = selectedSchool.SchoolConversionContactHeadName,
 					ContactHeadEmail = selectedSchool.SchoolConversionContactHeadEmail,
