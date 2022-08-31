@@ -8,6 +8,12 @@ public class SchoolApplyingToConvert
 		UKPRN = ukprn;
 		URN = urn;
         ApplicationId = applicationId;
+        LandAndBuildings = new(ApplicationId:applicationId,
+								URN:urn, 
+								null, null, null,
+								null, null, null,
+								null, null, null,
+								null, null, null);
 	}
 
 	public int ApplicationId { get; set; }
@@ -41,7 +47,7 @@ public class SchoolApplyingToConvert
 	public string SchoolConversionApproverContactEmail { get; set; }
 
 	//// ApplicationConversionTargetDate
-	public DateTime SchoolConversionTargetDate { get; set; }
+	public DateTime? SchoolConversionTargetDate { get; set; }
 	public string SchoolConversionTargetDateExplained { get; set; }
 
 	//// ApplicationChangeSchoolName
@@ -79,11 +85,11 @@ public class SchoolApplyingToConvert
 
     public string? SchoolAdSafeguardingExplain { get; set; }
 
-    public List<SchoolLoan> SchoolLoans { get; set; } = new();
+    public List<SchoolLoan> Loans { get; set; } = new();
 
-    public List<SchoolLease> SchoolLeases { get; set; } = new();
+    public List<SchoolLease> Leases { get; set; } = new();
 
-    public SchoolFinances SchoolFinances { get; set; } = new();
+    public SchoolFinances Finances { get; set; } = new();
 
-    public SchoolLandAndBuildings SchoolLandAndBuildings { get; set; }
+    public SchoolLandAndBuildings LandAndBuildings { get; set; }
 }
