@@ -15,7 +15,7 @@
 	"schools": [
 		{
 			"id": 0,
-			"urn": 0,
+			"urn": 141992,
 			"schoolName": "string",
 			"landAndBuildings": {
 				"ownerExplained": "string",
