@@ -149,7 +149,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				    ViewModel.MainContactOtherName, ViewModel.MainContactOtherEmail, ViewModel.MainContactOtherTelephone,
 				    ViewModel.ApproverContactName, ViewModel.ApproverContactName);
 
-			    await _academisationCreationService.ApplicationSchoolContacts(contactDetails);
+			    await _academisationCreationService.ApplicationSchoolContacts(contactDetails, ApplicationId);
 
 			    // update temp store for next step - application overview as last step in process
 			    TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
