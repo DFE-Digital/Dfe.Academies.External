@@ -270,29 +270,33 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	}
 
 	///<inheritdoc/>
-	public async Task ApplicationSchoolLandAndBuildings(SchoolLandAndBuildings schoolLandAndBuildings, int applicationId)
+	public async Task ApplicationSchoolLandAndBuildings(SchoolLandAndBuildings schoolLandAndBuildings, int applicationId, int schoolUrn)
 	{
 		try
 		{
 			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
 			// to grab current application data
 			// before then patching ConversionApplication returned with data from application object
+			var application = await GetApplication(applicationId);
+
+			if (application.ApplicationId != applicationId)
+			{
+				throw new ArgumentException("Application not found");
+			}
 
 			//// baseaddress has a backslash at the end to be a valid URI !!!
 			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
 			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
-			// application can contain multiple schools so need to grab one being changed via linqage
-			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolLandAndBuildings.Urn);
-			//schoolUpdating.SchoolBuildLandOwnerExplained = schoolLandAndBuildings.SchoolBuildLandOwnerExplained;
-			//schoolUpdating.SchoolBuildLandWorksPlanned = schoolLandAndBuildings.SchoolBuildLandWorksPlanned;
-			//schoolUpdating.SchoolBuildLandWorksPlannedExplained = schoolLandAndBuildings.SchoolBuildLandWorksPlannedExplained;
-			//schoolUpdating.SchoolBuildLandWorksPlannedDate = schoolLandAndBuildings.SchoolBuildLandWorksPlannedDate;
-			//schoolUpdating.SchoolBuildLandSharedFacilities = schoolLandAndBuildings.SchoolBuildLandSharedFacilities;
-			// ETC.....
-
-			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<SchoolApplyingToConvert>(apiurl, application);
+			var school = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
+			if (school == null)
+			{
+				throw new ArgumentException("School not found");
+			}
+			
+			application.Schools.First(s => s.URN == schoolUrn).LandAndBuildings = schoolLandAndBuildings;
+			
+			await _resilientRequestProvider.PutAsync<ConversionApplication>(apiurl, application);
 		}
 		catch (Exception ex)
 		{
