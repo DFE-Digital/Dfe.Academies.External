@@ -66,7 +66,7 @@
 									<a href="#SchoolConversionTargetDateNotEntered" class="@(Model.SchoolConversionTargetDateError ? "govuk-error-message" : "govuk-visually-hidden")">
 										You must select a conversion date
 									</a>
-									<govuk-date field-name="SchoolConversionTargetDate"
+                                    <govuk-date field-name="@Model.SchoolConversionTargetDateDate"
 									            field-data="@Model.TargetDate"
 									            field-day="@Model.TargetDateDay"
 									            field-month="@Model.TargetDateMonth"
