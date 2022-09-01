@@ -1,9 +1,9 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using System.Globalization;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
-using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 using Microsoft.Extensions.Primitives;
-using System.Globalization;
 
 namespace Dfe.Academies.External.Web.Pages.Base;
 

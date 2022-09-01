@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -141,6 +139,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must select a conversion date");
 				PopulateValidationMessages();
+				//TargetDate = $"{day}/{month}/{year}"; // MR:- CAN'T set this in this scenario as taghelper expects REAL datetime, not invalid one
 				TargetDateDay = day;
 				TargetDateMonth = month;
 				TargetDateYear = year;
@@ -151,9 +150,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				ModelState.AddModelError("TargetDateExplainedNotEntered", "You must explain why you want to convert on this date");
 				PopulateValidationMessages();
-				TargetDateDay = day;
-				TargetDateMonth = month;
-				TargetDateYear = year;
 				return Page();
 			}
 
