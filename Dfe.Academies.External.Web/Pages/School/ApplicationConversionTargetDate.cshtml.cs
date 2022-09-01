@@ -159,7 +159,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 				// MR:- call API endpoint to log data
-				await _academisationCreationService.ApplicationSchoolTargetConversionDate(ApplicationId, Urn, TargetDate.Value, TargetDateExplained);
+				await _academisationCreationService.ApplicationSchoolTargetConversionDate(ApplicationId, Urn, targetDate, TargetDateExplained);
 
 				// update temp store for next step
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
