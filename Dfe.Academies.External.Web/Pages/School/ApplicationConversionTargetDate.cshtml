@@ -67,19 +67,19 @@
 									<a href="#SchoolConversionTargetDateNotEntered" class="@(Model.SchoolConversionTargetDateError ? "govuk-error-message" : "govuk-visually-hidden")">
 										You must select a conversion date
 									</a>
-                                    <govuk-date field-name="@FieldConstants.SipSchoolConversionTargetDateDate"
+@*                                    <govuk-date field-name="@FieldConstants.SipSchoolConversionTargetDateDate"
 								              field-data="@ViewData[FieldConstants.SipSchoolConversionTargetDateDate]"
 								              field-day="@ViewData[FieldConstants.SipSchoolConversionTargetDateDate + "-day"]"
 								              field-month="@ViewData[FieldConstants.SipSchoolConversionTargetDateDate + "-month"]"
 								              field-year="@ViewData[FieldConstants.SipSchoolConversionTargetDateDate + "-year"]">
-								    </govuk-date>
+								    </govuk-date>*@
 
-@*									<govuk-date field-name="SchoolConversionTargetDate"
+									<govuk-date field-name="@FieldConstants.SipSchoolConversionTargetDateDate"
 									            field-data="@Model.TargetDate"
 									            field-day="@Model.TargetDateDay"
 									            field-month="@Model.TargetDateMonth"
 									            field-year="@Model.TargetDateYear">
-									</govuk-date>*@
+									</govuk-date>
 								</fieldset>
 
 								<div class="govuk-!-margin-6"></div>
