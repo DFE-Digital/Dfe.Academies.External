@@ -2,6 +2,8 @@
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
+using Microsoft.Extensions.Primitives;
+using System.Globalization;
 
 namespace Dfe.Academies.External.Web.Pages.Base;
 
@@ -48,6 +50,22 @@ public abstract class BasePageEditModel : BasePageModel
 		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 	}
 
+	public Dictionary<string,string> RetrieveDateTimeComponentsFromDatePicker(IFormCollection form, string formControlName)
+	{
+		form.TryGetValue($"{formControlName}-day", out StringValues day);
+		form.TryGetValue($"{formControlName}-month", out StringValues month);
+		form.TryGetValue($"{formControlName}-year", out StringValues year);
+
+		Dictionary<string, string> dateComponents = new()
+			{
+				{ "day", day },
+				{ "month", month },
+				{ "year", year }
+			};
+
+		return dateComponents;
+	}
+
 	protected string SetSchoolApplicationComponentUriFromName(string componentName)
 	{
 		return componentName.ToLower().Trim() switch
@@ -85,5 +103,16 @@ public abstract class BasePageEditModel : BasePageModel
 		{
 			return null;
 		}
+	}
+
+	protected DateTime BuildDateTime(string day, string month, string year)
+	{
+		string dateString = $"{day}/{month}/{year}";
+		string format = "dd/MM/yyyy";
+
+		DateTime.TryParseExact(dateString, format, CultureInfo.InvariantCulture,
+			DateTimeStyles.None, out DateTime newDate);
+
+		return newDate;
 	}
 }

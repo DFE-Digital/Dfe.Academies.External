@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using Dfe.Academies.External.Web.Constants;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -15,6 +14,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    private readonly ILogger<ApplicationConversionTargetDateModel> _logger;
 	    private readonly IConversionApplicationCreationService _academisationCreationService;
 	    private const string NextStepPage = "ApplicationJoinTrustReasons";
+	    public string SchoolConversionTargetDateDate = "sip_ctddiferentdatevalue";
 
 		//// MR:- selected school props for UI rendering
 		[BindProperty]
@@ -112,10 +112,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 					PopulateUiModel(selectedSchool);
 				}
-
-				// MR:- code from a2c-sip for date picker - set up ViewData[] dictionary with object values in it
-				// string newView = "ConversionTargetDate";
-				// SetSchoolViewData(appId, selectedSchool, newView);
 			}
 			catch (Exception ex)
 			{
@@ -126,12 +122,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public async Task<IActionResult> OnPostAsync(IFormCollection form)
 		{
 			//var id = Convert.ToInt32(form["ApplicationId"]);
-			form.TryGetValue($"{FieldConstants.SipSchoolConversionTargetDateDate}-day", out StringValues day);
-			form.TryGetValue($"{FieldConstants.SipSchoolConversionTargetDateDate}-month", out StringValues month);
-			form.TryGetValue($"{FieldConstants.SipSchoolConversionTargetDateDate}-year", out StringValues year);
 
 			// MR:- try and build a date from component parts !!!
-			var targetDate = BuildDateTime(day,month,year);
+			var dateComponents = RetrieveDateTimeComponentsFromDatePicker(form, SchoolConversionTargetDateDate);
+			var day = dateComponents.FirstOrDefault(x => x.Key == "day").Value;
+			var month = dateComponents.FirstOrDefault(x => x.Key == "month").Value;
+			var year = dateComponents.FirstOrDefault(x => x.Key == "year").Value;
+
+			var targetDate = BuildDateTime(day, month, year);
 
 			if (!ModelState.IsValid)
 			{
@@ -139,11 +137,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			if ((TargetDateDifferent == SelectOption.Yes && !targetDate.HasValue) 
-			    || (TargetDateDifferent == SelectOption.Yes && targetDate.HasValue && targetDate.Value == DateTime.MinValue))
+			if (TargetDateDifferent == SelectOption.Yes && targetDate != DateTime.MinValue)
 			{
 				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must select a conversion date");
 				PopulateValidationMessages();
+				TargetDateDay = day;
+				TargetDateMonth = month;
+				TargetDateYear = year;
 				return Page();
 			}
 
@@ -151,6 +151,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				ModelState.AddModelError("TargetDateExplainedNotEntered", "You must explain why you want to convert on this date");
 				PopulateValidationMessages();
+				TargetDateDay = day;
+				TargetDateMonth = month;
+				TargetDateYear = year;
 				return Page();
 			}
 
@@ -160,7 +163,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 				// TODO MR:- call API endpoint to log data
-				// await _academisationCreationService.UpdateSchoolConversionDate(TargetDate, TargetDateExplained);
+				// await _academisationCreationService.UpdateSchoolConversionDate(targetDate, TargetDateExplained);
 
 				// update temp store for next step
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -187,123 +190,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			SchoolName = selectedSchool.SchoolName;
 			// TODO MR:- bind below from API data
-			// TargetDateDifferent = selectedSchool.;
-			// TargetDate = selectedSchool.;
-			// TargetDateExplained = selectedSchool.;
+			// TargetDateDifferent = selectedSchool.; // MR:- not implemented in API 01/09/2022 
+			// TargetDate = selectedSchool.SchoolConversionTargetDate;
+			// TargetDateExplained = selectedSchool.SchoolConversionTargetDateExplained;
 		}
-
-		//private void SetSchoolViewData(int appId, SchoolApplyingToConvert? school, string viewName)
-		//{
-		//	SetViewDataProperties(appId, viewName, school);
-
-		//	// MR:- not sure I need this??
-		//	ViewData[FieldConstants.SipApplyingSchoolsId] = school.URN;
-		//}
-
-		//private void SetViewDataProperties(int appId, string nextPage, object? entity)
-		//{
-		//	// MR:- not sure I need this??
-		//	SetCommonViewDataProperties(nextPage, appId);
-
-		//	if (appId != 0)
-		//	{
-		//		// create ViewData[] pointers for each property within 'object entity'
-		//		SetDataProperties(entity);
-		//	}
-		//}
-
-		///// <summary>
-		///// MR:- not sure I need this??
-		///// </summary>
-		///// <param name="nextPage"></param>
-		///// <param name="appId"></param>
-		//private void SetCommonViewDataProperties(string nextPage, int appId)
-		//{
-		//	ViewData[FieldConstants.CurrentPage] = nextPage;
-		//	ViewData[FieldConstants.SipApplicationId] = appId;
-		//}
-
-		///// <summary>
-		///// Sets the ViewData[] with the returned view properties
-		///// </summary>
-		///// <param name="entity">e.g. school object</param>
-		//private void SetDataProperties(object? entity)
-		//{
-		//	// MR:- get a dictionary / array / list of view property keys
-		//	var viewProperties = GetViewFieldProperties();
-		//	if (!viewProperties.Any())
-		//	{
-		//		return;
-		//	}
-
-		//	var data = entity.GetType()
-		//		.GetProperties()
-		//		.ToDictionary(property => property.Name, property => property.GetValue(entity));
-
-		//	// populate the ViewData[] value from the entity object
-		//	foreach (KeyValuePair<string, string> field in viewProperties)
-		//	{
-		//		var fieldName = field.Value; // property name
-
-		//		if (data.ContainsKey(fieldName))
-		//		{
-		//			ViewData[field.Key] = data[fieldName] switch
-		//			{
-		//				DateTime dateTime => dateTime.ToString(CultureInfo.CurrentCulture),
-		//				object obj => obj.ToString(),
-		//				_ => string.Empty
-		//			};
-		//		}
-		//		else
-		//		{
-		//			ViewData[field.Key] = string.Empty;
-		//		}
-		//	}
-		//}
-
-		///// <summary>
-		///// Get a list / dictionary / array of view / field names. 
-		///// This MUST match the property names of the object you're searching / matching
-		///// within SetDataProperties()
-		///// </summary>
-		///// <returns></returns>
-		//private Dictionary<string, string> GetViewFieldProperties()
-		//{
-		//	// add keys into dictionary representing conversion date properties / data
-		//	// what are consumed by govuk-date tag helper
-		//	Dictionary<string, string> viewFields = new()
-		//	{
-		//		{ FieldConstants.SipSchoolConversionTargetDateExplained, "SchoolConversionTargetDateExplained" },
-
-		//		{ FieldConstants.SipSchoolConversionTargetDateDate, "SchoolConversionTargetDate" },
-
-		//		// FieldConstants.SipSchoolConversionTargetDateDifferent - NOT in SchoolApplyingToConvert
-		//		// as NOT in API
-		//		{ FieldConstants.SipSchoolConversionTargetDateDifferent, "" },
-
-		//		// MR:- setting up 3 below as consumed by govuk-date tag helper
-		//		// value for below will be 'dd' component of "SchoolConversionTargetDate"
-		//		{ $"{FieldConstants.SipSchoolConversionTargetDateDate}-day", "" },
-
-		//		// value for below will be 'MM' component of "SchoolConversionTargetDate"
-		//		{ $"{FieldConstants.SipSchoolConversionTargetDateDate}-month", "" },
-
-		//		// value for below will be 'yyyy' component of "SchoolConversionTargetDate"
-		//		{ $"{FieldConstants.SipSchoolConversionTargetDateDate}-year", "" }
-		//	};
-
-		//	return viewFields;
-		//}
-
-		public DateTime? BuildDateTime(string day, string month, string year)
-		{
-			string dateString = $"{day}/{month}/{year}"; 
-			string format = "dd/MM/yyyy";
-			
-			DateTime.TryParseExact(dateString, format, CultureInfo.InvariantCulture,
-				DateTimeStyles.None, out DateTime newDate);
-
-			return newDate;
-		}
-    }
+	}
 }

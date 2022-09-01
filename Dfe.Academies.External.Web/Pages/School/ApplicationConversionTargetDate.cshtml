@@ -1,5 +1,4 @@
 ﻿@page
-@using Dfe.Academies.External.Web.Constants
 @using Dfe.Academies.External.Web.Enums
 @using Dfe.Academies.External.Web.Extensions
 @using Dfe.Academies.External.Web.TagHelpers
@@ -67,14 +66,7 @@
 									<a href="#SchoolConversionTargetDateNotEntered" class="@(Model.SchoolConversionTargetDateError ? "govuk-error-message" : "govuk-visually-hidden")">
 										You must select a conversion date
 									</a>
-@*                                    <govuk-date field-name="@FieldConstants.SipSchoolConversionTargetDateDate"
-								              field-data="@ViewData[FieldConstants.SipSchoolConversionTargetDateDate]"
-								              field-day="@ViewData[FieldConstants.SipSchoolConversionTargetDateDate + "-day"]"
-								              field-month="@ViewData[FieldConstants.SipSchoolConversionTargetDateDate + "-month"]"
-								              field-year="@ViewData[FieldConstants.SipSchoolConversionTargetDateDate + "-year"]">
-								    </govuk-date>*@
-
-									<govuk-date field-name="@FieldConstants.SipSchoolConversionTargetDateDate"
+                                    <govuk-date field-name="@Model.SchoolConversionTargetDateDate"
 									            field-data="@Model.TargetDate"
 									            field-day="@Model.TargetDateDay"
 									            field-month="@Model.TargetDateMonth"
