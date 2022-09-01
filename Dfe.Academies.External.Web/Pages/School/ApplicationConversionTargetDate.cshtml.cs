@@ -5,6 +5,7 @@ using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -194,8 +195,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (appId == 0)
 			{
-				// create viewData[] pointers for each property within 'object entity'
-				SetDataProperties(nextPage, entity);
+				// create ViewData[] pointers for each property within 'object entity'
+				SetDataProperties(entity);
 			}
 		}
 
@@ -206,11 +207,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 		}
 
 		/// <summary>
-		/// Sets the ViewData with the returned view properties
+		/// Sets the ViewData[] with the returned view properties
 		/// </summary>
-		/// <param name="nextPage"></param>
 		/// <param name="entity">e.g. school object</param>
-		private void SetDataProperties(string nextPage, object entity)
+		private void SetDataProperties(object entity)
 		{
 			// MR:- get a dictionary / array / list of view property keys
 			// to then populate the value from the entity object
@@ -233,7 +233,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				{
 					ViewData[field.Key] = data[fieldName] switch
 					{
-						DateTime dateTime => dateTime.ToString(),
+						DateTime dateTime => dateTime.ToString(CultureInfo.CurrentCulture),
 						object obj => obj.ToString(),
 						_ => string.Empty
 					};
@@ -253,21 +253,28 @@ namespace Dfe.Academies.External.Web.Pages.School
 		/// <returns></returns>
 		private Dictionary<string, string> GetViewFieldProperties()
 		{
-			Dictionary<string, string> viewFields = new Dictionary<string, string>();
+			// add keys into dictionary representing conversion date properties / data
+			// what are consumed by govuk-date tag helper
+			Dictionary<string, string> viewFields = new()
+			{
+				{ FieldConstants.SipSchoolConversionTargetDateExplained, "SchoolConversionTargetDateExplained" },
 
-			// add 3 keys to dictionary representing conversion date properties / data
-			//FieldConstants.SipSchoolConversionTargetDateExplained
-			viewFields.Add(FieldConstants.SipSchoolConversionTargetDateExplained, "SchoolConversionTargetDateExplained");
+				{ FieldConstants.SipSchoolConversionTargetDateDate, "SchoolConversionTargetDate" },
 
-			//FieldConstants.SipSchoolConversionTargetDateDate = SchoolConversionTargetDate
-			viewFields.Add(FieldConstants.SipSchoolConversionTargetDateDate, "SchoolConversionTargetDate");
+				// FieldConstants.SipSchoolConversionTargetDateDifferent - NOT in SchoolApplyingToConvert
+				// as NOT in API
+				{ FieldConstants.SipSchoolConversionTargetDateDifferent, "" },
 
-			//FieldConstants.SipSchoolConversionTargetDateDifferent
-			viewFields.Add(FieldConstants.SipSchoolConversionTargetDateDifferent, "");
+				// MR:- setting up 3 below as consumed by govuk-date tag helper
+				// value for below will be 'dd' component of "SchoolConversionTargetDate"
+				{ $"{FieldConstants.SipSchoolConversionTargetDateDate} - day", "" },
 
-			//field - day = "@ViewData[FieldConstants.SipSchoolConversionTargetDateDate + " - day"]"
-			//field - month = "@ViewData[FieldConstants.SipSchoolConversionTargetDateDate + " - month"]"
-			//field - year = "@ViewData[FieldConstants.SipSchoolConversionTargetDateDate + " - year"]" >
+				// value for below will be 'MM' component of "SchoolConversionTargetDate"
+				{ $"{FieldConstants.SipSchoolConversionTargetDateDate} - month", "" },
+
+				// value for below will be 'yyyy' component of "SchoolConversionTargetDate"
+				{ $"{FieldConstants.SipSchoolConversionTargetDateDate} - year", "" }
+			};
 
 			return viewFields;
 		}
