@@ -182,15 +182,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 			//TargetDateExplained = ;
 		}
 
-		private void SetSchoolViewData(int appId, SchoolApplyingToConvert? school, string view)
+		private void SetSchoolViewData(int appId, SchoolApplyingToConvert? school, string viewName)
 		{
-			SetViewDataProperties(appId, view, school);
+			SetViewDataProperties(appId, viewName, school);
 
+			// MR:- not sure I need this??
 			ViewData[FieldConstants.SipApplyingSchoolsId] = school.URN;
 		}
 
-		private void SetViewDataProperties(int appId, string nextPage, object entity)
+		private void SetViewDataProperties(int appId, string nextPage, object? entity)
 		{
+			// MR:- not sure I need this??
 			SetCommonViewDataProperties(nextPage, appId);
 
 			if (appId == 0)
@@ -200,6 +202,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
+		/// <summary>
+		/// MR:- not sure I need this??
+		/// </summary>
+		/// <param name="nextPage"></param>
+		/// <param name="appId"></param>
 		private void SetCommonViewDataProperties(string nextPage, int appId)
 		{
 			ViewData[FieldConstants.CurrentPage] = nextPage;
@@ -210,10 +217,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		/// Sets the ViewData[] with the returned view properties
 		/// </summary>
 		/// <param name="entity">e.g. school object</param>
-		private void SetDataProperties(object entity)
+		private void SetDataProperties(object? entity)
 		{
 			// MR:- get a dictionary / array / list of view property keys
-			// to then populate the value from the entity object
 			var viewProperties = GetViewFieldProperties();
 			if (!viewProperties.Any())
 			{
@@ -225,6 +231,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				.GetProperties()
 				.ToDictionary(property => property.Name, property => property.GetValue(entity));
 
+			// populate the ViewData[] value from the entity object
 			foreach (KeyValuePair<string, string> field in viewProperties)
 			{
 				var fieldName = field.Value; // property name
