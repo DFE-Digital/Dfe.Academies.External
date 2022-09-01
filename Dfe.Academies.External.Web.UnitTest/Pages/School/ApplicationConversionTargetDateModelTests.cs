@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Threading.Tasks;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.School
@@ -117,6 +118,56 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 
 		// TODO MR:- OnPostAsync___ModelIsValid___Valid
 		// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
+
+		[Test]
+		public void BuildDateTime__Valid()
+		{
+			// arrange
+			var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+			var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+			var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+			var mockLogger = new Mock<ILogger<ApplicationConversionTargetDateModel>>();
+			string day = "21";
+			string month = "12";
+			string year = "2022";
+
+			// act
+			var pageModel = SetupApplicationConversionTargetDateModel(mockLogger.Object,
+				mockConversionApplicationCreationService.Object,
+				mockConversionApplicationRetrievalService.Object,
+				mockReferenceDataRetrievalService.Object);
+
+			// act
+			var dateTime = pageModel.BuildDateTime(day, month, year);
+
+			// assert
+			Assert.That(dateTime, Is.EqualTo(new DateTime(2022,12,21)));
+		}
+
+		[Test]
+		public void BuildDateTime__InValid()
+		{
+			// arrange
+			var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+			var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+			var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+			var mockLogger = new Mock<ILogger<ApplicationConversionTargetDateModel>>();
+			string day = "30";
+			string month = "02";
+			string year = "2022";
+
+			// act
+			var pageModel = SetupApplicationConversionTargetDateModel(mockLogger.Object,
+				mockConversionApplicationCreationService.Object,
+				mockConversionApplicationRetrievalService.Object,
+				mockReferenceDataRetrievalService.Object);
+
+			// act
+			var dateTime = pageModel.BuildDateTime(day, month, year);
+
+			// assert
+			Assert.That(dateTime, Is.EqualTo(DateTime.MinValue));
+		}
 
 		private static ApplicationConversionTargetDateModel SetupApplicationConversionTargetDateModel(
 			ILogger<ApplicationConversionTargetDateModel> mockLogger,
