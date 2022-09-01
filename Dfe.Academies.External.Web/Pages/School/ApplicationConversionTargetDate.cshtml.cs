@@ -140,7 +140,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 
 			if ((TargetDateDifferent == SelectOption.Yes && !targetDate.HasValue) 
-			    || (TargetDateDifferent == SelectOption.Yes && targetDate.HasValue && targetDate.Value != DateTime.MinValue))
+			    || (TargetDateDifferent == SelectOption.Yes && targetDate.HasValue && targetDate.Value == DateTime.MinValue))
 			{
 				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must select a conversion date");
 				PopulateValidationMessages();
