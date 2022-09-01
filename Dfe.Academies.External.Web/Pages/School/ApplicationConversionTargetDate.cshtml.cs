@@ -1,9 +1,9 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -12,6 +12,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    private readonly ILogger<ApplicationConversionTargetDateModel> _logger;
 	    private readonly IConversionApplicationCreationService _academisationCreationService;
 	    private const string NextStepPage = "ApplicationJoinTrustReasons";
+	    public string SchoolConversionTargetDateDate = "sip_ctddiferentdatevalue";
 
 		//// MR:- selected school props for UI rendering
 		[BindProperty]
@@ -33,7 +34,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		/// i.e. day + month + year entered !
 		/// </summary>
 		[BindProperty]
-		public DateTime? TargetDate { get; set; }
+		public string? TargetDate { get; set; }
 
 		[BindProperty] // MR:- don't know whether I need this
 		public string? TargetDateDay { get; set; }
@@ -107,7 +108,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				{
 					// TODO MR:- grab existing data from API endpoint to populate VM - applicationId && SchoolId combination !
 
-
 					PopulateUiModel(selectedSchool);
 				}
 			}
@@ -117,12 +117,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		public async Task<IActionResult> OnPostAsync()
+		public async Task<IActionResult> OnPostAsync(IFormCollection form)
 		{
-			// TODO MR:- build TargetDate from individual date components ??
-			var day = TargetDateDay;
-			var mth = TargetDateMonth;
-			var year = TargetDateYear;
+			//var id = Convert.ToInt32(form["ApplicationId"]);
+
+			// MR:- try and build a date from component parts !!!
+			var dateComponents = RetrieveDateTimeComponentsFromDatePicker(form, SchoolConversionTargetDateDate);
+			var day = dateComponents.FirstOrDefault(x => x.Key == "day").Value;
+			var month = dateComponents.FirstOrDefault(x => x.Key == "month").Value;
+			var year = dateComponents.FirstOrDefault(x => x.Key == "year").Value;
+
+			var targetDate = BuildDateTime(day, month, year);
 
 			if (!ModelState.IsValid)
 			{
@@ -130,10 +135,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			if (TargetDateDifferent == SelectOption.Yes && !TargetDate.HasValue)
+			if (TargetDateDifferent == SelectOption.Yes && targetDate == DateTime.MinValue)
 			{
 				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must select a conversion date");
 				PopulateValidationMessages();
+				//TargetDate = $"{day}/{month}/{year}"; // MR:- CAN'T set this in this scenario as taghelper expects REAL datetime, not invalid one
+				TargetDateDay = day;
+				TargetDateMonth = month;
+				TargetDateYear = year;
 				return Page();
 			}
 
@@ -177,9 +186,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			SchoolName = selectedSchool.SchoolName;
 			// TODO MR:- bind below from API data
-			//TargetDateDifferent = ;
-			//TargetDate = ;
-			//TargetDateExplained = ;
+			// TargetDateDifferent = selectedSchool.; // MR:- not implemented in API 01/09/2022 
+			// TargetDate = selectedSchool.SchoolConversionTargetDate;
+			// TargetDateExplained = selectedSchool.SchoolConversionTargetDateExplained;
 		}
 	}
 }
