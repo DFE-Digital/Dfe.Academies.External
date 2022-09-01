@@ -106,7 +106,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// Grab other values from API
 				if (selectedSchool != null)
 				{
-					// TODO MR:- grab existing data from API endpoint to populate VM - applicationId && SchoolId combination !
+					// TODO MR:- awaiting PR 114
 
 					PopulateUiModel(selectedSchool);
 				}
@@ -185,10 +185,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			SchoolName = selectedSchool.SchoolName;
-			// TODO MR:- bind below from API data
-			// TargetDateDifferent = selectedSchool.; // MR:- not implemented in API 01/09/2022 
-			// TargetDate = selectedSchool.SchoolConversionTargetDate;
-			// TargetDateExplained = selectedSchool.SchoolConversionTargetDateExplained;
+			// TargetDateDifferent = selectedSchool.; // TODO MR:- not implemented in API 01/09/2022 
+			TargetDate = selectedSchool.SchoolConversionTargetDate.ToString();
+			TargetDateExplained = selectedSchool.SchoolConversionTargetDateExplained;
 		}
 	}
 }
