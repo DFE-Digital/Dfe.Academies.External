@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using Dfe.Academies.External.Web.Constants;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -107,9 +108,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 				{
 					// TODO MR:- grab existing data from API endpoint to populate VM - applicationId && SchoolId combination !
 
-
 					PopulateUiModel(selectedSchool);
 				}
+
+				// MR:- code from a2c-sip for date picker - set up ViewData[] dictionary with object values in it
+				string newView = "ConversionTargetDate";
+				SetSchoolViewData(appId, selectedSchool, newView);
 			}
 			catch (Exception ex)
 			{
@@ -175,6 +179,97 @@ namespace Dfe.Academies.External.Web.Pages.School
 			//TargetDateDifferent = ;
 			//TargetDate = ;
 			//TargetDateExplained = ;
+		}
+
+		private void SetSchoolViewData(int appId, SchoolApplyingToConvert? school, string view)
+		{
+			SetViewDataProperties(appId, view, school);
+
+			ViewData[FieldConstants.SipApplyingSchoolsId] = school.URN;
+		}
+
+		private void SetViewDataProperties(int appId, string nextPage, object entity)
+		{
+			SetCommonViewDataProperties(nextPage, appId);
+
+			if (appId == 0)
+			{
+				// create viewData[] pointers for each property within 'object entity'
+				SetDataProperties(nextPage, entity);
+			}
+		}
+
+		private void SetCommonViewDataProperties(string nextPage, int appId)
+		{
+			ViewData[FieldConstants.CurrentPage] = nextPage;
+			ViewData[FieldConstants.SipApplicationId] = appId;
+		}
+
+		/// <summary>
+		/// Sets the ViewData with the returned view properties
+		/// </summary>
+		/// <param name="nextPage"></param>
+		/// <param name="entity">e.g. school object</param>
+		private void SetDataProperties(string nextPage, object entity)
+		{
+			// MR:- get a dictionary / array / list of view property keys
+			// to then populate the value from the entity object
+			var viewProperties = GetViewFieldProperties();
+			if (!viewProperties.Any())
+			{
+				return;
+			}
+
+			// TODO MR:- hacked this about, might not work !!
+			var data = entity.GetType()
+				.GetProperties()
+				.ToDictionary(property => property.Name, property => property.GetValue(entity));
+
+			foreach (KeyValuePair<string, string> field in viewProperties)
+			{
+				var fieldName = field.Value; // property name
+
+				if (data.ContainsKey(fieldName))
+				{
+					ViewData[field.Key] = data[fieldName] switch
+					{
+						DateTime dateTime => dateTime.ToString(),
+						object obj => obj.ToString(),
+						_ => string.Empty
+					};
+				}
+				else
+				{
+					ViewData[field.Key] = string.Empty;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Get a list / dictionary / array of view / field names. 
+		/// This MUST match the property names of the object you're searching / matching
+		/// within SetDataProperties()
+		/// </summary>
+		/// <returns></returns>
+		private Dictionary<string, string> GetViewFieldProperties()
+		{
+			Dictionary<string, string> viewFields = new Dictionary<string, string>();
+
+			// add 3 keys to dictionary representing conversion date properties / data
+			//FieldConstants.SipSchoolConversionTargetDateExplained
+			viewFields.Add(FieldConstants.SipSchoolConversionTargetDateExplained, "SchoolConversionTargetDateExplained");
+
+			//FieldConstants.SipSchoolConversionTargetDateDate = SchoolConversionTargetDate
+			viewFields.Add(FieldConstants.SipSchoolConversionTargetDateDate, "SchoolConversionTargetDate");
+
+			//FieldConstants.SipSchoolConversionTargetDateDifferent
+			viewFields.Add(FieldConstants.SipSchoolConversionTargetDateDifferent, "");
+
+			//field - day = "@ViewData[FieldConstants.SipSchoolConversionTargetDateDate + " - day"]"
+			//field - month = "@ViewData[FieldConstants.SipSchoolConversionTargetDateDate + " - month"]"
+			//field - year = "@ViewData[FieldConstants.SipSchoolConversionTargetDateDate + " - year"]" >
+
+			return viewFields;
 		}
 	}
 }
