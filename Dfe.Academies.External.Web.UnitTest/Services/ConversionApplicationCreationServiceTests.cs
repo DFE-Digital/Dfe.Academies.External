@@ -364,14 +364,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		// now we could test the exception itself
 		Assert.That(ex.Message == "School not found");
 	}
-
-	// TODO MR:- ApplicationSchoolFuturePupilNumbers - ApiReturns200___Ok()
-
-	// TODO MR:- ApplicationSchoolFuturePupilNumbers - ApiReturns500___InternalServerError()
-
-	// TODO MR:- ApplicationSchoolContacts - ApiReturns200___Ok()
-
-	// TODO MR:- ApplicationSchoolContacts - ApiReturns500___InternalServerError()
+	
 
 	/// <summary>
 	/// call land and buildings endpoint and mock HttpStatusCode.Created
@@ -458,10 +451,97 @@ internal sealed class ConversionApplicationCreationServiceTests
 		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationSchoolLandAndBuildings(
 			schoolLandAndBuildings, applicationId, urn));
 	}
+	
+	
+	/// <summary>
+	/// call future pupil numbers endpoint and mock HttpStatusCode.Created
+	/// </summary>
+	[Test]
+	public async Task ApplicationSchoolFuturePupilNumbers___ApiReturns200___Ok()
+	{
+		// arrange
+		int applicationId = 1;
+		int schoolUrn = 141992;
+		int year1 = Fixture.Create<int>();
+		int year2 = Fixture.Create<int>();
+		int year3 = Fixture.Create<int>();
+		int pan = Fixture.Create<int>();
+		string assumptions = Fixture.Create<string>();
+
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.ApplicationSchoolFuturePupilNumbers(
+			applicationId, 
+			schoolUrn, 
+			year1,
+			year2,
+			year3,
+			assumptions,
+			pan
+			));
+	}
+	
+	/// <summary>
+	/// call future pupil numbers endpoint and mock HttpStatusCode.InternalServerError
+	/// </summary>
+	[Test]
+	public async Task ApplicationSchoolFuturePupilNumbers__ApiReturns500___InternalServerError()
+	{
+		// arrange
+		int applicationId = 1;
+		int schoolUrn = 141992;
+		int year1 = Fixture.Create<int>();
+		int year2 = Fixture.Create<int>();
+		int year3 = Fixture.Create<int>();
+		int pan = Fixture.Create<int>();
+		string assumptions = Fixture.Create<string>();
+
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationSchoolFuturePupilNumbers(
+			applicationId, 
+			schoolUrn, 
+			year1,
+			year2,
+			year3,
+			assumptions,
+			pan
+		));
+	}
 
 	// TODO MR:- ApplicationPreOpeningSupportGrantUpdate - ApiReturns200___Ok()
 
 	// TODO MR:- ApplicationPreOpeningSupportGrantUpdate - ApiReturns500___InternalServerError()
+	
+	// TODO MR:- ApplicationSchoolContacts - ApiReturns200___Ok()
+
+	// TODO MR:- ApplicationSchoolContacts - ApiReturns500___InternalServerError()
 
 	//public async Task UpdateDraftApplication___OtherRole___Success()
 	//{

@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
@@ -61,17 +62,44 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			SchoolName = selectedSchool.SchoolName;
 
-			SchoolPupilNumbersSummaryHeadingViewModel heading1 = new(SchoolPupilNumbersSummaryHeadingViewModel.Heading,
-																		"/school/PupilNumbers");
-
-			// TODO MR:- for answer, consume QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
-			// OR data from API
-
-			heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr1, "TBC"));
-			heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr2, "TBC"));
-			heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr3, "TBC"));
-			heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.NumbersBasedUpon, "TBC"));
-			heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PAN, "TBC"));
+			SchoolPupilNumbersSummaryHeadingViewModel heading1 = new(
+				SchoolPupilNumbersSummaryHeadingViewModel.Heading, 
+				"/school/PupilNumbers")
+				{ Status = selectedSchool.ProjectedPupilNumbersYear1.HasValue ?
+					SchoolConversionComponentStatus.Complete
+					: SchoolConversionComponentStatus.NotStarted
+				};
+			
+			heading1.Sections.Add(
+				new(
+					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr1, 
+					selectedSchool.ProjectedPupilNumbersYear1?.ToString() ?? QuestionAndAnswerConstants.NoAnswer
+					)
+				);
+			heading1.Sections.Add(
+				new(
+					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr2, 
+					selectedSchool.ProjectedPupilNumbersYear2?.ToString() ?? QuestionAndAnswerConstants.NoAnswer
+					)
+				);
+			heading1.Sections.Add(
+				new(
+					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr3,
+					selectedSchool.ProjectedPupilNumbersYear3?.ToString() ?? QuestionAndAnswerConstants.NoAnswer
+					)
+				);
+			heading1.Sections.Add(
+				new(
+					SchoolPupilNumbersSummarySectionViewModel.NumbersBasedUpon, 
+					selectedSchool.SchoolCapacityAssumptions ?? QuestionAndAnswerConstants.NoAnswer
+					)
+				);
+			heading1.Sections.Add(
+				new(
+					SchoolPupilNumbersSummarySectionViewModel.PAN,
+					selectedSchool.SchoolCapacityPublishedAdmissionsNumber?.ToString() ?? QuestionAndAnswerConstants.NoAnswer
+					)
+				);
 
 			var vm = new List<SchoolPupilNumbersSummaryHeadingViewModel> { heading1  };
 
