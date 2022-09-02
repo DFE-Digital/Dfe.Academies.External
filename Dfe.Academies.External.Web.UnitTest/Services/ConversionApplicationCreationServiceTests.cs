@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.Extensions.Logging;
@@ -372,9 +373,91 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 	// TODO MR:- ApplicationSchoolContacts - ApiReturns500___InternalServerError()
 
-	// TODO MR:- ApplicationSchoolLandAndBuildings - ApiReturns200___Ok()
+	/// <summary>
+	/// call land and buildings endpoint and mock HttpStatusCode.Created
+	/// </summary>
+	[Test]
+	public async Task ApplicationSchoolLandAndBuildings___ApiReturns200___Ok()
+	{
+		// arrange
+		int applicationId = 1;
+		int schoolUrn = 141992;
+		var schoolLandAndBuildings = new SchoolLandAndBuildings(
+			"Test Owner",
+			true,
+			"String",
+			new DateTime(2022, 12, 12),
+			true,
+			"String",
+			true,
+			"String",
+			true,
+			"String",
+			true,
+			true
+		);
 
-	// TODO MR:- ApplicationSchoolLandAndBuildings - ApiReturns500___InternalServerError()
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.ApplicationSchoolLandAndBuildings(schoolLandAndBuildings,
+			applicationId, schoolUrn));
+	}
+
+	/// <summary>
+	/// call land and buildings endpoint and mock HttpStatusCode.InternalServerError
+	/// </summary>
+	[Test]
+	public async Task ApplicationSchoolLandAndBuildings___ApiReturns500___InternalServerError()
+	{
+		// arrange
+		int applicationId = 1;
+		int urn = 141992;
+		var schoolLandAndBuildings = new SchoolLandAndBuildings(
+			"Test Owner",
+			true,
+			"String",
+			new DateTime(2022, 12, 12),
+			true,
+			"String",
+			true,
+			"String",
+			true,
+			"String",
+			true,
+			true
+		);
+
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationSchoolLandAndBuildings(
+			schoolLandAndBuildings, applicationId, urn));
+	}
 
 	// TODO MR:- ApplicationPreOpeningSupportGrantUpdate - ApiReturns200___Ok()
 
