@@ -1,12 +1,13 @@
-﻿using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
+﻿using System.Net;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace Dfe.Academies.External.Web.Controllers
 {
-	// [Authorize]
+	[Authorize]
 	public class TrustController : BaseController
 	{
 		private readonly ILogger<TrustController> _logger;
