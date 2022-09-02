@@ -21,7 +21,7 @@ namespace Dfe.Academies.External.Web.Pages
 
         public short CompletedSections { get; private set; }
 
-        public short TotalNumberOfSections => 3;
+        public short TotalNumberOfSections => 8;
 
         public List<SchoolApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; private set; } = new();
 

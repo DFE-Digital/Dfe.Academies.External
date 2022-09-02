@@ -107,24 +107,6 @@
         </tbody>
     </table>       
 
-    <table class="govuk-table">
-        <caption class="govuk-table__caption govuk-table__caption--l">About the conversion</caption>
-        <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
-	            <td class="govuk-table__cell">
-					<a asp-page="school/SchoolConversionKeyDetails" asp-route-appId="@Model.ApplicationId"
-					   class="govuk-link">Conversion details</a>
-	            </td>
-                <td class="govuk-table__cell govuk-!-text-align-right">
-                    @{
-                        var conversionStatusValue = (int)Model.ConversionStatus;
-                    }
-                    <status enumvalue=@conversionStatusValue></status>
-                </td>
-            </tr>
-        </tbody>
-    </table>    
-
     <h2 class="govuk-heading-l">Contributors</h2>
     <p class="govuk-body">You can invite other people to help you complete parts of this form</p>
 	<div class="govuk-!-margin-6"></div>
