@@ -69,59 +69,94 @@ namespace Dfe.Academies.External.Web.Pages.School
 				selectedSchool.LandAndBuildings.OwnerExplained ?? "Not entered")
 			);
 
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorks, selectedSchool.LandAndBuildings.WorksPlanned.Value ? "Yes" : "No")
+			heading1.Sections.Add(new(
+				SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorks,
+				(selectedSchool.LandAndBuildings.WorksPlanned.HasValue ?
+					"Yes" :
+					"No")
+				)
 			{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorksDetails,
-						selectedSchool.LandAndBuildings.WorksPlannedExplained ?? "Not entered"
+						(!string.IsNullOrWhiteSpace(selectedSchool.LandAndBuildings.WorksPlannedExplained) ?
+							selectedSchool.LandAndBuildings.WorksPlannedExplained : 
+							QuestionAndAnswerConstants.NoAnswer)
 					),
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorksWhen,
-						selectedSchool.LandAndBuildings.WorksPlannedDate.ToString() ?? "Not entered"
+						(selectedSchool.LandAndBuildings.WorksPlannedDate.HasValue ?
+							selectedSchool.LandAndBuildings.WorksPlannedDate.Value.ToString("dd/MM/yyyy") : 
+							QuestionAndAnswerConstants.NoAnswer)
 					)
 				}
 			});
 
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.SharedFacilities, selectedSchool.LandAndBuildings.FacilitiesShared.Value ? "Yes" : "No")
+			heading1.Sections.Add(new(
+				SchoolLandAndBuildingsSummarySectionViewModel.SharedFacilities,
+				(selectedSchool.LandAndBuildings.FacilitiesShared.HasValue ?
+					"Yes" :
+					"No")
+			)
 			{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.SharedFacilitiesList,
-						selectedSchool.LandAndBuildings.FacilitiesSharedExplained ?? "Not entered"
+						selectedSchool.LandAndBuildings.FacilitiesSharedExplained ??
+						QuestionAndAnswerConstants.NoAnswer
 					)
 				}
 			});
 
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.Grants, selectedSchool.LandAndBuildings.Grants.Value ? "Yes" : "No")
-			{
+			heading1.Sections.Add(new(
+				SchoolLandAndBuildingsSummarySectionViewModel.Grants,
+				(selectedSchool.LandAndBuildings.Grants.HasValue ?
+					"Yes" :
+					"No")
+				)
+				{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.GrantBodies, 
-						selectedSchool.LandAndBuildings.GrantsAwardingBodies ?? "Not entered"
+						selectedSchool.LandAndBuildings.GrantsAwardingBodies ??
+						QuestionAndAnswerConstants.NoAnswer
 					)
 				}
 			});
 
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PFI, selectedSchool.LandAndBuildings.PartOfPFIScheme.Value ? "Yes" : "No")
-			{
+			heading1.Sections.Add(new(
+				SchoolLandAndBuildingsSummarySectionViewModel.PFI,
+				(selectedSchool.LandAndBuildings.PartOfPFIScheme.HasValue ?
+					"Yes" :
+					"No")
+				)
+				{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.PFIKind,
-						selectedSchool.LandAndBuildings.PartOfPFISchemeType ?? "Not entered")
+						selectedSchool.LandAndBuildings.PartOfPFISchemeType ??
+						QuestionAndAnswerConstants.NoAnswer)
 				}
 			});
 
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PrioritySchoolBuildingProgram,
-				selectedSchool.LandAndBuildings.PartOfPrioritySchoolsBuildingProgramme.Value ? "Yes" : "No")
+			heading1.Sections.Add(new(
+				SchoolLandAndBuildingsSummarySectionViewModel.PrioritySchoolBuildingProgram,
+				(selectedSchool.LandAndBuildings.PartOfPrioritySchoolsBuildingProgramme.HasValue ?
+					"Yes" :
+					"No")
+				)
 			);
 
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.BuildingSchoolsForTheFuture, 
-				selectedSchool.LandAndBuildings.PartOfBuildingSchoolsForFutureProgramme.Value ? "Yes" : "No")
+			heading1.Sections.Add(new(
+				SchoolLandAndBuildingsSummarySectionViewModel.BuildingSchoolsForTheFuture,
+				(selectedSchool.LandAndBuildings.PartOfBuildingSchoolsForFutureProgramme.HasValue ?
+					"Yes" :
+					"No")
+				)
 			);
 
 			var vm = new List<SchoolLandAndBuildingsSummaryHeadingViewModel> { heading1 };
