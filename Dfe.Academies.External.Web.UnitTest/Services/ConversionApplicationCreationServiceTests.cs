@@ -454,7 +454,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	
 	
 	/// <summary>
-	/// call land and buildings endpoint and mock HttpStatusCode.Created
+	/// call future pupil numbers endpoint and mock HttpStatusCode.Created
 	/// </summary>
 	[Test]
 	public async Task ApplicationSchoolFuturePupilNumbers___ApiReturns200___Ok()
@@ -495,7 +495,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	}
 	
 	/// <summary>
-	/// call land and buildings endpoint and mock HttpStatusCode.InternalServerError
+	/// call future pupil numbers endpoint and mock HttpStatusCode.InternalServerError
 	/// </summary>
 	[Test]
 	public async Task ApplicationSchoolFuturePupilNumbers__ApiReturns500___InternalServerError()
