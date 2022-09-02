@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
@@ -61,12 +62,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			SchoolName = selectedSchool.SchoolName;
 
-			SchoolPupilNumbersSummaryHeadingViewModel heading1 = new(SchoolPupilNumbersSummaryHeadingViewModel.Heading,
-																		"/school/PupilNumbers");
-
-			// TODO MR:- for answer, consume QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
-			// OR data from API
-
+			SchoolPupilNumbersSummaryHeadingViewModel heading1 = new(
+				SchoolPupilNumbersSummaryHeadingViewModel.Heading, 
+				"/school/PupilNumbers")
+				{ Status = selectedSchool.ProjectedPupilNumbersYear1.HasValue ?
+					SchoolConversionComponentStatus.Complete
+					: SchoolConversionComponentStatus.NotStarted
+				};
+			
 			heading1.Sections.Add(
 				new(
 					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr1, 
