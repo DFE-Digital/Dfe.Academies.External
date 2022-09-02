@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Pages.School;
+﻿using System.Threading.Tasks;
+using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using System.Threading.Tasks;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.School;
 
@@ -25,7 +25,6 @@ internal sealed class SchoolConversionKeyDetailsModelTests
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<SchoolConversionKeyDetailsModel>>();
@@ -36,7 +35,6 @@ internal sealed class SchoolConversionKeyDetailsModelTests
 
 		// act
 		var pageModel = SetupSchoolConversionKeyDetailsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
@@ -56,7 +54,6 @@ internal sealed class SchoolConversionKeyDetailsModelTests
 
 	private static SchoolConversionKeyDetailsModel SetupSchoolConversionKeyDetailsModel(
 		ILogger<SchoolConversionKeyDetailsModel> mockLogger,
-		IConversionApplicationCreationService mockConversionApplicationCreationService,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		bool isAuthenticated = false)
@@ -64,7 +61,7 @@ internal sealed class SchoolConversionKeyDetailsModelTests
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
 		return new SchoolConversionKeyDetailsModel(mockLogger, mockConversionApplicationRetrievalService,
-			mockReferenceDataRetrievalService, mockConversionApplicationCreationService)
+			mockReferenceDataRetrievalService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,
