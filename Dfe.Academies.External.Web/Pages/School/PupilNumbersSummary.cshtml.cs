@@ -70,31 +70,31 @@ namespace Dfe.Academies.External.Web.Pages.School
 			heading1.Sections.Add(
 				new(
 					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr1, 
-					selectedSchool.ProjectedPupilNumbersYear1?.ToString() ?? "Not entered"
+					selectedSchool.ProjectedPupilNumbersYear1?.ToString() ?? QuestionAndAnswerConstants.NoAnswer
 					)
 				);
 			heading1.Sections.Add(
 				new(
 					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr2, 
-					selectedSchool.ProjectedPupilNumbersYear2?.ToString() ?? "Not entered"
+					selectedSchool.ProjectedPupilNumbersYear2?.ToString() ?? QuestionAndAnswerConstants.NoAnswer
 					)
 				);
 			heading1.Sections.Add(
 				new(
 					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr3,
-					selectedSchool.ProjectedPupilNumbersYear3?.ToString() ?? "Not entered"
+					selectedSchool.ProjectedPupilNumbersYear3?.ToString() ?? QuestionAndAnswerConstants.NoAnswer
 					)
 				);
 			heading1.Sections.Add(
 				new(
 					SchoolPupilNumbersSummarySectionViewModel.NumbersBasedUpon, 
-					selectedSchool.SchoolCapacityAssumptions ?? "Not entered"
+					selectedSchool.SchoolCapacityAssumptions ?? QuestionAndAnswerConstants.NoAnswer
 					)
 				);
 			heading1.Sections.Add(
 				new(
 					SchoolPupilNumbersSummarySectionViewModel.PAN,
-					selectedSchool.SchoolCapacityPublishedAdmissionsNumber?.ToString() ?? "Not entered"
+					selectedSchool.SchoolCapacityPublishedAdmissionsNumber?.ToString() ?? QuestionAndAnswerConstants.NoAnswer
 					)
 				);
 
