@@ -223,24 +223,28 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
     {
 	    try
 	    {
-			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
-			// to grab current application data
-			// before then patching ConversionApplication returned with data from application object
+		    var application = await GetApplication(applicationId);
 
-			//// baseaddress has a backslash at the end to be a valid URI !!!
-			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
-			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+		    if (application.ApplicationId != applicationId)
+		    {
+			    throw new ArgumentException("Application not found");
+		    }
 
-			// application can contain multiple schools so need to grab one being changed via linqage
-			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
-			//schoolUpdating.ProjectedPupilNumbersYear1 = projectedPupilNumbersYear1
-			//schoolUpdating.ProjectedPupilNumbersYear2 = projectedPupilNumbersYear2
-			//schoolUpdating.ProjectedPupilNumbersYear3 = projectedPupilNumbersYear3
-			//schoolUpdating.SchoolCapacityAssumptions = schoolCapacityAssumptions
-			//schoolUpdating.SchoolCapacityPublishedAdmissionsNumber = schoolCapacityPublishedAdmissionsNumber
+		    var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
+			
+			if (schoolUpdating == null)
+			{
+				throw new ArgumentException("School not found");
+			}
+			
+			schoolUpdating.ProjectedPupilNumbersYear1 = projectedPupilNumbersYear1;
+			schoolUpdating.ProjectedPupilNumbersYear2 = projectedPupilNumbersYear2;
+			schoolUpdating.ProjectedPupilNumbersYear3 = projectedPupilNumbersYear3;
+			schoolUpdating.SchoolCapacityAssumptions = schoolCapacityAssumptions;
+			schoolUpdating.SchoolCapacityPublishedAdmissionsNumber = schoolCapacityPublishedAdmissionsNumber;
 
-			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<ConversionApplication>(apiurl, application);
+			string apiUrl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+			await _resilientRequestProvider.PutAsync<ConversionApplication>(apiUrl, application);
 		}
 		catch (Exception ex)
 	    {

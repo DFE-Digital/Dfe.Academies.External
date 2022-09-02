@@ -67,11 +67,36 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// TODO MR:- for answer, consume QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
 			// OR data from API
 
-			heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr1, "TBC"));
-			heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr2, "TBC"));
-			heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr3, "TBC"));
-			heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.NumbersBasedUpon, "TBC"));
-			heading1.Sections.Add(new(SchoolPupilNumbersSummarySectionViewModel.PAN, "TBC"));
+			heading1.Sections.Add(
+				new(
+					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr1, 
+					selectedSchool.ProjectedPupilNumbersYear1?.ToString() ?? "Not entered"
+					)
+				);
+			heading1.Sections.Add(
+				new(
+					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr2, 
+					selectedSchool.ProjectedPupilNumbersYear2?.ToString() ?? "Not entered"
+					)
+				);
+			heading1.Sections.Add(
+				new(
+					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr3,
+					selectedSchool.ProjectedPupilNumbersYear3?.ToString() ?? "Not entered"
+					)
+				);
+			heading1.Sections.Add(
+				new(
+					SchoolPupilNumbersSummarySectionViewModel.NumbersBasedUpon, 
+					selectedSchool.SchoolCapacityAssumptions ?? "Not entered"
+					)
+				);
+			heading1.Sections.Add(
+				new(
+					SchoolPupilNumbersSummarySectionViewModel.PAN,
+					selectedSchool.SchoolCapacityPublishedAdmissionsNumber?.ToString() ?? "Not entered"
+					)
+				);
 
 			var vm = new List<SchoolPupilNumbersSummaryHeadingViewModel> { heading1  };
 

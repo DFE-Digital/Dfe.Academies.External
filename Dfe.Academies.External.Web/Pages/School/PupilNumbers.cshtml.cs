@@ -87,10 +87,16 @@ namespace Dfe.Academies.External.Web.Pages.School
             {
                 //// grab draft application from temp= null
                 var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-				// TODO MR:- call API endpoint to log pupil numbers
-				// await _academisationCreationService.UpdateSchoolPupilNumbers(ApplicationId, Urn, ProjectedPupilNumbersYear1, ProjectedPupilNumbersYear2,
-				// ProjectedPupilNumbersYear3, SchoolCapacityAssumptions, SchoolCapacityPublishedAdmissionsNumber);
+                
+				await _academisationCreationService.ApplicationSchoolFuturePupilNumbers(
+					ApplicationId, 
+					Urn, 
+					ProjectedPupilNumbersYear1.Value, 
+					ProjectedPupilNumbersYear2.Value, 
+					ProjectedPupilNumbersYear3.Value, 
+					SchoolCapacityAssumptions, 
+					SchoolCapacityPublishedAdmissionsNumber.Value
+					);
 
                 // update temp store for next step - application overview
                 TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
