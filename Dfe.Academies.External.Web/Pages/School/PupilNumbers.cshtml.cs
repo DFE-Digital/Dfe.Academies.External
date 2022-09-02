@@ -66,9 +66,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// Grab other values from API
 				if (selectedSchool != null)
                 {
-	                // TODO MR:- grab existing pupil numbers from API endpoint to populate VM - applicationId && SchoolId combination !
-
-
 	                PopulateUiModel(selectedSchool);
                 }
             }

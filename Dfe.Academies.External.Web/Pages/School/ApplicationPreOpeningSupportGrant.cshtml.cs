@@ -77,10 +77,6 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 			// Grab other values from API
 			if (selectedSchool != null)
 			{
-				// TODO MR:- grab data from API endpoint - applicationId && SchoolId combination !
-				// data stored against the school ?????????????? not implemented 22/08/2022
-
-
 				PopulateUiModel(selectedSchool, draftConversionApplication);
 			}
 		}

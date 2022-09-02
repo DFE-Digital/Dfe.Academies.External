@@ -37,7 +37,6 @@ builder.Services
 			.AllowAnonymousToPage("/Error")
 			.AllowAnonymousToPage("/NotFound")
 			.AllowAnonymousToPage("/WhatYouWillNeed");
-			// TODO :- below is temporary config UNTIL auth is sorted - just for demo reasons !!
 			// .AllowAnonymousToPage("/WhatAreYouApplyingToDo")
 			// .AllowAnonymousToPage("/YourApplications")
 			// .AllowAnonymousToPage("/ApplicationOverview")

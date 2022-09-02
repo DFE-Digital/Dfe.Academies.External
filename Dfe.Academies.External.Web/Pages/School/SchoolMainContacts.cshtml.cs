@@ -98,8 +98,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			    // Grab other values from API
 			    if (selectedSchool != null)
 			    {
-					// TODO MR:- grab data from API endpoint - applicationId && SchoolId combination !
-
 					var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData);
 
                     PopulateUiModel(selectedSchool, draftConversionApplication.ApplicationType);

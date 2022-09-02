@@ -43,9 +43,6 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BasePageEditModel
 			// Grab other values from API
 			if (selectedSchool != null)
 			{
-				// TODO MR:- grab data from API endpoint - applicationId && SchoolId combination !
-
-
 				PopulateUiModel(selectedSchool);
 			}
 		}
