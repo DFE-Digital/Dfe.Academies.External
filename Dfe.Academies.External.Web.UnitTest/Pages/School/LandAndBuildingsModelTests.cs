@@ -1,15 +1,16 @@
-﻿using Dfe.Academies.External.Web.Pages.School;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.School;
 
@@ -58,6 +59,7 @@ internal sealed class LandAndBuildingsModelTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
+		var mockForm = new Mock<IFormCollection>();
 
 		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
 			mockConversionApplicationCreationService.Object,
@@ -67,7 +69,7 @@ internal sealed class LandAndBuildingsModelTests
 		pageModel.ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync();
+		await pageModel.OnPostAsync(mockForm.Object);
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -85,6 +87,7 @@ internal sealed class LandAndBuildingsModelTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
+		var mockForm = new Mock<IFormCollection>();
 
 		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
 			mockConversionApplicationCreationService.Object,
@@ -94,7 +97,7 @@ internal sealed class LandAndBuildingsModelTests
 		pageModel.ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync();
+		await pageModel.OnPostAsync(mockForm.Object);
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -112,6 +115,7 @@ internal sealed class LandAndBuildingsModelTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
+		var mockForm = new Mock<IFormCollection>();
 
 		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
 			mockConversionApplicationCreationService.Object,
@@ -121,7 +125,7 @@ internal sealed class LandAndBuildingsModelTests
 		pageModel.ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync();
+		await pageModel.OnPostAsync(mockForm.Object);
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -139,6 +143,7 @@ internal sealed class LandAndBuildingsModelTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
+		var mockForm = new Mock<IFormCollection>();
 
 		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
 			mockConversionApplicationCreationService.Object,
@@ -148,7 +153,7 @@ internal sealed class LandAndBuildingsModelTests
 		pageModel.ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync();
+		await pageModel.OnPostAsync(mockForm.Object);
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -166,6 +171,7 @@ internal sealed class LandAndBuildingsModelTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
+		var mockForm = new Mock<IFormCollection>();
 
 		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
 			mockConversionApplicationCreationService.Object,
@@ -175,7 +181,7 @@ internal sealed class LandAndBuildingsModelTests
 		pageModel.ModelState.AddModelError("SchoolBuildLandPFISchemeTypeNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync();
+		await pageModel.OnPostAsync(mockForm.Object);
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -193,6 +199,7 @@ internal sealed class LandAndBuildingsModelTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
+		var mockForm = new Mock<IFormCollection>();
 
 		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
 			mockConversionApplicationCreationService.Object,
@@ -202,7 +209,7 @@ internal sealed class LandAndBuildingsModelTests
 		pageModel.ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync();
+		await pageModel.OnPostAsync(mockForm.Object);
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -220,6 +227,7 @@ internal sealed class LandAndBuildingsModelTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
+		var mockForm = new Mock<IFormCollection>();
 
 		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
 			mockConversionApplicationCreationService.Object,
@@ -229,7 +237,7 @@ internal sealed class LandAndBuildingsModelTests
 		pageModel.ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync();
+		await pageModel.OnPostAsync(mockForm.Object);
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -247,6 +255,7 @@ internal sealed class LandAndBuildingsModelTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
+		var mockForm = new Mock<IFormCollection>();
 
 		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
 			mockConversionApplicationCreationService.Object,
@@ -256,7 +265,7 @@ internal sealed class LandAndBuildingsModelTests
 		pageModel.ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync();
+		await pageModel.OnPostAsync(mockForm.Object);
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -274,6 +283,7 @@ internal sealed class LandAndBuildingsModelTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
+		var mockForm = new Mock<IFormCollection>();
 
 		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
 			mockConversionApplicationCreationService.Object,
@@ -283,7 +293,7 @@ internal sealed class LandAndBuildingsModelTests
 		pageModel.ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync();
+		await pageModel.OnPostAsync(mockForm.Object);
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -301,6 +311,7 @@ internal sealed class LandAndBuildingsModelTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
+		var mockForm = new Mock<IFormCollection>();
 
 		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
 			mockConversionApplicationCreationService.Object,
@@ -310,7 +321,7 @@ internal sealed class LandAndBuildingsModelTests
 		pageModel.ModelState.AddModelError("SchoolBuildLandPFISchemeTypeNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync();
+		await pageModel.OnPostAsync(mockForm.Object);
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 

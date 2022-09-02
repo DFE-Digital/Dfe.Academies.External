@@ -1,21 +1,21 @@
-﻿using Dfe.Academies.External.Web.Attributes;
+﻿using System.ComponentModel.DataAnnotations;
+using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-    public class LandAndBuildingsModel : BasePageEditModel
+	public class LandAndBuildingsModel : BasePageEditModel
 	{
 	    private readonly ILogger<LandAndBuildingsModel> _logger;
 	    private readonly IConversionApplicationCreationService _academisationCreationService;
+	    public string PlannedDateFormInputName = "sip_lbworksplanneddate";
 
-	    //// MR:- selected school props for UI rendering
-	    [BindProperty]
+		//// MR:- selected school props for UI rendering
+		[BindProperty]
 	    public int ApplicationId { get; set; }
 
 	    [BindProperty]
@@ -26,7 +26,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//// MR:- VM props to capture land & buildings data
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
-		public string SchoolBuildLandOwnerExplained { get; set; }
+		public string SchoolBuildLandOwnerExplained { get; set; } = string.Empty;
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
@@ -36,7 +36,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public string? SchoolBuildLandWorksPlannedExplained { get; set; }
 
 		[BindProperty]
-		public DateTime? SchoolBuildLandWorksPlannedDate { get; set; }
+		public string? WorksPlannedDate { get; set; }
 
 		[BindProperty] // MR:- don't know whether I need this
 		public string? WorksPlannedDateDay { get; set; }
@@ -188,8 +188,16 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		public async Task<IActionResult> OnPostAsync()
+		public async Task<IActionResult> OnPostAsync(IFormCollection form)
 		{
+			// MR:- try and build a date from component parts !!!
+			var dateComponents = RetrieveDateTimeComponentsFromDatePicker(form, PlannedDateFormInputName);
+			var day = dateComponents.FirstOrDefault(x => x.Key == "day").Value;
+			var month = dateComponents.FirstOrDefault(x => x.Key == "month").Value;
+			var year = dateComponents.FirstOrDefault(x => x.Key == "year").Value;
+
+			var plannedDate = BuildDateTime(day, month, year);
+
 			if (!ModelState.IsValid)
 			{
 				// error messages component consumes ViewData["Errors"]
@@ -204,10 +212,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && !SchoolBuildLandWorksPlannedDate.HasValue)
+			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && plannedDate == DateTime.MinValue)
 			{
 				ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", "You must select a scheduled completion date");
 				PopulateValidationMessages();
+				WorksPlannedDateDay = day;
+				WorksPlannedDateMonth = month;
+				WorksPlannedDateYear = year;
 				return Page();
 			}
 
@@ -237,12 +248,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-
 				var landAndBuildingsData = new SchoolLandAndBuildings(
 					this.SchoolBuildLandOwnerExplained,
 					this.SchoolBuildLandWorksPlanned == SelectOption.Yes,
 					this.SchoolBuildLandWorksPlannedExplained,
-					this.SchoolBuildLandWorksPlannedDate,
+					plannedDate,
 					this.SchoolBuildLandSharedFacilities == SelectOption.Yes,
 					this.SchoolBuildLandSharedFacilitiesExplained,
 					this.SchoolBuildLandGrants == SelectOption.Yes,
@@ -278,7 +288,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			SchoolBuildLandOwnerExplained = selectedSchool.LandAndBuildings.OwnerExplained;
 			SchoolBuildLandWorksPlanned = selectedSchool.LandAndBuildings.WorksPlanned.Value ? SelectOption.Yes : SelectOption.No;
 			SchoolBuildLandWorksPlannedExplained = selectedSchool.LandAndBuildings.WorksPlannedExplained;
-			SchoolBuildLandWorksPlannedDate = selectedSchool.LandAndBuildings.WorksPlannedDate;
+			WorksPlannedDate = (selectedSchool.LandAndBuildings.WorksPlannedDate.HasValue ?
+				selectedSchool.LandAndBuildings.WorksPlannedDate.Value.ToString("dd/MM/yyyy")
+				: string.Empty);
 			SchoolBuildLandSharedFacilities = selectedSchool.LandAndBuildings.FacilitiesShared.Value ? SelectOption.Yes : SelectOption.No;
 			SchoolBuildLandSharedFacilitiesExplained = selectedSchool.LandAndBuildings.FacilitiesSharedExplained;
 			SchoolBuildLandGrants = selectedSchool.LandAndBuildings.Grants.Value ? SelectOption.Yes : SelectOption.No;

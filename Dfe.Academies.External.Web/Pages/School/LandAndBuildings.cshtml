@@ -80,8 +80,8 @@
 										   class="@(Model.SchoolBuildLandWorksPlannedDateError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must select a scheduled date
 										</a>
-										<govuk-date field-name="SchoolBuildLandWorksPlannedDate"
-										            field-data="@Model.SchoolBuildLandWorksPlannedDate"
+										<govuk-date field-name="@Model.PlannedDateFormInputName"
+										            field-data="@Model.WorksPlannedDate"
 										            field-day="@Model.WorksPlannedDateDay"
 										            field-month="@Model.WorksPlannedDateMonth"
 										            field-year="@Model.WorksPlannedDateYear">
