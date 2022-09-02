@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
@@ -24,12 +25,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		//// MR:- VM props to show school conversion data
 		public List<SchoolConversionComponentHeadingViewModel> ViewModel { get; set; } = new();
-
-
+		
 		public SchoolConversionKeyDetailsModel(ILogger<SchoolConversionKeyDetailsModel> logger,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-			IReferenceDataRetrievalService referenceDataRetrievalService,
-			IConversionApplicationCreationService academisationCreationService)
+			IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
 			_logger = logger;
@@ -48,9 +47,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// Grab other values from API
 				if (selectedSchool != null)
 				{
-					// TODO MR:- grab data from API endpoint - applicationId && SchoolId combination !
-
-
 					PopulateUiModel(selectedSchool);
 				}
 			}
@@ -88,9 +84,37 @@ namespace Dfe.Academies.External.Web.Pages.School
 			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsApproversFullNameSectionName, "TBC"));
 			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsApproversEmailSectionName, "TBC"));
 
-			SchoolConversionComponentHeadingViewModel heading3 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationPreferredDateForConversion,
-				"/school/ApplicationConversionTargetDate");
-			heading3.Sections.Add(new(SchoolConversionComponentSectionViewModel.ApplicationConversionTargetDateSectionName, "TBC"));
+			// TODO MR:- below status should consume yes / no - but, it's not implemented in API
+			SchoolConversionComponentHeadingViewModel heading3 = 
+				new(SchoolConversionComponentHeadingViewModel.HeadingApplicationPreferredDateForConversion,
+				"/school/ApplicationConversionTargetDate") 
+				{ Status = selectedSchool.SchoolConversionTargetDate.HasValue ?
+					SchoolConversionComponentStatus.Complete
+					: SchoolConversionComponentStatus.NotStarted
+				};
+
+			// TODO MR:- QuestionAndAnswerConstants.NoInfoAnswer
+			heading3.Sections.Add(
+				new(
+					SchoolConversionComponentSectionViewModel.ApplicationConversionTargetDateSectionName, 
+					"Yes/no not implemented in API")
+				{
+					SubQuestionAndAnswers = new()
+					{
+						new SchoolLandAndBuildingsSummarySectionViewModel(
+							"Preferred date",
+							(selectedSchool.SchoolConversionTargetDate.HasValue ? 
+								selectedSchool.SchoolConversionTargetDate.Value.ToString("dd/MM/yyyy") 
+								: "Not entered")
+						),
+						new SchoolLandAndBuildingsSummarySectionViewModel(
+							"Explain why you want to convert on this date",
+							(!string.IsNullOrWhiteSpace(selectedSchool.SchoolConversionTargetDateExplained) ?
+								selectedSchool.SchoolConversionTargetDateExplained
+								: "Not entered")
+						)
+					}
+				});
 
 			SchoolConversionComponentHeadingViewModel heading4 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationJoinTrustReason,
 				"/school/ApplicationJoinTrustReasons");

@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
-using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
@@ -96,7 +95,9 @@ internal sealed class ConversionApplicationCreationServiceTests
 			mockConversionApplicationRetrievalService);
 
 	    // assert
-	    Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId, urn, schoolName));
+	    Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId, 
+		    urn, 
+		    schoolName));
     }
 
     /// <summary>
@@ -125,7 +126,9 @@ internal sealed class ConversionApplicationCreationServiceTests
 		    mockConversionApplicationRetrievalService);
 
 		// assert
-		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId, urn, schoolName));
+		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId, 
+			urn, 
+			schoolName));
     }
 
     [Test]
@@ -150,7 +153,9 @@ internal sealed class ConversionApplicationCreationServiceTests
 		    mockConversionApplicationRetrievalService);
 
 		// assert
-		var ex = Assert.ThrowsAsync<ArgumentException>(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId, urn, schoolName));
+		var ex = Assert.ThrowsAsync<ArgumentException>(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId, 
+			urn, 
+			schoolName));
 
 		// now we could test the exception itself
 		Assert.That(ex.Message == "Application not found");
@@ -163,7 +168,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	public async Task ApplicationAddJoinTrustReasons___ApiReturns200___Ok()
     {
 		// arrange
-		int applicationId = 2; // hard coded because has to be same as example JSON
+		int applicationId = 1; // hard coded because has to be same as example JSON
 		int urn = Fixture.Create<int>();
 		string applicationAddJoinTrustReason = Fixture.Create<string>();
 
@@ -183,7 +188,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 		// assert
 		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.ApplicationAddJoinTrustReasons(applicationId, 
-																								applicationAddJoinTrustReason, urn));
+																								applicationAddJoinTrustReason, 
+																								urn));
     }
 
     /// <summary>
@@ -193,7 +199,7 @@ internal sealed class ConversionApplicationCreationServiceTests
     public async Task ApplicationAddJoinTrustReasons___ApiReturns500___InternalServerError()
     {
 		// arrange
-		int applicationId = 2; // hard coded because has to be same as example JSON
+		int applicationId = 1; // hard coded because has to be same as example JSON
 		int urn = Fixture.Create<int>();
 		string applicationAddJoinTrustReason = Fixture.Create<string>();
 
@@ -212,110 +218,152 @@ internal sealed class ConversionApplicationCreationServiceTests
 			mockConversionApplicationRetrievalService);
 
 		// assert
-		var ex = Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationAddJoinTrustReasons(applicationId, 
-																									applicationAddJoinTrustReason, urn));
-
-        // now we could test the exception itself
-        //Assert.That(ex.Message == "Blah");
+		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationAddJoinTrustReasons(applicationId, 
+																									applicationAddJoinTrustReason, 
+																									urn));
     }
-    
-    /// <summary>
-    /// call land and buildings endpoint and mock HttpStatusCode.Created
-    /// </summary>
-    [Test]
-    public async Task ApplicationSchoolLandAndBuildings___ApiReturns200___Ok()
-    {
-	    // arrange
-	    int applicationId = 1;
-	    int schoolUrn = 0;
-	    var schoolLandAndBuildings = new SchoolLandAndBuildings(
-		    "Test Owner",
-		    true,
-		    "String",
-		    new DateTime(2022, 12,12),
-		    true,
-		    "String",
-		    true,
-		    "String",
-		    true,
-		    "String",
-		    true,
-		    true
-	    );
 
-	    string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
-	    string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+	// TODO MR:- AddTrustToApplication - ApiReturns200___Ok()
 
-	    var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
-	    var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-	    var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
-	    var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-	    var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+	// TODO MR:- AddTrustToApplication - ApiReturns500___InternalServerError()
 
-	    // act
-	    var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
-		    mockLoggerCreationService.Object,
-		    mockConversionApplicationRetrievalService);
-
-	    // assert
-	    Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.ApplicationSchoolLandAndBuildings(schoolLandAndBuildings, 
-		    applicationId, schoolUrn));
-    }
-    
-    /// <summary>
-    /// call land and buildings endpoint and mock HttpStatusCode.InternalServerError
-    /// </summary>
-    [Test]
-    public async Task ApplicationSchoolLandAndBuildings___ApiReturns500___InternalServerError()
-    {
-	    // arrange
-	    int applicationId = 1;
-	    int urn = 0;
-	    var schoolLandAndBuildings = new SchoolLandAndBuildings(
-		    "Test Owner",
-		    true,
-		    "String",
-		    new DateTime(2022, 12,12),
-		    true,
-		    "String",
-		    true,
-		    "String",
-		    true,
-		    "String",
-		    true,
-		    true
-	    );
-
-	    string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
-	    string expectedJson = await File.ReadAllTextAsync(fullFilePath);
-
-	    var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
-	    var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-	    var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
-	    var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-	    var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
-
-	    // act
-	    var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
-		    mockLoggerCreationService.Object,
-		    mockConversionApplicationRetrievalService);
-
-	    // assert
-	    Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationSchoolLandAndBuildings(
-		    schoolLandAndBuildings, applicationId, urn));
-    }
-    
 	// TODO MR:- ApplicationChangeSchoolNameAndReason - ApiReturns200___Ok()
 
 	// TODO MR:- ApplicationChangeSchoolNameAndReason - ApiReturns500___InternalServerError()
 
-	// TODO MR:- ApplicationSchoolTargetConversionDate - ApiReturns200___Ok()
+	[Test]
+	public async Task ApplicationSchoolTargetConversionDate___ApiReturns200___Ok()
+	{
+		// arrange
+		int applicationId = 1; // hard coded because has to be same as example JSON
+		int urn = 141992; // hard coded because has to be same as example JSON
+		DateTime targetDate = Fixture.Create<DateTime>();
+		string targetDateExplained = Fixture.Create<string>();
 
-	// TODO MR:- ApplicationSchoolTargetConversionDate - ApiReturns500___InternalServerError()
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
-	// TODO MR:- ApplicationSchoolTargetConversionDate - ApiReturns200___Ok()
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
 
-	// TODO MR:- ApplicationSchoolTargetConversionDate - ApiReturns500___InternalServerError()
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.ApplicationSchoolTargetConversionDate(
+			applicationId, 
+			urn,
+			targetDate,
+			targetDateExplained
+			));
+	}
+
+	[Test]
+	public async Task ApplicationSchoolTargetConversionDate___ApiReturns500___InternalServerError()
+	{
+		// arrange
+		int applicationId = 1; // hard coded because has to be same as example JSON
+		int urn = 141992; // hard coded because has to be same as example JSON
+		DateTime targetDate = Fixture.Create<DateTime>();
+		string targetDateExplained = Fixture.Create<string>();
+
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationSchoolTargetConversionDate(
+			applicationId,
+			urn,
+			targetDate,
+			targetDateExplained
+			));
+	}
+
+	[Test]
+	public async Task ApplicationSchoolTargetConversionDate___InvalidApplicationId___ArgumentException()
+	{
+		// arrange
+		int applicationId = Fixture.Create<int>();
+		int urn = 141992; // hard coded because has to be same as example JSON
+		DateTime targetDate = Fixture.Create<DateTime>();
+		string targetDateExplained = Fixture.Create<string>();
+
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		var ex = Assert.ThrowsAsync<ArgumentException>(() => conversionApplicationCreationService.ApplicationSchoolTargetConversionDate(
+			applicationId,
+			urn,
+			targetDate,
+			targetDateExplained
+		));
+
+		// now we could test the exception itself
+		Assert.That(ex.Message == "Application not found");
+	}
+
+	[Test]
+	public async Task ApplicationSchoolTargetConversionDate___InvalidUrn___ArgumentException()
+	{
+		// arrange
+		int applicationId = 1; // hard coded because has to be same as example JSON
+		int urn = Fixture.Create<int>();
+		DateTime targetDate = Fixture.Create<DateTime>();
+		string targetDateExplained = Fixture.Create<string>();
+
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		var ex = Assert.ThrowsAsync<ArgumentException>(() => conversionApplicationCreationService.ApplicationSchoolTargetConversionDate(
+			applicationId,
+			urn,
+			targetDate,
+			targetDateExplained
+		));
+
+		// now we could test the exception itself
+		Assert.That(ex.Message == "School not found");
+	}
 
 	// TODO MR:- ApplicationSchoolFuturePupilNumbers - ApiReturns200___Ok()
 
@@ -324,6 +372,96 @@ internal sealed class ConversionApplicationCreationServiceTests
 	// TODO MR:- ApplicationSchoolContacts - ApiReturns200___Ok()
 
 	// TODO MR:- ApplicationSchoolContacts - ApiReturns500___InternalServerError()
+
+	/// <summary>
+	/// call land and buildings endpoint and mock HttpStatusCode.Created
+	/// </summary>
+	[Test]
+	public async Task ApplicationSchoolLandAndBuildings___ApiReturns200___Ok()
+	{
+		// arrange
+		int applicationId = 1;
+		int schoolUrn = 141992;
+		var schoolLandAndBuildings = new SchoolLandAndBuildings(
+			"Test Owner",
+			true,
+			"String",
+			new DateTime(2022, 12, 12),
+			true,
+			"String",
+			true,
+			"String",
+			true,
+			"String",
+			true,
+			true
+		);
+
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.ApplicationSchoolLandAndBuildings(schoolLandAndBuildings,
+			applicationId, schoolUrn));
+	}
+
+	/// <summary>
+	/// call land and buildings endpoint and mock HttpStatusCode.InternalServerError
+	/// </summary>
+	[Test]
+	public async Task ApplicationSchoolLandAndBuildings___ApiReturns500___InternalServerError()
+	{
+		// arrange
+		int applicationId = 1;
+		int urn = 141992;
+		var schoolLandAndBuildings = new SchoolLandAndBuildings(
+			"Test Owner",
+			true,
+			"String",
+			new DateTime(2022, 12, 12),
+			true,
+			"String",
+			true,
+			"String",
+			true,
+			"String",
+			true,
+			true
+		);
+
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationSchoolLandAndBuildings(
+			schoolLandAndBuildings, applicationId, urn));
+	}
+
+	// TODO MR:- ApplicationPreOpeningSupportGrantUpdate - ApiReturns200___Ok()
+
+	// TODO MR:- ApplicationPreOpeningSupportGrantUpdate - ApiReturns500___InternalServerError()
 
 	//public async Task UpdateDraftApplication___OtherRole___Success()
 	//{

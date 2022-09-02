@@ -241,7 +241,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		int applicationId = 2;
 	    int expectedCount = 1;
-	    int expectedURN = 0;
+	    int expectedURN = 141992;
 	    ApplicationStatus status = ApplicationStatus.InProgress;
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
@@ -270,7 +270,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		int applicationId = 1;
 		int expectedCount = 1;
-        int expectedURN = 0;
+        int expectedURN = 141992;
         ApplicationStatus status = ApplicationStatus.InProgress;
 
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);

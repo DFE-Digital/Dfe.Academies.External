@@ -23,7 +23,7 @@ public interface IConversionApplicationCreationService
 	Task ApplicationSchoolFuturePupilNumbers(int applicationId, int schoolUrn, int projectedPupilNumbersYear1, int projectedPupilNumbersYear2,
 		int projectedPupilNumbersYear3, string schoolCapacityAssumptions, int schoolCapacityPublishedAdmissionsNumber);
 
-	Task ApplicationSchoolContacts(ApplicationSchoolContacts schoolContacts);
+	Task ApplicationSchoolContacts(ApplicationSchoolContacts schoolContacts, int applicationId);
 
 	Task ApplicationSchoolLandAndBuildings(SchoolLandAndBuildings schoolLandAndBuildings, int applicationId, int schoolUrn);
 
