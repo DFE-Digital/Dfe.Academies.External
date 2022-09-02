@@ -66,67 +66,65 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			SchoolLandAndBuildingsSummaryHeadingViewModel heading1 = new(SchoolLandAndBuildingsSummaryHeadingViewModel.Heading,
 				"/school/LandAndBuildings");
-
-			// TODO MR:- if answer comes back from API, render data from API OR
-			// Question Answer = QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
+			
 
 			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.LandOwnership,
-				"TBC")
+				selectedSchool.LandAndBuildings.OwnerExplained ?? "Not entered")
 			);
 
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorks, "Yes")
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorks, selectedSchool.LandAndBuildings.WorksPlanned.Value ? "Yes" : "No")
 			{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorksDetails,
-						"TBC"
+						selectedSchool.LandAndBuildings.WorksPlannedExplained ?? "Not entered"
 					),
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorksWhen,
-						"TBC"
+						selectedSchool.LandAndBuildings.WorksPlannedDate.ToString() ?? "Not entered"
 					)
 				}
 			});
 
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.SharedFacilities, "??")
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.SharedFacilities, selectedSchool.LandAndBuildings.FacilitiesShared.Value ? "Yes" : "No")
 			{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.SharedFacilitiesList,
-						"TBC"
+						selectedSchool.LandAndBuildings.FacilitiesSharedExplained ?? "Not entered"
 					)
 				}
 			});
 
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.Grants, "??")
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.Grants, selectedSchool.LandAndBuildings.Grants.Value ? "Yes" : "No")
 			{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.GrantBodies, 
-						"TBC"
+						selectedSchool.LandAndBuildings.GrantsAwardingBodies ?? "Not entered"
 					)
 				}
 			});
 
-			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PFI, "??")
+			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PFI, selectedSchool.LandAndBuildings.PartOfPFIScheme.Value ? "Yes" : "No")
 			{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.PFIKind,
-						"TBC")
+						selectedSchool.LandAndBuildings.PartOfPFISchemeType ?? "Not entered")
 				}
 			});
 
 			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.PrioritySchoolBuildingProgram,
-				"TBC")
+				selectedSchool.LandAndBuildings.PartOfPrioritySchoolsBuildingProgramme.Value ? "Yes" : "No")
 			);
 
 			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.BuildingSchoolsForTheFuture, 
-				"TBC")
+				selectedSchool.LandAndBuildings.PartOfBuildingSchoolsForFutureProgramme.Value ? "Yes" : "No")
 			);
 
 			var vm = new List<SchoolLandAndBuildingsSummaryHeadingViewModel> { heading1 };

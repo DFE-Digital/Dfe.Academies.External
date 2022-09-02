@@ -29,7 +29,7 @@ namespace Dfe.Academies.External.Web.Services
             // consume singular HTTPClient, grabbed from DI config
             this._client = client;
         }
-        
+    
         /// <inheritdoc/>
         public async Task<TResult> GetAsync<TResult>(string uri, JsonSerializerOptions? options = null, string token = "")
         {
