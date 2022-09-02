@@ -75,9 +75,6 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 			// Grab other values from API
 			if (selectedSchool != null)
 			{
-				// TODO MR:- grab existing data from API endpoint to populate VM - applicationId && SchoolId combination !
-				// data stored against the school ?????????????? not implemented 22/08/2022
-
 				PopulateUiModel(selectedSchool);
 			}
 		}

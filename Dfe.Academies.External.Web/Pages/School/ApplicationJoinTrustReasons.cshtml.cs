@@ -47,9 +47,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// Grab other values from API
 				if (selectedSchool != null)
 			    {
-				    // TODO MR:- grab existing reasons for joining from API endpoint - applicationId && SchoolId combination !
-
-
 				    PopulateUiModel(selectedSchool);
 			    }
 		    }

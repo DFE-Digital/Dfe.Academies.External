@@ -1,5 +1,4 @@
-﻿using System;
-using Dfe.Academies.External.Web.Enums;
+﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -8,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-    public class SchoolOverviewModel : BasePageEditModel
+	public class SchoolOverviewModel : BasePageEditModel
     {
 	    private readonly ILogger<SchoolOverviewModel> _logger;
 
