@@ -106,8 +106,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// Grab other values from API
 				if (selectedSchool != null)
 				{
-					// TODO MR:- awaiting PR 114
-
 					PopulateUiModel(selectedSchool);
 				}
 			}
