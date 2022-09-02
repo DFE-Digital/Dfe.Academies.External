@@ -53,6 +53,7 @@
 								       id="buildingWorksOption@(buildingWorksOption)"
 								       class="govuk-radios__input"
 								       data-aria-controls="buildingWorksOption-@(buildingWorksOption.ToString().ToLower())"
+								       checked="@(buildingWorksOption.Equals(ViewData.Model.SchoolBuildLandWorksPlanned))"
 								       aria-expanded="False"/>
 								<label for="buildingWorksOption@(buildingWorksOption)" class="govuk-label govuk-radios__label">
 									@buildingWorksOption.GetDescription()
@@ -104,9 +105,10 @@
 								   asp-for="SchoolBuildLandSharedFacilities"
 								   value="@Convert.ToInt32(sharedFacilitiesOption)"
 								   id="sharedFacilitiesOption@(sharedFacilitiesOption)"
-								       class="govuk-radios__input"
-								       data-aria-controls="sharedFacilitiesOption-@(sharedFacilitiesOption.ToString().ToLower())"
-								       aria-expanded="False"/>
+								   class="govuk-radios__input"
+								   data-aria-controls="sharedFacilitiesOption-@(sharedFacilitiesOption.ToString().ToLower())"
+								   checked="@(sharedFacilitiesOption.Equals(ViewData.Model.SchoolBuildLandSharedFacilities))"
+								   aria-expanded="False"/>
 								<label for="sharedFacilitiesOption@(sharedFacilitiesOption)" class="govuk-label govuk-radios__label">
 									@sharedFacilitiesOption.GetDescription()
 								</label>
@@ -144,7 +146,8 @@
 									   value="@Convert.ToInt32(landGrantsOption)"
 								       id="landGrantsOption@(landGrantsOption)"
 								       class="govuk-radios__input"
-								       data-aria-controls="landGrantsOption-@(landGrantsOption.ToString().ToLower())"
+									   data-aria-controls="landGrantsOption-@(landGrantsOption.ToString().ToLower())"
+									   checked="@(landGrantsOption.Equals(ViewData.Model.SchoolBuildLandGrants))"
 								       aria-expanded="False"/>
 								<label for="landGrantsOption@(landGrantsOption)" class="govuk-label govuk-radios__label">
 									@landGrantsOption.GetDescription()
@@ -180,11 +183,12 @@
 							<div class="govuk-radios__item">
 								<input type="radio"
 								   asp-for="SchoolBuildLandPFIScheme"
-								       value="@Convert.ToInt32(pfiSchemeOption)"
-								       id="pfiSchemeOption@(pfiSchemeOption)"
-								       class="govuk-radios__input"
-								       data-aria-controls="pfiSchemeOption-@(pfiSchemeOption.ToString().ToLower())"
-								       aria-expanded="False"/>
+								   value="@Convert.ToInt32(pfiSchemeOption)"
+								   id="pfiSchemeOption@(pfiSchemeOption)"
+								   class="govuk-radios__input"
+								   data-aria-controls="pfiSchemeOption-@(pfiSchemeOption.ToString().ToLower())"
+								   checked="@(pfiSchemeOption.Equals(ViewData.Model.SchoolBuildLandPFIScheme))"
+								   aria-expanded="False"/>
 								<label for="pfiSchemeOption@(pfiSchemeOption)" class="govuk-label govuk-radios__label">
 									@pfiSchemeOption.GetDescription()
 								</label>
@@ -222,6 +226,7 @@
 								   id="SchoolBuildLandPriorityBuildingProgramme@(priorityBuildingProgrammeOption)"
 								   class="govuk-radios__input"
 								   data-aria-controls="SchoolBuildLandPriorityBuildingProgramme-@(priorityBuildingProgrammeOption.ToString().ToLower())"
+								   checked="@(priorityBuildingProgrammeOption.Equals(ViewData.Model.SchoolBuildLandPriorityBuildingProgramme))"
 								   aria-expanded="False" />
 								<label for="SchoolBuildLandPriorityBuildingProgramme@(priorityBuildingProgrammeOption)" class="govuk-label govuk-radios__label">
 									@priorityBuildingProgrammeOption.GetDescription()
@@ -244,6 +249,7 @@
 								       id="SchoolBuildLandFutureProgramme@(futureProgrammeOption)"
 								       class="govuk-radios__input"
 								       data-aria-controls="SchoolBuildLandFutureProgramme-@(futureProgrammeOption.ToString().ToLower())"
+								       checked="@(futureProgrammeOption.Equals(ViewData.Model.SchoolBuildLandFutureProgramme))"
 								       aria-expanded="False"/>
 								<label for="SchoolBuildLandFutureProgramme@(futureProgrammeOption)" class="govuk-label govuk-radios__label">
 									@futureProgrammeOption.GetDescription()

@@ -13,6 +13,8 @@ public class SchoolApplyingToConvert
 								null, null, null,
 								null, null, null);
 	}
+	
+	public int Id { get; set; }
 
 	public int ApplicationId { get; set; }
 

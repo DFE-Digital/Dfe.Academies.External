@@ -5,6 +5,7 @@ using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -178,9 +179,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// Grab other values from API
 				if (selectedSchool != null)
 				{
-					// TODO MR:- grab existing land & buildings data from API endpoint to populate VM - applicationId && SchoolId combination !
-					// land & buildings stored against the school ?????????????? not implemented 18/08/2022
-
 					PopulateUiModel(selectedSchool);
 				}
 			}
@@ -239,9 +237,23 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				// TODO MR:- call API endpoint to log land & buildings
-				//var landAndBuildingsData = new SchoolLandAndBuildings();
-				//await _academisationCreationService.ApplicationSchoolLandAndBuildings(landAndBuildingsData, ApplicationId);
+
+				var landAndBuildingsData = new SchoolLandAndBuildings(
+					this.SchoolBuildLandOwnerExplained,
+					this.SchoolBuildLandWorksPlanned == SelectOption.Yes,
+					this.SchoolBuildLandWorksPlannedExplained,
+					this.SchoolBuildLandWorksPlannedDate,
+					this.SchoolBuildLandSharedFacilities == SelectOption.Yes,
+					this.SchoolBuildLandSharedFacilitiesExplained,
+					this.SchoolBuildLandGrants == SelectOption.Yes,
+					this.SchoolBuildLandGrantsBodies,
+					this.SchoolBuildLandPFIScheme == SelectOption.Yes,
+					this.SchoolBuildLandPFISchemeType,
+					this.SchoolBuildLandPriorityBuildingProgramme == SelectOption.Yes,
+					this.SchoolBuildLandFutureProgramme == SelectOption.Yes
+				);
+				
+				await _academisationCreationService.ApplicationSchoolLandAndBuildings(landAndBuildingsData, ApplicationId, this.Urn);
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -263,19 +275,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			SchoolName = selectedSchool.SchoolName;
-			// TODO MR:- populate other props from API - not implemented 18/08/2022
-			//SchoolBuildLandOwnerExplained = ;
-			//SchoolBuildLandWorksPlanned = ;
-			//SchoolBuildLandWorksPlannedExplained = ;
-			//SchoolBuildLandWorksPlannedDate = ;
-			//SchoolBuildLandSharedFacilities = ;
-			//SchoolBuildLandSharedFacilitiesExplained = ;
-			//SchoolBuildLandGrants = ;
-			//SchoolBuildLandGrantsBodies = ;
-			//SchoolBuildLandPFIScheme = ;
-			//SchoolBuildLandPFISchemeType = ;
-			//SchoolBuildLandPriorityBuildingProgramme = ;
-			//SchoolBuildLandFutureProgramme = ;
+			SchoolBuildLandOwnerExplained = selectedSchool.LandAndBuildings.OwnerExplained;
+			SchoolBuildLandWorksPlanned = selectedSchool.LandAndBuildings.WorksPlanned.Value ? SelectOption.Yes : SelectOption.No;
+			SchoolBuildLandWorksPlannedExplained = selectedSchool.LandAndBuildings.WorksPlannedExplained;
+			SchoolBuildLandWorksPlannedDate = selectedSchool.LandAndBuildings.WorksPlannedDate;
+			SchoolBuildLandSharedFacilities = selectedSchool.LandAndBuildings.FacilitiesShared.Value ? SelectOption.Yes : SelectOption.No;
+			SchoolBuildLandSharedFacilitiesExplained = selectedSchool.LandAndBuildings.FacilitiesSharedExplained;
+			SchoolBuildLandGrants = selectedSchool.LandAndBuildings.Grants.Value ? SelectOption.Yes : SelectOption.No;
+			SchoolBuildLandGrantsBodies = selectedSchool.LandAndBuildings.GrantsAwardingBodies;
+			SchoolBuildLandPFIScheme = selectedSchool.LandAndBuildings.PartOfPFIScheme.Value ? SelectOption.Yes : SelectOption.No;
+			SchoolBuildLandPFISchemeType = selectedSchool.LandAndBuildings.PartOfPFISchemeType;
+			SchoolBuildLandPriorityBuildingProgramme = selectedSchool.LandAndBuildings.PartOfPrioritySchoolsBuildingProgramme.Value ? SelectOption.Yes : SelectOption.No;
+			SchoolBuildLandFutureProgramme = selectedSchool.LandAndBuildings.PartOfBuildingSchoolsForFutureProgramme.Value ? SelectOption.Yes : SelectOption.No;
 		}
 	}
 }
