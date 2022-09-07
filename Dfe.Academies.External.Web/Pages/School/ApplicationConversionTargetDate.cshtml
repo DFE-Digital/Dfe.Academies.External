@@ -45,12 +45,13 @@
 						       id="selectoption@(selectOption)"
 						       class="govuk-radios__input"
 						       data-aria-controls="selectoption-@(selectOption.ToString().ToLower())"
+								checked="@(selectOption.Equals(ViewData.Model.TargetDateDifferent))"
 						       aria-expanded="False"/>
 						<label for="selectoption@(selectOption)" class="govuk-label govuk-radios__label">
 							@selectOption.GetDescription()
 						</label>
 					</div>
-					@if (selectOption == SelectOption.Yes || Model.TargetDateDifferent == SelectOption.Yes)
+					@if (selectOption == SelectOption.Yes)
 					{
 						<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional") 
 			                                            @(selectOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
