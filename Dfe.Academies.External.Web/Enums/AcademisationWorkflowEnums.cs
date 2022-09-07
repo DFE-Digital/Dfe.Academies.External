@@ -51,7 +51,7 @@ public enum SelectOption
 	[Description("Yes")]
 	Yes = 1,
 	[Description("No")]
-	No = 2
+	No = 0
 }
 
 public enum SchoolConversionComponentStatus
