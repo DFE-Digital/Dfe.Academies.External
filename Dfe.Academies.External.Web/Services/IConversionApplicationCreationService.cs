@@ -7,8 +7,6 @@ public interface IConversionApplicationCreationService
 {
     Task<ConversionApplication> CreateNewApplication(ConversionApplication application);
 
-    //Task UpdateDraftApplication(ConversionApplication application);
-
     Task AddSchoolToApplication(int applicationId, int schoolUrn, string name);
 
     Task AddTrustToApplication(int applicationId, int trustUkPrn, string name);
@@ -18,7 +16,7 @@ public interface IConversionApplicationCreationService
     Task ApplicationChangeSchoolNameAndReason(ConversionApplication application, SelectOption changeName,
 	    string changeSchoolNameReason, int schoolUrn);
 
-    Task ApplicationSchoolTargetConversionDate(int applicationId, int schoolUrn, DateTime targetDate, string targetDateExplained);
+    Task ApplicationSchoolTargetConversionDate(int applicationId, int schoolUrn, SelectOption targetDateDifferent, DateTime targetDate, string targetDateExplained);
 
 	Task ApplicationSchoolFuturePupilNumbers(int applicationId, int schoolUrn, int projectedPupilNumbersYear1, int projectedPupilNumbersYear2,
 		int projectedPupilNumbersYear3, string schoolCapacityAssumptions, int schoolCapacityPublishedAdmissionsNumber);
@@ -28,4 +26,6 @@ public interface IConversionApplicationCreationService
 	Task ApplicationSchoolLandAndBuildings(SchoolLandAndBuildings schoolLandAndBuildings, int applicationId, int schoolUrn);
 
 	Task ApplicationPreOpeningSupportGrantUpdate(PayFundsTo schoolSupportGrantFundsPaidTo, int applicationId);
+
+	//Task UpdateDraftApplication(ConversionApplication application);
 }
