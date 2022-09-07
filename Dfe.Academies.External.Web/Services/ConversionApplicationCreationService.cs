@@ -204,7 +204,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 			var enumValue = (int)targetDateDifferent;
 
-			schoolUpdating.ConversionTargetDateSpecified = Convert.ToBoolean(enumValue);
+			schoolUpdating.SchoolConversionTargetDateSpecified = Convert.ToBoolean(enumValue);
 			schoolUpdating.SchoolConversionTargetDate = targetDate;
 			schoolUpdating.SchoolConversionTargetDateExplained = targetDateExplained;
 
