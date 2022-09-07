@@ -47,7 +47,7 @@ public class SchoolApplyingToConvert
 	public string SchoolConversionApproverContactEmail { get; set; }
 
 	//// ApplicationConversionTargetDate
-	public bool? ConversionTargetDateSpecified { get; set; }
+	public bool? SchoolConversionTargetDateSpecified { get; set; }
 	public DateTime? SchoolConversionTargetDate { get; set; }
 	public string SchoolConversionTargetDateExplained { get; set; }
 

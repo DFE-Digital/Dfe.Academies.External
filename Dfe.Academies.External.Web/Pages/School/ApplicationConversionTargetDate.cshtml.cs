@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -157,7 +158,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 				// MR:- call API endpoint to log data
-				await _academisationCreationService.ApplicationSchoolTargetConversionDate(ApplicationId, Urn, targetDate, TargetDateExplained);
+				await _academisationCreationService.ApplicationSchoolTargetConversionDate(ApplicationId, Urn, TargetDateDifferent, targetDate, TargetDateExplained);
 
 				// update temp store for next step
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -183,7 +184,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			SchoolName = selectedSchool.SchoolName;
-			// TargetDateDifferent = selectedSchool.; // TODO MR:- not implemented in API 01/09/2022 
+
+			var conversionDateSpecified = selectedSchool.SchoolConversionTargetDateSpecified.GetEnumValue();
+
+			if (conversionDateSpecified.HasValue)
+			{
+				TargetDateDifferent = conversionDateSpecified.Value;
+			}
+
 			TargetDate = selectedSchool.SchoolConversionTargetDate.ToString();
 			TargetDateExplained = selectedSchool.SchoolConversionTargetDateExplained;
 		}
