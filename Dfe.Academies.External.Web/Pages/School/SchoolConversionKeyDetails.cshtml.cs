@@ -4,6 +4,7 @@ using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Dfe.Academies.External.Web.Extensions;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -84,20 +85,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsApproversFullNameSectionName, "TBC"));
 			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsApproversEmailSectionName, "TBC"));
 
-			// TODO MR:- below status should consume yes / no - but, it's not implemented in API
 			SchoolConversionComponentHeadingViewModel heading3 = 
 				new(SchoolConversionComponentHeadingViewModel.HeadingApplicationPreferredDateForConversion,
 				"/school/ApplicationConversionTargetDate") 
-				{ Status = selectedSchool.SchoolConversionTargetDate.HasValue ?
+				{ Status = selectedSchool.SchoolConversionTargetDateSpecified.HasValue ?
 					SchoolConversionComponentStatus.Complete
 					: SchoolConversionComponentStatus.NotStarted
 				};
 
-			// TODO MR:- QuestionAndAnswerConstants.NoInfoAnswer
 			heading3.Sections.Add(
 				new(
-					SchoolConversionComponentSectionViewModel.ApplicationConversionTargetDateSectionName, 
-					"Yes/no not implemented in API")
+					SchoolConversionComponentSectionViewModel.ApplicationConversionTargetDateSectionName,
+					selectedSchool.SchoolConversionTargetDateSpecified.GetStringDescription())
 				{
 					SubQuestionAndAnswers = new()
 					{
@@ -105,17 +104,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 							"Preferred date",
 							(selectedSchool.SchoolConversionTargetDate.HasValue ? 
 								selectedSchool.SchoolConversionTargetDate.Value.ToString("dd/MM/yyyy") 
-								: "Not entered")
+								: QuestionAndAnswerConstants.NoAnswer)
 						),
 						new SchoolLandAndBuildingsSummarySectionViewModel(
 							"Explain why you want to convert on this date",
 							(!string.IsNullOrWhiteSpace(selectedSchool.SchoolConversionTargetDateExplained) ?
 								selectedSchool.SchoolConversionTargetDateExplained
-								: "Not entered")
+								: QuestionAndAnswerConstants.NoAnswer)
 						)
 					}
 				});
 
+			// TODO MR:- QuestionAndAnswerConstants.NoInfoAnswer
 			SchoolConversionComponentHeadingViewModel heading4 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationJoinTrustReason,
 				"/school/ApplicationJoinTrustReasons");
 			heading4.Sections.Add(new(SchoolConversionComponentSectionViewModel.ReasonsForJoiningTrustSectionName, "TBC"));

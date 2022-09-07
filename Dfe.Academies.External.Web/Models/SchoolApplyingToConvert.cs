@@ -47,10 +47,12 @@ public class SchoolApplyingToConvert
 	public string SchoolConversionApproverContactEmail { get; set; }
 
 	//// ApplicationConversionTargetDate
+	public bool? SchoolConversionTargetDateSpecified { get; set; }
 	public DateTime? SchoolConversionTargetDate { get; set; }
 	public string SchoolConversionTargetDateExplained { get; set; }
 
 	//// ApplicationChangeSchoolName
+	public bool? ConversionChangeNamePlanned { get; set; }
 	public string ProposedNewSchoolName { get; set; }
 
 	//// ApplicationJoinTrustReasons 

@@ -176,7 +176,10 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
     }
 
 	///<inheritdoc/>
-	public async Task ApplicationSchoolTargetConversionDate(int applicationId, int schoolUrn, DateTime targetDate,
+	public async Task ApplicationSchoolTargetConversionDate(int applicationId, 
+		int schoolUrn,
+		SelectOption targetDateDifferent,
+		DateTime targetDate,
 		string targetDateExplained)
 	{
 		try
@@ -199,6 +202,9 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 				throw new ArgumentException("School not found");
 			}
 
+			var enumValue = (int)targetDateDifferent;
+
+			schoolUpdating.SchoolConversionTargetDateSpecified = Convert.ToBoolean(enumValue);
 			schoolUpdating.SchoolConversionTargetDate = targetDate;
 			schoolUpdating.SchoolConversionTargetDateExplained = targetDateExplained;
 
