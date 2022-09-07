@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
@@ -237,6 +238,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		// arrange
 		int applicationId = 1; // hard coded because has to be same as example JSON
 		int urn = 141992; // hard coded because has to be same as example JSON
+		SelectOption targetDateDifferent = SelectOption.Yes;
 		DateTime targetDate = Fixture.Create<DateTime>();
 		string targetDateExplained = Fixture.Create<string>();
 
@@ -258,6 +260,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.ApplicationSchoolTargetConversionDate(
 			applicationId, 
 			urn,
+			targetDateDifferent,
 			targetDate,
 			targetDateExplained
 			));
@@ -269,6 +272,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		// arrange
 		int applicationId = 1; // hard coded because has to be same as example JSON
 		int urn = 141992; // hard coded because has to be same as example JSON
+		SelectOption targetDateDifferent = SelectOption.Yes;
 		DateTime targetDate = Fixture.Create<DateTime>();
 		string targetDateExplained = Fixture.Create<string>();
 
@@ -290,6 +294,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationSchoolTargetConversionDate(
 			applicationId,
 			urn,
+			targetDateDifferent,
 			targetDate,
 			targetDateExplained
 			));
@@ -301,6 +306,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		// arrange
 		int applicationId = Fixture.Create<int>();
 		int urn = 141992; // hard coded because has to be same as example JSON
+		SelectOption targetDateDifferent = SelectOption.Yes;
 		DateTime targetDate = Fixture.Create<DateTime>();
 		string targetDateExplained = Fixture.Create<string>();
 
@@ -322,6 +328,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var ex = Assert.ThrowsAsync<ArgumentException>(() => conversionApplicationCreationService.ApplicationSchoolTargetConversionDate(
 			applicationId,
 			urn,
+			targetDateDifferent,
 			targetDate,
 			targetDateExplained
 		));
@@ -336,6 +343,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		// arrange
 		int applicationId = 1; // hard coded because has to be same as example JSON
 		int urn = Fixture.Create<int>();
+		SelectOption targetDateDifferent = SelectOption.Yes;
 		DateTime targetDate = Fixture.Create<DateTime>();
 		string targetDateExplained = Fixture.Create<string>();
 
@@ -357,6 +365,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var ex = Assert.ThrowsAsync<ArgumentException>(() => conversionApplicationCreationService.ApplicationSchoolTargetConversionDate(
 			applicationId,
 			urn,
+			targetDateDifferent,
 			targetDate,
 			targetDateExplained
 		));
