@@ -1,4 +1,5 @@
 ﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -114,8 +115,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			// TODO MR:- populate other props from API - not implemented 18/08/2022
-			//ChangeSchoolName = ;
+			var conversionChangeNamePlanned = selectedSchool.ConversionChangeNamePlanned.GetEnumValue();
+
+			if (conversionChangeNamePlanned.HasValue)
+			{
+				ChangeName = conversionChangeNamePlanned.Value;
+			}
+
+			ChangeSchoolName = selectedSchool.SchoolConversionProposedNewSchoolName;
 		}
 	}
 }
