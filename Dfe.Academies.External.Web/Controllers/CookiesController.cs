@@ -1,9 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Controllers;
 
 public class CookiesController : Controller
 {
+	[AllowAnonymous]
+	[HttpPost]
+	[Route(nameof(SetConsent))]
 	public IActionResult SetConsent(CookiesConsent cookies, string redirectPath, string returnUrl)
 	{
 		switch (cookies)
