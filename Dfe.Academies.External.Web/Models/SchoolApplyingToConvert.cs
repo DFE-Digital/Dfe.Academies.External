@@ -53,7 +53,7 @@ public class SchoolApplyingToConvert
 
 	//// ApplicationChangeSchoolName
 	public bool? ConversionChangeNamePlanned { get; set; }
-	public string ProposedNewSchoolName { get; set; }
+	public string SchoolConversionProposedNewSchoolName { get; set; }
 
 	//// ApplicationJoinTrustReasons 
 	public string ApplicationJoinTrustReason { get; set; }
