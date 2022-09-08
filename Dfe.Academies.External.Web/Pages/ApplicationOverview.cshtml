@@ -122,13 +122,14 @@
     }
 
     <div class="govuk-button-group">
-        @if (Model.UserHasSubmitApplicationRole)
-        {
-            <button data-prevent-double-click="true" class="govuk-button govuk-!-margin-top-6" data-module="govuk-button">
-                Review and Submit
-            </button>
-        }
-        <a asp-page="YourApplications" class="govuk-button govuk-button--warning" data-module="govuk-button">Cancel this application</a>
+        <span>@Model.UserHasSubmitApplicationRole</span>
+	    @if (Model.UserHasSubmitApplicationRole)
+	    {
+		    <button data-prevent-double-click="true" class="govuk-button govuk-!-margin-top-6" data-module="govuk-button">
+			    Review and Submit
+		    </button>
+	    }
+	    <a asp-page="YourApplications" class="govuk-button govuk-button--warning" data-module="govuk-button">Cancel this application</a>
     </div>
 </div>
 
