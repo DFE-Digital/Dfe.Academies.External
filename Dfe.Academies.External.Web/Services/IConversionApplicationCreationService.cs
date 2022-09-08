@@ -14,7 +14,7 @@ public interface IConversionApplicationCreationService
     Task ApplicationAddJoinTrustReasons(int applicationId, string applicationJoinTrustReason, int schoolUrn);
 
     Task ApplicationChangeSchoolNameAndReason(int applicationId, SelectOption changeName,
-	    string newSchoolName, int schoolUrn);
+	    string? newSchoolName, int schoolUrn);
 
     Task ApplicationSchoolTargetConversionDate(int applicationId, int schoolUrn, SelectOption targetDateDifferent, DateTime targetDate, string targetDateExplained);
 

@@ -151,7 +151,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 	///<inheritdoc/>
 	public async Task ApplicationChangeSchoolNameAndReason(int applicationId, SelectOption changeName,
-	    string newSchoolName, int schoolUrn)
+	    string? newSchoolName, int schoolUrn)
     {
 	    try
 	    {
