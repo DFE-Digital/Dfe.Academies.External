@@ -122,7 +122,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				ChangeName = conversionChangeNamePlanned.Value;
 			}
 
-			ChangeSchoolName = selectedSchool.SchoolConversionProposedNewSchoolName;
+			ChangeSchoolName = selectedSchool.ProposedNewSchoolName;
 		}
 	}
 }

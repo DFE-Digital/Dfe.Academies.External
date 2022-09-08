@@ -138,8 +138,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			heading5.Sections.Add(new(
 								SchoolConversionComponentSectionViewModel.NameOfSchoolChangingSectionName,
-								(!string.IsNullOrWhiteSpace(selectedSchool.SchoolConversionProposedNewSchoolName) ?
-									selectedSchool.SchoolConversionProposedNewSchoolName
+								(!string.IsNullOrWhiteSpace(selectedSchool.ProposedNewSchoolName) ?
+									selectedSchool.ProposedNewSchoolName
 									: QuestionAndAnswerConstants.NoAnswer)
 								)
 			);
