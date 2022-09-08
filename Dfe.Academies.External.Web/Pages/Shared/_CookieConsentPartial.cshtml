@@ -2,7 +2,7 @@
 
 @{
 	var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
-	var showBanner = !(consentFeature?.CanTrack ?? false);// && Context.Session.GetInt32("cookiesRejected") != 1;
+	var showBanner = !(consentFeature?.CanTrack ?? false) && Context.Session.GetInt32("cookiesRejected") != 1;
 }
 @if (showBanner)
 {
@@ -30,7 +30,7 @@
 						Reject analytics cookies
 					</button>
 				</form>
-				<a class="govuk-link" asp-controller="Cookies" asp-action="Index">View cookies</a>
+				<a class="govuk-link" asp-page="Cookies">View cookies</a>
 			</div>
 		</div>
 	</div>

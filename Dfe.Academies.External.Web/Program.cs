@@ -124,6 +124,11 @@ builder.Services.AddAcademisationApi(configuration);
 builder.Services.AddInternalServices();
 
 builder.Services.AddDistributedMemoryCache();
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+	options.CheckConsentNeeded = context => true;
+	options.MinimumSameSitePolicy = SameSiteMode.None;
+});
 builder.Services.AddSession(options =>
 	{
 		options.Cookie.HttpOnly = true;
@@ -167,5 +172,6 @@ app.MapRazorPages();
 app.MapControllers();
 
 app.UseSession();
+app.UseCookiePolicy();
 
 app.Run();
