@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using System;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
@@ -84,7 +85,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 			//// structure of JSON in body is having a 'contributors' prop - same as ConversionApplication() obj
 			// MR:- no response from Academies API - Just an OK
-			var result = await _resilientRequestProvider.PutAsync<ConversionApplication>(apiurl, application);
+			await _resilientRequestProvider.PutAsync(apiurl, application);
 		}
 		catch (Exception ex)
 	    {
@@ -111,8 +112,9 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			//schoolUpdating.ApplicationJoinTrustReason = applicationJoinTrustReason;
 
 			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<ConversionApplication>(apiurl, application);
-	    }
+			// MR:- no response from Academies API - Just an OK
+			// await _resilientRequestProvider.PutAsync(apiurl, application);
+		}
 		catch (Exception ex)
 	    {
 		    _logger.LogError("ConversionApplicationCreationService::ApplicationAddJoinTrustReasons::Exception - {Message}", ex.Message);
@@ -137,7 +139,8 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// application.Trust = new trust();
 
 			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<ConversionApplication>(apiurl, application);
+			// MR:- no response from Academies API - Just an OK
+			// await _resilientRequestProvider.PutAsync(apiurl, application);
 		}
 		catch (Exception ex)
 	    {
@@ -147,14 +150,20 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
     }
 
 	///<inheritdoc/>
-	public async Task ApplicationChangeSchoolNameAndReason(ConversionApplication application, SelectOption changeName,
-	    string changeSchoolNameReason, int schoolUrn)
+	public async Task ApplicationChangeSchoolNameAndReason(int applicationId, SelectOption changeName,
+	    string? newSchoolName, int schoolUrn)
     {
 	    try
 	    {
 			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
 			// to grab current application data
 			// before then patching ConversionApplication returned with data from application object
+			var application = await GetApplication(applicationId);
+
+			if (application.ApplicationId != applicationId)
+			{
+				throw new ArgumentException("Application not found");
+			}
 
 			//// baseaddress has a backslash at the end to be a valid URI !!!
 			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
@@ -162,12 +171,19 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 			// application can contain multiple schools so need to grab one being changed via linqage
 			var schoolUpdating = application.Schools.FirstOrDefault( s=> s.URN == schoolUrn);
-			//schoolUpdating.ProposedNewSchoolName
-			//schoolUpdating.ChangeSchoolNameReason = changeSchoolNameReason
 
-			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<ConversionApplication>(apiurl, application);
-		}
+			if (schoolUpdating == null)
+			{
+				throw new ArgumentException("School not found");
+			}
+
+			int enumValue = (int)changeName;
+			schoolUpdating.ConversionChangeNamePlanned = Convert.ToBoolean(enumValue);
+			schoolUpdating.ProposedNewSchoolName = newSchoolName;
+
+			// MR:- no response from Academies API - Just an OK
+			await _resilientRequestProvider.PutAsync(apiurl, application);
+	    }
 		catch (Exception ex)
 	    {
 		    _logger.LogError("ConversionApplicationCreationService::ApplicationChangeSchoolNameAndReason::Exception - {Message}", ex.Message);
@@ -202,8 +218,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 				throw new ArgumentException("School not found");
 			}
 
-			var enumValue = (int)targetDateDifferent;
-
+			int enumValue = (int)targetDateDifferent;
 			schoolUpdating.SchoolConversionTargetDateSpecified = Convert.ToBoolean(enumValue);
 			schoolUpdating.SchoolConversionTargetDate = targetDate;
 			schoolUpdating.SchoolConversionTargetDateExplained = targetDateExplained;
@@ -213,7 +228,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
 			// MR:- no response from Academies API - Just an OK
-			var result = await _resilientRequestProvider.PutAsync(apiurl, application);
+			await _resilientRequestProvider.PutAsync(apiurl, application);
 		}
 		catch (Exception ex)
 		{
@@ -250,7 +265,9 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			schoolUpdating.SchoolCapacityPublishedAdmissionsNumber = schoolCapacityPublishedAdmissionsNumber;
 
 			string apiUrl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
-			await _resilientRequestProvider.PutAsync<ConversionApplication>(apiUrl, application);
+
+			// MR:- no response from Academies API - Just an OK
+			await _resilientRequestProvider.PutAsync(apiUrl, application);
 		}
 		catch (Exception ex)
 	    {
@@ -282,7 +299,8 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// ETC.....
 
 			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<SchoolApplyingToConvert>(apiurl, application);
+			// MR:- no response from Academies API - Just an OK
+			// await _resilientRequestProvider.PutAsync(apiurl, application);
 		}
 		catch (Exception ex)
 	    {
@@ -312,7 +330,9 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			application.Schools.First(s => s.URN == schoolUrn).LandAndBuildings = schoolLandAndBuildings;
 			
 			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
-			await _resilientRequestProvider.PutAsync<ConversionApplication>(apiurl, application);
+
+			// MR:- no response from Academies API - Just an OK
+			await _resilientRequestProvider.PutAsync(apiurl, application);
 		}
 		catch (Exception ex)
 		{
@@ -347,7 +367,8 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			}
 
 			// TODO: wire up Academisation API / what object does a PUT return
-			// var result = await _resilientRequestProvider.PutAsync<SchoolApplyingToConvert>(apiurl, application);
+			// MR:- no response from Academies API - Just an OK
+			// await _resilientRequestProvider.PutAsync(apiurl, application);
 		}
 		catch (Exception ex)
 		{

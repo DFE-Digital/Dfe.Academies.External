@@ -67,14 +67,22 @@ namespace Dfe.Academies.External.Web.Pages.School
 			SchoolName = selectedSchool.SchoolName;
 
 			SchoolConversionComponentHeadingViewModel heading1 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationSchool,
-																		"/school/ApplicationSelectSchool");
+																		"/school/ApplicationSelectSchool")
+			{
+				Status = selectedSchool.URN !=0 ?
+					SchoolConversionComponentStatus.Complete
+					: SchoolConversionComponentStatus.NotStarted
+			};
 
-			// TODO MR:- for answer, consume QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
-			// OR data from API
-			heading1.Sections.Add(new (SchoolConversionComponentSectionViewModel.NameOfSchoolSectionName, "TBC"));
+			heading1.Sections.Add(
+				new (SchoolConversionComponentSectionViewModel.NameOfSchoolSectionName,
+					SchoolName));
 
+			// TODO MR:- set status similar to above
 			SchoolConversionComponentHeadingViewModel heading2 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationContactDetails,
 				"/school/SchoolMainContacts");
+
+			// TODO MR:- set from API data
 			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherNameSectionName, "TBC"));
 			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherEmailSectionName, "TBC"));
 			heading2.Sections.Add(new(SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherTelNoSectionName, "TBC"));
@@ -115,14 +123,26 @@ namespace Dfe.Academies.External.Web.Pages.School
 					}
 				});
 
-			// TODO MR:- QuestionAndAnswerConstants.NoInfoAnswer
+			// TODO MR:- ApplicationJoinTrustReasons not in API yet - 08/09/2022
 			SchoolConversionComponentHeadingViewModel heading4 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationJoinTrustReason,
 				"/school/ApplicationJoinTrustReasons");
 			heading4.Sections.Add(new(SchoolConversionComponentSectionViewModel.ReasonsForJoiningTrustSectionName, "TBC"));
 
 			SchoolConversionComponentHeadingViewModel heading5 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationSchoolNameChange,
-				"/school/ApplicationChangeSchoolName");
-			heading5.Sections.Add(new(SchoolConversionComponentSectionViewModel.NameOfSchoolChangingSectionName, "TBC"));
+				"/school/ApplicationChangeSchoolName")
+			{
+				Status = selectedSchool.ConversionChangeNamePlanned.HasValue ?
+					SchoolConversionComponentStatus.Complete
+					: SchoolConversionComponentStatus.NotStarted
+			};
+
+			heading5.Sections.Add(new(
+								SchoolConversionComponentSectionViewModel.NameOfSchoolChangingSectionName,
+								(!string.IsNullOrWhiteSpace(selectedSchool.ProposedNewSchoolName) ?
+									selectedSchool.ProposedNewSchoolName
+									: QuestionAndAnswerConstants.NoAnswer)
+								)
+			);
 
 			var vm = new List<SchoolConversionComponentHeadingViewModel> { heading1, heading2, heading3, heading4, heading5 };
 

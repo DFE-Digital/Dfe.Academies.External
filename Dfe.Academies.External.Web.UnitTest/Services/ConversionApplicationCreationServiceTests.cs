@@ -228,9 +228,69 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 	// TODO MR:- AddTrustToApplication - ApiReturns500___InternalServerError()
 
-	// TODO MR:- ApplicationChangeSchoolNameAndReason - ApiReturns200___Ok()
+	[Test]
+	public async Task ApplicationChangeSchoolNameAndReason___ApiReturns200___Ok()
+	{
+		// arrange
+		int applicationId = 1; // hard coded because has to be same as example JSON
+		int urn = 141992; // hard coded because has to be same as example JSON
+		SelectOption changeName = SelectOption.Yes;
+		string changeSchoolName = Fixture.Create<string>();
 
-	// TODO MR:- ApplicationChangeSchoolNameAndReason - ApiReturns500___InternalServerError()
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.ApplicationChangeSchoolNameAndReason(
+			applicationId,
+			changeName,
+			changeSchoolName,
+			urn
+		));
+	}
+
+	[Test]
+	public async Task ApplicationChangeSchoolNameAndReason___ApiReturns500___InternalServerError()
+	{
+		// arrange
+		int applicationId = 1; // hard coded because has to be same as example JSON
+		int urn = 141992; // hard coded because has to be same as example JSON
+		SelectOption changeName = SelectOption.Yes;
+		string changeSchoolName = Fixture.Create<string>();
+
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationChangeSchoolNameAndReason(
+			applicationId,
+			changeName,
+			changeSchoolName,
+			urn
+		));
+	}
 
 	[Test]
 	public async Task ApplicationSchoolTargetConversionDate___ApiReturns200___Ok()

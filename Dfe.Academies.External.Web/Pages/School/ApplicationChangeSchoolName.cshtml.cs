@@ -1,4 +1,5 @@
 ﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -93,7 +94,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 				// MR:- save away ApplicationJoinTrustReason
-				await _academisationCreationService.ApplicationChangeSchoolNameAndReason(draftConversionApplication, ChangeName, ChangeSchoolName, Urn);
+				await _academisationCreationService.ApplicationChangeSchoolNameAndReason(ApplicationId, ChangeName, ChangeSchoolName, Urn);
 
 				// update temp store for next step - application overview as last step in process
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -114,8 +115,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			// TODO MR:- populate other props from API - not implemented 18/08/2022
-			//ChangeSchoolName = ;
+			var conversionChangeNamePlanned = selectedSchool.ConversionChangeNamePlanned.GetEnumValue();
+
+			if (conversionChangeNamePlanned.HasValue)
+			{
+				ChangeName = conversionChangeNamePlanned.Value;
+			}
+
+			ChangeSchoolName = selectedSchool.ProposedNewSchoolName;
 		}
 	}
 }
