@@ -1,4 +1,5 @@
 ﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -116,24 +117,24 @@ namespace Dfe.Academies.External.Web.Pages.School
 			    PopulateValidationMessages();
 			    return Page();
 			}
-
-			if (ViewModel.ContactRole == MainConversionContact.Other)
+		    
+			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherName))
 			{
-				if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherName))
-				{
-					ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide details");
-				}
+				ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return Page();
+			}
 
-				if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
-				{
-					ModelState.AddModelError("MainContactOtherEmailNotEntered", "You must provide details");
-				}
+			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
+			{
+				ModelState.AddModelError("MainContactOtherEmailNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return Page();
+			}
 
-				if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherTelephone))
-				{
-					ModelState.AddModelError("MainContactOtherTelephoneNotEntered", "You must provide details");
-				}
-
+			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherTelephone))
+			{
+				ModelState.AddModelError("MainContactOtherTelephoneNotEntered", "You must provide details");
 				PopulateValidationMessages();
 				return Page();
 			}
@@ -147,7 +148,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				    ViewModel.ContactChairName, ViewModel.ContactChairEmail, ViewModel.ContactChairTel,
 				    ViewModel.ContactRole, 
 				    ViewModel.MainContactOtherName, ViewModel.MainContactOtherEmail, ViewModel.MainContactOtherTelephone,
-				    ViewModel.ApproverContactName, ViewModel.ApproverContactName);
+				    ViewModel.ApproverContactName, ViewModel.ApproverContactEmail);
 
 			    await _academisationCreationService.ApplicationSchoolContacts(contactDetails, ApplicationId);
 
@@ -180,7 +181,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 					ContactChairName = selectedSchool.SchoolConversionContactChairName,
 					ContactChairEmail = selectedSchool.SchoolConversionContactChairEmail,
 					ContactChairTel = selectedSchool.SchoolConversionContactChairTel,
-					//ContactRole = what is coming back / stored in API?
+					ContactRole = !string.IsNullOrEmpty(selectedSchool.SchoolConversionContactRole) ? selectedSchool.SchoolConversionContactRole.ToEnum<MainConversionContact>() : 0,
 					MainContactOtherName = selectedSchool.SchoolConversionMainContactOtherName,
 					MainContactOtherEmail = selectedSchool.SchoolConversionMainContactOtherEmail,
 					MainContactOtherTelephone = selectedSchool.SchoolConversionMainContactOtherTelephone,

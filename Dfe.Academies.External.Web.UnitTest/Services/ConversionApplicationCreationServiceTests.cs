@@ -603,15 +603,108 @@ internal sealed class ConversionApplicationCreationServiceTests
 			pan
 		));
 	}
+	
+	
+	/// <summary>
+	/// call school contacts endpoint and mock HttpStatusCode.InternalServerError
+	/// </summary>
+	[Test]
+	public async Task ApplicationSchoolContacts__ApiReturns500___InternalServerError()
+	{
+		// arrange
+		int applicationId = 1;
+		int schoolUrn = 141992;
+
+		var schoolContacts = new ApplicationSchoolContacts(
+			applicationId,
+			schoolUrn,
+			"Test Head",
+			"head@email.com",
+			"1234567890",
+			"Test Chair",
+			"chair@email.com",
+			"1234567890",
+			MainConversionContact.HeadTeacher, // "headteacher", "chair of governing body", "someone else"
+			null,
+			null,
+			null,
+			"Test Approver",
+			"approver@email.com");
+		
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationSchoolContacts(
+			schoolContacts,
+			applicationId
+		));
+	}
 
 	// TODO MR:- ApplicationPreOpeningSupportGrantUpdate - ApiReturns200___Ok()
 
 	// TODO MR:- ApplicationPreOpeningSupportGrantUpdate - ApiReturns500___InternalServerError()
 	
-	// TODO MR:- ApplicationSchoolContacts - ApiReturns200___Ok()
+	
+	/// <summary>
+	/// call school contacts endpoint and mock HttpStatusCode.Created
+	/// </summary>
+	[Test]
+	public async Task ApplicationSchoolContacts___ApiReturns200___Ok()
+	{
+		// arrange
+		int applicationId = 1;
+		int schoolUrn = 141992;
 
-	// TODO MR:- ApplicationSchoolContacts - ApiReturns500___InternalServerError()
+		var schoolContacts = new ApplicationSchoolContacts(
+			applicationId,
+			schoolUrn,
+			"Test Head",
+			"head@email.com",
+			"1234567890",
+			"Test Chair",
+			"chair@email.com",
+			"1234567890",
+			MainConversionContact.Other, // "headteacher", "chair of governing body", "someone else"
+			"Other contact",
+			"other@email.com",
+			"1234567890",
+			"Test Approver",
+			"approver@email.com");
+		
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.ApplicationSchoolContacts(
+			schoolContacts,
+			applicationId
+		));
+	}
+	
+	
 	//public async Task UpdateDraftApplication___OtherRole___Success()
 	//{
 	//    // arrange
