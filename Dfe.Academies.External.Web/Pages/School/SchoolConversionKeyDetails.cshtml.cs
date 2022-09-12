@@ -121,7 +121,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				new(
 					SchoolConversionComponentSectionViewModel.ContactDetailsMainContactRoleSectionName, selectedSchool.SchoolConversionContactRole ?? QuestionAndAnswerConstants.NoAnswer )
 				);
-			if (!string.IsNullOrEmpty(selectedSchool.SchoolConversionContactRole) && selectedSchool.SchoolConversionContactRole.Equals(MainConversionContact.Other.ToString()))
+			if (!string.IsNullOrEmpty(selectedSchool.SchoolConversionContactRole) && selectedSchool.SchoolConversionContactRole.Equals(MainConversionContact.Other.GetDescription()))
 			{
 				heading2.Sections.Add(
 					new(
