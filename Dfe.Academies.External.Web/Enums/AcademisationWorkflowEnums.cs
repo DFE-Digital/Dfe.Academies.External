@@ -93,7 +93,19 @@ public enum ApplicationStatus
 
 public enum EqualityImpact
 {
+	[Description("Considered likely")]
 	ConsideredUnlikely,
+	[Description("Considered will not")]
 	ConsideredWillNot,
+	[Description("Not considered")]
 	NotConsidered
 }
+
+public enum RevenueType
+{
+	[Description("Surplus")]
+	Surplus = 1,
+	[Description("Deficit")]
+	Deficit = 2
+}
+
