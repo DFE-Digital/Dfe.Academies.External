@@ -14,40 +14,40 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages;
 [Parallelizable(ParallelScope.All)]
 internal sealed class HomeModelTests
 {
-    [Test]
-    public void OnGetAsync___Valid___NullErrors()
-    {
-        // arrange
-        var mockConversionApplicationsService = new Mock<IConversionApplicationRetrievalService>();
+	[Test]
+	public void OnGetAsync___Valid___NullErrors()
+	{
+		// arrange
+		var mockConversionApplicationsService = new Mock<IConversionApplicationRetrievalService>();
 		var mockLogger = new Mock<ILogger<HomeModel>>();
 
 		var pageModel = SetupHomeModel(mockLogger.Object, mockConversionApplicationsService.Object);
 
-        // act
-        pageModel.OnGet();
+		// act
+		pageModel.OnGet();
 
-        // assert
-        Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
-    }
+		// assert
+		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
+	}
 
-    // TODO MR:- OnPostAsync___ModelIsValid___Invalid
-    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
+	// TODO MR:- OnPostAsync___ModelIsValid___Invalid
+	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
-    // TODO MR:- OnPostAsync___ModelIsValid___Valid
-    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
+	// TODO MR:- OnPostAsync___ModelIsValid___Valid
+	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static HomeModel SetupHomeModel(
-	    ILogger<HomeModel> mockLogger, IConversionApplicationRetrievalService mockConversionApplicationsService, bool isAuthenticated = false)
-    {
-        (PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
+		ILogger<HomeModel> mockLogger, IConversionApplicationRetrievalService mockConversionApplicationsService, bool isAuthenticated = false)
+	{
+		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-        return new HomeModel(mockConversionApplicationsService, mockLogger)
-        {
-            PageContext = pageContext,
-            TempData = tempData,
-            Url = new UrlHelper(actionContext),
-            MetadataProvider = pageContext.ViewData.ModelMetadata
-        };
-    }
+		return new HomeModel(mockConversionApplicationsService, mockLogger)
+		{
+			PageContext = pageContext,
+			TempData = tempData,
+			Url = new UrlHelper(actionContext),
+			MetadataProvider = pageContext.ViewData.ModelMetadata
+		};
+	}
 }
 

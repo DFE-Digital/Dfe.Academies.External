@@ -10,9 +10,9 @@ public sealed class ApplicationComponentViewModel
 		URI = uri;
 	}
 
-    public string Name { get; set; }
+	public string Name { get; set; }
 
-    public string URI { get; set; }
+	public string URI { get; set; }
 
-    public Status Status { get; set; }
+	public Status Status { get; set; }
 }

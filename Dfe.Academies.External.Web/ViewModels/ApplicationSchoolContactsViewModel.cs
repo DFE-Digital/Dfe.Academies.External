@@ -1,6 +1,6 @@
-﻿using Dfe.Academies.External.Web.Attributes;
+﻿using System.ComponentModel.DataAnnotations;
+using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.Academies.External.Web.ViewModels;
 
@@ -11,7 +11,7 @@ public sealed class ApplicationSchoolContactsViewModel
 	/// </summary>
 	public ApplicationSchoolContactsViewModel()
 	{
-		
+
 	}
 
 	public ApplicationSchoolContactsViewModel(int applicationId, int urn)
@@ -32,14 +32,14 @@ public sealed class ApplicationSchoolContactsViewModel
 	[Required(ErrorMessage = "You must provide details")]
 	public string ContactHeadEmail { get; set; }
 
-    [Phone] // TODO MR:- what kind of phone validation?
+	[Phone] // TODO MR:- what kind of phone validation?
 	[Required(ErrorMessage = "You must provide a number")]
 	public string ContactHeadTel { get; set; }
 
 	[Required(ErrorMessage = "You must provide details")]
 	public string ContactChairName { get; set; }
 
-    [EmailAddress]
+	[EmailAddress]
 	[Required(ErrorMessage = "You must provide details")]
 	public string ContactChairEmail { get; set; }
 

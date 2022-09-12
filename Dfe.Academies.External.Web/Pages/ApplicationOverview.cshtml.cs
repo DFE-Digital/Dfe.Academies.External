@@ -7,112 +7,112 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages
 {
-    public class ApplicationOverviewModel : BasePageEditModel
-    {
-        private readonly ILogger<ApplicationOverviewModel> _logger;
-        private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
+	public class ApplicationOverviewModel : BasePageEditModel
+	{
+		private readonly ILogger<ApplicationOverviewModel> _logger;
+		private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
 
 		public int ApplicationId { get; private set; }
 
-        // Below are props for UI display, shunt over to separate view model?
-        public ApplicationTypes ApplicationType { get; private set; }
+		// Below are props for UI display, shunt over to separate view model?
+		public ApplicationTypes ApplicationType { get; private set; }
 
-        public string ApplicationReferenceNumber { get; private set; } = string.Empty;
+		public string ApplicationReferenceNumber { get; private set; } = string.Empty;
 
-        public short CompletedSections { get; private set; }
+		public short CompletedSections { get; private set; }
 
-        public short TotalNumberOfSections => 8;
+		public short TotalNumberOfSections => 8;
 
-        public List<SchoolApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; private set; } = new();
+		public List<SchoolApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; private set; } = new();
 
-        public string? NameOfTrustToJoin { get; private set; } 
+		public string? NameOfTrustToJoin { get; private set; }
 
-        // overall application status
-        public string ApplicationStatus { get; private set; } = string.Empty;
+		// overall application status
+		public string ApplicationStatus { get; private set; } = string.Empty;
 
-        public Status ConversionStatus { get; private set; }
+		public Status ConversionStatus { get; private set; }
 
-        public string SchoolHeaderText { get; private set; } = string.Empty;
+		public string SchoolHeaderText { get; private set; } = string.Empty;
 
-        /// <summary>
-        /// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
-        /// </summary>
-        public string? SchoolName { get; private set; }
+		/// <summary>
+		/// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
+		/// </summary>
+		public string? SchoolName { get; private set; }
 
-        public string TrustHeaderText  { get; private set; } = string.Empty;
+		public string TrustHeaderText { get; private set; } = string.Empty;
 
-        /// <summary>
-        /// Always have a trust conversion status whether Join a MAT or form a MAT !!
-        /// </summary>
-        public Status TrustConversionStatus { get; private set; }
+		/// <summary>
+		/// Always have a trust conversion status whether Join a MAT or form a MAT !!
+		/// </summary>
+		public Status TrustConversionStatus { get; private set; }
 
-        /// <summary>
-        /// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
-        /// </summary>
-        public SchoolComponentsViewModel SchoolComponents { get; private set; } = new();
+		/// <summary>
+		/// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
+		/// </summary>
+		public SchoolComponentsViewModel SchoolComponents { get; private set; } = new();
 
-        public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger, 
+		public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger,
 										IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 										IReferenceDataRetrievalService referenceDataRetrievalService
-        ) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-        {
-            _logger = logger;
-            _conversionApplicationRetrievalService = conversionApplicationRetrievalService;
-        }
+		) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+		{
+			_logger = logger;
+			_conversionApplicationRetrievalService = conversionApplicationRetrievalService;
+		}
 
-        public async Task OnGetAsync(int appId)
-        {
-	        try
-	        {
-		        //// on load - grab draft application from temp
-		        var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
+		public async Task OnGetAsync(int appId)
+		{
+			try
+			{
+				//// on load - grab draft application from temp
+				var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
 
-		        if (draftConversionApplication != null)
-                {
-	                var school = draftConversionApplication.Schools.FirstOrDefault();
+				if (draftConversionApplication != null)
+				{
+					var school = draftConversionApplication.Schools.FirstOrDefault();
 
-	                if (school != null)
-	                {
-		                school.SchoolApplicationComponents =
-			                await _conversionApplicationRetrievalService.GetSchoolApplicationComponents(appId, school.URN);
-                    }
+					if (school != null)
+					{
+						school.SchoolApplicationComponents =
+							await _conversionApplicationRetrievalService.GetSchoolApplicationComponents(appId, school.URN);
+					}
 
-	                PopulateUiModel(draftConversionApplication, school);
-                }
-	        }
-	        catch (Exception ex)
-	        {
-		        _logger.LogError("Application::ApplicationOverviewModel::OnGetAsync::Exception - {Message}", ex.Message);
-	        }
-        }
+					PopulateUiModel(draftConversionApplication, school);
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("Application::ApplicationOverviewModel::OnGetAsync::Exception - {Message}", ex.Message);
+			}
+		}
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-	        // update temp store for next page
-            return RedirectToPage("/SchoolOverview");
-        }
+		public async Task<IActionResult> OnPostAsync()
+		{
+			// update temp store for next page
+			return RedirectToPage("/SchoolOverview");
+		}
 
-        private void PopulateUiModel(ConversionApplication? conversionApplication, SchoolApplyingToConvert? school)
-        {
-	        if (conversionApplication != null)
-	        {
-		        ApplicationId = conversionApplication.ApplicationId;
-                ApplicationType = conversionApplication.ApplicationType;
-		        ApplicationReferenceNumber = conversionApplication.ApplicationReference;
-		        CompletedSections = 0; // TODO MR:- what logic drives this !
-		        ApplicationStatus = "incomplete"; // TODO MR:- what logic drives this !
-		        ConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
-		        SchoolOrSchoolsApplyingToConvert = conversionApplication.Schools;
-		        NameOfTrustToJoin = conversionApplication.TrustName;
+		private void PopulateUiModel(ConversionApplication? conversionApplication, SchoolApplyingToConvert? school)
+		{
+			if (conversionApplication != null)
+			{
+				ApplicationId = conversionApplication.ApplicationId;
+				ApplicationType = conversionApplication.ApplicationType;
+				ApplicationReferenceNumber = conversionApplication.ApplicationReference;
+				CompletedSections = 0; // TODO MR:- what logic drives this !
+				ApplicationStatus = "incomplete"; // TODO MR:- what logic drives this !
+				ConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
+				SchoolOrSchoolsApplyingToConvert = conversionApplication.Schools;
+				NameOfTrustToJoin = conversionApplication.TrustName;
 
-		        if (conversionApplication.ApplicationType == ApplicationTypes.FormAMat)
-		        {
-			        TrustHeaderText = "The trust being formed";
-                    SchoolHeaderText = "The schools applying to convert";
-			        TrustConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
-                }
-		        else
-		        {
+				if (conversionApplication.ApplicationType == ApplicationTypes.FormAMat)
+				{
+					TrustHeaderText = "The trust being formed";
+					SchoolHeaderText = "The schools applying to convert";
+					TrustConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
+				}
+				else
+				{
 					TrustHeaderText = "The trust the school will join";
 					SchoolHeaderText = "The school applying to convert";
 					SchoolName = school?.SchoolName;
@@ -127,31 +127,31 @@ namespace Dfe.Academies.External.Web.Pages
 					//  When = e.DateCreated,
 					//  Who = e.CreatedBy
 					// }).ToList();
-                }
+				}
 
-		        // Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
-		        if (school != null)
-		        {
-			        SchoolComponentsViewModel componentsVm = new() 
-			        {
-				        URN = school.URN,
-				        ApplicationId = conversionApplication.ApplicationId,
-				        SchoolComponents = school.SchoolApplicationComponents.Select(c =>
-					        new ApplicationComponentViewModel(name: c.Name,
-						        uri: SetSchoolApplicationComponentUriFromName(c.Name))
-					        {
-						        Status = c.Status
-					        }).ToList()
-			        };
+				// Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
+				if (school != null)
+				{
+					SchoolComponentsViewModel componentsVm = new()
+					{
+						URN = school.URN,
+						ApplicationId = conversionApplication.ApplicationId,
+						SchoolComponents = school.SchoolApplicationComponents.Select(c =>
+							new ApplicationComponentViewModel(name: c.Name,
+								uri: SetSchoolApplicationComponentUriFromName(c.Name))
+							{
+								Status = c.Status
+							}).ToList()
+					};
 
-			        SchoolComponents = componentsVm;
-		        }
-	        }
-        }
-
-        public override void PopulateValidationMessages()
-        {
-	        PopulateViewDataErrorsWithModelStateErrors();
+					SchoolComponents = componentsVm;
+				}
+			}
 		}
-    }
+
+		public override void PopulateValidationMessages()
+		{
+			PopulateViewDataErrorsWithModelStateErrors();
+		}
+	}
 }

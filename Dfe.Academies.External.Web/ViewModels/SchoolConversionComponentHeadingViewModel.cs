@@ -1,6 +1,6 @@
 ﻿namespace Dfe.Academies.External.Web.ViewModels;
 
-public sealed class SchoolConversionComponentHeadingViewModel: SchoolQuestionAndAnswerSectionViewModel
+public sealed class SchoolConversionComponentHeadingViewModel : SchoolQuestionAndAnswerSectionViewModel
 {
 	public const string HeadingApplicationSchool = "The school joining the trust";
 	public const string HeadingApplicationContactDetails = "Contact details";

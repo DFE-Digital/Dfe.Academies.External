@@ -16,7 +16,7 @@ internal sealed class SchoolsSearchDtoTests
 		string urn = Fixture.Create<string>();
 		string ukprn = Fixture.Create<string>();
 
-		var schoolSearch = new SchoolsSearchDto(urn, schoolName , ukprn);
+		var schoolSearch = new SchoolsSearchDto(urn, schoolName, ukprn);
 
 		// act
 		// nothing!

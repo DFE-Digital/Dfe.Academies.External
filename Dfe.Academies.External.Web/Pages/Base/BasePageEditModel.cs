@@ -47,7 +47,7 @@ public abstract class BasePageEditModel : BasePageModel
 		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 	}
 
-	public Dictionary<string,string> RetrieveDateTimeComponentsFromDatePicker(IFormCollection form, string formControlName)
+	public Dictionary<string, string> RetrieveDateTimeComponentsFromDatePicker(IFormCollection form, string formControlName)
 	{
 		form.TryGetValue($"{formControlName}-day", out StringValues day);
 		form.TryGetValue($"{formControlName}-month", out StringValues month);
@@ -94,7 +94,7 @@ public abstract class BasePageEditModel : BasePageModel
 	{
 		if (schoolDetails != null)
 		{
-			return new SchoolApplyingToConvert(schoolDetails.EstablishmentName, Convert.ToInt32(schoolDetails.Urn),schoolDetails.UPRN);
+			return new SchoolApplyingToConvert(schoolDetails.EstablishmentName, Convert.ToInt32(schoolDetails.Urn), schoolDetails.UPRN);
 		}
 		else
 		{

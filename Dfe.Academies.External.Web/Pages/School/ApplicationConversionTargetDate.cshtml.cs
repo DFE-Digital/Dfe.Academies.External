@@ -9,20 +9,20 @@ using Microsoft.AspNetCore.Mvc;
 namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class ApplicationConversionTargetDateModel : BasePageEditModel
-    {
-	    private readonly ILogger<ApplicationConversionTargetDateModel> _logger;
-	    private readonly IConversionApplicationCreationService _academisationCreationService;
-	    private const string NextStepPage = "ApplicationJoinTrustReasons";
-	    public string SchoolConversionTargetDateDate = "sip_ctddiferentdatevalue";
+	{
+		private readonly ILogger<ApplicationConversionTargetDateModel> _logger;
+		private readonly IConversionApplicationCreationService _academisationCreationService;
+		private const string NextStepPage = "ApplicationJoinTrustReasons";
+		public string SchoolConversionTargetDateDate = "sip_ctddiferentdatevalue";
 
 		//// MR:- selected school props for UI rendering
 		[BindProperty]
-	    public int ApplicationId { get; set; }
+		public int ApplicationId { get; set; }
 
-	    [BindProperty]
-	    public int Urn { get; set; }
+		[BindProperty]
+		public int Urn { get; set; }
 
-	    public string SchoolName { get; private set; } = string.Empty;
+		public string SchoolName { get; private set; } = string.Empty;
 
 		//// MR:- VM props to capture data
 
@@ -49,7 +49,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public string? TargetDateExplained { get; set; }
 
-		public bool HasError {
+		public bool HasError
+		{
 			get
 			{
 				var bools = new[] { SchoolConversionTargetDateError, TargetDateExplainedError };

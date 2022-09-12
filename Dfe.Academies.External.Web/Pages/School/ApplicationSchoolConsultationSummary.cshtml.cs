@@ -1,12 +1,12 @@
 ﻿using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
-using Microsoft.AspNetCore.Mvc;
 using Dfe.Academies.External.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-    public class ApplicationSchoolConsultationModelSummary : BasePageEditModel
+	public class ApplicationSchoolConsultationModelSummary : BasePageEditModel
 	{
 		private readonly ILogger<ApplicationSchoolConsultationModelSummary> _logger;
 

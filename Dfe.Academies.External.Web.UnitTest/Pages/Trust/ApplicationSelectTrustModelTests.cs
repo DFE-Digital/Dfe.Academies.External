@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Pages.Trust;
+﻿using System.Threading.Tasks;
+using Dfe.Academies.External.Web.Pages.Trust;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using System.Threading.Tasks;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.Trust;
 
@@ -42,116 +42,116 @@ public class ApplicationSelectTrustModelTests
 	}
 
 	[Test]
-    public async Task SearchQuery___Valid__SelectedUrnValid()
-    {
-        // arrange
-        var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
-        var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
-        var mockLogger = new Mock<ILogger<ApplicationSelectTrustModel>>();
+	public async Task SearchQuery___Valid__SelectedUrnValid()
+	{
+		// arrange
+		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockLogger = new Mock<ILogger<ApplicationSelectTrustModel>>();
 
-        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
-        // act
-        var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
-        TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
+		// act
+		var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
+		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
-        // act
-        await pageModel.OnGetAsync();
+		// act
+		await pageModel.OnGetAsync();
 
-        pageModel.SearchQuery = "Wise Owl primary school (587634)";
+		pageModel.SearchQuery = "Wise Owl primary school (587634)";
 
-        // assert
-        Assert.That(pageModel.SelectedUkPrn, Is.EqualTo(587634));
-    }
+		// assert
+		Assert.That(pageModel.SelectedUkPrn, Is.EqualTo(587634));
+	}
 
-    [Test]
-    public async Task SearchQuery___Empty___SelectedUrnZero()
-    {
-        // arrange
-        var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
-        var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
-        var mockLogger = new Mock<ILogger<ApplicationSelectTrustModel>>();
+	[Test]
+	public async Task SearchQuery___Empty___SelectedUrnZero()
+	{
+		// arrange
+		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockLogger = new Mock<ILogger<ApplicationSelectTrustModel>>();
 
-        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
-        // act
-        var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
-        TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
+		// act
+		var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
+		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
-        // act
-        await pageModel.OnGetAsync();
+		// act
+		await pageModel.OnGetAsync();
 
-        pageModel.SearchQuery = "";
+		pageModel.SearchQuery = "";
 
-        // assert
-        Assert.That(pageModel.SelectedUkPrn, Is.EqualTo(0));
-    }
+		// assert
+		Assert.That(pageModel.SelectedUkPrn, Is.EqualTo(0));
+	}
 
-    [Test]
-    public async Task SearchQuery___Valid___SelectedTrustNameNotEmpty()
-    {
-        // arrange
-        var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
-        var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
-        var mockLogger = new Mock<ILogger<ApplicationSelectTrustModel>>();
+	[Test]
+	public async Task SearchQuery___Valid___SelectedTrustNameNotEmpty()
+	{
+		// arrange
+		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockLogger = new Mock<ILogger<ApplicationSelectTrustModel>>();
 
-        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
-        // act
-        var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
-        TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
+		// act
+		var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
+		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
-        // act
-        await pageModel.OnGetAsync();
+		// act
+		await pageModel.OnGetAsync();
 
-        pageModel.SearchQuery = "Wise Owl primary school (587634)";
+		pageModel.SearchQuery = "Wise Owl primary school (587634)";
 
-        // assert
-        Assert.That(pageModel.SelectedTrustName, Is.EqualTo("Wise Owl primary school"));
-    }
+		// assert
+		Assert.That(pageModel.SelectedTrustName, Is.EqualTo("Wise Owl primary school"));
+	}
 
-    [Test]
-    public async Task SearchQuery___Empty__SelectedTrustNameEmpty()
-    {
-        // arrange
-        var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
-        var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
-        var mockLogger = new Mock<ILogger<ApplicationSelectTrustModel>>();
+	[Test]
+	public async Task SearchQuery___Empty__SelectedTrustNameEmpty()
+	{
+		// arrange
+		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockLogger = new Mock<ILogger<ApplicationSelectTrustModel>>();
 
-        var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
-        // act
-        var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
-        TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
+		// act
+		var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
+		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
-        // act
-        await pageModel.OnGetAsync();
+		// act
+		await pageModel.OnGetAsync();
 
-        pageModel.SearchQuery = "";
+		pageModel.SearchQuery = "";
 
-        // assert
-        Assert.That(pageModel.SelectedTrustName, Is.EqualTo(""));
-    }
+		// assert
+		Assert.That(pageModel.SelectedTrustName, Is.EqualTo(""));
+	}
 
-    // TODO MR:- OnPostAsync___ModelIsValid___Invalid
-    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
+	// TODO MR:- OnPostAsync___ModelIsValid___Invalid
+	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
-    // TODO MR:- OnPostAsync___ModelIsValid___Valid
-    // when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
+	// TODO MR:- OnPostAsync___ModelIsValid___Valid
+	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static ApplicationSelectTrustModel SetupApplicationSelectSchoolModel(
-        ILogger<ApplicationSelectTrustModel> mockLogger,
-        IConversionApplicationCreationService mockConversionApplicationCreationService,
-        bool isAuthenticated = false)
-    {
-        (PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
+		ILogger<ApplicationSelectTrustModel> mockLogger,
+		IConversionApplicationCreationService mockConversionApplicationCreationService,
+		bool isAuthenticated = false)
+	{
+		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-        return new ApplicationSelectTrustModel(mockLogger, mockConversionApplicationCreationService)
-        {
-            PageContext = pageContext,
-            TempData = tempData,
-            Url = new UrlHelper(actionContext),
-            MetadataProvider = pageContext.ViewData.ModelMetadata
-        };
-    }
+		return new ApplicationSelectTrustModel(mockLogger, mockConversionApplicationCreationService)
+		{
+			PageContext = pageContext,
+			TempData = tempData,
+			Url = new UrlHelper(actionContext),
+			MetadataProvider = pageContext.ViewData.ModelMetadata
+		};
+	}
 }

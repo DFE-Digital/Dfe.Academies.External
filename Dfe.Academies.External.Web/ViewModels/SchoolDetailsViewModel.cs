@@ -31,7 +31,7 @@ public class SchoolDetailsViewModel
 	/// e.g. 7083
 	/// </summary>
 	public string? EstablishmentNumber { get; set; }
-	
+
 	// registered address
 	public string Street { get; set; }
 

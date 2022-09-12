@@ -22,10 +22,10 @@ internal sealed class EstablishmentResponseTests
 		string street = Fixture.Create<string>();
 		string town = Fixture.Create<string>();
 		string fullUkPostcode = Fixture.Create<string>();
-		
-		AddressResponse address = new (street, town, fullUkPostcode);
 
-		var establishmentResponse = new EstablishmentResponse(urn,establishmentNumber, schoolName, ukprn, uprn, address);
+		AddressResponse address = new(street, town, fullUkPostcode);
+
+		var establishmentResponse = new EstablishmentResponse(urn, establishmentNumber, schoolName, ukprn, uprn, address);
 
 		// act
 		// nothing!

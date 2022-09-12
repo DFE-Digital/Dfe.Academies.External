@@ -8,26 +8,26 @@ public class SchoolLoan
 		Provider = provider;
 	}
 
-    public int Id { get; set; }
+	public int Id { get; set; }
 
-    public int SchoolId { get; set; }
+	public int SchoolId { get; set; }
 
-    //// MR:- below props from A2C-SIP - SchoolLoan object
-    
-    public decimal? Amount { get; set; }
+	//// MR:- below props from A2C-SIP - SchoolLoan object
 
-    public string Purpose { get; set; }
+	public decimal? Amount { get; set; }
 
-    public string Provider { get; set; }
+	public string Purpose { get; set; }
 
-    public decimal? InterestRate { get; set; }
+	public string Provider { get; set; }
 
-    public string? Schedule { get; set; }
+	public decimal? InterestRate { get; set; }
 
-    public DateTime? EndDate { get; set; }
-    
-    /// <summary>
-    /// months or years ?
-    /// </summary>
-    public short LeaseTerm { get; set; }
+	public string? Schedule { get; set; }
+
+	public DateTime? EndDate { get; set; }
+
+	/// <summary>
+	/// months or years ?
+	/// </summary>
+	public short LeaseTerm { get; set; }
 }

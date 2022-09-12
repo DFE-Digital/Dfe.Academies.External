@@ -8,19 +8,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-    public class SchoolMainContactsModel : BasePageEditModel
+	public class SchoolMainContactsModel : BasePageEditModel
 	{
-	    private readonly ILogger<SchoolMainContactsModel> _logger;
-	    private readonly IConversionApplicationCreationService _academisationCreationService;
+		private readonly ILogger<SchoolMainContactsModel> _logger;
+		private readonly IConversionApplicationCreationService _academisationCreationService;
 
 		//// MR:- selected school props for UI rendering
 		[BindProperty]
-	    public int ApplicationId { get; set; }
+		public int ApplicationId { get; set; }
 
-	    [BindProperty]
-	    public int Urn { get; set; }
+		[BindProperty]
+		public int Urn { get; set; }
 
-	    public string SchoolName { get; private set; } = string.Empty;
+		public string SchoolName { get; private set; } = string.Empty;
 
 		public string SigninApproverQuestionText { get; private set; } = string.Empty;
 
@@ -77,47 +77,47 @@ namespace Dfe.Academies.External.Web.Pages.School
 		}
 
 		public SchoolMainContactsModel(ILogger<SchoolMainContactsModel> logger,
-		    IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-		    IReferenceDataRetrievalService referenceDataRetrievalService,
-		    IConversionApplicationCreationService academisationCreationService)
-		    : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-	    {
-		    _logger = logger;
-		    _academisationCreationService = academisationCreationService;
+			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+			IReferenceDataRetrievalService referenceDataRetrievalService,
+			IConversionApplicationCreationService academisationCreationService)
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+		{
+			_logger = logger;
+			_academisationCreationService = academisationCreationService;
 		}
 
-	    public async Task OnGetAsync(int urn, int appId)
-	    {
-		    try
-		    {
-			    LoadAndStoreCachedConversionApplication();
+		public async Task OnGetAsync(int urn, int appId)
+		{
+			try
+			{
+				LoadAndStoreCachedConversionApplication();
 
-			    ApplicationId = appId;
-			    Urn = urn;
+				ApplicationId = appId;
+				Urn = urn;
 				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
 
-			    // Grab other values from API
-			    if (selectedSchool != null)
-			    {
+				// Grab other values from API
+				if (selectedSchool != null)
+				{
 					var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData);
 
-                    PopulateUiModel(selectedSchool, draftConversionApplication.ApplicationType);
-			    }
-		    }
-		    catch (Exception ex)
-		    {
-			    _logger.LogError("School::SchoolMainContactsModel::OnGetAsync::Exception - {Message}", ex.Message);
-		    }
-	    }
-
-	    public async Task<IActionResult> OnPostAsync()
-	    {
-		    if (!ModelState.IsValid)
-		    {
-			    PopulateValidationMessages();
-			    return Page();
+					PopulateUiModel(selectedSchool, draftConversionApplication.ApplicationType);
+				}
 			}
-		    
+			catch (Exception ex)
+			{
+				_logger.LogError("School::SchoolMainContactsModel::OnGetAsync::Exception - {Message}", ex.Message);
+			}
+		}
+
+		public async Task<IActionResult> OnPostAsync()
+		{
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				return Page();
+			}
+
 			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherName))
 			{
 				ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide details");
@@ -141,55 +141,55 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			try
 			{
-			    //// grab draft application from temp= null
-			    var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+				//// grab draft application from temp= null
+				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			    var contactDetails = new ApplicationSchoolContacts(ApplicationId, Urn, ViewModel.ContactHeadName, ViewModel.ContactHeadEmail, ViewModel.ContactHeadTel,
-				    ViewModel.ContactChairName, ViewModel.ContactChairEmail, ViewModel.ContactChairTel,
-				    ViewModel.ContactRole, 
-				    ViewModel.MainContactOtherName, ViewModel.MainContactOtherEmail, ViewModel.MainContactOtherTelephone,
-				    ViewModel.ApproverContactName, ViewModel.ApproverContactEmail);
+				var contactDetails = new ApplicationSchoolContacts(ApplicationId, Urn, ViewModel.ContactHeadName, ViewModel.ContactHeadEmail, ViewModel.ContactHeadTel,
+					ViewModel.ContactChairName, ViewModel.ContactChairEmail, ViewModel.ContactChairTel,
+					ViewModel.ContactRole,
+					ViewModel.MainContactOtherName, ViewModel.MainContactOtherEmail, ViewModel.MainContactOtherTelephone,
+					ViewModel.ApproverContactName, ViewModel.ApproverContactEmail);
 
-			    await _academisationCreationService.ApplicationSchoolContacts(contactDetails, ApplicationId);
+				await _academisationCreationService.ApplicationSchoolContacts(contactDetails, ApplicationId);
 
-			    // update temp store for next step - application overview as last step in process
-			    TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+				// update temp store for next step - application overview as last step in process
+				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-			    return RedirectToPage("SchoolConversionKeyDetails", new { appId = ApplicationId, urn = Urn });
-		    }
-		    catch (Exception ex)
-		    {
-			    _logger.LogError("School::SchoolMainContactsModel::OnPostAsync::Exception - {Message}", ex.Message);
-			    return Page();
-		    }
-	    }
+				return RedirectToPage("SchoolConversionKeyDetails", new { appId = ApplicationId, urn = Urn });
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("School::SchoolMainContactsModel::OnPostAsync::Exception - {Message}", ex.Message);
+				return Page();
+			}
+		}
 
 		public override void PopulateValidationMessages()
 		{
 			PopulateViewDataErrorsWithModelStateErrors();
 		}
 
-	    private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ApplicationTypes applicationType)
-	    {
-		    SchoolName = selectedSchool.SchoolName;
+		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ApplicationTypes applicationType)
+		{
+			SchoolName = selectedSchool.SchoolName;
 
-		    ViewModel = new ApplicationSchoolContactsViewModel(ApplicationId, selectedSchool.URN)
-			    {
-				    ContactHeadName = selectedSchool.SchoolConversionContactHeadName,
-					ContactHeadEmail = selectedSchool.SchoolConversionContactHeadEmail,
-					ContactHeadTel = selectedSchool.SchoolConversionContactHeadTel,
-					ContactChairName = selectedSchool.SchoolConversionContactChairName,
-					ContactChairEmail = selectedSchool.SchoolConversionContactChairEmail,
-					ContactChairTel = selectedSchool.SchoolConversionContactChairTel,
-					ContactRole = !string.IsNullOrEmpty(selectedSchool.SchoolConversionContactRole) ? selectedSchool.SchoolConversionContactRole.ToEnum<MainConversionContact>() : 0,
-					MainContactOtherName = selectedSchool.SchoolConversionMainContactOtherName,
-					MainContactOtherEmail = selectedSchool.SchoolConversionMainContactOtherEmail,
-					MainContactOtherTelephone = selectedSchool.SchoolConversionMainContactOtherTelephone,
-					ApproverContactName = selectedSchool.SchoolConversionApproverContactName,
-					ApproverContactEmail = selectedSchool.SchoolConversionApproverContactEmail
-			    };
+			ViewModel = new ApplicationSchoolContactsViewModel(ApplicationId, selectedSchool.URN)
+			{
+				ContactHeadName = selectedSchool.SchoolConversionContactHeadName,
+				ContactHeadEmail = selectedSchool.SchoolConversionContactHeadEmail,
+				ContactHeadTel = selectedSchool.SchoolConversionContactHeadTel,
+				ContactChairName = selectedSchool.SchoolConversionContactChairName,
+				ContactChairEmail = selectedSchool.SchoolConversionContactChairEmail,
+				ContactChairTel = selectedSchool.SchoolConversionContactChairTel,
+				ContactRole = !string.IsNullOrEmpty(selectedSchool.SchoolConversionContactRole) ? selectedSchool.SchoolConversionContactRole.ToEnum<MainConversionContact>() : 0,
+				MainContactOtherName = selectedSchool.SchoolConversionMainContactOtherName,
+				MainContactOtherEmail = selectedSchool.SchoolConversionMainContactOtherEmail,
+				MainContactOtherTelephone = selectedSchool.SchoolConversionMainContactOtherTelephone,
+				ApproverContactName = selectedSchool.SchoolConversionApproverContactName,
+				ApproverContactEmail = selectedSchool.SchoolConversionApproverContactEmail
+			};
 
-		    SigninApproverQuestionText = applicationType == ApplicationTypes.FormASat
+			SigninApproverQuestionText = applicationType == ApplicationTypes.FormASat
 						? "When your schools converts, we need to create a new DfE sign-in account for the academy. Please supply the most appropriate contact to be set up as the DfE Sign-in approver to manage the new academies account."
 						: "When your schools converts, we need to create a new DfE sign-in account for the academy. Please provide the most suitable contact to manage the new academies account.";
 		}

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-    public class LandAndBuildingsSummaryModel : BasePageEditModel
+	public class LandAndBuildingsSummaryModel : BasePageEditModel
 	{
 		private readonly ILogger<LandAndBuildingsSummaryModel> _logger;
 
@@ -86,13 +86,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorksDetails,
 						(!string.IsNullOrWhiteSpace(selectedSchool.LandAndBuildings.WorksPlannedExplained) ?
-							selectedSchool.LandAndBuildings.WorksPlannedExplained : 
+							selectedSchool.LandAndBuildings.WorksPlannedExplained :
 							QuestionAndAnswerConstants.NoAnswer)
 					),
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorksWhen,
 						(selectedSchool.LandAndBuildings.WorksPlannedDate.HasValue ?
-							selectedSchool.LandAndBuildings.WorksPlannedDate.Value.ToString("dd/MM/yyyy") : 
+							selectedSchool.LandAndBuildings.WorksPlannedDate.Value.ToString("dd/MM/yyyy") :
 							QuestionAndAnswerConstants.NoAnswer)
 					)
 				}
@@ -121,11 +121,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 					"Yes" :
 					"No")
 				)
-				{
+			{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolLandAndBuildingsSummarySectionViewModel(
-						SchoolLandAndBuildingsSummarySectionViewModel.GrantBodies, 
+						SchoolLandAndBuildingsSummarySectionViewModel.GrantBodies,
 						selectedSchool.LandAndBuildings.GrantsAwardingBodies ??
 						QuestionAndAnswerConstants.NoAnswer
 					)
@@ -138,7 +138,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 					"Yes" :
 					"No")
 				)
-				{
+			{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolLandAndBuildingsSummarySectionViewModel(

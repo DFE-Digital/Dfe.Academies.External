@@ -6,40 +6,40 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages
 {
-    public class HomeModel : BasePageModel
-    {
-        [BindProperty]
-        public List<ConversionApplication> ExistingApplications { get; set; } = new();
-        public List<ConversionApplication> CompletedApplications { get; set; } = new();
+	public class HomeModel : BasePageModel
+	{
+		[BindProperty]
+		public List<ConversionApplication> ExistingApplications { get; set; } = new();
+		public List<ConversionApplication> CompletedApplications { get; set; } = new();
 
-        private readonly IConversionApplicationRetrievalService _conversionApplications;
-        private readonly ILogger _logger;
+		private readonly IConversionApplicationRetrievalService _conversionApplications;
+		private readonly ILogger _logger;
 
-        public HomeModel(IConversionApplicationRetrievalService conversionApplications, ILogger<HomeModel> logger)
-        {
-            _conversionApplications = conversionApplications;
-            _logger = logger;
-        }
-
-        public async Task OnGet()
-        {           
-            try
-            {
-	            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
-
-                ExistingApplications = await _conversionApplications.GetPendingApplications(userEmail);
-
-                CompletedApplications = await _conversionApplications.GetCompletedApplications(userEmail);
-            }
-            catch (Exception ex)
-            {
-	            _logger.LogError("Application::HomeModel::OnGet::Exception - {Message}", ex.Message);
-            }
-        }
-
-        public override void PopulateValidationMessages()
-        {
-	        PopulateViewDataErrorsWithModelStateErrors();
+		public HomeModel(IConversionApplicationRetrievalService conversionApplications, ILogger<HomeModel> logger)
+		{
+			_conversionApplications = conversionApplications;
+			_logger = logger;
 		}
-    }
+
+		public async Task OnGet()
+		{
+			try
+			{
+				var userEmail = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
+
+				ExistingApplications = await _conversionApplications.GetPendingApplications(userEmail);
+
+				CompletedApplications = await _conversionApplications.GetCompletedApplications(userEmail);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("Application::HomeModel::OnGet::Exception - {Message}", ex.Message);
+			}
+		}
+
+		public override void PopulateValidationMessages()
+		{
+			PopulateViewDataErrorsWithModelStateErrors();
+		}
+	}
 }

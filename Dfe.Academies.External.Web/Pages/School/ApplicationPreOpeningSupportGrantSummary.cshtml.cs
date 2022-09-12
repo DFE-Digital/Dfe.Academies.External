@@ -1,8 +1,8 @@
 ﻿using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
-using Microsoft.AspNetCore.Mvc;
 using Dfe.Academies.External.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School;
 
@@ -68,7 +68,7 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BasePageEditModel
 		// OR data from API
 
 		heading1.Sections.Add(new(
-			ApplicationPreOpeningSupportGrantSectionViewModel.FundsSchoolOrTrust, 
+			ApplicationPreOpeningSupportGrantSectionViewModel.FundsSchoolOrTrust,
 			"Yes or No"));
 
 		var vm = new List<ApplicationPreOpeningSupportGrantHeadingViewModel> { heading1 };

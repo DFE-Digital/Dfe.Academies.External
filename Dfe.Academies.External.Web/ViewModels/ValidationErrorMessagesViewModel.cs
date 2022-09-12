@@ -2,10 +2,10 @@
 
 public sealed class ValidationErrorMessagesViewModel
 {
-    public ValidationErrorMessagesViewModel()
-    {
-        this.ValidationErrorMessages = new Dictionary<string, IEnumerable<string>?>();
-    }
+	public ValidationErrorMessagesViewModel()
+	{
+		this.ValidationErrorMessages = new Dictionary<string, IEnumerable<string>?>();
+	}
 
-    public Dictionary<string, IEnumerable<string>?> ValidationErrorMessages { get; set; }
+	public Dictionary<string, IEnumerable<string>?> ValidationErrorMessages { get; set; }
 }

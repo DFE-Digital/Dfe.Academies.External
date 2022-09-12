@@ -1,9 +1,8 @@
-﻿using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
+﻿using System.Web;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Trusts;
-using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.ViewModels;
-using System.Web;
 
 namespace Dfe.Academies.External.Web.Services;
 
@@ -99,7 +98,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		{
 			// {{api-host}}/trusts?api-version=V1&groupName=grammar
 			string apiurl = $"{_httpClient.BaseAddress}/trusts?{BuildTrustSearchRequestUri(trustSearch)}&api-version=V1";
-			
+
 			// API returns ApiListWrapper<TrustSearchDto>
 			var APIresult = await _resilientRequestProvider.GetAsync<List<TrustSearchDto>>(apiurl);
 
@@ -123,7 +122,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 
 			// API - returns ApiWrapper<TrustDetailsDto>
 			var APIresult = await _resilientRequestProvider.GetAsync<List<TrustSummaryDto>>(apiurl);
-			
+
 			return APIresult;
 		}
 		catch (Exception ex)

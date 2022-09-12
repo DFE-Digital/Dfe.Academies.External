@@ -10,18 +10,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class LandAndBuildingsModel : BasePageEditModel
 	{
-	    private readonly ILogger<LandAndBuildingsModel> _logger;
-	    private readonly IConversionApplicationCreationService _academisationCreationService;
-	    public string PlannedDateFormInputName = "sip_lbworksplanneddate";
+		private readonly ILogger<LandAndBuildingsModel> _logger;
+		private readonly IConversionApplicationCreationService _academisationCreationService;
+		public string PlannedDateFormInputName = "sip_lbworksplanneddate";
 
 		//// MR:- selected school props for UI rendering
 		[BindProperty]
-	    public int ApplicationId { get; set; }
+		public int ApplicationId { get; set; }
 
-	    [BindProperty]
-	    public int Urn { get; set; }
+		[BindProperty]
+		public int Urn { get; set; }
 
-	    public string SchoolName { get; private set; } = string.Empty;
+		public string SchoolName { get; private set; } = string.Empty;
 
 		//// MR:- VM props to capture land & buildings data
 		[BindProperty]
@@ -53,10 +53,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		public string? SchoolBuildLandSharedFacilitiesExplained { get; set; }
-		
+
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption SchoolBuildLandGrants { get; set; } 
+		public SelectOption SchoolBuildLandGrants { get; set; }
 
 		[BindProperty]
 		public string? SchoolBuildLandGrantsBodies { get; set; }
@@ -70,7 +70,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption SchoolBuildLandPriorityBuildingProgramme { get; set; } 
+		public SelectOption SchoolBuildLandPriorityBuildingProgramme { get; set; }
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
@@ -80,7 +80,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				var bools = new[] { SchoolBuildLandWorksPlannedError, 
+				var bools = new[] { SchoolBuildLandWorksPlannedError,
 											SchoolBuildLandWorksPlannedDateError,
 											SchoolBuildLandSharedFacilitiesExplainedError,
 											SchoolBuildLandGrantsBodiesError,
@@ -204,7 +204,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				PopulateValidationMessages();
 				return Page();
 			}
-			
+
 			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandWorksPlannedExplained))
 			{
 				ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", "You must provide details");
@@ -262,7 +262,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 					this.SchoolBuildLandPriorityBuildingProgramme == SelectOption.Yes,
 					this.SchoolBuildLandFutureProgramme == SelectOption.Yes
 				);
-				
+
 				await _academisationCreationService.ApplicationSchoolLandAndBuildings(landAndBuildingsData, ApplicationId, this.Urn);
 
 				// update temp store for next step - application overview

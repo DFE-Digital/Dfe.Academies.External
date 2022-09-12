@@ -37,7 +37,7 @@ public interface IConversionApplicationRetrievalService
 	/// <param name="applicationId"></param>
 	/// <returns></returns>
 	Task<List<ConversionApplicationContributor>> GetConversionApplicationContributors(int applicationId);
-	
+
 	/// <summary>
 	/// Main getApplication method
 	/// </summary>

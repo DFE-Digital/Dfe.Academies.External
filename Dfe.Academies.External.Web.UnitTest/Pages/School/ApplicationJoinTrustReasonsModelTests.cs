@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Pages.School;
+﻿using System.Threading.Tasks;
+using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using System.Threading.Tasks;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.School;
 
@@ -35,8 +35,8 @@ internal sealed class ApplicationJoinTrustReasonsModelTests
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupApplicationJoinTrustReasonsModel(mockLogger.Object, 
-															mockConversionApplicationRetrievalService.Object, 
+		var pageModel = SetupApplicationJoinTrustReasonsModel(mockLogger.Object,
+															mockConversionApplicationRetrievalService.Object,
 															mockReferenceDataRetrievalService.Object,
 															mockConversionApplicationCreationService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
@@ -45,7 +45,7 @@ internal sealed class ApplicationJoinTrustReasonsModelTests
 		await pageModel.OnGetAsync(urn, applicationId);
 
 		// assert
-		Assert.AreEqual(null,pageModel.TempData["Errors"]);
+		Assert.AreEqual(null, pageModel.TempData["Errors"]);
 	}
 
 	// TODO MR:- OnPostAsync___ModelIsValid___Invalid
@@ -63,9 +63,9 @@ internal sealed class ApplicationJoinTrustReasonsModelTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new ApplicationJoinTrustReasonsModel(mockLogger, 
-													mockConversionApplicationRetrievalService, 
-													mockReferenceDataRetrievalService, 
+		return new ApplicationJoinTrustReasonsModel(mockLogger,
+													mockConversionApplicationRetrievalService,
+													mockReferenceDataRetrievalService,
 													academisationCreationService)
 		{
 			PageContext = pageContext,

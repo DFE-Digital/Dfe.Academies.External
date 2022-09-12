@@ -6,7 +6,7 @@ public sealed class ApplicationCacheValuesViewModel
 {
 	public ApplicationCacheValuesViewModel()
 	{
-		
+
 	}
 
 	public ApplicationCacheValuesViewModel(int applicationId, ApplicationTypes applicationType, string applicationReference)

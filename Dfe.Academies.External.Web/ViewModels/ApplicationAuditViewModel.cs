@@ -12,14 +12,14 @@ public sealed class ApplicationAuditViewModel
 		What = what;
 	}
 
-    public DateTime When { get; set; }
+	public DateTime When { get; set; }
 
-    public string Who { get; set; }
+	public string Who { get; set; }
 
-    /// <summary>
-    /// This is a full friendly description for UI
-    /// e.g. Richard Dickenson started the application.
-    /// There maybe other detailed logging in the data store
-    /// </summary>
-    public string What { get; set; }
+	/// <summary>
+	/// This is a full friendly description for UI
+	/// e.g. Richard Dickenson started the application.
+	/// There maybe other detailed logging in the data store
+	/// </summary>
+	public string What { get; set; }
 }

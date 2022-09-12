@@ -1,7 +1,7 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using Dfe.Academies.External.Web.ViewModels;
 using NUnit.Framework;
-using System;
 
 namespace Dfe.Academies.External.Web.UnitTest.ViewModels;
 

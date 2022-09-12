@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class ApplicationSelectSchoolModel : BasePageModel
-    {
-	    private readonly ILogger<ApplicationSelectSchoolModel> _logger;
-	    private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
+	{
+		private readonly ILogger<ApplicationSelectSchoolModel> _logger;
+		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
 		private const string NextSchoolStepPage = "/ApplicationOverview";
 
 		[BindProperty]
@@ -40,7 +40,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		public int SelectedUrn {
+		public int SelectedUrn
+		{
 			get
 			{
 				if (!string.IsNullOrWhiteSpace(SearchQuery))
@@ -55,12 +56,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 				return 0;
 			}
-		} 
+		}
 
 		public ApplicationSelectSchoolModel(ILogger<ApplicationSelectSchoolModel> logger, IConversionApplicationCreationService conversionApplicationCreationService)
-	    {
-		    _logger = logger;
-		    _conversionApplicationCreationService = conversionApplicationCreationService;
+		{
+			_logger = logger;
+			_conversionApplicationCreationService = conversionApplicationCreationService;
 		}
 
 		public void OnGet()
@@ -128,9 +129,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		}
 
 		public override void PopulateValidationMessages()
-	    {
-		    PopulateViewDataErrorsWithModelStateErrors();
-	    }
+		{
+			PopulateViewDataErrorsWithModelStateErrors();
+		}
 
 		private void PopulateUiModel(ConversionApplication? conversionApplication)
 		{

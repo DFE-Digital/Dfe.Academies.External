@@ -23,7 +23,7 @@ internal sealed class CookiesModelTests
 		// assert
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
-	
+
 	private static CookiesModel SetupCookiesModel(bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);

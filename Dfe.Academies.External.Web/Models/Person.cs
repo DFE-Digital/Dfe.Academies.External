@@ -8,16 +8,16 @@ public class Person
 		Surname = surname;
 	}
 
-    public int PersonId { get; set; }
+	public int PersonId { get; set; }
 
-    /// <summary>
-    ///  TODO MR:- grab name from DfE sign in ??
-    /// </summary>
-    public string FirstName { get; set; }
+	/// <summary>
+	///  TODO MR:- grab name from DfE sign in ??
+	/// </summary>
+	public string FirstName { get; set; }
 
-    public string Surname { get; set; }
+	public string Surname { get; set; }
 
-    public string? ContactEmailAddress { get; set; }
+	public string? ContactEmailAddress { get; set; }
 
-    // TODO MR:- add ContactTelephone ?
+	// TODO MR:- add ContactTelephone ?
 }

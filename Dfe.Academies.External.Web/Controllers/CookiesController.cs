@@ -37,9 +37,9 @@ public class CookiesController : Controller
 	private void SetConsentCookie(string value)
 	{
 		Response.Cookies.Append(
-			".AspNet.Consent", 
-			value, 
-			new CookieOptions{ Expires = DateTimeOffset.Now + TimeSpan.FromDays(365), Path = "/", Secure = true, SameSite = SameSiteMode.Lax, IsEssential = true}
+			".AspNet.Consent",
+			value,
+			new CookieOptions { Expires = DateTimeOffset.Now + TimeSpan.FromDays(365), Path = "/", Secure = true, SameSite = SameSiteMode.Lax, IsEssential = true }
 			);
 	}
 }

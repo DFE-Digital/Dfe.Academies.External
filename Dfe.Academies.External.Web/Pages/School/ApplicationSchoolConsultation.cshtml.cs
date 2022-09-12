@@ -40,7 +40,7 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 	}
 
 	public bool SchoolConsultationStakeholdersConsultError
-{
+	{
 		get
 		{
 			if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolConsultationStakeholdersConsultNotEntered"))

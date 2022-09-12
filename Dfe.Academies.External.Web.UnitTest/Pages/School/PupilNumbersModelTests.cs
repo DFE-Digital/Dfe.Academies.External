@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Pages.School;
+﻿using System.Threading.Tasks;
+using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using System.Threading.Tasks;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.School;
 
@@ -42,7 +42,7 @@ internal sealed class PupilNumbersModelTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync(urn,applicationId);
+		await pageModel.OnGetAsync(urn, applicationId);
 
 		// assert
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));

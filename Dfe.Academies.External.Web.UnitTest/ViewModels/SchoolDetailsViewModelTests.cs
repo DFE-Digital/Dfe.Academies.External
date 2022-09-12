@@ -19,11 +19,11 @@ internal sealed class SchoolDetailsViewModelTests
 		string fullUkPostcode = Fixture.Create<string>();
 
 		var schoolDetailsViewModel = new SchoolDetailsViewModel(schoolName, urn, street, town, fullUkPostcode)
-			{
-				Address3 = "address3",
-				CountyDescription = "county",
-				EstablishmentNumber = "7083"
-			};
+		{
+			Address3 = "address3",
+			CountyDescription = "county",
+			EstablishmentNumber = "7083"
+		};
 
 		// act
 		// nothing!
