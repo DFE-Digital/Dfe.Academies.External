@@ -98,6 +98,9 @@
 						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 							Are there any shared facilities on site?
 						</legend>
+                        <span class="govuk-hint govuk-body govuk-!-margin-bottom-5">
+				            For example, a nursery, children’s centre, swimming pool, leisure centre, caretaker’s house, community library or SEN unit
+			            </span>
 						@foreach (var sharedFacilitiesOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
 						{
 							<div class="govuk-radios__item">

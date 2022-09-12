@@ -23,7 +23,7 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 
 	//// MR:- VM props to capture data
 	[BindProperty]
-	[RequiredEnum(ErrorMessage = "You must provide details")]
+	[RequiredEnum(ErrorMessage = "You must choose an option")]
 	public SelectOption SchoolConsultationStakeholders { get; set; }
 
 	[BindProperty]
