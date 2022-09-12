@@ -77,8 +77,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			heading1.Sections.Add(
 				new (SchoolConversionComponentSectionViewModel.NameOfSchoolSectionName,
 					SchoolName));
-
-			// TODO MR:- set status similar to above
+			
 			SchoolConversionComponentHeadingViewModel heading2 = 
 				new(SchoolConversionComponentHeadingViewModel.HeadingApplicationContactDetails,
 				"/school/SchoolMainContacts")
@@ -120,9 +119,28 @@ namespace Dfe.Academies.External.Web.Pages.School
 				);
 			heading2.Sections.Add(
 				new(
-					SchoolConversionComponentSectionViewModel.ContactDetailsMainContactWhomSectionName, 
-					selectedSchool.SchoolConversionContactRole ?? QuestionAndAnswerConstants.NoAnswer )
+					SchoolConversionComponentSectionViewModel.ContactDetailsMainContactRoleSectionName, selectedSchool.SchoolConversionContactRole ?? QuestionAndAnswerConstants.NoAnswer )
 				);
+			if (!string.IsNullOrEmpty(selectedSchool.SchoolConversionContactRole) && selectedSchool.SchoolConversionContactRole.Equals(MainConversionContact.Other.ToString()))
+			{
+				heading2.Sections.Add(
+					new(
+						SchoolConversionComponentSectionViewModel.ContactDetailsMainContactOtherNameSectionName, 
+						selectedSchool.SchoolConversionMainContactOtherName ?? QuestionAndAnswerConstants.NoAnswer )
+				);
+				
+				heading2.Sections.Add(
+					new(
+						SchoolConversionComponentSectionViewModel.ContactDetailsMainContactOtherEmailSectionName, 
+						selectedSchool.SchoolConversionMainContactOtherEmail?? QuestionAndAnswerConstants.NoAnswer )
+				);
+				
+				heading2.Sections.Add(
+					new(
+						SchoolConversionComponentSectionViewModel.ContactDetailsMainContactOtherTelephoneSectionName, 
+						selectedSchool.SchoolConversionMainContactOtherTelephone ?? QuestionAndAnswerConstants.NoAnswer )
+				);
+			}
 			heading2.Sections.Add(
 				new(
 					SchoolConversionComponentSectionViewModel.ContactDetailsApproversFullNameSectionName, 

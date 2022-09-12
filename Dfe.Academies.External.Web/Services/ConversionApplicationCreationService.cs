@@ -281,26 +281,36 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
     {
 	    try
 	    {
-			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
-			// to grab current application data
-			// before then patching ConversionApplication returned with data from application object
+		    var application = await GetApplication(applicationId);
+		    
+		    if (application.ApplicationId != applicationId)
+		    {
+			    throw new ArgumentException("Application not found");
+		    }
+		    
+			var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolContacts.Urn);
+			
+			if (schoolUpdating == null)
+			{
+				throw new ArgumentException("School not found");
+			}
+			
+			schoolUpdating.SchoolConversionContactHeadName = schoolContacts.ContactHeadName;
+			schoolUpdating.SchoolConversionContactHeadEmail = schoolContacts.ContactHeadEmail;
+			schoolUpdating.SchoolConversionContactHeadTel = schoolContacts.ContactHeadTel;
+			schoolUpdating.SchoolConversionContactChairName = schoolContacts.ContactChairName;
+			schoolUpdating.SchoolConversionContactChairEmail = schoolContacts.ContactChairEmail;
+			schoolUpdating.SchoolConversionContactChairTel = schoolContacts.ContactChairTel;
+			schoolUpdating.SchoolConversionContactRole = schoolContacts.ContactRole.ToString();
+			schoolUpdating.SchoolConversionMainContactOtherName = schoolContacts.MainContactOtherName;
+			schoolUpdating.SchoolConversionMainContactOtherEmail = schoolContacts.MainContactOtherEmail;
+			schoolUpdating.SchoolConversionMainContactOtherTelephone = schoolContacts.MainContactOtherTelephone;
+			schoolUpdating.SchoolConversionApproverContactName = schoolContacts.ApproverContactName;
+			schoolUpdating.SchoolConversionApproverContactEmail = schoolContacts.ApproverContactEmail;
+			
 
-			//// baseaddress has a backslash at the end to be a valid URI !!!
-			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
 			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
-
-			// application can contain multiple schools so need to grab one being changed via linqage
-			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolContacts.Urn);
-			//schoolUpdating.SchoolConversionContactHeadName = schoolContacts.SchoolConversionContactHeadName;
-			//schoolUpdating.SchoolConversionContactHeadEmail = schoolContacts.SchoolConversionContactHeadEmail;
-			//schoolUpdating.SchoolConversionContactHeadTel = schoolContacts.SchoolConversionContactHeadTel;
-			//schoolUpdating.SchoolConversionContactChairName = schoolContacts.SchoolConversionContactChairName;
-			//schoolUpdating.SchoolConversionContactChairEmail = schoolContacts.SchoolConversionContactChairEmail;
-			// ETC.....
-
-			// TODO: wire up Academisation API / what object does a PUT return
-			// MR:- no response from Academies API - Just an OK
-			// await _resilientRequestProvider.PutAsync(apiurl, application);
+			await _resilientRequestProvider.PutAsync(apiurl, application);
 		}
 		catch (Exception ex)
 	    {
