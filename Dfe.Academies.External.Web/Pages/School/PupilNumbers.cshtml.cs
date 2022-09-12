@@ -39,7 +39,7 @@ namespace Dfe.Academies.External.Web.Pages.School
         public int? ProjectedPupilNumbersYear3 { get; set; }
 
         [BindProperty]
-        [Required(ErrorMessage = "You must give what your projected pupil numbers based on")]
+        [Required(ErrorMessage = "You must tell us what your projected pupil numbers are based on")]
         public string? SchoolCapacityAssumptions { get; set; } = string.Empty;
 
 
