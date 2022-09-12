@@ -85,8 +85,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 					SchoolConversionComponentStatus.Complete
 					: SchoolConversionComponentStatus.NotStarted
 				};
-
-			// TODO MR:- set from API data
+			
+			
 			heading2.Sections.Add(
 				new(
 					SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherNameSectionName, 
@@ -119,9 +119,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 				);
 			heading2.Sections.Add(
 				new(
-					SchoolConversionComponentSectionViewModel.ContactDetailsMainContactRoleSectionName, selectedSchool.SchoolConversionContactRole ?? QuestionAndAnswerConstants.NoAnswer )
+					SchoolConversionComponentSectionViewModel.ContactDetailsMainContactRoleSectionName,  
+					!string.IsNullOrEmpty(selectedSchool.SchoolConversionContactRole) ? selectedSchool.SchoolConversionContactRole.ToEnum<MainConversionContact>().GetDescription() :  QuestionAndAnswerConstants.NoAnswer )
 				);
-			if (!string.IsNullOrEmpty(selectedSchool.SchoolConversionContactRole) && selectedSchool.SchoolConversionContactRole.Equals(MainConversionContact.Other.GetDescription()))
+			if (!string.IsNullOrEmpty(selectedSchool.SchoolConversionContactRole) && selectedSchool.SchoolConversionContactRole.Equals(MainConversionContact.Other.ToString()))
 			{
 				heading2.Sections.Add(
 					new(
