@@ -90,3 +90,10 @@ public enum ApplicationStatus
 	[Description("Submitted")]
 	Submitted
 }
+
+public enum EqualityImpact
+{
+	ConsideredUnlikely,
+	ConsideredWillNot,
+	NotConsidered
+}
