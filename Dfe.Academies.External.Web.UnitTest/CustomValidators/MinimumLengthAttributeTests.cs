@@ -5,20 +5,20 @@ namespace Dfe.Academies.External.Web.UnitTest.CustomValidators;
 
 internal sealed class MinimumLengthAttributeTests
 {
-    [Test]
-    public void MinimumLengthAttribute___NullCheck___ReturnsFalse()
-    {
-	    // arrange
-	    var minimumLengthAttribute = new MinimumLengthAttribute();
+	[Test]
+	public void MinimumLengthAttribute___NullCheck___ReturnsFalse()
+	{
+		// arrange
+		var minimumLengthAttribute = new MinimumLengthAttribute();
 
-	    // act
+		// act
 		var result = minimumLengthAttribute.IsValid(null);
 
 		// assert
 		Assert.That(minimumLengthAttribute, Is.Not.Null);
-	    Assert.That(result, Is.EqualTo(false));
-    }
-	
+		Assert.That(result, Is.EqualTo(false));
+	}
+
 	[Test]
 	public void MinimumLengthAttribute___EmptyCheck___ReturnsFalse()
 	{

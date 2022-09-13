@@ -1,7 +1,7 @@
-﻿using Dfe.Academies.External.Web.Helpers;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Globalization;
+using Dfe.Academies.External.Web.Helpers;
+using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.Helpers;
 
@@ -44,6 +44,6 @@ internal sealed class DateTimeMultiFormatParserTests
 		Assert.That(result, Is.Not.Null);
 		Assert.That(date, Is.Not.Null);
 		Assert.That(result, Is.EqualTo(true));
-		Assert.That(date, Is.EqualTo(new DateTime(2022,2,1)));
+		Assert.That(date, Is.EqualTo(new DateTime(2022, 2, 1)));
 	}
 }

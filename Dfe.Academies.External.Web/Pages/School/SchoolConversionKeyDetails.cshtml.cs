@@ -1,10 +1,10 @@
 ﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Dfe.Academies.External.Web.Extensions;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -16,17 +16,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private readonly ILogger<SchoolConversionKeyDetailsModel> _logger;
 
 		//// MR:- selected school props for UI rendering
-		[BindProperty] 
+		[BindProperty]
 		public int ApplicationId { get; set; }
 
-		[BindProperty] 
+		[BindProperty]
 		public int Urn { get; set; }
 
 		public string SchoolName { get; private set; } = string.Empty;
 
 		//// MR:- VM props to show school conversion data
 		public List<SchoolConversionComponentHeadingViewModel> ViewModel { get; set; } = new();
-		
+
 		public SchoolConversionKeyDetailsModel(ILogger<SchoolConversionKeyDetailsModel> logger,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService)
@@ -69,94 +69,96 @@ namespace Dfe.Academies.External.Web.Pages.School
 			SchoolConversionComponentHeadingViewModel heading1 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationSchool,
 																		"/school/ApplicationSelectSchool")
 			{
-				Status = selectedSchool.URN !=0 ?
+				Status = selectedSchool.URN != 0 ?
 					SchoolConversionComponentStatus.Complete
 					: SchoolConversionComponentStatus.NotStarted
 			};
 
 			heading1.Sections.Add(
-				new (SchoolConversionComponentSectionViewModel.NameOfSchoolSectionName,
+				new(SchoolConversionComponentSectionViewModel.NameOfSchoolSectionName,
 					SchoolName));
-			
-			SchoolConversionComponentHeadingViewModel heading2 = 
+
+			SchoolConversionComponentHeadingViewModel heading2 =
 				new(SchoolConversionComponentHeadingViewModel.HeadingApplicationContactDetails,
 				"/school/SchoolMainContacts")
-				{ Status = !String.IsNullOrEmpty(selectedSchool.SchoolConversionContactHeadName) ?
+				{
+					Status = !String.IsNullOrEmpty(selectedSchool.SchoolConversionContactHeadName) ?
 					SchoolConversionComponentStatus.Complete
 					: SchoolConversionComponentStatus.NotStarted
 				};
-			
-			
+
+
 			heading2.Sections.Add(
 				new(
-					SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherNameSectionName, 
+					SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherNameSectionName,
 					selectedSchool.SchoolConversionContactHeadName ?? QuestionAndAnswerConstants.NoAnswer)
 				);
 			heading2.Sections.Add(
 				new(
-					SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherEmailSectionName, 
+					SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherEmailSectionName,
 					selectedSchool.SchoolConversionContactHeadEmail ?? QuestionAndAnswerConstants.NoAnswer)
 				);
 			heading2.Sections.Add(
 				new(
-					SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherTelNoSectionName, 
+					SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherTelNoSectionName,
 					selectedSchool.SchoolConversionContactHeadTel ?? QuestionAndAnswerConstants.NoAnswer)
 				);
 			heading2.Sections.Add(
 				new(
-					SchoolConversionComponentSectionViewModel.ContactDetailsChairNameSectionName, 
+					SchoolConversionComponentSectionViewModel.ContactDetailsChairNameSectionName,
 					selectedSchool.SchoolConversionContactChairName ?? QuestionAndAnswerConstants.NoAnswer)
 				);
 			heading2.Sections.Add(
 				new(
-					SchoolConversionComponentSectionViewModel.ContactDetailsChairEmailSectionName, 
+					SchoolConversionComponentSectionViewModel.ContactDetailsChairEmailSectionName,
 					selectedSchool.SchoolConversionContactChairEmail ?? QuestionAndAnswerConstants.NoAnswer)
 				);
 			heading2.Sections.Add(
 				new(
-					SchoolConversionComponentSectionViewModel.ContactDetailsChairTelNoSectionName, 
+					SchoolConversionComponentSectionViewModel.ContactDetailsChairTelNoSectionName,
 					selectedSchool.SchoolConversionContactChairTel ?? QuestionAndAnswerConstants.NoAnswer)
 				);
 			heading2.Sections.Add(
 				new(
-					SchoolConversionComponentSectionViewModel.ContactDetailsMainContactRoleSectionName,  
-					!string.IsNullOrEmpty(selectedSchool.SchoolConversionContactRole) ? selectedSchool.SchoolConversionContactRole.ToEnum<MainConversionContact>().GetDescription() :  QuestionAndAnswerConstants.NoAnswer )
+					SchoolConversionComponentSectionViewModel.ContactDetailsMainContactRoleSectionName,
+					!string.IsNullOrEmpty(selectedSchool.SchoolConversionContactRole) ? selectedSchool.SchoolConversionContactRole.ToEnum<MainConversionContact>().GetDescription() : QuestionAndAnswerConstants.NoAnswer)
 				);
 			if (!string.IsNullOrEmpty(selectedSchool.SchoolConversionContactRole) && selectedSchool.SchoolConversionContactRole.Equals(MainConversionContact.Other.ToString()))
 			{
 				heading2.Sections.Add(
 					new(
-						SchoolConversionComponentSectionViewModel.ContactDetailsMainContactOtherNameSectionName, 
-						selectedSchool.SchoolConversionMainContactOtherName ?? QuestionAndAnswerConstants.NoAnswer )
+						SchoolConversionComponentSectionViewModel.ContactDetailsMainContactOtherNameSectionName,
+						selectedSchool.SchoolConversionMainContactOtherName ?? QuestionAndAnswerConstants.NoAnswer)
 				);
-				
+
 				heading2.Sections.Add(
 					new(
-						SchoolConversionComponentSectionViewModel.ContactDetailsMainContactOtherEmailSectionName, 
-						selectedSchool.SchoolConversionMainContactOtherEmail?? QuestionAndAnswerConstants.NoAnswer )
+						SchoolConversionComponentSectionViewModel.ContactDetailsMainContactOtherEmailSectionName,
+						selectedSchool.SchoolConversionMainContactOtherEmail ?? QuestionAndAnswerConstants.NoAnswer)
 				);
-				
+
 				heading2.Sections.Add(
 					new(
-						SchoolConversionComponentSectionViewModel.ContactDetailsMainContactOtherTelephoneSectionName, 
-						selectedSchool.SchoolConversionMainContactOtherTelephone ?? QuestionAndAnswerConstants.NoAnswer )
+						SchoolConversionComponentSectionViewModel.ContactDetailsMainContactOtherTelephoneSectionName,
+						selectedSchool.SchoolConversionMainContactOtherTelephone ?? QuestionAndAnswerConstants.NoAnswer)
 				);
 			}
 			heading2.Sections.Add(
 				new(
-					SchoolConversionComponentSectionViewModel.ContactDetailsApproversFullNameSectionName, 
+					SchoolConversionComponentSectionViewModel.ContactDetailsApproversFullNameSectionName,
 					selectedSchool.SchoolConversionApproverContactName ?? QuestionAndAnswerConstants.NoAnswer)
 				);
 			heading2.Sections.Add(
 				new(
-					SchoolConversionComponentSectionViewModel.ContactDetailsApproversEmailSectionName, 
+					SchoolConversionComponentSectionViewModel.ContactDetailsApproversEmailSectionName,
 					selectedSchool.SchoolConversionApproverContactEmail ?? QuestionAndAnswerConstants.NoAnswer)
 				);
 
-			SchoolConversionComponentHeadingViewModel heading3 = 
+			SchoolConversionComponentHeadingViewModel heading3 =
 				new(SchoolConversionComponentHeadingViewModel.HeadingApplicationPreferredDateForConversion,
-				"/school/ApplicationConversionTargetDate") 
-				{ Status = selectedSchool.SchoolConversionTargetDateSpecified.HasValue ?
+				"/school/ApplicationConversionTargetDate")
+				{
+					Status = selectedSchool.SchoolConversionTargetDateSpecified.HasValue ?
 					SchoolConversionComponentStatus.Complete
 					: SchoolConversionComponentStatus.NotStarted
 				};
@@ -170,8 +172,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 					{
 						new SchoolLandAndBuildingsSummarySectionViewModel(
 							"Preferred date",
-							(selectedSchool.SchoolConversionTargetDate.HasValue ? 
-								selectedSchool.SchoolConversionTargetDate.Value.ToString("dd/MM/yyyy") 
+							(selectedSchool.SchoolConversionTargetDate.HasValue ?
+								selectedSchool.SchoolConversionTargetDate.Value.ToString("dd/MM/yyyy")
 								: QuestionAndAnswerConstants.NoAnswer)
 						),
 						new SchoolLandAndBuildingsSummarySectionViewModel(

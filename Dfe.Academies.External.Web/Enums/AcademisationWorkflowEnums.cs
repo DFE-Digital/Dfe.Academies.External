@@ -2,48 +2,48 @@
 
 namespace Dfe.Academies.External.Web.Enums;
 
-public enum ApplicationTypes 
+public enum ApplicationTypes
 {
-    [Description("Join a multi-academy trust")]
-    JoinAMat,
-    [Description("Form a new multi-academy trust")]
-    FormAMat,
-    [Description("Form new single academy trust")]
-    FormASat
+	[Description("Join a multi-academy trust")]
+	JoinAMat,
+	[Description("Form a new multi-academy trust")]
+	FormAMat,
+	[Description("Form new single academy trust")]
+	FormASat
 }
 
-public enum Status 
+public enum Status
 {
-    [Description("Cannot Start Yet")]
-    CannotStartYet,
-    [Description("Not Started")]
-    NotStarted,
-    [Description("In Progress")]
-    InProgress,
-    [Description("Completed")]
-    Completed
+	[Description("Cannot Start Yet")]
+	CannotStartYet,
+	[Description("Not Started")]
+	NotStarted,
+	[Description("In Progress")]
+	InProgress,
+	[Description("Completed")]
+	Completed
 }
 
 public enum SchoolRoles
 {
-    [Description("The chair of the school's governors")]
-    ChairOfGovernors = 1,
-    [Description("Something else")]
-    Other = 2
+	[Description("The chair of the school's governors")]
+	ChairOfGovernors = 1,
+	[Description("Something else")]
+	Other = 2
 }
 
 public enum KeyPersonRole
 {
-    [Description("CEO")]
-    CEO = 1,
-    [Description("The chair of the trust")]
-    Chair = 2,
-    [Description("Financial director")]
-    FinancialDirector = 3,
-    [Description("Trustee")]
-    Trustee = 4,
-    [Description("Other")]
-    Other = 5
+	[Description("CEO")]
+	CEO = 1,
+	[Description("The chair of the trust")]
+	Chair = 2,
+	[Description("Financial director")]
+	FinancialDirector = 3,
+	[Description("Trustee")]
+	Trustee = 4,
+	[Description("Other")]
+	Other = 5
 }
 
 public enum SelectOption

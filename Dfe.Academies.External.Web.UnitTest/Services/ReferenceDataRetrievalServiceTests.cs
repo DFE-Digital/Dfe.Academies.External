@@ -1,11 +1,4 @@
-﻿using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
-using Dfe.Academies.External.Web.Services;
-using Dfe.Academies.External.Web.UnitTest.Factories;
-using Microsoft.Extensions.Logging;
-using Moq;
-using Moq.Protected;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -13,6 +6,13 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
+using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.UnitTest.Factories;
+using Microsoft.Extensions.Logging;
+using Moq;
+using Moq.Protected;
+using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
@@ -60,7 +60,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, expectedJson);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
-		SchoolSearch schoolSearch = new (schoolName, urn.ToString(), string.Empty);
+		SchoolSearch schoolSearch = new(schoolName, urn.ToString(), string.Empty);
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -184,7 +184,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var decodedUri = HttpUtility.UrlDecode(builtUri);
 		Assert.AreEqual("ukprn=10015453&api-version=V1", decodedUri);
 	}
-	
+
 	[Test]
 	public async Task GetTrusts___ApiReturns200___Success()
 	{
@@ -198,7 +198,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJSON);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
-		TrustSearch trustSearch = new (name, ukprn, string.Empty);
+		TrustSearch trustSearch = new(name, ukprn, string.Empty);
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -219,7 +219,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		Assert.AreEqual(null, trusts?.FirstOrDefault()?.TrustAddress.County);
 		Assert.AreEqual("B49 5ED", trusts?.FirstOrDefault()?.TrustAddress.Postcode);
 	}
-	
+
 	[Test]
 	public async Task GetTrusts___ApiReturns500___Failure()
 	{
@@ -231,7 +231,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, expectedJson);
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
-		TrustSearch trustSearch = new (name, ukprn, string.Empty);
+		TrustSearch trustSearch = new(name, ukprn, string.Empty);
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -296,8 +296,8 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		string name = "wise";
-		TrustSearch trustSearch = new (name, string.Empty, string.Empty);
-		
+		TrustSearch trustSearch = new(name, string.Empty, string.Empty);
+
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
 		var builtUri = referenceDataRetrievalService.BuildTrustSearchRequestUri(trustSearch);
@@ -317,7 +317,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		string ukPrn = "10058464"; // ALCESTER GRAMMAR SCHOOL
-		TrustSearch trustSearch = new (string.Empty, ukPrn, string.Empty);
+		TrustSearch trustSearch = new(string.Empty, ukPrn, string.Empty);
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
@@ -338,7 +338,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		string companiesHouseNumber = "07485466"; // ALCESTER GRAMMAR SCHOOL
-		TrustSearch trustSearch = new (string.Empty, string.Empty, companiesHouseNumber);
+		TrustSearch trustSearch = new(string.Empty, string.Empty, companiesHouseNumber);
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);

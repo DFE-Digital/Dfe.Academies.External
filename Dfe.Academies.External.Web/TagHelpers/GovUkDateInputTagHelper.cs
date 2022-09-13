@@ -1,7 +1,7 @@
-﻿using Dfe.Academies.External.Web.Helpers;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text;
+using Dfe.Academies.External.Web.Helpers;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Dfe.Academies.External.Web.TagHelpers;
 
@@ -44,7 +44,7 @@ public class GovUkDateInputTagHelper : TagHelper
 			if (!string.IsNullOrEmpty(this.FieldData))
 			{
 				DateTimeMultiFormatParser.TryParse(FieldData, out var date);
-				
+
 				day = date.Day.ToString();
 				month = date.Month.ToString();
 				year = date.Year.ToString();

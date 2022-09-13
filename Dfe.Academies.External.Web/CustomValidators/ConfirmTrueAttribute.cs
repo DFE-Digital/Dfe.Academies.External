@@ -1,8 +1,8 @@
 ﻿//// Example here:-
 //// https://stackoverflow.com/questions/36566836/asp-net-core-mvc-client-side-validation-for-custom-attribute
 
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Dfe.Academies.External.Web.CustomValidators;
 

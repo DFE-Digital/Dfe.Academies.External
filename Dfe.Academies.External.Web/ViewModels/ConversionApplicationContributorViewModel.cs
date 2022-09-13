@@ -10,9 +10,9 @@ public sealed class ConversionApplicationContributorViewModel
 		Role = role;
 	}
 
-    public string FullName { get; set; }
+	public string FullName { get; set; }
 
-    public SchoolRoles Role { get; set; }
+	public SchoolRoles Role { get; set; }
 
-    public string? OtherRoleNotListed { get; set; }
+	public string? OtherRoleNotListed { get; set; }
 }

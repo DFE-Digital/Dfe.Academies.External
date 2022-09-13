@@ -1,7 +1,7 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using System.Text.Encodings.Web;
+using Dfe.Academies.External.Web.Enums;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using System.Text.Encodings.Web;
 
 //// See:- https://docs.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/authoring?view=aspnetcore-6.0
 

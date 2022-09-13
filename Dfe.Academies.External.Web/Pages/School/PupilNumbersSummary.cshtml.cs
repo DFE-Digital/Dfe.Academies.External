@@ -7,51 +7,51 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-    public class PupilNumbersSummaryModel : BasePageEditModel
+	public class PupilNumbersSummaryModel : BasePageEditModel
 	{
-	    private readonly ILogger<PupilNumbersSummaryModel> _logger;
+		private readonly ILogger<PupilNumbersSummaryModel> _logger;
 
-	    //// MR:- selected school props for UI rendering
-	    [BindProperty]
-	    public int ApplicationId { get; set; }
+		//// MR:- selected school props for UI rendering
+		[BindProperty]
+		public int ApplicationId { get; set; }
 
-	    [BindProperty]
-	    public int Urn { get; set; }
+		[BindProperty]
+		public int Urn { get; set; }
 
-	    public string SchoolName { get; private set; } = string.Empty;
+		public string SchoolName { get; private set; } = string.Empty;
 
-	    //// MR:- VM props to show school conversion data
-	    public List<SchoolPupilNumbersSummaryHeadingViewModel> ViewModel { get; set; } = new();
+		//// MR:- VM props to show school conversion data
+		public List<SchoolPupilNumbersSummaryHeadingViewModel> ViewModel { get; set; } = new();
 
-	    public PupilNumbersSummaryModel(ILogger<PupilNumbersSummaryModel> logger,
-		    IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-		    IReferenceDataRetrievalService referenceDataRetrievalService)
-		    : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-	    {
-		    _logger = logger;
-	    }
+		public PupilNumbersSummaryModel(ILogger<PupilNumbersSummaryModel> logger,
+			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+			IReferenceDataRetrievalService referenceDataRetrievalService)
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+		{
+			_logger = logger;
+		}
 
-	    public async Task OnGetAsync(int urn, int appId)
-	    {
-		    try
-		    {
-			    LoadAndStoreCachedConversionApplication();
+		public async Task OnGetAsync(int urn, int appId)
+		{
+			try
+			{
+				LoadAndStoreCachedConversionApplication();
 
-			    var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-			    ApplicationId = appId;
-			    Urn = urn;
+				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+				ApplicationId = appId;
+				Urn = urn;
 
 				// Grab other values from API
 				if (selectedSchool != null)
-			    {
-				    PopulateUiModel(selectedSchool);
-			    }
-		    }
-		    catch (Exception ex)
-		    {
-			    _logger.LogError("School::SchoolConversionKeyDetailsModel::OnGetAsync::Exception - {Message}", ex.Message);
-		    }
-	    }
+				{
+					PopulateUiModel(selectedSchool);
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("School::SchoolConversionKeyDetailsModel::OnGetAsync::Exception - {Message}", ex.Message);
+			}
+		}
 
 		public override void PopulateValidationMessages()
 		{
@@ -63,22 +63,23 @@ namespace Dfe.Academies.External.Web.Pages.School
 			SchoolName = selectedSchool.SchoolName;
 
 			SchoolPupilNumbersSummaryHeadingViewModel heading1 = new(
-				SchoolPupilNumbersSummaryHeadingViewModel.Heading, 
+				SchoolPupilNumbersSummaryHeadingViewModel.Heading,
 				"/school/PupilNumbers")
-				{ Status = selectedSchool.ProjectedPupilNumbersYear1.HasValue ?
+			{
+				Status = selectedSchool.ProjectedPupilNumbersYear1.HasValue ?
 					SchoolConversionComponentStatus.Complete
 					: SchoolConversionComponentStatus.NotStarted
-				};
-			
+			};
+
 			heading1.Sections.Add(
 				new(
-					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr1, 
+					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr1,
 					selectedSchool.ProjectedPupilNumbersYear1?.ToString() ?? QuestionAndAnswerConstants.NoAnswer
 					)
 				);
 			heading1.Sections.Add(
 				new(
-					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr2, 
+					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr2,
 					selectedSchool.ProjectedPupilNumbersYear2?.ToString() ?? QuestionAndAnswerConstants.NoAnswer
 					)
 				);
@@ -90,7 +91,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				);
 			heading1.Sections.Add(
 				new(
-					SchoolPupilNumbersSummarySectionViewModel.NumbersBasedUpon, 
+					SchoolPupilNumbersSummarySectionViewModel.NumbersBasedUpon,
 					selectedSchool.SchoolCapacityAssumptions ?? QuestionAndAnswerConstants.NoAnswer
 					)
 				);
@@ -101,7 +102,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 					)
 				);
 
-			var vm = new List<SchoolPupilNumbersSummaryHeadingViewModel> { heading1  };
+			var vm = new List<SchoolPupilNumbersSummaryHeadingViewModel> { heading1 };
 
 			ViewModel = vm;
 		}

@@ -5,7 +5,7 @@
 /// </summary>
 public sealed class SchoolSearchResultViewModel
 {
-	public SchoolSearchResultViewModel(int urn, string name,  string ukprn)
+	public SchoolSearchResultViewModel(int urn, string name, string ukprn)
 	{
 		URN = urn;
 		SchoolName = name;
@@ -23,7 +23,7 @@ public sealed class SchoolSearchResultViewModel
 	public string? UKPRN { get; set; }
 
 	public string SchoolName { get; set; }
-	
+
 	/// <summary>
 	/// e.g. 7083
 	/// </summary>

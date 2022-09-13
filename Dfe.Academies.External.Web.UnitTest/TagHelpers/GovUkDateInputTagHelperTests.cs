@@ -1,9 +1,9 @@
-﻿using Dfe.Academies.External.Web.TagHelpers;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dfe.Academies.External.Web.TagHelpers;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.TagHelpers;
 
@@ -13,7 +13,7 @@ internal sealed class GovUkDateInputTagHelperTests
 	public void Process___ValidDateStrings___ReturnsHtml()
 	{
 		// arrange
-		string expectedHtml = 
+		string expectedHtml =
 			"<div class='govuk-date-input' id='govuk-date'><div class='govuk-date-input__item'><input id='SchoolConversionTargetDate' name='SchoolConversionTargetDate' type='hidden' value=''><div class='govuk-form-group'><label class='govuk-label govuk-date-input__label' for='SchoolConversionTargetDate-day'>Day</label><input id='SchoolConversionTargetDate-day' name='SchoolConversionTargetDate-day' type='text' inputmode='numeric' class='govuk-input govuk-date-input__input govuk-input--width-2' pattern='[0-9]{1,2}' value='01'></div></div><div class='govuk-date-input__item'><div class='govuk-form-group'><label class='govuk-label govuk-date-input__label' for='SchoolConversionTargetDate-month'>Month</label><input id='SchoolConversionTargetDate-month' name='SchoolConversionTargetDate-month' type='text' inputmode='numeric' class='govuk-input govuk-date-input__input govuk-input--width-2' pattern='[0-9]{1,2}' value='01'></div></div><div class='govuk-date-input__item'><div class='govuk-form-group'><label class='govuk-label govuk-date-input__label' for='SchoolConversionTargetDate-year'>Year</label><input id='SchoolConversionTargetDate-year' name='SchoolConversionTargetDate-year' type='text' inputmode='numeric' class='govuk-input govuk-date-input__input govuk-input--width-4' pattern='[1-9][0-9]{3}' value='2022'></div></div></div>";
 		GovUkDateInputTagHelper tagHelper = new GovUkDateInputTagHelper
 		{
@@ -98,7 +98,7 @@ internal sealed class GovUkDateInputTagHelperTests
 		{
 			FieldName = "SchoolConversionTargetDate",
 			FieldData = "TargetDate",
-			FieldDay  = "01",
+			FieldDay = "01",
 			FieldYear = "2022"
 		};
 

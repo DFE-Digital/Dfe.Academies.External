@@ -4,40 +4,41 @@ using Dfe.Academies.External.Web.Extensions;
 namespace Dfe.Academies.External.Web.Models;
 public class ConversionApplication
 {
-    public int ApplicationId { get; set; }
+	public int ApplicationId { get; set; }
 
-    /// <summary>
-    /// e.g. 'A2B_xxx'
-    /// </summary>
-    public string ApplicationReference => $"A2B_{ApplicationId}";
+	/// <summary>
+	/// e.g. 'A2B_xxx'
+	/// </summary>
+	public string ApplicationReference => $"A2B_{ApplicationId}";
 
-    public ApplicationTypes ApplicationType { get; set; }
+	public ApplicationTypes ApplicationType { get; set; }
 
-    public ApplicationStatus ApplicationStatus { get; set; }
+	public ApplicationStatus ApplicationStatus { get; set; }
 
 	public string? UserEmail { get; set; }
 
 	/// <summary>
 	/// In format:- "Form a new single academy trust A2B_2"
 	/// </summary>
-	public string ApplicationTitle {
+	public string ApplicationTitle
+	{
 		get
 		{
 			return $"{ApplicationType.GetDescription()} {ApplicationReference}";
 		}
 	}
 
-    public List<SchoolApplyingToConvert> Schools { get; set; } = new();
-    
-    public List<ConversionApplicationContributor> Contributors { get; set; } = new();
+	public List<SchoolApplyingToConvert> Schools { get; set; } = new();
 
-    public int ConversionStatus { get; set; }
+	public List<ConversionApplicationContributor> Contributors { get; set; } = new();
 
-    public NewTrust? FormATrust { get; set; }
+	public int ConversionStatus { get; set; }
 
-    public ExistingTrust? ExistingTrust { get; set; }
+	public NewTrust? FormATrust { get; set; }
 
-    public string TrustName => (ApplicationType == ApplicationTypes.JoinAMat
-        ? ExistingTrust?.TrustName
-        : FormATrust?.ProposedTrustName) ?? string.Empty;
+	public ExistingTrust? ExistingTrust { get; set; }
+
+	public string TrustName => (ApplicationType == ApplicationTypes.JoinAMat
+		? ExistingTrust?.TrustName
+		: FormATrust?.ProposedTrustName) ?? string.Empty;
 }

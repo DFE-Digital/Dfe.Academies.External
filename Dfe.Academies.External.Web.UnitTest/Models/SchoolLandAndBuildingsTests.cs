@@ -1,7 +1,7 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using Dfe.Academies.External.Web.Models;
 using NUnit.Framework;
-using System;
 
 namespace Dfe.Academies.External.Web.UnitTest.Models;
 
@@ -26,7 +26,7 @@ internal sealed class SchoolLandAndBuildingsTests
 		string? schoolBuildLandPfiSchemeType = Fixture.Create<string>();
 		bool? schoolBuildLandPriorityBuildingProgramme = false;
 		bool? schoolBuildLandFutureProgramme = false;
-		
+
 		var applicationComponent = new SchoolLandAndBuildings(
 			schoolBuildLandOwnerExplained,
 			schoolBuildLandWorksPlanned,

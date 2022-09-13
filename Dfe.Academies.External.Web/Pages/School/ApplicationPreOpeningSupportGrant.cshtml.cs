@@ -8,19 +8,19 @@ namespace Dfe.Academies.External.Web.Pages.School;
 
 public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 {
-    private readonly ILogger<ApplicationPreOpeningSupportGrantModel> _logger;
-    private readonly IConversionApplicationCreationService _academisationCreationService;
+	private readonly ILogger<ApplicationPreOpeningSupportGrantModel> _logger;
+	private readonly IConversionApplicationCreationService _academisationCreationService;
 
-    //// MR:- selected school props for UI rendering
-    [BindProperty]
-    public int ApplicationId { get; set; }
+	//// MR:- selected school props for UI rendering
+	[BindProperty]
+	public int ApplicationId { get; set; }
 
-    [BindProperty]
-    public int Urn { get; set; }
+	[BindProperty]
+	public int Urn { get; set; }
 
-    public string SchoolName { get; private set; } = string.Empty;
+	public string SchoolName { get; private set; } = string.Empty;
 
-    [BindProperty]
+	[BindProperty]
 	public ApplicationTypes ApplicationType { get; set; }
 
 	//// MR:- VM props to capture data
@@ -114,7 +114,7 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 			}
 			else
 			{
-				if (ConfirmSchoolPay!= true)
+				if (ConfirmSchoolPay != true)
 				{
 					schoolSupportGrantFundsPaidTo = PayFundsTo.Trust;
 				}

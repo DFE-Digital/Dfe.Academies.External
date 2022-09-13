@@ -6,140 +6,140 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.Trust
 {
-    public class ApplicationSelectTrustModel : BasePageModel
+	public class ApplicationSelectTrustModel : BasePageModel
 	{
-	    private readonly ILogger<ApplicationSelectTrustModel> _logger;
-	    private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
-	    private const string NextStepPage = "/ApplicationOverview";
+		private readonly ILogger<ApplicationSelectTrustModel> _logger;
+		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
+		private const string NextStepPage = "/ApplicationOverview";
 
-	    [BindProperty]
-	    public int ApplicationId { get; set; }
+		[BindProperty]
+		public int ApplicationId { get; set; }
 
-	    [BindProperty]
-	    [MinimumLength(ErrorMessage = "You must give the name of the trust")]
-	    public string? SearchQuery { get; set; } = string.Empty;
+		[BindProperty]
+		[MinimumLength(ErrorMessage = "You must give the name of the trust")]
+		public string? SearchQuery { get; set; } = string.Empty;
 
-	    [BindProperty]
-	    [ConfirmTrue(ErrorMessage = "You must confirm that this is the correct trust")]
-	    public bool CorrectTrustConfirmation { get; set; } = false;
+		[BindProperty]
+		[ConfirmTrue(ErrorMessage = "You must confirm that this is the correct trust")]
+		public bool CorrectTrustConfirmation { get; set; } = false;
 
-	    public string SelectedTrustName
-	    {
-		    get
-		    {
-			    if (!string.IsNullOrWhiteSpace(SearchQuery))
-			    {
-				    var trustSplit = SearchQuery
-					    .Trim()
-					    .Split('(', StringSplitOptions.RemoveEmptyEntries);
+		public string SelectedTrustName
+		{
+			get
+			{
+				if (!string.IsNullOrWhiteSpace(SearchQuery))
+				{
+					var trustSplit = SearchQuery
+						.Trim()
+						.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
-				    return trustSplit[0].Trim();
-			    }
+					return trustSplit[0].Trim();
+				}
 
-			    return string.Empty;
-		    }
-	    }
+				return string.Empty;
+			}
+		}
 
-	    public int SelectedUkPrn
-	    {
-		    get
-		    {
-			    if (!string.IsNullOrWhiteSpace(SearchQuery))
-			    {
-				    var trustSplit = SearchQuery
-					    .Trim()
-					    .Replace(")", string.Empty)
-					    .Split('(', StringSplitOptions.RemoveEmptyEntries);
+		public int SelectedUkPrn
+		{
+			get
+			{
+				if (!string.IsNullOrWhiteSpace(SearchQuery))
+				{
+					var trustSplit = SearchQuery
+						.Trim()
+						.Replace(")", string.Empty)
+						.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
-				    return Convert.ToInt32(trustSplit[^1]);
-			    }
+					return Convert.ToInt32(trustSplit[^1]);
+				}
 
-			    return 0;
-		    }
-	    }
+				return 0;
+			}
+		}
 
-	    public ApplicationSelectTrustModel(ILogger<ApplicationSelectTrustModel> logger, IConversionApplicationCreationService conversionApplicationCreationService)
-	    {
-		    _logger = logger;
-		    _conversionApplicationCreationService = conversionApplicationCreationService;
-	    }
+		public ApplicationSelectTrustModel(ILogger<ApplicationSelectTrustModel> logger, IConversionApplicationCreationService conversionApplicationCreationService)
+		{
+			_logger = logger;
+			_conversionApplicationCreationService = conversionApplicationCreationService;
+		}
 
-	    public async Task OnGetAsync()
-	    {
-		    try
-		    {
-			    //// on load - grab draft application from temp
-			    var conversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+		public async Task OnGetAsync()
+		{
+			try
+			{
+				//// on load - grab draft application from temp
+				var conversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			    //// MR:- Need to drop into this pages cache here ready for post / server callback !
-			    TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, conversionApplication);
+				//// MR:- Need to drop into this pages cache here ready for post / server callback !
+				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, conversionApplication);
 
-			    PopulateUiModel(conversionApplication);
-		    }
-		    catch (Exception ex)
-		    {
-			    _logger.LogError("Trust::ApplicationSelectTrustModel::OnGetAsync::Exception - {Message}", ex.Message);
-		    }
-	    }
+				PopulateUiModel(conversionApplication);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("Trust::ApplicationSelectTrustModel::OnGetAsync::Exception - {Message}", ex.Message);
+			}
+		}
 
-	    [ValidateAntiForgeryToken]
-	    public async Task<ActionResult> OnPostAddTrust()
-	    {
-		    if (!ModelState.IsValid)
-		    {
-			    // MR:- if you enter an incorrect name into the autocomplete, then the hidden input is blank (not populated in JS)
-			    // so, currently get the 'You must give the trust of the school' validation warning
-			    // rather than the "You must choose a trust from the list" (code below)
+		[ValidateAntiForgeryToken]
+		public async Task<ActionResult> OnPostAddTrust()
+		{
+			if (!ModelState.IsValid)
+			{
+				// MR:- if you enter an incorrect name into the autocomplete, then the hidden input is blank (not populated in JS)
+				// so, currently get the 'You must give the trust of the school' validation warning
+				// rather than the "You must choose a trust from the list" (code below)
 
-			    //// 2nd phase validation - check selected trust
-			    if (string.IsNullOrWhiteSpace(SearchQuery))
-			    {
-				    ModelState.AddModelError("InvalidTrust", "You must give the name of the trust");
-			    }
+				//// 2nd phase validation - check selected trust
+				if (string.IsNullOrWhiteSpace(SearchQuery))
+				{
+					ModelState.AddModelError("InvalidTrust", "You must give the name of the trust");
+				}
 
 				// error messages component consumes ViewData["Errors"] so populate it
 				PopulateValidationMessages();
-			    return Page();
-		    }
+				return Page();
+			}
 
-		    try
-		    {
-			    //// grab draft application from temp
-			    var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+			try
+			{
+				//// grab draft application from temp
+				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			    await _conversionApplicationCreationService.AddTrustToApplication(draftConversionApplication.ApplicationId, SelectedUkPrn, SelectedTrustName);
+				await _conversionApplicationCreationService.AddTrustToApplication(draftConversionApplication.ApplicationId, SelectedUkPrn, SelectedTrustName);
 
-			    // update temp store for next step - application overview
-			    TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+				// update temp store for next step - application overview
+				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
 				return RedirectToPage(NextStepPage, new { appId = draftConversionApplication.ApplicationId });
 			}
-		    catch (Exception ex)
-		    {
-			    _logger.LogError("Trust::ApplicationSelectSchoolModel::OnPostAddTrust::Exception - {Message}", ex.Message);
-			    return Page();
-		    }
-	    }
+			catch (Exception ex)
+			{
+				_logger.LogError("Trust::ApplicationSelectSchoolModel::OnPostAddTrust::Exception - {Message}", ex.Message);
+				return Page();
+			}
+		}
 
 		public async Task<IActionResult> OnPostFind()
-	    {
-		    var query = SearchQuery;
+		{
+			var query = SearchQuery;
 
-		    return RedirectToPage("TrustSearchResults");
-	    }
+			return RedirectToPage("TrustSearchResults");
+		}
 
-	    public override void PopulateValidationMessages()
-	    {
-		    PopulateViewDataErrorsWithModelStateErrors();
-	    }
+		public override void PopulateValidationMessages()
+		{
+			PopulateViewDataErrorsWithModelStateErrors();
+		}
 
-	    private void PopulateUiModel(ConversionApplication? conversionApplication)
-	    {
-		    if (conversionApplication != null)
-		    {
-			    ApplicationId = conversionApplication.ApplicationId;
-			    // other view model properties initialized within properties
-		    }
-	    }
+		private void PopulateUiModel(ConversionApplication? conversionApplication)
+		{
+			if (conversionApplication != null)
+			{
+				ApplicationId = conversionApplication.ApplicationId;
+				// other view model properties initialized within properties
+			}
+		}
 	}
 }
