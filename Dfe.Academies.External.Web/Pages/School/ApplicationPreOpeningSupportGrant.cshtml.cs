@@ -1,4 +1,5 @@
 ﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -121,7 +122,7 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 			}
 
 			// MR:- call API endpoint to log data
-			await _academisationCreationService.ApplicationPreOpeningSupportGrantUpdate(schoolSupportGrantFundsPaidTo, ApplicationId);
+			await _academisationCreationService.ApplicationPreOpeningSupportGrantUpdate(schoolSupportGrantFundsPaidTo, ApplicationId, Urn);
 
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -148,6 +149,11 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 		{
 			SchoolSupportGrantFundsPaidTo = PayFundsTo.Trust;
 			ConfirmSchoolPay = false;
+		}
+		else
+		{
+			SchoolSupportGrantFundsPaidTo = !string.IsNullOrEmpty(selectedSchool.SchoolSupportGrantFundsPaidTo) ? selectedSchool.SchoolSupportGrantFundsPaidTo.ToEnum<PayFundsTo>(): 0;
+			ConfirmSchoolPay = selectedSchool.ConfirmPaySupportGrantToSchool ?? false;
 		}
 
 		// TODO MR:- populate other props from API - not implemented 22/08/2022

@@ -1,4 +1,6 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
@@ -62,14 +64,17 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BasePageEditModel
 		SchoolName = selectedSchool.SchoolName;
 
 		ApplicationPreOpeningSupportGrantHeadingViewModel heading1 = new(ApplicationPreOpeningSupportGrantHeadingViewModel.Heading,
-			"/school/ApplicationPreOpeningSupportGrant");
-
-		// TODO MR:- for answer, consume QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
-		// OR data from API
-
+			"/school/ApplicationPreOpeningSupportGrant"){
+			Status = !String.IsNullOrEmpty(selectedSchool.SchoolSupportGrantFundsPaidTo) ?
+				SchoolConversionComponentStatus.Complete
+				: SchoolConversionComponentStatus.NotStarted
+		};
+		
 		heading1.Sections.Add(new(
 			ApplicationPreOpeningSupportGrantSectionViewModel.FundsSchoolOrTrust,
-			"Yes or No"));
+			string.IsNullOrWhiteSpace(selectedSchool.SchoolSupportGrantFundsPaidTo) ? 
+				QuestionAndAnswerConstants.NoInfoAnswer :  selectedSchool.SchoolSupportGrantFundsPaidTo.ToEnum<PayFundsTo>().GetDescription()
+		));
 
 		var vm = new List<ApplicationPreOpeningSupportGrantHeadingViewModel> { heading1 };
 

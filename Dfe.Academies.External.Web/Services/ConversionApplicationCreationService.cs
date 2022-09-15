@@ -1,4 +1,5 @@
 ﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
@@ -351,21 +352,10 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	}
 
 	///<inheritdoc/>
-	public async Task ApplicationPreOpeningSupportGrantUpdate(PayFundsTo schoolSupportGrantFundsPaidTo, int applicationId)
+	public async Task ApplicationPreOpeningSupportGrantUpdate(PayFundsTo schoolSupportGrantFundsPaidTo, int applicationId, int schoolUrn)
 	{
 		try
 		{
-			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
-			// to grab current application data
-			// before then patching ConversionApplication returned with data from application object
-
-			//// baseaddress has a backslash at the end to be a valid URI !!!
-			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
-			//string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
-
-			// application can contain multiple schools so need to grab one being changed via linqage
-			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolLandAndBuildings.Urn);
-
 			if (schoolSupportGrantFundsPaidTo == PayFundsTo.School)
 			{
 				//schoolUpdating.SchoolBuildLandOwnerExplained = schoolLandAndBuildings.SchoolBuildLandOwnerExplained;
@@ -374,10 +364,28 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			{
 				//schoolUpdating.SchoolBuildLandOwnerExplained = schoolLandAndBuildings.SchoolBuildLandOwnerExplained;	
 			}
+			
+			
+			var application = await GetApplication(applicationId);
+			
+			if (application.ApplicationId != applicationId)
+			{
+				throw new ArgumentException("Application not found");
+			}
 
-			// TODO: wire up Academisation API / what object does a PUT return
+			var school = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
+			if (school == null)
+			{
+				throw new ArgumentException("School not found");
+			}
+			
+			school.SchoolSupportGrantFundsPaidTo = schoolSupportGrantFundsPaidTo.ToString();
+			
+			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+			
 			// MR:- no response from Academies API - Just an OK
-			// await _resilientRequestProvider.PutAsync(apiurl, application);
+			await _resilientRequestProvider.PutAsync(apiurl, application);
+			
 		}
 		catch (Exception ex)
 		{

@@ -58,6 +58,7 @@
                                    id="pay-to@(payFundsToOption)"
                                    class="govuk-radios__input"
                                    data-aria-controls="payto-@(payFundsToOption.ToString().ToLower())"
+                                   checked="@(payFundsToOption.Equals(Model.SchoolSupportGrantFundsPaidTo))"
                                    aria-expanded="False" />
                                     <label for="pay-to@(payFundsToOption)" class="govuk-label govuk-radios__label">
                                         @payFundsToOption.GetDescription()
