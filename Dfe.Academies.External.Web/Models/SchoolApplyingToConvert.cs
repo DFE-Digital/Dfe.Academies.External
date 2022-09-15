@@ -31,6 +31,8 @@ public class SchoolApplyingToConvert
         public string AdditionalInformation { get; set; }
         public string EqualitiesImpactAssessmentCompleted { get; set; }
         public string EqualitiesImpactAssessmentDetails { get; set; }
+        
+        //// School Contacts / Key people
         public string SchoolConversionContactHeadName { get; set; }
         public string SchoolConversionContactHeadEmail { get; set; }
         public string SchoolConversionContactHeadTel { get; set; }
@@ -47,6 +49,7 @@ public class SchoolApplyingToConvert
        
         public string ApplicationJoinTrustReason { get; set; }
 
+        // Pre-opening support grants
         public string SchoolSupportGrantFundsPaidTo { get; set; }
         public bool? ConfirmPaySupportGrantToSchool { get; set; }
         
