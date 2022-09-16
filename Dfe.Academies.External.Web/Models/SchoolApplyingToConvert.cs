@@ -75,21 +75,6 @@ public class SchoolApplyingToConvert
         public int? SchoolCapacityPublishedAdmissionsNumber { get; set; }
         
         //// MR:- below props from A2C-SIP - ApplyingSchool object
-        public bool? SchoolOfstedInspectedButReportNotPublished { get; set; }
-
-        public string? SchoolOfstedInspectedReportNotPublishedExplain { get; set; }
-
-        public bool? SchoolLocalAuthorityReorganisation { get; set; }
-
-        public string? SchoolLocalAuthorityReorganisationExplain { get; set; }
-
-        public bool? SchoolLocalAuthorityClosurePlans { get; set; }
-
-        public string? SchoolLocalAuthorityClosurePlansExplain { get; set; }
-
-        public bool? SchoolAdSafeguarding { get; set; }
-
-        public string? SchoolAdSafeguardingExplain { get; set; }
 
         public List<SchoolLoan> Loans { get; set; } = new();
 
