@@ -1,10 +1,10 @@
-namespace Dfe.Academies.External.Web.Models
+﻿namespace Dfe.Academies.External.Web.Models
 {
 	public class SchoolPerformance
 	{
-		public bool inspectedButReportNotPublished { get; set; }
-		public string inspectedButReportNotPublishedExplain { get; set; }
-		public bool ongoingSafeguardingInvestigations { get; set; }
-		public string ongoingSafeguardingDetails { get; set; }
+		public bool InspectedButReportNotPublished { get; set; }
+		public string? InspectedButReportNotPublishedExplain { get; set; }
+		public bool OngoingSafeguardingInvestigations { get; set; }
+		public string? OngoingSafeguardingDetails { get; set; }
 	}
 }

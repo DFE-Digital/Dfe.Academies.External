@@ -14,6 +14,4 @@ public class SchoolReligiousEducation
 	public string FaithDioceseName { get; set; }
 
 	public string DiocesePermissionEvidenceDocumentLink { get; set; } = string.Empty;
-
-	// TODO:- other props from A2C-SIP - ???
 }
