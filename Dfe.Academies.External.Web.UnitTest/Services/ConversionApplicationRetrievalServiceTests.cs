@@ -241,7 +241,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		int applicationId = 2;
 		int expectedCount = 1;
-		int expectedURN = 141992;
+		int expectedURN = 123332;
 		ApplicationStatus status = ApplicationStatus.InProgress;
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
@@ -270,7 +270,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		int applicationId = 1;
 		int expectedCount = 1;
-		int expectedURN = 141992;
+		int expectedURN = 123332;
 		ApplicationStatus status = ApplicationStatus.InProgress;
 
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
@@ -288,7 +288,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		Assert.That(application.ApplicationStatus, Is.EqualTo(status));
 
 		Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
-		Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("string"));
+		Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("Frank Wise School"));
 		Assert.That(application.Schools.FirstOrDefault()?.URN, Is.EqualTo(expectedURN));
 	}
 

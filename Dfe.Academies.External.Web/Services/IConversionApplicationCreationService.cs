@@ -25,7 +25,7 @@ public interface IConversionApplicationCreationService
 
 	Task ApplicationSchoolLandAndBuildings(SchoolLandAndBuildings schoolLandAndBuildings, int applicationId, int schoolUrn);
 
-	Task ApplicationPreOpeningSupportGrantUpdate(PayFundsTo schoolSupportGrantFundsPaidTo, int applicationId);
+	Task ApplicationPreOpeningSupportGrantUpdate(PayFundsTo schoolSupportGrantFundsPaidTo, bool confirmSupportGrantToSchool, int applicationId, int schoolUrn);
 
 	//Task UpdateDraftApplication(ConversionApplication application);
 }

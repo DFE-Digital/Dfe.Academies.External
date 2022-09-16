@@ -233,7 +233,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1; // hard coded because has to be same as example JSON
-		int urn = 141992; // hard coded because has to be same as example JSON
+		int urn = 123332; // hard coded because has to be same as example JSON
 		SelectOption changeName = SelectOption.Yes;
 		string changeSchoolName = Fixture.Create<string>();
 
@@ -265,7 +265,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1; // hard coded because has to be same as example JSON
-		int urn = 141992; // hard coded because has to be same as example JSON
+		int urn = 123332; // hard coded because has to be same as example JSON
 		SelectOption changeName = SelectOption.Yes;
 		string changeSchoolName = Fixture.Create<string>();
 
@@ -297,7 +297,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1; // hard coded because has to be same as example JSON
-		int urn = 141992; // hard coded because has to be same as example JSON
+		int urn = 123332; // hard coded because has to be same as example JSON
 		SelectOption targetDateDifferent = SelectOption.Yes;
 		DateTime targetDate = Fixture.Create<DateTime>();
 		string targetDateExplained = Fixture.Create<string>();
@@ -331,7 +331,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1; // hard coded because has to be same as example JSON
-		int urn = 141992; // hard coded because has to be same as example JSON
+		int urn = 123332; // hard coded because has to be same as example JSON
 		SelectOption targetDateDifferent = SelectOption.Yes;
 		DateTime targetDate = Fixture.Create<DateTime>();
 		string targetDateExplained = Fixture.Create<string>();
@@ -365,7 +365,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = Fixture.Create<int>();
-		int urn = 141992; // hard coded because has to be same as example JSON
+		int urn = 123332; // hard coded because has to be same as example JSON
 		SelectOption targetDateDifferent = SelectOption.Yes;
 		DateTime targetDate = Fixture.Create<DateTime>();
 		string targetDateExplained = Fixture.Create<string>();
@@ -443,7 +443,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1;
-		int schoolUrn = 141992;
+		int schoolUrn = 123332;
 		var schoolLandAndBuildings = new SchoolLandAndBuildings(
 			"Test Owner",
 			true,
@@ -486,7 +486,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1;
-		int urn = 141992;
+		int urn = 123332;
 		var schoolLandAndBuildings = new SchoolLandAndBuildings(
 			"Test Owner",
 			true,
@@ -530,7 +530,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1;
-		int schoolUrn = 141992;
+		int schoolUrn = 123332;
 		int year1 = Fixture.Create<int>();
 		int year2 = Fixture.Create<int>();
 		int year3 = Fixture.Create<int>();
@@ -571,7 +571,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1;
-		int schoolUrn = 141992;
+		int schoolUrn = 123332;
 		int year1 = Fixture.Create<int>();
 		int year2 = Fixture.Create<int>();
 		int year3 = Fixture.Create<int>();
@@ -613,7 +613,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1;
-		int schoolUrn = 141992;
+		int schoolUrn = 123332; //123332
 
 		var schoolContacts = new ApplicationSchoolContacts(
 			applicationId,
@@ -652,9 +652,75 @@ internal sealed class ConversionApplicationCreationServiceTests
 		));
 	}
 
-	// TODO MR:- ApplicationPreOpeningSupportGrantUpdate - ApiReturns200___Ok()
+	/// <summary>
+	/// call pre-opening grant endpoint and mock HttpStatusCode.Created
+	/// </summary>
+	[Test]
+	public async Task ApplicationSchoolPreOpeningGrant___ApiReturns200___Ok()
+	{
+		// arrange
+		int applicationId = 1;
+		int schoolUrn = 123332;
+		PayFundsTo schoolGrant = PayFundsTo.Trust;
+		bool confirmPaySchool = true;
 
-	// TODO MR:- ApplicationPreOpeningSupportGrantUpdate - ApiReturns500___InternalServerError()
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.ApplicationPreOpeningSupportGrantUpdate(
+			schoolGrant,
+			confirmPaySchool,
+			applicationId,
+			schoolUrn
+		));
+	}
+	
+	/// <summary>
+	/// call pre-opening grant endpoint and mock HttpStatusCode.InternalServerError
+	/// </summary>
+	[Test]
+	public async Task ApplicationSchoolPreOpeningGrant__ApiReturns500___InternalServerError()
+	{
+		// arrange
+		int applicationId = 1;
+		int schoolUrn = 123332;
+		PayFundsTo schoolGrant = PayFundsTo.School;
+		bool confirmPaySchool = false;
+
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationPreOpeningSupportGrantUpdate(
+			schoolGrant,
+			confirmPaySchool,
+			applicationId,
+			schoolUrn
+		));
+	}
 
 
 	/// <summary>
@@ -665,7 +731,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1;
-		int schoolUrn = 141992;
+		int schoolUrn = 123332;
 
 		var schoolContacts = new ApplicationSchoolContacts(
 			applicationId,
