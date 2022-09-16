@@ -233,7 +233,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1; // hard coded because has to be same as example JSON
-		int urn = 141992; // hard coded because has to be same as example JSON
+		int urn = 123332; // hard coded because has to be same as example JSON
 		SelectOption changeName = SelectOption.Yes;
 		string changeSchoolName = Fixture.Create<string>();
 
@@ -265,7 +265,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1; // hard coded because has to be same as example JSON
-		int urn = 141992; // hard coded because has to be same as example JSON
+		int urn = 123332; // hard coded because has to be same as example JSON
 		SelectOption changeName = SelectOption.Yes;
 		string changeSchoolName = Fixture.Create<string>();
 
@@ -297,7 +297,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1; // hard coded because has to be same as example JSON
-		int urn = 141992; // hard coded because has to be same as example JSON
+		int urn = 123332; // hard coded because has to be same as example JSON
 		SelectOption targetDateDifferent = SelectOption.Yes;
 		DateTime targetDate = Fixture.Create<DateTime>();
 		string targetDateExplained = Fixture.Create<string>();
@@ -331,7 +331,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1; // hard coded because has to be same as example JSON
-		int urn = 141992; // hard coded because has to be same as example JSON
+		int urn = 123332; // hard coded because has to be same as example JSON
 		SelectOption targetDateDifferent = SelectOption.Yes;
 		DateTime targetDate = Fixture.Create<DateTime>();
 		string targetDateExplained = Fixture.Create<string>();
@@ -365,7 +365,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = Fixture.Create<int>();
-		int urn = 141992; // hard coded because has to be same as example JSON
+		int urn = 123332; // hard coded because has to be same as example JSON
 		SelectOption targetDateDifferent = SelectOption.Yes;
 		DateTime targetDate = Fixture.Create<DateTime>();
 		string targetDateExplained = Fixture.Create<string>();
@@ -443,7 +443,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1;
-		int schoolUrn = 141992;
+		int schoolUrn = 123332;
 		var schoolLandAndBuildings = new SchoolLandAndBuildings(
 			"Test Owner",
 			true,
@@ -486,7 +486,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1;
-		int urn = 141992;
+		int urn = 123332;
 		var schoolLandAndBuildings = new SchoolLandAndBuildings(
 			"Test Owner",
 			true,
@@ -530,7 +530,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1;
-		int schoolUrn = 141992;
+		int schoolUrn = 123332;
 		int year1 = Fixture.Create<int>();
 		int year2 = Fixture.Create<int>();
 		int year3 = Fixture.Create<int>();
@@ -571,7 +571,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1;
-		int schoolUrn = 141992;
+		int schoolUrn = 123332;
 		int year1 = Fixture.Create<int>();
 		int year2 = Fixture.Create<int>();
 		int year3 = Fixture.Create<int>();
@@ -613,7 +613,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1;
-		int schoolUrn = 141992;
+		int schoolUrn = 123332; //123332
 
 		var schoolContacts = new ApplicationSchoolContacts(
 			applicationId,
@@ -660,7 +660,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1;
-		int schoolUrn = 141992;
+		int schoolUrn = 123332;
 		PayFundsTo schoolGrant = PayFundsTo.Trust;
 		bool confirmPaySchool = true;
 
@@ -695,7 +695,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1;
-		int schoolUrn = 141992;
+		int schoolUrn = 123332;
 		PayFundsTo schoolGrant = PayFundsTo.School;
 		bool confirmPaySchool = false;
 
@@ -731,7 +731,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		// arrange
 		int applicationId = 1;
-		int schoolUrn = 141992;
+		int schoolUrn = 123332;
 
 		var schoolContacts = new ApplicationSchoolContacts(
 			applicationId,

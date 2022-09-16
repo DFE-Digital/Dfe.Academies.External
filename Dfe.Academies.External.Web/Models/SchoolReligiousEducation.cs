@@ -1,17 +1,9 @@
 ﻿namespace Dfe.Academies.External.Web.Models;
 
-public class SchoolReligiousEducation
-{
-	public SchoolReligiousEducation(string faithDioceseName)
-	{
-		FaithDioceseName = faithDioceseName;
-	}
-
-	public int Id { get; set; }
-
-	public int SchoolId { get; set; }
-
-	public string FaithDioceseName { get; set; }
-
-	public string DiocesePermissionEvidenceDocumentLink { get; set; } = string.Empty;
-}
+public record SchoolReligiousEducation(
+	bool? FaithSchool = null, // linked to a diocese yes/no?
+	string? FaithSchoolDioceseName = null,
+	string? DiocesePermissionEvidenceDocumentLink = null,
+	bool? HasSACREException = null,
+	DateTime? SACREExemptionEndDate = null
+);

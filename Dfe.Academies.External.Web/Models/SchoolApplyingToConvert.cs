@@ -13,19 +13,19 @@ public class SchoolApplyingToConvert
 								null, null, null,
 								null, null, null);
 	}
-	public int id { get; set; }
+		public int id { get; set; }
         public int URN { get; set; }
         public string SchoolName { get; set; }
         public string UKPRN { get; set; }
         public SchoolLandAndBuildings LandAndBuildings { get; set; }
-        public SchoolPerformance Performance { get; set; }
-        public LocalAuthority LocalAuthority { get; set; }
-        public PartnershipsAndAffliations PartnershipsAndAffliations { get; set; }
-        public SchoolReligiousEducation ReligiousEducation { get; set; }
-        public SchoolFinancialYear PreviousFinancialYear { get; set; }
-        public SchoolFinancialYear CurrentFinancialYear { get; set; }
-        public SchoolFinancialYear NextFinancialYear { get; set; }
-        public string SchoolContributionToTrust { get; set; }
+        public SchoolPerformance Performance { get; set; } = new();
+	public LocalAuthority LocalAuthority { get; set; } = new();
+	public PartnershipsAndAffliations PartnershipsAndAffliations { get; set; } = new();
+	public SchoolReligiousEducation ReligiousEducation { get; set; }
+	public SchoolFinancialYear PreviousFinancialYear { get; set; } = new();
+	public SchoolFinancialYear CurrentFinancialYear { get; set; } = new();
+	public SchoolFinancialYear NextFinancialYear { get; set; } = new();
+	public string SchoolContributionToTrust { get; set; }
         public string GoverningBodyConsentEvidenceDocumentLink { get; set; }
         public bool? AdditionalInformationAdded { get; set; }
         public string AdditionalInformation { get; set; }
@@ -46,39 +46,37 @@ public class SchoolApplyingToConvert
         public string SchoolConversionMainContactOtherRole { get; set; }
         public string SchoolConversionApproverContactName { get; set; }
         public string SchoolConversionApproverContactEmail { get; set; }
-       
+
+		//// ApplicationConversionTargetDate
+		public bool? SchoolConversionTargetDateSpecified { get; set; }
+		public DateTime? SchoolConversionTargetDate { get; set; }
+		public string SchoolConversionTargetDateExplained { get; set; }
+
+		//// ApplicationChangeSchoolName
+		public bool? ConversionChangeNamePlanned { get; set; }
+        public string? ProposedNewSchoolName { get; set; }
+
         public string ApplicationJoinTrustReason { get; set; }
 
-        // Pre-opening support grants
-        public string SchoolSupportGrantFundsPaidTo { get; set; }
-        public bool? ConfirmPaySupportGrantToSchool { get; set; }
-        
-        /// <summary>
-        /// TODO MR:- is below more a VM thing?
-        /// </summary>
-        public List<ConversionApplicationComponent> SchoolApplicationComponents { get; set; } = new();
-        
-        //// ApplicationChangeSchoolName
-        public bool? ConversionChangeNamePlanned { get; set; }
-        public string? ProposedNewSchoolName { get; set; }
-        
-        //// ApplicationConversionTargetDate
-        public bool? SchoolConversionTargetDateSpecified { get; set; }
-        public DateTime? SchoolConversionTargetDate { get; set; }
-        public string SchoolConversionTargetDateExplained { get; set; }
-
-        //// Pupil Numbers
-        public int? ProjectedPupilNumbersYear1 { get; set; }
+		//// Pupil Numbers
+		public int? ProjectedPupilNumbersYear1 { get; set; }
         public int? ProjectedPupilNumbersYear2 { get; set; }
         public int? ProjectedPupilNumbersYear3 { get; set; }
         public string? SchoolCapacityAssumptions { get; set; }
         public int? SchoolCapacityPublishedAdmissionsNumber { get; set; }
-        
-        //// MR:- below props from A2C-SIP - ApplyingSchool object
 
-        public List<SchoolLoan> Loans { get; set; } = new();
+		// Pre-opening support grants
+		public string SchoolSupportGrantFundsPaidTo { get; set; }
+		public bool? ConfirmPaySupportGrantToSchool { get; set; }
+
+		/// <summary>
+		/// TODO MR:- is below more a VM thing?
+		/// </summary>
+		public List<ConversionApplicationComponent> SchoolApplicationComponents { get; set; } = new();
+
+		//// MR:- below props from A2C-SIP - ApplyingSchool object
+
+		public List<SchoolLoan> Loans { get; set; } = new();
 
         public List<SchoolLease> Leases { get; set; } = new();
-
-        public SchoolFinances Finances { get; set; } = new();
 }

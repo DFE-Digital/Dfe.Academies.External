@@ -1,4 +1,4 @@
-namespace Dfe.Academies.External.Web.Models
+﻿namespace Dfe.Academies.External.Web.Models
 {
 	public record SchoolFinancialYear(
 		DateTime? FinancialYearEndDate = null,
@@ -11,5 +11,4 @@ namespace Dfe.Academies.External.Web.Models
 		string? CapitalCarryForwardExplained = null,
 		string? CapitalCarryForwardFileLink = null
 		);
-	
 }

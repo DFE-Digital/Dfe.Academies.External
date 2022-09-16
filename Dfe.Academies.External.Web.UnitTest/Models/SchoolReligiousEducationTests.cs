@@ -14,17 +14,14 @@ internal sealed class SchoolReligiousEducationTests
 		// arrange
 		string faithDioceseName = Fixture.Create<string>();
 
-		var applicationComponent = new SchoolReligiousEducation(faithDioceseName)
-		{
-			Id = int.MaxValue
-		};
+		var applicationComponent = new SchoolReligiousEducation(true, 
+			faithDioceseName, null, null, null);
 
 		// act
 		// nothing!
 
 		// assert
 		Assert.That(applicationComponent, Is.Not.Null);
-		Assert.That(applicationComponent.Id, Is.EqualTo(int.MaxValue));
-		Assert.That(applicationComponent.FaithDioceseName, Is.EqualTo(faithDioceseName));
+		Assert.That(applicationComponent.FaithSchoolDioceseName, Is.EqualTo(faithDioceseName));
 	}
 }
