@@ -662,6 +662,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		int applicationId = 1;
 		int schoolUrn = 141992;
 		PayFundsTo schoolGrant = PayFundsTo.Trust;
+		bool confirmPaySchool = true;
 
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
@@ -680,6 +681,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		// assert
 		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.ApplicationPreOpeningSupportGrantUpdate(
 			schoolGrant,
+			confirmPaySchool,
 			applicationId,
 			schoolUrn
 		));
@@ -695,6 +697,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		int applicationId = 1;
 		int schoolUrn = 141992;
 		PayFundsTo schoolGrant = PayFundsTo.School;
+		bool confirmPaySchool = false;
 
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
@@ -713,6 +716,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		// assert
 		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationPreOpeningSupportGrantUpdate(
 			schoolGrant,
+			confirmPaySchool,
 			applicationId,
 			schoolUrn
 		));

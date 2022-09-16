@@ -352,7 +352,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	}
 
 	///<inheritdoc/>
-	public async Task ApplicationPreOpeningSupportGrantUpdate(PayFundsTo schoolSupportGrantFundsPaidTo, int applicationId, int schoolUrn)
+	public async Task ApplicationPreOpeningSupportGrantUpdate(PayFundsTo schoolSupportGrantFundsPaidTo, bool confirmSupportGrantToSchool, int applicationId, int schoolUrn)
 	{
 		try
 		{
@@ -380,6 +380,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			}
 			
 			school.SchoolSupportGrantFundsPaidTo = schoolSupportGrantFundsPaidTo.ToString();
+			school.ConfirmPaySupportGrantToSchool = confirmSupportGrantToSchool;
 			
 			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 			
