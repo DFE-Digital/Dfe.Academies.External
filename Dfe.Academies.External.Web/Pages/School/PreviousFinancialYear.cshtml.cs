@@ -1,11 +1,9 @@
-﻿using System;
-using Dfe.Academies.External.Web.Attributes;
+﻿using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using static GovUk.Frontend.AspNetCore.ComponentDefaults;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -45,6 +43,34 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public string? PFYRevenueStatusExplained { get; set; }
 
+		// TODO MR:- anything else on the UI we'll need a property for in the view model
+		//decimal? Revenue = null,
+
+		//string? RevenueStatusFileLink = null,
+		//decimal? CapitalCarryForward = null,
+		
+		[BindProperty]
+		[RequiredEnum(ErrorMessage = "You must provide details")]
+		public RevenueType PFYCapitalCarryForwardStatus { get; set; }
+
+		[BindProperty]
+		public string? PFYCapitalCarryForwardExplained { get; set; }
+
+		//string? CapitalCarryForwardFileLink = null
+
+		public bool PFYFinancialEndDateError
+		{
+			get
+			{
+				if (!ModelState.IsValid && ModelState.Keys.Contains("PFYFinancialEndDateNotEntered"))
+				{
+					return true;
+				}
+
+				return false;
+			}
+		}
+
 		public bool PFYRevenueStatusExplainedError
 		{
 			get
@@ -57,9 +83,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return false;
 			}
 		}
-
-		// TODO MR:- anything else on the UI we'll need a property for in the view model
-
 
 		public bool HasError
 		{
@@ -146,7 +169,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 				// TODO MR:- call API
-				//await _academisationCreationService.ApplicationSchoolLandAndBuildings(landAndBuildingsData, ApplicationId, this.Urn);
+				var previousFinancialYear = new SchoolFinancialYear();
+
+				//await _academisationCreationService.ApplicationSchoolLandAndBuildings(previousFinancialYear, ApplicationId, Urn);
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
