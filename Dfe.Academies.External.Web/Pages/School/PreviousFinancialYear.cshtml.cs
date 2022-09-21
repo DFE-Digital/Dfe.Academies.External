@@ -11,7 +11,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	{
 		private readonly ILogger<PreviousFinancialYearModel> _logger;
 		private readonly IConversionApplicationCreationService _academisationCreationService;
-		public string PFYEndDateFormInputName = "sip_lbpfyenddate";
+		public string PFYEndDateFormInputName = "sip_pfyenddate";
 
 		//// MR:- selected school props for UI rendering
 		[BindProperty]
