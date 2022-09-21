@@ -65,15 +65,15 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BasePageEditModel
 
 		ApplicationPreOpeningSupportGrantHeadingViewModel heading1 = new(ApplicationPreOpeningSupportGrantHeadingViewModel.Heading,
 			"/school/ApplicationPreOpeningSupportGrant"){
-			Status = !String.IsNullOrEmpty(selectedSchool.SchoolSupportGrantFundsPaidTo) ?
+			Status = !string.IsNullOrEmpty(selectedSchool.SchoolSupportGrantFundsPaidTo.ToString()) ?
 				SchoolConversionComponentStatus.Complete
 				: SchoolConversionComponentStatus.NotStarted
 		};
 		
 		heading1.Sections.Add(new(
 			ApplicationPreOpeningSupportGrantSectionViewModel.FundsSchoolOrTrust,
-			string.IsNullOrWhiteSpace(selectedSchool.SchoolSupportGrantFundsPaidTo) ? 
-				QuestionAndAnswerConstants.NoInfoAnswer :  selectedSchool.SchoolSupportGrantFundsPaidTo.ToEnum<PayFundsTo>().GetDescription()
+			string.IsNullOrWhiteSpace(selectedSchool.SchoolSupportGrantFundsPaidTo.ToString()) ? 
+				QuestionAndAnswerConstants.NoInfoAnswer :  selectedSchool.SchoolSupportGrantFundsPaidTo?.GetDescription()
 		));
 
 		var vm = new List<ApplicationPreOpeningSupportGrantHeadingViewModel> { heading1 };
