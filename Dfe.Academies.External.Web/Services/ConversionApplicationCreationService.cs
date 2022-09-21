@@ -379,7 +379,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 				throw new ArgumentException("School not found");
 			}
 			
-			school.SchoolSupportGrantFundsPaidTo = schoolSupportGrantFundsPaidTo.ToString();
+			school.SchoolSupportGrantFundsPaidTo = schoolSupportGrantFundsPaidTo;
 			school.ConfirmPaySupportGrantToSchool = confirmSupportGrantToSchool;
 			
 			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";

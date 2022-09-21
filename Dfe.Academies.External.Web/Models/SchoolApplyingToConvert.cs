@@ -1,4 +1,6 @@
-﻿namespace Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+
+namespace Dfe.Academies.External.Web.Models;
 
 public class SchoolApplyingToConvert
 {
@@ -29,7 +31,7 @@ public class SchoolApplyingToConvert
         public string GoverningBodyConsentEvidenceDocumentLink { get; set; }
         public bool? AdditionalInformationAdded { get; set; }
         public string AdditionalInformation { get; set; }
-        public string EqualitiesImpactAssessmentCompleted { get; set; }
+        public EqualityImpact? EqualitiesImpactAssessmentCompleted { get; set; }
         public string EqualitiesImpactAssessmentDetails { get; set; }
         
         //// School Contacts / Key people
@@ -56,7 +58,7 @@ public class SchoolApplyingToConvert
 		public bool? ConversionChangeNamePlanned { get; set; }
         public string? ProposedNewSchoolName { get; set; }
 
-        public string ApplicationJoinTrustReason { get; set; }
+        public string? ApplicationJoinTrustReason { get; set; }
 
 		//// Pupil Numbers
 		public int? ProjectedPupilNumbersYear1 { get; set; }
@@ -66,7 +68,7 @@ public class SchoolApplyingToConvert
         public int? SchoolCapacityPublishedAdmissionsNumber { get; set; }
 
 		// Pre-opening support grants
-		public string SchoolSupportGrantFundsPaidTo { get; set; }
+		public PayFundsTo? SchoolSupportGrantFundsPaidTo { get; set; }
 		public bool? ConfirmPaySupportGrantToSchool { get; set; }
 
 		/// <summary>

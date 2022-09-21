@@ -152,7 +152,7 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 		}
 		else
 		{
-			SchoolSupportGrantFundsPaidTo = !string.IsNullOrEmpty(selectedSchool.SchoolSupportGrantFundsPaidTo) ? selectedSchool.SchoolSupportGrantFundsPaidTo.ToEnum<PayFundsTo>(): 0;
+			SchoolSupportGrantFundsPaidTo = selectedSchool.SchoolSupportGrantFundsPaidTo;
 			ConfirmSchoolPay = selectedSchool.ConfirmPaySupportGrantToSchool ?? false;
 		}
 
