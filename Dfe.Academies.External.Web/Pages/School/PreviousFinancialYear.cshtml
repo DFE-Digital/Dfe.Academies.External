@@ -1,0 +1,109 @@
+﻿@page
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@using Dfe.Academies.External.Web.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Dfe.Academies.External.Web.Pages.School.PreviousFinancialYearModel
+@{
+	ViewData["Title"] = "Apply to become an academy - About the conversion";
+}
+
+@section BeforeMain
+{
+	<a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back to application overview</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<span class="govuk-caption-l">
+		@Model.SchoolName
+	</span>
+	<h1 class="govuk-heading-l">
+		Finances Step (1 of 6)
+	</h1>
+	<form method="post" name="frmFinancialPreviousYear" novalidate="">
+		@Html.AntiForgeryToken()
+		<input type="hidden" asp-for="Urn"/>
+		<input type="hidden" asp-for="ApplicationId"/>		
+		<partial name="_HiddenFields"/>    
+        
+		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+			<fieldset class="govuk-fieldset">
+				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+				</div>
+                
+@*				<div class="govuk-form-group">
+					<div id="works-planned-date-hint" class="govuk-hint">
+						For example, 01 09 2022
+					</div>
+					<a href="#SchoolBuildLandWorksPlannedDateNotEntered" 
+					   class="@(Model.SchoolBuildLandWorksPlannedDateError ? "govuk-error-message" : "govuk-visually-hidden")">
+						You must select a scheduled date
+					</a>
+                <govuk-date field-name="@Model.PFYEndDateFormInputName"
+					            field-data="@Model.PFYEndDate"
+                field-day="@Model.PFYEndDateDay"
+                field-month="@Model.PFYEndDateMonth"
+                field-year="@Model.PFYEndDateDateYear">
+					</govuk-date>
+				</div>*@
+                
+				<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+					<fieldset class="govuk-fieldset" role="group" aria-describedby="">
+						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+							cc?
+						</legend>
+                        @foreach (var revenueType in Enum.GetValues(typeof(RevenueType)).OfType<RevenueType>())
+                        {
+	                        <div class="govuk-radios__item">
+		                        <input type="radio"
+		                               asp-for="PFYRevenueStatus"
+		                               value="@Convert.ToInt32(revenueType)"
+		                               id="buildingWorksOption@(revenueType)"
+		                               class="govuk-radios__input"
+										data-aria-controls="buildingWorksOption-@(revenueType.ToString().ToLower())"
+                                   checked="@(revenueType.Equals(Model.PFYRevenueStatus))"
+		                               aria-expanded="False" />
+                                <label for="buildingWorksOption@(revenueType)" class="govuk-label govuk-radios__label">
+			                        @revenueType.GetDescription()
+		                        </label>
+	                        </div>
+
+                            @if (revenueType == RevenueType.Deficit)
+                            {
+                                <div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
+			                                            @(revenueType == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
+										id="buildingWorksOption-yes" aria-expanded="false">
+                                    <div class="govuk-form-group govuk-error-summary__list">
+                                        <a href="#PFYRevenueStatusExplainedNotEntered"
+											class="@(Model.PFYRevenueStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
+                                            You 
+                                        </a>
+	                                    <label for="buildingWorksOption-yes" class="govuk-label">
+		                                    Provide 
+	                                    </label>
+                                        <textarea asp-for="PFYRevenueStatusExplained" id="SchoolBuildLandWorksPlannedExplained"
+                                          class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+									</div>
+                                </div>
+                            }
+                        }
+
+					</fieldset>
+				</div>
+                
+
+@*				<div class="govuk-form-group">
+                    <label for="SchoolBuildLandOwnerExplained" class="govuk-label">As far as you're aware, who owns or holds the school's buildings and land?</label>
+                    <textarea asp-for="SchoolBuildLandOwnerExplained" id="SchoolBuildLandOwnerExplained"
+                          class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                </div>*@
+
+			</fieldset>
+        </div>
+        <br />
+
+		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+	</form>
+</div>
+
