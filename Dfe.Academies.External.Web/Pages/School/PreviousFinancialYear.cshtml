@@ -1,4 +1,3 @@
-﻿@page
 @using Dfe.Academies.External.Web.Enums
 @using Dfe.Academies.External.Web.Extensions
 @using Dfe.Academies.External.Web.TagHelpers
@@ -14,11 +13,9 @@
 }
 
 <div class="govuk-grid-column-two-thirds">
-	<span class="govuk-caption-l">
-		@Model.SchoolName
-	</span>
 	<h1 class="govuk-heading-l">
-		Finances Step (1 of 6)
+		<span class="govuk-caption-l">Finances (Step 1 of 6)</span>
+		Previous financial year
 	</h1>
 	<form method="post" name="frmFinancialPreviousYear" novalidate="">
 		@Html.AntiForgeryToken()
@@ -33,24 +30,29 @@
 				</div>
                 
 				<div class="govuk-form-group">
-					<div id="pfy-end-date-hint" class="govuk-hint">
-						For example, 01 09 2022
-					</div>
-					<a href="#PFYRevenueStatusExplainedNotEntered" class="@(Model.PFYFinancialEndDateError ? "govuk-error-message" : "govuk-visually-hidden")">
-						You must select financial year end date
-					</a>
-					<govuk-date field-name="@Model.PFYEndDateFormInputName"
-					    field-data="@Model.PFYEndDate"
-						field-day="@Model.PFYEndDateDay"
-						field-month="@Model.PFYEndDateMonth"
-						field-year="@Model.PFYEndDateDateYear">
-					</govuk-date>
+                    <fieldset class="govuk-fieldset" aria-describedby="pfy-end-date-hint" role="group">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+							End of previous financial year 
+						</legend>
+					    <div id="pfy-end-date-hint" class="govuk-hint">
+						    For example, 01 09 2022
+					    </div>
+					    <a href="#PFYRevenueStatusExplainedNotEntered" class="@(Model.PFYFinancialEndDateError ? "govuk-error-message" : "govuk-visually-hidden")">
+						    You must select financial year end date
+					    </a>
+					    <govuk-date field-name="@Model.PFYEndDateFormInputName"
+					        field-data="@Model.PFYEndDate"
+						    field-day="@Model.PFYEndDateDay"
+						    field-month="@Model.PFYEndDateMonth"
+						    field-year="@Model.PFYEndDateDateYear">
+					    </govuk-date>
+                    </fieldset>
 				</div>
                 
 				<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
 					<fieldset class="govuk-fieldset" role="group" aria-describedby="">
 						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-							cc?
+							Revenue carry forward at end of the previous financial year (31 March)
 						</legend>
                         @foreach (var revenueType in Enum.GetValues(typeof(RevenueType)).OfType<RevenueType>())
                         {
@@ -79,10 +81,19 @@
                                             You 
                                         </a>
                                         <label for="revenueType-deficit" class="govuk-label">
-		                                    Provide 
+		                                    Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority 
 	                                    </label>
                                         <textarea asp-for="PFYRevenueStatusExplained" id="PFYRevenueStatusExplained"
                                           class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+							            <p>
+								            You can upload the school’s recovery plan.
+							            </p>
+							            <span class="govuk-hint">
+								            We prefer schools to set out their income and expenditure using the
+								            <a href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr" target="_blank">consistent financial reporting</a>
+								            codes.
+							            </span>
+                                        TODO MR:- file upload control !
 									</div>
                                 </div>
                             }
@@ -91,11 +102,17 @@
 					</fieldset>
 				</div>
 
-				@*<div class="govuk-form-group">
+                <div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+                    <fieldset class="govuk-fieldset">
+                        // TODO MR:- PFYCapitalCarryForward
+
+                        				@*<div class="govuk-form-group">
                 <label for="PFYCapitalCarryForwardExplained" class="govuk-label"></label>
                 <textarea asp-for="PFYCapitalCarryForwardExplained" id="PFYCapitalCarryForwardExplained"
                           class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
                 </div>*@
+                    </fieldset>
+                </div>
 
 			</fieldset>
         </div>
@@ -104,4 +121,3 @@
 		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 	</form>
 </div>
-
