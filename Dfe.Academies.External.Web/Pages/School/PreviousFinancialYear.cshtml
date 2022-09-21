@@ -32,21 +32,20 @@
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>
                 
-@*				<div class="govuk-form-group">
-					<div id="works-planned-date-hint" class="govuk-hint">
+				<div class="govuk-form-group">
+					<div id="pfy-end-date-hint" class="govuk-hint">
 						For example, 01 09 2022
 					</div>
-					<a href="#SchoolBuildLandWorksPlannedDateNotEntered" 
-					   class="@(Model.SchoolBuildLandWorksPlannedDateError ? "govuk-error-message" : "govuk-visually-hidden")">
-						You must select a scheduled date
+					<a href="#PFYRevenueStatusExplainedNotEntered" class="@(Model.PFYFinancialEndDateError ? "govuk-error-message" : "govuk-visually-hidden")">
+						You must select financial year end date
 					</a>
-                <govuk-date field-name="@Model.PFYEndDateFormInputName"
-					            field-data="@Model.PFYEndDate"
-                field-day="@Model.PFYEndDateDay"
-                field-month="@Model.PFYEndDateMonth"
-                field-year="@Model.PFYEndDateDateYear">
+					<govuk-date field-name="@Model.PFYEndDateFormInputName"
+					    field-data="@Model.PFYEndDate"
+						field-day="@Model.PFYEndDateDay"
+						field-month="@Model.PFYEndDateMonth"
+						field-year="@Model.PFYEndDateDateYear">
 					</govuk-date>
-				</div>*@
+				</div>
                 
 				<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
 					<fieldset class="govuk-fieldset" role="group" aria-describedby="">
@@ -59,12 +58,12 @@
 		                        <input type="radio"
 		                               asp-for="PFYRevenueStatus"
 		                               value="@Convert.ToInt32(revenueType)"
-		                               id="buildingWorksOption@(revenueType)"
+		                               id="revenueType@(revenueType)"
 		                               class="govuk-radios__input"
-										data-aria-controls="buildingWorksOption-@(revenueType.ToString().ToLower())"
-                                   checked="@(revenueType.Equals(Model.PFYRevenueStatus))"
+										data-aria-controls="revenueType-@(revenueType.ToString().ToLower())"
+										checked="@(revenueType.Equals(Model.PFYRevenueStatus))"
 		                               aria-expanded="False" />
-                                <label for="buildingWorksOption@(revenueType)" class="govuk-label govuk-radios__label">
+                                <label for="revenueType@(revenueType)" class="govuk-label govuk-radios__label">
 			                        @revenueType.GetDescription()
 		                        </label>
 	                        </div>
@@ -72,17 +71,17 @@
                             @if (revenueType == RevenueType.Deficit)
                             {
                                 <div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
-			                                            @(revenueType == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
-										id="buildingWorksOption-yes" aria-expanded="false">
+			                                @(revenueType == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
+											id="revenueType-deficit" aria-expanded="false">
                                     <div class="govuk-form-group govuk-error-summary__list">
                                         <a href="#PFYRevenueStatusExplainedNotEntered"
 											class="@(Model.PFYRevenueStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
                                             You 
                                         </a>
-	                                    <label for="buildingWorksOption-yes" class="govuk-label">
+                                        <label for="revenueType-deficit" class="govuk-label">
 		                                    Provide 
 	                                    </label>
-                                        <textarea asp-for="PFYRevenueStatusExplained" id="SchoolBuildLandWorksPlannedExplained"
+                                        <textarea asp-for="PFYRevenueStatusExplained" id="PFYRevenueStatusExplained"
                                           class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
 									</div>
                                 </div>
@@ -91,11 +90,10 @@
 
 					</fieldset>
 				</div>
-                
 
-@*				<div class="govuk-form-group">
-                    <label for="SchoolBuildLandOwnerExplained" class="govuk-label">As far as you're aware, who owns or holds the school's buildings and land?</label>
-                    <textarea asp-for="SchoolBuildLandOwnerExplained" id="SchoolBuildLandOwnerExplained"
+				@*<div class="govuk-form-group">
+                <label for="PFYCapitalCarryForwardExplained" class="govuk-label"></label>
+                <textarea asp-for="PFYCapitalCarryForwardExplained" id="PFYCapitalCarryForwardExplained"
                           class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
                 </div>*@
 
