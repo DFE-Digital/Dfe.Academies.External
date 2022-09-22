@@ -71,7 +71,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			};
 
 			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.LandOwnership,
-				selectedSchool.LandAndBuildings.OwnerExplained ?? "Not entered")
+				selectedSchool.LandAndBuildings.OwnerExplained ?? QuestionAndAnswerConstants.NoAnswer)
 			);
 
 			heading1.Sections.Add(new(
