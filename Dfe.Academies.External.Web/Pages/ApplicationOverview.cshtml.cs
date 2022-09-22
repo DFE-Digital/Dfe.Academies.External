@@ -88,8 +88,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public async Task<IActionResult> OnPostAsync()
 		{
-			// update temp store for next page
-			return RedirectToPage("/SchoolOverview");
+			return RedirectToPage("/SchoolOverview", ApplicationId);
 		}
 
 		private void PopulateUiModel(ConversionApplication? conversionApplication, SchoolApplyingToConvert? school)
