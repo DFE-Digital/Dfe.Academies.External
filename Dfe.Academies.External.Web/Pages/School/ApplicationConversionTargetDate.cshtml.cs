@@ -137,7 +137,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (TargetDateDifferent == SelectOption.Yes && targetDate == DateTime.MinValue)
 			{
-				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must select a conversion date");
+				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must give a valid date");
 				PopulateValidationMessages();
 				//TargetDate = $"{day}/{month}/{year}"; // MR:- CAN'T set this in this scenario as taghelper expects REAL datetime, not invalid one
 				TargetDateDay = day;
