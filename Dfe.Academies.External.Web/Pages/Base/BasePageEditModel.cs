@@ -70,7 +70,7 @@ public abstract class BasePageEditModel : BasePageModel
 			// V1:-
 			"about the conversion" => "/school/SchoolConversionKeyDetails",
 			"further information" => "/school/FurtherInformation",
-			"finances" => "/school/Finances",
+			"finances" => "/school/FinancesReview",
 			"future pupil numbers" => "/school/PupilNumbersSummary",
 			"land and buildings" => "/school/LandAndBuildingsSummary",
 			"consultation" => "/school/ApplicationSchoolConsultationSummary",
