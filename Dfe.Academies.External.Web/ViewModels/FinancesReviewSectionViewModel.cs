@@ -2,12 +2,13 @@
 {
 	public class FinancesReviewSectionViewModel : SchoolQuestionAndAnswerViewModel
 	{
+		public const string Status = "Surplus or Deficit?";
+
 		// previous financial year
 		public const string PFYEndDate = "End of previous financial year end date?";
 		public const string PFYRevenue = "Revenue carry forward at end of the previous financial year (31 March)";
-		public const string Status = "Surplus or Deficit?";
 		public const string PFYRevenueStatusExplained = ""; // ??
-		public const string PFYCapitalCarryForward = "capital carry forward at end of the previous financial year (31 March)";
+		public const string PFYCapitalCarryForward = "Capital carry forward at end of the previous financial year (31 March)";
 		public const string PFYCapitalCarryForwardExplained = ""; // ??
 
 		// current financial year
