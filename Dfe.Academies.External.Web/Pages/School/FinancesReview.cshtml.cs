@@ -50,7 +50,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    }
 		    catch (Exception ex)
 		    {
-			    _logger.LogError("School::LandAndBuildingsSummaryModel::OnGetAsync::Exception - {Message}", ex.Message);
+			    _logger.LogError("School::FinancesReviewModel::OnGetAsync::Exception - {Message}", ex.Message);
 		    }
 	    }
 
@@ -64,8 +64,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    SchoolName = selectedSchool.SchoolName;
 		    var previousFinancialYear = selectedSchool.PreviousFinancialYear;
 
-			// previous financial year
-			FinancesReviewHeadingViewModel heading1 = new(FinancesReviewHeadingViewModel.HeadingPreviousFinancialYear,
+			// previous financial year - heading
+			FinancesReviewHeadingViewModel PFYheading = new(FinancesReviewHeadingViewModel.HeadingPreviousFinancialYear,
 				"/school/PreviousFinancialYear")
 		    {
 			    Status = previousFinancialYear.FinancialYearEndDate.HasValue ?
@@ -73,18 +73,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 				    : SchoolConversionComponentStatus.NotStarted
 		    };
 			// PFYEndDate
-			heading1.Sections.Add(new(FinancesReviewSectionViewModel.PFYEndDate,
+			PFYheading.Sections.Add(new(FinancesReviewSectionViewModel.PFYEndDate,
 				previousFinancialYear.FinancialYearEndDate.HasValue ?
 					previousFinancialYear.FinancialYearEndDate.Value.ToShortDateString() : QuestionAndAnswerConstants.NoAnswer)
 			);
 			//PFYRevenue
-			heading1.Sections.Add(new(FinancesReviewSectionViewModel.PFYRevenue,
+			PFYheading.Sections.Add(new(FinancesReviewSectionViewModel.PFYRevenue,
 				previousFinancialYear.Revenue.HasValue ?
 					previousFinancialYear.Revenue.Value.ToString() : QuestionAndAnswerConstants.NoAnswer)
 			);
 			//PFYRevenueStatus
 			//PFYRevenueStatusExplained - SubQ
-			heading1.Sections.Add(new(
+			PFYheading.Sections.Add(new(
 				FinancesReviewSectionViewModel.Status,
 				(previousFinancialYear.RevenueStatus.HasValue ?
 					previousFinancialYear.RevenueStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoAnswer)
@@ -100,13 +100,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 				}
 			});
 			//PFYCapitalCarryForward
-			heading1.Sections.Add(new(FinancesReviewSectionViewModel.PFYCapitalCarryForward,
+			PFYheading.Sections.Add(new(FinancesReviewSectionViewModel.PFYCapitalCarryForward,
 				previousFinancialYear.CapitalCarryForward.HasValue ?
 					previousFinancialYear.CapitalCarryForward.Value.ToString() : QuestionAndAnswerConstants.NoAnswer)
 			);
 			//PFYCapitalCarryForwardStatus
 			//PFYCapitalCarryForwardExplained - SubQ
-			heading1.Sections.Add(new(
+			PFYheading.Sections.Add(new(
 				FinancesReviewSectionViewModel.Status,
 				(previousFinancialYear.CapitalCarryForwardStatus.HasValue ?
 					previousFinancialYear.CapitalCarryForwardStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoAnswer)
@@ -122,23 +122,37 @@ namespace Dfe.Academies.External.Web.Pages.School
 				}
 			});
 
-
-			// previous financial year - questions
-
 			// current financial year - heading2
+			var currentFinancialYear = selectedSchool.CurrentFinancialYear;
+			FinancesReviewHeadingViewModel CFYheading = new(FinancesReviewHeadingViewModel.HeadingCurrentFinancialYear,
+				"/school/CurrentFinancialYear")
+			{
+				Status = currentFinancialYear.FinancialYearEndDate.HasValue ?
+					SchoolConversionComponentStatus.Complete
+					: SchoolConversionComponentStatus.NotStarted
+			};
 
 			// next financial year - heading3
+			var nextFinancialYear = selectedSchool.CurrentFinancialYear;
+			FinancesReviewHeadingViewModel NFYheading = new(FinancesReviewHeadingViewModel.HeadingNextFinancialYear,
+				"/school/NextFinancialYear")
+			{
+				Status = nextFinancialYear.FinancialYearEndDate.HasValue ?
+					SchoolConversionComponentStatus.Complete
+					: SchoolConversionComponentStatus.NotStarted
+			};
 
 			// loans - heading4
 
 			// leases - heading5
+			// API not done - 22/09/2022
 
 			// financial investigations - heading6
+			// API not done - 22/09/2022
 
-			var vm = new List<FinancesReviewHeadingViewModel> { heading1 };
+			var vm = new List<FinancesReviewHeadingViewModel> { PFYheading, CFYheading, NFYheading };
 
 			ViewModel = vm;
 	    }
-
 	}
 }
