@@ -90,11 +90,26 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
+		public bool PFYCapitalCarryForwardStatusExplainedError
+		{
+			get
+			{
+				if (!ModelState.IsValid && ModelState.Keys.Contains("PFYCapitalCarryForwardExplainedNotEntered"))
+				{
+					return true;
+				}
+
+				return false;
+			}
+		}
+
 		public bool HasError
 		{
 			get
 			{
-				var bools = new[] { PFYRevenueStatusExplainedError,
+				var bools = new[] { PFYFinancialEndDateError,
+					PFYRevenueStatusExplainedError,
+					PFYCapitalCarryForwardStatusExplainedError
 				};
 
 				return bools.Any(b => b);
@@ -167,7 +182,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			// TODO MR:- other optional validation - PFYCapitalCarryForwardExplained !!
+			if (PFYCapitalCarryForwardStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(PFYCapitalCarryForwardExplained))
+			{
+				ModelState.AddModelError("PFYCapitalCarryForwardExplainedNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return Page();
+			}
 
 			try
 			{
@@ -180,7 +200,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 																		PFYRevenueStatus, 
 																		PFYRevenueStatusExplained, 
 																		null,
-																		CapitalCarryForward);
+																		CapitalCarryForward,
+																		PFYCapitalCarryForwardStatus,
+																		PFYCapitalCarryForwardExplained,
+																		null);
 
 				//await _academisationCreationService.ApplicationSchoolLandAndBuildings(previousFinancialYear, ApplicationId, Urn);
 
