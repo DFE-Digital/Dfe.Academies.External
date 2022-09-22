@@ -36,19 +36,24 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty] // MR:- don't know whether I need this
 		public string? PFYEndDateDateYear { get; set; }
 
+		// TODO MR:- optional????
+		[BindProperty]
+		public decimal? Revenue { get; set; }
+
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
 		public RevenueType PFYRevenueStatus { get; set; }
 
 		[BindProperty]
 		public string? PFYRevenueStatusExplained { get; set; }
-
-		// TODO MR:- anything else on the UI we'll need a property for in the view model
-		//decimal? Revenue = null,
-
-		//string? RevenueStatusFileLink = null,
-		//decimal? CapitalCarryForward = null,
 		
+		// TODO MR:- below, once file upload whoopsy sorted!
+		//string? RevenueStatusFileLink = null,
+
+		// TODO MR:- optional????
+		[BindProperty]
+		public decimal? CapitalCarryForward { get; set; }
+
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
 		public RevenueType PFYCapitalCarryForwardStatus { get; set; }
@@ -56,6 +61,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public string? PFYCapitalCarryForwardExplained { get; set; }
 
+		// TODO MR:- below, once file upload whoopsy sorted!
 		//string? CapitalCarryForwardFileLink = null
 
 		public bool PFYFinancialEndDateError
@@ -150,26 +156,31 @@ namespace Dfe.Academies.External.Web.Pages.School
 				PopulateValidationMessages();
 				return Page();
 			}
-
-			// TODO MR:- other optional validation !!
-
-			//if (SchoolBuildLandWorksPlanned == SelectOption.Yes && PFYEndDate == DateTime.MinValue)
-			//{
-			//	ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", "You must select a scheduled completion date");
-			//	PopulateValidationMessages();
-			//	WorksPlannedDateDay = day;
-			//	WorksPlannedDateMonth = month;
-			//	WorksPlannedDateYear = year;
-			//	return Page();
-			//}
 			
+			if (PFYRevenueStatus == RevenueType.Deficit && PFYEndDate == DateTime.MinValue)
+			{
+				ModelState.AddModelError("PFYFinancialEndDateNotEntered", "You must give a valid date");
+				PopulateValidationMessages();
+				PFYEndDateDay = PFYEndDateComponentDay;
+				PFYEndDateMonth = PFYEndDateComponentMonth;
+				PFYEndDateDateYear = PFYEndDateComponentYear;
+				return Page();
+			}
+
+			// TODO MR:- other optional validation - PFYCapitalCarryForwardExplained !!
+
 			try
 			{
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 				// TODO MR:- call API
-				var previousFinancialYear = new SchoolFinancialYear();
+				var previousFinancialYear = new SchoolFinancialYear(PFYEndDate, 
+																		Revenue, 
+																		PFYRevenueStatus, 
+																		PFYRevenueStatusExplained, 
+																		null,
+																		CapitalCarryForward);
 
 				//await _academisationCreationService.ApplicationSchoolLandAndBuildings(previousFinancialYear, ApplicationId, Urn);
 

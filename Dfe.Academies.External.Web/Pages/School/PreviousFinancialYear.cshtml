@@ -54,50 +54,56 @@
 						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 							Revenue carry forward at end of the previous financial year (31 March)
 						</legend>
-                        @foreach (var revenueType in Enum.GetValues(typeof(RevenueType)).OfType<RevenueType>())
-                        {
-	                        <div class="govuk-radios__item">
-		                        <input type="radio"
-		                               asp-for="PFYRevenueStatus"
-		                               value="@Convert.ToInt32(revenueType)"
-		                               id="revenueType@(revenueType)"
-		                               class="govuk-radios__input"
-										data-aria-controls="revenueType-@(revenueType.ToString().ToLower())"
-										checked="@(revenueType.Equals(Model.PFYRevenueStatus))"
-		                               aria-expanded="False" />
-                                <label for="revenueType@(revenueType)" class="govuk-label govuk-radios__label">
-			                        @revenueType.GetDescription()
-		                        </label>
-	                        </div>
+						<div class="govuk-form-group">
+                                <input type="number" asp-for="Revenue" id="Revenue" class="govuk-input govuk-input--width-20"/>
+						</div>
+                        
+						<div class="govuk-form-group">
+							@foreach (var revenueType in Enum.GetValues(typeof(RevenueType)).OfType<RevenueType>())
+	                        {
+		                        <div class="govuk-radios__item">
+			                        <input type="radio"
+			                               asp-for="PFYRevenueStatus"
+			                               value="@Convert.ToInt32(revenueType)"
+			                               id="revenueType@(revenueType)"
+			                               class="govuk-radios__input"
+											data-aria-controls="revenueType-@(revenueType.ToString().ToLower())"
+											checked="@(revenueType.Equals(Model.PFYRevenueStatus))"
+			                               aria-expanded="False" />
+	                                <label for="revenueType@(revenueType)" class="govuk-label govuk-radios__label">
+				                        @revenueType.GetDescription()
+			                        </label>
+		                        </div>
 
-                            @if (revenueType == RevenueType.Deficit)
-                            {
-                                <div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
-			                                @(revenueType == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
-											id="revenueType-deficit" aria-expanded="false">
-                                    <div class="govuk-form-group govuk-error-summary__list">
-                                        <a href="#PFYRevenueStatusExplainedNotEntered"
-											class="@(Model.PFYRevenueStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                            You 
-                                        </a>
-                                        <label for="revenueType-deficit" class="govuk-label">
-		                                    Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority 
-	                                    </label>
-                                        <textarea asp-for="PFYRevenueStatusExplained" id="PFYRevenueStatusExplained"
-                                          class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
-							            <p>
-								            You can upload the school’s recovery plan.
-							            </p>
-							            <span class="govuk-hint">
-								            We prefer schools to set out their income and expenditure using the
-								            <a href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr" target="_blank">consistent financial reporting</a>
-								            codes.
-							            </span>
-                                        TODO MR:- file upload control !
-									</div>
-                                </div>
-                            }
-                        }
+	                            @if (revenueType == RevenueType.Deficit)
+	                            {
+	                                <div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
+				                                @(revenueType == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
+												id="revenueType-deficit" aria-expanded="false">
+	                                    <div class="govuk-form-group govuk-error-summary__list">
+	                                        <a href="#PFYRevenueStatusExplainedNotEntered"
+												class="@(Model.PFYRevenueStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
+	                                            You 
+	                                        </a>
+	                                        <label for="revenueType-deficit" class="govuk-label">
+			                                    Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority 
+		                                    </label>
+	                                        <textarea asp-for="PFYRevenueStatusExplained" id="PFYRevenueStatusExplained"
+	                                          class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+								            <p>
+									            You can upload the school’s recovery plan.
+								            </p>
+								            <span class="govuk-hint">
+									            We prefer schools to set out their income and expenditure using the
+									            <a href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr" target="_blank">consistent financial reporting</a>
+									            codes.
+								            </span>
+	                                        TODO MR:- file upload control !
+										</div>
+	                                </div>
+	                            }
+	                        }
+						</div>
 
 					</fieldset>
 				</div>
