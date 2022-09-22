@@ -214,7 +214,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && plannedDate == DateTime.MinValue)
 			{
-				ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", "You must select a scheduled completion date");
+				ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", "You must give a valid date");
 				PopulateValidationMessages();
 				WorksPlannedDateDay = day;
 				WorksPlannedDateMonth = month;
