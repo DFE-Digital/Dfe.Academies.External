@@ -37,26 +37,6 @@ builder.Services
 			.AllowAnonymousToPage("/Error")
 			.AllowAnonymousToPage("/NotFound")
 			.AllowAnonymousToPage("/WhatYouWillNeed");
-		// .AllowAnonymousToPage("/WhatAreYouApplyingToDo")
-		// .AllowAnonymousToPage("/YourApplications")
-		// .AllowAnonymousToPage("/ApplicationOverview")
-		// .AllowAnonymousToPage("/WhatIsYourRole")
-		// .AllowAnonymousToPage("/school/SchoolOverview")
-		// .AllowAnonymousToPage("/school/ApplicationSelectSchool")
-		// .AllowAnonymousToPage("/school/PupilNumbers")
-		// .AllowAnonymousToPage("/school/ApplicationJoinTrustReasons")
-		// .AllowAnonymousToPage("/school/ApplicationChangeSchoolName")
-		// .AllowAnonymousToPage("/school/ApplicationConversionTargetDate")
-		// .AllowAnonymousToPage("/school/SchoolConversionKeyDetails")
-		// .AllowAnonymousToPage("/school/PupilNumbersSummary")
-		// .AllowAnonymousToPage("/school/SchoolMainContacts")
-		// .AllowAnonymousToPage("/school/LandAndBuildingsSummary")
-		// .AllowAnonymousToPage("/school/LandAndBuildings")
-		// .AllowAnonymousToPage("/school/ApplicationSchoolConsultationSummary")
-		// .AllowAnonymousToPage("/school/ApplicationSchoolConsultation")
-		// .AllowAnonymousToPage("/school/ApplicationPreOpeningSupportGrantSummary")
-		// .AllowAnonymousToPage("/school/ApplicationPreOpeningSupportGrant")
-		// .AllowAnonymousToPage("/trust/ApplicationSelectTrust");
 		options.Conventions.AddPageRoute("/notfound", "/error/404");
 		options.Conventions.AddPageRoute("/notfound", "/error/{code:int}");
 	})
