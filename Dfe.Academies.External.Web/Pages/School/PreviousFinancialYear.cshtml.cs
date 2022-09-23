@@ -165,14 +165,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			if (PFYRevenueStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(PFYRevenueStatusExplained))
-			{
-				ModelState.AddModelError("PFYRevenueStatusExplainedNotEntered", "You must provide details");
-				PopulateValidationMessages();
-				return Page();
-			}
-			
-			if (PFYRevenueStatus == RevenueType.Deficit && PFYEndDate == DateTime.MinValue)
+			if (PFYEndDate == DateTime.MinValue)
 			{
 				ModelState.AddModelError("PFYFinancialEndDateNotEntered", "You must give a valid date");
 				PopulateValidationMessages();
@@ -182,6 +175,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
+			if (PFYRevenueStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(PFYRevenueStatusExplained))
+			{
+				ModelState.AddModelError("PFYRevenueStatusExplainedNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return Page();
+			}
+			
 			if (PFYCapitalCarryForwardStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(PFYCapitalCarryForwardExplained))
 			{
 				ModelState.AddModelError("PFYCapitalCarryForwardExplainedNotEntered", "You must provide details");
@@ -205,7 +205,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 																		PFYCapitalCarryForwardExplained,
 																		null);
 
-				//await _academisationCreationService.ApplicationSchoolLandAndBuildings(previousFinancialYear, ApplicationId, Urn);
+				await _academisationCreationService.ApplicationSchoolPreviousFinancialYear(previousFinancialYear, ApplicationId, Urn);
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
