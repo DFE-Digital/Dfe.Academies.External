@@ -770,6 +770,88 @@ internal sealed class ConversionApplicationCreationServiceTests
 		));
 	}
 
+	/// <summary>
+	/// call ApplicationSchoolNextFinancialYear service func and mock HttpStatusCode.Created
+	/// </summary>
+	[Test]
+	public async Task ApplicationSchoolNextFinancialYear___ApiReturns200___Ok()
+	{
+		// arrange
+		int applicationId = 1;
+		int schoolUrn = 123332;
+		var financialYear = new SchoolFinancialYear(
+			Fixture.Create<DateTime>(),
+			Fixture.Create<decimal>(),
+			Fixture.Create<RevenueType>(),
+			Fixture.Create<string>(),
+			null,
+			Fixture.Create<decimal>(),
+			Fixture.Create<RevenueType>(),
+			Fixture.Create<string>(),
+			null
+		);
+
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.ApplicationSchoolNextFinancialYear(
+			financialYear,
+			applicationId,
+			schoolUrn
+		));
+	}
+
+	[Test]
+	public async Task ApplicationSchoolNextFinancialYear__ApiReturns500___InternalServerError()
+	{
+		// arrange
+		int applicationId = 1;
+		int schoolUrn = 123332;
+		var financialYear = new SchoolFinancialYear(
+			Fixture.Create<DateTime>(),
+			Fixture.Create<decimal>(),
+			Fixture.Create<RevenueType>(),
+			Fixture.Create<string>(),
+			null,
+			Fixture.Create<decimal>(),
+			Fixture.Create<RevenueType>(),
+			Fixture.Create<string>(),
+			null
+		);
+
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.ApplicationSchoolNextFinancialYear(
+			financialYear,
+			applicationId,
+			schoolUrn
+		));
+	}
 
 	//public async Task UpdateDraftApplication___OtherRole___Success()
 	//{
