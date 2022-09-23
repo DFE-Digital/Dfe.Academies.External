@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
@@ -202,6 +203,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				// error messages component consumes ViewData["Errors"]
 				PopulateValidationMessages();
+				RePopDatePickerModel(day, month, year);
 				return Page();
 			}
 
@@ -209,16 +211,15 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", "You must provide details");
 				PopulateValidationMessages();
+				RePopDatePickerModel(day, month, year);
 				return Page();
 			}
 
 			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && plannedDate == DateTime.MinValue)
 			{
-				ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", "You must select a scheduled completion date");
+				ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", "You must give a valid date");
 				PopulateValidationMessages();
-				WorksPlannedDateDay = day;
-				WorksPlannedDateMonth = month;
-				WorksPlannedDateYear = year;
+				RePopDatePickerModel(day, month, year);
 				return Page();
 			}
 
@@ -226,6 +227,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", "You must provide details");
 				PopulateValidationMessages();
+				RePopDatePickerModel(day, month, year);
 				return Page();
 			}
 
@@ -233,6 +235,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", "You must provide details");
 				PopulateValidationMessages();
+				RePopDatePickerModel(day, month, year);
 				return Page();
 			}
 
@@ -240,6 +243,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				ModelState.AddModelError("SchoolBuildLandPFISchemeTypeNotEntered", "You must provide details");
 				PopulateValidationMessages();
+				RePopDatePickerModel(day, month, year);
 				return Page();
 			}
 
@@ -299,6 +303,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 			SchoolBuildLandPFISchemeType = selectedSchool.LandAndBuildings.PartOfPFISchemeType;
 			SchoolBuildLandPriorityBuildingProgramme = selectedSchool.LandAndBuildings.PartOfPrioritySchoolsBuildingProgramme.Value ? SelectOption.Yes : SelectOption.No;
 			SchoolBuildLandFutureProgramme = selectedSchool.LandAndBuildings.PartOfBuildingSchoolsForFutureProgramme.Value ? SelectOption.Yes : SelectOption.No;
+		}
+
+		private void RePopDatePickerModel(string worksPlannedDateDay, string worksPlannedDateMonth, string worksPlannedDateYear)
+		{
+			WorksPlannedDateDay = worksPlannedDateDay;
+			WorksPlannedDateMonth = worksPlannedDateMonth;
+			WorksPlannedDateYear = worksPlannedDateYear;
 		}
 	}
 }
