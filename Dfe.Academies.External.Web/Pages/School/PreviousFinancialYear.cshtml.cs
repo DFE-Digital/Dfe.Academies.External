@@ -162,6 +162,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				// error messages component consumes ViewData["Errors"]
 				PopulateValidationMessages();
+				// MR:- date input disappears without below !!
+				PFYEndDateDay = PFYEndDateComponentDay;
+				PFYEndDateMonth = PFYEndDateComponentMonth;
+				PFYEndDateDateYear = PFYEndDateComponentYear;
 				return Page();
 			}
 
@@ -169,6 +173,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				ModelState.AddModelError("PFYFinancialEndDateNotEntered", "You must give a valid date");
 				PopulateValidationMessages();
+				// MR:- date input disappears without below !!
 				PFYEndDateDay = PFYEndDateComponentDay;
 				PFYEndDateMonth = PFYEndDateComponentMonth;
 				PFYEndDateDateYear = PFYEndDateComponentYear;
@@ -210,7 +215,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-				return RedirectToPage("LandAndBuildingsSummary", new { appId = ApplicationId, urn = Urn });
+				return RedirectToPage("FinancesReview", new { appId = ApplicationId, urn = Urn });
 			}
 			catch (Exception ex)
 			{
