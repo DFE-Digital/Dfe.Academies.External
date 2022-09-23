@@ -104,17 +104,19 @@ public abstract class BasePageEditModel : BasePageModel
 
 	protected DateTime BuildDateTime(string day, string month, string year)
 	{
-		if (!string.IsNullOrWhiteSpace(month) && month.Length == 1) // just '9' being passed in for instance !
+		if (!string.IsNullOrWhiteSpace(day) && !string.IsNullOrWhiteSpace(month) && !string.IsNullOrWhiteSpace(year))
 		{
-			month = $"0{month}";
+			string dateString = $"{day.PadLeft(2, '0')}/{month.PadLeft(2, '0')}/{year.PadLeft(4, '0')}";
+			string format = "dd/MM/yyyy";
+
+			DateTime.TryParseExact(dateString, format, CultureInfo.InvariantCulture,
+				DateTimeStyles.None, out DateTime newDate);
+
+			return newDate;
 		}
-
-		string dateString = $"{day}/{month}/{year}";
-		string format = "dd/MM/yyyy";
-
-		DateTime.TryParseExact(dateString, format, CultureInfo.InvariantCulture,
-			DateTimeStyles.None, out DateTime newDate);
-
-		return newDate;
+		else
+		{
+			return DateTime.MinValue;
+		}
 	}
 }
