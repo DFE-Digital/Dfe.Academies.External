@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Attributes;
+﻿using System.ComponentModel.DataAnnotations;
+using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -36,9 +37,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty] // MR:- don't know whether I need this
 		public string? PFYEndDateDateYear { get; set; }
 
-		// TODO MR:- optional????
 		[BindProperty]
-		public decimal? Revenue { get; set; }
+		[Range(0, 200000000000000, ErrorMessage = "Revenue amount must be greater than 0")]
+		[Required(ErrorMessage = "You must provide a revenue amount")]
+		public decimal Revenue { get; set; }
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
@@ -50,9 +52,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 		// TODO MR:- below, once file upload whoopsy sorted!
 		//string? RevenueStatusFileLink = null,
 
-		// TODO MR:- optional????
 		[BindProperty]
-		public decimal? CapitalCarryForward { get; set; }
+		[Range(0, 200000000000000, ErrorMessage = "Capital carry forward amount must be greater than 0")]
+		[Required(ErrorMessage = "You must provide a capital carry forward amount")]
+		public decimal CapitalCarryForward { get; set; }
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
@@ -175,7 +178,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
 				return Page();
 			}
-
+			
 			if (PFYRevenueStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(PFYRevenueStatusExplained))
 			{
 				ModelState.AddModelError("PFYRevenueStatusExplainedNotEntered", "You must provide details");
@@ -236,7 +239,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 				selectedSchool.PreviousFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy")
 				: string.Empty);
 			// Revenue
-			Revenue = selectedSchool.PreviousFinancialYear.Revenue;
+			if (selectedSchool.PreviousFinancialYear.Revenue != null)
+			{
+				Revenue = selectedSchool.PreviousFinancialYear.Revenue.Value;
+			}
+
 			if (selectedSchool.PreviousFinancialYear.RevenueStatus != null)
 			{
 				PFYRevenueStatus = selectedSchool.PreviousFinancialYear.RevenueStatus.Value;
@@ -244,7 +251,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			PFYRevenueStatusExplained = selectedSchool.PreviousFinancialYear.RevenueStatusExplained;
 			// CCF
-			CapitalCarryForward = selectedSchool.PreviousFinancialYear.CapitalCarryForward;
+			if (selectedSchool.PreviousFinancialYear.CapitalCarryForward != null)
+			{
+				CapitalCarryForward = selectedSchool.PreviousFinancialYear.CapitalCarryForward.Value;
+			}
+
 			if (selectedSchool.PreviousFinancialYear.CapitalCarryForwardStatus != null)
 			{
 				PFYCapitalCarryForwardStatus = selectedSchool.PreviousFinancialYear.CapitalCarryForwardStatus.Value;
