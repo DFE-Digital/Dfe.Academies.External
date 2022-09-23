@@ -70,7 +70,7 @@ public abstract class BasePageEditModel : BasePageModel
 			// V1:-
 			"about the conversion" => "/school/SchoolConversionKeyDetails",
 			"further information" => "/school/FurtherInformation",
-			"finances" => "/school/Finances",
+			"finances" => "/school/FinancesReview",
 			"future pupil numbers" => "/school/PupilNumbersSummary",
 			"land and buildings" => "/school/LandAndBuildingsSummary",
 			"consultation" => "/school/ApplicationSchoolConsultationSummary",
@@ -104,12 +104,19 @@ public abstract class BasePageEditModel : BasePageModel
 
 	protected DateTime BuildDateTime(string day, string month, string year)
 	{
-		string dateString = $"{day}/{month}/{year}";
-		string format = "dd/MM/yyyy";
+		if (!string.IsNullOrWhiteSpace(day) && !string.IsNullOrWhiteSpace(month) && !string.IsNullOrWhiteSpace(year))
+		{
+			string dateString = $"{day.PadLeft(2, '0')}/{month.PadLeft(2, '0')}/{year.PadLeft(4, '0')}";
+			string format = "dd/MM/yyyy";
 
-		DateTime.TryParseExact(dateString, format, CultureInfo.InvariantCulture,
-			DateTimeStyles.None, out DateTime newDate);
+			DateTime.TryParseExact(dateString, format, CultureInfo.InvariantCulture,
+				DateTimeStyles.None, out DateTime newDate);
 
-		return newDate;
+			return newDate;
+		}
+		else
+		{
+			return DateTime.MinValue;
+		}
 	}
 }
