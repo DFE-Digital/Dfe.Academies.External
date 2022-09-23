@@ -29,8 +29,55 @@
         <input type="hidden" asp-for="Urn" />
         <input type="hidden" asp-for="ApplicationId" />
         <partial name="_HiddenFields" />
+        
+        <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+	        <fieldset class="govuk-fieldset">
+		        <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+			        <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+		        </div>
+		        
+		        <div class="govuk-form-group">
+			        <fieldset class="govuk-fieldset" aria-describedby="pfy-end-date-hint" role="group">
+				        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+					        End of next financial year 
+				        </legend>
+				        <div id="pfy-end-date-hint" class="govuk-hint">
+					        For example, 01 09 2022
+				        </div>
+				        <a href="#NFYFinancialEndDateNotEntered" class="@(Model.NFYFinancialEndDateError ? "govuk-error-message" : "govuk-visually-hidden")">
+					        You must select financial year end date
+				        </a>
+				        <govuk-date field-name="@Model.NFYEndDateFormInputName"
+				                    field-data="@Model.NFYEndDate"
+				                    field-day="@Model.NFYEndDateDay"
+				                    field-month="@Model.NFYEndDateMonth"
+				                    field-year="@Model.NFYEndDateDateYear">
+				        </govuk-date>
+			        </fieldset>
+		        </div>                
+		        <div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+			        <fieldset class="govuk-fieldset" role="group" aria-describedby="">
+				        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+					        Forecasted revenue carry forward at end of the next financial year (31 March)
+				        </legend>
+                        
+				        // TODO MR:- content
+			        </fieldset>
+		        </div>		        
+                
+		        <div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+			        <fieldset class="govuk-fieldset">
+				        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+					        Forecasted capital carry forward at end of the next financial year (31 March)
+				        </legend>
+				        // TODO MR:- content
+			        </fieldset>
+		        </div>                    
 
-        // TODO MR:- content
+	        </fieldset>
+		</div>
+		<br />
+        
 		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 	</form>
 </div>
