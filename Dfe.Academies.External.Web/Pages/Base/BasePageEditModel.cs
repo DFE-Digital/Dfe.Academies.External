@@ -104,7 +104,7 @@ public abstract class BasePageEditModel : BasePageModel
 
 	protected DateTime BuildDateTime(string day, string month, string year)
 	{
-		if (month.Length == 1) // just '9' being passed in for instance !
+		if (!string.IsNullOrWhiteSpace(month) && month.Length == 1) // just '9' being passed in for instance !
 		{
 			month = $"0{month}";
 		}
