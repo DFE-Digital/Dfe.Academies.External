@@ -395,6 +395,39 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		}
 	}
 
+	///<inheritdoc/>
+	public async Task ApplicationSchoolPreviousFinancialYear(SchoolFinancialYear previousFinancialYear, int applicationId,
+		int schoolUrn)
+	{
+		try
+		{
+			var application = await GetApplication(applicationId);
+
+			if (application.ApplicationId != applicationId)
+			{
+				throw new ArgumentException("Application not found");
+			}
+
+			var school = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
+			if (school == null)
+			{
+				throw new ArgumentException("School not found");
+			}
+
+			application.Schools.First(s => s.URN == schoolUrn).PreviousFinancialYear = previousFinancialYear;
+
+			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+
+			// MR:- no response from Academies API - Just an OK
+			await _resilientRequestProvider.PutAsync(apiurl, application);
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError("ConversionApplicationCreationService::ApplicationSchoolPreviousFinancialYear::Exception - {Message}", ex.Message);
+			throw;
+		}
+	}
+
 	private async Task<ConversionApplication> GetApplication(int applicationId)
 	{
 		return await _conversionApplicationRetrievalService.GetApplication(applicationId);
