@@ -63,18 +63,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 			_logger = logger;
 			_conversionApplicationCreationService = conversionApplicationCreationService;
 		}
-
-		public void OnGet()
+		public void OnGet(int appId)
 		{
 			try
 			{
-				//// on load - grab draft application from temp
-				var conversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-				//// MR:- Need to drop into this pages cache here ready for post / server callback !
-				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, conversionApplication);
-
-				PopulateUiModel(conversionApplication);
+				ApplicationId = appId;
 			}
 			catch (Exception ex)
 			{
@@ -103,15 +96,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			try
 			{
-				//// grab draft application from temp
-				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-				await _conversionApplicationCreationService.AddSchoolToApplication(draftConversionApplication.ApplicationId, SelectedUrn, SelectedSchoolName);
-
-				// update temp store for next step - application overview
-				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-				// MR:- going back to application overview as this was the V2 route && 'application overview' relies on appId being passed
+				await _conversionApplicationCreationService.AddSchoolToApplication(ApplicationId, SelectedUrn, SelectedSchoolName);
 				return RedirectToPage(NextSchoolStepPage, new { appId = ApplicationId });
 			}
 			catch (Exception ex)
