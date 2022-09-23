@@ -33,6 +33,26 @@ public class NextFinancialYearModel : BasePageEditModel
 	[BindProperty] // MR:- don't know whether I need this
 	public string? NFYEndDateDateYear { get; set; }
 
+	// NFY props
+
+	// TODO MR:- below, once file upload whoopsy sorted!
+	//string? CapitalCarryForwardFileLink = null
+
+	// optional validation
+
+	public bool NFYFinancialEndDateError
+	{
+		get
+		{
+			if (!ModelState.IsValid && ModelState.Keys.Contains("NFYFinancialEndDateNotEntered"))
+			{
+				return true;
+			}
+
+			return false;
+		}
+	}
+	
 	public NextFinancialYearModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 	    IReferenceDataRetrievalService referenceDataRetrievalService,
 	    ILogger<NextFinancialYearModel> logger,
