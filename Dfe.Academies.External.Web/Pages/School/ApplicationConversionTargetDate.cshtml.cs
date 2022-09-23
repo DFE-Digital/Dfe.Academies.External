@@ -201,9 +201,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		private void RePopDatePickerModel(string worksPlannedDateDay, string worksPlannedDateMonth, string worksPlannedDateYear)
 		{
-			WorksPlannedDateDay = worksPlannedDateDay;
-			WorksPlannedDateMonth = worksPlannedDateMonth;
-			WorksPlannedDateYear = worksPlannedDateYear;
+			TargetDateDay = worksPlannedDateDay;
+			TargetDateMonth = worksPlannedDateMonth;
+			TargetDateYear = worksPlannedDateYear;
 		}
 	}
 }
