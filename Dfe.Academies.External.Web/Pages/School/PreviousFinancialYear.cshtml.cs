@@ -163,9 +163,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// error messages component consumes ViewData["Errors"]
 				PopulateValidationMessages();
 				// MR:- date input disappears without below !!
-				PFYEndDateDay = PFYEndDateComponentDay;
-				PFYEndDateMonth = PFYEndDateComponentMonth;
-				PFYEndDateDateYear = PFYEndDateComponentYear;
+				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
 				return Page();
 			}
 
@@ -174,9 +172,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				ModelState.AddModelError("PFYFinancialEndDateNotEntered", "You must give a valid date");
 				PopulateValidationMessages();
 				// MR:- date input disappears without below !!
-				PFYEndDateDay = PFYEndDateComponentDay;
-				PFYEndDateMonth = PFYEndDateComponentMonth;
-				PFYEndDateDateYear = PFYEndDateComponentYear;
+				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
 				return Page();
 			}
 
@@ -184,6 +180,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				ModelState.AddModelError("PFYRevenueStatusExplainedNotEntered", "You must provide details");
 				PopulateValidationMessages();
+				// MR:- date input disappears without below !!
+				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
 				return Page();
 			}
 			
@@ -191,6 +189,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				ModelState.AddModelError("PFYCapitalCarryForwardExplainedNotEntered", "You must provide details");
 				PopulateValidationMessages();
+				// MR:- date input disappears without below !!
+				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
 				return Page();
 			}
 
@@ -251,6 +251,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 
 			PFYCapitalCarryForwardExplained = selectedSchool.PreviousFinancialYear.CapitalCarryForwardExplained;
+		}
+
+		private void RePopDatePickerModel(string pfyEndDateComponentDay, string pfyEndDateComponentMonth, string pfyEndDateComponentYear)
+		{
+			PFYEndDateDay = pfyEndDateComponentDay;
+			PFYEndDateMonth = pfyEndDateComponentMonth;
+			PFYEndDateDateYear = pfyEndDateComponentYear;
 		}
 	}
 }
