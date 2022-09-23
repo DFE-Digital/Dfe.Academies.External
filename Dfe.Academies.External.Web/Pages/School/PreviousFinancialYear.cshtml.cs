@@ -199,7 +199,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				// TODO MR:- call API
 				var previousFinancialYear = new SchoolFinancialYear(PFYEndDate, 
 																		Revenue, 
 																		PFYRevenueStatus, 
@@ -233,6 +232,25 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			SchoolName = selectedSchool.SchoolName;
+			PFYEndDate = (selectedSchool.PreviousFinancialYear.FinancialYearEndDate.HasValue ?
+				selectedSchool.PreviousFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy")
+				: string.Empty);
+			// Revenue
+			Revenue = selectedSchool.PreviousFinancialYear.Revenue;
+			if (selectedSchool.PreviousFinancialYear.RevenueStatus != null)
+			{
+				PFYRevenueStatus = selectedSchool.PreviousFinancialYear.RevenueStatus.Value;
+			}
+
+			PFYRevenueStatusExplained = selectedSchool.PreviousFinancialYear.RevenueStatusExplained;
+			// CCF
+			CapitalCarryForward = selectedSchool.PreviousFinancialYear.CapitalCarryForward;
+			if (selectedSchool.PreviousFinancialYear.CapitalCarryForwardStatus != null)
+			{
+				PFYCapitalCarryForwardStatus = selectedSchool.PreviousFinancialYear.CapitalCarryForwardStatus.Value;
+			}
+
+			PFYCapitalCarryForwardExplained = selectedSchool.PreviousFinancialYear.CapitalCarryForwardExplained;
 		}
 	}
 }
