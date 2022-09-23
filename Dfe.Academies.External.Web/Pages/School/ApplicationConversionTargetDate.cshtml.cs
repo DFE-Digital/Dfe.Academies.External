@@ -132,6 +132,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			if (!ModelState.IsValid)
 			{
 				PopulateValidationMessages();
+				// MR:- date input disappears without below !!
+				RePopDatePickerModel(day, month, year);
 				return Page();
 			}
 
@@ -139,10 +141,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must give a valid date");
 				PopulateValidationMessages();
-				//TargetDate = $"{day}/{month}/{year}"; // MR:- CAN'T set this in this scenario as taghelper expects REAL datetime, not invalid one
-				TargetDateDay = day;
-				TargetDateMonth = month;
-				TargetDateYear = year;
+				// MR:- date input disappears without below !!
+				RePopDatePickerModel(day, month, year);
 				return Page();
 			}
 
@@ -150,6 +150,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				ModelState.AddModelError("TargetDateExplainedNotEntered", "You must explain why you want to convert on this date");
 				PopulateValidationMessages();
+				// MR:- date input disappears without below !!
+				RePopDatePickerModel(day, month, year);
 				return Page();
 			}
 
@@ -195,6 +197,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			TargetDate = selectedSchool.SchoolConversionTargetDate.ToString();
 			TargetDateExplained = selectedSchool.SchoolConversionTargetDateExplained;
+		}
+
+		private void RePopDatePickerModel(string worksPlannedDateDay, string worksPlannedDateMonth, string worksPlannedDateYear)
+		{
+			WorksPlannedDateDay = worksPlannedDateDay;
+			WorksPlannedDateMonth = worksPlannedDateMonth;
+			WorksPlannedDateYear = worksPlannedDateYear;
 		}
 	}
 }
