@@ -201,7 +201,7 @@ public class NextFinancialYearModel : BasePageEditModel
 			//// grab draft application from temp= null
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			var previousFinancialYear = new SchoolFinancialYear(NFYEndDate,
+			var nextFinancialYear = new SchoolFinancialYear(NFYEndDate,
 				Revenue,
 				NFYRevenueStatus,
 				NFYRevenueStatusExplained,
@@ -211,7 +211,7 @@ public class NextFinancialYearModel : BasePageEditModel
 				NFYCapitalCarryForwardExplained,
 				null);
 
-			await _academisationCreationService.ApplicationSchoolNextFinancialYear(previousFinancialYear, ApplicationId, Urn);
+			await _academisationCreationService.ApplicationSchoolNextFinancialYear(nextFinancialYear, ApplicationId, Urn);
 
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
