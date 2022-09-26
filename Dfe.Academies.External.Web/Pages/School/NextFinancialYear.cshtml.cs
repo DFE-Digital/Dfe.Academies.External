@@ -66,8 +66,6 @@ public class NextFinancialYearModel : BasePageEditModel
 	// TODO MR:- below, once file upload whoopsy sorted!
 	//string? CapitalCarryForwardFileLink = null
 
-	// TODO MR:- optional validaTION
-
 	public bool NFYFinancialEndDateError
 	{
 		get
@@ -80,7 +78,46 @@ public class NextFinancialYearModel : BasePageEditModel
 			return false;
 		}
 	}
-	
+
+	public bool NFYRevenueStatusExplainedError
+	{
+		get
+		{
+			if (!ModelState.IsValid && ModelState.Keys.Contains("NFYRevenueStatusExplainedNotEntered"))
+			{
+				return true;
+			}
+
+			return false;
+		}
+	}
+
+	public bool NFYCapitalCarryForwardStatusExplainedError
+	{
+		get
+		{
+			if (!ModelState.IsValid && ModelState.Keys.Contains("NFYCapitalCarryForwardExplainedNotEntered"))
+			{
+				return true;
+			}
+
+			return false;
+		}
+	}
+
+	public bool HasError
+	{
+		get
+		{
+			var bools = new[] { NFYFinancialEndDateError,
+				NFYRevenueStatusExplainedError,
+				NFYCapitalCarryForwardStatusExplainedError
+			};
+
+			return bools.Any(b => b);
+		}
+	}
+
 	public NextFinancialYearModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 	    IReferenceDataRetrievalService referenceDataRetrievalService,
 	    ILogger<NextFinancialYearModel> logger,
@@ -132,7 +169,32 @@ public class NextFinancialYearModel : BasePageEditModel
 		    return Page();
 	    }
 
-		// TODO MR:- optional validaTION
+	    if (NFYEndDate == DateTime.MinValue)
+	    {
+		    ModelState.AddModelError("NFYFinancialEndDateNotEntered", "You must give a valid date");
+		    PopulateValidationMessages();
+			// MR:- date input disappears without below !!
+			RePopDatePickerModel(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
+			return Page();
+	    }
+
+	    if (NFYRevenueStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(NFYRevenueStatusExplained))
+	    {
+		    ModelState.AddModelError("NFYRevenueStatusExplainedNotEntered", "You must provide details");
+		    PopulateValidationMessages();
+			// MR:- date input disappears without below !!
+			RePopDatePickerModel(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
+			return Page();
+	    }
+
+	    if (NFYCapitalCarryForwardStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(NFYCapitalCarryForwardExplained))
+	    {
+		    ModelState.AddModelError("NFYCapitalCarryForwardExplainedNotEntered", "You must provide details");
+		    PopulateValidationMessages();
+			// MR:- date input disappears without below !!
+			RePopDatePickerModel(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
+			return Page();
+	    }
 
 		try
 		{
