@@ -1,4 +1,7 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.Enums;
+using System.ComponentModel.DataAnnotations;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +23,7 @@ public class NextFinancialYearModel : BasePageEditModel
 
     public string SchoolName { get; private set; } = string.Empty;
 
-	//// MR:- VM props to capture Pfy data
+	//// MR:- VM props to capture Nfy data
 	[BindProperty]
 	public string? NFYEndDate { get; set; }
 
@@ -33,12 +36,37 @@ public class NextFinancialYearModel : BasePageEditModel
 	[BindProperty] // MR:- don't know whether I need this
 	public string? NFYEndDateDateYear { get; set; }
 
-	// NFY props
+	[BindProperty]
+	[Range(0, 200000000000000, ErrorMessage = "Revenue amount must be greater than 0")]
+	[Required(ErrorMessage = "You must provide a revenue amount")]
+	public decimal Revenue { get; set; }
+
+	[BindProperty]
+	[RequiredEnum(ErrorMessage = "You must provide details")]
+	public RevenueType NFYRevenueStatus { get; set; }
+
+	[BindProperty]
+	public string? NFYRevenueStatusExplained { get; set; }
+
+	// TODO MR:- below, once file upload whoopsy sorted!
+	//string? RevenueStatusFileLink = null,
+
+	[BindProperty]
+	[Range(0, 200000000000000, ErrorMessage = "Capital carry forward amount must be greater than 0")]
+	[Required(ErrorMessage = "You must provide a capital carry forward amount")]
+	public decimal CapitalCarryForward { get; set; }
+
+	[BindProperty]
+	[RequiredEnum(ErrorMessage = "You must provide details")]
+	public RevenueType NFYCapitalCarryForwardStatus { get; set; }
+
+	[BindProperty]
+	public string? NFYCapitalCarryForwardExplained { get; set; }
 
 	// TODO MR:- below, once file upload whoopsy sorted!
 	//string? CapitalCarryForwardFileLink = null
 
-	// optional validation
+	// TODO MR:- optional validaTION
 
 	public bool NFYFinancialEndDateError
 	{
@@ -112,13 +140,13 @@ public class NextFinancialYearModel : BasePageEditModel
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 			var previousFinancialYear = new SchoolFinancialYear(NFYEndDate,
-				//Revenue,
-				//PFYRevenueStatus,
-				//PFYRevenueStatusExplained,
-				//null,
-				//CapitalCarryForward,
-				//PFYCapitalCarryForwardStatus,
-				//PFYCapitalCarryForwardExplained,
+				Revenue,
+				NFYRevenueStatus,
+				NFYRevenueStatusExplained,
+				null,
+				CapitalCarryForward,
+				NFYCapitalCarryForwardStatus,
+				NFYCapitalCarryForwardExplained,
 				null);
 
 			await _academisationCreationService.ApplicationSchoolNextFinancialYear(previousFinancialYear, ApplicationId, Urn);
@@ -143,8 +171,33 @@ public class NextFinancialYearModel : BasePageEditModel
 	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
 		SchoolName = selectedSchool.SchoolName;
+		NFYEndDate = (selectedSchool.NextFinancialYear.FinancialYearEndDate.HasValue ?
+			selectedSchool.NextFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy")
+			: string.Empty);
+		// Revenue
+		if (selectedSchool.NextFinancialYear.Revenue != null)
+		{
+			Revenue = selectedSchool.NextFinancialYear.Revenue.Value;
+		}
 
-		// TODO MR:- NFY one's!!
+		if (selectedSchool.NextFinancialYear.RevenueStatus != null)
+		{
+			NFYRevenueStatus = selectedSchool.NextFinancialYear.RevenueStatus.Value;
+		}
+
+		NFYRevenueStatusExplained = selectedSchool.NextFinancialYear.RevenueStatusExplained;
+		// CCF
+		if (selectedSchool.NextFinancialYear.CapitalCarryForward != null)
+		{
+			CapitalCarryForward = selectedSchool.NextFinancialYear.CapitalCarryForward.Value;
+		}
+
+		if (selectedSchool.NextFinancialYear.CapitalCarryForwardStatus != null)
+		{
+			NFYCapitalCarryForwardStatus = selectedSchool.NextFinancialYear.CapitalCarryForwardStatus.Value;
+		}
+
+		NFYCapitalCarryForwardExplained = selectedSchool.NextFinancialYear.CapitalCarryForwardExplained;
 	}
 
 	private void RePopDatePickerModel(string nfyEndDateComponentDay, string nfyEndDateComponentMonth, string nfyEndDateComponentYear)
