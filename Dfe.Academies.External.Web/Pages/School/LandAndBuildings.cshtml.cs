@@ -267,7 +267,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 					this.SchoolBuildLandFutureProgramme == SelectOption.Yes
 				);
 
-				await _academisationCreationService.ApplicationSchoolLandAndBuildings(landAndBuildingsData, ApplicationId, this.Urn);
+				var dictionaryMapper = new Dictionary<string, dynamic> { { "LandAndBuildings", landAndBuildingsData } };
+				await _academisationCreationService.PutSchoolApplicationDetails( ApplicationId, this.Urn, dictionaryMapper);
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);

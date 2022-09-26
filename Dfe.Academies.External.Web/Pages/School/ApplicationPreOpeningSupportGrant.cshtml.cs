@@ -121,8 +121,13 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 				}
 			}
 
+			var dictionaryMapper = new Dictionary<string, dynamic>
+			{
+				{ "SchoolSupportGrantFundsPaidTo", schoolSupportGrantFundsPaidTo },
+				{ "ConfirmPaySupportGrantToSchool", ConfirmSchoolPay }
+			};
 			// MR:- call API endpoint to log data
-			await _academisationCreationService.ApplicationPreOpeningSupportGrantUpdate(schoolSupportGrantFundsPaidTo, ConfirmSchoolPay,  ApplicationId, Urn);
+			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);

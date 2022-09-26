@@ -175,7 +175,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	}
 
 	///<inheritdoc/>
-	public async Task<ConversionApplication> GetApplication(int applicationId)
+	public async Task<ConversionApplication?> GetApplication(int applicationId)
 	{
 		try
 		{
@@ -193,7 +193,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			};
 
 			// Get data from Academisation API
-			var conversionApplication = await _resilientRequestProvider.GetAsync<ConversionApplication>(apiurl, options);
+			var conversionApplication = await _resilientRequestProvider.GetAsync<ConversionApplication?>(apiurl, options);
 
 			return conversionApplication;
 		}

@@ -69,8 +69,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
+				var dictionaryMapper = new Dictionary<string, dynamic>
+				{
+					{ "ApplicationJoinTrustReason", ApplicationJoinTrustReason }
+				};
 				// MR:- save away ApplicationJoinTrustReason
-				await _academisationCreationService.ApplicationAddJoinTrustReasons(ApplicationId, ApplicationJoinTrustReason, Urn);
+				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 				// update temp store for next step
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);

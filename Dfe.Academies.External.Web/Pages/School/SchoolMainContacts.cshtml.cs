@@ -143,14 +143,24 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-				var contactDetails = new ApplicationSchoolContacts(ApplicationId, Urn, ViewModel.ContactHeadName, ViewModel.ContactHeadEmail, ViewModel.ContactHeadTel,
-					ViewModel.ContactChairName, ViewModel.ContactChairEmail, ViewModel.ContactChairTel,
-					ViewModel.ContactRole,
-					ViewModel.MainContactOtherName, ViewModel.MainContactOtherEmail, ViewModel.MainContactOtherTelephone,
-					ViewModel.ApproverContactName, ViewModel.ApproverContactEmail);
-
-				await _academisationCreationService.ApplicationSchoolContacts(contactDetails, ApplicationId);
+				
+				var dictionaryMapper = new Dictionary<string, dynamic>
+				{
+					{ "SchoolConversionContactHeadName", ViewModel.ContactHeadName },
+					{ "SchoolConversionContactHeadEmail", ViewModel.ContactHeadEmail },
+					{ "SchoolConversionContactHeadTel", ViewModel.ContactHeadTel },
+					{ "SchoolConversionContactChairName", ViewModel.ContactChairName },
+					{ "SchoolConversionContactChairEmail", ViewModel.ContactChairEmail },
+					{ "SchoolConversionContactChairTel", ViewModel.ContactChairTel },
+					{ "SchoolConversionContactRole", ViewModel.ContactRole.ToString() },
+					{ "SchoolConversionMainContactOtherName", ViewModel?.MainContactOtherName },
+					{ "SchoolConversionMainContactOtherEmail", ViewModel?.MainContactOtherEmail },
+					{ "SchoolConversionMainContactOtherTelephone", ViewModel?.MainContactOtherTelephone },
+					{ "SchoolConversionApproverContactName", ViewModel?.ApproverContactName },
+					{ "SchoolConversionApproverContactEmail", ViewModel?.ApproverContactEmail }
+				};
+				
+				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 				// update temp store for next step - application overview as last step in process
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
