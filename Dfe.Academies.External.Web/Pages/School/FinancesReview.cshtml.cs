@@ -133,7 +133,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			};
 
 			// next financial year - heading3
-			var nextFinancialYear = selectedSchool.CurrentFinancialYear;
+			var nextFinancialYear = selectedSchool.NextFinancialYear;
 			FinancesReviewHeadingViewModel NFYheading = new(FinancesReviewHeadingViewModel.HeadingNextFinancialYear,
 				"/school/NextFinancialYear")
 			{
