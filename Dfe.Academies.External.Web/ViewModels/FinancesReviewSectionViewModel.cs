@@ -15,7 +15,11 @@
 		// TODO MR:- question string defs
 
 		// next financial year
-		// TODO MR:- question string defs
+		public const string NFYEndDate = "End of next financial year end date?";
+		public const string NFYRevenue = "Revenue carry forward at end of the next financial year (31 March)";
+		public const string NFYRevenueStatusExplained = ""; // ??
+		public const string NFYCapitalCarryForward = "Capital carry forward at end of the next financial year (31 March)";
+		public const string NFYCapitalCarryForwardExplained = ""; // ??
 
 		// loans
 		// TODO MR:- question string defs

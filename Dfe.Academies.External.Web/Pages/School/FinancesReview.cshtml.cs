@@ -142,6 +142,56 @@ namespace Dfe.Academies.External.Web.Pages.School
 					: SchoolConversionComponentStatus.NotStarted
 			};
 
+			// NFYEndDate
+			NFYheading.Sections.Add(new(FinancesReviewSectionViewModel.NFYEndDate,
+				nextFinancialYear.FinancialYearEndDate.HasValue ?
+					nextFinancialYear.FinancialYearEndDate.Value.ToShortDateString() : QuestionAndAnswerConstants.NoAnswer)
+			);
+			//NFYRevenue
+			NFYheading.Sections.Add(new(FinancesReviewSectionViewModel.NFYRevenue,
+				nextFinancialYear.Revenue.HasValue ?
+					nextFinancialYear.Revenue.Value.ToString() : QuestionAndAnswerConstants.NoAnswer)
+			);
+			//NFYRevenueStatus
+			//NFYRevenueStatusExplained - SubQ
+			NFYheading.Sections.Add(new(
+				FinancesReviewSectionViewModel.Status,
+				(nextFinancialYear.RevenueStatus.HasValue ?
+					nextFinancialYear.RevenueStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoAnswer)
+			)
+			{
+				SubQuestionAndAnswers = new()
+				{
+					new FinancesReviewSectionViewModel(
+						FinancesReviewSectionViewModel.PFYRevenueStatusExplained,
+						nextFinancialYear.RevenueStatusExplained ??
+						QuestionAndAnswerConstants.NoAnswer
+					)
+				}
+			});
+			//NFYCapitalCarryForward
+			NFYheading.Sections.Add(new(FinancesReviewSectionViewModel.NFYCapitalCarryForward,
+				nextFinancialYear.CapitalCarryForward.HasValue ?
+					nextFinancialYear.CapitalCarryForward.Value.ToString() : QuestionAndAnswerConstants.NoAnswer)
+			);
+			//NFYCapitalCarryForwardStatus
+			//NFYCapitalCarryForwardExplained - SubQ
+			NFYheading.Sections.Add(new(
+				FinancesReviewSectionViewModel.Status,
+				(nextFinancialYear.CapitalCarryForwardStatus.HasValue ?
+					nextFinancialYear.CapitalCarryForwardStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoAnswer)
+			)
+			{
+				SubQuestionAndAnswers = new()
+				{
+					new FinancesReviewSectionViewModel(
+						FinancesReviewSectionViewModel.NFYCapitalCarryForwardExplained,
+						nextFinancialYear.CapitalCarryForwardExplained ??
+						QuestionAndAnswerConstants.NoAnswer
+					)
+				}
+			});
+
 			// loans - heading4
 
 			// leases - heading5
