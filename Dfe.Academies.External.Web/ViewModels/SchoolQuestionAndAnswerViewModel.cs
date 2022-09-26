@@ -21,4 +21,19 @@ public abstract class SchoolQuestionAndAnswerViewModel
 	// Question can have sub-questions e.g. conditional radio
 	// i.e. 'Are there any current or planned building works?'. This has 2 sub questions:- 1) provide details, 2) When is scheduled completion date
 	public List<SchoolQuestionAndAnswerViewModel> SubQuestionAndAnswers { get; set; }
+
+	public bool QuestionAnswered
+	{
+		get
+		{
+			if (Answer == QuestionAndAnswerConstants.NoAnswer)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+	}
 }

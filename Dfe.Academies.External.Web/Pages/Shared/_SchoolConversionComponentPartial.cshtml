@@ -6,7 +6,7 @@
 	</td>
 	<td class="govuk-table__cell">
 		<dl>
-			<dd class="sip-overview-table__answer">
+			<dd class="">
 				<dl class="govuk-body-s">
 					<dt class="">
 						@Model.Answer
@@ -15,17 +15,20 @@
 			</dd>
 			@if (Model.SubQuestionAndAnswers.Any())
 			{
-				<dd class="sip-overview-table__answer">
+				<dd class="">
 					@foreach (var additionalInfo in Model.SubQuestionAndAnswers.ToList())
 					{
-						<dl class="govuk-body-s">
-							<dt class="">
-								@additionalInfo.Name
-							</dt>
-							<dd data-field-name="@additionalInfo.Name">
-								@additionalInfo.Answer
-							</dd>
-						</dl>
+                        @if (additionalInfo.QuestionAnswered)
+                        {
+	                        <dl class="govuk-body-s">
+		                        <dt class="">
+			                        @additionalInfo.Name
+		                        </dt>
+		                        <dd data-field-name="@additionalInfo.Name">
+			                        @additionalInfo.Answer
+		                        </dd>
+	                        </dl>
+                        }
 					}
 				</dd>
 			}
