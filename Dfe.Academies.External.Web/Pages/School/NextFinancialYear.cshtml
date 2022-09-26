@@ -18,10 +18,10 @@
 		<span class="govuk-caption-l">Finances (Step 3 of 6)</span>
 		Next financial year
 	</h1>
-	<p>
+	<p class="govuk-body">
 		Converting schools should normally be in surplus or have a balanced budget.
 	</p>
-	<p>
+        <p class="govuk-body">
         We may let the school carry forward a deficit, but only if they have a plan to balance their budget in a reasonable time and provide a forecast showing how they'll do this in 2 to 3 years from conversion.
 	</p>
     <form method="post" name="frmNextPreviousYear" novalidate="">
@@ -60,8 +60,59 @@
 				        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 					        Forecasted revenue carry forward at end of the next financial year (31 March)
 				        </legend>
-                        
-				        // TODO MR:- content
+				        <div class="govuk-form-group">
+					        <input type="number" asp-for="Revenue" id="Revenue" class="govuk-input govuk-input--width-20"/>
+				        </div>
+				        <div class="govuk-form-group">
+                            @foreach (var revenueType in Enum.GetValues(typeof(RevenueType)).OfType<RevenueType>())
+                            {
+                                <div class="govuk-radios__item">
+                                    <input type="radio"
+                                       asp-for="NFYRevenueStatus"
+                                       value="@Convert.ToInt32(revenueType)"
+                                       id="revenueType@(revenueType)"
+                                       class="govuk-radios__input"
+                                       data-aria-controls="revenueType-@(revenueType.ToString().ToLower())"
+                                       checked="@(revenueType.Equals(Model.NFYRevenueStatus))"
+                                       aria-expanded="False" />
+                                    <label for="revenueType@(revenueType)" class="govuk-label govuk-radios__label">
+                                        @revenueType.GetDescription()
+                                    </label>
+                                </div>
+
+                                @if (revenueType == RevenueType.Deficit)
+                                {
+                                    <div class="@(Model.NFYRevenueStatusExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
+				                                @(revenueType == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
+											id="revenueType-deficit" aria-expanded="false">
+                                        <div class="govuk-form-group govuk-error-summary__list">
+                                            <a href="#NFYRevenueStatusExplainedNotEntered"
+												class="@(Model.NFYRevenueStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
+                                                You must enter the reason for the revenue deficit
+                                            </a>
+                                            <label for="revenueType-deficit" class="govuk-label">
+                                                Explain the reason for the deficit, how the school plane to deal with it, and the recovery plan.
+                                            </label>
+                                            <span class="govuk-hint">
+                                                Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority
+                                            </span>
+                                            <textarea asp-for="NFYRevenueStatusExplained" id="NFYRevenueStatusExplained"
+                                              class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                                            <p class="govuk-label">
+                                                You can upload the school’s recovery plan.
+                                            </p>
+                                            <span class="govuk-hint">
+                                                We prefer schools to set out their income and expenditure using the
+                                                <a href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"
+													target="_blank" class="govuk-link">consistent financial reporting</a>
+                                                codes.
+                                            </span>
+                                            TODO MR:- file upload control !
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
 			        </fieldset>
 		        </div>		        
                 
@@ -70,6 +121,10 @@
 				        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 					        Forecasted capital carry forward at end of the next financial year (31 March)
 				        </legend>
+				        <div class="govuk-form-group">
+					        <input type="number" asp-for="CapitalCarryForward" id="CapitalCarryForward" class="govuk-input govuk-input--width-20" />
+				        </div>
+
 				        // TODO MR:- content
 			        </fieldset>
 		        </div>                    
