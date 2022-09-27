@@ -66,13 +66,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			// TODO MR:- data from API
 			heading1.Sections.Add(new(SchoolConsultationSummarySectionViewModel.HasTheGoverningBodyConsulted,
-				"??")
+				QuestionAndAnswerConstants.NoInfoAnswer)
 			{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolConsultationSummarySectionViewModel(
 						SchoolConsultationSummarySectionViewModel.WhenDoesTheGoverningBodyPlanToConsult,
-						QuestionAndAnswerConstants.NoInfoAnswer
+						QuestionAndAnswerConstants.NoAnswer
 					)
 				}
 			});

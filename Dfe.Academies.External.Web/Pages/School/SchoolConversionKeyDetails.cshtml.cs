@@ -186,13 +186,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 							"Preferred date",
 							selectedSchool.SchoolConversionTargetDate.HasValue ?
 								selectedSchool.SchoolConversionTargetDate.Value.ToString("dd/MM/yyyy")
-								: QuestionAndAnswerConstants.NoInfoAnswer
+								: QuestionAndAnswerConstants.NoAnswer
 						),
 						new SchoolLandAndBuildingsSummarySectionViewModel(
 							"Explain why you want to convert on this date",
 							!string.IsNullOrWhiteSpace(selectedSchool.SchoolConversionTargetDateExplained) ?
 								selectedSchool.SchoolConversionTargetDateExplained
-								: QuestionAndAnswerConstants.NoInfoAnswer
+								: QuestionAndAnswerConstants.NoAnswer
 						)
 					}
 				});
