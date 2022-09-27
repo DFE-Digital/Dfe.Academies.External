@@ -1,4 +1,8 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 
@@ -95,34 +99,6 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	}
 
 	///<inheritdoc/>
-	public async Task ApplicationAddJoinTrustReasons(int applicationId, string applicationJoinTrustReason, int schoolUrn)
-	{
-		try
-		{
-			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
-			// to grab current application data
-			// before then patching ConversionApplication returned with data from application object
-
-			//// baseaddress has a backslash at the end to be a valid URI !!!
-			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
-			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
-
-			// application can contain multiple schools so need to grab one being changed via linqage
-			//var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
-			//schoolUpdating.ApplicationJoinTrustReason = applicationJoinTrustReason;
-
-			// TODO: wire up Academisation API / what object does a PUT return
-			// MR:- no response from Academies API - Just an OK
-			// await _resilientRequestProvider.PutAsync(apiurl, application);
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("ConversionApplicationCreationService::ApplicationAddJoinTrustReasons::Exception - {Message}", ex.Message);
-			throw;
-		}
-	}
-
-	///<inheritdoc/>
 	public async Task AddTrustToApplication(int applicationId, int trustUkPrn, string name)
 	{
 		try
@@ -149,319 +125,32 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		}
 	}
 
-	///<inheritdoc/>
-	public async Task ApplicationChangeSchoolNameAndReason(int applicationId, SelectOption changeName,
-		string? newSchoolName, int schoolUrn)
+
+	public async Task PutSchoolApplicationDetails(int applicationId, int schoolUrn, Dictionary<string, dynamic> schoolProperties)
 	{
-		try
-		{
-			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
-			// to grab current application data
-			// before then patching ConversionApplication returned with data from application object
-			var application = await GetApplication(applicationId);
-
-			if (application.ApplicationId != applicationId)
-			{
-				throw new ArgumentException("Application not found");
-			}
-
-			//// baseaddress has a backslash at the end to be a valid URI !!!
-			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
-			string apiurl = $"{_httpClient.BaseAddress}application/{application.ApplicationId}?api-version=V1";
-
-			// application can contain multiple schools so need to grab one being changed via linqage
-			var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
-
-			if (schoolUpdating == null)
-			{
-				throw new ArgumentException("School not found");
-			}
-
-			int enumValue = (int)changeName;
-			schoolUpdating.ConversionChangeNamePlanned = Convert.ToBoolean(enumValue);
-			schoolUpdating.ProposedNewSchoolName = newSchoolName;
-
-			// MR:- no response from Academies API - Just an OK
-			await _resilientRequestProvider.PutAsync(apiurl, application);
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("ConversionApplicationCreationService::ApplicationChangeSchoolNameAndReason::Exception - {Message}", ex.Message);
-			throw;
-		}
-	}
-
-	///<inheritdoc/>
-	public async Task ApplicationSchoolTargetConversionDate(int applicationId,
-		int schoolUrn,
-		SelectOption targetDateDifferent,
-		DateTime targetDate,
-		string targetDateExplained)
-	{
-		try
-		{
-			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
-			// to grab current application data
-			// before then patching ConversionApplication returned with data from application object
-			var application = await GetApplication(applicationId);
-
-			if (application.ApplicationId != applicationId)
-			{
-				throw new ArgumentException("Application not found");
-			}
-
-			// application can contain multiple schools so need to grab one being changed via linqage
-			var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
-
-			if (schoolUpdating == null)
-			{
-				throw new ArgumentException("School not found");
-			}
-
-			int enumValue = (int)targetDateDifferent;
-			schoolUpdating.SchoolConversionTargetDateSpecified = Convert.ToBoolean(enumValue);
-			schoolUpdating.SchoolConversionTargetDate = targetDate;
-			schoolUpdating.SchoolConversionTargetDateExplained = targetDateExplained;
-
-			//// baseaddress has a backslash at the end to be a valid URI !!!
-			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
-			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
-
-			// MR:- no response from Academies API - Just an OK
-			await _resilientRequestProvider.PutAsync(apiurl, application);
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("ConversionApplicationCreationService::ApplicationSchoolTargetConversionDate::Exception - {Message}", ex.Message);
-			throw;
-		}
-	}
-
-	///<inheritdoc/>
-	public async Task ApplicationSchoolFuturePupilNumbers(int applicationId, int schoolUrn, int projectedPupilNumbersYear1,
-		int projectedPupilNumbersYear2, int projectedPupilNumbersYear3, string schoolCapacityAssumptions,
-		int schoolCapacityPublishedAdmissionsNumber)
-	{
-		try
-		{
-			var application = await GetApplication(applicationId);
-
-			if (application.ApplicationId != applicationId)
-			{
-				throw new ArgumentException("Application not found");
-			}
-
-			var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
-
-			if (schoolUpdating == null)
-			{
-				throw new ArgumentException("School not found");
-			}
-
-			schoolUpdating.ProjectedPupilNumbersYear1 = projectedPupilNumbersYear1;
-			schoolUpdating.ProjectedPupilNumbersYear2 = projectedPupilNumbersYear2;
-			schoolUpdating.ProjectedPupilNumbersYear3 = projectedPupilNumbersYear3;
-			schoolUpdating.SchoolCapacityAssumptions = schoolCapacityAssumptions;
-			schoolUpdating.SchoolCapacityPublishedAdmissionsNumber = schoolCapacityPublishedAdmissionsNumber;
-
-			string apiUrl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
-
-			// MR:- no response from Academies API - Just an OK
-			await _resilientRequestProvider.PutAsync(apiUrl, application);
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("ConversionApplicationCreationService::ApplicationSchoolFuturePupilNumbers::Exception - {Message}", ex.Message);
-			throw;
-		}
-	}
-
-	///<inheritdoc/>
-	public async Task ApplicationSchoolContacts(ApplicationSchoolContacts schoolContacts, int applicationId)
-	{
-		try
-		{
-			var application = await GetApplication(applicationId);
-
-			if (application.ApplicationId != applicationId)
-			{
-				throw new ArgumentException("Application not found");
-			}
-
-			var schoolUpdating = application.Schools.FirstOrDefault(s => s.URN == schoolContacts.Urn);
-
-			if (schoolUpdating == null)
-			{
-				throw new ArgumentException("School not found");
-			}
-
-			schoolUpdating.SchoolConversionContactHeadName = schoolContacts.ContactHeadName;
-			schoolUpdating.SchoolConversionContactHeadEmail = schoolContacts.ContactHeadEmail;
-			schoolUpdating.SchoolConversionContactHeadTel = schoolContacts.ContactHeadTel;
-			schoolUpdating.SchoolConversionContactChairName = schoolContacts.ContactChairName;
-			schoolUpdating.SchoolConversionContactChairEmail = schoolContacts.ContactChairEmail;
-			schoolUpdating.SchoolConversionContactChairTel = schoolContacts.ContactChairTel;
-			schoolUpdating.SchoolConversionContactRole = schoolContacts.ContactRole.ToString();
-			schoolUpdating.SchoolConversionMainContactOtherName = schoolContacts.MainContactOtherName;
-			schoolUpdating.SchoolConversionMainContactOtherEmail = schoolContacts.MainContactOtherEmail;
-			schoolUpdating.SchoolConversionMainContactOtherTelephone = schoolContacts.MainContactOtherTelephone;
-			schoolUpdating.SchoolConversionApproverContactName = schoolContacts.ApproverContactName;
-			schoolUpdating.SchoolConversionApproverContactEmail = schoolContacts.ApproverContactEmail;
-
-
-			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
-			await _resilientRequestProvider.PutAsync(apiurl, application);
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("ConversionApplicationCreationService::ApplicationSchoolContacts::Exception - {Message}", ex.Message);
-			throw;
-		}
-	}
-
-	///<inheritdoc/>
-	public async Task ApplicationSchoolLandAndBuildings(SchoolLandAndBuildings schoolLandAndBuildings, int applicationId, int schoolUrn)
-	{
-		try
-		{
-			var application = await GetApplication(applicationId);
-
-			if (application.ApplicationId != applicationId)
-			{
-				throw new ArgumentException("Application not found");
-			}
-
-			var school = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
-			if (school == null)
-			{
-				throw new ArgumentException("School not found");
-			}
-
-			application.Schools.First(s => s.URN == schoolUrn).LandAndBuildings = schoolLandAndBuildings;
-
-			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
-
-			// MR:- no response from Academies API - Just an OK
-			await _resilientRequestProvider.PutAsync(apiurl, application);
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("ConversionApplicationCreationService::ApplicationSchoolLandAndBuildings::Exception - {Message}", ex.Message);
-			throw;
-		}
-	}
-
-	///<inheritdoc/>
-	public async Task ApplicationPreOpeningSupportGrantUpdate(PayFundsTo schoolSupportGrantFundsPaidTo, bool confirmSupportGrantToSchool, int applicationId, int schoolUrn)
-	{
-		try
-		{
-			if (schoolSupportGrantFundsPaidTo == PayFundsTo.School)
-			{
-				//schoolUpdating.SchoolBuildLandOwnerExplained = schoolLandAndBuildings.SchoolBuildLandOwnerExplained;
-			}
-			else
-			{
-				//schoolUpdating.SchoolBuildLandOwnerExplained = schoolLandAndBuildings.SchoolBuildLandOwnerExplained;	
-			}
+		var application = await GetApplication(applicationId);
 			
-			
-			var application = await GetApplication(applicationId);
-			
-			if (application.ApplicationId != applicationId)
-			{
-				throw new ArgumentException("Application not found");
-			}
-
-			var school = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
-			if (school == null)
-			{
-				throw new ArgumentException("School not found");
-			}
-			
-			school.SchoolSupportGrantFundsPaidTo = schoolSupportGrantFundsPaidTo;
-			school.ConfirmPaySupportGrantToSchool = confirmSupportGrantToSchool;
-			
-			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
-			
-			// MR:- no response from Academies API - Just an OK
-			await _resilientRequestProvider.PutAsync(apiurl, application);
-			
-		}
-		catch (Exception ex)
+		if (application?.ApplicationId != applicationId)
 		{
-			_logger.LogError("ConversionApplicationCreationService::ApplicationPreOpeningSupportGrantUpdate::Exception - {Message}", ex.Message);
-			throw;
+			throw new ArgumentException("Application not found");
 		}
+
+		var school = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
+		if (school == null)
+		{
+			throw new ArgumentException("School not found");
+		}
+		
+		//Populate all school fields with the values in the dictionary
+		foreach (var property in schoolProperties)
+		{
+			school.GetType().GetProperty(property.Key)?.SetValue(school, property.Value);
+		}
+		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+		await _resilientRequestProvider.PutAsync(apiurl, application);
 	}
 
-	///<inheritdoc/>
-	public async Task ApplicationSchoolNextFinancialYear(SchoolFinancialYear nextFinancialYear, int applicationId,
-		int schoolUrn)
-	{
-		try
-		{
-			var application = await GetApplication(applicationId);
-
-			if (application.ApplicationId != applicationId)
-			{
-				throw new ArgumentException("Application not found");
-			}
-
-			var school = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
-			if (school == null)
-			{
-				throw new ArgumentException("School not found");
-			}
-
-			application.Schools.First(s => s.URN == schoolUrn).NextFinancialYear = nextFinancialYear;
-
-			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
-
-			// MR:- no response from Academies API - Just an OK
-			await _resilientRequestProvider.PutAsync(apiurl, application);
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("ConversionApplicationCreationService::ApplicationSchoolNextFinancialYear::Exception - {Message}", ex.Message);
-			throw;
-		}
-	}
-
-	///<inheritdoc/>
-	public async Task ApplicationSchoolPreviousFinancialYear(SchoolFinancialYear previousFinancialYear, int applicationId,
-		int schoolUrn)
-	{
-		try
-		{
-			var application = await GetApplication(applicationId);
-
-			if (application.ApplicationId != applicationId)
-			{
-				throw new ArgumentException("Application not found");
-			}
-
-			var school = application.Schools.FirstOrDefault(s => s.URN == schoolUrn);
-			if (school == null)
-			{
-				throw new ArgumentException("School not found");
-			}
-
-			application.Schools.First(s => s.URN == schoolUrn).PreviousFinancialYear = previousFinancialYear;
-
-			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
-
-			// MR:- no response from Academies API - Just an OK
-			await _resilientRequestProvider.PutAsync(apiurl, application);
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("ConversionApplicationCreationService::ApplicationSchoolPreviousFinancialYear::Exception - {Message}", ex.Message);
-			throw;
-		}
-	}
-
-	private async Task<ConversionApplication> GetApplication(int applicationId)
+	private async Task<ConversionApplication?> GetApplication(int applicationId)
 	{
 		return await _conversionApplicationRetrievalService.GetApplication(applicationId);
 	}

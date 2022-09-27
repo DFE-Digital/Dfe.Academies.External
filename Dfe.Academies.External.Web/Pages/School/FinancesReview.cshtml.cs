@@ -59,10 +59,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    PopulateViewDataErrorsWithModelStateErrors();
 	    }
 
-	    private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+	    private FinancesReviewHeadingViewModel PopulatePreviousFinancialYear(SchoolApplyingToConvert selectedSchool)
 	    {
-		    SchoolName = selectedSchool.SchoolName;
-		    var previousFinancialYear = selectedSchool.PreviousFinancialYear;
+		     var previousFinancialYear = selectedSchool.PreviousFinancialYear;
 
 			// previous financial year - heading
 			FinancesReviewHeadingViewModel PFYheading = new(FinancesReviewHeadingViewModel.HeadingPreviousFinancialYear,
@@ -122,16 +121,76 @@ namespace Dfe.Academies.External.Web.Pages.School
 				}
 			});
 
-			// current financial year - heading2
-			var currentFinancialYear = selectedSchool.CurrentFinancialYear;
-			FinancesReviewHeadingViewModel CFYheading = new(FinancesReviewHeadingViewModel.HeadingCurrentFinancialYear,
-				"/school/CurrentFinancialYear")
-			{
-				Status = currentFinancialYear.FinancialYearEndDate.HasValue ?
-					SchoolConversionComponentStatus.Complete
-					: SchoolConversionComponentStatus.NotStarted
-			};
+			return PFYheading;
 
+	    }
+
+	    private FinancesReviewHeadingViewModel PopulateCurrentFinancialYear(SchoolApplyingToConvert selectedSchool)
+	    {
+		    // current financial year - heading2
+		    var currentFinancialYear = selectedSchool.CurrentFinancialYear;
+		    FinancesReviewHeadingViewModel CFYheading = new(FinancesReviewHeadingViewModel.HeadingCurrentFinancialYear,
+			    "/school/CurrentFinancialYear")
+		    {
+			    Status = currentFinancialYear.FinancialYearEndDate.HasValue ?
+				    SchoolConversionComponentStatus.Complete
+				    : SchoolConversionComponentStatus.NotStarted
+		    };
+		    
+
+		    CFYheading.Sections.Add(new(FinancesReviewSectionViewModel.PFYEndDate,
+			    currentFinancialYear.FinancialYearEndDate.HasValue ?
+				    currentFinancialYear.FinancialYearEndDate.Value.ToShortDateString() : QuestionAndAnswerConstants.NoAnswer)
+		    );
+
+		    CFYheading.Sections.Add(new(FinancesReviewSectionViewModel.PFYRevenue,
+			    currentFinancialYear.Revenue.HasValue ?
+				    currentFinancialYear.Revenue.Value.ToString() : QuestionAndAnswerConstants.NoAnswer)
+		    );
+
+		    CFYheading.Sections.Add(new(
+			    FinancesReviewSectionViewModel.Status,
+			    (currentFinancialYear.RevenueStatus.HasValue ?
+				    currentFinancialYear.RevenueStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoAnswer)
+		    )
+		    {
+			    SubQuestionAndAnswers = new()
+			    {
+				    new FinancesReviewSectionViewModel(
+					    FinancesReviewSectionViewModel.PFYRevenueStatusExplained,
+					    currentFinancialYear.RevenueStatusExplained ??
+					    QuestionAndAnswerConstants.NoAnswer
+				    )
+			    }
+		    });
+
+		    CFYheading.Sections.Add(new(FinancesReviewSectionViewModel.PFYCapitalCarryForward,
+			    currentFinancialYear.CapitalCarryForward.HasValue ?
+				    currentFinancialYear.CapitalCarryForward.Value.ToString() : QuestionAndAnswerConstants.NoAnswer)
+		    );
+
+		    CFYheading.Sections.Add(new(
+			    FinancesReviewSectionViewModel.Status,
+			    (currentFinancialYear.CapitalCarryForwardStatus.HasValue ?
+				    currentFinancialYear.CapitalCarryForwardStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoAnswer)
+		    )
+		    {
+			    SubQuestionAndAnswers = new()
+			    {
+				    new FinancesReviewSectionViewModel(
+					    FinancesReviewSectionViewModel.PFYCapitalCarryForwardExplained,
+					    currentFinancialYear.CapitalCarryForwardExplained ??
+					    QuestionAndAnswerConstants.NoAnswer
+				    )
+			    }
+		    });
+		    return CFYheading;
+	    }
+	    private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+	    {
+		    SchoolName = selectedSchool.SchoolName;
+		    var PFYheading = PopulatePreviousFinancialYear(selectedSchool);
+		    var CFYheading = PopulateCurrentFinancialYear(selectedSchool);
 			// next financial year - heading3
 			var nextFinancialYear = selectedSchool.NextFinancialYear;
 			FinancesReviewHeadingViewModel NFYheading = new(FinancesReviewHeadingViewModel.HeadingNextFinancialYear,

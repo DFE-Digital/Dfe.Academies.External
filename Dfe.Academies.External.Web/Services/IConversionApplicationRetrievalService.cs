@@ -43,5 +43,5 @@ public interface IConversionApplicationRetrievalService
 	/// </summary>
 	/// <param name="applicationId"></param>
 	/// <returns></returns>
-	Task<ConversionApplication> GetApplication(int applicationId);
+	Task<ConversionApplication?> GetApplication(int applicationId);
 }
