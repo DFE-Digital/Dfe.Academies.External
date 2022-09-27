@@ -200,19 +200,23 @@ namespace Dfe.Academies.External.Web.Pages.School
 			try
 			{
 				//// grab draft application from temp= null
-				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+				var draftConversionApplication =
+					TempDataHelper.GetSerialisedValue<ConversionApplication>(
+						TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				var previousFinancialYear = new SchoolFinancialYear(PFYEndDate, 
-																		Revenue, 
-																		PFYRevenueStatus, 
-																		PFYRevenueStatusExplained, 
-																		null,
-																		CapitalCarryForward,
-																		PFYCapitalCarryForwardStatus,
-																		PFYCapitalCarryForwardExplained,
-																		null);
+				var previousFinancialYear = new SchoolFinancialYear(PFYEndDate,
+					Revenue,
+					PFYRevenueStatus,
+					PFYRevenueStatusExplained,
+					null,
+					CapitalCarryForward,
+					PFYCapitalCarryForwardStatus,
+					PFYCapitalCarryForwardExplained,
+					null);
 
-				await _academisationCreationService.ApplicationSchoolPreviousFinancialYear(previousFinancialYear, ApplicationId, Urn);
+				var mappingDictionary =
+					new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.PreviousFinancialYear), previousFinancialYear } };
+				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, mappingDictionary);
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);

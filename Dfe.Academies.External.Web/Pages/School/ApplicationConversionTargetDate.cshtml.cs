@@ -160,8 +160,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
+				var dictionaryMapper = new Dictionary<string, dynamic>
+				{
+					{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDateSpecified), Convert.ToBoolean(TargetDateDifferent) },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDate), targetDate },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDateExplained), TargetDateExplained }
+				};
 				// MR:- call API endpoint to log data
-				await _academisationCreationService.ApplicationSchoolTargetConversionDate(ApplicationId, Urn, TargetDateDifferent, targetDate, TargetDateExplained);
+				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 				// update temp store for next step
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);

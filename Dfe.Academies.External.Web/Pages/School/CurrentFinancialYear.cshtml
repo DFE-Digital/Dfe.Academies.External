@@ -1,9 +1,9 @@
-@page
+﻿@page
 @using Dfe.Academies.External.Web.Enums
 @using Dfe.Academies.External.Web.Extensions
 @using Dfe.Academies.External.Web.TagHelpers
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model Dfe.Academies.External.Web.Pages.School.PreviousFinancialYearModel
+@model Dfe.Academies.External.Web.Pages.School.CurrentFinancialYearModel
 @{
 	ViewData["Title"] = "Apply to become an academy - About the conversion";
 }
@@ -15,61 +15,71 @@
 
 <div class="govuk-grid-column-two-thirds">
 	<h1 class="govuk-heading-l">
-		<span class="govuk-caption-l">Finances (Step 1 of 6)</span>
-		Previous financial year
+		<span class="govuk-caption-l">Finances (Step 2 of 6)</span>
+		Current financial year
 	</h1>
 	<form method="post" name="frmFinancialPreviousYear" novalidate="">
 		@Html.AntiForgeryToken()
 		<input type="hidden" asp-for="Urn"/>
 		<input type="hidden" asp-for="ApplicationId"/>		
 		<partial name="_HiddenFields"/>    
-        
+
 		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 			<fieldset class="govuk-fieldset">
 				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>
+
+				<div class="get-started-intro">
+                      
+					<div class="gem-c-govspeak govuk-govspeak " data-module="govspeak" data-govspeak-module-started="true">
+						<p>Converting schools should normally be in surplus or have a balanced budget</p>
+						<p>We may let the school carry forward a deficit, but only if they have a plan to 
+							balance their budget in a reasonable time and provide a forecast showing how 
+							they'll do this in 2 to 3 years</p>
+					</div>
+				</div>
                 
-				<div class="govuk-form-group">
+                <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="pfy-end-date-hint" role="group">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-							End of previous financial year 
+							End of current financial year 
 						</legend>
 					    <div id="pfy-end-date-hint" class="govuk-hint">
 						    For example, 01 09 2022
 					    </div>
-                            <a href="#PFYFinancialEndDateNotEntered" class="@(Model.PFYFinancialEndDateError ? "govuk-error-message" : "govuk-visually-hidden")">
+                            <a href="#PFYFinancialEndDateNotEntered" class="@(Model.CFYFinancialEndDateError ? "govuk-error-message" : "govuk-visually-hidden")">
 						    You must select financial year end date
 					    </a>
-					    <govuk-date field-name="@Model.PFYEndDateFormInputName"
-					        field-data="@Model.PFYEndDate"
-						    field-day="@Model.PFYEndDateDay"
-						    field-month="@Model.PFYEndDateMonth"
-						    field-year="@Model.PFYEndDateDateYear">
+					    <govuk-date field-name="@Model.CFYEndDateFormInputName"
+					        field-data="@Model.CFYEndDate"
+						    field-day="@Model.CFYEndDateDay"
+						    field-month="@Model.CFYEndDateMonth"
+						    field-year="@Model.CFYEndDateDateYear">
 					    </govuk-date>
                     </fieldset>
 				</div>
-                
+
 				<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
 					<fieldset class="govuk-fieldset" role="group" aria-describedby="">
 						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-							Revenue carry forward at end of the previous financial year (31 March)
+							Forecasted revenue carry forward at end of the current financial year (31 March)
 						</legend>
 						<div class="govuk-form-group">
 							<input type="number" asp-for="Revenue" id="Revenue" class="govuk-input govuk-input--width-20"/>
 						</div>
-                        
+
 						<div class="govuk-form-group">
 							@foreach (var revenueType in Enum.GetValues(typeof(RevenueType)).OfType<RevenueType>())
 	                        {
 		                        <div class="govuk-radios__item">
 			                        <input type="radio"
-			                               asp-for="PFYRevenueStatus"
+			                               asp-for="CFYRevenueStatus"
 			                               value="@Convert.ToInt32(revenueType)"
 			                               id="revenueRevenueType@(revenueType)"
 			                               class="govuk-radios__input"
 											data-aria-controls="revenueType-@(revenueType.ToString().ToLower())"
-											checked="@(revenueType.Equals(Model.PFYRevenueStatus))"
+											checked="@(revenueType.Equals(Model.CFYRevenueStatus))"
 			                               aria-expanded="False" />
 	                                <label for="revenueType@(revenueType)" class="govuk-label govuk-radios__label">
 				                        @revenueType.GetDescription()
@@ -78,12 +88,12 @@
 
 	                            @if (revenueType == RevenueType.Deficit)
 	                            {
-                                    <div class="@(Model.PFYRevenueStatusExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
+                                    <div class="@(Model.CFYRevenueStatusExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
 				                                @(revenueType == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
 												id="revenueType-deficit" aria-expanded="false">
 	                                    <div class="govuk-form-group govuk-error-summary__list">
 	                                        <a href="#PFYRevenueStatusExplainedNotEntered"
-												class="@(Model.PFYRevenueStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
+												class="@(Model.CFYRevenueStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 	                                            You must enter the reason for the revenue deficit
 	                                        </a>
 		                                    <label for="revenueType-deficit" class="govuk-label">
@@ -92,7 +102,7 @@
 		                                    <span class="govuk-hint">
 			                                    Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority 
 		                                    </span>
-	                                        <textarea asp-for="PFYRevenueStatusExplained" id="PFYRevenueStatusExplained"
+	                                        <textarea asp-for="CFYRevenueStatusExplained" id="PFYRevenueStatusExplained"
 	                                          class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
                                             <p class="govuk-label">
 									            You can upload the school’s recovery plan.
@@ -116,23 +126,23 @@
                 <div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
 	                <fieldset class="govuk-fieldset">
 		                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-			                Capital carry forward at end of the previous financial year (31 March)
+			                Forecasted capital carry forward at end of the current financial year (31 March)
 		                </legend>
 		                <div class="govuk-form-group">
                             <input type="number" asp-for="CapitalCarryForward" id="CapitalCarryForward" class="govuk-input govuk-input--width-20" />
 		                </div>                        
-                        
+
 		                <div class="govuk-form-group">
 			                @foreach (var capitalCarryForwardStatus in Enum.GetValues(typeof(RevenueType)).OfType<RevenueType>())
 			                {
 				                <div class="govuk-radios__item">
 					                <input type="radio"
-	                                       asp-for="PFYCapitalCarryForwardStatus"
+	                                       asp-for="CFYCapitalCarryForwardStatus"
 					                       value="@Convert.ToInt32(capitalCarryForwardStatus)"
 					                       id="capitalRevenueType@(capitalCarryForwardStatus)"
 					                       class="govuk-radios__input"
 	                                       data-aria-controls="capitalCarryForwardStatus-@(capitalCarryForwardStatus.ToString().ToLower())"
-	                                       checked="@(capitalCarryForwardStatus.Equals(Model.PFYCapitalCarryForwardStatus))"
+	                                       checked="@(capitalCarryForwardStatus.Equals(Model.CFYCapitalCarryForwardStatus))"
 					                       aria-expanded="False"/>
 					                <label for="revenueType@(capitalCarryForwardStatus)" class="govuk-label govuk-radios__label">
 						                @capitalCarryForwardStatus.GetDescription()
@@ -141,12 +151,12 @@
 
 				                @if (capitalCarryForwardStatus == RevenueType.Deficit)
 				                {
-                                    <div class="@(Model.PFYCapitalCarryForwardStatusExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
+                                    <div class="@(Model.CFYCapitalCarryForwardStatusExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
 					                                @(capitalCarryForwardStatus == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
 										id="capitalCarryForwardStatus-deficit" aria-expanded="false">
 
                                         <a href="#PFYCapitalCarryForwardStatusExplainedNotEntered"
-											class="@(Model.PFYCapitalCarryForwardStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
+											class="@(Model.CFYCapitalCarryForwardStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 							                You must enter the reason for the capital carry forward deficit
 						                </a>
                                         <label for="capitalCarryForwardStatus-deficit" class="govuk-label">
@@ -155,7 +165,7 @@
 						                <span class="govuk-hint">
 							                Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority 
 						                </span>
-						                <textarea asp-for="PFYCapitalCarryForwardExplained" id="PFYCapitalCarryForwardExplained"
+						                <textarea asp-for="CFYCapitalCarryForwardExplained" id="PFYCapitalCarryForwardExplained"
 						                          class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
                                         <p class="govuk-label">
 							                You can upload the school’s recovery plan.

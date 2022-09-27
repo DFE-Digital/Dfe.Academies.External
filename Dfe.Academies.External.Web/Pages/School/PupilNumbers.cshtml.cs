@@ -88,14 +88,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				await _academisationCreationService.ApplicationSchoolFuturePupilNumbers(
+				var dictionaryMapper = new Dictionary<string, dynamic>
+				{
+					{ nameof(SchoolApplyingToConvert.ProjectedPupilNumbersYear1), ProjectedPupilNumbersYear1.Value },
+					{ nameof(SchoolApplyingToConvert.ProjectedPupilNumbersYear2), ProjectedPupilNumbersYear2.Value },
+					{ nameof(SchoolApplyingToConvert.ProjectedPupilNumbersYear3), ProjectedPupilNumbersYear3.Value },
+					{ nameof(SchoolApplyingToConvert.SchoolCapacityAssumptions), SchoolCapacityAssumptions },
+					{ nameof(SchoolApplyingToConvert.SchoolCapacityPublishedAdmissionsNumber), SchoolCapacityPublishedAdmissionsNumber.Value },
+				};
+				await _academisationCreationService.PutSchoolApplicationDetails(
 					ApplicationId,
 					Urn,
-					ProjectedPupilNumbersYear1.Value,
-					ProjectedPupilNumbersYear2.Value,
-					ProjectedPupilNumbersYear3.Value,
-					SchoolCapacityAssumptions,
-					SchoolCapacityPublishedAdmissionsNumber.Value
+					dictionaryMapper
 					);
 
 				// update temp store for next step - application overview
