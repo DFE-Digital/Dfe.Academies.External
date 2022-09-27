@@ -72,8 +72,8 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BasePageEditModel
 		
 		heading1.Sections.Add(new(
 			ApplicationPreOpeningSupportGrantSectionViewModel.FundsSchoolOrTrust,
-			string.IsNullOrWhiteSpace(selectedSchool.SchoolSupportGrantFundsPaidTo.ToString()) ? 
-				QuestionAndAnswerConstants.NoInfoAnswer :  selectedSchool.SchoolSupportGrantFundsPaidTo?.GetDescription()
+			(string.IsNullOrWhiteSpace(selectedSchool.SchoolSupportGrantFundsPaidTo.ToString()) ?
+				QuestionAndAnswerConstants.NoInfoAnswer : selectedSchool.SchoolSupportGrantFundsPaidTo?.GetDescription()) ?? string.Empty
 		));
 
 		var vm = new List<ApplicationPreOpeningSupportGrantHeadingViewModel> { heading1 };

@@ -74,31 +74,31 @@ namespace Dfe.Academies.External.Web.Pages.School
 			heading1.Sections.Add(
 				new(
 					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr1,
-					selectedSchool.ProjectedPupilNumbersYear1?.ToString() ?? QuestionAndAnswerConstants.NoAnswer
+					selectedSchool.ProjectedPupilNumbersYear1?.ToString() ?? QuestionAndAnswerConstants.NoInfoAnswer
 					)
 				);
 			heading1.Sections.Add(
 				new(
 					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr2,
-					selectedSchool.ProjectedPupilNumbersYear2?.ToString() ?? QuestionAndAnswerConstants.NoAnswer
+					selectedSchool.ProjectedPupilNumbersYear2?.ToString() ?? QuestionAndAnswerConstants.NoInfoAnswer
 					)
 				);
 			heading1.Sections.Add(
 				new(
 					SchoolPupilNumbersSummarySectionViewModel.PupilNumberYr3,
-					selectedSchool.ProjectedPupilNumbersYear3?.ToString() ?? QuestionAndAnswerConstants.NoAnswer
+					selectedSchool.ProjectedPupilNumbersYear3?.ToString() ?? QuestionAndAnswerConstants.NoInfoAnswer
 					)
 				);
 			heading1.Sections.Add(
 				new(
 					SchoolPupilNumbersSummarySectionViewModel.NumbersBasedUpon,
-					selectedSchool.SchoolCapacityAssumptions ?? QuestionAndAnswerConstants.NoAnswer
+					selectedSchool.SchoolCapacityAssumptions ?? QuestionAndAnswerConstants.NoInfoAnswer
 					)
 				);
 			heading1.Sections.Add(
 				new(
 					SchoolPupilNumbersSummarySectionViewModel.PAN,
-					selectedSchool.SchoolCapacityPublishedAdmissionsNumber?.ToString() ?? QuestionAndAnswerConstants.NoAnswer
+					selectedSchool.SchoolCapacityPublishedAdmissionsNumber?.ToString() ?? QuestionAndAnswerConstants.NoInfoAnswer
 					)
 				);
 
