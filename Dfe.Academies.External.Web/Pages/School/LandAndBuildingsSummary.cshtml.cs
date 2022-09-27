@@ -1,4 +1,5 @@
 ﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -62,37 +63,37 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			SchoolName = selectedSchool.SchoolName;
 
+			var landAndBuildings = selectedSchool.LandAndBuildings;
+
 			SchoolLandAndBuildingsSummaryHeadingViewModel heading1 = new(SchoolLandAndBuildingsSummaryHeadingViewModel.Heading,
 				"/school/LandAndBuildings")
 			{
-				Status = selectedSchool.LandAndBuildings.WorksPlanned.HasValue ?
+				Status = landAndBuildings.WorksPlanned.HasValue ?
 					SchoolConversionComponentStatus.Complete
 					: SchoolConversionComponentStatus.NotStarted
 			};
 
 			heading1.Sections.Add(new(SchoolLandAndBuildingsSummarySectionViewModel.LandOwnership,
-				selectedSchool.LandAndBuildings.OwnerExplained ?? QuestionAndAnswerConstants.NoAnswer)
+				landAndBuildings.OwnerExplained ?? QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 
 			heading1.Sections.Add(new(
 				SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorks,
-				(selectedSchool.LandAndBuildings.WorksPlanned.HasValue ?
-					"Yes" :
-					"No")
+				(landAndBuildings.WorksPlanned.GetStringDescription())
 				)
 			{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorksDetails,
-						(!string.IsNullOrWhiteSpace(selectedSchool.LandAndBuildings.WorksPlannedExplained) ?
-							selectedSchool.LandAndBuildings.WorksPlannedExplained :
+						(!string.IsNullOrWhiteSpace(landAndBuildings.WorksPlannedExplained) ?
+							landAndBuildings.WorksPlannedExplained :
 							QuestionAndAnswerConstants.NoAnswer)
 					),
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorksWhen,
-						(selectedSchool.LandAndBuildings.WorksPlannedDate.HasValue ?
-							selectedSchool.LandAndBuildings.WorksPlannedDate.Value.ToString("dd/MM/yyyy") :
+						(landAndBuildings.WorksPlannedDate.HasValue ?
+							landAndBuildings.WorksPlannedDate.Value.ToString("dd/MM/yyyy") :
 							QuestionAndAnswerConstants.NoAnswer)
 					)
 				}
@@ -100,16 +101,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			heading1.Sections.Add(new(
 				SchoolLandAndBuildingsSummarySectionViewModel.SharedFacilities,
-				(selectedSchool.LandAndBuildings.FacilitiesShared.HasValue ?
-					"Yes" :
-					"No")
+				(landAndBuildings.FacilitiesShared.GetStringDescription())
 			)
 			{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.SharedFacilitiesList,
-						selectedSchool.LandAndBuildings.FacilitiesSharedExplained ??
+						landAndBuildings.FacilitiesSharedExplained ??
 						QuestionAndAnswerConstants.NoAnswer
 					)
 				}
@@ -117,16 +116,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			heading1.Sections.Add(new(
 				SchoolLandAndBuildingsSummarySectionViewModel.Grants,
-				(selectedSchool.LandAndBuildings.Grants.HasValue ?
-					"Yes" :
-					"No")
+				(landAndBuildings.Grants.GetStringDescription())
 				)
 			{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.GrantBodies,
-						selectedSchool.LandAndBuildings.GrantsAwardingBodies ??
+						landAndBuildings.GrantsAwardingBodies ??
 						QuestionAndAnswerConstants.NoAnswer
 					)
 				}
@@ -134,33 +131,27 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			heading1.Sections.Add(new(
 				SchoolLandAndBuildingsSummarySectionViewModel.PFI,
-				(selectedSchool.LandAndBuildings.PartOfPFIScheme.HasValue ?
-					"Yes" :
-					"No")
+				(landAndBuildings.PartOfPFIScheme.GetStringDescription())
 				)
 			{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.PFIKind,
-						selectedSchool.LandAndBuildings.PartOfPFISchemeType ??
+						landAndBuildings.PartOfPFISchemeType ??
 						QuestionAndAnswerConstants.NoAnswer)
 				}
 			});
 
 			heading1.Sections.Add(new(
 				SchoolLandAndBuildingsSummarySectionViewModel.PrioritySchoolBuildingProgram,
-				(selectedSchool.LandAndBuildings.PartOfPrioritySchoolsBuildingProgramme.HasValue ?
-					"Yes" :
-					"No")
+				(landAndBuildings.PartOfPrioritySchoolsBuildingProgramme.GetStringDescription())
 				)
 			);
 
 			heading1.Sections.Add(new(
 				SchoolLandAndBuildingsSummarySectionViewModel.BuildingSchoolsForTheFuture,
-				(selectedSchool.LandAndBuildings.PartOfBuildingSchoolsForFutureProgramme.HasValue ?
-					"Yes" :
-					"No")
+				(landAndBuildings.PartOfBuildingSchoolsForFutureProgramme.GetStringDescription())
 				)
 			);
 

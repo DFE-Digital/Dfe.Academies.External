@@ -74,19 +74,19 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// PFYEndDate
 			PFYheading.Sections.Add(new(FinancesReviewSectionViewModel.PFYEndDate,
 				previousFinancialYear.FinancialYearEndDate.HasValue ?
-					previousFinancialYear.FinancialYearEndDate.Value.ToShortDateString() : QuestionAndAnswerConstants.NoAnswer)
+					previousFinancialYear.FinancialYearEndDate.Value.ToShortDateString() : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			//PFYRevenue
 			PFYheading.Sections.Add(new(FinancesReviewSectionViewModel.PFYRevenue,
 				previousFinancialYear.Revenue.HasValue ?
-					previousFinancialYear.Revenue.Value.ToString() : QuestionAndAnswerConstants.NoAnswer)
+					previousFinancialYear.Revenue.Value.ToString() : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			//PFYRevenueStatus
 			//PFYRevenueStatusExplained - SubQ
 			PFYheading.Sections.Add(new(
 				FinancesReviewSectionViewModel.Status,
 				(previousFinancialYear.RevenueStatus.HasValue ?
-					previousFinancialYear.RevenueStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoAnswer)
+					previousFinancialYear.RevenueStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoInfoAnswer)
 			)
 			{
 				SubQuestionAndAnswers = new()
@@ -101,14 +101,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 			//PFYCapitalCarryForward
 			PFYheading.Sections.Add(new(FinancesReviewSectionViewModel.PFYCapitalCarryForward,
 				previousFinancialYear.CapitalCarryForward.HasValue ?
-					previousFinancialYear.CapitalCarryForward.Value.ToString() : QuestionAndAnswerConstants.NoAnswer)
+					previousFinancialYear.CapitalCarryForward.Value.ToString() : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			//PFYCapitalCarryForwardStatus
 			//PFYCapitalCarryForwardExplained - SubQ
 			PFYheading.Sections.Add(new(
 				FinancesReviewSectionViewModel.Status,
 				(previousFinancialYear.CapitalCarryForwardStatus.HasValue ?
-					previousFinancialYear.CapitalCarryForwardStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoAnswer)
+					previousFinancialYear.CapitalCarryForwardStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoInfoAnswer)
 			)
 			{
 				SubQuestionAndAnswers = new()

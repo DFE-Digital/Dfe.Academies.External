@@ -23,7 +23,7 @@ internal static class BoolEnumExtension
 	public static string GetStringDescription(this bool? value)
 	{
 		if (!value.HasValue)
-			return QuestionAndAnswerConstants.NoAnswer;
+			return QuestionAndAnswerConstants.NoInfoAnswer;
 
 		if (value.Value)
 		{
