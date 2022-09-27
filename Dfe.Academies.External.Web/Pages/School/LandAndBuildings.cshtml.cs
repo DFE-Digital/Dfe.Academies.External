@@ -267,7 +267,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 					this.SchoolBuildLandFutureProgramme == SelectOption.Yes
 				);
 
-				var dictionaryMapper = new Dictionary<string, dynamic> { { "LandAndBuildings", landAndBuildingsData } };
+				var dictionaryMapper = new Dictionary<string, dynamic>
+				{
+					{ nameof(SchoolApplyingToConvert.LandAndBuildings), landAndBuildingsData }
+				};
+				
 				await _academisationCreationService.PutSchoolApplicationDetails( ApplicationId, this.Urn, dictionaryMapper);
 
 				// update temp store for next step - application overview

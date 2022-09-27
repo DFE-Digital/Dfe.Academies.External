@@ -202,7 +202,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				var propertiesToPopulate =
 					new Dictionary<string, dynamic>
 					{
-						{"CurrentFinancialYear", currentFinancialYear}
+						{nameof(SchoolApplyingToConvert.CurrentFinancialYear), currentFinancialYear}
 					};
 				
 				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, propertiesToPopulate);

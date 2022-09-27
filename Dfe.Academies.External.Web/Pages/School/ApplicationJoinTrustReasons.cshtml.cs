@@ -71,7 +71,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 				var dictionaryMapper = new Dictionary<string, dynamic>
 				{
-					{ "ApplicationJoinTrustReason", ApplicationJoinTrustReason }
+					{ nameof(SchoolApplyingToConvert.ApplicationJoinTrustReason), ApplicationJoinTrustReason }
 				};
 				// MR:- save away ApplicationJoinTrustReason
 				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);

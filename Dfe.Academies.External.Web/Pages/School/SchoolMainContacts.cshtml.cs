@@ -146,18 +146,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 				
 				var dictionaryMapper = new Dictionary<string, dynamic>
 				{
-					{ "SchoolConversionContactHeadName", ViewModel.ContactHeadName },
-					{ "SchoolConversionContactHeadEmail", ViewModel.ContactHeadEmail },
-					{ "SchoolConversionContactHeadTel", ViewModel.ContactHeadTel },
-					{ "SchoolConversionContactChairName", ViewModel.ContactChairName },
-					{ "SchoolConversionContactChairEmail", ViewModel.ContactChairEmail },
-					{ "SchoolConversionContactChairTel", ViewModel.ContactChairTel },
-					{ "SchoolConversionContactRole", ViewModel.ContactRole.ToString() },
-					{ "SchoolConversionMainContactOtherName", ViewModel?.MainContactOtherName },
-					{ "SchoolConversionMainContactOtherEmail", ViewModel?.MainContactOtherEmail },
-					{ "SchoolConversionMainContactOtherTelephone", ViewModel?.MainContactOtherTelephone },
-					{ "SchoolConversionApproverContactName", ViewModel?.ApproverContactName },
-					{ "SchoolConversionApproverContactEmail", ViewModel?.ApproverContactEmail }
+					{ nameof(SchoolApplyingToConvert.SchoolConversionContactHeadName), ViewModel.ContactHeadName },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionContactHeadEmail), ViewModel.ContactHeadEmail },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionContactHeadTel), ViewModel.ContactHeadTel },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionContactChairName), ViewModel.ContactChairName },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionContactChairEmail), ViewModel.ContactChairEmail },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionContactChairTel), ViewModel.ContactChairTel },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionContactRole), ViewModel.ContactRole.ToString() },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionMainContactOtherName), ViewModel?.MainContactOtherName },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionMainContactOtherEmail), ViewModel?.MainContactOtherEmail },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionMainContactOtherTelephone), ViewModel?.MainContactOtherTelephone },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionApproverContactName), ViewModel?.ApproverContactName },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionApproverContactEmail), ViewModel?.ApproverContactEmail }
 				};
 				
 				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);

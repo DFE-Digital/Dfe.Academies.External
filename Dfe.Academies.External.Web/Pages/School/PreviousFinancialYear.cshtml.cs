@@ -215,7 +215,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 					null);
 
 				var mappingDictionary =
-					new Dictionary<string, dynamic> { { "PreviousFinancialYear", previousFinancialYear } };
+					new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.PreviousFinancialYear), previousFinancialYear } };
 				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, mappingDictionary);
 
 				// update temp store for next step - application overview

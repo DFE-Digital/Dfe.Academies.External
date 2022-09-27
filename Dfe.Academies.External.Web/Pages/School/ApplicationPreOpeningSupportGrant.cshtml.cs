@@ -123,8 +123,8 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 
 			var dictionaryMapper = new Dictionary<string, dynamic>
 			{
-				{ "SchoolSupportGrantFundsPaidTo", schoolSupportGrantFundsPaidTo },
-				{ "ConfirmPaySupportGrantToSchool", ConfirmSchoolPay }
+				{ nameof(SchoolApplyingToConvert.SchoolSupportGrantFundsPaidTo), schoolSupportGrantFundsPaidTo },
+				{ nameof(SchoolApplyingToConvert.ConfirmPaySupportGrantToSchool), ConfirmSchoolPay }
 			};
 			// MR:- call API endpoint to log data
 			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);

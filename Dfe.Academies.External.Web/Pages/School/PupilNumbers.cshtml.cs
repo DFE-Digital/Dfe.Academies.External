@@ -90,11 +90,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 				var dictionaryMapper = new Dictionary<string, dynamic>
 				{
-					{ "ProjectedPupilNumbersYear1", ProjectedPupilNumbersYear1.Value },
-					{ "ProjectedPupilNumbersYear2", ProjectedPupilNumbersYear2.Value },
-					{ "ProjectedPupilNumbersYear3", ProjectedPupilNumbersYear3.Value },
-					{ "SchoolCapacityAssumptions", SchoolCapacityAssumptions },
-					{ "SchoolCapacityPublishedAdmissionsNumber", SchoolCapacityPublishedAdmissionsNumber.Value },
+					{ nameof(SchoolApplyingToConvert.ProjectedPupilNumbersYear1), ProjectedPupilNumbersYear1.Value },
+					{ nameof(SchoolApplyingToConvert.ProjectedPupilNumbersYear2), ProjectedPupilNumbersYear2.Value },
+					{ nameof(SchoolApplyingToConvert.ProjectedPupilNumbersYear3), ProjectedPupilNumbersYear3.Value },
+					{ nameof(SchoolApplyingToConvert.SchoolCapacityAssumptions), SchoolCapacityAssumptions },
+					{ nameof(SchoolApplyingToConvert.SchoolCapacityPublishedAdmissionsNumber), SchoolCapacityPublishedAdmissionsNumber.Value },
 				};
 				await _academisationCreationService.PutSchoolApplicationDetails(
 					ApplicationId,
