@@ -12,7 +12,11 @@
 		public const string PFYCapitalCarryForwardExplained = ""; // ??
 
 		// current financial year
-		// TODO MR:- question string defs
+		public const string CFYEndDate = "End of current financial year end date?";
+		public const string CFYRevenue = "Revenue carry forward at end of the current financial year (31 March)";
+		public const string CFYRevenueStatusExplained = ""; // ??
+		public const string CFYCapitalCarryForward = "Capital carry forward at end of the current financial year (31 March)";
+		public const string CFYCapitalCarryForwardExplained = ""; // ??
 
 		// next financial year
 		public const string NFYEndDate = "End of next financial year end date?";

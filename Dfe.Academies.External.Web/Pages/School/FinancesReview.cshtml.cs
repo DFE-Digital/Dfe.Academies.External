@@ -122,7 +122,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			});
 
 			return PFYheading;
-
 	    }
 
 	    private FinancesReviewHeadingViewModel PopulateCurrentFinancialYear(SchoolApplyingToConvert selectedSchool)
@@ -137,21 +136,20 @@ namespace Dfe.Academies.External.Web.Pages.School
 				    : SchoolConversionComponentStatus.NotStarted
 		    };
 		    
-
-		    CFYheading.Sections.Add(new(FinancesReviewSectionViewModel.PFYEndDate,
+		    CFYheading.Sections.Add(new(FinancesReviewSectionViewModel.CFYEndDate,
 			    currentFinancialYear.FinancialYearEndDate.HasValue ?
-				    currentFinancialYear.FinancialYearEndDate.Value.ToShortDateString() : QuestionAndAnswerConstants.NoAnswer)
+				    currentFinancialYear.FinancialYearEndDate.Value.ToShortDateString() : QuestionAndAnswerConstants.NoInfoAnswer)
 		    );
 
-		    CFYheading.Sections.Add(new(FinancesReviewSectionViewModel.PFYRevenue,
+		    CFYheading.Sections.Add(new(FinancesReviewSectionViewModel.CFYRevenue,
 			    currentFinancialYear.Revenue.HasValue ?
-				    currentFinancialYear.Revenue.Value.ToString() : QuestionAndAnswerConstants.NoAnswer)
+				    currentFinancialYear.Revenue.Value.ToString() : QuestionAndAnswerConstants.NoInfoAnswer)
 		    );
 
 		    CFYheading.Sections.Add(new(
 			    FinancesReviewSectionViewModel.Status,
 			    (currentFinancialYear.RevenueStatus.HasValue ?
-				    currentFinancialYear.RevenueStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoAnswer)
+				    currentFinancialYear.RevenueStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoInfoAnswer)
 		    )
 		    {
 			    SubQuestionAndAnswers = new()
@@ -164,21 +162,21 @@ namespace Dfe.Academies.External.Web.Pages.School
 			    }
 		    });
 
-		    CFYheading.Sections.Add(new(FinancesReviewSectionViewModel.PFYCapitalCarryForward,
+		    CFYheading.Sections.Add(new(FinancesReviewSectionViewModel.CFYCapitalCarryForward,
 			    currentFinancialYear.CapitalCarryForward.HasValue ?
-				    currentFinancialYear.CapitalCarryForward.Value.ToString() : QuestionAndAnswerConstants.NoAnswer)
+				    currentFinancialYear.CapitalCarryForward.Value.ToString() : QuestionAndAnswerConstants.NoInfoAnswer)
 		    );
 
 		    CFYheading.Sections.Add(new(
 			    FinancesReviewSectionViewModel.Status,
 			    (currentFinancialYear.CapitalCarryForwardStatus.HasValue ?
-				    currentFinancialYear.CapitalCarryForwardStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoAnswer)
+				    currentFinancialYear.CapitalCarryForwardStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoInfoAnswer)
 		    )
 		    {
 			    SubQuestionAndAnswers = new()
 			    {
 				    new FinancesReviewSectionViewModel(
-					    FinancesReviewSectionViewModel.PFYCapitalCarryForwardExplained,
+					    FinancesReviewSectionViewModel.CFYCapitalCarryForwardExplained,
 					    currentFinancialYear.CapitalCarryForwardExplained ??
 					    QuestionAndAnswerConstants.NoAnswer
 				    )
@@ -186,13 +184,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    });
 		    return CFYheading;
 	    }
-	    private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
-	    {
-		    SchoolName = selectedSchool.SchoolName;
-		    var PFYheading = PopulatePreviousFinancialYear(selectedSchool);
-		    var CFYheading = PopulateCurrentFinancialYear(selectedSchool);
-			// next financial year - heading3
-			var nextFinancialYear = selectedSchool.NextFinancialYear;
+
+		private FinancesReviewHeadingViewModel PopulateNextFinancialYear(SchoolApplyingToConvert selectedSchool)
+		{
+			var nextFinancialYear = selectedSchool.CurrentFinancialYear;
 			FinancesReviewHeadingViewModel NFYheading = new(FinancesReviewHeadingViewModel.HeadingNextFinancialYear,
 				"/school/NextFinancialYear")
 			{
@@ -204,25 +199,25 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// NFYEndDate
 			NFYheading.Sections.Add(new(FinancesReviewSectionViewModel.NFYEndDate,
 				nextFinancialYear.FinancialYearEndDate.HasValue ?
-					nextFinancialYear.FinancialYearEndDate.Value.ToShortDateString() : QuestionAndAnswerConstants.NoAnswer)
+					nextFinancialYear.FinancialYearEndDate.Value.ToShortDateString() : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			//NFYRevenue
 			NFYheading.Sections.Add(new(FinancesReviewSectionViewModel.NFYRevenue,
 				nextFinancialYear.Revenue.HasValue ?
-					nextFinancialYear.Revenue.Value.ToString() : QuestionAndAnswerConstants.NoAnswer)
+					nextFinancialYear.Revenue.Value.ToString() : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			//NFYRevenueStatus
 			//NFYRevenueStatusExplained - SubQ
 			NFYheading.Sections.Add(new(
 				FinancesReviewSectionViewModel.Status,
 				(nextFinancialYear.RevenueStatus.HasValue ?
-					nextFinancialYear.RevenueStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoAnswer)
+					nextFinancialYear.RevenueStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoInfoAnswer)
 			)
 			{
 				SubQuestionAndAnswers = new()
 				{
 					new FinancesReviewSectionViewModel(
-						FinancesReviewSectionViewModel.PFYRevenueStatusExplained,
+						FinancesReviewSectionViewModel.NFYRevenueStatusExplained,
 						nextFinancialYear.RevenueStatusExplained ??
 						QuestionAndAnswerConstants.NoAnswer
 					)
@@ -231,14 +226,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 			//NFYCapitalCarryForward
 			NFYheading.Sections.Add(new(FinancesReviewSectionViewModel.NFYCapitalCarryForward,
 				nextFinancialYear.CapitalCarryForward.HasValue ?
-					nextFinancialYear.CapitalCarryForward.Value.ToString() : QuestionAndAnswerConstants.NoAnswer)
+					nextFinancialYear.CapitalCarryForward.Value.ToString() : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			//NFYCapitalCarryForwardStatus
 			//NFYCapitalCarryForwardExplained - SubQ
 			NFYheading.Sections.Add(new(
 				FinancesReviewSectionViewModel.Status,
 				(nextFinancialYear.CapitalCarryForwardStatus.HasValue ?
-					nextFinancialYear.CapitalCarryForwardStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoAnswer)
+					nextFinancialYear.CapitalCarryForwardStatus.Value.GetDescription() : QuestionAndAnswerConstants.NoInfoAnswer)
 			)
 			{
 				SubQuestionAndAnswers = new()
@@ -251,15 +246,67 @@ namespace Dfe.Academies.External.Web.Pages.School
 				}
 			});
 
+			return NFYheading;
+		}
+
+		private FinancesReviewHeadingViewModel PopulateLoansHeading(SchoolApplyingToConvert selectedSchool)
+		{
+			var loan = selectedSchool.Loans.FirstOrDefault();
+			FinancesReviewHeadingViewModel loansHeading = new(FinancesReviewHeadingViewModel.HeadingLoans,
+				"/school/Loans")
+			{
+				Status = SchoolConversionComponentStatus.NotStarted
+			};
+
+			// TODO :-
+
+			return loansHeading;
+		}
+
+		private FinancesReviewHeadingViewModel PopulateLeasesHeading(SchoolApplyingToConvert selectedSchool)
+		{
+			var lease = selectedSchool.Leases.FirstOrDefault();
+			FinancesReviewHeadingViewModel leasesHeading = new(FinancesReviewHeadingViewModel.HeadingLeases,
+				"/school/Leases")
+			{
+				Status = SchoolConversionComponentStatus.NotStarted
+			};
+
+			// TODO:- API not done - 27/09/2022
+
+			return leasesHeading;
+		}
+
+		private FinancesReviewHeadingViewModel PopulateFinancialInvestigationsHeading(SchoolApplyingToConvert selectedSchool)
+		{
+			FinancesReviewHeadingViewModel financialInvestigationsHeading = new(FinancesReviewHeadingViewModel.HeadingFinancialInvestigations,
+				"/school/FinancialInvestigations")
+			{
+				Status = SchoolConversionComponentStatus.NotStarted
+			};
+
+			// TODO:- API not done - 27/09/2022
+
+			return financialInvestigationsHeading;
+		}
+
+		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+	    {
+		    SchoolName = selectedSchool.SchoolName;
+		    var PFYheading = PopulatePreviousFinancialYear(selectedSchool);
+		    var CFYheading = PopulateCurrentFinancialYear(selectedSchool);
+			var NFYheading = PopulateNextFinancialYear(selectedSchool);
+
 			// loans - heading4
+			var loansHeading = PopulateLoansHeading(selectedSchool);
 
 			// leases - heading5
-			// API not done - 22/09/2022
+			var leasesHeading = PopulateLeasesHeading(selectedSchool);
 
 			// financial investigations - heading6
-			// API not done - 22/09/2022
+			var financialInvestigationsHeading = PopulateFinancialInvestigationsHeading(selectedSchool);
 
-			var vm = new List<FinancesReviewHeadingViewModel> { PFYheading, CFYheading, NFYheading };
+			var vm = new List<FinancesReviewHeadingViewModel> { PFYheading, CFYheading, NFYheading, loansHeading, leasesHeading, financialInvestigationsHeading };
 
 			ViewModel = vm;
 	    }
