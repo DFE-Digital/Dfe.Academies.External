@@ -64,16 +64,15 @@ namespace Dfe.Academies.External.Web.Pages.School
 			SchoolConsultationSummaryHeadingViewModel heading1 = new(SchoolPupilNumbersSummaryHeadingViewModel.Heading,
 				"/school/ApplicationSchoolConsultation");
 
-			// TODO MR:- for answer, consume QuestionAndAnswerConstants.NoInfoAnswer if string.IsNullOrWhiteSpace()
-			// OR data from API
-
-			heading1.Sections.Add(new(SchoolConsultationSummarySectionViewModel.HasTheGoverningBodyConsulted, "??")
+			// TODO MR:- data from API
+			heading1.Sections.Add(new(SchoolConsultationSummarySectionViewModel.HasTheGoverningBodyConsulted,
+				"??")
 			{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolConsultationSummarySectionViewModel(
 						SchoolConsultationSummarySectionViewModel.WhenDoesTheGoverningBodyPlanToConsult,
-						"TBC"
+						QuestionAndAnswerConstants.NoInfoAnswer
 					)
 				}
 			});
