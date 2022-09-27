@@ -211,7 +211,13 @@ public class NextFinancialYearModel : BasePageEditModel
 				NFYCapitalCarryForwardExplained,
 				null);
 
-			await _academisationCreationService.ApplicationSchoolNextFinancialYear(nextFinancialYear, ApplicationId, Urn);
+			var propertiesToPopulate =
+				new Dictionary<string, dynamic>
+				{
+					{nameof(SchoolApplyingToConvert.NextFinancialYear), nextFinancialYear}
+				};
+
+			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, propertiesToPopulate);
 
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
