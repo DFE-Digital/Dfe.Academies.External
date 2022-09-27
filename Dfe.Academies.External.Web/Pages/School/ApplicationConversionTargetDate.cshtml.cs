@@ -162,9 +162,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 				var dictionaryMapper = new Dictionary<string, dynamic>
 				{
-					{ "SchoolConversionTargetDateSpecified", Convert.ToBoolean(TargetDateDifferent) },
-					{ "SchoolConversionTargetDate", targetDate },
-					{ "SchoolConversionTargetDateExplained", TargetDateExplained }
+					{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDateSpecified), Convert.ToBoolean(TargetDateDifferent) },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDate), targetDate },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDateExplained), TargetDateExplained }
 				};
 				// MR:- call API endpoint to log data
 				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
