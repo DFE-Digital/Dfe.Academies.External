@@ -132,12 +132,12 @@
                                     <input type="radio"
                                        asp-for="NFYCapitalCarryForwardStatus"
                                        value="@Convert.ToInt32(capitalCarryForwardStatus)"
-                                       id="revenueType@(capitalCarryForwardStatus)"
+                                       id="capitalRevenueType@(capitalCarryForwardStatus)"
                                        class="govuk-radios__input"
                                        data-aria-controls="capitalCarryForwardStatus-@(capitalCarryForwardStatus.ToString().ToLower())"
                                        checked="@(capitalCarryForwardStatus.Equals(Model.NFYCapitalCarryForwardStatus))"
                                        aria-expanded="False" />
-                                    <label for="revenueType@(capitalCarryForwardStatus)" class="govuk-label govuk-radios__label">
+                                    <label for="capitalRevenueType@(capitalCarryForwardStatus)" class="govuk-label govuk-radios__label">
                                         @capitalCarryForwardStatus.GetDescription()
                                     </label>
                                 </div>
