@@ -36,7 +36,7 @@
 				Do you want the conversion to happen on a particular date?
 			</h2>
 			<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-				@foreach (var selectOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+                @foreach (var selectOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
 				{
 					<div class="govuk-radios__item">
 						<input type="radio"
