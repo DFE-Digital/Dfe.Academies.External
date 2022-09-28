@@ -42,7 +42,7 @@ public class NextFinancialYearModel : BasePageEditModel
 	public decimal Revenue { get; set; }
 
 	[BindProperty]
-	[RequiredEnum(ErrorMessage = "You must provide details")]
+	[RequiredEnum(ErrorMessage = "You must select an option")]
 	public RevenueType NFYRevenueStatus { get; set; }
 
 	[BindProperty]
@@ -57,7 +57,7 @@ public class NextFinancialYearModel : BasePageEditModel
 	public decimal CapitalCarryForward { get; set; }
 
 	[BindProperty]
-	[RequiredEnum(ErrorMessage = "You must provide details")]
+	[RequiredEnum(ErrorMessage = "You must select an option")]
 	public RevenueType NFYCapitalCarryForwardStatus { get; set; }
 
 	[BindProperty]
