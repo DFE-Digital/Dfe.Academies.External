@@ -22,7 +22,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must select an option")]
-		public SelectOption FinanceOngoingInvestigations { get; set; }
+		public SelectOption? FinanceOngoingInvestigations { get; set; }
 
 		[BindProperty]
 		public string? FinancialInvestigationsExplain { get; set; }
