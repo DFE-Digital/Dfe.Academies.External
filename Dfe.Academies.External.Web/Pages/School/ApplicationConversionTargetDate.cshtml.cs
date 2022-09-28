@@ -139,7 +139,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (TargetDateDifferent == SelectOption.Yes && targetDate == DateTime.MinValue)
 			{
-				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must give a valid date");
+				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must input a valid date");
 				PopulateValidationMessages();
 				// MR:- date input disappears without below !!
 				RePopDatePickerModel(day, month, year);
