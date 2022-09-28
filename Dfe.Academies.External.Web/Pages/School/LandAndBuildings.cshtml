@@ -44,7 +44,7 @@
 						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 							Are there any current or planned building works?
 						</legend>
-						@foreach (var buildingWorksOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+                        @foreach (var buildingWorksOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
 						{
 							<div class="govuk-radios__item">
 								<input type="radio"
@@ -59,7 +59,7 @@
 									@buildingWorksOption.GetDescription()
 								</label>
 							</div>
-							@if (buildingWorksOption == SelectOption.Yes || Model.SchoolBuildLandWorksPlanned == SelectOption.Yes)
+							@if (buildingWorksOption == SelectOption.Yes)
 							{
 								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
 			                                            @(buildingWorksOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
@@ -101,7 +101,7 @@
                         <span class="govuk-hint govuk-body govuk-!-margin-bottom-5">
 				            For example, a nursery, children’s centre, swimming pool, leisure centre, caretaker’s house, community library or SEN unit
 			            </span>
-						@foreach (var sharedFacilitiesOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+                        @foreach (var sharedFacilitiesOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
 						{
 							<div class="govuk-radios__item">
 								<input type="radio"
@@ -116,7 +116,7 @@
 									@sharedFacilitiesOption.GetDescription()
 								</label>
 							</div>
-							@if (sharedFacilitiesOption == SelectOption.Yes || Model.SchoolBuildLandSharedFacilities == SelectOption.Yes)
+							@if (sharedFacilitiesOption == SelectOption.Yes)
 							{
 								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
 			                                            @(sharedFacilitiesOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
@@ -141,7 +141,7 @@
 						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 							Has the school had any grants from Sport England, the Big Lottery Fund, or the Football Federation?
 						</legend>
-						@foreach (var landGrantsOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+                        @foreach (var landGrantsOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
 						{
 							<div class="govuk-radios__item">
 								<input type="radio"
@@ -156,7 +156,7 @@
 									@landGrantsOption.GetDescription()
 								</label>
 							</div>
-							@if (landGrantsOption == SelectOption.Yes || Model.SchoolBuildLandGrants == SelectOption.Yes)
+							@if (landGrantsOption == SelectOption.Yes)
 							{
 								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
 			                                            @(landGrantsOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
@@ -181,7 +181,7 @@
 						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 							Is the school part of a Private Finance Initiative (PFI) scheme?
 						</legend>
-						@foreach (var pfiSchemeOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+                        @foreach (var pfiSchemeOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
 						{
 							<div class="govuk-radios__item">
 								<input type="radio"
@@ -196,7 +196,7 @@
 									@pfiSchemeOption.GetDescription()
 								</label>
 							</div>
-							@if (pfiSchemeOption == SelectOption.Yes || Model.SchoolBuildLandPFIScheme == SelectOption.Yes)
+							@if (pfiSchemeOption == SelectOption.Yes)
 							{
 								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
 			                                            @(pfiSchemeOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
@@ -220,7 +220,7 @@
 						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 							Is the school part of the Priority School Building Programme?
 						</legend>
-						@foreach (var priorityBuildingProgrammeOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+                        @foreach (var priorityBuildingProgrammeOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
 						{
 							<div class="govuk-radios__item">
 								<input type="radio"
@@ -243,7 +243,7 @@
 						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 							Is the school part of the Building Schools for the Future Programme?
 						</legend>
-						@foreach (var futureProgrammeOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>())
+                        @foreach (var futureProgrammeOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
 						{
 							<div class="govuk-radios__item">
 								<input type="radio"
