@@ -1,4 +1,6 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +11,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 	{
 	    private readonly ILogger<FinancialInvestigationsModel> _logger;
 	    private readonly IConversionApplicationCreationService _academisationCreationService;
-	    //public string CFYEndDateFormInputName = "sip_cfyenddate";
 
 	    [BindProperty]
 	    public int ApplicationId { get; set; }
@@ -19,18 +20,52 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 	    public string SchoolName { get; private set; } = string.Empty;
 
-		// TODO MR;- fin investigation VM props
+		[BindProperty]
+		[RequiredEnum(ErrorMessage = "You must select an option")]
+		public SelectOption FinanceOngoingInvestigations { get; set; }
 
-		//public bool HasError
-		//{
-		//	get
-		//	{
-		//		var bools = new[] { CFYFinancialEndDateError
-		//		};
+		[BindProperty]
+		public string? FinancialInvestigationsExplain { get; set; }
 
-		//		return bools.Any(b => b);
-		//	}
-		//}
+		[BindProperty]
+		public SelectOption? FinancialInvestigationsTrustAware { get; set; }
+		
+		public bool FinancialInvestigationsExplainError
+		{
+			get
+			{
+				if (!ModelState.IsValid && ModelState.Keys.Contains("FinancialInvestigationsExplainNotEntered"))
+				{
+					return true;
+				}
+
+				return false;
+			}
+		}
+
+		public bool FinancialInvestigationsTrustAwareError
+		{
+			get
+			{
+				if (!ModelState.IsValid && ModelState.Keys.Contains("FinancialInvestigationsTrustAwareNotSelected"))
+				{
+					return true;
+				}
+
+				return false;
+			}
+		}
+
+		public bool HasError
+		{
+			get
+			{
+				var bools = new[] { FinancialInvestigationsExplainError, 
+					FinancialInvestigationsTrustAwareError };
+
+				return bools.Any(b => b);
+			}
+		}
 
 		public FinancialInvestigationsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
@@ -74,26 +109,34 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
+			if (FinanceOngoingInvestigations == SelectOption.Yes && string.IsNullOrWhiteSpace(FinancialInvestigationsExplain))
+			{
+				ModelState.AddModelError("FinancialInvestigationsExplainNotEntered", "You must provide details of the investigation");
+				PopulateValidationMessages();
+				return Page();
+			}
+
+			if (FinanceOngoingInvestigations == SelectOption.Yes && !FinancialInvestigationsTrustAware.HasValue)
+			{
+				ModelState.AddModelError("FinancialInvestigationsTrustAwareNotSelected", "You must select an option");
+				PopulateValidationMessages();
+				return Page();
+			}
+
 			try
 			{
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 				// TODO MR:- no API 28/09/2022
-				//var currentFinancialYear = new SchoolFinancialYear(CFYEndDate,
-				//	Revenue,
-				//	CFYRevenueStatus,
-				//	CFYRevenueStatusExplained,
-				//	null,
-				//	CapitalCarryForward,
-				//	CFYCapitalCarryForwardStatus,
-				//	CFYCapitalCarryForwardExplained,
-				//	null);
+				//var schoolFinanceInvestigations = new FinancialInvestigations(FinanceOngoingInvestigations,
+				//	SchoolFinancialInvestigationsExplain,
+				//	SchoolFinancialInvestigationsTrustAware);
 
 				//var propertiesToPopulate =
 				//	new Dictionary<string, dynamic>
 				//	{
-				//		{nameof(SchoolApplyingToConvert.CurrentFinancialYear), currentFinancialYear}
+				//		{nameof(SchoolApplyingToConvert.FinancialInvestigations), schoolFinanceInvestigations}
 				//	};
 
 				//await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, propertiesToPopulate);
