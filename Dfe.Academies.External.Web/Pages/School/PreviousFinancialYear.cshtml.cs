@@ -43,7 +43,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public decimal Revenue { get; set; }
 
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = "You must select an option")]
 		public RevenueType PFYRevenueStatus { get; set; }
 
 		[BindProperty]
@@ -58,7 +58,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public decimal CapitalCarryForward { get; set; }
 
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = "You must select an option")]
 		public RevenueType PFYCapitalCarryForwardStatus { get; set; }
 
 		[BindProperty]
@@ -172,7 +172,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (PFYEndDate == DateTime.MinValue)
 			{
-				ModelState.AddModelError("PFYFinancialEndDateNotEntered", "You must give a valid date");
+				ModelState.AddModelError("PFYFinancialEndDateNotEntered", "You must input a valid date");
 				PopulateValidationMessages();
 				// MR:- date input disappears without below !!
 				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);

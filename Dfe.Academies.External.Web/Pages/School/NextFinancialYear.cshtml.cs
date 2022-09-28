@@ -42,7 +42,7 @@ public class NextFinancialYearModel : BasePageEditModel
 	public decimal Revenue { get; set; }
 
 	[BindProperty]
-	[RequiredEnum(ErrorMessage = "You must provide details")]
+	[RequiredEnum(ErrorMessage = "You must select an option")]
 	public RevenueType NFYRevenueStatus { get; set; }
 
 	[BindProperty]
@@ -57,7 +57,7 @@ public class NextFinancialYearModel : BasePageEditModel
 	public decimal CapitalCarryForward { get; set; }
 
 	[BindProperty]
-	[RequiredEnum(ErrorMessage = "You must provide details")]
+	[RequiredEnum(ErrorMessage = "You must select an option")]
 	public RevenueType NFYCapitalCarryForwardStatus { get; set; }
 
 	[BindProperty]
@@ -171,7 +171,7 @@ public class NextFinancialYearModel : BasePageEditModel
 
 	    if (NFYEndDate == DateTime.MinValue)
 	    {
-		    ModelState.AddModelError("NFYFinancialEndDateNotEntered", "You must give a valid date");
+		    ModelState.AddModelError("NFYFinancialEndDateNotEntered", "You must input a valid date");
 		    PopulateValidationMessages();
 			// MR:- date input disappears without below !!
 			RePopDatePickerModel(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
