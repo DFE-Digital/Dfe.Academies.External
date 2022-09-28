@@ -171,7 +171,7 @@ public class NextFinancialYearModel : BasePageEditModel
 
 	    if (NFYEndDate == DateTime.MinValue)
 	    {
-		    ModelState.AddModelError("NFYFinancialEndDateNotEntered", "You must give a valid date");
+		    ModelState.AddModelError("NFYFinancialEndDateNotEntered", "You must input a valid date");
 		    PopulateValidationMessages();
 			// MR:- date input disappears without below !!
 			RePopDatePickerModel(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);

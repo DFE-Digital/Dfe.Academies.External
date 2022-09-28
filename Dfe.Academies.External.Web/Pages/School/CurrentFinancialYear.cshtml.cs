@@ -159,7 +159,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (CFYEndDate == DateTime.MinValue)
 			{
-				ModelState.AddModelError("CFYFinancialEndDateNotEntered", "You must give a valid date");
+				ModelState.AddModelError("CFYFinancialEndDateNotEntered", "You must input a valid date");
 				PopulateValidationMessages();
 				// MR:- date input disappears without below !!
 				RePopDatePickerModel(CFYEndDateComponentDay, CFYEndDateComponentMonth, CFYEndDateComponentYear);
