@@ -8,11 +8,9 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
-using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
@@ -170,7 +168,6 @@ internal sealed class ConversionApplicationCreationServiceTests
 	public async Task PutApplicationDetails__NoApplication__ThrowsArgumentException()
 	{
 		//Arrange
-
 		var applicationId = 1;
 		var schoolUrn = 123456;
 		
@@ -178,15 +175,10 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var properties = fixture.GetType().GetProperties();
 
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
-		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
-		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
-		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
-
 		
 		var sut = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
@@ -202,30 +194,22 @@ internal sealed class ConversionApplicationCreationServiceTests
 	[Test]
 	public async Task PutApplicationDetails__NoMatchingSchool__ThrowsArgumentException()
 	{
-
 		//Arrange
-
 		var applicationId = 1;
 		var schoolUrn = 123456;
-		
 
 		var fixture = Fixture.Create<SchoolApplyingToConvert>();
 		var properties = fixture.GetType().GetProperties();
 
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
-		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
-		
+	
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
-		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
-		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 
 		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(applicationId))
 			.ReturnsAsync(Fixture.Build<ConversionApplication>().With(x => x.ApplicationId, applicationId).With(x => x.Schools, new List<SchoolApplyingToConvert>{new("test", 1, "")}).Create());
 
-		
 		//Act
 		var sut = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
@@ -245,14 +229,9 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var fixture = Fixture.Create<SchoolApplyingToConvert>();
 		var properties = fixture.GetType().GetProperties();
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
-		
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
-		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
-		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
-		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 
 		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(applicationId))
@@ -267,6 +246,74 @@ internal sealed class ConversionApplicationCreationServiceTests
 	}
 
 	/// <summary>
+	/// call ApplicationSchoolNextFinancialYear service func and mock HttpStatusCode.Created
+	/// </summary>
+	[Test]
+	public async Task ApplicationSchoolNextFinancialYear___ApiReturns200___Ok()
+	{
+		// arrange
+		int applicationId = 1;
+		int schoolUrn = 123332;
+		var fixture = Fixture.Create<SchoolApplyingToConvert>();
+		var properties = fixture.GetType().GetProperties();
+
+		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
+
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.PutSchoolApplicationDetails(
+			applicationId,
+			schoolUrn,
+			dictionary
+		));
+	}
+
+	[Test]
+	public async Task ApplicationSchoolNextFinancialYear__ApiReturns500___InternalServerError()
+	{
+		// arrange
+		int applicationId = 1;
+		int schoolUrn = 123332;
+		var fixture = Fixture.Create<SchoolApplyingToConvert>();
+		var properties = fixture.GetType().GetProperties();
+
+		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
+
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+
+		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
+		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object);
+
+		// act
+		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+			mockLoggerCreationService.Object,
+			mockConversionApplicationRetrievalService);
+
+		// assert
+		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.PutSchoolApplicationDetails(
+			applicationId,
+			schoolUrn,
+			dictionary
+		));
+	}
+	/// <summary>
 	/// call ApplicationSchoolPreviousFinancialYear service func and mock HttpStatusCode.Created
 	/// </summary>
 	[Test]
@@ -275,17 +322,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		// arrange
 		int applicationId = 1;
 		int schoolUrn = 123332;
-		var financialYear = new SchoolFinancialYear(
-			Fixture.Create<DateTime>(),
-			Fixture.Create<decimal>(),
-			Fixture.Create<RevenueType>(),
-			Fixture.Create<string>(),
-			null,
-			Fixture.Create<decimal>(),
-			Fixture.Create<RevenueType>(),
-			Fixture.Create<string>(),
-			null
-		);
+
 		var fixture = Fixture.Create<SchoolApplyingToConvert>();
 		var properties = fixture.GetType().GetProperties();
 
@@ -319,17 +356,6 @@ internal sealed class ConversionApplicationCreationServiceTests
 		// arrange
 		int applicationId = 1;
 		int schoolUrn = 123332;
-		var financialYear = new SchoolFinancialYear(
-			Fixture.Create<DateTime>(),
-			Fixture.Create<decimal>(),
-			Fixture.Create<RevenueType>(),
-			Fixture.Create<string>(),
-			null,
-			Fixture.Create<decimal>(),
-			Fixture.Create<RevenueType>(),
-			Fixture.Create<string>(),
-			null
-		);
 		
 		var fixture = Fixture.Create<SchoolApplyingToConvert>();
 		var properties = fixture.GetType().GetProperties();
