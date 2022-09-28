@@ -287,6 +287,24 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			// TODO:- API not done - 27/09/2022
 
+			financialInvestigationsHeading.Sections.Add(new(
+				FinancesReviewSectionViewModel.FinanceOngoingInvestigations,
+				(QuestionAndAnswerConstants.NoInfoAnswer)
+			)
+			{
+				SubQuestionAndAnswers = new()
+				{
+					new FinancesReviewSectionViewModel(
+						FinancesReviewSectionViewModel.FinancialInvestigationsExplain,
+						QuestionAndAnswerConstants.NoAnswer
+					),
+					new FinancesReviewSectionViewModel(
+						FinancesReviewSectionViewModel.FinancialInvestigationsTrustAware,
+						QuestionAndAnswerConstants.NoAnswer
+					),
+				}
+			});
+
 			return financialInvestigationsHeading;
 		}
 
