@@ -77,10 +77,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 				landAndBuildings.OwnerExplained ?? QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 
+			// MR:- coming back as min date, need to check landAndBuildings.WorksPlannedDate.Value = DateTime.MinDate() !
+			var worksPlannedDate = landAndBuildings.WorksPlannedDate;
+			bool worksPlannedDateFilledIn = landAndBuildings.WorksPlannedDate.HasValue && landAndBuildings.WorksPlannedDate.Value != DateTime.MinValue;
+
 			heading1.Sections.Add(new(
 				SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorks,
 				(landAndBuildings.WorksPlanned.GetStringDescription())
-				)
+			)
 			{
 				SubQuestionAndAnswers = new()
 				{
@@ -92,7 +96,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 					),
 					new SchoolLandAndBuildingsSummarySectionViewModel(
 						SchoolLandAndBuildingsSummarySectionViewModel.PlannedBuildingWorksWhen,
-						(landAndBuildings.WorksPlannedDate.HasValue ?
+						(worksPlannedDateFilledIn ?
 							landAndBuildings.WorksPlannedDate.Value.ToString("dd/MM/yyyy") :
 							QuestionAndAnswerConstants.NoAnswer)
 					)
@@ -117,7 +121,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			heading1.Sections.Add(new(
 				SchoolLandAndBuildingsSummarySectionViewModel.Grants,
 				(landAndBuildings.Grants.GetStringDescription())
-				)
+			)
 			{
 				SubQuestionAndAnswers = new()
 				{
@@ -132,7 +136,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			heading1.Sections.Add(new(
 				SchoolLandAndBuildingsSummarySectionViewModel.PFI,
 				(landAndBuildings.PartOfPFIScheme.GetStringDescription())
-				)
+			)
 			{
 				SubQuestionAndAnswers = new()
 				{
@@ -144,14 +148,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 			});
 
 			heading1.Sections.Add(new(
-				SchoolLandAndBuildingsSummarySectionViewModel.PrioritySchoolBuildingProgram,
-				(landAndBuildings.PartOfPrioritySchoolsBuildingProgramme.GetStringDescription())
+					SchoolLandAndBuildingsSummarySectionViewModel.PrioritySchoolBuildingProgram,
+					(landAndBuildings.PartOfPrioritySchoolsBuildingProgramme.GetStringDescription())
 				)
 			);
 
 			heading1.Sections.Add(new(
-				SchoolLandAndBuildingsSummarySectionViewModel.BuildingSchoolsForTheFuture,
-				(landAndBuildings.PartOfBuildingSchoolsForFutureProgramme.GetStringDescription())
+					SchoolLandAndBuildingsSummarySectionViewModel.BuildingSchoolsForTheFuture,
+					(landAndBuildings.PartOfBuildingSchoolsForFutureProgramme.GetStringDescription())
 				)
 			);
 
