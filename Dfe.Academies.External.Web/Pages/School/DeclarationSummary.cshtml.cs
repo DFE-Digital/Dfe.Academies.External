@@ -70,7 +70,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			};
 
 			// TODO:- API not done - 27/09/2022
-
+			// MR:- NO sub questions shown here, just yes / no for answer!
 			heading1.Sections.Add(new(
 				DeclarationSummaryHeadingViewModel.HeadingDetails,
 				QuestionAndAnswerConstants.NoInfoAnswer 
