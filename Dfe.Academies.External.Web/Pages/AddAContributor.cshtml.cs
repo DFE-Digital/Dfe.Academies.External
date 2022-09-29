@@ -33,17 +33,17 @@ namespace Dfe.Academies.External.Web.Pages
 		/// SchoolRole = non nullable
 
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must give your role at the school")]
+		[RequiredEnum(ErrorMessage = "You must choose a role")]
 		public SchoolRoles ContributorRole { get; set; }
 
 		[BindProperty]
 		public string? OtherRoleNotListed { get; set; }
 
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide a name")]
 		public string Name { get; set; }
 
 		[EmailAddress]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide an email address")]
 		public string EmailAddress { get; set; }
 
 		public bool OtherRoleError
