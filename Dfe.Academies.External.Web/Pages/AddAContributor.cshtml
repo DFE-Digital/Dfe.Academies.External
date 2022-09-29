@@ -32,8 +32,7 @@
         
 		<div class="govuk-form-group">
 			<label for="EmailAddress" class="govuk-label">Give the email address of the person you want to invite</label>
-			<input type="email" asp-for="EmailAddress" id="EmailAddress"
-			       class="govuk-input govuk-input--width-20"/>
+			<input type="email" asp-for="EmailAddress" id="EmailAddress" class="govuk-input govuk-input--width-20"/>
 		</div>
         
 		<div class="govuk-form-group">
@@ -73,7 +72,6 @@
 					                    <a href="#OtherRoleNotEntered" class="@(Model.OtherRoleError ? "govuk-error-message" : "govuk-visually-hidden")">
 						                    You must give your role
 					                    </a>
-
 					                    <input type="text" asp-for="OtherRoleNotListed" id="OtherRoleNotListed" class="govuk-input govuk-input--width-20" maxlength="100" />
 				                    </div>
 			                    </div>
@@ -82,8 +80,7 @@
                     </div>
                 </div>
             </fieldset>
-            
-			// TODO MR:- list of contributors already against the application
+
 			<partial name="_ApplicationContributorsPartial" model="Model.ExistingContributors" />
 		</div>		
 
