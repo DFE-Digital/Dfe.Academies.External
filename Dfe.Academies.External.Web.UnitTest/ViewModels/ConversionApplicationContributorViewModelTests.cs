@@ -26,7 +26,7 @@ internal sealed class ConversionApplicationContributorViewModelTests
 		// assert
 		Assert.That(contributor, Is.Not.Null);
 		Assert.That(contributor.FullName, Is.EqualTo(fullname));
-		Assert.That(contributor.RoleName, Is.EqualTo(otherRoleNotListed));
+		Assert.That(contributor.RoleName, Is.EqualTo($"Something else-{otherRoleNotListed}"));
 	}
 
 	[Test]

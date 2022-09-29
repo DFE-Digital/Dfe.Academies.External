@@ -12,11 +12,11 @@ public sealed class ConversionApplicationContributorViewModel
 		OtherRoleNotListed = otherRole;
 	}
 
-	public string FullName { get; private set; }
+	public string FullName { get; }
 
-	private SchoolRoles Role { get; set; }
+	private SchoolRoles Role { get; }
 
-	private string? OtherRoleNotListed { get; set; }
+	private string? OtherRoleNotListed { get; }
 
 	public string RoleName
 	{
@@ -24,7 +24,7 @@ public sealed class ConversionApplicationContributorViewModel
 		{
 			if (Role == SchoolRoles.Other)
 			{
-				return OtherRoleNotListed ?? string.Empty;
+				return $"{Role.GetDescription()}-{OtherRoleNotListed ?? string.Empty}";
 			}
 			else
 			{
