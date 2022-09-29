@@ -2,6 +2,7 @@
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.ViewModels;
 using NUnit.Framework;
+//using Dfe.Academies.External.Web.Extensions;
 
 namespace Dfe.Academies.External.Web.UnitTest.ViewModels;
 
@@ -10,25 +11,39 @@ internal sealed class ConversionApplicationContributorViewModelTests
 	private static readonly Fixture Fixture = new();
 
 	[Test]
-	public void Constructor___PropertiesSet()
+	public void RoleName___Valid___OtherRoleName()
 	{
 		// arrange
 		string fullname = Fixture.Create<string>();
-		SchoolRoles schoolRole = Fixture.Create<SchoolRoles>();
+		SchoolRoles schoolRole = SchoolRoles.Other;
 		string otherRoleNotListed = Fixture.Create<string>();
 
-		var conversionApplicationAuditEntry = new ConversionApplicationContributorViewModel(fullname, schoolRole)
-		{
-			OtherRoleNotListed = otherRoleNotListed
-		};
+		var contributor = new ConversionApplicationContributorViewModel(fullname, schoolRole, otherRoleNotListed);
 
 		// act
 		// nothing!
 
 		// assert
-		Assert.That(conversionApplicationAuditEntry, Is.Not.Null);
-		Assert.That(conversionApplicationAuditEntry.FullName, Is.EqualTo(fullname));
-		Assert.That(conversionApplicationAuditEntry.Role, Is.EqualTo(schoolRole));
-		Assert.That(conversionApplicationAuditEntry.OtherRoleNotListed, Is.EqualTo(otherRoleNotListed));
+		Assert.That(contributor, Is.Not.Null);
+		Assert.That(contributor.FullName, Is.EqualTo(fullname));
+		Assert.That(contributor.RoleName, Is.EqualTo(otherRoleNotListed));
+	}
+
+	[Test]
+	public void RoleName___Valid___ChairOfGovernors()
+	{
+		// arrange
+		string fullname = Fixture.Create<string>();
+		SchoolRoles schoolRole = SchoolRoles.ChairOfGovernors;
+		
+		var contributor = new ConversionApplicationContributorViewModel(fullname, schoolRole, null);
+
+		// act
+		// nothing!
+
+		// assert
+		Assert.That(contributor, Is.Not.Null);
+		Assert.That(contributor.FullName, Is.EqualTo(fullname));
+		Assert.That(contributor.RoleName, Is.EqualTo("The chair of the school's governors"));
 	}
 }
