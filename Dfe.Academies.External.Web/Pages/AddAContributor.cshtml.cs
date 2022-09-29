@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
@@ -90,7 +92,54 @@ namespace Dfe.Academies.External.Web.Pages
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError("School::AddAContributorModel::OnGetAsync::Exception - {Message}", ex.Message);
+				_logger.LogError("Application::AddAContributorModel::OnGetAsync::Exception - {Message}", ex.Message);
+			}
+		}
+
+		public async Task<IActionResult> OnPostAsync()
+		{
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				return Page();
+			}
+
+			if (ContributorRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleNotListed))
+			{
+				ModelState.AddModelError("OtherRoleNotEntered", "You must give your role at the school");
+				PopulateValidationMessages();
+				return Page();
+			}
+
+			try
+			{
+				//// grab draft application from temp= null
+				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+				//var dictionaryMapper = new Dictionary<string, dynamic>
+				//{
+				//	{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDateSpecified), ContributorRole },
+				//	{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDate), OtherRoleNotListed },
+				//	{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDateExplained), EmailAddress },
+				//	{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDateExplained), Name }
+				//};
+
+				// TODO MR:- sort out name
+				var creationContributor = new ConversionApplicationContributor("", "", EmailAddress, ContributorRole, OtherRoleNotListed);
+				draftConversionApplication.Contributors.Add(creationContributor);
+
+				// TODO MR:- need an update application service func
+				//await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, dictionaryMapper);
+
+				// update temp store for next step
+				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+				return RedirectToPage("ApplicationOverview", new { appId = draftConversionApplication.ApplicationId });
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("Application::AddAContributorModel::OnPostAsync::Exception - {Message}", ex.Message);
+				return Page();
 			}
 		}
 
