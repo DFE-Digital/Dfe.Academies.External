@@ -115,8 +115,9 @@
 	</p>
     
     // TODO MR:- render out list of contributors :- 
+    <partial name="_ApplicationContributorsPartial" model="Model.ExistingContributors" />
 
-	<div class="govuk-!-margin-6"></div>
+    <div class="govuk-!-margin-6"></div>
 
     @if (!Model.UserHasSubmitApplicationRole)
     {
