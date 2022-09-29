@@ -111,10 +111,12 @@
     <p class="govuk-body">You can invite other people to help you complete parts of this form</p>
 	<div class="govuk-!-margin-6"></div>
 	<p class="govuk-body">
-		<a asp-page="NewApplicationContributor" asp-route-appId="@Model.ApplicationId" class="govuk-link">Invite a contributor</a>
+        <a asp-page="AddAContributor" asp-route-appId="@Model.ApplicationId" class="govuk-link">Invite a contributor</a>
 	</p>
     
-    <div class="govuk-!-margin-6"></div>
+    // TODO MR:- render out list of contributors :- 
+
+	<div class="govuk-!-margin-6"></div>
 
     @if (!Model.UserHasSubmitApplicationRole)
     {
