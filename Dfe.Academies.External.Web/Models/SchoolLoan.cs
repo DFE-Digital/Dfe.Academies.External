@@ -2,10 +2,13 @@
 
 public class SchoolLoan
 {
-	public SchoolLoan(string purpose, string provider)
+	public SchoolLoan(decimal amount, string purpose, string provider, decimal interestRate, string schedule)
 	{
+		Amount = amount;
 		Purpose = purpose;
 		Provider = provider;
+		InterestRate = interestRate;
+		Schedule = schedule;
 	}
 
 	public int Id { get; set; }

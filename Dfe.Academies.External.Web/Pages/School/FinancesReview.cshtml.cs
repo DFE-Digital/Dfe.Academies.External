@@ -251,14 +251,40 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		private FinancesReviewHeadingViewModel PopulateLoansHeading(SchoolApplyingToConvert selectedSchool)
 		{
-			var loan = selectedSchool.Loans.FirstOrDefault();
+			
 			FinancesReviewHeadingViewModel loansHeading = new(FinancesReviewHeadingViewModel.HeadingLoans,
 				"/school/Loans")
 			{
 				Status = SchoolConversionComponentStatus.NotStarted
 			};
+			var isStarted = loansHeading.Status != SchoolConversionComponentStatus.NotStarted;
 
-			// TODO :-
+			loansHeading.Sections.Add(new(
+				FinancesReviewSectionViewModel.LExistingLoans,
+					isStarted
+					? selectedSchool.Loans.Any() ? "Yes" : "No"
+					: QuestionAndAnswerConstants.NoInfoAnswer)
+			);
+			
+				var subQuestionAndAnswers = new List<SchoolQuestionAndAnswerViewModel>();
+				selectedSchool.Loans.ForEach(x =>
+				{
+					subQuestionAndAnswers.AddRange(new List<SchoolQuestionAndAnswerViewModel>
+					{
+						new FinancesReviewSectionViewModel($"Loan {x.Id}", ""),
+						new FinancesReviewSectionViewModel("Total amount", $"£{x.Amount.Value}"),
+						new FinancesReviewSectionViewModel("Purpose of loan", $"{x.Purpose}"),
+						new FinancesReviewSectionViewModel("Loan provider", $"{x.Provider}"),
+						new FinancesReviewSectionViewModel("Interest rate", $"{x.InterestRate:D1}"),
+						new FinancesReviewSectionViewModel("Schedule of repayment", $"{x.Schedule}")
+					});
+				});
+				
+				if(selectedSchool.Loans.Any())
+					loansHeading.Sections.Add(new(FinancesReviewSectionViewModel.LExistingLoans, "Yes")
+						{
+							SubQuestionAndAnswers = subQuestionAndAnswers
+						});
 
 			return loansHeading;
 		}
