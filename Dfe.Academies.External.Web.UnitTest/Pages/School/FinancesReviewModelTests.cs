@@ -25,7 +25,6 @@ internal sealed class FinancesReviewModelTests
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<FinancesReviewModel>>();
@@ -36,7 +35,6 @@ internal sealed class FinancesReviewModelTests
 
 		// act
 		var pageModel = SetupFinancesReviewModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
@@ -50,7 +48,6 @@ internal sealed class FinancesReviewModelTests
 
 	private static FinancesReviewModel SetupFinancesReviewModel(
 		ILogger<FinancesReviewModel> mockLogger,
-		IConversionApplicationCreationService mockConversionApplicationCreationService,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		bool isAuthenticated = false)
