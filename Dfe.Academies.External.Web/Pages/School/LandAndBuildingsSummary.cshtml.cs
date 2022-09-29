@@ -78,7 +78,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			);
 
 			// MR:- coming back as min date, need to check landAndBuildings.WorksPlannedDate.Value = DateTime.MinDate() !
-			var worksPlannedDate = landAndBuildings.WorksPlannedDate;
 			bool worksPlannedDateFilledIn = landAndBuildings.WorksPlannedDate.HasValue && landAndBuildings.WorksPlannedDate.Value != DateTime.MinValue;
 
 			heading1.Sections.Add(new(
