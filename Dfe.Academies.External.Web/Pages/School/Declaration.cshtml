@@ -47,8 +47,20 @@
 						I confirm that:
 					</h1>
 				</legend>
-				<div class="govuk-checkboxes"> 
-@*					<a2c-checkbox field-name="@FieldConstants.SIPSchoolDeclarationTeacherChair"
+				<div class="govuk-checkboxes" data-module="govuk-checkboxes">
+					<div class="govuk-checkboxes__item">
+						<input asp-for="SchoolDeclarationTeacherChair" type="checkbox" class="govuk-checkboxes__input">
+						<label for='SchoolDeclarationTeacherChair' class="govuk-label govuk-checkboxes__label">
+							I am the chair of governors or the headteacher of the applying school
+						</label>
+					</div>
+					<div class="govuk-checkboxes__item">
+						<input asp-for="SchoolDeclarationBodyAgree" type="checkbox" class="govuk-checkboxes__input">
+						<label for='SchoolDeclarationBodyAgree' class="govuk-label govuk-checkboxes__label">
+							The information in this application is true to the best of my knowledge
+						</label>
+					</div>
+					@*					<a2c-checkbox field-name="@FieldConstants.SIPSchoolDeclarationTeacherChair"
 					              field-data="@ViewData[FieldConstants.SIPSchoolDeclarationTeacherChair]"
 					              is-checked="@((string) ViewData[FieldConstants.SIPSchoolDeclarationTeacherChair] == (((int) Enums.A2CSelectOption.Yes)).ToString())"
 					              check-box-value="@((int) Enums.A2CSelectOption.Yes)"

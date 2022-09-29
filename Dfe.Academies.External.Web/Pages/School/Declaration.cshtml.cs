@@ -20,10 +20,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 	    public string SchoolName { get; private set; } = string.Empty;
 
-		//// TODO MR:- VM props  to capture declaration data - only 2
-		//SchoolDeclarationTeacherChair - Yes / No
-		//SchoolDeclarationBodyAgree - Yes / No
-		
+	    //// MR:- VM props to capture declaration data - only 2
+		[BindProperty]
+		public bool SchoolDeclarationTeacherChair { get; set; }
+
+		[BindProperty]
+		public bool SchoolDeclarationBodyAgree { get; set; }
+
 		public DeclarationModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			ILogger<DeclarationModel> logger,
@@ -75,13 +78,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 						TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 				// TODO MR:- api doesn't exist 29/09/2022
-				// only 2 props / chunks of data
-				//SchoolDeclarationTeacherChair - Yes / No
-				//SchoolDeclarationBodyAgree - Yes / No
 
-				//var mappingDictionary =
-				//	new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.PreviousFinancialYear), previousFinancialYear } };
-				//await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, mappingDictionary);
+				//var dictionaryMapper = new Dictionary<string, dynamic>
+				//{
+				//	{ nameof(SchoolApplyingToConvert.SchoolDeclarationTeacherChair), SchoolDeclarationTeacherChair },
+				//	{ nameof(SchoolApplyingToConvert.SchoolDeclarationBodyAgree), SchoolDeclarationBodyAgree }
+				//};
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
