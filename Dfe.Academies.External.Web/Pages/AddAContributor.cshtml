@@ -1,0 +1,89 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.AddAContributorModel
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+	ViewData["Title"] = "Apply to become an academy - Add a contributor";
+}
+
+@section BeforeMain
+{
+    <a asp-page="ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">
+		Back to about the conversion
+	</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<h1 class="govuk-heading-l">
+		<span class="govuk-caption-l">Conversion key details</span>
+		Changing the name of the school
+	</h1> 
+
+	<form method="post" name="frmChangingSchoolName" novalidate="">
+		@Html.AntiForgeryToken()
+		<input type="hidden" asp-for="ApplicationId"/>
+		<partial name="_HiddenFields"/>
+
+		<div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                    <legend id="role-hint" class="govuk-fieldset__legend">What is your role?</legend>
+                    <div class="@(Model.OtherRoleError ? "govuk-visually-hidden" : "")">
+                        <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel" />
+                    </div>
+
+                    <div class="govuk-form-group">
+	                    <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+		                    @foreach (var roleType in Enum.GetValues(typeof(SchoolRoles)).OfType<SchoolRoles>())
+		                    {
+			                    <div class="govuk-radios__item">
+				                    <input type="radio"
+				                           asp-for="ContributorRole"
+				                           value="@Convert.ToInt32(roleType)"
+				                           id="RoleType@(roleType)"
+				                           class="govuk-radios__input"
+				                           data-aria-controls="conditional-role-@(roleType.ToString().ToLower())"
+				                           aria-expanded="False" />
+				                    <label for="RoleType@(roleType)" class="govuk-label govuk-radios__label">
+					                    @roleType.GetDescription()
+				                    </label>
+			                    </div>
+			                    @if (roleType == SchoolRoles.Other)
+			                    {
+				                    <div class="@(Model.OtherRoleError ? "govuk-form-group--error" : "govuk-radios__conditional")
+	                                            @(Model.ContributorRole != SchoolRoles.Other ? "govuk-radios__conditional--hidden" : "")"
+				                         id="conditional-role-other" aria-expanded="false">
+					                    <div class="govuk-form-group govuk-error-summary__list">
+						                    <label for="conditional-role-other" class="govuk-label">What is your role?</label>
+						                    <a href="#OtherRoleNotEntered" class="@(Model.OtherRoleError ? "govuk-error-message" : "govuk-visually-hidden")">
+							                    You must give your role
+						                    </a>
+
+						                    <input type="text" asp-for="OtherRoleNotListed" id="OtherRoleNotListed" class="govuk-input govuk-input--width-20" maxlength="100" />
+					                    </div>
+				                    </div>
+			                    }
+		                    }
+	                    </div>
+                        
+	                    <div class="govuk-form-group">
+		                    // TODO MR:- need to capture first name / surname / email
+	                    </div>
+	                    <div class="govuk-form-group">
+							<label for="EmailAddress" class="govuk-label">Chair's email address</label>
+		                    <span class="govuk-hint">
+			                    We will only use this to contact you regarding your application
+		                    </span>
+							<input type="email" asp-for="EmailAddress" id="EmailAddress"
+                               class="govuk-input govuk-input--width-20"/>
+	                    </div>
+                    </div>
+            </fieldset>
+            
+			// TODO MR:- list of contributors already against the application, name & role ONLY !
+		</div>		
+
+		<br/>
+		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+	</form>
+</div>
