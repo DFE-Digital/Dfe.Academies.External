@@ -1,18 +1,35 @@
 ﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 
 namespace Dfe.Academies.External.Web.ViewModels;
 
 public sealed class ConversionApplicationContributorViewModel
 {
-	public ConversionApplicationContributorViewModel(string fullName, SchoolRoles role)
+	public ConversionApplicationContributorViewModel(string fullName, SchoolRoles role, string? otherRole)
 	{
 		FullName = fullName;
 		Role = role;
+		OtherRoleNotListed = otherRole;
 	}
 
-	public string FullName { get; set; }
+	public string FullName { get; private set; }
 
-	public SchoolRoles Role { get; set; }
+	private SchoolRoles Role { get; set; }
 
-	public string? OtherRoleNotListed { get; set; }
+	private string? OtherRoleNotListed { get; set; }
+
+	public string RoleName
+	{
+		get
+		{
+			if (Role == SchoolRoles.Other)
+			{
+				return OtherRoleNotListed ?? string.Empty;
+			}
+			else
+			{
+				return Role.GetDescription();
+			}
+		}
+	}
 }
