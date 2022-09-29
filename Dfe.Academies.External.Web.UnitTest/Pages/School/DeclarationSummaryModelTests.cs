@@ -25,7 +25,6 @@ internal sealed class DeclarationSummaryModelTests
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockLogger = new Mock<ILogger<DeclarationSummaryModel>>();
@@ -36,7 +35,6 @@ internal sealed class DeclarationSummaryModelTests
 
 		// act
 		var pageModel = SetupDeclarationSummaryModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
@@ -50,7 +48,6 @@ internal sealed class DeclarationSummaryModelTests
 	
 	private static DeclarationSummaryModel SetupDeclarationSummaryModel(
 		ILogger<DeclarationSummaryModel> mockLogger,
-		IConversionApplicationCreationService mockConversionApplicationCreationService,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		bool isAuthenticated = false)
