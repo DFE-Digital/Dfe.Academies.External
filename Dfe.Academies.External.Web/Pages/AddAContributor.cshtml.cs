@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
+﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
@@ -8,7 +6,6 @@ using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using static GovUk.Frontend.AspNetCore.ComponentDefaults;
 
 namespace Dfe.Academies.External.Web.Pages
 {
@@ -28,19 +25,17 @@ namespace Dfe.Academies.External.Web.Pages
 	    [BindProperty]
 	    public int ApplicationId { get; set; }
 
-		//// TODO MR:- VM props to capture data -
-		/// just 4 props
-		/// firstName = non nullable string!
-		/// lastName = non nullable string!
-		/// email = non nullable string!
-		/// SchoolRole = non nullable
-
+		//// MR:- VM props to capture data -
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must choose a role")]
 		public SchoolRoles ContributorRole { get; set; }
 
 		[BindProperty]
 		public string? OtherRoleNotListed { get; set; }
+
+		// TODO MR:-
+		/// firstName = non nullable string!
+		/// lastName = non nullable string!
 
 		[Required(ErrorMessage = "You must provide a name")]
 		public string Name { get; set; }
@@ -118,18 +113,19 @@ namespace Dfe.Academies.External.Web.Pages
 
 				//var dictionaryMapper = new Dictionary<string, dynamic>
 				//{
-				//	{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDateSpecified), ContributorRole },
-				//	{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDate), OtherRoleNotListed },
-				//	{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDateExplained), EmailAddress },
-				//	{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDateExplained), Name }
+				//	{ nameof(ApplicationContributorApiModel.SchoolConversionTargetDateSpecified), ContributorRole },
+				//	{ nameof(ApplicationContributorApiModel.SchoolConversionTargetDate), OtherRoleNotListed },
+				//	{ nameof(ApplicationContributorApiModel.SchoolConversionTargetDateExplained), EmailAddress },
+				//	{ nameof(ApplicationContributorApiModel.SchoolConversionTargetDateExplained), Name }
 				//};
 
 				// TODO MR:- sort out name
-				var creationContributor = new ConversionApplicationContributor("", "", EmailAddress, ContributorRole, OtherRoleNotListed);
-				draftConversionApplication.Contributors.Add(creationContributor);
+				var contributor = new ConversionApplicationContributor("", "", EmailAddress, ContributorRole, OtherRoleNotListed);
 
 				// TODO MR:- need an update application service func
-				//await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, dictionaryMapper);
+				//await _academisationCreationService.AddContributor(ApplicationId, contributor);
+
+				//draftConversionApplication.Contributors.Add(contributor);
 
 				// update temp store for next step
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -152,11 +148,6 @@ namespace Dfe.Academies.External.Web.Pages
 		{
 			if (application != null)
 			{
-				// TODO MR:- setup roles collection i.e. if we already have a 'ChairOfGovernors' within the contributors collection
-				// remove from UI
-				var roles = Enum.GetValues(typeof(SchoolRoles)).OfType<SchoolRoles>();
-
-
 				// convert application?.Contributors -> list<ConversionApplicationContributorViewModel>
 				if (application.Contributors.Any())
 				{
@@ -165,6 +156,10 @@ namespace Dfe.Academies.External.Web.Pages
 						.ToList();
 
 					ExistingContributors = contributors;
+
+					// TODO MR:- setup roles collection i.e. if we already have a 'ChairOfGovernors' within the contributors collection
+					// remove from UI
+					var roles = Enum.GetValues(typeof(SchoolRoles)).OfType<SchoolRoles>();
 				}
 			}
 			
