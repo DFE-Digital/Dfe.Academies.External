@@ -93,9 +93,14 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public async Task<IActionResult> OnPostAsync()
 		{
+			//// grab draft application from temp= null
+			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
 			if (!ModelState.IsValid)
 			{
 				PopulateValidationMessages();
+				// TODO MR:- need to call below otherwise will lose ExistingContributors()
+				//PopulateUiModel(draftConversionApplication);
 				return Page();
 			}
 
@@ -103,14 +108,13 @@ namespace Dfe.Academies.External.Web.Pages
 			{
 				ModelState.AddModelError("OtherRoleNotEntered", "You must give your role at the school");
 				PopulateValidationMessages();
+				// TODO MR:- need to call below otherwise will lose ExistingContributors()
+				//PopulateUiModel(draftConversionApplication);
 				return Page();
 			}
 
 			try
 			{
-				//// grab draft application from temp= null
-				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
 				//var dictionaryMapper = new Dictionary<string, dynamic>
 				//{
 				//	{ nameof(ApplicationContributorApiModel.SchoolConversionTargetDateSpecified), ContributorRole },
@@ -160,6 +164,8 @@ namespace Dfe.Academies.External.Web.Pages
 					// TODO MR:- setup roles collection i.e. if we already have a 'ChairOfGovernors' within the contributors collection
 					// remove from UI
 					var roles = Enum.GetValues(typeof(SchoolRoles)).OfType<SchoolRoles>();
+
+					var hasChair = application.Contributors.Any(x => x.Role == SchoolRoles.ChairOfGovernors);
 				}
 			}
 			
