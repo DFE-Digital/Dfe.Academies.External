@@ -134,7 +134,11 @@ namespace Dfe.Academies.External.Web.Pages
 				// update temp store for next step
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-				return RedirectToPage("ApplicationOverview", new { appId = draftConversionApplication.ApplicationId });
+				// TODO MR:- need to stay on the page to show user a green confirmation banner that email has been sent / db updated
+
+				// TODO MR:- need to call below otherwise will lose ExistingContributors()
+				//PopulateUiModel(draftConversionApplication);
+				return Page();
 			}
 			catch (Exception ex)
 			{
