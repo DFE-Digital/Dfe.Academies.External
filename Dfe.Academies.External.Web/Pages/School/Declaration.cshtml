@@ -1,0 +1,86 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.School.DeclarationModel
+@{
+	ViewData["Title"] = "Apply to become an academy - About the conversion";
+}
+
+@section BeforeMain
+{
+	<a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back to application overview</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">
+        @Model.SchoolName
+    </span>
+    <h1 class="govuk-heading-l">
+        Declaration
+    </h1>
+	<form method="post" name="frmDeclaration" novalidate="">
+		@Html.AntiForgeryToken()
+		<input type="hidden" asp-for="Urn"/>
+		<input type="hidden" asp-for="ApplicationId"/>		
+		<partial name="_HiddenFields"/>    
+	        
+		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+			<fieldset class="govuk-fieldset">
+				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+				</div>
+                
+				<p class="govuk-body govuk-!-margin-bottom-7">
+					As the chair of the governing body of the applying school or the headteacher of the school acting on their behalf,
+					I confirm that the governing body agrees with these statements:
+				</p>
+						<ul class="govuk-list govuk-list--bullet govuk-!-padding-bottom-6">
+					<li>The governing body has passed a resolution that the school should become an academy.</li>
+					<li>The school will complete a consultation with relevant stakeholders (such as parents, staff, the local communities and others), and consider their equality needs before they sign the funding agreement.</li>
+					<li>The school agrees to the terms set out in the academy <a href="https://www.gov.uk/government/publications/academy-support-grant" target="_blank">pre-opening support grant certificate</a>.</li>
+					<li>The school agrees to provide any further information that the Department for Education needs to assess this application.</li>
+					<li>That if any information in this application is false or misleading, this application may be rejected or the academy order may be revoked if it has already been awarded.</li>
+				</ul> 
+				<div class="govuk-form-group">
+					<fieldset class="govuk-fieldset">
+						<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+							<h1 class="govuk-fieldset__heading">
+								I confirm that:
+							</h1>
+						</legend>
+						<div class="govuk-checkboxes" data-module="govuk-checkboxes">
+							<div class="govuk-checkboxes__item">
+								<input asp-for="SchoolDeclarationTeacherChair" type="checkbox" class="govuk-checkboxes__input">
+								<label for='SchoolDeclarationTeacherChair' class="govuk-label govuk-checkboxes__label">
+									I am the chair of governors or the headteacher of the applying school
+								</label>
+							</div>
+							<div class="govuk-checkboxes__item">
+								<input asp-for="SchoolDeclarationBodyAgree" type="checkbox" class="govuk-checkboxes__input">
+								<label for='SchoolDeclarationBodyAgree' class="govuk-label govuk-checkboxes__label">
+									The information in this application is true to the best of my knowledge
+								</label>
+							</div>
+							@*<a2c-checkbox field-name="@FieldConstants.SIPSchoolDeclarationTeacherChair"
+							              field-data="@ViewData[FieldConstants.SIPSchoolDeclarationTeacherChair]"
+							              is-checked="@((string) ViewData[FieldConstants.SIPSchoolDeclarationTeacherChair] == (((int) Enums.A2CSelectOption.Yes)).ToString())"
+							              check-box-value="@((int) Enums.A2CSelectOption.Yes)"
+							              unchecked-value="@((int) Enums.A2CSelectOption.No)"
+							              label-text="I am the chair of governors or the headteacher of the applying school ">
+							</a2c-checkbox>  
+							<a2c-checkbox field-name="@FieldConstants.SIPSchoolDeclarationBodyAgree"
+							              field-data="@ViewData[FieldConstants.SIPSchoolDeclarationBodyAgree]"
+							              is-checked="@((string) ViewData[FieldConstants.SIPSchoolDeclarationBodyAgree] == (((int) Enums.A2CSelectOption.Yes)).ToString())"
+							              check-box-value="@((int) Enums.A2CSelectOption.Yes)"
+							              unchecked-value="@((int) Enums.A2CSelectOption.No)"
+							              label-text="The information in this application is true to the best of my knowledge">
+							</a2c-checkbox> *@
+						</div>
+					</fieldset>
+				</div> 
+			</fieldset>
+		</div>
+			
+		<br />
+
+		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+	</form>
+</div>
