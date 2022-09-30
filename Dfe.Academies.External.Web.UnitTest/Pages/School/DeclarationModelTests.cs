@@ -1,19 +1,19 @@
-﻿using System.Threading.Tasks;
-using Dfe.Academies.External.Web.Pages.School;
+﻿using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.School;
 
 [Parallelizable(ParallelScope.All)]
-internal sealed class ApplicationPreOpeningSupportGrantModelTests
+internal sealed class DeclarationModelTests
 {
 	/// <summary>
 	/// "draftConversionApplication" in temp storage
@@ -28,14 +28,14 @@ internal sealed class ApplicationPreOpeningSupportGrantModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<ApplicationPreOpeningSupportGrantModel>>();
+		var mockLogger = new Mock<ILogger<DeclarationModel>>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupApplicationPreOpeningSupportGrantModel(mockLogger.Object,
+		var pageModel = SetupDeclarationModel(mockLogger.Object,
 			mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
@@ -54,8 +54,8 @@ internal sealed class ApplicationPreOpeningSupportGrantModelTests
 	// TODO :- OnPostAsync___ModelIsValid___Valid
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
-	private static ApplicationPreOpeningSupportGrantModel SetupApplicationPreOpeningSupportGrantModel(
-		ILogger<ApplicationPreOpeningSupportGrantModel> mockLogger,
+	private static DeclarationModel SetupDeclarationModel(
+		ILogger<DeclarationModel> mockLogger,
 		IConversionApplicationCreationService mockConversionApplicationCreationService,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
@@ -63,8 +63,8 @@ internal sealed class ApplicationPreOpeningSupportGrantModelTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new ApplicationPreOpeningSupportGrantModel(mockLogger, mockConversionApplicationRetrievalService,
-			mockReferenceDataRetrievalService, mockConversionApplicationCreationService)
+		return new DeclarationModel(mockConversionApplicationRetrievalService,
+			mockReferenceDataRetrievalService, mockLogger, mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,
@@ -73,3 +73,4 @@ internal sealed class ApplicationPreOpeningSupportGrantModelTests
 		};
 	}
 }
+
