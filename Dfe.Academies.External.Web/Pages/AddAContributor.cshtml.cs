@@ -33,16 +33,12 @@ namespace Dfe.Academies.External.Web.Pages
 		[BindProperty]
 		public string? OtherRoleNotListed { get; set; }
 
-		// TODO MR:-
-		/// firstName = non nullable string!
-		/// lastName = non nullable string!
-
-		[Required(ErrorMessage = "You must provide a name")]
-		public string Name { get; set; }
-
 		[EmailAddress]
 		[Required(ErrorMessage = "You must provide an email address")]
 		public string EmailAddress { get; set; }
+
+		[Required(ErrorMessage = "You must provide a name")]
+		public string Name { get; set; }
 
 		public bool OtherRoleError
 		{
@@ -56,6 +52,9 @@ namespace Dfe.Academies.External.Web.Pages
 				return false;
 			}
 		}
+
+		[BindProperty]
+		public bool ShowConfirmationBox { get; set; } = false;
 
 		public List<ConversionApplicationContributorViewModel> ExistingContributors { get; private set; } = new();
 
@@ -99,8 +98,8 @@ namespace Dfe.Academies.External.Web.Pages
 			if (!ModelState.IsValid)
 			{
 				PopulateValidationMessages();
-				// TODO MR:- need to call below otherwise will lose ExistingContributors()
-				//PopulateUiModel(draftConversionApplication);
+				// MR:- need to call below otherwise will lose ExistingContributors()
+				PopulateUiModel(draftConversionApplication);
 				return Page();
 			}
 
@@ -108,23 +107,14 @@ namespace Dfe.Academies.External.Web.Pages
 			{
 				ModelState.AddModelError("OtherRoleNotEntered", "You must give your role at the school");
 				PopulateValidationMessages();
-				// TODO MR:- need to call below otherwise will lose ExistingContributors()
-				//PopulateUiModel(draftConversionApplication);
+				// MR:- need to call below otherwise will lose ExistingContributors()
+				PopulateUiModel(draftConversionApplication);
 				return Page();
 			}
 
 			try
 			{
-				//var dictionaryMapper = new Dictionary<string, dynamic>
-				//{
-				//	{ nameof(ApplicationContributorApiModel.SchoolConversionTargetDateSpecified), ContributorRole },
-				//	{ nameof(ApplicationContributorApiModel.SchoolConversionTargetDate), OtherRoleNotListed },
-				//	{ nameof(ApplicationContributorApiModel.SchoolConversionTargetDateExplained), EmailAddress },
-				//	{ nameof(ApplicationContributorApiModel.SchoolConversionTargetDateExplained), Name }
-				//};
-
-				// TODO MR:- sort out name
-				var contributor = new ConversionApplicationContributor("", "", EmailAddress, ContributorRole, OtherRoleNotListed);
+				var contributor = new ConversionApplicationContributor("", Name, EmailAddress, ContributorRole, OtherRoleNotListed);
 
 				await _academisationCreationService.AddContributorToApplication(contributor, ApplicationId);
 
@@ -133,6 +123,7 @@ namespace Dfe.Academies.External.Web.Pages
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
 				// TODO MR:- need to stay on the page to show user a green confirmation banner that email has been sent / db updated
+				ShowConfirmationBox = true;
 
 				// MR:- need to call below otherwise will lose ExistingContributors()
 				PopulateUiModel(draftConversionApplication);

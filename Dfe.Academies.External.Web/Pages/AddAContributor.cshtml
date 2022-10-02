@@ -15,10 +15,26 @@
 }
 
 <div class="govuk-grid-column-two-thirds">
+    @if (Model.ShowConfirmationBox)
+    {
+	    <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+		    <div class="govuk-notification-banner__header">
+			    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+				    Invitation Email sent
+			    </h2>
+		    </div>
+		    <div class="govuk-notification-banner__content">
+			    <h3 class="govuk-notification-banner__heading">
+				    The new contributors name will now appear here and in the application overview and that person can now access this application.
+			    </h3>
+		    </div>
+	    </div>
+    }
+
 	<h1 class="govuk-heading-l">
 		Invite a contributor
 	</h1>
-    
+
 	<p class="govuk-body-m">You can invite people to help you complete your application by providing their email address and role.</p>
 
 	<p class="govuk-body-m">They must have a DfE Signin account</p>
@@ -27,14 +43,15 @@
 		@Html.AntiForgeryToken()
 		<input type="hidden" asp-for="ApplicationId"/>
 		<partial name="_HiddenFields"/>
-        
+
 		<div class="govuk-form-group">
-                <label for="EmailAddress" class="govuk-heading-m">What is the email address of the person you want to invite</label>
+			<label for="EmailAddress" class="govuk-heading-m">What is the email address of the person you want to invite</label>
 			<input type="email" asp-for="EmailAddress" id="EmailAddress" class="govuk-input govuk-input--width-20"/>
 		</div>
-        
+
 		<div class="govuk-form-group">
-			// TODO MR:- need to capture first name / surname
+			<label for="EmailAddress" class="govuk-heading-m">What is the name of the person you want to invite</label>
+			<input type="email" asp-for="Name" id="Name" class="govuk-input govuk-input--width-20"/>
 		</div>
 
 		<div class="govuk-form-group">
@@ -79,13 +96,13 @@
 				</div>
 			</fieldset>
 
-		</div>		
+		</div>
 
 		<input type="submit" value="Send invite" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 	</form>
-    
+
 	<div class="govuk-form-group">
 		<h2 class="govuk-heading-m">Current contributors</h2>
 		<partial name="_ApplicationContributorsPartial" model="Model.ExistingContributors"/>
-	</div>	
+	</div>
 </div>
