@@ -126,18 +126,16 @@ namespace Dfe.Academies.External.Web.Pages
 				// TODO MR:- sort out name
 				var contributor = new ConversionApplicationContributor("", "", EmailAddress, ContributorRole, OtherRoleNotListed);
 
-				// TODO MR:- need an update application service func
-				//await _academisationCreationService.AddContributor(ApplicationId, contributor);
-
-				//draftConversionApplication.Contributors.Add(contributor);
+				await _academisationCreationService.AddContributorToApplication(contributor, ApplicationId);
 
 				// update temp store for next step
+				draftConversionApplication.Contributors.Add(contributor);
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
 				// TODO MR:- need to stay on the page to show user a green confirmation banner that email has been sent / db updated
 
-				// TODO MR:- need to call below otherwise will lose ExistingContributors()
-				//PopulateUiModel(draftConversionApplication);
+				// MR:- need to call below otherwise will lose ExistingContributors()
+				PopulateUiModel(draftConversionApplication);
 				return Page();
 			}
 			catch (Exception ex)
