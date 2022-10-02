@@ -33,12 +33,14 @@ namespace Dfe.Academies.External.Web.Pages
 		[BindProperty]
 		public string? OtherRoleNotListed { get; set; }
 
+		[BindProperty]
 		[EmailAddress]
 		[Required(ErrorMessage = "You must provide an email address")]
-		public string EmailAddress { get; set; }
+		public string? EmailAddress { get; set; } = string.Empty;
 
+		[BindProperty]
 		[Required(ErrorMessage = "You must provide a name")]
-		public string Name { get; set; }
+		public string? Name { get; set; } = string.Empty;
 
 		public bool OtherRoleError
 		{
@@ -122,7 +124,7 @@ namespace Dfe.Academies.External.Web.Pages
 				draftConversionApplication.Contributors.Add(contributor);
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-				// TODO MR:- need to stay on the page to show user a green confirmation banner that email has been sent / db updated
+				// MR:- need to stay on the page to show user a green confirmation banner that email has been sent / db updated
 				ShowConfirmationBox = true;
 
 				// MR:- need to call below otherwise will lose ExistingContributors()

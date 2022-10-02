@@ -57,10 +57,6 @@
 		<div class="govuk-form-group">
 			<fieldset class="govuk-fieldset">
 				<h2 class="govuk-heading-m">What is their role?</h2>
-				<div class="@(Model.OtherRoleError ? "govuk-visually-hidden" : "")">
-					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
-				</div>
-
 				<div class="govuk-form-group">
 					<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
 						@foreach (var roleType in Enum.GetValues(typeof(SchoolRoles)).OfType<SchoolRoles>())
@@ -72,6 +68,7 @@
 								       id="RoleType@(roleType)"
 								       class="govuk-radios__input"
 								       data-aria-controls="conditional-role-@(roleType.ToString().ToLower())"
+								       checked="@(roleType.Equals(Model.ContributorRole))"
 								       aria-expanded="False"/>
 								<label for="RoleType@(roleType)" class="govuk-label govuk-radios__label">
 									@roleType.GetDescription()
