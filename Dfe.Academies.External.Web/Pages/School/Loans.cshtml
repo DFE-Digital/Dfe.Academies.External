@@ -55,23 +55,22 @@
 								    <div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional") 
 	                                                @(anyLoansOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 								         id="anyLoansOption-yes" aria-expanded="false">
-									    @foreach (var loan in Model.LoanViewModels)
+									    @for (int i = 0; i < Model.LoanViewModels.Count; i++)
 									    {
 										    <dl class="govuk-summary-list__row">
 											    <dt hidden="hidden"></dt>
 											    <dd class="govuk-summary-list__value">
-												    <p>Provider: <strong>@loan.Provider</strong></p>
-												    <p>Amount: <strong>@loan.TotalAmount</strong></p>
-												    <p class="govuk-body">
-													    <a href="LoanDetails?appId=@Model.ApplicationId&amp;urn=@Model.Urn">Change answers</a>
-												    </p>
-
+												    <p>Provider: <strong>@Model.LoanViewModels[i].Provider</strong></p>
+												    <p>Amount: <strong>@Model.LoanViewModels[i].TotalAmount</strong></p>
+												    <a asp-page="/school/LoanDetails" aria-describedby="component-change" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-tempId="@i" asp-route-isEdit="true" asp-route-isDraft="@Model.LoanViewModels[i].IsDraft" asp-route-id="@Model.LoanViewModels[i].Id">
+												       Change answers
+													</a>
 											    </dd>
 										    </dl>
 									    }
-									    <p class="govuk-body">
-										    <a href="LoanDetails?appId=@Model.ApplicationId&amp;urn=@Model.Urn">Add new loan</a>
-									    </p>
+										    <a asp-page="/school/LoanDetails" aria-describedby="component-change" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-TempId="@Model.LoanViewModels.Count" asp-route-isEdit="false" asp-route-isDraft="true" asp-route-id="@Model.LoanViewModels.Count">
+											    Add new loan
+											</a>
 									</div>
     							}
     						}

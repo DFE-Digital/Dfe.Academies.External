@@ -267,15 +267,15 @@ namespace Dfe.Academies.External.Web.Pages.School
 			);
 			
 				var subQuestionAndAnswers = new List<SchoolQuestionAndAnswerViewModel>();
-				selectedSchool.Loans.ForEach(x =>
+				selectedSchool?.Loans.ForEach(x =>
 				{
 					subQuestionAndAnswers.AddRange(new List<SchoolQuestionAndAnswerViewModel>
 					{
-						new FinancesReviewSectionViewModel($"Loan {x.Id}", ""),
-						new FinancesReviewSectionViewModel("Total amount", $"£{x.Amount.Value}"),
+						new FinancesReviewSectionViewModel($"Loan {x.LoanId}", ""),
+						new FinancesReviewSectionViewModel("Total amount", $"£{x.Amount}"),
 						new FinancesReviewSectionViewModel("Purpose of loan", $"{x.Purpose}"),
 						new FinancesReviewSectionViewModel("Loan provider", $"{x.Provider}"),
-						new FinancesReviewSectionViewModel("Interest rate", $"{x.InterestRate:D1}"),
+						new FinancesReviewSectionViewModel("Interest rate", $"{x.InterestRate}"),
 						new FinancesReviewSectionViewModel("Schedule of repayment", $"{x.Schedule}")
 					});
 				});

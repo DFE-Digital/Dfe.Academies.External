@@ -11,21 +11,21 @@ public class SchoolLoan
 		Schedule = schedule;
 	}
 
-	public int Id { get; set; }
+	public int LoanId { get; set; }
 
 	public int SchoolId { get; set; }
 
 	//// MR:- below props from A2C-SIP - SchoolLoan object
 
-	public decimal? Amount { get; set; }
+	public decimal Amount { get; set; }
 
 	public string Purpose { get; set; }
 
 	public string Provider { get; set; }
 
-	public decimal? InterestRate { get; set; }
+	public decimal InterestRate { get; set; }
 
-	public string? Schedule { get; set; }
+	public string Schedule { get; set; }
 
 	public DateTime? EndDate { get; set; }
 

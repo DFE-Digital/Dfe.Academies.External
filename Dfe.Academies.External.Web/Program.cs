@@ -51,7 +51,8 @@ builder.Services
 	.AddMvcOptions(options =>
 	{
 		options.MaxModelValidationErrors = 50;
-	});
+	})
+	.AddSessionStateTempDataProvider();
 
 builder.Services.AddAuthentication(options =>
 	{

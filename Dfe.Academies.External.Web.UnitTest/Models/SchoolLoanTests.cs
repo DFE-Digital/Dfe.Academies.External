@@ -12,12 +12,15 @@ internal sealed class SchoolLoanTests
 	public void Constructor___PropertiesSet()
 	{
 		// arrange
+		decimal amount = Fixture.Create<decimal>();
 		string purpose = Fixture.Create<string>();
 		string provider = Fixture.Create<string>();
+		decimal interestRate = Fixture.Create<decimal>();
+		string schedule = Fixture.Create<string>();
 
-		var applicationComponent = new SchoolLoan(purpose, provider)
+		var applicationComponent = new SchoolLoan(amount, purpose, provider, interestRate, schedule)
 		{
-			Id = int.MaxValue
+			LoanId = int.MaxValue
 		};
 
 		// act
@@ -25,8 +28,11 @@ internal sealed class SchoolLoanTests
 
 		// assert
 		Assert.That(applicationComponent, Is.Not.Null);
-		Assert.That(applicationComponent.Id, Is.EqualTo(int.MaxValue));
+		Assert.That(applicationComponent.LoanId, Is.EqualTo(int.MaxValue));
+		Assert.That(applicationComponent.Amount, Is.EqualTo(amount));
 		Assert.That(applicationComponent.Purpose, Is.EqualTo(purpose));
 		Assert.That(applicationComponent.Provider, Is.EqualTo(provider));
+		Assert.That(applicationComponent.InterestRate, Is.EqualTo(interestRate));
+		Assert.That(applicationComponent.Schedule, Is.EqualTo(schedule));
 	}
 }

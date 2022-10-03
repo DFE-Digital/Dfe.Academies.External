@@ -38,8 +38,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public string SchoolName { get; private set; } = string.Empty;
 
-		public List<LoanViewModel> LoanViewModels { get; set; } = new();
-
+		public List<LoanViewModel> LoanViewModels { get; set; }
+		
 		//Validation errors
 		public bool AddedLoansButEmptyCollectionError => !ModelState.IsValid && ModelState.Keys.Contains("AddedLoansButEmptyCollectionError");
 		public bool InvalidSelectOptionError => !ModelState.IsValid && ModelState.Keys.Contains("InvalidSelectOptionError");
@@ -60,6 +60,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public async Task<IActionResult> OnPostAsync()
 		{
+			var selectedSchool = await LoadAndSetSchoolDetails(ApplicationId, Urn);
+			MergeCachedAndDatabaseLoans(selectedSchool);
 			if (AnyLoans == SelectOption.Yes && !LoanViewModels.Any())
 			{
 				ModelState.AddModelError("AddedLoansButEmptyCollectionError", "You must provide the details on the loan");
@@ -77,10 +79,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 			var loans = new List<SchoolLoan>();
-			LoanViewModels.ForEach(x =>
-			{
-				loans.Add(new SchoolLoan(x.TotalAmount, x.Purpose, x.Provider,x.InterestRate, x.RepaymentSchedule));
-			});
+			
+			if(AnyLoans == SelectOption.Yes)
+				LoanViewModels.ForEach(x =>
+				{
+					loans.Add(new SchoolLoan(x.TotalAmount, x.Purpose, x.Provider,x.InterestRate, x.RepaymentSchedule));
+				});
 			var dictionaryMapper = new Dictionary<string, dynamic>
 			{
 				{ nameof(SchoolApplyingToConvert.Loans), loans }
@@ -93,8 +97,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-			
+			TempData[TempDataHelper.LoanViewModelsKey] = null;
 			
 			return RedirectToPage("FinancesReview", new { urn = Urn, appId = ApplicationId });
 		}
@@ -104,7 +107,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			try
 			{
 				LoadAndStoreCachedConversionApplication();
-
 				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
 				ApplicationId = appId;
 				Urn = urn;
@@ -112,6 +114,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// Grab other values from API
 				if (selectedSchool != null)
 				{
+					MergeCachedAndDatabaseLoans(selectedSchool);
 					PopulateUiModel(selectedSchool);
 				}
 			}
@@ -120,12 +123,56 @@ namespace Dfe.Academies.External.Web.Pages.School
 				_logger.LogError("School::CurrentFinancialYearModel::OnGetAsync::Exception - {Message}", ex.Message);
 			}
 		}
-		
+
+		private void LoadLoansFromDatabase(SchoolApplyingToConvert selectedSchool)
+		{
+			//Populate viewmodel from currently saved data
+			LoanViewModels = new List<LoanViewModel>();
+			selectedSchool.Loans.ForEach(loan =>
+			{
+				LoanViewModels.Add(new LoanViewModel
+				{
+					IsDraft = false,
+					Id = loan.LoanId,
+					InterestRate = loan.InterestRate,
+					Provider = loan.Provider,
+					Purpose = loan.Purpose,
+					RepaymentSchedule = loan.Schedule,
+					TotalAmount = loan.Amount
+				});
+			});
+		}
+
+		private void MergeCachedAndDatabaseLoans(SchoolApplyingToConvert selectedSchool)
+		{
+			LoadLoansFromDatabase(selectedSchool);
+			//Try to merge with what is saved in the cache
+			var tempDataLoanViewModels = TempDataLoadLoanViewModels() ?? new List<LoanViewModel>();
+			
+			tempDataLoanViewModels.ForEach(x =>
+			{
+				var loan = LoanViewModels.Find(y => y.Id == x.Id && !x.IsDraft);
+				if (loan != null)
+				{
+					loan.IsDraft = false;
+					loan.TempId = x.TempId;
+					loan.Provider = x.Provider;
+					loan.Purpose = x.Purpose;
+					loan.InterestRate = x.InterestRate;
+					loan.RepaymentSchedule = x.RepaymentSchedule;
+					loan.TotalAmount = x.TotalAmount;
+				}
+				else
+				{
+					LoanViewModels.Add(x);
+				}
+			});
+			TempDataSetLoanViewModels(LoanViewModels);
+		}
+
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			SchoolName = selectedSchool.SchoolName;
-			LoanViewModels = new List<LoanViewModel>();
-			LoanViewModels.AddRange(selectedSchool.Loans.Select(x => new LoanViewModel { Provider = x.Provider, TotalAmount = x.Amount.Value }));
 			AnyLoans = LoanViewModels.Any() ? SelectOption.Yes : SelectOption.No;
 		}
 		
