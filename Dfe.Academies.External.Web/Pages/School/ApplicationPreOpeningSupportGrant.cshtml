@@ -68,7 +68,7 @@
 									</label>
 								</div>
 
-								@if (payFundsToOption == PayFundsTo.School || Model.SchoolSupportGrantFundsPaidTo == PayFundsTo.School)
+								@if (payFundsToOption == PayFundsTo.School)
 								{
 									<div class="@(payFundsToOption == PayFundsTo.School ? "govuk-radios__conditional" : "govuk-radios__conditional--hidden")"
 									     id="payto-school" aria-expanded="false">

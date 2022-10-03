@@ -13,4 +13,6 @@ public interface IConversionApplicationCreationService
 	
 	Task PutSchoolApplicationDetails(int applicationId, int schoolUrn, Dictionary<string, dynamic> schoolProperties);
 	//Task UpdateDraftApplication(ConversionApplication application);
+
+	Task AddContributorToApplication(ConversionApplicationContributor contributor, int applicationId);
 }
