@@ -25,6 +25,9 @@ namespace Dfe.Academies.External.Web.Pages
 	    [BindProperty]
 	    public int ApplicationId { get; set; }
 
+	    [BindProperty]
+		public IEnumerable<SchoolRoles> RolesToDisplay { get; set; }
+
 		//// MR:- VM props to capture data -
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must choose a role")]
@@ -156,11 +159,20 @@ namespace Dfe.Academies.External.Web.Pages
 
 					ExistingContributors = contributors;
 
-					// TODO MR:- setup roles collection i.e. if we already have a 'ChairOfGovernors' within the contributors collection
-					// remove from UI
+					// MR:- setup roles collection i.e. if we already have a 'ChairOfGovernors' within the contributors collection
+					// remove from UI so can't have 2 because that would break business rules
 					var roles = Enum.GetValues(typeof(SchoolRoles)).OfType<SchoolRoles>();
 
-					var hasChair = application.Contributors.Any(x => x.Role == SchoolRoles.ChairOfGovernors);
+					bool hasChair = application.Contributors.Any(x => x.Role == SchoolRoles.ChairOfGovernors);
+
+					if (hasChair)
+					{
+						RolesToDisplay = roles.Where(x=> x != SchoolRoles.ChairOfGovernors);
+					}
+					else
+					{
+						RolesToDisplay = roles;
+					}
 				}
 			}
 			
