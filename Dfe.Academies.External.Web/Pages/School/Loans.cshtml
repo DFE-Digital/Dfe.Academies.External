@@ -60,8 +60,8 @@
 										    <dl class="govuk-summary-list__row">
 											    <dt hidden="hidden"></dt>
 											    <dd class="govuk-summary-list__value">
-												    <p>Provider: <strong>@Model.LoanViewModels[i].Provider</strong></p>
-												    <p>Amount: <strong>@Model.LoanViewModels[i].TotalAmount</strong></p>
+												    <p class="govuk-label">Provider: <strong>@Model.LoanViewModels[i].Provider</strong></p>
+												    <p class="govuk-label">Amount: <strong>@Model.LoanViewModels[i].TotalAmount</strong></p>
 												    <a asp-page="/school/LoanDetails" aria-describedby="component-change" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LoanViewModels[i].Id" asp-route-isEdit="true">
 												       Change answers
 													</a>

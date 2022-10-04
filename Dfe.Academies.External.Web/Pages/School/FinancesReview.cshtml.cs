@@ -255,41 +255,33 @@ namespace Dfe.Academies.External.Web.Pages.School
 			FinancesReviewHeadingViewModel loansHeading = new(FinancesReviewHeadingViewModel.HeadingLoans,
 				"/school/Loans")
 			{
-				Status = SchoolConversionComponentStatus.NotStarted
+				Status = selectedSchool.Loans != null ? SchoolConversionComponentStatus.Complete : SchoolConversionComponentStatus.NotStarted
 			};
 			var isStarted = loansHeading.Status != SchoolConversionComponentStatus.NotStarted;
-
-			loansHeading.Sections.Add(new(
-				FinancesReviewSectionViewModel.LExistingLoans,
-					isStarted
-					? selectedSchool.Loans.Any() ? "Yes" : "No"
-					: QuestionAndAnswerConstants.NoInfoAnswer)
-			);
 			
-				var subQuestionAndAnswers = new List<SchoolQuestionAndAnswerViewModel>();
+			var subQuestionAndAnswers = new List<SchoolQuestionAndAnswerViewModel>();
 				
-				for (int i = 0; i < selectedSchool.Loans.Count; i++)
+			for (int i = 0; i < selectedSchool.Loans.Count; i++)
+			{
+				subQuestionAndAnswers.AddRange(new List<SchoolQuestionAndAnswerViewModel>
 				{
-					subQuestionAndAnswers.AddRange(new List<SchoolQuestionAndAnswerViewModel>
-					{
-						new FinancesReviewSectionViewModel($"Loan {i+1}", ""),
-						new FinancesReviewSectionViewModel("Total amount", $"£{selectedSchool.Loans.ElementAt(i).Amount}"),
-						new FinancesReviewSectionViewModel("Purpose of loan", $"{selectedSchool.Loans.ElementAt(i).Purpose}"),
-						new FinancesReviewSectionViewModel("Loan provider", $"{selectedSchool.Loans.ElementAt(i).Provider}"),
-						new FinancesReviewSectionViewModel("Interest rate", $"{selectedSchool.Loans.ElementAt(i).InterestRate}"),
-						new FinancesReviewSectionViewModel("Schedule of repayment", $"{selectedSchool.Loans.ElementAt(i).Schedule}")
-					});
-				}
-				selectedSchool?.Loans.ForEach(x =>
-				{
-					
+					new FinancesReviewSectionViewModel($"Loan {i+1}", ""),
+					new FinancesReviewSectionViewModel("Total amount", $"£{selectedSchool.Loans.ElementAt(i).Amount}"),
+					new FinancesReviewSectionViewModel("Purpose of loan", $"{selectedSchool.Loans.ElementAt(i).Purpose}"),
+					new FinancesReviewSectionViewModel("Loan provider", $"{selectedSchool.Loans.ElementAt(i).Provider}"),
+					new FinancesReviewSectionViewModel("Interest rate", $"{selectedSchool.Loans.ElementAt(i).InterestRate}"),
+					new FinancesReviewSectionViewModel("Schedule of repayment", $"{selectedSchool.Loans.ElementAt(i).Schedule}")
 				});
+			}
+
+			var financesReviewHeading = new FinancesReviewSectionViewModel(
+					FinancesReviewSectionViewModel.LExistingLoans,
+					isStarted ? selectedSchool.Loans.Any() ? "Yes" : "No" : QuestionAndAnswerConstants.NoInfoAnswer);
+
+			if (selectedSchool.Loans.Any())
+				financesReviewHeading.SubQuestionAndAnswers = subQuestionAndAnswers;
 				
-				if(selectedSchool.Loans.Any())
-					loansHeading.Sections.Add(new(FinancesReviewSectionViewModel.LExistingLoans, "Yes")
-						{
-							SubQuestionAndAnswers = subQuestionAndAnswers
-						});
+			loansHeading.Sections.Add(financesReviewHeading);
 
 			return loansHeading;
 		}
