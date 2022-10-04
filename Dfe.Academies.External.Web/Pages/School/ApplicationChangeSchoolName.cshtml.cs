@@ -96,7 +96,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// MR:- save away ApplicationJoinTrustReason
 				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, new Dictionary<string, dynamic>
 				{
-					{nameof(SchoolApplyingToConvert.ConversionChangeNamePlanned), Convert.ToBoolean(ChangeName)},
+					
+					{nameof(SchoolApplyingToConvert.ConversionChangeNamePlanned), this.ChangeName == SelectOption.Yes},
 					{nameof(SchoolApplyingToConvert.ProposedNewSchoolName), ChangeSchoolName}
 				});
 
