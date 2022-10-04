@@ -168,6 +168,7 @@ namespace Dfe.Academies.External.Web.Pages
 					if (hasChair)
 					{
 						RolesToDisplay = roles.Where(x=> x != SchoolRoles.ChairOfGovernors);
+						ContributorRole = SchoolRoles.Other;
 					}
 					else
 					{
