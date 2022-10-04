@@ -24,7 +24,7 @@ public sealed class ConversionApplicationContributorViewModel
 		{
 			if (Role == SchoolRoles.Other)
 			{
-				return $"{Role.GetDescription()}-{OtherRoleNotListed ?? string.Empty}";
+				return $"{OtherRoleNotListed ?? string.Empty}";
 			}
 			else
 			{
