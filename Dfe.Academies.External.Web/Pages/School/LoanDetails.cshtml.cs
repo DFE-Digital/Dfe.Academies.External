@@ -30,8 +30,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public string RepaymentSchedule { get; set; }
 		
-		public LoanViewModel SelectedLoan { get; set; }
-		
 		[BindProperty]
 		public bool IsEdit { get; set; }
 		
@@ -48,21 +46,24 @@ namespace Dfe.Academies.External.Web.Pages.School
 			TempId = tempId;
 			Id = id;
 			
+			//If clicked changed answers then load the loan from tempdata and populate the fields
 			if (IsEdit)
 			{
-				var loanModels = TempDataLoadLoanViewModels();
-				SelectedLoan = loanModels?.FirstOrDefault(loan =>
+				var loanModels = TempDataLoadLoanViewModels(Urn);
+				
+				var selectedLoan = loanModels?.FirstOrDefault(loan =>
 					(loan.IsDraft && TempId == loan.TempId) 
 					|| (!loan.IsDraft && Id == loan.Id));
-				if (SelectedLoan != null)
+				
+				if (selectedLoan != null)
 				{
-					Id = SelectedLoan.Id;
-					TempId = SelectedLoan.TempId;
-					TotalAmount = SelectedLoan.TotalAmount;
-					Purpose = SelectedLoan.Purpose;
-					Provider = SelectedLoan.Provider;
-					InterestRate = SelectedLoan.InterestRate;
-					RepaymentSchedule = SelectedLoan.RepaymentSchedule;
+					Id = selectedLoan.Id;
+					TempId = selectedLoan.TempId;
+					TotalAmount = selectedLoan.TotalAmount;
+					Purpose = selectedLoan.Purpose;
+					Provider = selectedLoan.Provider;
+					InterestRate = selectedLoan.InterestRate;
+					RepaymentSchedule = selectedLoan.RepaymentSchedule;
 				}
 			}
 		}
@@ -79,7 +80,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			SelectedLoan = new LoanViewModel
+			var selectedLoan = new LoanViewModel
 			{
 				Id = Id,
 				IsDraft = IsDraft,
@@ -90,33 +91,36 @@ namespace Dfe.Academies.External.Web.Pages.School
 				Purpose = Purpose,
 				RepaymentSchedule = RepaymentSchedule
 			};
-			var loanViewModels = TempDataLoadLoanViewModels() ?? new List<LoanViewModel>();
+			
+			var loanViewModels = TempDataLoadLoanViewModels(Urn) ?? new List<LoanViewModel>();
+			
+			//If we're editing the loan then overwrite the correct loan in the list of loans with the current binded values
 			if (IsEdit)
 			{
 				var loanViewModel = loanViewModels.FirstOrDefault(loan =>
-					(SelectedLoan.IsDraft && SelectedLoan.TempId == loan.TempId) 
-					|| (!SelectedLoan.IsDraft && SelectedLoan.Id == loan.Id));
+					(IsDraft && TempId == loan.TempId) 
+					|| (!IsDraft && Id == loan.Id));
 				
 				if (loanViewModel != null)
 				{
-					loanViewModel.Id = SelectedLoan.Id;
+					loanViewModel.Id = Id;
 					loanViewModel.IsDraft = false;
-					loanViewModel.TempId = SelectedLoan.TempId;
-					loanViewModel.TotalAmount = SelectedLoan.TotalAmount;
-					loanViewModel.InterestRate = SelectedLoan.InterestRate;
-					loanViewModel.Provider = SelectedLoan.Provider;
-					loanViewModel.Purpose = SelectedLoan.Purpose;
-					loanViewModel.RepaymentSchedule = SelectedLoan.RepaymentSchedule;
+					loanViewModel.TempId = TempId;
+					loanViewModel.TotalAmount = TotalAmount;
+					loanViewModel.InterestRate = InterestRate;
+					loanViewModel.Provider = Provider;
+					loanViewModel.Purpose = Purpose;
+					loanViewModel.RepaymentSchedule = RepaymentSchedule;
 				}
 			}
 			else
 			{
-				SelectedLoan.TempId = TempId;
-				SelectedLoan.IsDraft = true;
-				loanViewModels.Add(SelectedLoan);
+				//Otherwise it's a new loan, so add it to the list of loans
+				selectedLoan.TempId = TempId;
+				selectedLoan.IsDraft = true;
+				loanViewModels.Add(selectedLoan);
 			}
-			TempDataSetLoanViewModels(loanViewModels);
-			TempDataSetSelectedLoan(SelectedLoan);
+			TempDataSetLoanViewModels(Urn, loanViewModels);
 			return RedirectToPage( "Loans" ,new {urn = Urn, appId = ApplicationId});
 		}
 

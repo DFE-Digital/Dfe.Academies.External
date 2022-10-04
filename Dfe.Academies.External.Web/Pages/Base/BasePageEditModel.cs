@@ -39,26 +39,23 @@ public abstract class BasePageEditModel : BasePageModel
 		return applicationDetails.Schools.FirstOrDefault(s => s.URN == urn);
 	}
 
-	public void TempDataSetLoanViewModels(List<LoanViewModel> loanViewModels)
+	public void TempDataSetLoanViewModels(int schoolUrn, List<LoanViewModel> loanViewModels)
 	{
-		TempDataHelper.StoreSerialisedValue(TempDataHelper.LoanViewModelsKey, TempData, loanViewModels);
+		TempData[schoolUrn.ToString()] = JsonSerializer.Serialize(loanViewModels);
+		//TempDataHelper.StoreSerialisedValue(, TempData, loanViewModels);
 	}
 	
-	public List<LoanViewModel> TempDataLoadLoanViewModels()
+	public List<LoanViewModel> TempDataLoadLoanViewModels(int schoolUrn)
 	{
-		var loanViewModels = TempDataHelper.GetSerialisedValue<List<LoanViewModel>>(TempDataHelper.LoanViewModelsKey, TempData);
-		TempDataHelper.StoreSerialisedValue(TempDataHelper.LoanViewModelsKey, TempData, loanViewModels);
+		var loanViewModels = TempDataHelper.GetSerialisedValue<List<LoanViewModel>>(schoolUrn.ToString(), TempData);
+		TempData[schoolUrn.ToString()] = JsonSerializer.Serialize(loanViewModels);
+		//TempDataHelper.StoreSerialisedValue(TempDataHelper.LoanViewModelsKey, TempData, loanViewModels);
 		return loanViewModels;
 	}
 	
-	public void TempDataSetSelectedLoan(LoanViewModel loan)
+	public LoanViewModel? TempDataLoadSelectedLoan(int schoolUrn)
 	{
-		TempDataHelper.StoreSerialisedValue(TempDataHelper.SelectedLoanKey, TempData, loan);
-	}
-
-	public LoanViewModel? TempDataLoadSelectedLoan()
-	{
-		return TempDataHelper.GetSerialisedValue<LoanViewModel>(TempDataHelper.SelectedLoanKey, TempData) ?? null;
+		return TempDataHelper.GetSerialisedValue<LoanViewModel>(schoolUrn.ToString(), TempData) ?? null;
 	}
 
 	

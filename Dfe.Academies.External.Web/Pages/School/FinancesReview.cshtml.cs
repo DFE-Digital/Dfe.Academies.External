@@ -267,17 +267,22 @@ namespace Dfe.Academies.External.Web.Pages.School
 			);
 			
 				var subQuestionAndAnswers = new List<SchoolQuestionAndAnswerViewModel>();
-				selectedSchool?.Loans.ForEach(x =>
+				
+				for (int i = 0; i < selectedSchool.Loans.Count; i++)
 				{
 					subQuestionAndAnswers.AddRange(new List<SchoolQuestionAndAnswerViewModel>
 					{
-						new FinancesReviewSectionViewModel($"Loan {x.LoanId}", ""),
-						new FinancesReviewSectionViewModel("Total amount", $"£{x.Amount}"),
-						new FinancesReviewSectionViewModel("Purpose of loan", $"{x.Purpose}"),
-						new FinancesReviewSectionViewModel("Loan provider", $"{x.Provider}"),
-						new FinancesReviewSectionViewModel("Interest rate", $"{x.InterestRate}"),
-						new FinancesReviewSectionViewModel("Schedule of repayment", $"{x.Schedule}")
+						new FinancesReviewSectionViewModel($"Loan {i+1}", ""),
+						new FinancesReviewSectionViewModel("Total amount", $"£{selectedSchool.Loans.ElementAt(i).Amount}"),
+						new FinancesReviewSectionViewModel("Purpose of loan", $"{selectedSchool.Loans.ElementAt(i).Purpose}"),
+						new FinancesReviewSectionViewModel("Loan provider", $"{selectedSchool.Loans.ElementAt(i).Provider}"),
+						new FinancesReviewSectionViewModel("Interest rate", $"{selectedSchool.Loans.ElementAt(i).InterestRate}"),
+						new FinancesReviewSectionViewModel("Schedule of repayment", $"{selectedSchool.Loans.ElementAt(i).Schedule}")
 					});
+				}
+				selectedSchool?.Loans.ForEach(x =>
+				{
+					
 				});
 				
 				if(selectedSchool.Loans.Any())

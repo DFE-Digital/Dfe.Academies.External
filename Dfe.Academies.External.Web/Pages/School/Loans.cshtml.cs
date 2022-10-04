@@ -62,6 +62,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			var selectedSchool = await LoadAndSetSchoolDetails(ApplicationId, Urn);
 			MergeCachedAndDatabaseLoans(selectedSchool);
+			
 			if (AnyLoans == SelectOption.Yes && !LoanViewModels.Any())
 			{
 				ModelState.AddModelError("AddedLoansButEmptyCollectionError", "You must provide the details on the loan");
@@ -85,6 +86,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				{
 					loans.Add(new SchoolLoan(x.TotalAmount, x.Purpose, x.Provider,x.InterestRate, x.RepaymentSchedule));
 				});
+			
 			var dictionaryMapper = new Dictionary<string, dynamic>
 			{
 				{ nameof(SchoolApplyingToConvert.Loans), loans }
@@ -146,12 +148,16 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private void MergeCachedAndDatabaseLoans(SchoolApplyingToConvert selectedSchool)
 		{
 			LoadLoansFromDatabase(selectedSchool);
-			//Try to merge with what is saved in the cache
-			var tempDataLoanViewModels = TempDataLoadLoanViewModels() ?? new List<LoanViewModel>();
 			
+			//Try to merge with what is saved in the cache
+			//Use the ID on the loan view model
+			var tempDataLoanViewModels = TempDataLoadLoanViewModels(Urn) ?? new List<LoanViewModel>();
 			tempDataLoanViewModels.ForEach(x =>
 			{
 				var loan = LoanViewModels.Find(y => y.Id == x.Id && !x.IsDraft);
+				
+				//Overwrite the loan from the database with the one stored in the cache if they have matching IDs
+				//and the one in the cache isn't a draft because it's an integer so there's a chance of collisions
 				if (loan != null)
 				{
 					loan.IsDraft = false;
@@ -167,7 +173,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 					LoanViewModels.Add(x);
 				}
 			});
-			TempDataSetLoanViewModels(LoanViewModels);
+			TempDataSetLoanViewModels(Urn, LoanViewModels);
 		}
 
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
