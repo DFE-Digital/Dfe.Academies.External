@@ -275,7 +275,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 
 			var financesReviewHeading = new FinancesReviewSectionViewModel(
-					FinancesReviewSectionViewModel.LExistingLoans,
+					FinancesReviewSectionViewModel.ExistingLoans,
 					isStarted ? selectedSchool.Loans.Any() ? "Yes" : "No" : QuestionAndAnswerConstants.NoInfoAnswer);
 
 			if (selectedSchool.Loans.Any())

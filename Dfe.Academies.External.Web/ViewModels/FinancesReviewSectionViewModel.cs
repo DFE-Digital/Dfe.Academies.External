@@ -26,7 +26,7 @@
 		public const string NFYCapitalCarryForwardExplained = ""; // ??
 
 		// loans
-		public const string LExistingLoans = "Are there any existing loans?";
+		public const string ExistingLoans = "Are there any existing loans?";
 
 		// leases
 		// TODO MR:- question string defs

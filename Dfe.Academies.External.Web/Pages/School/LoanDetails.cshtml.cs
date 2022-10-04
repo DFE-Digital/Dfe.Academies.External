@@ -17,15 +17,20 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public int Urn { get; set; }
 		[BindProperty]
+		[Required(ErrorMessage = "You must provide details")]
 		public decimal TotalAmount { get; set; }
 		[BindProperty]
+		[Required(ErrorMessage = "You must provide details")]
 		public string Purpose { get; set; }
 		[BindProperty]
+		[Required(ErrorMessage = "You must provide details")]
 		public string Provider { get; set; }
 		[BindProperty]
 		[Range(0, 200000000000000, ErrorMessage = "Interest rate must be greater than 0")]
+		[Required(ErrorMessage = "You must provide details")]
 		public decimal InterestRate { get; set; }
 		[BindProperty]
+		[Required(ErrorMessage = "You must provide details")]
 		public string RepaymentSchedule { get; set; }
 		
 		[BindProperty]
