@@ -32,7 +32,9 @@
 		// TODO MR:- question string defs
 
 		// financial investigations
-		// TODO MR:- question string defs
+		public const string FinanceOngoingInvestigations = "Finance ongoing investigations?";
+		public const string FinancialInvestigationsExplain = "Explained";
+		public const string FinancialInvestigationsTrustAware = "Trust aware?";
 
 		public FinancesReviewSectionViewModel(string name, string answer) : base(name, answer)
 		{

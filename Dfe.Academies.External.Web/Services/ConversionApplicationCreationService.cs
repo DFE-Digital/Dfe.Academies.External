@@ -124,8 +124,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			throw;
 		}
 	}
-
-
+	
 	public async Task PutSchoolApplicationDetails(int applicationId, int schoolUrn, Dictionary<string, dynamic> schoolProperties)
 	{
 		var application = await GetApplication(applicationId);
@@ -146,6 +145,21 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		{
 			school.GetType().GetProperty(property.Key)?.SetValue(school, property.Value);
 		}
+		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+		await _resilientRequestProvider.PutAsync(apiurl, application);
+	}
+
+	public async Task AddContributorToApplication(ConversionApplicationContributor contributor, int applicationId)
+	{
+		var application = await GetApplication(applicationId);
+
+		if (application?.ApplicationId != applicationId)
+		{
+			throw new ArgumentException("Application not found");
+		}
+
+		application.Contributors.Add(contributor);
+
 		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 		await _resilientRequestProvider.PutAsync(apiurl, application);
 	}

@@ -51,6 +51,8 @@ namespace Dfe.Academies.External.Web.Pages
 		/// </summary>
 		public SchoolComponentsViewModel SchoolComponents { get; private set; } = new();
 
+		public List<ConversionApplicationContributorViewModel> ExistingContributors { get; private set; } = new();
+
 		public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger,
 										IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 										IReferenceDataRetrievalService referenceDataRetrievalService
@@ -144,6 +146,17 @@ namespace Dfe.Academies.External.Web.Pages
 					};
 
 					SchoolComponents = componentsVm;
+				}
+
+				// contributors
+				// convert application?.Contributors -> list<ConversionApplicationContributorViewModel>
+				if (conversionApplication.Contributors.Any())
+				{
+					var contributors = conversionApplication.Contributors
+						.Select(e => new ConversionApplicationContributorViewModel(e.FullName, e.Role, e.OtherRoleName))
+						.ToList();
+
+					ExistingContributors = contributors;
 				}
 			}
 		}

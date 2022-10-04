@@ -25,4 +25,12 @@ public class ConversionApplicationContributor
 	public SchoolRoles Role { get; set; }
 
 	public string? OtherRoleName { get; set; }
+
+	public string FullName
+	{
+		get
+		{
+			return $"{FirstName} {LastName}";
+		}
+	}
 }

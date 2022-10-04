@@ -1,19 +1,19 @@
-﻿using System.Threading.Tasks;
-using Dfe.Academies.External.Web.Pages.School;
+﻿using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.School;
 
 [Parallelizable(ParallelScope.All)]
-internal sealed class ApplicationPreOpeningSupportGrantModelTests
+internal sealed class FinancialInvestigationsModelTests
 {
 	/// <summary>
 	/// "draftConversionApplication" in temp storage
@@ -28,14 +28,14 @@ internal sealed class ApplicationPreOpeningSupportGrantModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<ApplicationPreOpeningSupportGrantModel>>();
+		var mockLogger = new Mock<ILogger<FinancialInvestigationsModel>>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupApplicationPreOpeningSupportGrantModel(mockLogger.Object,
+		var pageModel = SetupFinancialInvestigationsModel(mockLogger.Object,
 			mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
@@ -48,14 +48,14 @@ internal sealed class ApplicationPreOpeningSupportGrantModelTests
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
-	// TODO :- OnPostAsync___ModelIsValid___Invalid
+	// TODO MR:- OnPostAsync___ModelIsValid___Invalid
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
-	// TODO :- OnPostAsync___ModelIsValid___Valid
+	// TODO MR:- OnPostAsync___ModelIsValid___Valid
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
-	private static ApplicationPreOpeningSupportGrantModel SetupApplicationPreOpeningSupportGrantModel(
-		ILogger<ApplicationPreOpeningSupportGrantModel> mockLogger,
+	private static FinancialInvestigationsModel SetupFinancialInvestigationsModel(
+		ILogger<FinancialInvestigationsModel> mockLogger,
 		IConversionApplicationCreationService mockConversionApplicationCreationService,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
@@ -63,8 +63,8 @@ internal sealed class ApplicationPreOpeningSupportGrantModelTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new ApplicationPreOpeningSupportGrantModel(mockLogger, mockConversionApplicationRetrievalService,
-			mockReferenceDataRetrievalService, mockConversionApplicationCreationService)
+		return new FinancialInvestigationsModel(mockConversionApplicationRetrievalService,
+			mockReferenceDataRetrievalService, mockLogger, mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

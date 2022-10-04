@@ -96,7 +96,7 @@ public abstract class BasePageEditModel : BasePageModel
 			"land and buildings" => "/school/LandAndBuildingsSummary",
 			"consultation" => "/school/ApplicationSchoolConsultationSummary",
 			"pre-opening support grant" => "/school/ApplicationPreOpeningSupportGrantSummary",
-			"declaration" => "/school/ApplicationDeclaration",
+			"declaration" => "/school/DeclarationSummary",
 			_ => string.Empty
 		};
 	}

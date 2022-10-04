@@ -1,0 +1,98 @@
+﻿@page
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Dfe.Academies.External.Web.Pages.School.FinancialInvestigationsModel
+@{
+	ViewData["Title"] = "Apply to become an academy - About the conversion";
+}
+
+@section BeforeMain
+{
+	<a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back to application overview</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<h1 class="govuk-heading-l">
+		<span class="govuk-caption-l">Finances (Step 6 of 6)</span>
+		Financial investigations
+	</h1>
+	<form method="post" name="frmFinancialPreviousYear" novalidate="">
+		@Html.AntiForgeryToken()
+		<input type="hidden" asp-for="Urn"/>
+		<input type="hidden" asp-for="ApplicationId"/>		
+		<partial name="_HiddenFields"/>    
+
+		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+			<fieldset class="govuk-fieldset">
+				<legend id="role-hint" class="govuk-fieldset__legend">Are there any financial investigations ongoing at the school?</legend>
+
+				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+				</div>
+
+				<div class="govuk-form-group">
+					<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+						@foreach (var selectOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+						{
+							<div class="govuk-radios__item">
+								<input type="radio"
+								       asp-for="FinanceOngoingInvestigations"
+								       value="@Convert.ToInt32(selectOption)"
+								       id="selectoption@(selectOption)"
+								       class="govuk-radios__input"
+								       data-aria-controls="selectoption-@(selectOption.ToString().ToLower())"
+								       checked="@(selectOption.Equals(ViewData.Model.FinanceOngoingInvestigations))"
+								       aria-expanded="False"/>
+								<label for="selectoption@(selectOption)" class="govuk-label govuk-radios__label">
+									@selectOption.GetDescription()
+								</label>
+							</div>
+							@if (selectOption == SelectOption.Yes)
+							{
+								<div class="@(Model.FinancialInvestigationsExplainError ? "govuk-form-group--error" : "govuk-radios__conditional")
+	                                            @(selectOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+								     id="selectoption-yes" aria-expanded="false">
+									<div class="govuk-form-group govuk-error-summary__list">
+										<label for="selectoption-yes" class="govuk-label">Provide a brief summary of the investigation</label>
+										<a href="#FinancialInvestigationsExplainNotEntered" class="@(Model.FinancialInvestigationsExplainError ? "govuk-error-message" : "govuk-visually-hidden")">
+											You must provide details of the investigation
+										</a>
+										<textarea asp-for="FinancialInvestigationsExplain" id="FinancialInvestigationsExplain"
+                                          class="govuk-textarea" cols="40" rows="5" maxlength="200">				
+										</textarea>
+
+										<div class="govuk-form-group">
+											<fieldset class="govuk-fieldset">
+												<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+													Is the trust you are joining aware of the investigation?
+												</legend>
+												@foreach (var trustAwareOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+												{
+													<div class="govuk-radios__item">
+														<input type="radio"
+														       asp-for="FinancialInvestigationsTrustAware"
+														       value="@Convert.ToInt32(trustAwareOption)"
+														       id="trustAwareOption@(trustAwareOption)"
+														       class="govuk-radios__input"
+														       checked="@(trustAwareOption.Equals(ViewData.Model.FinancialInvestigationsTrustAware))"/>
+														<label for="trustAwareOption@(trustAwareOption)" class="govuk-label govuk-radios__label">
+															@trustAwareOption.GetDescription()
+														</label>
+													</div>
+												}
+											</fieldset>
+										</div>
+									</div>
+								</div>
+							}
+						}
+					</div>
+				</div>
+			</fieldset>
+		</div>
+		<br />
+
+		<input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+	</form>
+</div>

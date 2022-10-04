@@ -25,7 +25,6 @@
     </p>
 
     <h2 class="govuk-heading-l">Application @Model.ApplicationStatus</h2>
-    <p class="govuk-body">You have completed @Model.CompletedSections of @Model.TotalNumberOfSections sections.</p>
 
 	<table class="govuk-table">
 		<caption class="govuk-table__caption govuk-table__caption--l">@Model.SchoolHeaderText</caption>
@@ -108,12 +107,11 @@
     </table>       
 
     <h2 class="govuk-heading-l">Contributors</h2>
-    <p class="govuk-body">You can invite other people to help you complete parts of this form</p>
+    <p class="govuk-body">You can <a asp-page="AddAContributor" asp-route-appId="@Model.ApplicationId" class="govuk-link">invite other people to help you complete this form</a> or see who has already been invited.</p>
 	<div class="govuk-!-margin-6"></div>
-	<p class="govuk-body">
-		<a asp-page="NewApplicationContributor" asp-route-appId="@Model.ApplicationId" class="govuk-link">Invite a contributor</a>
-	</p>
-    
+
+    <partial name="_ApplicationContributorsPartial" model="Model.ExistingContributors" />
+
     <div class="govuk-!-margin-6"></div>
 
     @if (!Model.UserHasSubmitApplicationRole)
