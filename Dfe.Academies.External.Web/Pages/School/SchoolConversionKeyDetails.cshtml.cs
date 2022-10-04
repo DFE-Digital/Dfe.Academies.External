@@ -214,10 +214,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			heading5.Sections.Add(new(
 								SchoolConversionComponentSectionViewModel.NameOfSchoolChangingSectionName,
-								!string.IsNullOrWhiteSpace(selectedSchool.ProposedNewSchoolName) ?
-									selectedSchool.ProposedNewSchoolName
-									: QuestionAndAnswerConstants.NoInfoAnswer
-								));
+								selectedSchool.ConversionChangeNamePlanned.GetStringDescription()
+			));
 
 			var vm = new List<SchoolConversionComponentHeadingViewModel> { heading1, heading2, heading3, heading4, heading5 };
 
