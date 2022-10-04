@@ -99,7 +99,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-			TempData[TempDataHelper.LoanViewModelsKey] = null;
+			TempData[Urn.ToString()] = null;
 			
 			return RedirectToPage("FinancesReview", new { urn = Urn, appId = ApplicationId });
 		}
@@ -161,7 +161,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				if (loan != null)
 				{
 					loan.IsDraft = false;
-					loan.TempId = x.TempId;
+					loan.Id = x.Id;
 					loan.Provider = x.Provider;
 					loan.Purpose = x.Purpose;
 					loan.InterestRate = x.InterestRate;

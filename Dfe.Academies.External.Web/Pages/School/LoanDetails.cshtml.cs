@@ -12,8 +12,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public int  Id { get; set; }
 		[BindProperty]
-		public int TempId { get; set; }
-		[BindProperty]
 		public int ApplicationId { get; set; }
 
 		[BindProperty]
@@ -36,14 +34,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public bool IsDraft { get; set; }
 
-		public void OnGet(int appId, int urn, int tempId, bool isEdit, bool isDraft, int id)
+		public void OnGet(int appId, int urn, int id, bool isEdit)
 		{
 			LoadAndStoreCachedConversionApplication();
 			
 			ApplicationId = appId;
 			Urn = urn;
 			IsEdit = isEdit;
-			TempId = tempId;
 			Id = id;
 			
 			//If clicked changed answers then load the loan from tempdata and populate the fields
@@ -51,14 +48,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				var loanModels = TempDataLoadLoanViewModels(Urn);
 				
-				var selectedLoan = loanModels?.FirstOrDefault(loan =>
-					(loan.IsDraft && TempId == loan.TempId) 
-					|| (!loan.IsDraft && Id == loan.Id));
+				var selectedLoan = loanModels?.FirstOrDefault(loan => loan.IsDraft == IsDraft && Id == loan.Id);
 				
 				if (selectedLoan != null)
 				{
 					Id = selectedLoan.Id;
-					TempId = selectedLoan.TempId;
 					TotalAmount = selectedLoan.TotalAmount;
 					Purpose = selectedLoan.Purpose;
 					Provider = selectedLoan.Provider;
@@ -84,7 +78,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				Id = Id,
 				IsDraft = IsDraft,
-				TempId = TempId,
 				TotalAmount = TotalAmount,
 				InterestRate = InterestRate,
 				Provider = Provider,
@@ -97,15 +90,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 			//If we're editing the loan then overwrite the correct loan in the list of loans with the current binded values
 			if (IsEdit)
 			{
-				var loanViewModel = loanViewModels.FirstOrDefault(loan =>
-					(IsDraft && TempId == loan.TempId) 
-					|| (!IsDraft && Id == loan.Id));
+				var loanViewModel = loanViewModels.FirstOrDefault(loan => IsDraft == loan.IsDraft && Id == loan.Id);
 				
 				if (loanViewModel != null)
 				{
 					loanViewModel.Id = Id;
 					loanViewModel.IsDraft = false;
-					loanViewModel.TempId = TempId;
 					loanViewModel.TotalAmount = TotalAmount;
 					loanViewModel.InterestRate = InterestRate;
 					loanViewModel.Provider = Provider;
@@ -116,8 +106,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			else
 			{
 				//Otherwise it's a new loan, so add it to the list of loans
-				selectedLoan.TempId = TempId;
 				selectedLoan.IsDraft = true;
+				selectedLoan.Id = loanViewModels.Count;
 				loanViewModels.Add(selectedLoan);
 			}
 			TempDataSetLoanViewModels(Urn, loanViewModels);

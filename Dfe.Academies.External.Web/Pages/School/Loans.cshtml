@@ -62,13 +62,13 @@
 											    <dd class="govuk-summary-list__value">
 												    <p>Provider: <strong>@Model.LoanViewModels[i].Provider</strong></p>
 												    <p>Amount: <strong>@Model.LoanViewModels[i].TotalAmount</strong></p>
-												    <a asp-page="/school/LoanDetails" aria-describedby="component-change" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-tempId="@i" asp-route-isEdit="true" asp-route-isDraft="@Model.LoanViewModels[i].IsDraft" asp-route-id="@Model.LoanViewModels[i].Id">
+												    <a asp-page="/school/LoanDetails" aria-describedby="component-change" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LoanViewModels[i].Id" asp-route-isEdit="true">
 												       Change answers
 													</a>
 											    </dd>
 										    </dl>
 									    }
-										    <a asp-page="/school/LoanDetails" aria-describedby="component-change" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-TempId="@Model.LoanViewModels.Count" asp-route-isEdit="false" asp-route-isDraft="true" asp-route-id="@Model.LoanViewModels.Count">
+										    <a asp-page="/school/LoanDetails" aria-describedby="component-change" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-TempId="@Model.LoanViewModels.Count" asp-route-id="@Model.LoanViewModels.Count" asp-route-isEdit="false">
 											    Add new loan
 											</a>
 									</div>
