@@ -104,8 +104,8 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 			//// grab draft application from temp= null
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			// TODO MR:- save away data
-			// await _academisationCreationService.ApplicationChangeSchoolNameAndReason(draftConversionApplication, SchoolConsultationStakeholders, SchoolConsultationStakeholdersConsult, Urn);
+			// TODO API:- save away data
+			// await _academisationCreationService.PutSchoolApplicationDetails( ApplicationId, this.Urn, dictionaryMapper);
 
 			// update temp store for next step - application overview as last step in process
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -127,7 +127,7 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
 		SchoolName = selectedSchool.SchoolName;
-		// TODO MR:- populate other props from API - not implemented 22/08/2022
+		// TODO API:- populate other props from API - not implemented 22/08/2022
 		//SchoolConsultationStakeholders = selectedSchool.;
 		//SchoolConsultationStakeholdersConsult = selectedSchool.;
 	}

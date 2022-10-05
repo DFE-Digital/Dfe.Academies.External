@@ -295,7 +295,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				Status = SchoolConversionComponentStatus.NotStarted
 			};
 
-			// TODO:- API not done - 27/09/2022
+			// TODO API:-
 
 			return leasesHeading;
 		}
@@ -308,7 +308,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				Status = SchoolConversionComponentStatus.NotStarted
 			};
 
-			// TODO:- API not done - 27/09/2022
+			// TODO API:-
 
 			financialInvestigationsHeading.Sections.Add(new(
 				FinancesReviewSectionViewModel.FinanceOngoingInvestigations,

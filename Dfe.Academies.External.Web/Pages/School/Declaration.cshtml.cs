@@ -77,13 +77,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 					TempDataHelper.GetSerialisedValue<ConversionApplication>(
 						TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				// TODO MR:- api doesn't exist 29/09/2022
-
+				// TODO API:- 
 				//var dictionaryMapper = new Dictionary<string, dynamic>
 				//{
 				//	{ nameof(SchoolApplyingToConvert.SchoolDeclarationTeacherChair), SchoolDeclarationTeacherChair },
 				//	{ nameof(SchoolApplyingToConvert.SchoolDeclarationBodyAgree), SchoolDeclarationBodyAgree }
 				//};
+
+				//await _academisationCreationService.PutSchoolApplicationDetails( ApplicationId, this.Urn, dictionaryMapper);
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -106,7 +107,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			SchoolName = selectedSchool.SchoolName;
 
-			// TODO MR:- declaration props - only 2
+			// TODO API:- 
+			//SchoolDeclarationTeacherChair = selectedSchool.;
+			//SchoolDeclarationBodyAgree = selectedSchool.;
 		}
 	}
 }

@@ -64,7 +64,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			SchoolConsultationSummaryHeadingViewModel heading1 = new(SchoolPupilNumbersSummaryHeadingViewModel.Heading,
 				"/school/ApplicationSchoolConsultation");
 
-			// TODO MR:- data from API
+			// TODO API:- 
 			heading1.Sections.Add(new(SchoolConsultationSummarySectionViewModel.HasTheGoverningBodyConsulted,
 				QuestionAndAnswerConstants.NoInfoAnswer)
 			{
