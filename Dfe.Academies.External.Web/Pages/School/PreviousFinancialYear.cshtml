@@ -81,8 +81,7 @@
                                     <div class="@(Model.PFYRevenueStatusExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
 				                                @(revenueType == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
 												id="revenueType-deficit" aria-expanded="false">
-	                                    <div class="govuk-form-group govuk-error-summary__list">
-	                                        <a href="#PFYRevenueStatusExplainedNotEntered"
+	                                    <a href="#PFYRevenueStatusExplainedNotEntered"
 												class="@(Model.PFYRevenueStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 	                                            You must enter the reason for the revenue deficit
 	                                        </a>
@@ -104,8 +103,7 @@
 									            codes.
 								            </span>
 	                                        TODO MR:- file upload control !
-										</div>
-	                                </div>
+                                    </div>
 	                            }
 	                        }
 						</div>
