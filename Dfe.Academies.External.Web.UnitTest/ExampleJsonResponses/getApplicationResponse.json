@@ -1,22 +1,37 @@
 {
-	"applicationId": 1,
-	"applicationType": 0,
-	"applicationStatus": 0,
+	"applicationId": 25,
+	"applicationType": "joinAMat",
+	"applicationStatus": "inProgress",
 	"contributors": [
 		{
-			"contributorId": 24,
+			"contributorId": 128,
 			"firstName": "Dan",
 			"lastName": "Good",
 			"emailAddress": "Dan.GOOD@education.gov.uk",
-			"role": 0,
-			"otherRoleName": null
+			"role": "other"
+		},
+		{
+			"contributorId": 129,
+			"firstName": "Andrew",
+			"lastName": "Parsons",
+			"emailAddress": "andrew.parsons@plym.sch.uk",
+			"role": "other",
+			"otherRoleName": "HeadTeacher"
+		},
+		{
+			"contributorId": 130,
+			"firstName": "Sean",
+			"lastName": "Cormac",
+			"emailAddress": "sean.cormac@plym.sch.uk",
+			"role": "other",
+			"otherRoleName": "DeputyHead"
 		}
 	],
 	"schools": [
 		{
-			"id": 20,
-			"urn": 123332,
-			"schoolName": "Frank Wise School",
+			"id": 48,
+			"urn": 113537,
+			"schoolName": "Plymstock School",
 			"landAndBuildings": {
 				"ownerExplained": "Andrew Parsons",
 				"worksPlanned": false,
@@ -27,7 +42,6 @@
 				"grants": true,
 				"grantsAwardingBodies": "grantsAwardingBodies String",
 				"partOfPfiScheme": false,
-				"partOfPfiSchemeType": null,
 				"partOfPrioritySchoolsBuildingProgramme": true,
 				"partOfBuildingSchoolsForFutureProgramme": true
 			},
@@ -60,41 +74,51 @@
 			"previousFinancialYear": {
 				"financialYearEndDate": "2023-11-15T15:06:55.953",
 				"revenue": 50000.00,
-				"revenueStatus": 1,
+				"revenueStatus": "surplus",
 				"revenueStatusExplained": "revenueExplained String",
 				"revenueStatusFileLink": "revenueStatusFileLink",
 				"capitalCarryForward": 20000.00,
-				"capitalCarryForwardStatus": 1,
+				"capitalCarryForwardStatus": "surplus",
 				"capitalCarryForwardExplained": "capital CarryForwardExplained String",
 				"capitalCarryForwardFileLink": "capitalCarryForwardFileLink String"
 			},
 			"currentFinancialYear": {
 				"financialYearEndDate": "2023-11-15T15:06:55.953",
 				"revenue": 500000.99,
-				"revenueStatus": 1,
+				"revenueStatus": "surplus",
 				"revenueStatusExplained": "revenueStatusExplained string",
 				"revenueStatusFileLink": "revenueStatusFileLink string",
 				"capitalCarryForward": 30000.00,
-				"capitalCarryForwardStatus": 1,
+				"capitalCarryForwardStatus": "surplus",
 				"capitalCarryForwardExplained": "capitalCarryForwardExplained string",
 				"capitalCarryForwardFileLink": "capitalCarryForwardFileLink string"
 			},
 			"nextFinancialYear": {
 				"financialYearEndDate": "2023-11-15T15:06:55.953",
 				"revenue": 60000.00,
-				"revenueStatus": 2,
+				"revenueStatus": "deficit",
 				"revenueStatusExplained": "revenueStatusExplained string Next Finanical Year",
 				"revenueStatusFileLink": "revenueStatusFileLink string Next Financial Year",
 				"capitalCarryForward": 60000.00,
-				"capitalCarryForwardStatus": 2,
+				"capitalCarryForwardStatus": "deficit",
 				"capitalCarryForwardExplained": "capitalCarryForwardExplained string next Financial Year",
 				"capitalCarryForwardFileLink": "capitalCarryForwardFileLink string"
 			},
+			"loans": [
+				{
+					"loanId": 26,
+					"amount": 500000.00,
+					"purpose": "The purpose of this is to totally revitalise Plymstock School as an even better",
+					"provider": "string",
+					"interestRate": 3.25,
+					"schedule": "string"
+				}
+			],
 			"schoolContributionToTrust": "string",
 			"governingBodyConsentEvidenceDocumentLink": "string",
 			"additionalInformationAdded": false,
 			"additionalInformation": "string",
-			"equalitiesImpactAssessmentCompleted": 0,
+			"equalitiesImpactAssessmentCompleted": "consideredUnlikely",
 			"equalitiesImpactAssessmentDetails": "string",
 			"schoolConversionContactHeadName": "string",
 			"schoolConversionContactHeadEmail": "andrew.parsons1@plymstock.plym.sch.uk",
@@ -109,7 +133,7 @@
 			"schoolConversionMainContactOtherRole": "string",
 			"schoolConversionApproverContactName": "string",
 			"schoolConversionApproverContactEmail": "dangood84@me.com",
-			"schoolConversionTargetDateSpecified": false,
+			"schoolConversionTargetDateSpecified": true,
 			"schoolConversionTargetDate": "2023-11-15T15:06:55.953",
 			"schoolConversionTargetDateExplained": "string",
 			"conversionChangeNamePlanned": true,
@@ -118,9 +142,9 @@
 			"projectedPupilNumbersYear1": 1000,
 			"projectedPupilNumbersYear2": 1250,
 			"projectedPupilNumbersYear3": 1500,
-			"schoolCapacityAssumptions": "string",
-			"schoolCapacityPublishedAdmissionsNumber": 0,
-			"schoolSupportGrantFundsPaidTo": 1,
+			"schoolCapacityAssumptions": "Andrew Parsons Andrew Parsons Andrew Parsons Andrew Parsons Andrew Parsons Andrew Parsons Andrew Parsons Andrew Parsons Andrew Parsons Andrew Parsons Andrew Parsons Andrew Parsons Andrew Parsons Andrew Parsons Andrew Parsons Andrew Parsons Andrew Parsons Andrew Parsons ",
+			"schoolCapacityPublishedAdmissionsNumber": 1001,
+			"schoolSupportGrantFundsPaidTo": "school",
 			"confirmPaySupportGrantToSchool": false
 		}
 	]
