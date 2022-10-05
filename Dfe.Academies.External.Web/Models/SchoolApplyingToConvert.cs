@@ -91,7 +91,7 @@ public class SchoolApplyingToConvert
         public List<SchoolLease> Leases { get; set; } = new();
 
         /// <summary>
-        /// TODO MR:- is below more a VM thing?
+        /// TODO:- is below more a VM thing?
         /// </summary>
         public List<ConversionApplicationComponent> SchoolApplicationComponents { get; set; } = new();
 }
