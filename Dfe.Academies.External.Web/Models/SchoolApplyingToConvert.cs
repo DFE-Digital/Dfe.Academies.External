@@ -21,13 +21,13 @@ public class SchoolApplyingToConvert
         public string UKPRN { get; set; }
         public SchoolLandAndBuildings LandAndBuildings { get; set; }
         public SchoolPerformance Performance { get; set; } = new();
-	public LocalAuthority LocalAuthority { get; set; } = new();
-	public PartnershipsAndAffliations PartnershipsAndAffliations { get; set; } = new();
-	public SchoolReligiousEducation ReligiousEducation { get; set; }
-	public SchoolFinancialYear PreviousFinancialYear { get; set; } = new();
-	public SchoolFinancialYear CurrentFinancialYear { get; set; } = new();
-	public SchoolFinancialYear NextFinancialYear { get; set; } = new();
-	public string SchoolContributionToTrust { get; set; }
+		public LocalAuthority LocalAuthority { get; set; } = new();
+		public PartnershipsAndAffliations PartnershipsAndAffliations { get; set; } = new();
+		public SchoolReligiousEducation ReligiousEducation { get; set; }
+		public SchoolFinancialYear PreviousFinancialYear { get; set; } = new();
+		public SchoolFinancialYear CurrentFinancialYear { get; set; } = new();
+		public SchoolFinancialYear NextFinancialYear { get; set; } = new();
+		public string SchoolContributionToTrust { get; set; }
         public string GoverningBodyConsentEvidenceDocumentLink { get; set; }
         public bool? AdditionalInformationAdded { get; set; }
         public string AdditionalInformation { get; set; }
@@ -71,14 +71,27 @@ public class SchoolApplyingToConvert
 		public PayFundsTo? SchoolSupportGrantFundsPaidTo { get; set; }
 		public bool? ConfirmPaySupportGrantToSchool { get; set; }
 
-		/// <summary>
-		/// TODO MR:- is below more a VM thing?
-		/// </summary>
-		public List<ConversionApplicationComponent> SchoolApplicationComponents { get; set; } = new();
+		// Finances Investigations
+		public bool? FinanceOngoingInvestigations { get; set; }
+		public string? FinancialInvestigationsExplain { get; set; }
+		public bool? FinancialInvestigationsTrustAware { get; set; }
 
-		//// MR:- below props from A2C-SIP - ApplyingSchool object
+		// consultation details
+		public bool? SchoolHasConsultedStakeholders { get; set; }
+		public string? SchoolPlanToConsultStakeholders { get; set; }
 
+		// declaration
+		public bool? DeclarationBodyAgree { get; set; }
+		public bool? DeclarationIAmTheChairOrHeadteacher { get; set; }
+		public string? DeclarationSignedByName { get; set; }
+	
 		public List<SchoolLoan> Loans { get; set; } = new();
 
+		// TODO:- API
         public List<SchoolLease> Leases { get; set; } = new();
+
+        /// <summary>
+        /// TODO MR:- is below more a VM thing?
+        /// </summary>
+        public List<ConversionApplicationComponent> SchoolApplicationComponents { get; set; } = new();
 }
