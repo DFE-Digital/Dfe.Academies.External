@@ -85,8 +85,7 @@
                                     <div class="@(Model.NFYRevenueStatusExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
 				                                @(revenueType == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
 											id="revenueType-deficit" aria-expanded="false">
-                                        <div class="govuk-form-group govuk-error-summary__list">
-                                            <a href="#NFYRevenueStatusExplainedNotEntered"
+	                                    <a href="#NFYRevenueStatusExplainedNotEntered"
 												class="@(Model.NFYRevenueStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
                                                 You must enter the reason for the revenue deficit
                                             </a>
@@ -109,7 +108,6 @@
                                             </span>
                                             TODO MR:- file upload control !
                                         </div>
-                                    </div>
                                 }
                             }
                         </div>
