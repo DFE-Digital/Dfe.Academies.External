@@ -128,18 +128,15 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				// TODO MR:- no API 28/09/2022
-				//var schoolFinanceInvestigations = new FinancialInvestigations(FinanceOngoingInvestigations,
-				//	SchoolFinancialInvestigationsExplain,
-				//	SchoolFinancialInvestigationsTrustAware);
+				var propertiesToPopulate =
+					new Dictionary<string, dynamic>
+					{
+						{nameof(SchoolApplyingToConvert.FinanceOngoingInvestigations), FinanceOngoingInvestigations == SelectOption.Yes},
+						{nameof(SchoolApplyingToConvert.FinancialInvestigationsExplain), FinancialInvestigationsExplain!},
+						{nameof(SchoolApplyingToConvert.FinancialInvestigationsTrustAware), FinancialInvestigationsTrustAware == SelectOption.Yes},
+					};
 
-				//var propertiesToPopulate =
-				//	new Dictionary<string, dynamic>
-				//	{
-				//		{nameof(SchoolApplyingToConvert.FinancialInvestigations), schoolFinanceInvestigations}
-				//	};
-
-				//await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, propertiesToPopulate);
+				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, propertiesToPopulate);
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -161,9 +158,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			SchoolName = selectedSchool.SchoolName;
-
+			FinanceOngoingInvestigations = selectedSchool.FinanceOngoingInvestigations != null && selectedSchool.FinanceOngoingInvestigations.Value ? SelectOption.Yes : SelectOption.No;
+			FinancialInvestigationsExplain = selectedSchool.FinancialInvestigationsExplain;
+			FinancialInvestigationsTrustAware = selectedSchool.FinancialInvestigationsTrustAware != null && selectedSchool.FinancialInvestigationsTrustAware.Value ? SelectOption.Yes : SelectOption.No; 
 		}
-
-		// re-pop date - any dates?
 	}
 }
