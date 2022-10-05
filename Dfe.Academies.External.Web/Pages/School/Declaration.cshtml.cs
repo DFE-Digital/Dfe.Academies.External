@@ -68,7 +68,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			// TODO MR:- optional validation
+			// TODO :- optional validation
 
 			try
 			{
