@@ -37,7 +37,7 @@
 		        </div>
 		        
 		        <div class="govuk-form-group">
-			        <fieldset class="govuk-fieldset" aria-describedby="pfy-end-date-hint" role="group">
+			        <fieldset class="govuk-fieldset">
 				        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 					        End of next financial year 
 				        </legend>
@@ -56,7 +56,7 @@
 			        </fieldset>
 		        </div>                
 		        <div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-			        <fieldset class="govuk-fieldset" role="group" aria-describedby="">
+			        <fieldset class="govuk-fieldset">
 				        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 					        Forecasted revenue carry forward at end of the next financial year (31 March)
 				        </legend>
@@ -85,8 +85,7 @@
                                     <div class="@(Model.NFYRevenueStatusExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
 				                                @(revenueType == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
 											id="revenueType-deficit" aria-expanded="false">
-                                        <div class="govuk-form-group govuk-error-summary__list">
-                                            <a href="#NFYRevenueStatusExplainedNotEntered"
+	                                    <a href="#NFYRevenueStatusExplainedNotEntered"
 												class="@(Model.NFYRevenueStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
                                                 You must enter the reason for the revenue deficit
                                             </a>
@@ -109,7 +108,6 @@
                                             </span>
                                             TODO MR:- file upload control !
                                         </div>
-                                    </div>
                                 }
                             }
                         </div>
