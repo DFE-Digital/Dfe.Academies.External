@@ -20,7 +20,7 @@ public static class TempDataHelper
 	{
 		if (tempData.ContainsKey(key))
 		{
-			return JsonSerializer.Deserialize<T>(tempData[key].ToString() ?? string.Empty) ?? default(T);
+			return JsonSerializer.Deserialize<T>(tempData[key]?.ToString() ?? string.Empty) ?? default(T);
 		}
 		else
 		{
