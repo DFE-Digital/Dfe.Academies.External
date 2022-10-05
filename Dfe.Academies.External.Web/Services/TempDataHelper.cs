@@ -13,12 +13,14 @@ public static class TempDataHelper
 {
 	public const string DraftConversionApplicationKey = "draftConversionApplication";
 	public const string SelectedSchoolKey = "selectedSchoolKey";
-
+	public const string SelectedLoanKey = "selectedLoanKey";
+	public const string LoanViewModelsKey = "loanViewModelsKey";
+	
 	public static T? GetSerialisedValue<T>(string key, ITempDataDictionary tempData)
 	{
 		if (tempData.ContainsKey(key))
 		{
-			return JsonSerializer.Deserialize<T>(tempData[key].ToString() ?? string.Empty) ?? default(T);
+			return JsonSerializer.Deserialize<T>(tempData[key]?.ToString() ?? string.Empty) ?? default(T);
 		}
 		else
 		{

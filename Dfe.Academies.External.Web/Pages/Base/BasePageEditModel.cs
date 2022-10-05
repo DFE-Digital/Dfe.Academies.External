@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text.Json;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
@@ -38,6 +39,26 @@ public abstract class BasePageEditModel : BasePageModel
 		return applicationDetails.Schools.FirstOrDefault(s => s.URN == urn);
 	}
 
+	public void TempDataSetLoanViewModels(int schoolUrn, List<LoanViewModel> loanViewModels)
+	{
+		TempData[schoolUrn.ToString()] = JsonSerializer.Serialize(loanViewModels);
+		//TempDataHelper.StoreSerialisedValue(, TempData, loanViewModels);
+	}
+	
+	public List<LoanViewModel> TempDataLoadLoanViewModels(int schoolUrn)
+	{
+		var loanViewModels = TempDataHelper.GetSerialisedValue<List<LoanViewModel>>(schoolUrn.ToString(), TempData);
+		TempData[schoolUrn.ToString()] = JsonSerializer.Serialize(loanViewModels);
+		//TempDataHelper.StoreSerialisedValue(TempDataHelper.LoanViewModelsKey, TempData, loanViewModels);
+		return loanViewModels;
+	}
+	
+	public LoanViewModel? TempDataLoadSelectedLoan(int schoolUrn)
+	{
+		return TempDataHelper.GetSerialisedValue<LoanViewModel>(schoolUrn.ToString(), TempData) ?? null;
+	}
+
+	
 	public void LoadAndStoreCachedConversionApplication()
 	{
 		//// on load - grab draft application from temp

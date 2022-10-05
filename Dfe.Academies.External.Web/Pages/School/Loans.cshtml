@@ -1,0 +1,84 @@
+﻿@page
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@using Dfe.Academies.External.Web.TagHelpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Dfe.Academies.External.Web.Pages.School.Loans
+@{
+	ViewData["Title"] = "Apply to become an academy - About the conversion";
+}
+
+@section BeforeMain
+	{
+    <a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back to application overview</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<h1 class="govuk-heading-l">
+		<span class="govuk-caption-l">Finances (Step 4 of 6)</span>
+		Loans
+	</h1>
+	<form method="post" name="frmLoans" novalidate="">
+    		@Html.AntiForgeryToken()
+    		<input type="hidden" asp-for="Urn"/>
+    		<input type="hidden" asp-for="ApplicationId"/>		
+    		<partial name="_HiddenFields"/>
+    		
+    		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+    			<fieldset class="govuk-fieldset">
+    				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+    					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+    				</div>
+                
+    				<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+    					<fieldset class="govuk-fieldset" role="group" aria-describedby="works-planned-date-hint">
+							<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+								Are there any existing loans?
+							</legend>
+                            @foreach (var anyLoansOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+    						{
+    							<div class="govuk-radios__item">
+    								<input type="radio"
+    								       asp-for="AnyLoans"
+    								       value="@Convert.ToInt32(anyLoansOption)"
+    								       id="anyLoansOption@(anyLoansOption)"
+    								       class="govuk-radios__input"
+								           data-aria-controls="anyLoansOption-@(anyLoansOption.ToString().ToLower())"
+								           checked="@(anyLoansOption.Equals(ViewData.Model.AnyLoans))"
+								           aria-expanded="False"/>
+    								<label for="anyLoansOption@(anyLoansOption)" class="govuk-label govuk-radios__label">
+    									@anyLoansOption.GetDescription()
+    								</label>
+    							</div>
+    							@if (anyLoansOption == SelectOption.Yes)
+    							{
+								    <div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional") 
+	                                                @(anyLoansOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+								         id="anyLoansOption-yes" aria-expanded="false">
+									    @for (int i = 0; i < Model.LoanViewModels.Count; i++)
+									    {
+										    <dl class="govuk-summary-list__row">
+											    <dt hidden="hidden"></dt>
+											    <dd class="govuk-summary-list__value">
+												    <p class="govuk-label">Provider: <strong>@Model.LoanViewModels[i].Provider</strong></p>
+												    <p class="govuk-label">Amount: <strong>@Model.LoanViewModels[i].TotalAmount</strong></p>
+												    <a asp-page="/school/LoanDetails" aria-describedby="component-change" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LoanViewModels[i].Id" asp-route-isEdit="true">
+												       Change answers
+													</a>
+											    </dd>
+										    </dl>
+									    }
+										    <a asp-page="/school/LoanDetails" aria-describedby="component-change" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-TempId="@Model.LoanViewModels.Count" asp-route-id="@Model.LoanViewModels.Count" asp-route-isEdit="false">
+											    Add new loan
+											</a>
+									</div>
+    							}
+    						}
+    					</fieldset>
+    				</div>
+                </fieldset>
+    		</div>
+    		<br/>
+    		<input type="submit" value="Continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+    	</form>
+</div>

@@ -251,14 +251,37 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		private FinancesReviewHeadingViewModel PopulateLoansHeading(SchoolApplyingToConvert selectedSchool)
 		{
-			var loan = selectedSchool.Loans.FirstOrDefault();
+			
 			FinancesReviewHeadingViewModel loansHeading = new(FinancesReviewHeadingViewModel.HeadingLoans,
 				"/school/Loans")
 			{
-				Status = SchoolConversionComponentStatus.NotStarted
+				Status = selectedSchool.Loans != null ? SchoolConversionComponentStatus.Complete : SchoolConversionComponentStatus.NotStarted
 			};
+			var isStarted = loansHeading.Status != SchoolConversionComponentStatus.NotStarted;
+			
+			var subQuestionAndAnswers = new List<SchoolQuestionAndAnswerViewModel>();
+				
+			for (int i = 0; i < selectedSchool.Loans.Count; i++)
+			{
+				subQuestionAndAnswers.AddRange(new List<SchoolQuestionAndAnswerViewModel>
+				{
+					new FinancesReviewSectionViewModel($"Loan {i+1}", ""),
+					new FinancesReviewSectionViewModel("Total amount", $"£{selectedSchool.Loans.ElementAt(i).Amount}"),
+					new FinancesReviewSectionViewModel("Purpose of loan", $"{selectedSchool.Loans.ElementAt(i).Purpose}"),
+					new FinancesReviewSectionViewModel("Loan provider", $"{selectedSchool.Loans.ElementAt(i).Provider}"),
+					new FinancesReviewSectionViewModel("Interest rate", $"{selectedSchool.Loans.ElementAt(i).InterestRate}"),
+					new FinancesReviewSectionViewModel("Schedule of repayment", $"{selectedSchool.Loans.ElementAt(i).Schedule}")
+				});
+			}
 
-			// TODO :-
+			var financesReviewHeading = new FinancesReviewSectionViewModel(
+					FinancesReviewSectionViewModel.ExistingLoans,
+					isStarted ? selectedSchool.Loans.Any() ? "Yes" : "No" : QuestionAndAnswerConstants.NoInfoAnswer);
+
+			if (selectedSchool.Loans.Any())
+				financesReviewHeading.SubQuestionAndAnswers = subQuestionAndAnswers;
+				
+			loansHeading.Sections.Add(financesReviewHeading);
 
 			return loansHeading;
 		}
