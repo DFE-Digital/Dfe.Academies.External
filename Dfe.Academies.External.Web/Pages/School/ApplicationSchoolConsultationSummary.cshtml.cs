@@ -71,17 +71,19 @@ namespace Dfe.Academies.External.Web.Pages.School
 					: SchoolConversionComponentStatus.NotStarted
 			};
 
+
 			heading1.Sections.Add(new(SchoolConsultationSummarySectionViewModel.HasTheGoverningBodyConsulted,
 				selectedSchool.SchoolHasConsultedStakeholders.GetStringDescription())
 			{
-				SubQuestionAndAnswers = new()
-				{
-					new SchoolConsultationSummarySectionViewModel(
-						SchoolConsultationSummarySectionViewModel.WhenDoesTheGoverningBodyPlanToConsult,
-						selectedSchool.SchoolPlanToConsultStakeholders ??
-						QuestionAndAnswerConstants.NoAnswer
-					)
-				}
+				// MR:- no sub question showing on screen shot from Abi
+				//SubQuestionAndAnswers = new()
+				//{
+				//	new SchoolConsultationSummarySectionViewModel(
+				//		SchoolConsultationSummarySectionViewModel.WhenDoesTheGoverningBodyPlanToConsult,
+				//		selectedSchool.SchoolPlanToConsultStakeholders ??
+				//		QuestionAndAnswerConstants.NoAnswer
+				//	)
+				//}
 			});
 
 			var vm = new List<SchoolConsultationSummaryHeadingViewModel> { heading1 };
