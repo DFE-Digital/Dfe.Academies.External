@@ -132,7 +132,7 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
 		SchoolName = selectedSchool.SchoolName;
-		SchoolConsultationStakeholders = selectedSchool.SchoolHasConsultedStakeholders = SelectOption.Yes;
+		SchoolConsultationStakeholders = selectedSchool.SchoolHasConsultedStakeholders != null && selectedSchool.SchoolHasConsultedStakeholders.Value ? SelectOption.Yes : SelectOption.No;
 		SchoolConsultationStakeholdersConsult = selectedSchool.SchoolPlanToConsultStakeholders;
 	}
 }
