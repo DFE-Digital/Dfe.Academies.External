@@ -106,7 +106,7 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 
 			var dictionaryMapper = new Dictionary<string, dynamic>
 			{
-				{ nameof(SchoolApplyingToConvert.SchoolHasConsultedStakeholders), SchoolConsultationStakeholders },
+				{ nameof(SchoolApplyingToConvert.SchoolHasConsultedStakeholders), SchoolConsultationStakeholders == SelectOption.Yes },
 				{ nameof(SchoolApplyingToConvert.SchoolPlanToConsultStakeholders), SchoolConsultationStakeholdersConsult }
 			};
 
