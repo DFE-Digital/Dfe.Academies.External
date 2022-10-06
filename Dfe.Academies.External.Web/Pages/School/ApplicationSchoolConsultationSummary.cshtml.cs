@@ -1,4 +1,6 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
@@ -62,16 +64,21 @@ namespace Dfe.Academies.External.Web.Pages.School
 			SchoolName = selectedSchool.SchoolName;
 
 			SchoolConsultationSummaryHeadingViewModel heading1 = new(SchoolPupilNumbersSummaryHeadingViewModel.Heading,
-				"/school/ApplicationSchoolConsultation");
+				"/school/ApplicationSchoolConsultation")
+			{
+				Status = selectedSchool.SchoolHasConsultedStakeholders.HasValue ?
+					SchoolConversionComponentStatus.Complete
+					: SchoolConversionComponentStatus.NotStarted
+			};
 
-			// TODO API:- 
 			heading1.Sections.Add(new(SchoolConsultationSummarySectionViewModel.HasTheGoverningBodyConsulted,
-				QuestionAndAnswerConstants.NoInfoAnswer)
+				selectedSchool.SchoolHasConsultedStakeholders.GetStringDescription())
 			{
 				SubQuestionAndAnswers = new()
 				{
 					new SchoolConsultationSummarySectionViewModel(
 						SchoolConsultationSummarySectionViewModel.WhenDoesTheGoverningBodyPlanToConsult,
+						selectedSchool.SchoolPlanToConsultStakeholders ??
 						QuestionAndAnswerConstants.NoAnswer
 					)
 				}
