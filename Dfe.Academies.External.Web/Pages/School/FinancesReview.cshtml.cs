@@ -305,25 +305,29 @@ namespace Dfe.Academies.External.Web.Pages.School
 			FinancesReviewHeadingViewModel financialInvestigationsHeading = new(FinancesReviewHeadingViewModel.HeadingFinancialInvestigations,
 				"/school/FinancialInvestigations")
 			{
-				Status = SchoolConversionComponentStatus.NotStarted
+				Status = selectedSchool.FinanceOngoingInvestigations.HasValue ?
+					SchoolConversionComponentStatus.Complete
+					: SchoolConversionComponentStatus.NotStarted
 			};
-
-			// TODO API:-
 
 			financialInvestigationsHeading.Sections.Add(new(
 				FinancesReviewSectionViewModel.FinanceOngoingInvestigations,
-				(QuestionAndAnswerConstants.NoInfoAnswer)
+				selectedSchool.FinanceOngoingInvestigations.GetStringDescription()
 			)
 			{
 				SubQuestionAndAnswers = new()
 				{
 					new FinancesReviewSectionViewModel(
 						FinancesReviewSectionViewModel.FinancialInvestigationsExplain,
-						QuestionAndAnswerConstants.NoAnswer
+						(!string.IsNullOrWhiteSpace(selectedSchool.FinancialInvestigationsExplain) ?
+							selectedSchool.FinancialInvestigationsExplain :
+							QuestionAndAnswerConstants.NoAnswer)
 					),
 					new FinancesReviewSectionViewModel(
 						FinancesReviewSectionViewModel.FinancialInvestigationsTrustAware,
-						QuestionAndAnswerConstants.NoAnswer
+						selectedSchool.FinancialInvestigationsTrustAware.HasValue ?
+							selectedSchool.FinancialInvestigationsTrustAware.GetStringDescription() :
+							QuestionAndAnswerConstants.NoAnswer
 					),
 				}
 			});
