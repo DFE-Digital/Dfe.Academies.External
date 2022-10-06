@@ -65,7 +65,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			DeclarationSummaryHeadingViewModel heading1 = new(DeclarationSummaryHeadingViewModel.Heading,
 				"/school/Declaration")
 			{
-				Status = !string.IsNullOrEmpty(selectedSchool.SchoolSupportGrantFundsPaidTo.ToString()) ?
+				Status = selectedSchool.DeclarationBodyAgree.HasValue ?
 					SchoolConversionComponentStatus.Complete
 					: SchoolConversionComponentStatus.NotStarted
 			};
