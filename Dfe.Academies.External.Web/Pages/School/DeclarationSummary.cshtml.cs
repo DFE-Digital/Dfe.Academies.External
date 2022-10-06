@@ -1,4 +1,5 @@
 ﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -69,11 +70,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 					: SchoolConversionComponentStatus.NotStarted
 			};
 
-			// TODO:- API not done - 27/09/2022
 			// MR:- NO sub questions shown here, just yes / no for answer!
 			heading1.Sections.Add(new(
 				DeclarationSummaryHeadingViewModel.HeadingDetails,
-				QuestionAndAnswerConstants.NoInfoAnswer 
+				selectedSchool.DeclarationIAmTheChairOrHeadteacher.GetStringDescription()
 			));
 
 			var vm = new List<DeclarationSummaryHeadingViewModel> { heading1 };
