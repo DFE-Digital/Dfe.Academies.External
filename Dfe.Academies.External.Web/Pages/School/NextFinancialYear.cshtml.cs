@@ -222,7 +222,7 @@ public class NextFinancialYearModel : BasePageEditModel
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-			return RedirectToPage("FinancesLoans", new { appId = ApplicationId, urn = Urn });
+			return RedirectToPage("Loans", new { appId = ApplicationId, urn = Urn });
 		}
 		catch (Exception ex)
 		{
