@@ -29,42 +29,32 @@
 		        <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 			        <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 		        </div>
-		        
 		        <div class="govuk-form-group">
-		            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-			        Total amount
-			        </legend>
 			        <div class="govuk-form-group">
-					    <input type="number" asp-for="TotalAmount" id="TotalAmount" class="govuk-input govuk-input--width-20"/>
-				    </div>
-			        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-				        Purpose of loan
-					</legend>
+				        <label for="TotalAmount" class="govuk-label">Total amount</label>
+				        <input type="number" asp-for="TotalAmount" id="TotalAmount" class="govuk-input govuk-input--width-20"/>
+			        </div>
 			        <div class="govuk-form-group">
+				        <label for="Purpose" class="govuk-label">Purpose of loan</label>
 				        <input type="text" asp-for="Purpose" id="Purpose" class="govuk-input govuk-input--width-20"/>
 			        </div>
-			        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-				        Loan provider
-					</legend>
 			        <div class="govuk-form-group">
-				        <input type="text" asp-for="Provider" id="Purpose" class="govuk-input govuk-input--width-20"/>
+				        <label for="Provider" class="govuk-label">Loan provider</label>
+				        <input type="text" asp-for="Provider" id="Provider" class="govuk-input govuk-input--width-20"/>
 			        </div>
-		            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-			        Interest rate
-			        </legend>
 			        <div class="govuk-form-group">
-					    <input type="decimal" asp-for="InterestRate" id="TotalAmount" class="govuk-input govuk-input--width-20"/>
-				    </div>
-			        <label for="capitalCarryForwardStatus-deficit" class="govuk-label">
-				        Schedule of Repayment
-				        </label>
-			        <textarea asp-for="RepaymentSchedule" id="RepaymentSchedule" class="govuk-textarea" cols="40" rows="5" maxlength="400"></textarea>
-		        </div>                
-		        
+				        <label for="InterestRate" class="govuk-label">Interest rate</label>
+				        <input type="number" asp-for="InterestRate" id="InterestRate" class="govuk-input govuk-input--width-20"/>
+			        </div>
+			        <div class="govuk-form-group">
+				        <label for="RepaymentSchedule" class="govuk-label">Schedule of Repayment</label>
+				        <textarea asp-for="RepaymentSchedule" id="RepaymentSchedule" class="govuk-textarea" cols="40" rows="5" maxlength="400"></textarea>
+			        </div>
+		        </div>
 	        </fieldset>
 		</div>
 		<br />
         
-		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+		<input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 	</form>
 </div>
