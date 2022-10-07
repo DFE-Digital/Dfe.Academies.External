@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Extensions;
+﻿using System.Globalization;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Routing;
 using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -123,7 +124,15 @@ builder.Services.AddSession(options =>
 // culture
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
+	var supportedCultures = new List<CultureInfo>
+	{
+		new ("en-GB")
+	};
 	options.DefaultRequestCulture = new RequestCulture("en-GB");
+	// Formatting numbers, dates, etc.
+	options.SupportedCultures = supportedCultures;
+	// UI strings that we have localized.
+	options.SupportedUICultures = supportedCultures;
 });
 
 var app = builder.Build();
