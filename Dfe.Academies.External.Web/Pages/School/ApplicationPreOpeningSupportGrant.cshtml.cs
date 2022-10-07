@@ -160,10 +160,6 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 			SchoolSupportGrantFundsPaidTo = selectedSchool.SchoolSupportGrantFundsPaidTo;
 			ConfirmSchoolPay = selectedSchool.ConfirmPaySupportGrantToSchool ?? false;
 		}
-
-		// TODO MR:- populate other props from API - not implemented 22/08/2022
-		//SchoolSupportGrantFundsPaidTo = selectedSchool.PayFundsTo;
-		//ConfirmSchoolPay = selectedSchool.PayFundsTo;
 	}
 }
 

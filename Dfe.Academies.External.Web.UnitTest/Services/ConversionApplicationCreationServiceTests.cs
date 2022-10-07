@@ -22,6 +22,9 @@ namespace Dfe.Academies.External.Web.UnitTest.Services;
 internal sealed class ConversionApplicationCreationServiceTests
 {
 	private static readonly Fixture Fixture = new();
+	// below hard coded because has to be same as Id in getApplicationResponse.json
+	private const int GetApplicationId = 25;
+	private const int GetSchoolUrn = 113537;
 
 	[Test]
 	public async Task CreateNewApplication___NoContributor___ApiReturns400___BadRequest()
@@ -80,7 +83,6 @@ internal sealed class ConversionApplicationCreationServiceTests
 	public async Task AddSchoolToApplication___ApiReturns200___Ok()
 	{
 		// arrange
-		int applicationId = 1; // hard coded because has to be same as example JSON
 		int urn = Fixture.Create<int>();
 		string schoolName = Fixture.Create<string>();
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
@@ -98,7 +100,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 			mockConversionApplicationRetrievalService);
 
 		// assert
-		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId,
+		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.AddSchoolToApplication(GetApplicationId,
 			urn,
 			schoolName));
 	}
@@ -110,7 +112,6 @@ internal sealed class ConversionApplicationCreationServiceTests
 	public async Task AddSchoolToApplication___ApiReturns500___InternalServerError()
 	{
 		// arrange
-		int applicationId = 1; // hard coded because has to be same as example JSON
 		int urn = Fixture.Create<int>();
 		string schoolName = Fixture.Create<string>();
 
@@ -129,7 +130,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 			mockConversionApplicationRetrievalService);
 
 		// assert
-		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId,
+		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.AddSchoolToApplication(GetApplicationId,
 			urn,
 			schoolName));
 	}
@@ -168,12 +169,10 @@ internal sealed class ConversionApplicationCreationServiceTests
 	public async Task PutApplicationDetails__NoApplication__ThrowsArgumentException()
 	{
 		//Arrange
-		var applicationId = 1;
 		var schoolUrn = 123456;
 		
 		var fixture = Fixture.Create<SchoolApplyingToConvert>();
 		var properties = fixture.GetType().GetProperties();
-
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
 		
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
@@ -185,7 +184,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 			mockConversionApplicationRetrievalService.Object);
 
 		//Act
-		var result = Assert.ThrowsAsync<ArgumentException>(async () => await sut.PutSchoolApplicationDetails(applicationId, schoolUrn, dictionary));
+		var result = Assert.ThrowsAsync<ArgumentException>(async () => await sut.PutSchoolApplicationDetails(GetApplicationId, schoolUrn, dictionary));
 		
 		//Assert
 		Assert.AreEqual("Application not found", result.Message);
@@ -200,7 +199,6 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 		var fixture = Fixture.Create<SchoolApplyingToConvert>();
 		var properties = fixture.GetType().GetProperties();
-
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
 	
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
@@ -223,7 +221,6 @@ internal sealed class ConversionApplicationCreationServiceTests
 	public async Task PutApplicationDetails__ApiReturns200__Ok()
 	{
 		//Arrange
-		var applicationId = 1;
 		var schoolUrn = 123456;
 		
 		var fixture = Fixture.Create<SchoolApplyingToConvert>();
@@ -234,15 +231,15 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 
-		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(applicationId))
-			.ReturnsAsync(Fixture.Build<ConversionApplication>().With(x => x.ApplicationId, applicationId).With(x => x.Schools, new List<SchoolApplyingToConvert>{new("test", schoolUrn, "")}).Create());
+		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(GetApplicationId))
+			.ReturnsAsync(Fixture.Build<ConversionApplication>().With(x => x.ApplicationId, GetApplicationId).With(x => x.Schools, new List<SchoolApplyingToConvert>{new("test", schoolUrn, "")}).Create());
 		
 		var sut = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
 			mockConversionApplicationRetrievalService.Object);
 
 		//Act
-		Assert.DoesNotThrowAsync(async () => await sut.PutSchoolApplicationDetails(applicationId, schoolUrn, dictionary));
+		Assert.DoesNotThrowAsync(async () => await sut.PutSchoolApplicationDetails(GetApplicationId, schoolUrn, dictionary));
 	}
 
 	/// <summary>
@@ -252,11 +249,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 	public async Task ApplicationSchoolNextFinancialYear___ApiReturns200___Ok()
 	{
 		// arrange
-		int applicationId = 1;
-		int schoolUrn = 123332;
 		var fixture = Fixture.Create<SchoolApplyingToConvert>();
 		var properties = fixture.GetType().GetProperties();
-
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
 
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
@@ -275,8 +269,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 		// assert
 		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.PutSchoolApplicationDetails(
-			applicationId,
-			schoolUrn,
+			GetApplicationId,
+			GetSchoolUrn,
 			dictionary
 		));
 	}
@@ -285,11 +279,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 	public async Task ApplicationSchoolNextFinancialYear__ApiReturns500___InternalServerError()
 	{
 		// arrange
-		int applicationId = 1;
-		int schoolUrn = 123332;
 		var fixture = Fixture.Create<SchoolApplyingToConvert>();
 		var properties = fixture.GetType().GetProperties();
-
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
 
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
@@ -308,8 +299,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 		// assert
 		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.PutSchoolApplicationDetails(
-			applicationId,
-			schoolUrn,
+			GetApplicationId,
+			GetSchoolUrn,
 			dictionary
 		));
 	}
@@ -320,12 +311,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 	public async Task ApplicationSchoolPreviousFinancialYear___ApiReturns200___Ok()
 	{
 		// arrange
-		int applicationId = 1;
-		int schoolUrn = 123332;
-
 		var fixture = Fixture.Create<SchoolApplyingToConvert>();
 		var properties = fixture.GetType().GetProperties();
-
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
 
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
@@ -344,8 +331,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 		// assert
 		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.PutSchoolApplicationDetails(
-			applicationId,
-			schoolUrn,
+			GetApplicationId,
+			GetSchoolUrn,
 			dictionary
 		));
 	}
@@ -354,15 +341,10 @@ internal sealed class ConversionApplicationCreationServiceTests
 	public async Task ApplicationSchoolPreviousFinancialYear__ApiReturns500___InternalServerError()
 	{
 		// arrange
-		int applicationId = 1;
-		int schoolUrn = 123332;
-		
 		var fixture = Fixture.Create<SchoolApplyingToConvert>();
 		var properties = fixture.GetType().GetProperties();
-
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
-
-
+		
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
@@ -379,8 +361,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 		// assert
 		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.PutSchoolApplicationDetails(
-			applicationId,
-			schoolUrn,
+			GetApplicationId,
+			GetSchoolUrn,
 			dictionary
 		));
 	}

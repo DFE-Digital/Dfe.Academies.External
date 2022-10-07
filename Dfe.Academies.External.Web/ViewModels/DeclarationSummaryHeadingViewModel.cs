@@ -3,7 +3,7 @@
 	public class DeclarationSummaryHeadingViewModel : SchoolQuestionAndAnswerSectionViewModel
 	{
 		public const string Heading = "Details";
-		public const string HeadingDetails = "Q";
+		public const string HeadingDetails = "I agree with all of these statements, and believe that the facts stated in this application are true";
 
 		public DeclarationSummaryHeadingViewModel(string title, string uRi) : base(title, uRi)
 		{

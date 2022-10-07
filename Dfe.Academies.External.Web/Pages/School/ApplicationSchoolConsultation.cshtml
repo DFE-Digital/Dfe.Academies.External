@@ -47,9 +47,10 @@
 								<input type="radio"
 		                           asp-for="SchoolConsultationStakeholders"
 								       value="@Convert.ToInt32(consultationStakeholdersOption)"
-								       id="selectoption@(consultationStakeholdersOption)"
+										id="consultationStakeholdersOption@(consultationStakeholdersOption)"
 								       class="govuk-radios__input"
 										data-aria-controls="consultationStakeholdersOption-@(consultationStakeholdersOption.ToString().ToLower())"
+										checked="@(consultationStakeholdersOption.Equals(ViewData.Model.SchoolConsultationStakeholders))"
 								       aria-expanded="False"/>
 		                        <label for="consultationStakeholdersOption@(consultationStakeholdersOption)" class="govuk-label govuk-radios__label">
 									@consultationStakeholdersOption.GetDescription()
@@ -57,8 +58,7 @@
 							</div>
 		                    @if (consultationStakeholdersOption == SelectOption.No)
 							{
-                                <div class="@(Model.SchoolConsultationStakeholdersConsultError ? "govuk-form-group--error" : "govuk-radios__conditional")
-		                                          @(consultationStakeholdersOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+                                <div class="@(Model.SchoolConsultationStakeholdersConsultError ? "govuk-form-group--error" : "govuk-radios__conditional"))"
 									id="consultationStakeholdersOption-no" aria-expanded="false">
 									<div class="govuk-form-group govuk-error-summary__list">
 		                                <label for="consultationStakeholdersOption-no" class="govuk-label">When does the governing body plan to consult?</label>

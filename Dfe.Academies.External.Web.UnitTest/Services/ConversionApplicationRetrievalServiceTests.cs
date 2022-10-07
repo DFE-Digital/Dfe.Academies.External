@@ -18,6 +18,10 @@ namespace Dfe.Academies.External.Web.UnitTest.Services;
 [Parallelizable(ParallelScope.All)]
 internal sealed class ConversionApplicationRetrievalServiceTests
 {
+	// below hard coded because has to be same as Id in getApplicationResponse.json
+	private const int GetApplicationId = 25;
+	private const int GetSchoolUrn = 113537;
+
 	[Test]
 	public async Task GetPendingApplications___ApiReturns200___Success()
 	{
@@ -176,7 +180,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 	public async Task GetConversionApplicationAuditEntries___ApiReturns200___Success()
 	{
 		// arrange
-		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO:- will be json from Academies API
 		int expectedCount = 3; // TODO: 
 		int applicationId = 99; // TODO: 
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
@@ -196,7 +200,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 	public async Task GetSchoolApplicationComponents___ApiReturns200___Success()
 	{
 		// arrange
-		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO:- will be json from Academies API
 		int expectedCount = 8; // TODO: 
 		int applicationId = 99; // TODO: 
 		int URN = 96; // TODO: 
@@ -217,7 +221,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 	public async Task GetConversionApplicationContributors___ApiReturns200___Success()
 	{
 		// arrange
-		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO MR:- will be json from Academies API
+		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO:- will be json from Academies API
 		int expectedCount = 2; // TODO: 
 		int applicationId = 1; // TODO: 
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
@@ -268,9 +272,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		// arrange
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
-		int applicationId = 1;
 		int expectedCount = 1;
-		int expectedURN = 123332;
 		ApplicationStatus status = ApplicationStatus.InProgress;
 
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
@@ -279,17 +281,17 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
 		// act
 		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
-		var application = await applicationRetrievalService.GetApplication(applicationId);
+		var application = await applicationRetrievalService.GetApplication(GetApplicationId);
 
 		// assert
 		Assert.That(application, Is.Not.Null);
-		Assert.That(application.ApplicationId, Is.EqualTo(applicationId));
-		Assert.That(application.ApplicationTitle, Is.EqualTo("Join a multi-academy trust A2B_1"));
+		Assert.That(application.ApplicationId, Is.EqualTo(GetApplicationId));
+		Assert.That(application.ApplicationTitle, Is.EqualTo("Join a multi-academy trust A2B_25"));
 		Assert.That(application.ApplicationStatus, Is.EqualTo(status));
 
 		Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
-		Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("Frank Wise School"));
-		Assert.That(application.Schools.FirstOrDefault()?.URN, Is.EqualTo(expectedURN));
+		Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("Plymstock School"));
+		Assert.That(application.Schools.FirstOrDefault()?.URN, Is.EqualTo(GetSchoolUrn));
 	}
 
 	private static Mock<IHttpClientFactory> SetupMockHttpClientFactory(HttpStatusCode expectedStatusCode, string expectedJson)

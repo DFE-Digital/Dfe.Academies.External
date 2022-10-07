@@ -1,5 +1,4 @@
-﻿using Dfe.Academies.External.Web.Enums;
-using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -68,8 +67,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			// TODO MR:- optional validation
-
 			try
 			{
 				//// grab draft application from temp= null
@@ -77,13 +74,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 					TempDataHelper.GetSerialisedValue<ConversionApplication>(
 						TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				// TODO MR:- api doesn't exist 29/09/2022
+				var dictionaryMapper = new Dictionary<string, dynamic>
+				{
+					{ nameof(SchoolApplyingToConvert.DeclarationIAmTheChairOrHeadteacher), SchoolDeclarationTeacherChair },
+					{ nameof(SchoolApplyingToConvert.DeclarationBodyAgree), SchoolDeclarationBodyAgree }
+				};
 
-				//var dictionaryMapper = new Dictionary<string, dynamic>
-				//{
-				//	{ nameof(SchoolApplyingToConvert.SchoolDeclarationTeacherChair), SchoolDeclarationTeacherChair },
-				//	{ nameof(SchoolApplyingToConvert.SchoolDeclarationBodyAgree), SchoolDeclarationBodyAgree }
-				//};
+				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -106,7 +103,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			SchoolName = selectedSchool.SchoolName;
 
-			// TODO MR:- declaration props - only 2
+			if (selectedSchool.DeclarationIAmTheChairOrHeadteacher != null)
+			{
+				SchoolDeclarationTeacherChair = selectedSchool.DeclarationIAmTheChairOrHeadteacher.Value;
+			}
+
+			if (selectedSchool.DeclarationBodyAgree != null)
+			{
+				SchoolDeclarationBodyAgree = selectedSchool.DeclarationBodyAgree.Value;
+			}
+
+			// TODO:- DeclarationSignedByName = ???;
 		}
 	}
 }

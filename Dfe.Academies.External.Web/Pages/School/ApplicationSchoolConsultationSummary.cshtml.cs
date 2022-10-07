@@ -1,4 +1,6 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
@@ -62,19 +64,26 @@ namespace Dfe.Academies.External.Web.Pages.School
 			SchoolName = selectedSchool.SchoolName;
 
 			SchoolConsultationSummaryHeadingViewModel heading1 = new(SchoolPupilNumbersSummaryHeadingViewModel.Heading,
-				"/school/ApplicationSchoolConsultation");
-
-			// TODO MR:- data from API
-			heading1.Sections.Add(new(SchoolConsultationSummarySectionViewModel.HasTheGoverningBodyConsulted,
-				QuestionAndAnswerConstants.NoInfoAnswer)
+				"/school/ApplicationSchoolConsultation")
 			{
-				SubQuestionAndAnswers = new()
-				{
-					new SchoolConsultationSummarySectionViewModel(
-						SchoolConsultationSummarySectionViewModel.WhenDoesTheGoverningBodyPlanToConsult,
-						QuestionAndAnswerConstants.NoAnswer
-					)
-				}
+				Status = selectedSchool.SchoolHasConsultedStakeholders.HasValue ?
+					SchoolConversionComponentStatus.Complete
+					: SchoolConversionComponentStatus.NotStarted
+			};
+
+
+			heading1.Sections.Add(new(SchoolConsultationSummarySectionViewModel.HasTheGoverningBodyConsulted,
+				selectedSchool.SchoolHasConsultedStakeholders.GetStringDescription())
+			{
+				// MR:- no sub question showing on screen shot from Abi
+				//SubQuestionAndAnswers = new()
+				//{
+				//	new SchoolConsultationSummarySectionViewModel(
+				//		SchoolConsultationSummarySectionViewModel.WhenDoesTheGoverningBodyPlanToConsult,
+				//		selectedSchool.SchoolPlanToConsultStakeholders ??
+				//		QuestionAndAnswerConstants.NoAnswer
+				//	)
+				//}
 			});
 
 			var vm = new List<SchoolConsultationSummaryHeadingViewModel> { heading1 };

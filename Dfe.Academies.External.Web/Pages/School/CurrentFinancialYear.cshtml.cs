@@ -1,10 +1,12 @@
-﻿using Dfe.Academies.External.Web.Attributes;
+﻿using System.ComponentModel.DataAnnotations;
+using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using static GovUk.Frontend.AspNetCore.ComponentDefaults;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -35,6 +37,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public string? CFYEndDateDateYear { get; set; }
 
 		[BindProperty]
+		[Range(0, 200000000000000, ErrorMessage = "Revenue amount must be greater than 0")]
+		[Required(ErrorMessage = "You must provide a revenue amount")]
 		public decimal? Revenue { get; set; }
 
 		[BindProperty]
@@ -45,6 +49,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public string? CFYRevenueStatusExplained { get; set; }
 		
 		[BindProperty]
+		[Range(0, 200000000000000, ErrorMessage = "Capital carry forward amount must be greater than 0")]
+		[Required(ErrorMessage = "You must provide a capital carry forward amount")]
 		public decimal? CapitalCarryForward { get; set; }
 
 		[BindProperty]
