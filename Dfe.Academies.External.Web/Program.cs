@@ -3,6 +3,7 @@ using Dfe.Academies.External.Web.Routing;
 using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 //using Serilog;
 //using Serilog.Events;
@@ -119,6 +120,12 @@ builder.Services.AddSession(options =>
 	}
 );
 
+// culture
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+	options.DefaultRequestCulture = new RequestCulture("en-GB");
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -154,5 +161,11 @@ app.MapControllers();
 
 app.UseSession();
 app.UseCookiePolicy();
+
+//culture
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+	ApplyCurrentCultureToResponseHeaders = true
+});
 
 app.Run();
