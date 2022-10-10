@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Extensions;
+﻿using System.Globalization;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Routing;
 using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -120,10 +121,18 @@ builder.Services.AddSession(options =>
 	}
 );
 
-// culture
+// culture - https://dotnetcoretutorials.com/2017/06/22/request-culture-asp-net-core/
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
+	var supportedCultures = new List<CultureInfo>
+	{
+		new ("en-GB")
+	};
 	options.DefaultRequestCulture = new RequestCulture("en-GB");
+	// By default the below will be set to whatever the server culture is.
+    options.SupportedCultures = supportedCultures;
+	// Supported cultures is a list of cultures that your web app will be able to run under. By default this is set to a the culture of the machine. 
+	options.SupportedUICultures = supportedCultures;
 });
 
 var app = builder.Build();
