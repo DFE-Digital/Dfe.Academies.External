@@ -187,7 +187,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		private FinancesReviewHeadingViewModel PopulateNextFinancialYear(SchoolApplyingToConvert selectedSchool)
 		{
-			var nextFinancialYear = selectedSchool.CurrentFinancialYear;
+			var nextFinancialYear = selectedSchool.NextFinancialYear;
 			FinancesReviewHeadingViewModel NFYheading = new(FinancesReviewHeadingViewModel.HeadingNextFinancialYear,
 				"/school/NextFinancialYear")
 			{
