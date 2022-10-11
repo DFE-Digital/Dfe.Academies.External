@@ -60,6 +60,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 			PopulateViewDataErrorsWithModelStateErrors();
 		}
 
+		///<inheritdoc/>
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+		{
+			// does not apply on this page
+			return new();
+		}
+
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			SchoolName = selectedSchool.SchoolName;
