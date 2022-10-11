@@ -145,5 +145,5 @@ public abstract class BasePageEditModel : BasePageModel
 	/// Call this func before save / PUT to API, to clear out optional data
 	/// i.e. if user changes answer from no -> yes need to clear out optional string data capture
 	/// </summary>
-	public abstract void ClearOptionalData();
+	public abstract Dictionary<string, dynamic> PopulateUpdateDictionary();
 }
