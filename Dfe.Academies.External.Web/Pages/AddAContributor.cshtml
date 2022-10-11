@@ -58,10 +58,10 @@
 			<fieldset class="govuk-fieldset">
 				<h2 class="govuk-heading-m">What is their role?</h2>
 				<div class="govuk-form-group">
-					<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+                    <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
 						@foreach (var roleType in Model.RolesToDisplay)
 						{
-							<div class="govuk-radios__item">
+                            <div class="@(Model.HideRadios ? "govuk-visually-hidden" : "govuk-radios__item")">
 								<input type="radio"
 								       asp-for="ContributorRole"
 								       value="@Convert.ToInt32(roleType)"
@@ -76,13 +76,14 @@
 							</div>
 							@if (roleType == SchoolRoles.Other)
 							{
-								<div class="@(Model.OtherRoleError ? "govuk-form-group--error" : "govuk-radios__conditional")
+								<div class="@(Model.OtherRoleError ? "govuk-form-group--error" : 
+									            Model.HideRadios ? "" : "govuk-radios__conditional")
                                             @(Model.ContributorRole != SchoolRoles.Other ? "govuk-radios__conditional--hidden" : "")"
 								     id="conditional-role-other" aria-expanded="false">
 									<div class="govuk-form-group govuk-error-summary__list">
-										<label for="conditional-role-other" class="govuk-label">What is your role?</label>
+                                        <label for="conditional-role-other" class="@(Model.HideRadios ? "govuk-visually-hidden" : "govuk-label")">What is their role?</label>
 										<a href="#OtherRoleNotEntered" class="@(Model.OtherRoleError ? "govuk-error-message" : "govuk-visually-hidden")">
-											You must give your role
+                                            You must give their role
 										</a>
 										<input type="text" asp-for="OtherRoleNotListed" id="OtherRoleNotListed" class="govuk-input govuk-input--width-20" maxlength="100"/>
 									</div>
