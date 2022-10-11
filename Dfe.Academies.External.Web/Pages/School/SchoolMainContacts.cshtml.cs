@@ -139,6 +139,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
+			// TODO:- 
+			//if (ViewModel.ContactRole == MainConversionContact.Other && !string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
+			// validate MainContactOtherEmail is of type = email
+
 			try
 			{
 				//// grab draft application from temp= null
