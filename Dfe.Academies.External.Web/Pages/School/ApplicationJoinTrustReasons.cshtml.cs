@@ -69,10 +69,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				var dictionaryMapper = new Dictionary<string, dynamic>
-				{
-					{ nameof(SchoolApplyingToConvert.ApplicationJoinTrustReason), ApplicationJoinTrustReason }
-				};
+				var dictionaryMapper = PopulateUpdateDictionary();
 
 				// MR:- save away ApplicationJoinTrustReason
 				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
@@ -98,7 +95,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
-			// TODO
+			return new Dictionary<string, dynamic>
+			{
+				{ nameof(SchoolApplyingToConvert.ApplicationJoinTrustReason), ApplicationJoinTrustReason }
+			};
 		}
 
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
