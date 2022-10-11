@@ -28,7 +28,7 @@ public sealed class ApplicationSchoolContactsViewModel
 	[Required(ErrorMessage = "You must provide details")]
 	public string ContactHeadName { get; set; }
 
-	[EmailAddress(ErrorMessage = "Please enter a valid email address")]
+	[EmailAddress(ErrorMessage = "Headteacher email is not a valid e-mail address")]
 	[Required(ErrorMessage = "You must provide details")]
 	public string ContactHeadEmail { get; set; }
 
@@ -39,7 +39,7 @@ public sealed class ApplicationSchoolContactsViewModel
 	[Required(ErrorMessage = "You must provide details")]
 	public string ContactChairName { get; set; }
 
-	[EmailAddress(ErrorMessage = "Please enter a valid email address")]
+	[EmailAddress(ErrorMessage = "Chair of governing body email is not a valid e-mail address")]
 	[Required(ErrorMessage = "You must provide details")]
 	public string ContactChairEmail { get; set; }
 
