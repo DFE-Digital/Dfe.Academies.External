@@ -199,9 +199,15 @@ namespace Dfe.Academies.External.Web.Pages.School
 				ApproverContactEmail = selectedSchool.SchoolConversionApproverContactEmail
 			};
 
-			SigninApproverQuestionText = applicationType == ApplicationTypes.FormASat
-						? "When your schools converts, we need to create a new DfE sign-in account for the academy. Please supply the most appropriate contact to be set up as the DfE Sign-in approver to manage the new academies account."
-						: "When your schools converts, we need to create a new DfE sign-in account for the academy. Please provide the most suitable contact to manage the new academies account.";
+			if (applicationType is ApplicationTypes.FormASat or ApplicationTypes.JoinAMat)
+			{
+				SigninApproverQuestionText =
+					"When your school converts, we need to create a new DfE sign-in account for the academy. Please supply the most appropriate contact to be set up as the DfE Sign-in approver to manage the new academies account.";
+			}
+			else
+			{
+				SigninApproverQuestionText = "When your schools converts, we need to create a new DfE sign-in account for the academy. Please provide the most suitable contact to manage the new academies account.";
+			}
 		}
 	}
 }
