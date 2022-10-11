@@ -22,8 +22,15 @@ public abstract class BasePageModel : PageModel
 		);
 	}
 
+	/// <summary>
+	/// setup model state errors
+	/// </summary>
 	public abstract void PopulateValidationMessages();
 
+	/// <summary>
+	/// Populate ViewData["Errors"] with model state errors to then be displayed by _ErrorMessages partial view
+	/// on post-back
+	/// </summary>
 	protected void PopulateViewDataErrorsWithModelStateErrors()
 	{
 		ViewData["Errors"] = ConvertModelStateToDictionary();
