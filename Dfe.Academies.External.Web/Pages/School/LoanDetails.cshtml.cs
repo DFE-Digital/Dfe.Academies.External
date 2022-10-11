@@ -38,6 +38,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public bool IsDraft { get; set; }
 
+		public LoanDetails(IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService) 
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+		{
+		}
+
 		public void OnGet(int appId, int urn, int id, bool isEdit)
 		{
 			LoadAndStoreCachedConversionApplication();
@@ -64,10 +69,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 					RepaymentSchedule = selectedLoan.RepaymentSchedule;
 				}
 			}
-		}
-		public override void PopulateValidationMessages()
-		{
-			PopulateViewDataErrorsWithModelStateErrors();
 		}
 
 		public async Task<IActionResult> OnPostAsync()
@@ -118,8 +119,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 			return RedirectToPage( "Loans" ,new {urn = Urn, appId = ApplicationId});
 		}
 
-		public LoanDetails(IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+		///<inheritdoc/>
+		public override void PopulateValidationMessages()
 		{
+			PopulateViewDataErrorsWithModelStateErrors();
+		}
+
+		///<inheritdoc/>
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+		{
+			// does not apply on this page
+			return new();
 		}
 	}
 }
