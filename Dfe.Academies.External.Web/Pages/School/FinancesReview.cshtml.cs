@@ -54,12 +54,20 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    }
 	    }
 
-	    public override void PopulateValidationMessages()
+		///<inheritdoc/>
+		public override void PopulateValidationMessages()
 	    {
 		    PopulateViewDataErrorsWithModelStateErrors();
 	    }
 
-	    private FinancesReviewHeadingViewModel PopulatePreviousFinancialYear(SchoolApplyingToConvert selectedSchool)
+		///<inheritdoc/>
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+		{
+			// does not apply on this page
+			return new();
+		}
+
+		private FinancesReviewHeadingViewModel PopulatePreviousFinancialYear(SchoolApplyingToConvert selectedSchool)
 	    {
 		     var previousFinancialYear = selectedSchool.PreviousFinancialYear;
 
