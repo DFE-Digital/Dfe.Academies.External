@@ -1,5 +1,4 @@
 ﻿using Dfe.Academies.External.Web.Enums;
-using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -141,9 +140,16 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 		}
 	}
 
+	///<inheritdoc/>
 	public override void PopulateValidationMessages()
 	{
 		PopulateViewDataErrorsWithModelStateErrors();
+	}
+
+	///<inheritdoc/>
+	public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+	{
+		// TODO
 	}
 
 	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ConversionApplication? conversionApplication)

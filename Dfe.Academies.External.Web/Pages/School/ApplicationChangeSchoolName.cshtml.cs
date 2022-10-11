@@ -93,13 +93,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
+				var dictionaryMapper = PopulateUpdateDictionary();
+
 				// MR:- save away ApplicationJoinTrustReason
-				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, new Dictionary<string, dynamic>
-				{
-					
-					{nameof(SchoolApplyingToConvert.ConversionChangeNamePlanned), this.ChangeName == SelectOption.Yes},
-					{nameof(SchoolApplyingToConvert.ProposedNewSchoolName), ChangeSchoolName}
-				});
+				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 				// update temp store for next step - application overview as last step in process
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -113,9 +110,31 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
+		///<inheritdoc/>
 		public override void PopulateValidationMessages()
 		{
 			PopulateViewDataErrorsWithModelStateErrors();
+		}
+
+		///<inheritdoc/>
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+		{
+			if (ChangeName == SelectOption.No)
+			{
+				return new Dictionary<string, dynamic>
+				{
+					{ nameof(SchoolApplyingToConvert.ConversionChangeNamePlanned), false},
+					{ nameof(SchoolApplyingToConvert.ProposedNewSchoolName), null }
+				};
+			}
+			else
+			{
+				return new Dictionary<string, dynamic>
+				{
+					{ nameof(SchoolApplyingToConvert.ConversionChangeNamePlanned), true },
+					{ nameof(SchoolApplyingToConvert.ProposedNewSchoolName), ChangeSchoolName }
+				};
+			}
 		}
 
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)

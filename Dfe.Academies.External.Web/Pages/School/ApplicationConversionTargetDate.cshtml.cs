@@ -49,6 +49,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public string? TargetDateExplained { get; set; }
 
+		public DateTime TargetDateLocal { get; set; }
+
 		public bool HasError
 		{
 			get
@@ -123,11 +125,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			// MR:- try and build a date from component parts !!!
 			var dateComponents = RetrieveDateTimeComponentsFromDatePicker(form, SchoolConversionTargetDateDate);
-			var day = dateComponents.FirstOrDefault(x => x.Key == "day").Value;
-			var month = dateComponents.FirstOrDefault(x => x.Key == "month").Value;
-			var year = dateComponents.FirstOrDefault(x => x.Key == "year").Value;
+			string day = dateComponents.FirstOrDefault(x => x.Key == "day").Value;
+			string month = dateComponents.FirstOrDefault(x => x.Key == "month").Value;
+			string year = dateComponents.FirstOrDefault(x => x.Key == "year").Value;
 
-			var targetDate = BuildDateTime(day, month, year);
+			TargetDateLocal = BuildDateTime(day, month, year);
 
 			if (!ModelState.IsValid)
 			{
@@ -137,7 +139,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			if (TargetDateDifferent == SelectOption.Yes && targetDate == DateTime.MinValue)
+			if (TargetDateDifferent == SelectOption.Yes && TargetDateLocal == DateTime.MinValue)
 			{
 				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must input a valid date");
 				PopulateValidationMessages();
@@ -154,18 +156,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 				RePopDatePickerModel(day, month, year);
 				return Page();
 			}
-
+			
 			try
 			{
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				var dictionaryMapper = new Dictionary<string, dynamic>
-				{
-					{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDateSpecified), Convert.ToBoolean(TargetDateDifferent) },
-					{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDate), targetDate },
-					{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDateExplained), TargetDateExplained }
-				};
+				var dictionaryMapper = PopulateUpdateDictionary();
 
 				// MR:- call API endpoint to log data
 				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
@@ -183,12 +180,33 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		/// <summary>
-		/// Error messages component consumes ViewData["Errors"] so populate it
-		/// </summary>
+		///<inheritdoc/>
 		public override void PopulateValidationMessages()
 		{
 			PopulateViewDataErrorsWithModelStateErrors();
+		}
+
+		///<inheritdoc/>
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+		{
+			if (TargetDateDifferent == SelectOption.No)
+			{
+				return new Dictionary<string, dynamic>
+				{
+					{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDateSpecified), Convert.ToBoolean(TargetDateDifferent) },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDate), null },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDateExplained), null }
+				};
+			}
+			else
+			{
+				return new Dictionary<string, dynamic>
+				{
+					{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDateSpecified), Convert.ToBoolean(TargetDateDifferent) },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDate), TargetDateLocal },
+					{ nameof(SchoolApplyingToConvert.SchoolConversionTargetDateExplained), TargetDateExplained }
+				};
+			}
 		}
 
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)

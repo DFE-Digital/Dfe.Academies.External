@@ -53,7 +53,20 @@ namespace Dfe.Academies.External.Web.Pages.School
 				_logger.LogError("Application::SchoolOverviewModel::OnGetAsync::Exception - {Message}", ex.Message);
 			}
 		}
+		
+		///<inheritdoc/>
+		public override void PopulateValidationMessages()
+		{
+			PopulateViewDataErrorsWithModelStateErrors();
+		}
 
+		///<inheritdoc/>
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+		{
+			// does not apply on this page
+			return new();
+		}
+		
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ConversionApplication? application)
 		{
 			SchoolName = selectedSchool.SchoolName;
@@ -73,11 +86,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			};
 
 			SchoolComponents = componentsVm;
-		}
-
-		public override void PopulateValidationMessages()
-		{
-			PopulateViewDataErrorsWithModelStateErrors();
 		}
 	}
 }

@@ -5,8 +5,6 @@ using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -91,6 +89,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				{ nameof(SchoolApplyingToConvert.Loans), loans }
 			};
+
 			await _academisationCreationService.PutSchoolApplicationDetails(
 				ApplicationId,
 				Urn,
@@ -175,16 +174,24 @@ namespace Dfe.Academies.External.Web.Pages.School
 			});
 			TempDataSetLoanViewModels(Urn, LoanViewModels);
 		}
+		
+		///<inheritdoc/>
+		public override void PopulateValidationMessages()
+		{
+			PopulateViewDataErrorsWithModelStateErrors();
+		}
+
+		///<inheritdoc/>
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+		{
+			// does not apply on this page
+			return new();
+		}
 
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			SchoolName = selectedSchool.SchoolName;
 			AnyLoans = LoanViewModels.Any() ? SelectOption.Yes : SelectOption.No;
-		}
-		
-		public override void PopulateValidationMessages()
-		{
-			PopulateViewDataErrorsWithModelStateErrors();
 		}
 	}
 }

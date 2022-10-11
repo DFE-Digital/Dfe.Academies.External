@@ -231,10 +231,17 @@ public class NextFinancialYearModel : BasePageEditModel
 		}
 	}
 
-    public override void PopulateValidationMessages()
+    ///<inheritdoc/>
+	public override void PopulateValidationMessages()
 	{
 		PopulateViewDataErrorsWithModelStateErrors();
 	}
+
+    ///<inheritdoc/>
+    public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+    {
+	    // TODO
+    }
 
 	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
