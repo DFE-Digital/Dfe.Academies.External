@@ -67,6 +67,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
+			// according to dan both values have to be true!
+			if (!SchoolDeclarationTeacherChair || !SchoolDeclarationBodyAgree)
+			{
+				ModelState.AddModelError("Declarationconfirmation", "You must confirm the declaration");
+				PopulateValidationMessages();
+				return Page();
+			}
+
 			try
 			{
 				//// grab draft application from temp= null
