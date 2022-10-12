@@ -133,7 +133,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return new Dictionary<string, dynamic>
 				{
 					{ nameof(SchoolApplyingToConvert.ConversionChangeNamePlanned), true },
-					{ nameof(SchoolApplyingToConvert.ProposedNewSchoolName), ChangeSchoolName }
+					{ nameof(SchoolApplyingToConvert.ProposedNewSchoolName), ChangeSchoolName! }
 				};
 			}
 		}
