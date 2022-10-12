@@ -106,25 +106,9 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 		{
 			//// grab draft application from temp= null
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-			PayFundsTo schoolSupportGrantFundsPaidTo = PayFundsTo.School;
 
-			if (ApplicationType == ApplicationTypes.JoinAMat)
-			{
-				schoolSupportGrantFundsPaidTo = SchoolSupportGrantFundsPaidTo!.Value;
-			}
-			else
-			{
-				if (ConfirmSchoolPay != true)
-				{
-					schoolSupportGrantFundsPaidTo = PayFundsTo.Trust;
-				}
-			}
+			var dictionaryMapper = PopulateUpdateDictionary();
 
-			var dictionaryMapper = new Dictionary<string, dynamic>
-			{
-				{ nameof(SchoolApplyingToConvert.SchoolSupportGrantFundsPaidTo), schoolSupportGrantFundsPaidTo },
-				{ nameof(SchoolApplyingToConvert.ConfirmPaySupportGrantToSchool), ConfirmSchoolPay }
-			};
 			// MR:- call API endpoint to log data
 			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
@@ -149,7 +133,27 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 	///<inheritdoc/>
 	public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 	{
-		// TODO
+		PayFundsTo schoolSupportGrantFundsPaidTo = PayFundsTo.School;
+
+		if (ApplicationType == ApplicationTypes.JoinAMat)
+		{
+			schoolSupportGrantFundsPaidTo = SchoolSupportGrantFundsPaidTo!.Value;
+		}
+		else
+		{
+			if (!ConfirmSchoolPay)
+			{
+				schoolSupportGrantFundsPaidTo = PayFundsTo.Trust;
+			}
+		}
+
+		// TODO:- do we need to switch value of ConfirmSchoolPay around???????
+
+		return new Dictionary<string, dynamic>
+		{
+			{ nameof(SchoolApplyingToConvert.SchoolSupportGrantFundsPaidTo), schoolSupportGrantFundsPaidTo },
+			{ nameof(SchoolApplyingToConvert.ConfirmPaySupportGrantToSchool), ConfirmSchoolPay }
+		};
 	}
 
 	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ConversionApplication? conversionApplication)

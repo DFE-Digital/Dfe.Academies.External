@@ -168,9 +168,10 @@ namespace Dfe.Academies.External.Web.Pages
 		}
 
 		///<inheritdoc/>
-		public override void ClearOptionalData()
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
 			// does not apply on this page
+			return new();
 		}
 	}
 }
