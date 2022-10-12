@@ -104,12 +104,6 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 			//// grab draft application from temp= null
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			//var dictionaryMapper = new Dictionary<string, dynamic>
-			//{
-			//	{ nameof(SchoolApplyingToConvert.SchoolHasConsultedStakeholders), SchoolConsultationStakeholders == SelectOption.Yes },
-			//	{ nameof(SchoolApplyingToConvert.SchoolPlanToConsultStakeholders), SchoolConsultationStakeholdersConsult }
-			//};
-
 			var dictionaryMapper = PopulateUpdateDictionary();
 
 			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
