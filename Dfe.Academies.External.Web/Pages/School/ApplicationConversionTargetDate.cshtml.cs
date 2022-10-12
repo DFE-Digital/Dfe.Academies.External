@@ -189,6 +189,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
+			// if no specific date the school wants to convert, blank out 'SchoolConversionTargetDate' && 'SchoolConversionTargetDateExplained'
 			if (TargetDateDifferent == SelectOption.No)
 			{
 				return new Dictionary<string, dynamic>

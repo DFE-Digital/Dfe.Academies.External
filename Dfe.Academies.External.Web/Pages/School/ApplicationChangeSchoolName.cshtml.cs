@@ -119,6 +119,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
+			// if school NOT changing name blank out 'ProposedNewSchoolName'
 			if (ChangeName == SelectOption.No)
 			{
 				return new Dictionary<string, dynamic>

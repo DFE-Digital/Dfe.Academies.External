@@ -97,7 +97,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			return new Dictionary<string, dynamic>
 			{
-				{ nameof(SchoolApplyingToConvert.ApplicationJoinTrustReason), ApplicationJoinTrustReason }
+				{ nameof(SchoolApplyingToConvert.ApplicationJoinTrustReason), ApplicationJoinTrustReason! }
 			};
 		}
 
