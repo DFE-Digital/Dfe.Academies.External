@@ -228,18 +228,16 @@ public class NextFinancialYearModel : BasePageEditModel
     ///<inheritdoc/>
     public override Dictionary<string, dynamic> PopulateUpdateDictionary()
     {
-		// TODO
-
 		// if 'NFYRevenueStatus' == Surplus, blank out 'PFYRevenueStatusExplained'
 		if (NFYRevenueStatus == RevenueType.Surplus)
 		{
-			PFYRevenueStatusExplained = null;
+			NFYRevenueStatusExplained = null;
 		}
 
 		// if 'NFYCapitalCarryForwardStatus' == Surplus, blank out 'PFYCapitalCarryForwardExplained'
 		if (NFYCapitalCarryForwardStatus == RevenueType.Surplus)
 		{
-			PFYCapitalCarryForwardExplained = null;
+			NFYCapitalCarryForwardExplained = null;
 		}
 
 		var nextFinancialYear = new SchoolFinancialYear(NFYFinancialEndDateLocal,
