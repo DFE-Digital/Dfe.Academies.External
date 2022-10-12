@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using Dfe.Academies.External.Web.Extensions;
+using Dfe.Academies.External.Web.Middleware;
 using Dfe.Academies.External.Web.Routing;
 using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -171,10 +172,13 @@ app.MapControllers();
 app.UseSession();
 app.UseCookiePolicy();
 
-//culture
+// culture
 app.UseRequestLocalization(new RequestLocalizationOptions
 {
 	ApplyCurrentCultureToResponseHeaders = true
 });
+
+// add OWASP top 10 response headers
+app.UseResponseMiddleware();
 
 app.Run();
