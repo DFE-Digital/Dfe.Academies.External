@@ -139,6 +139,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
+			// TODO:- check ViewModel.MainContactOtherEmail - isvalid email address
+			// display:- (ErrorMessage = "Main contact email is not a valid e-mail address")
+
 			try
 			{
 				//// grab draft application from temp= null

@@ -28,18 +28,18 @@ public sealed class ApplicationSchoolContactsViewModel
 	[Required(ErrorMessage = "You must provide details")]
 	public string ContactHeadName { get; set; }
 
-	[EmailAddress]
+	[EmailAddress(ErrorMessage = "Headteacher email is not a valid e-mail address")]
 	[Required(ErrorMessage = "You must provide details")]
 	public string ContactHeadEmail { get; set; }
 
-	[Phone] // TODO MR:- what kind of phone validation?
+	[Phone] // TODO :- what kind of phone validation?
 	[Required(ErrorMessage = "You must provide a number")]
 	public string ContactHeadTel { get; set; }
 
 	[Required(ErrorMessage = "You must provide details")]
 	public string ContactChairName { get; set; }
 
-	[EmailAddress]
+	[EmailAddress(ErrorMessage = "Chair of governing body email is not a valid e-mail address")]
 	[Required(ErrorMessage = "You must provide details")]
 	public string ContactChairEmail { get; set; }
 
@@ -60,7 +60,7 @@ public sealed class ApplicationSchoolContactsViewModel
 	/// </summary>
 	public string? MainContactOtherRole { get; set; }
 
-	// TODO MR:- no validation on ticket for below?
+	// TODO:- no validation on ticket for below?
 
 	public string? ApproverContactName { get; set; }
 	public string? ApproverContactEmail { get; set; }
