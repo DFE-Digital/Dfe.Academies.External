@@ -37,7 +37,7 @@ namespace Dfe.Academies.External.Web.Pages
 		public string? OtherRoleNotListed { get; set; }
 
 		[BindProperty]
-		[EmailAddress]
+		[EmailAddress(ErrorMessage = "Please enter a valid email address")]
 		[Required(ErrorMessage = "You must provide an email address")]
 		public string? EmailAddress { get; set; } = string.Empty;
 
@@ -59,7 +59,10 @@ namespace Dfe.Academies.External.Web.Pages
 		}
 
 		[BindProperty]
-		public bool ShowConfirmationBox { get; set; } = false;
+		public bool ShowConfirmationBox { get; set; }
+
+		[BindProperty]
+		public bool HideRadios { get; set; }
 
 		public List<ConversionApplicationContributorViewModel> ExistingContributors { get; private set; } = new();
 
@@ -169,10 +172,12 @@ namespace Dfe.Academies.External.Web.Pages
 					{
 						RolesToDisplay = roles.Where(x=> x != SchoolRoles.ChairOfGovernors);
 						ContributorRole = SchoolRoles.Other;
+						HideRadios = true;
 					}
 					else
 					{
 						RolesToDisplay = roles;
+						HideRadios = false;
 					}
 				}
 			}
