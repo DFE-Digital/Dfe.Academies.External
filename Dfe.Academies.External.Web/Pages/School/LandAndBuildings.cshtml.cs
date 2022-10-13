@@ -156,7 +156,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		public DateTime WorksPlannedDateLocal { get; set; }
+		public DateTime? WorksPlannedDateLocal { get; set; }
 
 		public LandAndBuildingsModel(ILogger<LandAndBuildingsModel> logger,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
@@ -278,10 +278,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
-			// if this.SchoolBuildLandWorksPlanned == 'no', blank out 'SchoolBuildLandWorksPlannedExplained'
+			// if this.SchoolBuildLandWorksPlanned == 'no', blank out 'SchoolBuildLandWorksPlannedExplained' && works planned date
 			if (this.SchoolBuildLandWorksPlanned == SelectOption.No)
 			{
 				this.SchoolBuildLandWorksPlannedExplained = null;
+				WorksPlannedDateLocal = null;
 			}
 
 			// if this.SchoolBuildLandSharedFacilities == 'no', blank out 'SchoolBuildLandSharedFacilitiesExplained'
