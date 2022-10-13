@@ -103,50 +103,25 @@ namespace Dfe.Academies.External.Web.Pages
 			//// grab draft application from temp= null
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			//if (!ModelState.IsValid)
-			//{
-			//	PopulateValidationMessages();
-			//	// MR:- need to call below otherwise will lose ExistingContributors()
-			//	PopulateUiModel(draftConversionApplication);
-			//	return Page();
-			//}
-
-			//if (ContributorRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleNotListed))
-			//{
-			//	ModelState.AddModelError("OtherRoleNotEntered", "You must give your role at the school");
-			//	PopulateValidationMessages();
-			//	// MR:- need to call below otherwise will lose ExistingContributors()
-			//	PopulateUiModel(draftConversionApplication);
-			//	return Page();
-			//}
-
 			if (!RunUiValidation())
 			{
 				return Page();
 			}
 
-			try
-			{
-				var contributor = new ConversionApplicationContributor("", Name, EmailAddress, ContributorRole, OtherRoleNotListed);
+			var contributor = new ConversionApplicationContributor("", Name, EmailAddress, ContributorRole, OtherRoleNotListed);
 
-				await _academisationCreationService.AddContributorToApplication(contributor, ApplicationId);
+			await _academisationCreationService.AddContributorToApplication(contributor, ApplicationId);
 
-				// update temp store for next step
-				draftConversionApplication.Contributors.Add(contributor);
-				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+			// update temp store for next step
+			draftConversionApplication.Contributors.Add(contributor);
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-				// MR:- need to stay on the page to show user a green confirmation banner that email has been sent / db updated
-				ShowConfirmationBox = true;
+			// MR:- need to stay on the page to show user a green confirmation banner that email has been sent / db updated
+			ShowConfirmationBox = true;
 
-				// MR:- need to call below otherwise will lose ExistingContributors()
-				PopulateUiModel(draftConversionApplication);
-				return Page();
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("Application::AddAContributorModel::OnPostAsync::Exception - {Message}", ex.Message);
-				return Page();
-			}
+			// MR:- need to call below otherwise will lose ExistingContributors()
+			PopulateUiModel(draftConversionApplication);
+			return Page();
 		}
 
 		///<inheritdoc/>

@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using Dfe.Academies.External.Web.Models.Responses;
+﻿using Dfe.Academies.External.Web.Models.Responses;
 
 namespace Dfe.Academies.External.Web.Middleware;
 
@@ -9,7 +8,9 @@ public class BespokeExceptionHandlingMiddleware
     private readonly IHostEnvironment _environment;
     private readonly ILogger _logger;
 
-    public BespokeExceptionHandlingMiddleware(RequestDelegate next, IHostEnvironment environment, ILogger<BespokeExceptionHandlingMiddleware> logger)
+    public BespokeExceptionHandlingMiddleware(RequestDelegate next, 
+											IHostEnvironment environment, 
+											ILogger<BespokeExceptionHandlingMiddleware> logger)
     {
         _next = next;
         _environment = environment;
@@ -25,17 +26,10 @@ public class BespokeExceptionHandlingMiddleware
         catch (Exception ex)
         {
             var (statusCode, responseBodyObject) = HandleException(ex);
-            string responseBodyString = JsonSerializer.Serialize(responseBodyObject);
-
-            context.Response.StatusCode = statusCode;
-
-            // Assert response has correct "content-type" header:
-            if (context.Response.Headers.ContainsKey("content-type"))
-                context.Response.Headers.Remove("content-type");
-            context.Response.Headers.Add("content-type", "application/json");
-
-            await context.Response.WriteAsync(responseBodyString);
-        }
+            
+            // re-direct user to error page after exception
+			context.Response.Redirect("../Error");
+		}
     }
 
     private (int, BaseErrorResponse) HandleException(Exception exception)
@@ -54,7 +48,6 @@ public class BespokeExceptionHandlingMiddleware
                 // Because HTTP 418 MUST LIVE ON! (also no-one actually receives this as if
                 // task is cancelled the user stopped the request before receiving a response)
                 statusCode = StatusCodes.Status418ImATeapot;
-                //response.Add("Error", "The user has cancelled the request.");
                 response = null;
                 _logger.LogWarning("Request cancelled by the user.");
                 break;
