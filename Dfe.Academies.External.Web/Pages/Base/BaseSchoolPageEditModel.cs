@@ -31,52 +31,42 @@ public abstract class BaseSchoolPageEditModel : BasePageEditModel
 	//1) Create OnGetAsync() func in new base class - call PopulateUiModel() method, that will be overridden in each page
 	public async Task OnGetAsync(int urn, int appId)
 	{
-		try
-		{
-			LoadAndStoreCachedConversionApplication();
+		// MR:- don't need try/catch anymore as we have exception middleware
+		LoadAndStoreCachedConversionApplication();
 
-			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-			ApplicationId = appId;
-			Urn = urn;
+		var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+		ApplicationId = appId;
+		Urn = urn;
 
-			// Grab other values from API
-			if (selectedSchool != null)
-			{
-				PopulateUiModel(selectedSchool);
-				SchoolName = selectedSchool.SchoolName;
-			}
-		}
-		catch (Exception ex)
+		// Grab other values from API
+		if (selectedSchool != null)
 		{
-			// TODO MR:- fix !!
-			//_logger.LogError("School::CurrentFinancialYearModel::OnGetAsync::Exception - {Message}", ex.Message);
+			PopulateUiModel(selectedSchool);
+			SchoolName = selectedSchool.SchoolName;
 		}
 	}
-
 
 	//2) Create OnPostAsync() func in new base class - call PopulateUiModel() method, that will be overridden in each page
 	public async Task<IActionResult> OnPostAsync()
 	{
-		try
+		// MR:- don't need try/catch anymore as we have exception middleware
+
+		if (!RunUiValidation())
 		{
-			//// grab draft application from temp= null
-			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-			var dictionaryMapper = PopulateUpdateDictionary();
-
-			await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
-
-			// update temp store for next step - application overview
-			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-			return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
-		}
-		catch (Exception ex)
-		{
-			// TODO MR:- fix !!
-			//_logger.LogError("School::CurrentFinancialYearModel::OnPostAsync::Exception - {Message}", ex.Message);
 			return Page();
 		}
+
+		//// grab draft application from temp= null
+		var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+		var dictionaryMapper = PopulateUpdateDictionary();
+
+		await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+
+		// update temp store for next step - application overview
+		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+		return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
 	}
 
 	/// <summary>

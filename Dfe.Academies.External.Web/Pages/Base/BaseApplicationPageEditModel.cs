@@ -22,9 +22,28 @@ public abstract class BaseApplicationPageEditModel : BasePageEditModel
 		NextStepPage = nextStepPage;
 	}
 
-	// TODO MR:- public async Task OnGetAsync(int appId)
+	public async Task OnGetAsync(int appId)
+	{
+		//// on load - grab draft application from temp
+		var conversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-	// TODO MR:- public async Task<IActionResult> OnPostAsync()
+		//// MR:- Need to drop into this pages cache here ready for post / server callback !
+		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, conversionApplication);
+
+		PopulateUiModel(conversionApplication);
+	}
+
+	public async Task<IActionResult> OnPostAsync()
+	{
+		if (!RunUiValidation())
+		{
+			return Page();
+		}
+
+		// TODO :- API calling / data saving
+
+		return RedirectToPage(NextStepPage, new { appId = ApplicationId });
+	}
 
 	/// <summary>
 	/// take application data from API and populate UI controls
