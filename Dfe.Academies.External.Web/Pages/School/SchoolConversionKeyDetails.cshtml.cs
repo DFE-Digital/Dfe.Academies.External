@@ -205,11 +205,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 					}
 				});
 
-			// TODO MR:- ApplicationJoinTrustReasons not in API yet - 08/09/2022
 			SchoolConversionComponentHeadingViewModel heading4 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationJoinTrustReason,
 				"/school/ApplicationJoinTrustReasons");
 			heading4.Sections.Add(new(SchoolConversionComponentSectionViewModel.ReasonsForJoiningTrustSectionName,
-				QuestionAndAnswerConstants.NoInfoAnswer
+				!string.IsNullOrWhiteSpace(selectedSchool.ApplicationJoinTrustReason) ?
+					selectedSchool.ApplicationJoinTrustReason
+					: QuestionAndAnswerConstants.NoInfoAnswer
 				));
 
 			SchoolConversionComponentHeadingViewModel heading5 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationSchoolNameChange,
