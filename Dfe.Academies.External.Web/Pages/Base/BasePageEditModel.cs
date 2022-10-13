@@ -146,4 +146,6 @@ public abstract class BasePageEditModel : BasePageModel
 	/// i.e. if user changes answer from no -> yes need to clear out optional string data capture
 	/// </summary>
 	public abstract Dictionary<string, dynamic> PopulateUpdateDictionary();
+
+	public abstract bool RunUiValidation();
 }
