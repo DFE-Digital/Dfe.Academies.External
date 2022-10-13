@@ -129,13 +129,13 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 	///<inheritdoc/>
 	public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 	{
-		// if school NOT consulted blank out 'SchoolConsultationStakeholdersConsult'
+		// if school HAS consulted blank out 'SchoolConsultationStakeholdersConsult'
 		if (SchoolConsultationStakeholders == SelectOption.No)
 		{
 			return new Dictionary<string, dynamic>
 			{
 				{ nameof(SchoolApplyingToConvert.SchoolHasConsultedStakeholders), false },
-				{ nameof(SchoolApplyingToConvert.SchoolPlanToConsultStakeholders), null }
+				{ nameof(SchoolApplyingToConvert.SchoolPlanToConsultStakeholders), SchoolConsultationStakeholdersConsult! }
 			};
 		}
 		else
@@ -143,7 +143,7 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 			return new Dictionary<string, dynamic>
 			{
 				{ nameof(SchoolApplyingToConvert.SchoolHasConsultedStakeholders), true },
-				{ nameof(SchoolApplyingToConvert.SchoolPlanToConsultStakeholders), SchoolConsultationStakeholdersConsult! }
+				{ nameof(SchoolApplyingToConvert.SchoolPlanToConsultStakeholders), null }
 			};
 		}
 	}
