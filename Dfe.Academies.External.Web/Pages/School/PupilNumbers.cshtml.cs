@@ -41,8 +41,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		[Required(ErrorMessage = "You must tell us what your projected pupil numbers are based on")]
 		public string? SchoolCapacityAssumptions { get; set; } = string.Empty;
-
-
+		
 		public PupilNumbersModel(ILogger<PupilNumbersModel> logger,
 								IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 								IReferenceDataRetrievalService referenceDataRetrievalService,
@@ -88,19 +87,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				var dictionaryMapper = new Dictionary<string, dynamic>
-				{
-					{ nameof(SchoolApplyingToConvert.ProjectedPupilNumbersYear1), ProjectedPupilNumbersYear1.Value },
-					{ nameof(SchoolApplyingToConvert.ProjectedPupilNumbersYear2), ProjectedPupilNumbersYear2.Value },
-					{ nameof(SchoolApplyingToConvert.ProjectedPupilNumbersYear3), ProjectedPupilNumbersYear3.Value },
-					{ nameof(SchoolApplyingToConvert.SchoolCapacityAssumptions), SchoolCapacityAssumptions },
-					{ nameof(SchoolApplyingToConvert.SchoolCapacityPublishedAdmissionsNumber), SchoolCapacityPublishedAdmissionsNumber.Value },
-				};
-				await _academisationCreationService.PutSchoolApplicationDetails(
-					ApplicationId,
-					Urn,
-					dictionaryMapper
-					);
+				var dictionaryMapper = PopulateUpdateDictionary();
+				
+				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -114,9 +103,25 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
+		///<inheritdoc/>
 		public override void PopulateValidationMessages()
 		{
 			PopulateViewDataErrorsWithModelStateErrors();
+		}
+
+		///<inheritdoc/>
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+		{
+			// no radios / optional inputs on this form !!!
+
+			return new Dictionary<string, dynamic>
+			{
+				{ nameof(SchoolApplyingToConvert.ProjectedPupilNumbersYear1), ProjectedPupilNumbersYear1!.Value },
+				{ nameof(SchoolApplyingToConvert.ProjectedPupilNumbersYear2), ProjectedPupilNumbersYear2!.Value },
+				{ nameof(SchoolApplyingToConvert.ProjectedPupilNumbersYear3), ProjectedPupilNumbersYear3!.Value },
+				{ nameof(SchoolApplyingToConvert.SchoolCapacityAssumptions), SchoolCapacityAssumptions! },
+				{ nameof(SchoolApplyingToConvert.SchoolCapacityPublishedAdmissionsNumber), SchoolCapacityPublishedAdmissionsNumber!.Value },
+			};
 		}
 
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)

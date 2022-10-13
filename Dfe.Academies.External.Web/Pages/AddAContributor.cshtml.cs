@@ -144,9 +144,17 @@ namespace Dfe.Academies.External.Web.Pages
 			}
 		}
 
+		///<inheritdoc/>
 		public override void PopulateValidationMessages()
 		{
 			PopulateViewDataErrorsWithModelStateErrors();
+		}
+
+		///<inheritdoc/>
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+		{
+			// does not apply on this page
+			return new();
 		}
 
 		private void PopulateUiModel(ConversionApplication? application)

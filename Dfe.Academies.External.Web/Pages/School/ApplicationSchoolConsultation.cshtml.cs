@@ -104,11 +104,7 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 			//// grab draft application from temp= null
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			var dictionaryMapper = new Dictionary<string, dynamic>
-			{
-				{ nameof(SchoolApplyingToConvert.SchoolHasConsultedStakeholders), SchoolConsultationStakeholders == SelectOption.Yes },
-				{ nameof(SchoolApplyingToConvert.SchoolPlanToConsultStakeholders), SchoolConsultationStakeholdersConsult }
-			};
+			var dictionaryMapper = PopulateUpdateDictionary();
 
 			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
@@ -124,9 +120,32 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 		}
 	}
 
+	///<inheritdoc/>
 	public override void PopulateValidationMessages()
 	{
 		PopulateViewDataErrorsWithModelStateErrors();
+	}
+
+	///<inheritdoc/>
+	public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+	{
+		// if school HAS consulted blank out 'SchoolConsultationStakeholdersConsult'
+		if (SchoolConsultationStakeholders == SelectOption.No)
+		{
+			return new Dictionary<string, dynamic>
+			{
+				{ nameof(SchoolApplyingToConvert.SchoolHasConsultedStakeholders), false },
+				{ nameof(SchoolApplyingToConvert.SchoolPlanToConsultStakeholders), SchoolConsultationStakeholdersConsult! }
+			};
+		}
+		else
+		{
+			return new Dictionary<string, dynamic>
+			{
+				{ nameof(SchoolApplyingToConvert.SchoolHasConsultedStakeholders), true },
+				{ nameof(SchoolApplyingToConvert.SchoolPlanToConsultStakeholders), null }
+			};
+		}
 	}
 
 	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)

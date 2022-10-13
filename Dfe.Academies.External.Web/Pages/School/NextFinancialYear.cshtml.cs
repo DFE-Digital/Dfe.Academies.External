@@ -118,6 +118,8 @@ public class NextFinancialYearModel : BasePageEditModel
 		}
 	}
 
+	public DateTime NFYFinancialEndDateLocal { get; set; }
+
 	public NextFinancialYearModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 	    IReferenceDataRetrievalService referenceDataRetrievalService,
 	    ILogger<NextFinancialYearModel> logger,
@@ -153,12 +155,12 @@ public class NextFinancialYearModel : BasePageEditModel
     public async Task<IActionResult> OnPostAsync(IFormCollection form)
     {
 	    // MR:- try and build a date from component parts !!!
-	    var NFYEndDateComponents = RetrieveDateTimeComponentsFromDatePicker(form, NFYEndDateFormInputName);
-	    var NFYEndDateComponentDay = NFYEndDateComponents.FirstOrDefault(x => x.Key == "day").Value;
-	    var NFYEndDateComponentMonth = NFYEndDateComponents.FirstOrDefault(x => x.Key == "month").Value;
-	    var NFYEndDateComponentYear = NFYEndDateComponents.FirstOrDefault(x => x.Key == "year").Value;
+	    var nfyEndDateComponents = RetrieveDateTimeComponentsFromDatePicker(form, NFYEndDateFormInputName);
+	    string NFYEndDateComponentDay = nfyEndDateComponents.FirstOrDefault(x => x.Key == "day").Value;
+	    string NFYEndDateComponentMonth = nfyEndDateComponents.FirstOrDefault(x => x.Key == "month").Value;
+	    string NFYEndDateComponentYear = nfyEndDateComponents.FirstOrDefault(x => x.Key == "year").Value;
 
-	    var NFYEndDate = BuildDateTime(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
+	    NFYFinancialEndDateLocal = BuildDateTime(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
 
 	    if (!ModelState.IsValid)
 	    {
@@ -169,7 +171,7 @@ public class NextFinancialYearModel : BasePageEditModel
 		    return Page();
 	    }
 
-	    if (NFYEndDate == DateTime.MinValue)
+	    if (NFYFinancialEndDateLocal == DateTime.MinValue)
 	    {
 		    ModelState.AddModelError("NFYFinancialEndDateNotEntered", "You must input a valid date");
 		    PopulateValidationMessages();
@@ -201,23 +203,9 @@ public class NextFinancialYearModel : BasePageEditModel
 			//// grab draft application from temp= null
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			var nextFinancialYear = new SchoolFinancialYear(NFYEndDate,
-				Revenue,
-				NFYRevenueStatus,
-				NFYRevenueStatusExplained,
-				null,
-				CapitalCarryForward,
-				NFYCapitalCarryForwardStatus,
-				NFYCapitalCarryForwardExplained,
-				null);
+			var dictionaryMapper = PopulateUpdateDictionary();
 
-			var propertiesToPopulate =
-				new Dictionary<string, dynamic>
-				{
-					{nameof(SchoolApplyingToConvert.NextFinancialYear), nextFinancialYear}
-				};
-
-			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, propertiesToPopulate);
+			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -231,9 +219,38 @@ public class NextFinancialYearModel : BasePageEditModel
 		}
 	}
 
-    public override void PopulateValidationMessages()
+    ///<inheritdoc/>
+	public override void PopulateValidationMessages()
 	{
 		PopulateViewDataErrorsWithModelStateErrors();
+	}
+
+    ///<inheritdoc/>
+    public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+    {
+		// if 'NFYRevenueStatus' == Surplus, blank out 'PFYRevenueStatusExplained'
+		if (NFYRevenueStatus == RevenueType.Surplus)
+		{
+			NFYRevenueStatusExplained = null;
+		}
+
+		// if 'NFYCapitalCarryForwardStatus' == Surplus, blank out 'PFYCapitalCarryForwardExplained'
+		if (NFYCapitalCarryForwardStatus == RevenueType.Surplus)
+		{
+			NFYCapitalCarryForwardExplained = null;
+		}
+
+		var nextFinancialYear = new SchoolFinancialYear(NFYFinancialEndDateLocal,
+			Revenue,
+			NFYRevenueStatus,
+			NFYRevenueStatusExplained,
+			null,
+			CapitalCarryForward,
+			NFYCapitalCarryForwardStatus,
+			NFYCapitalCarryForwardExplained,
+			null);
+
+		return new Dictionary<string, dynamic> { {nameof(SchoolApplyingToConvert.NextFinancialYear), nextFinancialYear} };
 	}
 
 	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
@@ -242,6 +259,7 @@ public class NextFinancialYearModel : BasePageEditModel
 		NFYEndDate = (selectedSchool.NextFinancialYear.FinancialYearEndDate.HasValue ?
 			selectedSchool.NextFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy")
 			: string.Empty);
+
 		// Revenue
 		if (selectedSchool.NextFinancialYear.Revenue != null)
 		{
@@ -254,6 +272,7 @@ public class NextFinancialYearModel : BasePageEditModel
 		}
 
 		NFYRevenueStatusExplained = selectedSchool.NextFinancialYear.RevenueStatusExplained;
+
 		// CCF
 		if (selectedSchool.NextFinancialYear.CapitalCarryForward != null)
 		{

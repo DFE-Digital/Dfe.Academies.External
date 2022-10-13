@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
@@ -157,6 +156,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
+		public DateTime? WorksPlannedDateLocal { get; set; }
+
 		public LandAndBuildingsModel(ILogger<LandAndBuildingsModel> logger,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
@@ -193,11 +194,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			// MR:- try and build a date from component parts !!!
 			var dateComponents = RetrieveDateTimeComponentsFromDatePicker(form, PlannedDateFormInputName);
-			var day = dateComponents.FirstOrDefault(x => x.Key == "day").Value;
-			var month = dateComponents.FirstOrDefault(x => x.Key == "month").Value;
-			var year = dateComponents.FirstOrDefault(x => x.Key == "year").Value;
+			string day = dateComponents.FirstOrDefault(x => x.Key == "day").Value;
+			string month = dateComponents.FirstOrDefault(x => x.Key == "month").Value;
+			string year = dateComponents.FirstOrDefault(x => x.Key == "year").Value;
 
-			var plannedDate = BuildDateTime(day, month, year);
+			WorksPlannedDateLocal = BuildDateTime(day, month, year);
 
 			if (!ModelState.IsValid)
 			{
@@ -215,7 +216,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && plannedDate == DateTime.MinValue)
+			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && WorksPlannedDateLocal == DateTime.MinValue)
 			{
 				ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", "You must input a valid date");
 				PopulateValidationMessages();
@@ -252,26 +253,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				var landAndBuildingsData = new SchoolLandAndBuildings(
-					this.SchoolBuildLandOwnerExplained,
-					this.SchoolBuildLandWorksPlanned == SelectOption.Yes,
-					this.SchoolBuildLandWorksPlannedExplained,
-					plannedDate,
-					this.SchoolBuildLandSharedFacilities == SelectOption.Yes,
-					this.SchoolBuildLandSharedFacilitiesExplained,
-					this.SchoolBuildLandGrants == SelectOption.Yes,
-					this.SchoolBuildLandGrantsBodies,
-					this.SchoolBuildLandPFIScheme == SelectOption.Yes,
-					this.SchoolBuildLandPFISchemeType,
-					this.SchoolBuildLandPriorityBuildingProgramme == SelectOption.Yes,
-					this.SchoolBuildLandFutureProgramme == SelectOption.Yes
-				);
+				var dictionaryMapper = PopulateUpdateDictionary();
 
-				var dictionaryMapper = new Dictionary<string, dynamic>
-				{
-					{ nameof(SchoolApplyingToConvert.LandAndBuildings), landAndBuildingsData }
-				};
-				
 				await _academisationCreationService.PutSchoolApplicationDetails( ApplicationId, this.Urn, dictionaryMapper);
 
 				// update temp store for next step - application overview
@@ -286,9 +269,50 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
+		///<inheritdoc/>
 		public override void PopulateValidationMessages()
 		{
 			PopulateViewDataErrorsWithModelStateErrors();
+		}
+
+		///<inheritdoc/>
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+		{
+			// if this.SchoolBuildLandWorksPlanned == 'no', blank out 'SchoolBuildLandWorksPlannedExplained' && works planned date
+			if (this.SchoolBuildLandWorksPlanned == SelectOption.No)
+			{
+				this.SchoolBuildLandWorksPlannedExplained = null;
+				WorksPlannedDateLocal = null;
+			}
+
+			// if this.SchoolBuildLandSharedFacilities == 'no', blank out 'SchoolBuildLandSharedFacilitiesExplained'
+			if (this.SchoolBuildLandSharedFacilities == SelectOption.No)
+			{
+				this.SchoolBuildLandSharedFacilitiesExplained = null;
+			}
+
+			// if this.SchoolBuildLandPFIScheme == 'no', blank out 'SchoolBuildLandPFISchemeType'
+			if (this.SchoolBuildLandPFIScheme == SelectOption.No)
+			{
+				this.SchoolBuildLandPFISchemeType = null;
+			}
+
+			var landAndBuildingsData = new SchoolLandAndBuildings(
+				this.SchoolBuildLandOwnerExplained,
+				this.SchoolBuildLandWorksPlanned == SelectOption.Yes,
+				this.SchoolBuildLandWorksPlannedExplained,
+				WorksPlannedDateLocal,
+				this.SchoolBuildLandSharedFacilities == SelectOption.Yes,
+				this.SchoolBuildLandSharedFacilitiesExplained,
+				this.SchoolBuildLandGrants == SelectOption.Yes,
+				this.SchoolBuildLandGrantsBodies,
+				this.SchoolBuildLandPFIScheme == SelectOption.Yes,
+				this.SchoolBuildLandPFISchemeType,
+				this.SchoolBuildLandPriorityBuildingProgramme == SelectOption.Yes,
+				this.SchoolBuildLandFutureProgramme == SelectOption.Yes
+			);
+
+			return new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.LandAndBuildings), landAndBuildingsData } };
 		}
 
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)

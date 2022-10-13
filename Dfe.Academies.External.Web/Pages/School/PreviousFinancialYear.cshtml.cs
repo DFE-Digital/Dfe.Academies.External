@@ -119,6 +119,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
+		public DateTime PFYFinancialEndDateLocal { get; set; }
+
 		public PreviousFinancialYearModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 										IReferenceDataRetrievalService referenceDataRetrievalService,
 										ILogger<PreviousFinancialYearModel> logger,
@@ -154,12 +156,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public async Task<IActionResult> OnPostAsync(IFormCollection form)
 		{
 			// MR:- try and build a date from component parts !!!
-			var PFYEndDateComponents = RetrieveDateTimeComponentsFromDatePicker(form, PFYEndDateFormInputName);
-			var PFYEndDateComponentDay = PFYEndDateComponents.FirstOrDefault(x => x.Key == "day").Value;
-			var PFYEndDateComponentMonth = PFYEndDateComponents.FirstOrDefault(x => x.Key == "month").Value;
-			var PFYEndDateComponentYear = PFYEndDateComponents.FirstOrDefault(x => x.Key == "year").Value;
+			var pfyEndDateComponents = RetrieveDateTimeComponentsFromDatePicker(form, PFYEndDateFormInputName);
+			string PFYEndDateComponentDay = pfyEndDateComponents.FirstOrDefault(x => x.Key == "day").Value;
+			string PFYEndDateComponentMonth = pfyEndDateComponents.FirstOrDefault(x => x.Key == "month").Value;
+			string PFYEndDateComponentYear = pfyEndDateComponents.FirstOrDefault(x => x.Key == "year").Value;
 
-			var PFYEndDate = BuildDateTime(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
+			PFYFinancialEndDateLocal = BuildDateTime(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
 
 			if (!ModelState.IsValid)
 			{
@@ -170,7 +172,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			if (PFYEndDate == DateTime.MinValue)
+			if (PFYFinancialEndDateLocal == DateTime.MinValue)
 			{
 				ModelState.AddModelError("PFYFinancialEndDateNotEntered", "You must input a valid date");
 				PopulateValidationMessages();
@@ -204,19 +206,22 @@ namespace Dfe.Academies.External.Web.Pages.School
 					TempDataHelper.GetSerialisedValue<ConversionApplication>(
 						TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				var previousFinancialYear = new SchoolFinancialYear(PFYEndDate,
-					Revenue,
-					PFYRevenueStatus,
-					PFYRevenueStatusExplained,
-					null,
-					CapitalCarryForward,
-					PFYCapitalCarryForwardStatus,
-					PFYCapitalCarryForwardExplained,
-					null);
+				//var previousFinancialYear = new SchoolFinancialYear(PFYFinancialEndDateLocal,
+				//	Revenue,
+				//	PFYRevenueStatus,
+				//	PFYRevenueStatusExplained,
+				//	null,
+				//	CapitalCarryForward,
+				//	PFYCapitalCarryForwardStatus,
+				//	PFYCapitalCarryForwardExplained,
+				//	null);
 
-				var mappingDictionary =
-					new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.PreviousFinancialYear), previousFinancialYear } };
-				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, mappingDictionary);
+				//var mappingDictionary =
+				//	new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.PreviousFinancialYear), previousFinancialYear } };
+
+				var dictionaryMapper = PopulateUpdateDictionary();
+
+				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -231,9 +236,38 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		}
 
+		///<inheritdoc/>
 		public override void PopulateValidationMessages()
         {
 	        PopulateViewDataErrorsWithModelStateErrors();
+		}
+
+		///<inheritdoc/>
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+		{
+			// if 'PFYRevenueStatus' == Surplus, blank out 'PFYRevenueStatusExplained'
+			if (PFYRevenueStatus == RevenueType.Surplus)
+			{
+				PFYRevenueStatusExplained = null;
+			}
+
+			// if 'PFYCapitalCarryForwardStatus' == Surplus, blank out 'PFYCapitalCarryForwardExplained'
+			if (PFYCapitalCarryForwardStatus == RevenueType.Surplus)
+			{
+				PFYCapitalCarryForwardExplained = null;
+			}
+
+			var previousFinancialYear = new SchoolFinancialYear(PFYFinancialEndDateLocal,
+				Revenue,
+				PFYRevenueStatus,
+				PFYRevenueStatusExplained,
+				null,
+				CapitalCarryForward,
+				PFYCapitalCarryForwardStatus,
+				PFYCapitalCarryForwardExplained,
+				null);
+
+			return new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.PreviousFinancialYear), previousFinancialYear } };
 		}
 
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
@@ -242,6 +276,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			PFYEndDate = (selectedSchool.PreviousFinancialYear.FinancialYearEndDate.HasValue ?
 				selectedSchool.PreviousFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy")
 				: string.Empty);
+
 			// Revenue
 			if (selectedSchool.PreviousFinancialYear.Revenue != null)
 			{
@@ -254,6 +289,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 
 			PFYRevenueStatusExplained = selectedSchool.PreviousFinancialYear.RevenueStatusExplained;
+
 			// CCF
 			if (selectedSchool.PreviousFinancialYear.CapitalCarryForward != null)
 			{

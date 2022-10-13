@@ -54,9 +54,17 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BasePageEditModel
 		}
 	}
 
+	///<inheritdoc/>
 	public override void PopulateValidationMessages()
 	{
 		PopulateViewDataErrorsWithModelStateErrors();
+	}
+
+	///<inheritdoc/>
+	public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+	{
+		// does not apply on this page
+		return new();
 	}
 
 	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)

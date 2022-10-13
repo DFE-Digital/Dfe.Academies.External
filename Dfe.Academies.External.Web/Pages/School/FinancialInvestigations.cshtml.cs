@@ -128,15 +128,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 				//// grab draft application from temp= null
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				var propertiesToPopulate =
-					new Dictionary<string, dynamic>
-					{
-						{nameof(SchoolApplyingToConvert.FinanceOngoingInvestigations), FinanceOngoingInvestigations == SelectOption.Yes},
-						{nameof(SchoolApplyingToConvert.FinancialInvestigationsExplain), FinancialInvestigationsExplain!},
-						{nameof(SchoolApplyingToConvert.FinancialInvestigationsTrustAware), FinancialInvestigationsTrustAware == SelectOption.Yes},
-					};
+				var dictionaryMapper = PopulateUpdateDictionary();
 
-				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, propertiesToPopulate);
+				//var propertiesToPopulate =
+				//	new Dictionary<string, dynamic>
+				//	{
+				//		{nameof(SchoolApplyingToConvert.FinanceOngoingInvestigations), FinanceOngoingInvestigations == SelectOption.Yes},
+				//		{nameof(SchoolApplyingToConvert.FinancialInvestigationsExplain), FinancialInvestigationsExplain!},
+				//		{nameof(SchoolApplyingToConvert.FinancialInvestigationsTrustAware), FinancialInvestigationsTrustAware == SelectOption.Yes},
+				//	};
+
+				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 				// update temp store for next step - application overview
 				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -150,9 +152,34 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
+		///<inheritdoc/>
 		public override void PopulateValidationMessages()
 		{
 			PopulateViewDataErrorsWithModelStateErrors();
+		}
+
+		///<inheritdoc/>
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+		{
+			// if FinanceOngoingInvestigations == no, clear FinancialInvestigationsExplain && FinancialInvestigationsTrustAware
+			if (FinanceOngoingInvestigations == SelectOption.No)
+			{
+				return new Dictionary<string, dynamic>
+				{
+					{nameof(SchoolApplyingToConvert.FinanceOngoingInvestigations), false},
+					{nameof(SchoolApplyingToConvert.FinancialInvestigationsExplain), null},
+					{nameof(SchoolApplyingToConvert.FinancialInvestigationsTrustAware), null},
+				};
+			}
+			else
+			{
+				return new Dictionary<string, dynamic>
+					{
+						{nameof(SchoolApplyingToConvert.FinanceOngoingInvestigations), true},
+						{nameof(SchoolApplyingToConvert.FinancialInvestigationsExplain), FinancialInvestigationsExplain!},
+						{nameof(SchoolApplyingToConvert.FinancialInvestigationsTrustAware), FinancialInvestigationsTrustAware == SelectOption.Yes},
+					};
+			}
 		}
 
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
