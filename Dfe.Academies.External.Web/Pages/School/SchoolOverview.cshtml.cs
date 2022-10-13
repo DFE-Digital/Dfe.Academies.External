@@ -53,7 +53,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 				_logger.LogError("Application::SchoolOverviewModel::OnGetAsync::Exception - {Message}", ex.Message);
 			}
 		}
-		
+
+		///<inheritdoc/>
+		public override bool RunUiValidation()
+		{
+			// TODO:- move code to here !!
+			throw new NotImplementedException();
+		}
+
 		///<inheritdoc/>
 		public override void PopulateValidationMessages()
 		{

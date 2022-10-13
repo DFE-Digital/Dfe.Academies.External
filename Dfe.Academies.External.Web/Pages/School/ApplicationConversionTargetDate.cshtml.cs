@@ -187,6 +187,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 		}
 
 		///<inheritdoc/>
+		public override bool RunUiValidation()
+		{
+			// TODO:- move code to here !!
+			throw new NotImplementedException();
+		}
+
+		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
 			// if no specific date the school wants to convert, blank out 'SchoolConversionTargetDate' && 'SchoolConversionTargetDateExplained'

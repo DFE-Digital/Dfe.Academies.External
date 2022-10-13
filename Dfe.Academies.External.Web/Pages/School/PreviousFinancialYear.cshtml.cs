@@ -233,7 +233,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 				_logger.LogError("School::PreviousFinancialYearModel::OnPostAsync::Exception - {Message}", ex.Message);
 				return Page();
 			}
+		}
 
+		///<inheritdoc/>
+		public override bool RunUiValidation()
+		{
+			// TODO:- move code to here !!
+			throw new NotImplementedException();
 		}
 
 		///<inheritdoc/>

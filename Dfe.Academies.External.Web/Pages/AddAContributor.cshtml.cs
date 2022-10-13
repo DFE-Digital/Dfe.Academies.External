@@ -103,20 +103,25 @@ namespace Dfe.Academies.External.Web.Pages
 			//// grab draft application from temp= null
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			if (!ModelState.IsValid)
-			{
-				PopulateValidationMessages();
-				// MR:- need to call below otherwise will lose ExistingContributors()
-				PopulateUiModel(draftConversionApplication);
-				return Page();
-			}
+			//if (!ModelState.IsValid)
+			//{
+			//	PopulateValidationMessages();
+			//	// MR:- need to call below otherwise will lose ExistingContributors()
+			//	PopulateUiModel(draftConversionApplication);
+			//	return Page();
+			//}
 
-			if (ContributorRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleNotListed))
+			//if (ContributorRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleNotListed))
+			//{
+			//	ModelState.AddModelError("OtherRoleNotEntered", "You must give your role at the school");
+			//	PopulateValidationMessages();
+			//	// MR:- need to call below otherwise will lose ExistingContributors()
+			//	PopulateUiModel(draftConversionApplication);
+			//	return Page();
+			//}
+
+			if (!RunUiValidation())
 			{
-				ModelState.AddModelError("OtherRoleNotEntered", "You must give your role at the school");
-				PopulateValidationMessages();
-				// MR:- need to call below otherwise will lose ExistingContributors()
-				PopulateUiModel(draftConversionApplication);
 				return Page();
 			}
 
@@ -151,12 +156,38 @@ namespace Dfe.Academies.External.Web.Pages
 		}
 
 		///<inheritdoc/>
+		public override bool RunUiValidation()
+		{
+			//// grab draft application from temp= null
+			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				// MR:- need to call below otherwise will lose ExistingContributors()
+				PopulateUiModel(draftConversionApplication);
+				return false;
+			}
+
+			if (ContributorRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleNotListed))
+			{
+				ModelState.AddModelError("OtherRoleNotEntered", "You must give your role at the school");
+				PopulateValidationMessages();
+				// MR:- need to call below otherwise will lose ExistingContributors()
+				PopulateUiModel(draftConversionApplication);
+				return false;
+			}
+
+			return true;
+		}
+
+		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
 			// does not apply on this page
 			return new();
 		}
-
+		
 		private void PopulateUiModel(ConversionApplication? application)
 		{
 			if (application != null)

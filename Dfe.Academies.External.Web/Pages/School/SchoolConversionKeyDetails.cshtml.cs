@@ -58,6 +58,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 		}
 
 		///<inheritdoc/>
+		public override bool RunUiValidation()
+		{
+			// TODO:- move code to here !!
+			throw new NotImplementedException();
+		}
+
+		///<inheritdoc/>
 		public override void PopulateValidationMessages()
 		{
 			PopulateViewDataErrorsWithModelStateErrors();

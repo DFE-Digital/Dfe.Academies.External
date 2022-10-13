@@ -121,6 +121,13 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 	}
 
 	///<inheritdoc/>
+	public override bool RunUiValidation()
+	{
+		// TODO:- move code to here !!
+		throw new NotImplementedException();
+	}
+
+	///<inheritdoc/>
 	public override void PopulateValidationMessages()
 	{
 		PopulateViewDataErrorsWithModelStateErrors();
