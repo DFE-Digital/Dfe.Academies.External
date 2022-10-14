@@ -8,7 +8,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class ApplicationSelectSchoolModel : BasePageModel
 	{
-		private readonly ILogger<ApplicationSelectSchoolModel> _logger;
 		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
 		private const string NextSchoolStepPage = "/ApplicationOverview";
 
@@ -60,19 +59,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public ApplicationSelectSchoolModel(ILogger<ApplicationSelectSchoolModel> logger, IConversionApplicationCreationService conversionApplicationCreationService)
 		{
-			_logger = logger;
 			_conversionApplicationCreationService = conversionApplicationCreationService;
 		}
 		public void OnGet(int appId)
 		{
-			try
-			{
-				ApplicationId = appId;
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::ApplicationSelectSchoolModel::OnGetAsync::Exception - {Message}", ex.Message);
-			}
+			ApplicationId = appId;
 		}
 
 		[ValidateAntiForgeryToken]
@@ -94,16 +85,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			try
-			{
-				await _conversionApplicationCreationService.AddSchoolToApplication(ApplicationId, SelectedUrn, SelectedSchoolName);
-				return RedirectToPage(NextSchoolStepPage, new { appId = ApplicationId });
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("Application::ApplicationSelectSchoolModel::OnPostAsync::Exception - {Message}", ex.Message);
-				return Page();
-			}
+			await _conversionApplicationCreationService.AddSchoolToApplication(ApplicationId, SelectedUrn, SelectedSchoolName);
+			return RedirectToPage(NextSchoolStepPage, new { appId = ApplicationId });
 		}
 
 		public IActionResult OnPostFind()

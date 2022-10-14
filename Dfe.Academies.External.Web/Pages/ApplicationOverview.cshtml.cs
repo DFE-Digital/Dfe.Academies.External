@@ -9,7 +9,6 @@ namespace Dfe.Academies.External.Web.Pages
 {
 	public class ApplicationOverviewModel : BasePageEditModel
 	{
-		private readonly ILogger<ApplicationOverviewModel> _logger;
 		private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
 
 		public int ApplicationId { get; private set; }
@@ -58,33 +57,25 @@ namespace Dfe.Academies.External.Web.Pages
 										IReferenceDataRetrievalService referenceDataRetrievalService
 		) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
-			_logger = logger;
 			_conversionApplicationRetrievalService = conversionApplicationRetrievalService;
 		}
 
 		public async Task OnGetAsync(int appId)
 		{
-			try
-			{
-				//// on load - grab draft application from temp
-				var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
+			//// on load - grab draft application from temp
+			var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
 
-				if (draftConversionApplication != null)
+			if (draftConversionApplication != null)
+			{
+				var school = draftConversionApplication.Schools.FirstOrDefault();
+
+				if (school != null)
 				{
-					var school = draftConversionApplication.Schools.FirstOrDefault();
-
-					if (school != null)
-					{
-						school.SchoolApplicationComponents =
-							await _conversionApplicationRetrievalService.GetSchoolApplicationComponents(appId, school.URN);
-					}
-
-					PopulateUiModel(draftConversionApplication, school);
+					school.SchoolApplicationComponents =
+						await _conversionApplicationRetrievalService.GetSchoolApplicationComponents(appId, school.URN);
 				}
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("Application::ApplicationOverviewModel::OnGetAsync::Exception - {Message}", ex.Message);
+
+				PopulateUiModel(draftConversionApplication, school);
 			}
 		}
 

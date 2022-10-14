@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
-using Moq;
 using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages;
@@ -17,8 +15,7 @@ internal sealed class IndexModelTests
 	public void OnGetAsync___Valid___NullErrors()
 	{
 		// arrange
-		var mockLogger = new Mock<ILogger<IndexModel>>();
-		var pageModel = SetupIndexModel(mockLogger.Object);
+		var pageModel = SetupIndexModel();
 
 		// act
 		pageModel.OnGet();
@@ -28,12 +25,11 @@ internal sealed class IndexModelTests
 	}
 
 	private static IndexModel SetupIndexModel(
-		ILogger<IndexModel> mockLogger,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new IndexModel(mockLogger)
+		return new IndexModel()
 		{
 			PageContext = pageContext,
 			TempData = tempData,

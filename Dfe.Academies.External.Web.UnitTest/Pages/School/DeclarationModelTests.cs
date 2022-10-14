@@ -28,15 +28,13 @@ internal sealed class DeclarationModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<DeclarationModel>>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupDeclarationModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupDeclarationModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
@@ -55,7 +53,6 @@ internal sealed class DeclarationModelTests
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static DeclarationModel SetupDeclarationModel(
-		ILogger<DeclarationModel> mockLogger,
 		IConversionApplicationCreationService mockConversionApplicationCreationService,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
@@ -64,7 +61,7 @@ internal sealed class DeclarationModelTests
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
 		return new DeclarationModel(mockConversionApplicationRetrievalService,
-			mockReferenceDataRetrievalService, mockLogger, mockConversionApplicationCreationService)
+			mockReferenceDataRetrievalService, mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

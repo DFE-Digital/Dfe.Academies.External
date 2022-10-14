@@ -10,7 +10,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class ApplicationConversionTargetDateModel : BasePageEditModel
 	{
-		private readonly ILogger<ApplicationConversionTargetDateModel> _logger;
 		private readonly IConversionApplicationCreationService _academisationCreationService;
 		private const string NextStepPage = "ApplicationJoinTrustReasons";
 		public string SchoolConversionTargetDateDate = "sip_ctddiferentdatevalue";
@@ -93,29 +92,21 @@ namespace Dfe.Academies.External.Web.Pages.School
 			IConversionApplicationCreationService academisationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
-			_logger = logger;
 			_academisationCreationService = academisationCreationService;
 		}
 
 		public async Task OnGetAsync(int urn, int appId)
 		{
-			try
-			{
-				LoadAndStoreCachedConversionApplication();
+			LoadAndStoreCachedConversionApplication();
 
-				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-				ApplicationId = appId;
-				Urn = urn;
+			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+			ApplicationId = appId;
+			Urn = urn;
 
-				// Grab other values from API
-				if (selectedSchool != null)
-				{
-					PopulateUiModel(selectedSchool);
-				}
-			}
-			catch (Exception ex)
+			// Grab other values from API
+			if (selectedSchool != null)
 			{
-				_logger.LogError("School::ApplicationConversionTargetDateModel::OnGetAsync::Exception - {Message}", ex.Message);
+				PopulateUiModel(selectedSchool);
 			}
 		}
 
@@ -157,27 +148,19 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 			
-			try
-			{
-				//// grab draft application from temp= null
-				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+			//// grab draft application from temp= null
+			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				var dictionaryMapper = PopulateUpdateDictionary();
+			var dictionaryMapper = PopulateUpdateDictionary();
 
-				// MR:- call API endpoint to log data
-				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+			// MR:- call API endpoint to log data
+			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
-				// update temp store for next step
-				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+			// update temp store for next step
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-				// need to go onto next step in process 'reasons for conversion page'
-				return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::ApplicationConversionTargetDateModel::OnPostAsync::Exception - {Message}", ex.Message);
-				return Page();
-			}
+			// need to go onto next step in process 'reasons for conversion page'
+			return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
 		}
 
 		///<inheritdoc/>

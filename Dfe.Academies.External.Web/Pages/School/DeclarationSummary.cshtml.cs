@@ -10,8 +10,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 {
     public class DeclarationSummaryModel : BasePageEditModel
 	{
-	    private readonly ILogger<DeclarationSummaryModel> _logger;
-
 	    //// MR:- selected school props for UI rendering
 	    [BindProperty]
 	    public int ApplicationId { get; set; }
@@ -28,36 +26,28 @@ namespace Dfe.Academies.External.Web.Pages.School
 			IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
-			_logger = logger;
 		}
 
 		public async Task OnGetAsync(int urn, int appId)
 		{
-			try
-			{
-				LoadAndStoreCachedConversionApplication();
+			LoadAndStoreCachedConversionApplication();
 
-				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-				ApplicationId = appId;
-				Urn = urn;
+			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+			ApplicationId = appId;
+			Urn = urn;
 
-				// Grab other values from API
-				if (selectedSchool != null)
-				{
-					PopulateUiModel(selectedSchool);
-				}
-			}
-			catch (Exception ex)
+			// Grab other values from API
+			if (selectedSchool != null)
 			{
-				_logger.LogError("School::DeclarationSummaryModel::OnGetAsync::Exception - {Message}", ex.Message);
+				PopulateUiModel(selectedSchool);
 			}
 		}
 
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			// TODO:- move code to here !!
-			throw new NotImplementedException();
+			// does not apply on this page
+			return true;
 		}
 
 		///<inheritdoc/>

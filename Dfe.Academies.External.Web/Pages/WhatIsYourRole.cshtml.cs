@@ -10,14 +10,12 @@ namespace Dfe.Academies.External.Web.Pages;
 
 public class WhatIsYourRoleModel : BasePageModel
 {
-	private readonly ILogger<WhatIsYourRoleModel> _logger;
 	private readonly IConversionApplicationCreationService _academisationCreationService;
 	private const string NextStepPage = "/ApplicationOverview";
 
 	public WhatIsYourRoleModel(ILogger<WhatIsYourRoleModel> logger,
 								IConversionApplicationCreationService academisationCreationService)
 	{
-		_logger = logger;
 		_academisationCreationService = academisationCreationService;
 	}
 
@@ -43,18 +41,11 @@ public class WhatIsYourRoleModel : BasePageModel
 
 	public async Task OnGetAsync()
 	{
-		try
-		{
-			//// on load - grab draft application from temp
-			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+		//// on load - grab draft application from temp
+		var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			//// MR:- Need to drop into THIS pages cache here ready for post / server callback !
-			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("Application::WhatIsYourRoleModel::OnGetAsync::Exception - {Message}", ex.Message);
-		}
+		//// MR:- Need to drop into THIS pages cache here ready for post / server callback !
+		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 	}
 
 	public async Task<IActionResult> OnPostAsync()
@@ -72,29 +63,21 @@ public class WhatIsYourRoleModel : BasePageModel
 			return Page();
 		}
 
-		try
-		{
-			//// grab draft application from temp= null
-			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+		//// grab draft application from temp= null
+		var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			var firstName = User.FindFirst(ClaimTypes.GivenName)?.Value ?? "";
-			var lastName = User.FindFirst(ClaimTypes.Surname)?.Value ?? "";
-			var email = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
-			var creationContributor = new ConversionApplicationContributor(firstName, lastName, email, SchoolRole, OtherRoleNotListed);
-			draftConversionApplication.Contributors.Add(creationContributor);
+		var firstName = User.FindFirst(ClaimTypes.GivenName)?.Value ?? "";
+		var lastName = User.FindFirst(ClaimTypes.Surname)?.Value ?? "";
+		var email = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
+		var creationContributor = new ConversionApplicationContributor(firstName, lastName, email, SchoolRole, OtherRoleNotListed);
+		draftConversionApplication.Contributors.Add(creationContributor);
 
-			draftConversionApplication = await _academisationCreationService.CreateNewApplication(draftConversionApplication);
+		draftConversionApplication = await _academisationCreationService.CreateNewApplication(draftConversionApplication);
 
-			// update temp store for next step - application overview i.e. ConversionApplication.ApplicationId
-			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+		// update temp store for next step - application overview i.e. ConversionApplication.ApplicationId
+		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-			return RedirectToPage(NextStepPage, new { appId = draftConversionApplication.ApplicationId });
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("Application::WhatIsYourRoleModel::OnPostAsync::Exception - {Message}", ex.Message);
-			return Page();
-		}
+		return RedirectToPage(NextStepPage, new { appId = draftConversionApplication.ApplicationId });
 	}
 
 	public override void PopulateValidationMessages()

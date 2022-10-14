@@ -10,7 +10,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class Loans : BasePageEditModel
 	{
-		private readonly ILogger<Loans> _logger;
 		private readonly IConversionApplicationCreationService _academisationCreationService;
 		
 		public Loans(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
@@ -20,7 +19,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			base(conversionApplicationRetrievalService, 
 				referenceDataRetrievalService)
 		{
-			_logger = logger;
 			_academisationCreationService = academisationCreationService;
 		}
 		
@@ -105,23 +103,16 @@ namespace Dfe.Academies.External.Web.Pages.School
 		
 		public async Task OnGetAsync(int urn, int appId)
 		{
-			try
-			{
-				LoadAndStoreCachedConversionApplication();
-				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-				ApplicationId = appId;
-				Urn = urn;
+			LoadAndStoreCachedConversionApplication();
+			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+			ApplicationId = appId;
+			Urn = urn;
 
-				// Grab other values from API
-				if (selectedSchool != null)
-				{
-					MergeCachedAndDatabaseLoans(selectedSchool);
-					PopulateUiModel(selectedSchool);
-				}
-			}
-			catch (Exception ex)
+			// Grab other values from API
+			if (selectedSchool != null)
 			{
-				_logger.LogError("School::CurrentFinancialYearModel::OnGetAsync::Exception - {Message}", ex.Message);
+				MergeCachedAndDatabaseLoans(selectedSchool);
+				PopulateUiModel(selectedSchool);
 			}
 		}
 

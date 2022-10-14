@@ -9,8 +9,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class SchoolOverviewModel : BasePageEditModel
 	{
-		private readonly ILogger<SchoolOverviewModel> _logger;
-
 		[BindProperty]
 		public int ApplicationId { get; set; }
 
@@ -27,38 +25,30 @@ namespace Dfe.Academies.External.Web.Pages.School
 									IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
-			_logger = logger;
 		}
 
 		public async Task OnGetAsync(int urn, int appId)
 		{
-			try
-			{
-				var conversionApplication = await LoadAndSetApplicationDetails(appId);
-				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-				ApplicationId = appId;
-				Urn = urn;
+			var conversionApplication = await LoadAndSetApplicationDetails(appId);
+			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+			ApplicationId = appId;
+			Urn = urn;
 
-				// Grab other values from API
-				if (selectedSchool != null)
-				{
-					selectedSchool.SchoolApplicationComponents = await ConversionApplicationRetrievalService
-						.GetSchoolApplicationComponents(appId, urn);
-
-					PopulateUiModel(selectedSchool, conversionApplication);
-				}
-			}
-			catch (Exception ex)
+			// Grab other values from API
+			if (selectedSchool != null)
 			{
-				_logger.LogError("Application::SchoolOverviewModel::OnGetAsync::Exception - {Message}", ex.Message);
+				selectedSchool.SchoolApplicationComponents = await ConversionApplicationRetrievalService
+					.GetSchoolApplicationComponents(appId, urn);
+
+				PopulateUiModel(selectedSchool, conversionApplication);
 			}
 		}
 
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			// TODO:- move code to here !!
-			throw new NotImplementedException();
+			// does not apply on this page
+			return true;
 		}
 
 		///<inheritdoc/>

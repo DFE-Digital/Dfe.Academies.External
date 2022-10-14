@@ -10,7 +10,6 @@ namespace Dfe.Academies.External.Web.Pages.School;
 
 public class NextFinancialYearModel : BasePageEditModel
 {
-    private readonly ILogger<NextFinancialYearModel> _logger;
     private readonly IConversionApplicationCreationService _academisationCreationService;
     public string NFYEndDateFormInputName = "sip_nfyenddate";
 
@@ -126,29 +125,21 @@ public class NextFinancialYearModel : BasePageEditModel
 	    IConversionApplicationCreationService academisationCreationService)
 	    : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
     {
-	    _logger = logger;
 	    _academisationCreationService = academisationCreationService;
     }
 
     public async Task OnGetAsync(int urn, int appId)
     {
-	    try
-	    {
-		    LoadAndStoreCachedConversionApplication();
+	    LoadAndStoreCachedConversionApplication();
 
-		    var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-		    ApplicationId = appId;
-		    Urn = urn;
+	    var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+	    ApplicationId = appId;
+	    Urn = urn;
 
-		    // Grab other values from API
-		    if (selectedSchool != null)
-		    {
-			    PopulateUiModel(selectedSchool);
-		    }
-	    }
-	    catch (Exception ex)
+	    // Grab other values from API
+	    if (selectedSchool != null)
 	    {
-		    _logger.LogError("School::NextFinancialYearModel::OnGetAsync::Exception - {Message}", ex.Message);
+		    PopulateUiModel(selectedSchool);
 	    }
     }
 
@@ -198,25 +189,17 @@ public class NextFinancialYearModel : BasePageEditModel
 			return Page();
 	    }
 
-		try
-		{
-			//// grab draft application from temp= null
-			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+		//// grab draft application from temp= null
+		var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			var dictionaryMapper = PopulateUpdateDictionary();
+		var dictionaryMapper = PopulateUpdateDictionary();
 
-			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+		await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
-			// update temp store for next step - application overview
-			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+		// update temp store for next step - application overview
+		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-			return RedirectToPage("Loans", new { appId = ApplicationId, urn = Urn });
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("School::NextFinancialYearModel::OnPostAsync::Exception - {Message}", ex.Message);
-			return Page();
-		}
+		return RedirectToPage("Loans", new { appId = ApplicationId, urn = Urn });
 	}
 
     ///<inheritdoc/>

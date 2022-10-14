@@ -13,28 +13,19 @@ namespace Dfe.Academies.External.Web.Pages
 		public List<ConversionApplication> CompletedApplications { get; set; } = new();
 
 		private readonly IConversionApplicationRetrievalService _conversionApplications;
-		private readonly ILogger _logger;
 
 		public HomeModel(IConversionApplicationRetrievalService conversionApplications, ILogger<HomeModel> logger)
 		{
 			_conversionApplications = conversionApplications;
-			_logger = logger;
 		}
 
 		public async Task OnGet()
 		{
-			try
-			{
-				var userEmail = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
+			string userEmail = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
 
-				ExistingApplications = await _conversionApplications.GetPendingApplications(userEmail);
+			ExistingApplications = await _conversionApplications.GetPendingApplications(userEmail);
 
-				CompletedApplications = await _conversionApplications.GetCompletedApplications(userEmail);
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("Application::HomeModel::OnGet::Exception - {Message}", ex.Message);
-			}
+			CompletedApplications = await _conversionApplications.GetCompletedApplications(userEmail);
 		}
 
 		public override void PopulateValidationMessages()

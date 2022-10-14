@@ -18,7 +18,6 @@ namespace Dfe.Academies.External.Web.Pages
 	/// </summary>
 	public class AddAContributorModel : BasePageEditModel
 	{
-	    private readonly ILogger<AddAContributorModel> _logger;
 	    private readonly IConversionApplicationCreationService _academisationCreationService;
 	    
 	    //// MR:- selected school props for UI rendering
@@ -72,7 +71,6 @@ namespace Dfe.Academies.External.Web.Pages
 			IConversionApplicationCreationService academisationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
-			_logger = logger;
 			_academisationCreationService = academisationCreationService;
 		}
 
@@ -83,19 +81,12 @@ namespace Dfe.Academies.External.Web.Pages
 		/// <returns></returns>
 		public async Task OnGetAsync(int appId)
 		{
-			try
-			{
-				//// on load - grab draft application from temp
-				var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
+			//// on load - grab draft application from temp
+			var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
 
-				ApplicationId = appId;
+			ApplicationId = appId;
 
-				PopulateUiModel(draftConversionApplication);
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("Application::AddAContributorModel::OnGetAsync::Exception - {Message}", ex.Message);
-			}
+			PopulateUiModel(draftConversionApplication);
 		}
 
 		public async Task<IActionResult> OnPostAsync()

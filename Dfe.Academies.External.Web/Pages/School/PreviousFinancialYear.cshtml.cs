@@ -10,7 +10,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 {
     public class PreviousFinancialYearModel : BasePageEditModel
 	{
-		private readonly ILogger<PreviousFinancialYearModel> _logger;
 		private readonly IConversionApplicationCreationService _academisationCreationService;
 		public string PFYEndDateFormInputName = "sip_pfyenddate";
 
@@ -127,29 +126,21 @@ namespace Dfe.Academies.External.Web.Pages.School
 										IConversionApplicationCreationService academisationCreationService) 
 	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
         {
-	        _logger = logger;
 	        _academisationCreationService = academisationCreationService;
 		}
 
 		public async Task OnGetAsync(int urn, int appId)
 		{
-			try
-			{
-				LoadAndStoreCachedConversionApplication();
+			LoadAndStoreCachedConversionApplication();
 
-				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-				ApplicationId = appId;
-				Urn = urn;
+			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+			ApplicationId = appId;
+			Urn = urn;
 
-				// Grab other values from API
-				if (selectedSchool != null)
-				{
-					PopulateUiModel(selectedSchool);
-				}
-			}
-			catch (Exception ex)
+			// Grab other values from API
+			if (selectedSchool != null)
 			{
-				_logger.LogError("School::PreviousFinancialYearModel::OnGetAsync::Exception - {Message}", ex.Message);
+				PopulateUiModel(selectedSchool);
 			}
 		}
 
@@ -199,40 +190,19 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			try
-			{
-				//// grab draft application from temp= null
-				var draftConversionApplication =
-					TempDataHelper.GetSerialisedValue<ConversionApplication>(
-						TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+			//// grab draft application from temp= null
+			var draftConversionApplication =
+				TempDataHelper.GetSerialisedValue<ConversionApplication>(
+					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				//var previousFinancialYear = new SchoolFinancialYear(PFYFinancialEndDateLocal,
-				//	Revenue,
-				//	PFYRevenueStatus,
-				//	PFYRevenueStatusExplained,
-				//	null,
-				//	CapitalCarryForward,
-				//	PFYCapitalCarryForwardStatus,
-				//	PFYCapitalCarryForwardExplained,
-				//	null);
+			var dictionaryMapper = PopulateUpdateDictionary();
 
-				//var mappingDictionary =
-				//	new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.PreviousFinancialYear), previousFinancialYear } };
+			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
-				var dictionaryMapper = PopulateUpdateDictionary();
+			// update temp store for next step - application overview
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
-
-				// update temp store for next step - application overview
-				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-				return RedirectToPage("CurrentFinancialYear", new { appId = ApplicationId, urn = Urn });
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::PreviousFinancialYearModel::OnPostAsync::Exception - {Message}", ex.Message);
-				return Page();
-			}
+			return RedirectToPage("CurrentFinancialYear", new { appId = ApplicationId, urn = Urn });
 		}
 
 		///<inheritdoc/>
