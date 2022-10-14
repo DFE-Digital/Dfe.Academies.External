@@ -75,6 +75,6 @@ namespace Dfe.Academies.External.Web.Services
 		/// <returns>
 		/// The <see cref="Task"/>.
 		/// </returns>
-		Task<bool> DeleteAsync(string uri, string token = "");
+		Task<bool> DeleteAsync<T>(string uri, T data, string token = "");
 	}
 }

@@ -55,7 +55,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			//If clicked changed answers then load the loan from tempdata and populate the fields
 			if (IsEdit)
 			{
-				var loanModels = TempDataLoadLoanViewModels(Urn);
+				var loanModels = TempDataLoadBySchool<List<LoanViewModel>>(Urn);
 				
 				var selectedLoan = loanModels?.FirstOrDefault(loan => loan.IsDraft == IsDraft && Id == loan.Id);
 				
@@ -90,7 +90,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				RepaymentSchedule = RepaymentSchedule
 			};
 			
-			var loanViewModels = TempDataLoadLoanViewModels(Urn) ?? new List<LoanViewModel>();
+			var loanViewModels = TempDataLoadBySchool<List<LoanViewModel>>(Urn) ?? new List<LoanViewModel>();
 			
 			//If we're editing the loan then overwrite the correct loan in the list of loans with the current binded values
 			if (IsEdit)
@@ -115,7 +115,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				selectedLoan.Id = loanViewModels.Count;
 				loanViewModels.Add(selectedLoan);
 			}
-			TempDataSetLoanViewModels(Urn, loanViewModels);
+			TempDataSetBySchool<List<LoanViewModel>>(Urn, loanViewModels);
 			return RedirectToPage( "Loans" ,new {urn = Urn, appId = ApplicationId});
 		}
 

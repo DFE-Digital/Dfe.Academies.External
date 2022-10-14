@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Services;
 
@@ -162,6 +163,96 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 		await _resilientRequestProvider.PutAsync(apiurl, application);
+	}
+
+	public async Task CreateLoan(int applicationId, int schoolId, SchoolLoan loan)
+	{
+		var createLoanCommand = new CreateLoanCommand
+		{
+			ApplicationId = applicationId,
+			SchoolId = schoolId,
+			Amount = loan.Amount,
+			Purpose = loan.Purpose,
+			Provider = loan.Provider,
+			InterestRate = loan.InterestRate,
+			Schedule = loan.Schedule
+		};
+		string apiurl = $"{_httpClient.BaseAddress}school/loan/create";
+		await _resilientRequestProvider.PutAsync(apiurl, createLoanCommand);
+	}
+
+	public async Task UpdateLoan(int applicationId, int schoolId, SchoolLoan loan)
+	{
+		var updateLoanCommand = new UpdateLoanCommand
+		{
+			ApplicationId = applicationId,
+			SchoolId = schoolId,
+			LoanId = loan.LoanId,
+			Amount = loan.Amount,
+			Purpose = loan.Purpose,
+			Provider = loan.Provider,
+			InterestRate = loan.InterestRate,
+			Schedule = loan.Schedule
+		};
+		string apiurl = $"{_httpClient.BaseAddress}school/loan/update";
+		await _resilientRequestProvider.PostAsync<IActionResult, UpdateLoanCommand>(apiurl, updateLoanCommand);
+	}
+
+	public async Task DeleteLoan(int applicationId, int schoolId, int loanId)
+	{
+		var deleteLoanCommand = new DeleteLoanCommand
+		{
+			ApplicationId = applicationId, SchoolId = schoolId, LoanId = loanId
+		};
+		string apiurl = $"{_httpClient.BaseAddress}school/loan/delete";
+		await _resilientRequestProvider.DeleteAsync<DeleteLoanCommand>(apiurl, deleteLoanCommand);
+	}
+
+	public async Task CreateLease(int applicationId, int schoolId, SchoolLease lease)
+	{
+		var createLeaseCommand = new CreateLeaseCommand
+		{
+			ApplicationId = applicationId,
+			SchoolId = schoolId,
+			InterestRate = lease.InterestRate,
+			LeaseTerm = lease.LeaseTerm,
+			PaymentsToDate = lease.PaymentsToDate,
+			Purpose = lease.Purpose,
+			RepaymentAmount = lease.RepaymentAmount,
+			ResponsibleForAssets = lease.ResponsibleForAssets,
+			ValueOfAssets = lease.ValueOfAssets
+		};
+		string apiurl = $"{_httpClient.BaseAddress}school/lease/create";
+		await _resilientRequestProvider.PutAsync(apiurl, createLeaseCommand);
+	}
+
+	public async Task UpdateLease(int applicationId, int schoolId, SchoolLease lease)
+	{
+		var updateLeaseCommand = new UpdateLeaseCommand
+		{
+			ApplicationId = applicationId,
+			SchoolId = schoolId,
+			LeaseId = lease.LeaseId,
+			InterestRate = lease.InterestRate,
+			LeaseTerm = lease.LeaseTerm,
+			PaymentsToDate = lease.PaymentsToDate,
+			Purpose = lease.Purpose,
+			RepaymentAmount = lease.RepaymentAmount,
+			ResponsibleForAssets = lease.ResponsibleForAssets,
+			ValueOfAssets = lease.ValueOfAssets
+		};
+		string apiurl = $"{_httpClient.BaseAddress}school/lease/update";
+		await _resilientRequestProvider.PostAsync<IActionResult, UpdateLeaseCommand>(apiurl, updateLeaseCommand);
+	}
+
+	public async Task DeleteLease(int applicationId, int schoolId, int leaseId)
+	{
+		var deleteLeaseCommand = new DeleteLeaseCommand
+		{
+			ApplicationId = applicationId, SchoolId = schoolId, LeaseId = leaseId
+		};
+		string apiurl = $"{_httpClient.BaseAddress}school/lease/delete";
+		await _resilientRequestProvider.DeleteAsync<DeleteLeaseCommand>(apiurl, deleteLeaseCommand);
 	}
 
 	private async Task<ConversionApplication?> GetApplication(int applicationId)

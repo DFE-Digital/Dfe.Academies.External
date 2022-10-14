@@ -93,7 +93,7 @@ namespace Dfe.Academies.External.Web.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task<bool> DeleteAsync(string uri, string token = "")
+		public async Task<bool> DeleteAsync<T>(string uri, T data, string token = "")
 		{
 			//this.ClearRequestHeaders(this._client); // MR:- commented out as headers set up StartupExtension
 
@@ -103,7 +103,13 @@ namespace Dfe.Academies.External.Web.Services
 				this.AddBearerTokenAuthenticationHeader(this._client, token);
 			}
 
-			var response = await this._client.DeleteAsync(uri);
+			var httpMessage = new HttpRequestMessage
+			{
+				Method = HttpMethod.Delete,
+				RequestUri = new Uri(uri),
+				Content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json")
+			};
+			var response = await this._client.SendAsync(httpMessage);
 			response.EnsureSuccessStatusCode();
 
 			return response.IsSuccessStatusCode;

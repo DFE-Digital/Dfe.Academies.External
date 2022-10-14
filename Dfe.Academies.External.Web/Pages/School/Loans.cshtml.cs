@@ -77,28 +77,33 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			var loans = new List<SchoolLoan>();
-			
-			if(AnyLoans == SelectOption.Yes)
-				LoanViewModels.ForEach(x =>
-				{
-					loans.Add(new SchoolLoan(x.TotalAmount, x.Purpose, x.Provider,x.InterestRate, x.RepaymentSchedule));
-				});
-			
-			var dictionaryMapper = new Dictionary<string, dynamic>
+			foreach (var loanViewModel in LoanViewModels)
 			{
-				{ nameof(SchoolApplyingToConvert.Loans), loans }
-			};
+				if (AnyLoans == SelectOption.No && !loanViewModel.IsDraft)
+				{
+					await _academisationCreationService.DeleteLoan(ApplicationId, selectedSchool.id, loanViewModel.Id);
+					continue;
+				}
 
-			await _academisationCreationService.PutSchoolApplicationDetails(
-				ApplicationId,
-				Urn,
-				dictionaryMapper
-			);
+				var loan = new SchoolLoan(
+					loanViewModel.Id,
+					loanViewModel.TotalAmount, 
+					loanViewModel.Purpose,
+					loanViewModel.Provider, 
+					loanViewModel.InterestRate,
+					loanViewModel.RepaymentSchedule);
 
+				if (loanViewModel.IsDraft)
+					await _academisationCreationService.CreateLoan(ApplicationId, selectedSchool.id, loan);
+				else
+				{
+					await _academisationCreationService.UpdateLoan(ApplicationId, selectedSchool.id, loan);
+				}
+			}
+			
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-			TempData[Urn.ToString()] = null;
+			TempData[$"{Urn.ToString()}-{typeof(List<LoanViewModel>)}"] = null;
 			
 			return RedirectToPage("FinancesReview", new { urn = Urn, appId = ApplicationId });
 		}
@@ -121,7 +126,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError("School::CurrentFinancialYearModel::OnGetAsync::Exception - {Message}", ex.Message);
+				_logger.LogError("School::Loans::OnGetAsync::Exception - {Message}", ex.Message);
 			}
 		}
 
@@ -150,7 +155,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			
 			//Try to merge with what is saved in the cache
 			//Use the ID on the loan view model
-			var tempDataLoanViewModels = TempDataLoadLoanViewModels(Urn) ?? new List<LoanViewModel>();
+			var tempDataLoanViewModels = TempDataLoadBySchool<List<LoanViewModel>>(Urn) ?? new List<LoanViewModel>();
 			tempDataLoanViewModels.ForEach(x =>
 			{
 				var loan = LoanViewModels.Find(y => y.Id == x.Id && !x.IsDraft);
@@ -172,7 +177,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 					LoanViewModels.Add(x);
 				}
 			});
-			TempDataSetLoanViewModels(Urn, LoanViewModels);
+			TempDataSetBySchool<List<LoanViewModel>>(Urn, LoanViewModels);
 		}
 		
 		///<inheritdoc/>

@@ -2,8 +2,9 @@
 
 public class SchoolLoan
 {
-	public SchoolLoan(decimal amount, string purpose, string provider, decimal interestRate, string schedule)
+	public SchoolLoan(int loanId, decimal amount, string purpose, string provider, decimal interestRate, string schedule)
 	{
+		LoanId = loanId;
 		Amount = amount;
 		Purpose = purpose;
 		Provider = provider;
@@ -12,8 +13,7 @@ public class SchoolLoan
 	}
 
 	public int LoanId { get; set; }
-
-	public int SchoolId { get; set; }
+	
 
 	//// MR:- below props from A2C-SIP - SchoolLoan object
 
@@ -26,8 +26,6 @@ public class SchoolLoan
 	public decimal InterestRate { get; set; }
 
 	public string Schedule { get; set; }
-
-	public DateTime? EndDate { get; set; }
 
 	/// <summary>
 	/// months or years ?
