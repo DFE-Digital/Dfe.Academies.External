@@ -191,59 +191,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			WorksPlannedDateLocal = BuildDateTime(day, month, year);
 
-			if (!ModelState.IsValid)
+			if (!RunUiValidation())
 			{
-				// error messages component consumes ViewData["Errors"]
-				PopulateValidationMessages();
 				RePopDatePickerModel(day, month, year);
 				return Page();
 			}
-
-			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandWorksPlannedExplained))
-			{
-				ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", "You must provide details");
-				PopulateValidationMessages();
-				RePopDatePickerModel(day, month, year);
-				return Page();
-			}
-
-			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && WorksPlannedDateLocal == DateTime.MinValue)
-			{
-				ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", "You must input a valid date");
-				PopulateValidationMessages();
-				RePopDatePickerModel(day, month, year);
-				return Page();
-			}
-
-			if (SchoolBuildLandSharedFacilities == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandSharedFacilitiesExplained))
-			{
-				ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", "You must provide details");
-				PopulateValidationMessages();
-				RePopDatePickerModel(day, month, year);
-				return Page();
-			}
-
-			if (SchoolBuildLandGrants == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandGrantsBodies))
-			{
-				ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", "You must provide details");
-				PopulateValidationMessages();
-				RePopDatePickerModel(day, month, year);
-				return Page();
-			}
-
-			if (SchoolBuildLandPFIScheme == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandPFISchemeType))
-			{
-				ModelState.AddModelError("SchoolBuildLandPFISchemeTypeNotEntered", "You must provide details");
-				PopulateValidationMessages();
-				RePopDatePickerModel(day, month, year);
-				return Page();
-			}
-
-			//// grab draft application from temp= null
-			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+			
+			// grab draft application from temp= null
+			var draftConversionApplication =
+				TempDataHelper.GetSerialisedValue<ConversionApplication>(
+					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 			var dictionaryMapper = PopulateUpdateDictionary();
-
 			await _academisationCreationService.PutSchoolApplicationDetails( ApplicationId, this.Urn, dictionaryMapper);
 
 			// update temp store for next step - application overview
@@ -255,8 +214,48 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			// TODO:- move code to here !!
-			throw new NotImplementedException();
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandWorksPlannedExplained))
+			{
+				ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && WorksPlannedDateLocal == DateTime.MinValue)
+			{
+				ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", "You must input a valid date");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (SchoolBuildLandSharedFacilities == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandSharedFacilitiesExplained))
+			{
+				ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (SchoolBuildLandGrants == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandGrantsBodies))
+			{
+				ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (SchoolBuildLandPFIScheme == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandPFISchemeType))
+			{
+				ModelState.AddModelError("SchoolBuildLandPFISchemeTypeNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			return true;
 		}
 
 		///<inheritdoc/>

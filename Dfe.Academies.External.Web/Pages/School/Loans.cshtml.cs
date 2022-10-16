@@ -58,24 +58,15 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			var selectedSchool = await LoadAndSetSchoolDetails(ApplicationId, Urn);
 			MergeCachedAndDatabaseLoans(selectedSchool);
+
+			if (!RunUiValidation())
+			{
+				return Page();
+			}
 			
-			if (AnyLoans == SelectOption.Yes && !LoanViewModels.Any())
-			{
-				ModelState.AddModelError("AddedLoansButEmptyCollectionError", "You must provide the details on the loan");
-				PopulateValidationMessages();
-				return Page();
-			}
-
-			if (!AnyLoans.HasValue)
-			{
-				ModelState.AddModelError("InvalidSelectOptionError", "You must select an option");
-				PopulateValidationMessages();
-				return Page();
-			}
-
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			var loans = new List<SchoolLoan>();
+			List<SchoolLoan> loans = new();
 			
 			if(AnyLoans == SelectOption.Yes)
 				LoanViewModels.ForEach(x =>
@@ -87,12 +78,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				{ nameof(SchoolApplyingToConvert.Loans), loans }
 			};
-
-			await _academisationCreationService.PutSchoolApplicationDetails(
-				ApplicationId,
-				Urn,
-				dictionaryMapper
-			);
+			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -169,8 +155,21 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			// TODO:- move code to here !!
-			throw new NotImplementedException();
+			if (AnyLoans == SelectOption.Yes && !LoanViewModels.Any())
+			{
+				ModelState.AddModelError("AddedLoansButEmptyCollectionError", "You must provide the details on the loan");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (!AnyLoans.HasValue)
+			{
+				ModelState.AddModelError("InvalidSelectOptionError", "You must select an option");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			return true;
 		}
 
 		///<inheritdoc/>

@@ -154,49 +154,19 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			PFYFinancialEndDateLocal = BuildDateTime(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
 
-			if (!ModelState.IsValid)
+			if (!RunUiValidation())
 			{
-				// error messages component consumes ViewData["Errors"]
-				PopulateValidationMessages();
-				// MR:- date input disappears without below !!
-				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
-				return Page();
-			}
-
-			if (PFYFinancialEndDateLocal == DateTime.MinValue)
-			{
-				ModelState.AddModelError("PFYFinancialEndDateNotEntered", "You must input a valid date");
-				PopulateValidationMessages();
 				// MR:- date input disappears without below !!
 				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
 				return Page();
 			}
 			
-			if (PFYRevenueStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(PFYRevenueStatusExplained))
-			{
-				ModelState.AddModelError("PFYRevenueStatusExplainedNotEntered", "You must provide details");
-				PopulateValidationMessages();
-				// MR:- date input disappears without below !!
-				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
-				return Page();
-			}
-			
-			if (PFYCapitalCarryForwardStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(PFYCapitalCarryForwardExplained))
-			{
-				ModelState.AddModelError("PFYCapitalCarryForwardExplainedNotEntered", "You must provide details");
-				PopulateValidationMessages();
-				// MR:- date input disappears without below !!
-				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
-				return Page();
-			}
-
-			//// grab draft application from temp= null
+			// grab draft application from temp= null
 			var draftConversionApplication =
 				TempDataHelper.GetSerialisedValue<ConversionApplication>(
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 			var dictionaryMapper = PopulateUpdateDictionary();
-
 			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 			// update temp store for next step - application overview
@@ -208,8 +178,34 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			// TODO:- move code to here !!
-			throw new NotImplementedException();
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (PFYFinancialEndDateLocal == DateTime.MinValue)
+			{
+				ModelState.AddModelError("PFYFinancialEndDateNotEntered", "You must input a valid date");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (PFYRevenueStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(PFYRevenueStatusExplained))
+			{
+				ModelState.AddModelError("PFYRevenueStatusExplainedNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (PFYCapitalCarryForwardStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(PFYCapitalCarryForwardExplained))
+			{
+				ModelState.AddModelError("PFYCapitalCarryForwardExplainedNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			return true;
 		}
 
 		///<inheritdoc/>

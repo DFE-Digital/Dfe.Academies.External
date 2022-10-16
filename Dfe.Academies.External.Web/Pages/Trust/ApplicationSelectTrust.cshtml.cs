@@ -82,7 +82,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 				// so, currently get the 'You must give the trust of the school' validation warning
 				// rather than the "You must choose a trust from the list" (code below)
 
-				//// 2nd phase validation - check selected trust
+				// 2nd phase validation - check selected trust
 				if (string.IsNullOrWhiteSpace(SearchQuery))
 				{
 					ModelState.AddModelError("InvalidTrust", "You must give the name of the trust");
@@ -93,8 +93,10 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 				return Page();
 			}
 
-			//// grab draft application from temp
-			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+			// grab draft application from temp
+			var draftConversionApplication =
+				TempDataHelper.GetSerialisedValue<ConversionApplication>(
+					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 			await _conversionApplicationCreationService.AddTrustToApplication(draftConversionApplication.ApplicationId, SelectedUkPrn, SelectedTrustName);
 

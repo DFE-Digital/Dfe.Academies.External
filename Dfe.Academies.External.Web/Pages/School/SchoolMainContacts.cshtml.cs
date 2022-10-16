@@ -104,58 +104,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public async Task<IActionResult> OnPostAsync()
 		{
-			if (!ModelState.IsValid)
+			if (!RunUiValidation())
 			{
-				PopulateValidationMessages();
 				return Page();
 			}
-
-			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherName))
-			{
-				ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide details");
-				PopulateValidationMessages();
-				return Page();
-			}
-
-			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
-			{
-				ModelState.AddModelError("MainContactOtherEmailNotEntered", "You must provide details");
-				PopulateValidationMessages();
-				return Page();
-			}
-
-			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherTelephone))
-			{
-				ModelState.AddModelError("MainContactOtherTelephoneNotEntered", "You must provide details");
-				PopulateValidationMessages();
-				return Page();
-			}
-
-			// Check ViewModel.MainContactOtherEmail - is-valid email address
-			if (ViewModel.ContactRole == MainConversionContact.Other &&
-				!string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
-			{
-				var emailAddress = new EmailAddress(ViewModel.MainContactOtherEmail);
-
-				var emailValidator = new EmailValidator();
-
-				// act
-				var validationResult = await emailValidator.ValidateAsync(emailAddress);
-
-				if (!validationResult.IsValid)
-				{
-					// display:- (ErrorMessage = "Main contact email is not a valid e-mail address")
-					ModelState.AddModelError("MainContactOtherEmailInvalid", "Main contact email is not a valid e-mail address");
-					PopulateValidationMessages();
-					return Page();
-				}
-			}
-
-			//// grab draft application from temp= null
-			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 			
-			var dictionaryMapper = PopulateUpdateDictionary();
+			// grab draft application from temp= null
+			var draftConversionApplication =
+				TempDataHelper.GetSerialisedValue<ConversionApplication>(
+					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
+			var dictionaryMapper = PopulateUpdateDictionary();
 			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 			// update temp store for next step - application overview as last step in process
@@ -167,8 +126,51 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			// TODO:- move code to here !!
-			throw new NotImplementedException();
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherName))
+			{
+				ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
+			{
+				ModelState.AddModelError("MainContactOtherEmailNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherTelephone))
+			{
+				ModelState.AddModelError("MainContactOtherTelephoneNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			// Check ViewModel.MainContactOtherEmail - is-valid email address
+			if (ViewModel.ContactRole == MainConversionContact.Other &&
+			    !string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
+			{
+				var emailAddress = new EmailAddress(ViewModel.MainContactOtherEmail);
+				var emailValidator = new EmailValidator();
+				var validationResult = emailValidator.Validate(emailAddress);
+
+				if (!validationResult.IsValid)
+				{
+					// display:- (ErrorMessage = "Main contact email is not a valid e-mail address")
+					ModelState.AddModelError("MainContactOtherEmailInvalid", "Main contact email is not a valid e-mail address");
+					PopulateValidationMessages();
+					return false;
+				}
+			}
+
+			return true;
 		}
 
 		///<inheritdoc/>

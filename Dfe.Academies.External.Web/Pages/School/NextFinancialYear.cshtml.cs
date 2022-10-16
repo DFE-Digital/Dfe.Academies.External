@@ -153,47 +153,17 @@ public class NextFinancialYearModel : BasePageEditModel
 
 	    NFYFinancialEndDateLocal = BuildDateTime(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
 
-	    if (!ModelState.IsValid)
+	    if (!RunUiValidation())
 	    {
-		    // error messages component consumes ViewData["Errors"]
-		    PopulateValidationMessages();
 		    // MR:- date input disappears without below !!
 		    RePopDatePickerModel(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
-		    return Page();
-	    }
-
-	    if (NFYFinancialEndDateLocal == DateTime.MinValue)
-	    {
-		    ModelState.AddModelError("NFYFinancialEndDateNotEntered", "You must input a valid date");
-		    PopulateValidationMessages();
-			// MR:- date input disappears without below !!
-			RePopDatePickerModel(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
 			return Page();
 	    }
-
-	    if (NFYRevenueStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(NFYRevenueStatusExplained))
-	    {
-		    ModelState.AddModelError("NFYRevenueStatusExplainedNotEntered", "You must provide details");
-		    PopulateValidationMessages();
-			// MR:- date input disappears without below !!
-			RePopDatePickerModel(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
-			return Page();
-	    }
-
-	    if (NFYCapitalCarryForwardStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(NFYCapitalCarryForwardExplained))
-	    {
-		    ModelState.AddModelError("NFYCapitalCarryForwardExplainedNotEntered", "You must provide details");
-		    PopulateValidationMessages();
-			// MR:- date input disappears without below !!
-			RePopDatePickerModel(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
-			return Page();
-	    }
-
-		//// grab draft application from temp= null
+		
+		// grab draft application from temp= null
 		var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 		var dictionaryMapper = PopulateUpdateDictionary();
-
 		await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 		// update temp store for next step - application overview
@@ -205,8 +175,34 @@ public class NextFinancialYearModel : BasePageEditModel
     ///<inheritdoc/>
     public override bool RunUiValidation()
     {
-	    // TODO:- move code to here !!
-	    throw new NotImplementedException();
+	    if (!ModelState.IsValid)
+	    {
+		    PopulateValidationMessages();
+		    return false;
+	    }
+
+	    if (NFYFinancialEndDateLocal == DateTime.MinValue)
+	    {
+		    ModelState.AddModelError("NFYFinancialEndDateNotEntered", "You must input a valid date");
+		    PopulateValidationMessages();
+		    return false;
+	    }
+
+	    if (NFYRevenueStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(NFYRevenueStatusExplained))
+	    {
+		    ModelState.AddModelError("NFYRevenueStatusExplainedNotEntered", "You must provide details");
+		    PopulateValidationMessages();
+		    return false;
+	    }
+
+	    if (NFYCapitalCarryForwardStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(NFYCapitalCarryForwardExplained))
+	    {
+		    ModelState.AddModelError("NFYCapitalCarryForwardExplainedNotEntered", "You must provide details");
+		    PopulateValidationMessages();
+		    return false;
+	    }
+
+	    return true;
     }
 
 	///<inheritdoc/>
