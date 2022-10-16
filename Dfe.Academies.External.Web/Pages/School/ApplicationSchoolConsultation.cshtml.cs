@@ -77,24 +77,17 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 
 	public async Task<IActionResult> OnPostAsync()
 	{
-		if (!ModelState.IsValid)
+		if (!RunUiValidation())
 		{
-			PopulateValidationMessages();
 			return Page();
 		}
 
-		if (SchoolConsultationStakeholders == SelectOption.No && string.IsNullOrWhiteSpace(SchoolConsultationStakeholdersConsult))
-		{
-			ModelState.AddModelError("SchoolConsultationStakeholdersConsultNotEntered", "You must provide details");
-			PopulateValidationMessages();
-			return Page();
-		}
-
-		//// grab draft application from temp= null
-		var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+		// grab draft application from temp= null
+		var draftConversionApplication =
+			TempDataHelper.GetSerialisedValue<ConversionApplication>(
+				TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 		var dictionaryMapper = PopulateUpdateDictionary();
-
 		await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 		// update temp store for next step - application overview as last step in process
@@ -106,8 +99,20 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 	///<inheritdoc/>
 	public override bool RunUiValidation()
 	{
-		// TODO:- move code to here !!
-		throw new NotImplementedException();
+		if (!ModelState.IsValid)
+		{
+			PopulateValidationMessages();
+			return false;
+		}
+
+		if (SchoolConsultationStakeholders == SelectOption.No && string.IsNullOrWhiteSpace(SchoolConsultationStakeholdersConsult))
+		{
+			ModelState.AddModelError("SchoolConsultationStakeholdersConsultNotEntered", "You must provide details");
+			PopulateValidationMessages();
+			return false;
+		}
+
+		return true;
 	}
 
 	///<inheritdoc/>

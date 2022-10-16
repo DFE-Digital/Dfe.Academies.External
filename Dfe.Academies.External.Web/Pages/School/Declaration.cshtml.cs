@@ -48,34 +48,19 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		public async Task<IActionResult> OnPostAsync(IFormCollection form)
+		public async Task<IActionResult> OnPostAsync()
 		{
-			if (!ModelState.IsValid)
+			if (!RunUiValidation())
 			{
-				// error messages component consumes ViewData["Errors"]
-				PopulateValidationMessages();
 				return Page();
 			}
-
-			// according to dan both values have to be true!
-			if (!SchoolDeclarationTeacherChair || !SchoolDeclarationBodyAgree)
-			{
-				ModelState.AddModelError("Declarationconfirmation", "You must confirm the declaration");
-				PopulateValidationMessages();
-				return Page();
-			}
-
-			//// grab draft application from temp= null
+			
+			// grab draft application from temp= null
 			var draftConversionApplication =
 				TempDataHelper.GetSerialisedValue<ConversionApplication>(
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			var dictionaryMapper = new Dictionary<string, dynamic>
-			{
-				{ nameof(SchoolApplyingToConvert.DeclarationIAmTheChairOrHeadteacher), SchoolDeclarationTeacherChair },
-				{ nameof(SchoolApplyingToConvert.DeclarationBodyAgree), SchoolDeclarationBodyAgree }
-			};
-
+			var dictionaryMapper = PopulateUpdateDictionary();
 			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 			// update temp store for next step - application overview
@@ -87,8 +72,21 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			// TODO:- move code to here !!
-			throw new NotImplementedException();
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				return false;
+			}
+
+			// according to dan both values have to be true!
+			if (!SchoolDeclarationTeacherChair || !SchoolDeclarationBodyAgree)
+			{
+				ModelState.AddModelError("Declarationconfirmation", "You must confirm the declaration");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			return true;
 		}
 
 		///<inheritdoc/>
@@ -100,8 +98,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
-			// does not apply on this page
-			return new();
+			return new Dictionary<string, dynamic>
+			{
+				{ nameof(SchoolApplyingToConvert.DeclarationIAmTheChairOrHeadteacher), SchoolDeclarationTeacherChair },
+				{ nameof(SchoolApplyingToConvert.DeclarationBodyAgree), SchoolDeclarationBodyAgree }
+			};
 		}
 
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)

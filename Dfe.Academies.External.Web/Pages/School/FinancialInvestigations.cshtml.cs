@@ -90,35 +90,19 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		public async Task<IActionResult> OnPostAsync(IFormCollection form)
+		public async Task<IActionResult> OnPostAsync()
 		{
-
-			if (!ModelState.IsValid)
+			if (!RunUiValidation())
 			{
-				// error messages component consumes ViewData["Errors"]
-				PopulateValidationMessages();
 				return Page();
 			}
-
-			if (FinanceOngoingInvestigations == SelectOption.Yes && string.IsNullOrWhiteSpace(FinancialInvestigationsExplain))
-			{
-				ModelState.AddModelError("FinancialInvestigationsExplainNotEntered", "You must provide details of the investigation");
-				PopulateValidationMessages();
-				return Page();
-			}
-
-			if (FinanceOngoingInvestigations == SelectOption.Yes && !FinancialInvestigationsTrustAware.HasValue)
-			{
-				ModelState.AddModelError("FinancialInvestigationsTrustAwareNotSelected", "You must select an option");
-				PopulateValidationMessages();
-				return Page();
-			}
-
-			//// grab draft application from temp= null
-			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+			
+			// grab draft application from temp= null
+			var draftConversionApplication =
+				TempDataHelper.GetSerialisedValue<ConversionApplication>(
+					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 			var dictionaryMapper = PopulateUpdateDictionary();
-
 			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 			// update temp store for next step - application overview
@@ -130,8 +114,27 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			// TODO:- move code to here !!
-			throw new NotImplementedException();
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (FinanceOngoingInvestigations == SelectOption.Yes && string.IsNullOrWhiteSpace(FinancialInvestigationsExplain))
+			{
+				ModelState.AddModelError("FinancialInvestigationsExplainNotEntered", "You must provide details of the investigation");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (FinanceOngoingInvestigations == SelectOption.Yes && !FinancialInvestigationsTrustAware.HasValue)
+			{
+				ModelState.AddModelError("FinancialInvestigationsTrustAwareNotSelected", "You must select an option");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			return true;
 		}
 
 		///<inheritdoc/>
