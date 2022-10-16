@@ -33,7 +33,7 @@ public abstract class BaseApplicationPageEditModel : BasePageEditModel
 		PopulateUiModel(conversionApplication);
 	}
 
-	public async Task<IActionResult> OnPostAsync(IFormCollection form)
+	public async Task<IActionResult> OnPostAsync()
 	{
 		if (!RunUiValidation())
 		{

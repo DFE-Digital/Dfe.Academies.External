@@ -47,7 +47,7 @@ public abstract class BaseSchoolPageEditModel : BasePageEditModel
 	}
 
 	//2) Create OnPostAsync() func in new base class - call PopulateUiModel() method, that will be overridden in each page
-	public async Task<IActionResult> OnPostAsync(IFormCollection form)
+	public async Task<IActionResult> OnPostAsync()
 	{
 		// MR:- don't need try/catch anymore as we have exception middleware
 
