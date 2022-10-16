@@ -24,10 +24,10 @@ public abstract class BaseApplicationPageEditModel : BasePageEditModel
 
 	public async Task OnGetAsync(int appId)
 	{
-		//// on load - grab draft application from temp
+		// on load - grab draft application from temp
 		var conversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-		//// MR:- Need to drop into this pages cache here ready for post / server callback !
+		// MR:- Need to drop into this pages cache here ready for post / server callback !
 		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, conversionApplication);
 
 		PopulateUiModel(conversionApplication);
@@ -39,6 +39,10 @@ public abstract class BaseApplicationPageEditModel : BasePageEditModel
 		{
 			return Page();
 		}
+
+		var draftConversionApplication =
+			TempDataHelper.GetSerialisedValue<ConversionApplication>(
+				TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 		// TODO :- API calling / data saving
 

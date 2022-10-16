@@ -56,11 +56,12 @@ public abstract class BaseSchoolPageEditModel : BasePageEditModel
 			return Page();
 		}
 
-		//// grab draft application from temp= null
-		var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+		// grab draft application from temp= null
+		var draftConversionApplication =
+			TempDataHelper.GetSerialisedValue<ConversionApplication>(
+				TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 		var dictionaryMapper = PopulateUpdateDictionary();
-
 		await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 		// update temp store for next step - application overview
