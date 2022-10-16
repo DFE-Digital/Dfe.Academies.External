@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -28,15 +27,13 @@ internal sealed class ApplicationChangeSchoolNameModelTests
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
-		var mockLogger = new Mock<ILogger<ApplicationChangeSchoolNameModel>>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupApplicationChangeSchoolNameModel(mockLogger.Object,
-															mockConversionApplicationRetrievalService.Object,
+		var pageModel = SetupApplicationChangeSchoolNameModel(mockConversionApplicationRetrievalService.Object,
 															mockReferenceDataRetrievalService.Object,
 															mockConversionApplicationCreationService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
@@ -55,7 +52,6 @@ internal sealed class ApplicationChangeSchoolNameModelTests
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static ApplicationChangeSchoolNameModel SetupApplicationChangeSchoolNameModel(
-		ILogger<ApplicationChangeSchoolNameModel> mockLogger,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		IConversionApplicationCreationService academisationCreationService,
@@ -63,8 +59,7 @@ internal sealed class ApplicationChangeSchoolNameModelTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new ApplicationChangeSchoolNameModel(mockLogger,
-													mockConversionApplicationRetrievalService,
+		return new ApplicationChangeSchoolNameModel(mockConversionApplicationRetrievalService,
 													mockReferenceDataRetrievalService,
 													academisationCreationService)
 		{
