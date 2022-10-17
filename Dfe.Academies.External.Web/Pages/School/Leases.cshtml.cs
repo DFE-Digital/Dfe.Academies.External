@@ -1,0 +1,207 @@
+﻿using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.Pages.Base;
+using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Dfe.Academies.External.Web.Pages.School
+{
+	public class Leases : BasePageEditModel
+	{
+		private readonly ILogger<Leases> _logger;
+		private readonly IConversionApplicationCreationService _academisationCreationService;
+		
+		public Leases(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+			IReferenceDataRetrievalService referenceDataRetrievalService,
+			ILogger<Leases> logger,
+			IConversionApplicationCreationService academisationCreationService) :
+			base(conversionApplicationRetrievalService, 
+				referenceDataRetrievalService)
+		{
+			_logger = logger;
+			_academisationCreationService = academisationCreationService;
+		}
+		
+		[BindProperty]
+		public int ApplicationId { get; set; }
+
+		[BindProperty]
+		public int Urn { get; set; }
+		
+		[BindProperty]
+		[RequiredEnum(ErrorMessage = "You must provide details")]
+		public SelectOption? AnyLeases { get; set; }
+
+		public string SchoolName { get; private set; } = string.Empty;
+
+		public List<LeaseViewModel> LeaseViewModels { get; set; }
+		
+		//Validation errors
+		public bool AddedLeasesButEmptyCollectionError => !ModelState.IsValid && ModelState.Keys.Contains("AddedLeasesButEmptyCollectionError");
+		public bool InvalidSelectOptionError => !ModelState.IsValid && ModelState.Keys.Contains("InvalidSelectOptionError");
+
+		public bool HasError
+		{
+			get
+			{
+				var bools = new[]
+				{
+					AddedLeasesButEmptyCollectionError,
+					InvalidSelectOptionError
+				};
+
+				return bools.Any(b => b);
+			}
+		}
+
+		public async Task<IActionResult> OnPostAsync()
+		{
+			var selectedSchool = await LoadAndSetSchoolDetails(ApplicationId, Urn);
+			MergeCachedAndDatabaseEntities(selectedSchool);
+			
+			if (AnyLeases == SelectOption.Yes && !LeaseViewModels.Any())
+			{
+				ModelState.AddModelError("AddedLeasesButEmptyCollectionError", "You must provide the details on the lease");
+				PopulateValidationMessages();
+				return Page();
+			}
+
+			if (!AnyLeases.HasValue)
+			{
+				ModelState.AddModelError("InvalidSelectOptionError", "You must select an option");
+				PopulateValidationMessages();
+				return Page();
+			}
+
+			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+			
+			foreach (var leaseViewModel in LeaseViewModels)
+			{
+				if (AnyLeases == SelectOption.No && !leaseViewModel.IsDraft)
+				{
+					await _academisationCreationService.DeleteLease(ApplicationId, selectedSchool.id, leaseViewModel.Id);
+					continue;
+				}
+
+				var lease = new SchoolLease(leaseViewModel.Id,
+					leaseViewModel.LeaseTerm,
+					leaseViewModel.RepaymentAmount,
+					leaseViewModel.InterestRate,
+					leaseViewModel.PaymentsToDate,
+					leaseViewModel.Purpose,
+					leaseViewModel.ValueOfAssets,
+					leaseViewModel.ResponsibleForAssets);
+
+
+				if (leaseViewModel.IsDraft)
+					await _academisationCreationService.CreateLease(ApplicationId, selectedSchool.id, lease);
+				else
+				{
+					await _academisationCreationService.UpdateLease(ApplicationId, selectedSchool.id, lease);
+				}
+			}
+
+
+			// update temp store for next step - application overview
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+			TempData[$"{Urn.ToString()}-{typeof(List<LeaseViewModel>)}"] = null;
+			
+			return RedirectToPage("FinancesReview", new { urn = Urn, appId = ApplicationId });
+		}
+		
+		public async Task OnGetAsync(int urn, int appId)
+		{
+			try
+			{
+				LoadAndStoreCachedConversionApplication();
+				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+				ApplicationId = appId;
+				Urn = urn;
+
+				// Grab other values from API
+				if (selectedSchool != null)
+				{
+					MergeCachedAndDatabaseEntities(selectedSchool);
+					PopulateUiModel(selectedSchool);
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("School::Leases::OnGetAsync::Exception - {Message}", ex.Message);
+			}
+		}
+
+		private void LoadLeasesFromDatabase(SchoolApplyingToConvert selectedSchool)
+		{
+			//Populate viewmodel from currently saved data
+			LeaseViewModels = new List<LeaseViewModel>();
+			selectedSchool.Leases.ForEach(lease =>
+			{
+				LeaseViewModels.Add(new LeaseViewModel
+				{
+					IsDraft = false,
+					Id = lease.LeaseId,
+					LeaseTerm = lease.LeaseTerm,
+					RepaymentAmount = lease.RepaymentAmount,
+					InterestRate = lease.InterestRate,
+					PaymentsToDate = lease.PaymentsToDate,
+					Purpose = lease.Purpose,
+					ValueOfAssets = lease.ValueOfAssets,
+					ResponsibleForAssets = lease.ResponsibleForAssets
+					
+				});
+			});
+		}
+
+		private void MergeCachedAndDatabaseEntities(SchoolApplyingToConvert selectedSchool)
+		{
+			LoadLeasesFromDatabase(selectedSchool);
+			
+			//Try to merge with what is saved in the cache
+			//Use the ID on the lease view model
+			var tempDataViewModels = TempDataLoadBySchool<List<LeaseViewModel>>(Urn) ?? new List<LeaseViewModel>();
+			tempDataViewModels.ForEach(x =>
+			{
+				var lease = LeaseViewModels.Find(y => y.Id == x.Id && !x.IsDraft);
+				
+				//Overwrite the lease from the database with the one stored in the cache if they have matching IDs
+				//and the one in the cache isn't a draft because it's an integer so there's a chance of collisions
+				if (lease != null)
+				{
+					lease.IsDraft = false;
+					lease.Id = x.Id;
+					lease.LeaseTerm = x.LeaseTerm;
+					lease.RepaymentAmount = x.RepaymentAmount;
+					lease.InterestRate = x.InterestRate;
+					lease.PaymentsToDate = x.PaymentsToDate;
+					lease.Purpose = x.Purpose;
+					lease.ValueOfAssets = x.ValueOfAssets;
+					lease.ResponsibleForAssets = x.ResponsibleForAssets;
+				}
+				else
+				{
+					LeaseViewModels.Add(x);
+				}
+			});
+			TempDataSetBySchool<List<LeaseViewModel>>(Urn, LeaseViewModels);
+		}
+
+		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		{
+			SchoolName = selectedSchool.SchoolName;
+			AnyLeases = LeaseViewModels.Any() ? SelectOption.Yes : SelectOption.No;
+		}
+		
+		public override void PopulateValidationMessages()
+		{
+			PopulateViewDataErrorsWithModelStateErrors();
+		}
+
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+		{
+			return new();
+		}
+	}
+}

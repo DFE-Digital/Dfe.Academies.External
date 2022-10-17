@@ -12,13 +12,14 @@ internal sealed class SchoolLoanTests
 	public void Constructor___PropertiesSet()
 	{
 		// arrange
+		int id = Fixture.Create<int>();
 		decimal amount = Fixture.Create<decimal>();
 		string purpose = Fixture.Create<string>();
 		string provider = Fixture.Create<string>();
 		decimal interestRate = Fixture.Create<decimal>();
 		string schedule = Fixture.Create<string>();
 
-		var applicationComponent = new SchoolLoan(amount, purpose, provider, interestRate, schedule)
+		var applicationComponent = new SchoolLoan(id, amount, purpose, provider, interestRate, schedule)
 		{
 			LoanId = int.MaxValue
 		};

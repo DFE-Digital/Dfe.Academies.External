@@ -15,4 +15,11 @@ public interface IConversionApplicationCreationService
 	//Task UpdateDraftApplication(ConversionApplication application);
 
 	Task AddContributorToApplication(ConversionApplicationContributor contributor, int applicationId);
+
+	Task CreateLoan(int applicationId, int schoolId, SchoolLoan loan);
+	Task UpdateLoan(int applicationId, int schoolId, SchoolLoan loan);
+	Task DeleteLoan(int applicationId, int schoolId, int loanId);
+	Task CreateLease(int applicationId, int schoolId, SchoolLease lease);
+	Task UpdateLease(int applicationId, int schoolId, SchoolLease lease);
+	Task DeleteLease(int applicationId, int schoolId, int leaseId);
 }

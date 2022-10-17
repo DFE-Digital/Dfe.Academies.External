@@ -34,7 +34,7 @@ internal sealed class ResilientRequestProviderTests
 
 		// act
 		var resilientRequestProvider = new ResilientRequestProvider(httpClient);
-		var response = await resilientRequestProvider.DeleteAsync("https://www.example.com/ConversionApplication/1/");
+		var response = await resilientRequestProvider.DeleteAsync<string>("https://www.example.com/ConversionApplication/1/", expected);
 
 		// assert
 		Assert.AreEqual(response, true);

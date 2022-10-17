@@ -29,7 +29,7 @@
 		public const string ExistingLoans = "Are there any existing loans?";
 
 		// leases
-		// TODO MR:- question string defs
+		public const string ExistingLeases = "Are there any existing leases?";
 
 		// financial investigations
 		public const string FinanceOngoingInvestigations = "Finance ongoing investigations?";
