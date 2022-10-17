@@ -5,20 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-    public class DeclarationModel : BasePageEditModel
+    public class DeclarationModel : BaseSchoolPageEditModel
 	{
-	    private readonly IConversionApplicationCreationService _academisationCreationService;
-
-	    //// MR:- selected school props for UI rendering
-	    [BindProperty]
-	    public int ApplicationId { get; set; }
-
-	    [BindProperty]
-	    public int Urn { get; set; }
-
-	    public string SchoolName { get; private set; } = string.Empty;
-
-	    //// MR:- VM props to capture declaration data - only 2
+	    // MR:- VM props to capture declaration data - only 2
 		[BindProperty]
 		public bool SchoolDeclarationTeacherChair { get; set; }
 
@@ -28,47 +17,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public DeclarationModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService)
-			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-		{
-			_academisationCreationService = academisationCreationService;
-		}
-
-		public async Task OnGetAsync(int urn, int appId)
-		{
-			LoadAndStoreCachedConversionApplication();
-
-			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-			ApplicationId = appId;
-			Urn = urn;
-
-			// Grab other values from API
-			if (selectedSchool != null)
-			{
-				PopulateUiModel(selectedSchool);
-			}
-		}
-
-		public async Task<IActionResult> OnPostAsync()
-		{
-			if (!RunUiValidation())
-			{
-				return Page();
-			}
-			
-			// grab draft application from temp= null
-			var draftConversionApplication =
-				TempDataHelper.GetSerialisedValue<ConversionApplication>(
-					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-			var dictionaryMapper = PopulateUpdateDictionary();
-			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
-
-			// update temp store for next step - application overview
-			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-			return RedirectToPage("DeclarationSummary", new { appId = ApplicationId, urn = Urn });
-		}
-
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+				academisationCreationService, "DeclarationSummary")
+		{}
+		
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
@@ -105,10 +57,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			};
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		///<inheritdoc/>
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
-
 			if (selectedSchool.DeclarationIAmTheChairOrHeadteacher != null)
 			{
 				SchoolDeclarationTeacherChair = selectedSchool.DeclarationIAmTheChairOrHeadteacher.Value;
