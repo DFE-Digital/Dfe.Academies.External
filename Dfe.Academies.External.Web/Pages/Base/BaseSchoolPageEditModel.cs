@@ -28,7 +28,13 @@ public abstract class BaseSchoolPageEditModel : BasePageEditModel
 		NextStepPage = nextStepPage;
 	}
 
-	//1) Create OnGetAsync() func in new base class - call PopulateUiModel() method, that will be overridden in each page
+	/// <summary>
+	/// Create OnGetAsync() func in new base class - call PopulateUiModel() method, that will be overridden in each page
+	/// Allow to be overloaded because of pages with different implementation of PopulateUiModel()
+	/// </summary>
+	/// <param name="urn"></param>
+	/// <param name="appId"></param>
+	/// <returns></returns>
 	public virtual async Task OnGetAsync(int urn, int appId)
 	{
 		// MR:- don't need try/catch anymore as we have exception middleware
@@ -46,8 +52,12 @@ public abstract class BaseSchoolPageEditModel : BasePageEditModel
 		}
 	}
 
-	//2) Create OnPostAsync() func in new base class - call PopulateUiModel() method, that will be overridden in each page
-	public async Task<IActionResult> OnPostAsync()
+	/// <summary>
+	/// Create OnPostAsync() func in new base class - call PopulateUiModel() method, that will be overridden in each page
+	/// Allow to be overloaded because of datepicker pages
+	/// </summary>
+	/// <returns></returns>
+	public virtual async Task<IActionResult> OnPostAsync()
 	{
 		// MR:- don't need try/catch anymore as we have exception middleware
 
@@ -64,7 +74,7 @@ public abstract class BaseSchoolPageEditModel : BasePageEditModel
 		var dictionaryMapper = PopulateUpdateDictionary();
 		await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
-		// update temp store for next step - application overview
+		// update temp store for next step
 		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
 		return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
