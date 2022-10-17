@@ -118,9 +118,11 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 		    RePopDatePickerModel(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
 			return Page();
 	    }
-		
+
 		// grab draft application from temp= null
-		var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+		var draftConversionApplication =
+			TempDataHelper.GetSerialisedValue<ConversionApplication>(
+				TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 		var dictionaryMapper = PopulateUpdateDictionary();
 		await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);

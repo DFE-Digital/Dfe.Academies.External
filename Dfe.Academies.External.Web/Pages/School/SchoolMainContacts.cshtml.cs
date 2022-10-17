@@ -41,12 +41,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherNameNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherNameNotEntered");
 			}
 		}
 
@@ -54,12 +49,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherEmailNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherEmailNotEntered");
 			}
 		}
 
@@ -67,12 +57,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherTelephoneNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherTelephoneNotEntered");
 			}
 		}
 

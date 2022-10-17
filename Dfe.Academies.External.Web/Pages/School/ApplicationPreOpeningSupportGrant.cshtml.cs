@@ -32,12 +32,7 @@ public class ApplicationPreOpeningSupportGrantModel : BaseSchoolPageEditModel
 	{
 		get
 		{
-			if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolSupportGrantFundsPaidToNotEntered"))
-			{
-				return true;
-			}
-
-			return false;
+			return !ModelState.IsValid && ModelState.Keys.Contains("SchoolSupportGrantFundsPaidToNotEntered");
 		}
 	}
 

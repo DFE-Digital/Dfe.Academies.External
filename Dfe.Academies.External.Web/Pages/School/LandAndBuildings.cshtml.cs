@@ -84,12 +84,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandWorksPlannedExplainedNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandWorksPlannedExplainedNotEntered");
 			}
 		}
 
@@ -97,12 +92,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandWorksPlannedDateNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandWorksPlannedDateNotEntered");
 			}
 		}
 
@@ -110,12 +100,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandSharedFacilitiesExplainedNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandSharedFacilitiesExplainedNotEntered");
 			}
 		}
 
@@ -123,12 +108,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandGrantsBodiesNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandGrantsBodiesNotEntered");
 			}
 		}
 
@@ -136,12 +116,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandPFISchemeTypeNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandPFISchemeTypeNotEntered");
 			}
 		}
 

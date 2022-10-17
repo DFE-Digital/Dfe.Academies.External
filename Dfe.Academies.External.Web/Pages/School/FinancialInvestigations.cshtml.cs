@@ -24,12 +24,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("FinancialInvestigationsExplainNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("FinancialInvestigationsExplainNotEntered");
 			}
 		}
 
@@ -37,12 +32,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("FinancialInvestigationsTrustAwareNotSelected"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("FinancialInvestigationsTrustAwareNotSelected");
 			}
 		}
 

@@ -31,12 +31,7 @@ public class ApplicationSchoolConsultationModel : BaseSchoolPageEditModel
 	{
 		get
 		{
-			if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolConsultationStakeholdersConsultNotEntered"))
-			{
-				return true;
-			}
-
-			return false;
+			return !ModelState.IsValid && ModelState.Keys.Contains("SchoolConsultationStakeholdersConsultNotEntered");
 		}
 	}
 
