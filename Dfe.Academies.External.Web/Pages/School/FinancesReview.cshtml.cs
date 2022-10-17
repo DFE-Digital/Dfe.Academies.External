@@ -299,7 +299,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			FinancesReviewHeadingViewModel leasesHeading = new(FinancesReviewHeadingViewModel.HeadingLeases,
 				"/school/Leases")
 			{
-				Status = selectedSchool.Loans != null ? SchoolConversionComponentStatus.Complete : SchoolConversionComponentStatus.NotStarted
+				Status = selectedSchool.Leases != null ? SchoolConversionComponentStatus.Complete : SchoolConversionComponentStatus.NotStarted
 			};
 			var isStarted = leasesHeading.Status != SchoolConversionComponentStatus.NotStarted;
 			
