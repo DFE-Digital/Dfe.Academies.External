@@ -61,10 +61,11 @@ internal sealed class LandAndBuildingsModelTests
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
+		pageModel.Request.Form = mockForm.Object;
 		pageModel.ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync(mockForm.Object);
+		await pageModel.OnPostAsync();
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -87,10 +88,11 @@ internal sealed class LandAndBuildingsModelTests
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
+		pageModel.Request.Form = mockForm.Object;
 		pageModel.ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync(mockForm.Object);
+		await pageModel.OnPostAsync();
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -113,10 +115,11 @@ internal sealed class LandAndBuildingsModelTests
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
+		pageModel.Request.Form = mockForm.Object;
 		pageModel.ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync(mockForm.Object);
+		await pageModel.OnPostAsync();
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -139,10 +142,11 @@ internal sealed class LandAndBuildingsModelTests
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
+		pageModel.Request.Form = mockForm.Object;
 		pageModel.ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync(mockForm.Object);
+		await pageModel.OnPostAsync();
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -165,10 +169,11 @@ internal sealed class LandAndBuildingsModelTests
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
+		pageModel.Request.Form = mockForm.Object;
 		pageModel.ModelState.AddModelError("SchoolBuildLandPFISchemeTypeNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync(mockForm.Object);
+		await pageModel.OnPostAsync();
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -191,10 +196,11 @@ internal sealed class LandAndBuildingsModelTests
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
+		pageModel.Request.Form = mockForm.Object;
 		pageModel.ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync(mockForm.Object);
+		await pageModel.OnPostAsync();
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -217,10 +223,11 @@ internal sealed class LandAndBuildingsModelTests
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
+		pageModel.Request.Form = mockForm.Object;
 		pageModel.ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync(mockForm.Object);
+		await pageModel.OnPostAsync();
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -243,10 +250,11 @@ internal sealed class LandAndBuildingsModelTests
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
+		pageModel.Request.Form = mockForm.Object;
 		pageModel.ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync(mockForm.Object);
+		await pageModel.OnPostAsync();
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -269,10 +277,11 @@ internal sealed class LandAndBuildingsModelTests
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
+		pageModel.Request.Form = mockForm.Object;
 		pageModel.ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync(mockForm.Object);
+		await pageModel.OnPostAsync();
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
@@ -295,10 +304,11 @@ internal sealed class LandAndBuildingsModelTests
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
+		pageModel.Request.Form = mockForm.Object;
 		pageModel.ModelState.AddModelError("SchoolBuildLandPFISchemeTypeNotEntered", expectedErrorText);
 
 		// act
-		await pageModel.OnPostAsync(mockForm.Object);
+		await pageModel.OnPostAsync();
 
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 

@@ -8,21 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-	public class LandAndBuildingsModel : BasePageEditModel
+	public class LandAndBuildingsModel : BaseSchoolPageEditModel
 	{
-		private readonly IConversionApplicationCreationService _academisationCreationService;
 		public string PlannedDateFormInputName = "sip_lbworksplanneddate";
 
-		//// MR:- selected school props for UI rendering
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
-
-		public string SchoolName { get; private set; } = string.Empty;
-
-		//// MR:- VM props to capture land & buildings data
+		// MR:- VM props to capture land & buildings data
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
 		public string SchoolBuildLandOwnerExplained { get; set; } = string.Empty;
@@ -160,28 +150,33 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public LandAndBuildingsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService)
-			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+				academisationCreationService, "LandAndBuildingsSummary")
+		{}
+
+		//public async Task OnGetAsync(int urn, int appId)
+		//{
+		//	LoadAndStoreCachedConversionApplication();
+
+		//	var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+		//	ApplicationId = appId;
+		//	Urn = urn;
+
+		//	// Grab other values from API
+		//	if (selectedSchool != null)
+		//	{
+		//		PopulateUiModel(selectedSchool);
+		//	}
+		//}
+
+		/// <summary>
+		/// different overload because of datepicker stuff!!
+		/// </summary>
+		/// <returns></returns>
+		public override async Task<IActionResult> OnPostAsync()
 		{
-			_academisationCreationService = academisationCreationService;
-		}
+			var form = Request.Form;
 
-		public async Task OnGetAsync(int urn, int appId)
-		{
-			LoadAndStoreCachedConversionApplication();
-
-			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-			ApplicationId = appId;
-			Urn = urn;
-
-			// Grab other values from API
-			if (selectedSchool != null)
-			{
-				PopulateUiModel(selectedSchool);
-			}
-		}
-
-		public async Task<IActionResult> OnPostAsync(IFormCollection form)
-		{
 			// MR:- try and build a date from component parts !!!
 			var dateComponents = RetrieveDateTimeComponentsFromDatePicker(form, PlannedDateFormInputName);
 			string day = dateComponents.FirstOrDefault(x => x.Key == "day").Value;
@@ -202,12 +197,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 			var dictionaryMapper = PopulateUpdateDictionary();
-			await _academisationCreationService.PutSchoolApplicationDetails( ApplicationId, this.Urn, dictionaryMapper);
+			await ConversionApplicationCreationService.PutSchoolApplicationDetails( ApplicationId, this.Urn, dictionaryMapper);
 
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-			return RedirectToPage("LandAndBuildingsSummary", new { appId = ApplicationId, urn = Urn });
+			return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
 		}
 
 		///<inheritdoc/>
@@ -303,9 +298,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			return new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.LandAndBuildings), landAndBuildingsData } };
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
 			SchoolBuildLandOwnerExplained = selectedSchool.LandAndBuildings.OwnerExplained;
 			SchoolBuildLandWorksPlanned = selectedSchool.LandAndBuildings.WorksPlanned.Value ? SelectOption.Yes : SelectOption.No;
 			SchoolBuildLandWorksPlannedExplained = selectedSchool.LandAndBuildings.WorksPlannedExplained;
