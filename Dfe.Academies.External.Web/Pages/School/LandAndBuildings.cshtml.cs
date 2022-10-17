@@ -129,21 +129,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				academisationCreationService, "LandAndBuildingsSummary")
 		{}
 
-		//public async Task OnGetAsync(int urn, int appId)
-		//{
-		//	LoadAndStoreCachedConversionApplication();
-
-		//	var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-		//	ApplicationId = appId;
-		//	Urn = urn;
-
-		//	// Grab other values from API
-		//	if (selectedSchool != null)
-		//	{
-		//		PopulateUiModel(selectedSchool);
-		//	}
-		//}
-
 		/// <summary>
 		/// different overload because of datepicker stuff!!
 		/// </summary>
