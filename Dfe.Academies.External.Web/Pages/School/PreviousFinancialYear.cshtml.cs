@@ -8,21 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-    public class PreviousFinancialYearModel : BasePageEditModel
+    public class PreviousFinancialYearModel : BaseSchoolPageEditModel
 	{
-		private readonly IConversionApplicationCreationService _academisationCreationService;
 		public string PFYEndDateFormInputName = "sip_pfyenddate";
 
-		//// MR:- selected school props for UI rendering
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
-
-		public string SchoolName { get; private set; } = string.Empty;
-
-		//// MR:- VM props to capture Pfy data
+		// MR:- VM props to capture Pfy data
 		
 		[BindProperty]
 		public string? PFYEndDate { get; set; }
@@ -70,12 +60,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("PFYFinancialEndDateNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("PFYFinancialEndDateNotEntered");
 			}
 		}
 
@@ -83,12 +68,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("PFYRevenueStatusExplainedNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("PFYRevenueStatusExplainedNotEntered");
 			}
 		}
 
@@ -96,12 +76,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("PFYCapitalCarryForwardExplainedNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("PFYCapitalCarryForwardExplainedNotEntered");
 			}
 		}
 
@@ -123,28 +98,29 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public PreviousFinancialYearModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 										IReferenceDataRetrievalService referenceDataRetrievalService,
 										IConversionApplicationCreationService academisationCreationService) 
-	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-        {
-	        _academisationCreationService = academisationCreationService;
-		}
+	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+		        academisationCreationService, "CurrentFinancialYear")
+        {}
 
-		public async Task OnGetAsync(int urn, int appId)
+		//public async Task OnGetAsync(int urn, int appId)
+		//{
+		//	LoadAndStoreCachedConversionApplication();
+
+		//	var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+		//	ApplicationId = appId;
+		//	Urn = urn;
+
+		//	// Grab other values from API
+		//	if (selectedSchool != null)
+		//	{
+		//		PopulateUiModel(selectedSchool);
+		//	}
+		//}
+
+		public override async Task<IActionResult> OnPostAsync()
 		{
-			LoadAndStoreCachedConversionApplication();
+			var form = Request.Form;
 
-			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-			ApplicationId = appId;
-			Urn = urn;
-
-			// Grab other values from API
-			if (selectedSchool != null)
-			{
-				PopulateUiModel(selectedSchool);
-			}
-		}
-
-		public async Task<IActionResult> OnPostAsync(IFormCollection form)
-		{
 			// MR:- try and build a date from component parts !!!
 			var pfyEndDateComponents = RetrieveDateTimeComponentsFromDatePicker(form, PFYEndDateFormInputName);
 			string PFYEndDateComponentDay = pfyEndDateComponents.FirstOrDefault(x => x.Key == "day").Value;
@@ -166,12 +142,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 			var dictionaryMapper = PopulateUpdateDictionary();
-			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+			await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-			return RedirectToPage("CurrentFinancialYear", new { appId = ApplicationId, urn = Urn });
+			return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
 		}
 
 		///<inheritdoc/>
@@ -241,12 +217,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 			return new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.PreviousFinancialYear), previousFinancialYear } };
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		///<inheritdoc/>
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
-			PFYEndDate = (selectedSchool.PreviousFinancialYear.FinancialYearEndDate.HasValue ?
+			PFYEndDate = selectedSchool.PreviousFinancialYear.FinancialYearEndDate.HasValue ?
 				selectedSchool.PreviousFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy")
-				: string.Empty);
+				: string.Empty;
 
 			// Revenue
 			if (selectedSchool.PreviousFinancialYear.Revenue != null)
