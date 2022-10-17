@@ -11,17 +11,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 	/// <summary>
 	/// MR:- clone of ConversionKeyDetailsReview.cshtml - A2C-SIP
 	/// </summary>
-	public class SchoolConversionKeyDetailsModel : BasePageEditModel
+	public class SchoolConversionKeyDetailsModel : BaseSchoolSummaryPageModel
 	{
-		//// MR:- selected school props for UI rendering
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
-
-		public string SchoolName { get; private set; } = string.Empty;
-
 		//// MR:- VM props to show school conversion data
 		public List<SchoolConversionComponentHeadingViewModel> ViewModel { get; set; } = new();
 
@@ -29,21 +20,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
-		}
-
-		public async Task OnGetAsync(int urn, int appId)
-		{
-			LoadAndStoreCachedConversionApplication();
-
-			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-			ApplicationId = appId;
-			Urn = urn;
-
-			// Grab other values from API
-			if (selectedSchool != null)
-			{
-				PopulateUiModel(selectedSchool);
-			}
 		}
 
 		///<inheritdoc/>
@@ -66,10 +42,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			return new();
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		///<inheritdoc/>
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
-
 			SchoolConversionComponentHeadingViewModel heading1 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationSchool,
 																		"/school/ApplicationSelectSchool")
 			{
