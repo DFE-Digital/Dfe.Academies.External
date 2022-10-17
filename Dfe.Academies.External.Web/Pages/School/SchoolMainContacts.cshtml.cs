@@ -76,8 +76,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		public SchoolMainContactsModel(ILogger<SchoolMainContactsModel> logger,
-			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		public SchoolMainContactsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)

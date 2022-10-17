@@ -21,8 +21,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 	    public List<DeclarationSummaryHeadingViewModel> ViewModel { get; set; } = new();
 
-		public DeclarationSummaryModel(ILogger<DeclarationSummaryModel> logger,
-			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		public DeclarationSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{

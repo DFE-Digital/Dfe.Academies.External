@@ -67,7 +67,6 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public AddAContributorModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
-			ILogger<AddAContributorModel> logger,
 			IConversionApplicationCreationService academisationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{

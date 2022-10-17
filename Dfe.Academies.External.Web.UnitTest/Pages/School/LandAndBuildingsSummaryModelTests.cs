@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -27,15 +26,13 @@ internal sealed class LandAndBuildingsSummaryModelTests
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<LandAndBuildingsSummaryModel>>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupLandAndBuildingsSummaryModel(mockLogger.Object,
-			mockConversionApplicationRetrievalService.Object,
+		var pageModel = SetupLandAndBuildingsSummaryModel(mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
@@ -47,14 +44,13 @@ internal sealed class LandAndBuildingsSummaryModelTests
 	}
 
 	private static LandAndBuildingsSummaryModel SetupLandAndBuildingsSummaryModel(
-		ILogger<LandAndBuildingsSummaryModel> mockLogger,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new LandAndBuildingsSummaryModel(mockLogger, mockConversionApplicationRetrievalService,
+		return new LandAndBuildingsSummaryModel(mockConversionApplicationRetrievalService,
 			mockReferenceDataRetrievalService)
 		{
 			PageContext = pageContext,

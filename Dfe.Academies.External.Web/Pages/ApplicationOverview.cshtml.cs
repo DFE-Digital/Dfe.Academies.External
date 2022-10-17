@@ -52,8 +52,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public List<ConversionApplicationContributorViewModel> ExistingContributors { get; private set; } = new();
 
-		public ApplicationOverviewModel(ILogger<ApplicationOverviewModel> logger,
-										IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		public ApplicationOverviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 										IReferenceDataRetrievalService referenceDataRetrievalService
 		) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{

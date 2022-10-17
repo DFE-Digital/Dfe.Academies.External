@@ -14,7 +14,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 		
 		public Loans(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
-			ILogger<Loans> logger,
 			IConversionApplicationCreationService academisationCreationService) :
 			base(conversionApplicationRetrievalService, 
 				referenceDataRetrievalService)

@@ -57,7 +57,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		public ApplicationSelectSchoolModel(ILogger<ApplicationSelectSchoolModel> logger, IConversionApplicationCreationService conversionApplicationCreationService)
+		public ApplicationSelectSchoolModel(IConversionApplicationCreationService conversionApplicationCreationService)
 		{
 			_conversionApplicationCreationService = conversionApplicationCreationService;
 		}

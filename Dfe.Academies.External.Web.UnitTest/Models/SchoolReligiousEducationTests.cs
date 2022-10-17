@@ -14,7 +14,7 @@ internal sealed class SchoolReligiousEducationTests
 		// arrange
 		string faithDioceseName = Fixture.Create<string>();
 
-		var applicationComponent = new SchoolReligiousEducation(true, 
+		var applicationComponent = new SchoolReligiousEducation(true,
 			faithDioceseName, null, null, null);
 
 		// act

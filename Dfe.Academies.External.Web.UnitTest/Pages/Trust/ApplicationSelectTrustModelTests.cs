@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -26,12 +25,10 @@ public class ApplicationSelectTrustModelTests
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
-		var mockLogger = new Mock<ILogger<ApplicationSelectTrustModel>>();
-
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
+		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationCreationService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -47,12 +44,10 @@ public class ApplicationSelectTrustModelTests
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
-		var mockLogger = new Mock<ILogger<ApplicationSelectTrustModel>>();
-
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
+		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationCreationService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -70,12 +65,10 @@ public class ApplicationSelectTrustModelTests
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
-		var mockLogger = new Mock<ILogger<ApplicationSelectTrustModel>>();
-
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
+		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationCreationService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -93,12 +86,10 @@ public class ApplicationSelectTrustModelTests
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
-		var mockLogger = new Mock<ILogger<ApplicationSelectTrustModel>>();
-
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
+		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationCreationService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -116,12 +107,10 @@ public class ApplicationSelectTrustModelTests
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
-		var mockLogger = new Mock<ILogger<ApplicationSelectTrustModel>>();
-
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupApplicationSelectSchoolModel(mockLogger.Object, mockConversionApplicationCreationService.Object);
+		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationCreationService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -140,13 +129,12 @@ public class ApplicationSelectTrustModelTests
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static ApplicationSelectTrustModel SetupApplicationSelectSchoolModel(
-		ILogger<ApplicationSelectTrustModel> mockLogger,
 		IConversionApplicationCreationService mockConversionApplicationCreationService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new ApplicationSelectTrustModel(mockLogger, mockConversionApplicationCreationService)
+		return new ApplicationSelectTrustModel(mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

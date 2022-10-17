@@ -22,8 +22,7 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BasePageEditModel
 	//// MR:- VM props to show school conversion data
 	public List<ApplicationPreOpeningSupportGrantHeadingViewModel> ViewModel { get; set; } = new();
 
-	public ApplicationPreOpeningSupportGrantSummaryModel(ILogger<ApplicationPreOpeningSupportGrantSummaryModel> logger,
-		IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+	public ApplicationPreOpeningSupportGrantSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		IReferenceDataRetrievalService referenceDataRetrievalService)
 		: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 	{

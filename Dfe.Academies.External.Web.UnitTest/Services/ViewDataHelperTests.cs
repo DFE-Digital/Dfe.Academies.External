@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -21,9 +20,7 @@ internal sealed class ViewDataHelperTests
 		var expected = int.MaxValue.ToString();
 		var storageKey = "ViewDataHelper___GetNonSerialisedValue___Success";
 		var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
-		var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
-
-		var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object);
+		var pageModel = SetupWhatIsYourRoleModel(mockAcademisationCreationService.Object);
 
 		// act
 		ViewDataHelper.StoreNonSerialisedValue(storageKey, pageModel.ViewData, expected);
@@ -41,9 +38,7 @@ internal sealed class ViewDataHelperTests
 		var expected = int.MaxValue.ToString();
 		var storageKey = "ViewDataHelper___StoreNonSerialisedValue___Success";
 		var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
-		var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
-
-		var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object);
+		var pageModel = SetupWhatIsYourRoleModel(mockAcademisationCreationService.Object);
 
 		// act
 		ViewDataHelper.StoreNonSerialisedValue(storageKey, pageModel.ViewData, expected);
@@ -60,10 +55,7 @@ internal sealed class ViewDataHelperTests
 		// arrange
 		var storageKey = "ViewDataHelper___GetSerialisedValue___Success";
 		var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
-		var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
-
-		var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object);
-
+		var pageModel = SetupWhatIsYourRoleModel(mockAcademisationCreationService.Object);
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
@@ -84,10 +76,7 @@ internal sealed class ViewDataHelperTests
 		// arrange
 		var storageKey = "ViewDataHelper___StoreSerialisedValue___Success";
 		var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
-		var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
-
-		var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object);
-
+		var pageModel = SetupWhatIsYourRoleModel(mockAcademisationCreationService.Object);
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
@@ -103,13 +92,12 @@ internal sealed class ViewDataHelperTests
 	}
 
 	private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(
-		ILogger<WhatIsYourRoleModel> mockLogger,
 		IConversionApplicationCreationService mockAcademisationCreationService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new WhatIsYourRoleModel(mockLogger, mockAcademisationCreationService)
+		return new WhatIsYourRoleModel(mockAcademisationCreationService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

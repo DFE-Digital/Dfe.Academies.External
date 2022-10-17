@@ -157,8 +157,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public DateTime? WorksPlannedDateLocal { get; set; }
 
-		public LandAndBuildingsModel(ILogger<LandAndBuildingsModel> logger,
-			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		public LandAndBuildingsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)

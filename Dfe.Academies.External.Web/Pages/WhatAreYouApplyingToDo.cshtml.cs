@@ -11,10 +11,6 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
 {
 	private const string NextStepPage = "/WhatIsYourRole";
 
-	public WhatAreYouApplyingToDoModel(ILogger<WhatAreYouApplyingToDoModel> logger)
-	{
-	}
-
 	[BindProperty]
 	[RequiredEnum(ErrorMessage = "Select an application type")]
 	public ApplicationTypes ApplicationType { get; set; }

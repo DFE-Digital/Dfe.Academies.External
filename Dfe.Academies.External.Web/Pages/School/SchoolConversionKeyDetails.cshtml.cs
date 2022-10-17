@@ -25,8 +25,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//// MR:- VM props to show school conversion data
 		public List<SchoolConversionComponentHeadingViewModel> ViewModel { get; set; } = new();
 
-		public SchoolConversionKeyDetailsModel(ILogger<SchoolConversionKeyDetailsModel> logger,
-			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		public SchoolConversionKeyDetailsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{

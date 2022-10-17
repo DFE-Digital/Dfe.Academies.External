@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -22,9 +21,7 @@ internal sealed class TempDataHelperTests
 		var expected = int.MaxValue.ToString();
 		var storageKey = "TempDataHelperService___GetNonSerialisedValue___Success";
 		var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
-		var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
-
-		var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object);
+		var pageModel = SetupWhatIsYourRoleModel(mockAcademisationCreationService.Object);
 
 		// act
 		TempDataHelper.StoreNonSerialisedValue(storageKey, pageModel.TempData, expected);
@@ -42,9 +39,7 @@ internal sealed class TempDataHelperTests
 		var expected = int.MaxValue.ToString();
 		var storageKey = "TempDataHelperService___StoreNonSerialisedValue___Success";
 		var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
-		var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
-
-		var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object);
+		var pageModel = SetupWhatIsYourRoleModel(mockAcademisationCreationService.Object);
 
 		// act
 		TempDataHelper.StoreNonSerialisedValue(storageKey, pageModel.TempData, expected);
@@ -61,9 +56,7 @@ internal sealed class TempDataHelperTests
 		// arrange
 		var storageKey = "TempDataHelperService___GetSerialisedValue___Success";
 		var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
-		var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
-
-		var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object);
+		var pageModel = SetupWhatIsYourRoleModel(mockAcademisationCreationService.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
@@ -85,9 +78,7 @@ internal sealed class TempDataHelperTests
 		// arrange
 		var storageKey = "TempDataHelperService___StoreSerialisedValue___Success";
 		var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
-		var mockLogger = new Mock<ILogger<WhatIsYourRoleModel>>();
-
-		var pageModel = SetupWhatIsYourRoleModel(mockLogger.Object, mockAcademisationCreationService.Object);
+		var pageModel = SetupWhatIsYourRoleModel(mockAcademisationCreationService.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
@@ -104,13 +95,12 @@ internal sealed class TempDataHelperTests
 	}
 
 	private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(
-		ILogger<WhatIsYourRoleModel> mockLogger,
 		IConversionApplicationCreationService mockAcademisationCreationService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new WhatIsYourRoleModel(mockLogger, mockAcademisationCreationService)
+		return new WhatIsYourRoleModel(mockAcademisationCreationService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

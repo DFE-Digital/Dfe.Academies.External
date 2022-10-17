@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -30,15 +29,13 @@ internal sealed class LandAndBuildingsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupLandAndBuildingsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
@@ -57,12 +54,10 @@ internal sealed class LandAndBuildingsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
 		var mockForm = new Mock<IFormCollection>();
 
-		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupLandAndBuildingsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
@@ -85,12 +80,10 @@ internal sealed class LandAndBuildingsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
 		var mockForm = new Mock<IFormCollection>();
 
-		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupLandAndBuildingsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
@@ -113,12 +106,10 @@ internal sealed class LandAndBuildingsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
 		var mockForm = new Mock<IFormCollection>();
 
-		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupLandAndBuildingsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
@@ -141,12 +132,10 @@ internal sealed class LandAndBuildingsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
 		var mockForm = new Mock<IFormCollection>();
 
-		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupLandAndBuildingsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
@@ -169,12 +158,10 @@ internal sealed class LandAndBuildingsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
 		var mockForm = new Mock<IFormCollection>();
 
-		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupLandAndBuildingsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
@@ -197,12 +184,10 @@ internal sealed class LandAndBuildingsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
 		var mockForm = new Mock<IFormCollection>();
 
-		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupLandAndBuildingsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
@@ -225,12 +210,10 @@ internal sealed class LandAndBuildingsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
 		var mockForm = new Mock<IFormCollection>();
 
-		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupLandAndBuildingsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
@@ -253,12 +236,10 @@ internal sealed class LandAndBuildingsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
 		var mockForm = new Mock<IFormCollection>();
 
-		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupLandAndBuildingsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
@@ -281,12 +262,10 @@ internal sealed class LandAndBuildingsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
 		var mockForm = new Mock<IFormCollection>();
 
-		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupLandAndBuildingsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
@@ -309,12 +288,10 @@ internal sealed class LandAndBuildingsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<LandAndBuildingsModel>>();
 		var expectedErrorText = "You must provide details";
 		var mockForm = new Mock<IFormCollection>();
 
-		var pageModel = SetupLandAndBuildingsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupLandAndBuildingsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
@@ -337,7 +314,6 @@ internal sealed class LandAndBuildingsModelTests
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static LandAndBuildingsModel SetupLandAndBuildingsModel(
-		ILogger<LandAndBuildingsModel> mockLogger,
 		IConversionApplicationCreationService mockConversionApplicationCreationService,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
@@ -345,7 +321,7 @@ internal sealed class LandAndBuildingsModelTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new LandAndBuildingsModel(mockLogger, mockConversionApplicationRetrievalService,
+		return new LandAndBuildingsModel(mockConversionApplicationRetrievalService,
 			mockReferenceDataRetrievalService, mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,

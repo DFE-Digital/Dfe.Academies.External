@@ -57,7 +57,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 			}
 		}
 
-		public ApplicationSelectTrustModel(ILogger<ApplicationSelectTrustModel> logger, IConversionApplicationCreationService conversionApplicationCreationService)
+		public ApplicationSelectTrustModel(IConversionApplicationCreationService conversionApplicationCreationService)
 		{
 			_conversionApplicationCreationService = conversionApplicationCreationService;
 		}

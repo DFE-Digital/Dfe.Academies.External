@@ -13,8 +13,7 @@ public class WhatIsYourRoleModel : BasePageModel
 	private readonly IConversionApplicationCreationService _academisationCreationService;
 	private const string NextStepPage = "/ApplicationOverview";
 
-	public WhatIsYourRoleModel(ILogger<WhatIsYourRoleModel> logger,
-								IConversionApplicationCreationService academisationCreationService)
+	public WhatIsYourRoleModel(IConversionApplicationCreationService academisationCreationService)
 	{
 		_academisationCreationService = academisationCreationService;
 	}

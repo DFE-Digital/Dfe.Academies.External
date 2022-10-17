@@ -19,11 +19,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public string SchoolName { get; private set; } = string.Empty;
 
-		//// MR:- VM props to show school conversion data
+		//// MR:- VM props to show school consultation data
 		public List<SchoolConsultationSummaryHeadingViewModel> ViewModel { get; set; } = new();
 
-		public ApplicationSchoolConsultationModelSummary(ILogger<ApplicationSchoolConsultationModelSummary> logger,
-			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		public ApplicationSchoolConsultationModelSummary(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{

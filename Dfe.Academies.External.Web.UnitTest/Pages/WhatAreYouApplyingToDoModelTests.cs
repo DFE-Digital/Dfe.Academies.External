@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
-using Moq;
 using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages;
@@ -19,9 +17,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
 	public async Task OnGetAsync___Valid___NullErrors()
 	{
 		// arrange
-		var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
-
-		var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object);
+		var pageModel = SetupWhatAreYouApplyingToDoModel();
 
 		// act
 		await pageModel.OnGetAsync();
@@ -34,9 +30,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
 	public async Task OnGetAsync___Invalid__HasErrors()
 	{
 		// arrange
-		var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
-
-		var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object);
+		var pageModel = SetupWhatAreYouApplyingToDoModel();
 
 		var routeData = pageModel.RouteData.Values;
 		routeData.Add("id", "");
@@ -54,9 +48,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
 	{
 		// arrange
 		var expectedErrorText = "Test Err";
-		var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
-
-		var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object);
+		var pageModel = SetupWhatAreYouApplyingToDoModel();
 
 		pageModel.ModelState.AddModelError("CustomError", expectedErrorText);
 
@@ -73,9 +65,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
 	public async Task OnPostAsync___ModelStateValid___ViewDataEmpty()
 	{
 		// arrange
-		var mockLogger = new Mock<ILogger<WhatAreYouApplyingToDoModel>>();
-
-		var pageModel = SetupWhatAreYouApplyingToDoModel(mockLogger.Object);
+		var pageModel = SetupWhatAreYouApplyingToDoModel();
 
 		// act
 		await pageModel.OnPostAsync();
@@ -87,12 +77,11 @@ internal sealed class WhatAreYouApplyingToDoModelTests
 	}
 
 	private static WhatAreYouApplyingToDoModel SetupWhatAreYouApplyingToDoModel(
-		ILogger<WhatAreYouApplyingToDoModel> mockLogger,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new WhatAreYouApplyingToDoModel(mockLogger)
+		return new WhatAreYouApplyingToDoModel()
 		{
 			PageContext = pageContext,
 			TempData = tempData,

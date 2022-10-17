@@ -121,7 +121,6 @@ public class NextFinancialYearModel : BasePageEditModel
 
 	public NextFinancialYearModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 	    IReferenceDataRetrievalService referenceDataRetrievalService,
-	    ILogger<NextFinancialYearModel> logger,
 	    IConversionApplicationCreationService academisationCreationService)
 	    : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
     {

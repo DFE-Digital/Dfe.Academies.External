@@ -7,18 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-    public class FinancialInvestigationsModel : BasePageEditModel
+    public class FinancialInvestigationsModel : BaseSchoolPageEditModel
 	{
-	    private readonly IConversionApplicationCreationService _academisationCreationService;
-
-	    [BindProperty]
-	    public int ApplicationId { get; set; }
-
-	    [BindProperty]
-	    public int Urn { get; set; }
-
-	    public string SchoolName { get; private set; } = string.Empty;
-
+		// MR:- VM props to capture data
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must select an option")]
 		public SelectOption? FinanceOngoingInvestigations { get; set; }
@@ -68,48 +59,46 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public FinancialInvestigationsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
-			ILogger<FinancialInvestigationsModel> logger,
 			IConversionApplicationCreationService academisationCreationService)
-			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-		{
-			_academisationCreationService = academisationCreationService;
-		}
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+				academisationCreationService, "FinancesReview")
+		{}
 
-		public async Task OnGetAsync(int urn, int appId)
-		{
-			LoadAndStoreCachedConversionApplication();
+		//public async Task OnGetAsync(int urn, int appId)
+		//{
+		//	LoadAndStoreCachedConversionApplication();
 
-			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-			ApplicationId = appId;
-			Urn = urn;
+		//	var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+		//	ApplicationId = appId;
+		//	Urn = urn;
 
-			// Grab other values from API
-			if (selectedSchool != null)
-			{
-				PopulateUiModel(selectedSchool);
-			}
-		}
+		//	// Grab other values from API
+		//	if (selectedSchool != null)
+		//	{
+		//		PopulateUiModel(selectedSchool);
+		//	}
+		//}
 
-		public async Task<IActionResult> OnPostAsync()
-		{
-			if (!RunUiValidation())
-			{
-				return Page();
-			}
+		//public async Task<IActionResult> OnPostAsync()
+		//{
+		//	if (!RunUiValidation())
+		//	{
+		//		return Page();
+		//	}
 			
-			// grab draft application from temp= null
-			var draftConversionApplication =
-				TempDataHelper.GetSerialisedValue<ConversionApplication>(
-					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+		//	// grab draft application from temp= null
+		//	var draftConversionApplication =
+		//		TempDataHelper.GetSerialisedValue<ConversionApplication>(
+		//			TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			var dictionaryMapper = PopulateUpdateDictionary();
-			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+		//	var dictionaryMapper = PopulateUpdateDictionary();
+		//	await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
-			// update temp store for next step - application overview
-			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+		//	// update temp store for next step - application overview
+		//	TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-			return RedirectToPage("FinancesReview", new { appId = ApplicationId, urn = Urn });
-		}
+		//	return RedirectToPage("FinancesReview", new { appId = ApplicationId, urn = Urn });
+		//}
 
 		///<inheritdoc/>
 		public override bool RunUiValidation()
@@ -167,9 +156,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		///<inheritdoc/>
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
 			FinanceOngoingInvestigations = selectedSchool.FinanceOngoingInvestigations != null && selectedSchool.FinanceOngoingInvestigations.Value ? SelectOption.Yes : SelectOption.No;
 			FinancialInvestigationsExplain = selectedSchool.FinancialInvestigationsExplain;
 			FinancialInvestigationsTrustAware = selectedSchool.FinancialInvestigationsTrustAware != null && selectedSchool.FinancialInvestigationsTrustAware.Value ? SelectOption.Yes : SelectOption.No; 

@@ -20,8 +20,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public SchoolComponentsViewModel SchoolComponents { get; private set; } = new();
 
-		public SchoolOverviewModel(ILogger<SchoolOverviewModel> logger,
-									IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		public SchoolOverviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 									IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{

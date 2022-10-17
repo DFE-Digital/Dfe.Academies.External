@@ -41,8 +41,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[Required(ErrorMessage = "You must tell us what your projected pupil numbers are based on")]
 		public string? SchoolCapacityAssumptions { get; set; } = string.Empty;
 		
-		public PupilNumbersModel(ILogger<PupilNumbersModel> logger,
-								IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		public PupilNumbersModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 								IReferenceDataRetrievalService referenceDataRetrievalService,
 								IConversionApplicationCreationService academisationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)

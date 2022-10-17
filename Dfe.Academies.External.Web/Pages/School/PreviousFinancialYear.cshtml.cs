@@ -122,7 +122,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public PreviousFinancialYearModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 										IReferenceDataRetrievalService referenceDataRetrievalService,
-										ILogger<PreviousFinancialYearModel> logger,
 										IConversionApplicationCreationService academisationCreationService) 
 	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
         {

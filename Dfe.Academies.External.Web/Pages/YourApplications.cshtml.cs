@@ -14,7 +14,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 		private readonly IConversionApplicationRetrievalService _conversionApplications;
 
-		public HomeModel(IConversionApplicationRetrievalService conversionApplications, ILogger<HomeModel> logger)
+		public HomeModel(IConversionApplicationRetrievalService conversionApplications)
 		{
 			_conversionApplications = conversionApplications;
 		}
