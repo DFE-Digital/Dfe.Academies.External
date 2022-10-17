@@ -124,7 +124,7 @@ public class ApplicationPreOpeningSupportGrantModel : BaseSchoolPageEditModel
 	}
 
 	/// <summary>
-	/// Consume conversionApplication.ApplicationType, so need different overload
+	/// Consume conversionApplication, so need different overload
 	/// </summary>
 	/// <param name="selectedSchool"></param>
 	/// <param name="conversionApplication"></param>
