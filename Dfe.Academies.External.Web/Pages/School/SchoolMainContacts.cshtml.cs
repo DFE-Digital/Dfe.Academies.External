@@ -9,19 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-	public class SchoolMainContactsModel : BasePageEditModel
+	public class SchoolMainContactsModel : BaseSchoolPageEditModel
 	{
-		private readonly IConversionApplicationCreationService _academisationCreationService;
-
-		//// MR:- selected school props for UI rendering
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
-
-		public string SchoolName { get; private set; } = string.Empty;
-
+		//
 		public string SigninApproverQuestionText { get; private set; } = string.Empty;
 
 		[BindProperty]
@@ -64,12 +54,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public SchoolMainContactsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService)
-			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-		{
-			_academisationCreationService = academisationCreationService;
-		}
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+				academisationCreationService, "SchoolConversionKeyDetails")
+		{}
 
-		public async Task OnGetAsync(int urn, int appId)
+		/// <summary>
+		/// Consuming different PopulateUiModel() NOT from base, so need an overload
+		/// </summary>
+		/// <param name="urn"></param>
+		/// <param name="appId"></param>
+		/// <returns></returns>
+		public override async Task OnGetAsync(int urn, int appId)
 		{
 			LoadAndStoreCachedConversionApplication();
 
@@ -84,27 +79,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 				PopulateUiModel(selectedSchool, draftConversionApplication.ApplicationType);
 			}
-		}
-
-		public async Task<IActionResult> OnPostAsync()
-		{
-			if (!RunUiValidation())
-			{
-				return Page();
-			}
-			
-			// grab draft application from temp= null
-			var draftConversionApplication =
-				TempDataHelper.GetSerialisedValue<ConversionApplication>(
-					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-			var dictionaryMapper = PopulateUpdateDictionary();
-			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
-
-			// update temp store for next step - application overview as last step in process
-			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-			return RedirectToPage("SchoolConversionKeyDetails", new { appId = ApplicationId, urn = Urn });
 		}
 
 		///<inheritdoc/>
@@ -191,10 +165,19 @@ namespace Dfe.Academies.External.Web.Pages.School
 			};
 		}
 
+		///<inheritdoc/>
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// Consume conversionApplication.ApplicationType, so need different overload
+		/// </summary>
+		/// <param name="selectedSchool"></param>
+		/// <param name="applicationType"></param>
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ApplicationTypes applicationType)
 		{
-			SchoolName = selectedSchool.SchoolName;
-
 			ViewModel = new ApplicationSchoolContactsViewModel(ApplicationId, selectedSchool.URN)
 			{
 				ContactHeadName = selectedSchool.SchoolConversionContactHeadName,
