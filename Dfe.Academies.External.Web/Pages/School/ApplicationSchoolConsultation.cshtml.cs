@@ -7,21 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School;
 
-public class ApplicationSchoolConsultationModel : BasePageEditModel
+public class ApplicationSchoolConsultationModel : BaseSchoolPageEditModel
 {
-	private readonly ILogger<ApplicationSchoolConsultationModel> _logger;
-	private readonly IConversionApplicationCreationService _academisationCreationService;
-
-	//// MR:- selected school props for UI rendering
-	[BindProperty]
-	public int ApplicationId { get; set; }
-
-	[BindProperty]
-	public int Urn { get; set; }
-
-	public string SchoolName { get; private set; } = string.Empty;
-
-	//// MR:- VM props to capture data
+	// MR:- VM props to capture data
 	[BindProperty]
 	[RequiredEnum(ErrorMessage = "You must choose an option")]
 	public SelectOption SchoolConsultationStakeholders { get; set; }
@@ -43,81 +31,34 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 	{
 		get
 		{
-			if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolConsultationStakeholdersConsultNotEntered"))
-			{
-				return true;
-			}
-
-			return false;
+			return !ModelState.IsValid && ModelState.Keys.Contains("SchoolConsultationStakeholdersConsultNotEntered");
 		}
 	}
 
-	public ApplicationSchoolConsultationModel(ILogger<ApplicationSchoolConsultationModel> logger,
-		IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+	public ApplicationSchoolConsultationModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		IReferenceDataRetrievalService referenceDataRetrievalService,
 		IConversionApplicationCreationService academisationCreationService)
-		: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-	{
-		_logger = logger;
-		_academisationCreationService = academisationCreationService;
-	}
+		: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+			academisationCreationService, "ApplicationSchoolConsultationSummary")
+	{}
 
-	public async Task OnGetAsync(int urn, int appId)
-	{
-		try
-		{
-			LoadAndStoreCachedConversionApplication();
-
-			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-			ApplicationId = appId;
-			Urn = urn;
-
-			// Grab other values from API
-			if (selectedSchool != null)
-			{
-				PopulateUiModel(selectedSchool);
-			}
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("School::ApplicationSchoolConsultationModel::OnGetAsync::Exception - {Message}", ex.Message);
-		}
-	}
-
-	public async Task<IActionResult> OnPostAsync()
+	///<inheritdoc/>
+	public override bool RunUiValidation()
 	{
 		if (!ModelState.IsValid)
 		{
 			PopulateValidationMessages();
-			return Page();
+			return false;
 		}
 
 		if (SchoolConsultationStakeholders == SelectOption.No && string.IsNullOrWhiteSpace(SchoolConsultationStakeholdersConsult))
 		{
 			ModelState.AddModelError("SchoolConsultationStakeholdersConsultNotEntered", "You must provide details");
 			PopulateValidationMessages();
-			return Page();
+			return false;
 		}
 
-		try
-		{
-			//// grab draft application from temp= null
-			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-			var dictionaryMapper = PopulateUpdateDictionary();
-
-			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
-
-			// update temp store for next step - application overview as last step in process
-			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-			return RedirectToPage("ApplicationSchoolConsultationSummary", new { appId = ApplicationId, urn = Urn });
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("School::ApplicationSchoolConsultationModel::OnPostAsync::Exception - {Message}", ex.Message);
-			return Page();
-		}
+		return true;
 	}
 
 	///<inheritdoc/>
@@ -148,9 +89,9 @@ public class ApplicationSchoolConsultationModel : BasePageEditModel
 		}
 	}
 
-	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+	///<inheritdoc/>
+	public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
-		SchoolName = selectedSchool.SchoolName;
 		SchoolConsultationStakeholders = selectedSchool.SchoolHasConsultedStakeholders != null && selectedSchool.SchoolHasConsultedStakeholders.Value ? SelectOption.Yes : SelectOption.No;
 		SchoolConsultationStakeholdersConsult = selectedSchool.SchoolPlanToConsultStakeholders;
 	}

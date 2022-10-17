@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -28,15 +27,13 @@ internal sealed class PupilNumbersModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<PupilNumbersModel>>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupPupilNumbersModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupPupilNumbersModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
@@ -55,7 +52,6 @@ internal sealed class PupilNumbersModelTests
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static PupilNumbersModel SetupPupilNumbersModel(
-		ILogger<PupilNumbersModel> mockLogger,
 		IConversionApplicationCreationService mockConversionApplicationCreationService,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
@@ -63,7 +59,7 @@ internal sealed class PupilNumbersModelTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new PupilNumbersModel(mockLogger, mockConversionApplicationRetrievalService,
+		return new PupilNumbersModel(mockConversionApplicationRetrievalService,
 			mockReferenceDataRetrievalService, mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,

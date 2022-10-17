@@ -7,19 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-    public class FinancialInvestigationsModel : BasePageEditModel
+    public class FinancialInvestigationsModel : BaseSchoolPageEditModel
 	{
-	    private readonly ILogger<FinancialInvestigationsModel> _logger;
-	    private readonly IConversionApplicationCreationService _academisationCreationService;
-
-	    [BindProperty]
-	    public int ApplicationId { get; set; }
-
-	    [BindProperty]
-	    public int Urn { get; set; }
-
-	    public string SchoolName { get; private set; } = string.Empty;
-
+		// MR:- VM props to capture data
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must select an option")]
 		public SelectOption? FinanceOngoingInvestigations { get; set; }
@@ -34,12 +24,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("FinancialInvestigationsExplainNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("FinancialInvestigationsExplainNotEntered");
 			}
 		}
 
@@ -47,12 +32,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("FinancialInvestigationsTrustAwareNotSelected"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("FinancialInvestigationsTrustAwareNotSelected");
 			}
 		}
 
@@ -69,87 +49,71 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public FinancialInvestigationsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
-			ILogger<FinancialInvestigationsModel> logger,
 			IConversionApplicationCreationService academisationCreationService)
-			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+				academisationCreationService, "FinancesReview")
+		{}
+
+		//public async Task OnGetAsync(int urn, int appId)
+		//{
+		//	LoadAndStoreCachedConversionApplication();
+
+		//	var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+		//	ApplicationId = appId;
+		//	Urn = urn;
+
+		//	// Grab other values from API
+		//	if (selectedSchool != null)
+		//	{
+		//		PopulateUiModel(selectedSchool);
+		//	}
+		//}
+
+		//public async Task<IActionResult> OnPostAsync()
+		//{
+		//	if (!RunUiValidation())
+		//	{
+		//		return Page();
+		//	}
+			
+		//	// grab draft application from temp= null
+		//	var draftConversionApplication =
+		//		TempDataHelper.GetSerialisedValue<ConversionApplication>(
+		//			TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+		//	var dictionaryMapper = PopulateUpdateDictionary();
+		//	await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+
+		//	// update temp store for next step - application overview
+		//	TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+		//	return RedirectToPage("FinancesReview", new { appId = ApplicationId, urn = Urn });
+		//}
+
+		///<inheritdoc/>
+		public override bool RunUiValidation()
 		{
-			_logger = logger;
-			_academisationCreationService = academisationCreationService;
-		}
-
-		public async Task OnGetAsync(int urn, int appId)
-		{
-			try
-			{
-				LoadAndStoreCachedConversionApplication();
-
-				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-				ApplicationId = appId;
-				Urn = urn;
-
-				// Grab other values from API
-				if (selectedSchool != null)
-				{
-					PopulateUiModel(selectedSchool);
-				}
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::FinancialInvestigationsModel::OnGetAsync::Exception - {Message}", ex.Message);
-			}
-		}
-
-		public async Task<IActionResult> OnPostAsync(IFormCollection form)
-		{
-
 			if (!ModelState.IsValid)
 			{
-				// error messages component consumes ViewData["Errors"]
 				PopulateValidationMessages();
-				return Page();
+				return false;
 			}
 
 			if (FinanceOngoingInvestigations == SelectOption.Yes && string.IsNullOrWhiteSpace(FinancialInvestigationsExplain))
 			{
 				ModelState.AddModelError("FinancialInvestigationsExplainNotEntered", "You must provide details of the investigation");
 				PopulateValidationMessages();
-				return Page();
+				return false;
 			}
 
 			if (FinanceOngoingInvestigations == SelectOption.Yes && !FinancialInvestigationsTrustAware.HasValue)
 			{
 				ModelState.AddModelError("FinancialInvestigationsTrustAwareNotSelected", "You must select an option");
 				PopulateValidationMessages();
-				return Page();
+				return false;
 			}
 
-			try
-			{
-				//// grab draft application from temp= null
-				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-				var dictionaryMapper = PopulateUpdateDictionary();
-
-				//var propertiesToPopulate =
-				//	new Dictionary<string, dynamic>
-				//	{
-				//		{nameof(SchoolApplyingToConvert.FinanceOngoingInvestigations), FinanceOngoingInvestigations == SelectOption.Yes},
-				//		{nameof(SchoolApplyingToConvert.FinancialInvestigationsExplain), FinancialInvestigationsExplain!},
-				//		{nameof(SchoolApplyingToConvert.FinancialInvestigationsTrustAware), FinancialInvestigationsTrustAware == SelectOption.Yes},
-				//	};
-
-				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
-
-				// update temp store for next step - application overview
-				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-				return RedirectToPage("FinancesReview", new { appId = ApplicationId, urn = Urn });
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::FinancialInvestigationsModel::OnPostAsync::Exception - {Message}", ex.Message);
-				return Page();
-			}
+			return true;
 		}
 
 		///<inheritdoc/>
@@ -182,9 +146,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		///<inheritdoc/>
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
 			FinanceOngoingInvestigations = selectedSchool.FinanceOngoingInvestigations != null && selectedSchool.FinanceOngoingInvestigations.Value ? SelectOption.Yes : SelectOption.No;
 			FinancialInvestigationsExplain = selectedSchool.FinancialInvestigationsExplain;
 			FinancialInvestigationsTrustAware = selectedSchool.FinancialInvestigationsTrustAware != null && selectedSchool.FinancialInvestigationsTrustAware.Value ? SelectOption.Yes : SelectOption.No; 

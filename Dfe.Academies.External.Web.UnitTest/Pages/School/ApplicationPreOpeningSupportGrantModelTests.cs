@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -28,15 +27,13 @@ internal sealed class ApplicationPreOpeningSupportGrantModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<ApplicationPreOpeningSupportGrantModel>>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupApplicationPreOpeningSupportGrantModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupApplicationPreOpeningSupportGrantModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
@@ -55,7 +52,6 @@ internal sealed class ApplicationPreOpeningSupportGrantModelTests
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static ApplicationPreOpeningSupportGrantModel SetupApplicationPreOpeningSupportGrantModel(
-		ILogger<ApplicationPreOpeningSupportGrantModel> mockLogger,
 		IConversionApplicationCreationService mockConversionApplicationCreationService,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
@@ -63,7 +59,7 @@ internal sealed class ApplicationPreOpeningSupportGrantModelTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new ApplicationPreOpeningSupportGrantModel(mockLogger, mockConversionApplicationRetrievalService,
+		return new ApplicationPreOpeningSupportGrantModel(mockConversionApplicationRetrievalService,
 			mockReferenceDataRetrievalService, mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,

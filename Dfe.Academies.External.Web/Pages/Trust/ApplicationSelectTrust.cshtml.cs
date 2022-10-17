@@ -8,7 +8,6 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 {
 	public class ApplicationSelectTrustModel : BasePageModel
 	{
-		private readonly ILogger<ApplicationSelectTrustModel> _logger;
 		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
 		private const string NextStepPage = "/ApplicationOverview";
 
@@ -58,28 +57,20 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 			}
 		}
 
-		public ApplicationSelectTrustModel(ILogger<ApplicationSelectTrustModel> logger, IConversionApplicationCreationService conversionApplicationCreationService)
+		public ApplicationSelectTrustModel(IConversionApplicationCreationService conversionApplicationCreationService)
 		{
-			_logger = logger;
 			_conversionApplicationCreationService = conversionApplicationCreationService;
 		}
 
 		public async Task OnGetAsync()
 		{
-			try
-			{
-				//// on load - grab draft application from temp
-				var conversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+			//// on load - grab draft application from temp
+			var conversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				//// MR:- Need to drop into this pages cache here ready for post / server callback !
-				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, conversionApplication);
+			//// MR:- Need to drop into this pages cache here ready for post / server callback !
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, conversionApplication);
 
-				PopulateUiModel(conversionApplication);
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("Trust::ApplicationSelectTrustModel::OnGetAsync::Exception - {Message}", ex.Message);
-			}
+			PopulateUiModel(conversionApplication);
 		}
 
 		[ValidateAntiForgeryToken]
@@ -91,7 +82,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 				// so, currently get the 'You must give the trust of the school' validation warning
 				// rather than the "You must choose a trust from the list" (code below)
 
-				//// 2nd phase validation - check selected trust
+				// 2nd phase validation - check selected trust
 				if (string.IsNullOrWhiteSpace(SearchQuery))
 				{
 					ModelState.AddModelError("InvalidTrust", "You must give the name of the trust");
@@ -102,23 +93,17 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 				return Page();
 			}
 
-			try
-			{
-				//// grab draft application from temp
-				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+			// grab draft application from temp
+			var draftConversionApplication =
+				TempDataHelper.GetSerialisedValue<ConversionApplication>(
+					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-				await _conversionApplicationCreationService.AddTrustToApplication(draftConversionApplication.ApplicationId, SelectedUkPrn, SelectedTrustName);
+			await _conversionApplicationCreationService.AddTrustToApplication(draftConversionApplication.ApplicationId, SelectedUkPrn, SelectedTrustName);
 
-				// update temp store for next step - application overview
-				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+			// update temp store for next step - application overview
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-				return RedirectToPage(NextStepPage, new { appId = draftConversionApplication.ApplicationId });
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("Trust::ApplicationSelectSchoolModel::OnPostAddTrust::Exception - {Message}", ex.Message);
-				return Page();
-			}
+			return RedirectToPage(NextStepPage, new { appId = draftConversionApplication.ApplicationId });
 		}
 
 		public async Task<IActionResult> OnPostFind()

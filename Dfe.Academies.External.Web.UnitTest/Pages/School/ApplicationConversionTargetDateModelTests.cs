@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -25,15 +24,13 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 			var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 			var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
-			var mockLogger = new Mock<ILogger<ApplicationConversionTargetDateModel>>();
 			int urn = 101934;
 			int applicationId = int.MaxValue;
 
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 			// act
-			var pageModel = SetupApplicationConversionTargetDateModel(mockLogger.Object,
-				mockConversionApplicationCreationService.Object,
+			var pageModel = SetupApplicationConversionTargetDateModel(mockConversionApplicationCreationService.Object,
 				mockConversionApplicationRetrievalService.Object,
 				mockReferenceDataRetrievalService.Object);
 
@@ -56,15 +53,13 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 			var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 			var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
-			var mockLogger = new Mock<ILogger<ApplicationConversionTargetDateModel>>();
 			int urn = 101934;
 			int applicationId = int.MaxValue;
 
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 			// act
-			var pageModel = SetupApplicationConversionTargetDateModel(mockLogger.Object,
-				mockConversionApplicationCreationService.Object,
+			var pageModel = SetupApplicationConversionTargetDateModel(mockConversionApplicationCreationService.Object,
 				mockConversionApplicationRetrievalService.Object,
 				mockReferenceDataRetrievalService.Object);
 
@@ -92,15 +87,13 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 			var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 			var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
-			var mockLogger = new Mock<ILogger<ApplicationConversionTargetDateModel>>();
 			int urn = 101934;
 			int applicationId = int.MaxValue;
 
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 			// act
-			var pageModel = SetupApplicationConversionTargetDateModel(mockLogger.Object,
-				mockConversionApplicationCreationService.Object,
+			var pageModel = SetupApplicationConversionTargetDateModel(mockConversionApplicationCreationService.Object,
 				mockConversionApplicationRetrievalService.Object,
 				mockReferenceDataRetrievalService.Object);
 			TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
@@ -119,7 +112,6 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 		// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 		private static ApplicationConversionTargetDateModel SetupApplicationConversionTargetDateModel(
-			ILogger<ApplicationConversionTargetDateModel> mockLogger,
 			IConversionApplicationCreationService mockConversionApplicationCreationService,
 			IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 			IReferenceDataRetrievalService mockReferenceDataRetrievalService,
@@ -127,7 +119,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 		{
 			(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-			return new ApplicationConversionTargetDateModel(mockLogger, mockConversionApplicationRetrievalService,
+			return new ApplicationConversionTargetDateModel(mockConversionApplicationRetrievalService,
 				mockReferenceDataRetrievalService, mockConversionApplicationCreationService)
 			{
 				PageContext = pageContext,

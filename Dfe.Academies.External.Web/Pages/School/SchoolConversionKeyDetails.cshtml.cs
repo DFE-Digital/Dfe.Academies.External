@@ -11,50 +11,22 @@ namespace Dfe.Academies.External.Web.Pages.School
 	/// <summary>
 	/// MR:- clone of ConversionKeyDetailsReview.cshtml - A2C-SIP
 	/// </summary>
-	public class SchoolConversionKeyDetailsModel : BasePageEditModel
+	public class SchoolConversionKeyDetailsModel : BaseSchoolSummaryPageModel
 	{
-		private readonly ILogger<SchoolConversionKeyDetailsModel> _logger;
-
-		//// MR:- selected school props for UI rendering
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
-
-		public string SchoolName { get; private set; } = string.Empty;
-
 		//// MR:- VM props to show school conversion data
 		public List<SchoolConversionComponentHeadingViewModel> ViewModel { get; set; } = new();
 
-		public SchoolConversionKeyDetailsModel(ILogger<SchoolConversionKeyDetailsModel> logger,
-			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		public SchoolConversionKeyDetailsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
-			_logger = logger;
 		}
 
-		public async Task OnGetAsync(int urn, int appId)
+		///<inheritdoc/>
+		public override bool RunUiValidation()
 		{
-			try
-			{
-				LoadAndStoreCachedConversionApplication();
-
-				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-				ApplicationId = appId;
-				Urn = urn;
-
-				// Grab other values from API
-				if (selectedSchool != null)
-				{
-					PopulateUiModel(selectedSchool);
-				}
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::SchoolConversionKeyDetailsModel::OnGetAsync::Exception - {Message}", ex.Message);
-			}
+			// does not apply on this page
+			return true;
 		}
 
 		///<inheritdoc/>
@@ -70,10 +42,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			return new();
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		///<inheritdoc/>
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
-
 			SchoolConversionComponentHeadingViewModel heading1 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationSchool,
 																		"/school/ApplicationSelectSchool")
 			{
@@ -206,7 +177,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 				});
 
 			SchoolConversionComponentHeadingViewModel heading4 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationJoinTrustReason,
-				"/school/ApplicationJoinTrustReasons");
+				"/school/ApplicationJoinTrustReasons")
+			{
+				Status = !string.IsNullOrWhiteSpace(selectedSchool.ApplicationJoinTrustReason) ?
+					SchoolConversionComponentStatus.Complete : SchoolConversionComponentStatus.NotStarted
+			};
 			heading4.Sections.Add(new(SchoolConversionComponentSectionViewModel.ReasonsForJoiningTrustSectionName,
 				!string.IsNullOrWhiteSpace(selectedSchool.ApplicationJoinTrustReason) ?
 					selectedSchool.ApplicationJoinTrustReason

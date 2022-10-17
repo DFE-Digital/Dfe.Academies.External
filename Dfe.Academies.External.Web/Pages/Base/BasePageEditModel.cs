@@ -36,7 +36,15 @@ public abstract class BasePageEditModel : BasePageModel
 	public async Task<SchoolApplyingToConvert?> LoadAndSetSchoolDetails(int applicationId, int urn)
 	{
 		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(applicationId);
-		return applicationDetails.Schools.FirstOrDefault(s => s.URN == urn);
+
+		if (applicationDetails != null)
+		{
+			return applicationDetails.Schools.FirstOrDefault(s => s.URN == urn);
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	public void TempDataSetBySchool<T>(int schoolUrn, T value)
@@ -134,6 +142,12 @@ public abstract class BasePageEditModel : BasePageModel
 			return DateTime.MinValue;
 		}
 	}
+
+	/// <summary>
+	/// method to run built in model validation ++ custom optional input validation, specific per page!
+	/// </summary>
+	/// <returns></returns>
+	public abstract bool RunUiValidation();
 
 	/// <summary>
 	/// Call this func before save / PUT to API, to clear out optional data

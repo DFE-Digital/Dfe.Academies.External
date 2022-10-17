@@ -7,21 +7,9 @@ using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School;
-
-public class NextFinancialYearModel : BasePageEditModel
+public class NextFinancialYearModel : BaseSchoolPageEditModel
 {
-    private readonly ILogger<NextFinancialYearModel> _logger;
-    private readonly IConversionApplicationCreationService _academisationCreationService;
     public string NFYEndDateFormInputName = "sip_nfyenddate";
-
-    //// MR:- selected school props for UI rendering
-    [BindProperty]
-    public int ApplicationId { get; set; }
-
-    [BindProperty]
-    public int Urn { get; set; }
-
-    public string SchoolName { get; private set; } = string.Empty;
 
 	//// MR:- VM props to capture Nfy data
 	[BindProperty]
@@ -70,12 +58,7 @@ public class NextFinancialYearModel : BasePageEditModel
 	{
 		get
 		{
-			if (!ModelState.IsValid && ModelState.Keys.Contains("NFYFinancialEndDateNotEntered"))
-			{
-				return true;
-			}
-
-			return false;
+			return !ModelState.IsValid && ModelState.Keys.Contains("NFYFinancialEndDateNotEntered");
 		}
 	}
 
@@ -83,12 +66,7 @@ public class NextFinancialYearModel : BasePageEditModel
 	{
 		get
 		{
-			if (!ModelState.IsValid && ModelState.Keys.Contains("NFYRevenueStatusExplainedNotEntered"))
-			{
-				return true;
-			}
-
-			return false;
+			return !ModelState.IsValid && ModelState.Keys.Contains("NFYRevenueStatusExplainedNotEntered");
 		}
 	}
 
@@ -96,12 +74,7 @@ public class NextFinancialYearModel : BasePageEditModel
 	{
 		get
 		{
-			if (!ModelState.IsValid && ModelState.Keys.Contains("NFYCapitalCarryForwardExplainedNotEntered"))
-			{
-				return true;
-			}
-
-			return false;
+			return !ModelState.IsValid && ModelState.Keys.Contains("NFYCapitalCarryForwardExplainedNotEntered");
 		}
 	}
 
@@ -122,104 +95,78 @@ public class NextFinancialYearModel : BasePageEditModel
 
 	public NextFinancialYearModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 	    IReferenceDataRetrievalService referenceDataRetrievalService,
-	    ILogger<NextFinancialYearModel> logger,
 	    IConversionApplicationCreationService academisationCreationService)
-	    : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+	    : base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+		    academisationCreationService, "Loans")
+    {}
+
+    public override async Task<IActionResult> OnPostAsync()
     {
-	    _logger = logger;
-	    _academisationCreationService = academisationCreationService;
-    }
+	    var form = Request.Form;
 
-    public async Task OnGetAsync(int urn, int appId)
-    {
-	    try
-	    {
-		    LoadAndStoreCachedConversionApplication();
-
-		    var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-		    ApplicationId = appId;
-		    Urn = urn;
-
-		    // Grab other values from API
-		    if (selectedSchool != null)
-		    {
-			    PopulateUiModel(selectedSchool);
-		    }
-	    }
-	    catch (Exception ex)
-	    {
-		    _logger.LogError("School::NextFinancialYearModel::OnGetAsync::Exception - {Message}", ex.Message);
-	    }
-    }
-
-    public async Task<IActionResult> OnPostAsync(IFormCollection form)
-    {
-	    // MR:- try and build a date from component parts !!!
-	    var nfyEndDateComponents = RetrieveDateTimeComponentsFromDatePicker(form, NFYEndDateFormInputName);
+		// MR:- try and build a date from component parts !!!
+		var nfyEndDateComponents = RetrieveDateTimeComponentsFromDatePicker(form, NFYEndDateFormInputName);
 	    string NFYEndDateComponentDay = nfyEndDateComponents.FirstOrDefault(x => x.Key == "day").Value;
 	    string NFYEndDateComponentMonth = nfyEndDateComponents.FirstOrDefault(x => x.Key == "month").Value;
 	    string NFYEndDateComponentYear = nfyEndDateComponents.FirstOrDefault(x => x.Key == "year").Value;
 
 	    NFYFinancialEndDateLocal = BuildDateTime(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
 
-	    if (!ModelState.IsValid)
+	    if (!RunUiValidation())
 	    {
-		    // error messages component consumes ViewData["Errors"]
-		    PopulateValidationMessages();
 		    // MR:- date input disappears without below !!
 		    RePopDatePickerModel(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
-		    return Page();
+			return Page();
+	    }
+
+		// grab draft application from temp= null
+		var draftConversionApplication =
+			TempDataHelper.GetSerialisedValue<ConversionApplication>(
+				TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+		var dictionaryMapper = PopulateUpdateDictionary();
+		await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+
+		// update temp store for next step - application overview
+		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+		return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
+	}
+
+    ///<inheritdoc/>
+    public override bool RunUiValidation()
+    {
+	    if (!ModelState.IsValid)
+	    {
+		    PopulateValidationMessages();
+		    return false;
 	    }
 
 	    if (NFYFinancialEndDateLocal == DateTime.MinValue)
 	    {
 		    ModelState.AddModelError("NFYFinancialEndDateNotEntered", "You must input a valid date");
 		    PopulateValidationMessages();
-			// MR:- date input disappears without below !!
-			RePopDatePickerModel(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
-			return Page();
+		    return false;
 	    }
 
 	    if (NFYRevenueStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(NFYRevenueStatusExplained))
 	    {
 		    ModelState.AddModelError("NFYRevenueStatusExplainedNotEntered", "You must provide details");
 		    PopulateValidationMessages();
-			// MR:- date input disappears without below !!
-			RePopDatePickerModel(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
-			return Page();
+		    return false;
 	    }
 
 	    if (NFYCapitalCarryForwardStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(NFYCapitalCarryForwardExplained))
 	    {
 		    ModelState.AddModelError("NFYCapitalCarryForwardExplainedNotEntered", "You must provide details");
 		    PopulateValidationMessages();
-			// MR:- date input disappears without below !!
-			RePopDatePickerModel(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
-			return Page();
+		    return false;
 	    }
 
-		try
-		{
-			//// grab draft application from temp= null
-			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+	    return true;
+    }
 
-			var dictionaryMapper = PopulateUpdateDictionary();
-
-			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
-
-			// update temp store for next step - application overview
-			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-			return RedirectToPage("Loans", new { appId = ApplicationId, urn = Urn });
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("School::NextFinancialYearModel::OnPostAsync::Exception - {Message}", ex.Message);
-			return Page();
-		}
-	}
-
-    ///<inheritdoc/>
+	///<inheritdoc/>
 	public override void PopulateValidationMessages()
 	{
 		PopulateViewDataErrorsWithModelStateErrors();
@@ -253,9 +200,9 @@ public class NextFinancialYearModel : BasePageEditModel
 		return new Dictionary<string, dynamic> { {nameof(SchoolApplyingToConvert.NextFinancialYear), nextFinancialYear} };
 	}
 
-	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+    ///<inheritdoc/>
+	public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
-		SchoolName = selectedSchool.SchoolName;
 		NFYEndDate = (selectedSchool.NextFinancialYear.FinancialYearEndDate.HasValue ?
 			selectedSchool.NextFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy")
 			: string.Empty);

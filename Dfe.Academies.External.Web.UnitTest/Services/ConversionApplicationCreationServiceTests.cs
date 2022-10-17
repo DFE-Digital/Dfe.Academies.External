@@ -164,28 +164,28 @@ internal sealed class ConversionApplicationCreationServiceTests
 		// now we could test the exception itself
 		Assert.That(ex.Message == "Application not found");
 	}
-	
+
 	[Test]
 	public async Task PutApplicationDetails__NoApplication__ThrowsArgumentException()
 	{
 		//Arrange
 		var schoolUrn = 123456;
-		
+
 		var fixture = Fixture.Create<SchoolApplyingToConvert>();
 		var properties = fixture.GetType().GetProperties();
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
-		
+
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
-		
+
 		var sut = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
 			mockConversionApplicationRetrievalService.Object);
 
 		//Act
 		var result = Assert.ThrowsAsync<ArgumentException>(async () => await sut.PutSchoolApplicationDetails(GetApplicationId, schoolUrn, dictionary));
-		
+
 		//Assert
 		Assert.AreEqual("Application not found", result.Message);
 
@@ -200,13 +200,13 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var fixture = Fixture.Create<SchoolApplyingToConvert>();
 		var properties = fixture.GetType().GetProperties();
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
-	
+
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 
 		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(applicationId))
-			.ReturnsAsync(Fixture.Build<ConversionApplication>().With(x => x.ApplicationId, applicationId).With(x => x.Schools, new List<SchoolApplyingToConvert>{new("test", 1, "")}).Create());
+			.ReturnsAsync(Fixture.Build<ConversionApplication>().With(x => x.ApplicationId, applicationId).With(x => x.Schools, new List<SchoolApplyingToConvert> { new("test", 1, "") }).Create());
 
 		//Act
 		var sut = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
@@ -222,7 +222,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	{
 		//Arrange
 		var schoolUrn = 123456;
-		
+
 		var fixture = Fixture.Create<SchoolApplyingToConvert>();
 		var properties = fixture.GetType().GetProperties();
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
@@ -232,8 +232,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 
 		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(GetApplicationId))
-			.ReturnsAsync(Fixture.Build<ConversionApplication>().With(x => x.ApplicationId, GetApplicationId).With(x => x.Schools, new List<SchoolApplyingToConvert>{new("test", schoolUrn, "")}).Create());
-		
+			.ReturnsAsync(Fixture.Build<ConversionApplication>().With(x => x.ApplicationId, GetApplicationId).With(x => x.Schools, new List<SchoolApplyingToConvert> { new("test", schoolUrn, "") }).Create());
+
 		var sut = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
 			mockConversionApplicationRetrievalService.Object);
@@ -344,7 +344,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var fixture = Fixture.Create<SchoolApplyingToConvert>();
 		var properties = fixture.GetType().GetProperties();
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
-		
+
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 

@@ -8,22 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-	public class LandAndBuildingsModel : BasePageEditModel
+	public class LandAndBuildingsModel : BaseSchoolPageEditModel
 	{
-		private readonly ILogger<LandAndBuildingsModel> _logger;
-		private readonly IConversionApplicationCreationService _academisationCreationService;
 		public string PlannedDateFormInputName = "sip_lbworksplanneddate";
 
-		//// MR:- selected school props for UI rendering
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
-
-		public string SchoolName { get; private set; } = string.Empty;
-
-		//// MR:- VM props to capture land & buildings data
+		// MR:- VM props to capture land & buildings data
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
 		public string SchoolBuildLandOwnerExplained { get; set; } = string.Empty;
@@ -95,12 +84,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandWorksPlannedExplainedNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandWorksPlannedExplainedNotEntered");
 			}
 		}
 
@@ -108,12 +92,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandWorksPlannedDateNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandWorksPlannedDateNotEntered");
 			}
 		}
 
@@ -121,12 +100,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandSharedFacilitiesExplainedNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandSharedFacilitiesExplainedNotEntered");
 			}
 		}
 
@@ -134,12 +108,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandGrantsBodiesNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandGrantsBodiesNotEntered");
 			}
 		}
 
@@ -147,51 +116,27 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandPFISchemeTypeNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("SchoolBuildLandPFISchemeTypeNotEntered");
 			}
 		}
 
 		public DateTime? WorksPlannedDateLocal { get; set; }
 
-		public LandAndBuildingsModel(ILogger<LandAndBuildingsModel> logger,
-			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		public LandAndBuildingsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService)
-			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+				academisationCreationService, "LandAndBuildingsSummary")
+		{}
+
+		/// <summary>
+		/// different overload because of datepicker stuff!!
+		/// </summary>
+		/// <returns></returns>
+		public override async Task<IActionResult> OnPostAsync()
 		{
-			_logger = logger;
-			_academisationCreationService = academisationCreationService;
-		}
+			var form = Request.Form;
 
-		public async Task OnGetAsync(int urn, int appId)
-		{
-			try
-			{
-				LoadAndStoreCachedConversionApplication();
-
-				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-				ApplicationId = appId;
-				Urn = urn;
-
-				// Grab other values from API
-				if (selectedSchool != null)
-				{
-					PopulateUiModel(selectedSchool);
-				}
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::LandAndBuildingsModel::OnGetAsync::Exception - {Message}", ex.Message);
-			}
-		}
-
-		public async Task<IActionResult> OnPostAsync(IFormCollection form)
-		{
 			// MR:- try and build a date from component parts !!!
 			var dateComponents = RetrieveDateTimeComponentsFromDatePicker(form, PlannedDateFormInputName);
 			string day = dateComponents.FirstOrDefault(x => x.Key == "day").Value;
@@ -200,73 +145,71 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			WorksPlannedDateLocal = BuildDateTime(day, month, year);
 
-			if (!ModelState.IsValid)
+			if (!RunUiValidation())
 			{
-				// error messages component consumes ViewData["Errors"]
-				PopulateValidationMessages();
 				RePopDatePickerModel(day, month, year);
 				return Page();
+			}
+			
+			// grab draft application from temp= null
+			var draftConversionApplication =
+				TempDataHelper.GetSerialisedValue<ConversionApplication>(
+					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+			var dictionaryMapper = PopulateUpdateDictionary();
+			await ConversionApplicationCreationService.PutSchoolApplicationDetails( ApplicationId, this.Urn, dictionaryMapper);
+
+			// update temp store for next step - application overview
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+			return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
+		}
+
+		///<inheritdoc/>
+		public override bool RunUiValidation()
+		{
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				return false;
 			}
 
 			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandWorksPlannedExplained))
 			{
 				ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", "You must provide details");
 				PopulateValidationMessages();
-				RePopDatePickerModel(day, month, year);
-				return Page();
+				return false;
 			}
 
 			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && WorksPlannedDateLocal == DateTime.MinValue)
 			{
 				ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", "You must input a valid date");
 				PopulateValidationMessages();
-				RePopDatePickerModel(day, month, year);
-				return Page();
+				return false;
 			}
 
 			if (SchoolBuildLandSharedFacilities == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandSharedFacilitiesExplained))
 			{
 				ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", "You must provide details");
 				PopulateValidationMessages();
-				RePopDatePickerModel(day, month, year);
-				return Page();
+				return false;
 			}
 
 			if (SchoolBuildLandGrants == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandGrantsBodies))
 			{
 				ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", "You must provide details");
 				PopulateValidationMessages();
-				RePopDatePickerModel(day, month, year);
-				return Page();
+				return false;
 			}
 
 			if (SchoolBuildLandPFIScheme == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandPFISchemeType))
 			{
 				ModelState.AddModelError("SchoolBuildLandPFISchemeTypeNotEntered", "You must provide details");
 				PopulateValidationMessages();
-				RePopDatePickerModel(day, month, year);
-				return Page();
+				return false;
 			}
 
-			try
-			{
-				//// grab draft application from temp= null
-				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-				var dictionaryMapper = PopulateUpdateDictionary();
-
-				await _academisationCreationService.PutSchoolApplicationDetails( ApplicationId, this.Urn, dictionaryMapper);
-
-				// update temp store for next step - application overview
-				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-				return RedirectToPage("LandAndBuildingsSummary", new { appId = ApplicationId, urn = Urn });
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::LandAndBuildingsModel::OnPostAsync::Exception - {Message}", ex.Message);
-				return Page();
-			}
+			return true;
 		}
 
 		///<inheritdoc/>
@@ -315,9 +258,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			return new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.LandAndBuildings), landAndBuildingsData } };
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
 			SchoolBuildLandOwnerExplained = selectedSchool.LandAndBuildings.OwnerExplained;
 			SchoolBuildLandWorksPlanned = selectedSchool.LandAndBuildings.WorksPlanned.Value ? SelectOption.Yes : SelectOption.No;
 			SchoolBuildLandWorksPlannedExplained = selectedSchool.LandAndBuildings.WorksPlannedExplained;

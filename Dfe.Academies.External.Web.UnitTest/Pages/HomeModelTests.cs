@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -19,9 +18,8 @@ internal sealed class HomeModelTests
 	{
 		// arrange
 		var mockConversionApplicationsService = new Mock<IConversionApplicationRetrievalService>();
-		var mockLogger = new Mock<ILogger<HomeModel>>();
 
-		var pageModel = SetupHomeModel(mockLogger.Object, mockConversionApplicationsService.Object);
+		var pageModel = SetupHomeModel(mockConversionApplicationsService.Object);
 
 		// act
 		pageModel.OnGet();
@@ -37,11 +35,11 @@ internal sealed class HomeModelTests
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static HomeModel SetupHomeModel(
-		ILogger<HomeModel> mockLogger, IConversionApplicationRetrievalService mockConversionApplicationsService, bool isAuthenticated = false)
+		IConversionApplicationRetrievalService mockConversionApplicationsService, bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new HomeModel(mockConversionApplicationsService, mockLogger)
+		return new HomeModel(mockConversionApplicationsService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

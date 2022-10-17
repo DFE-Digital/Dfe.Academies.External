@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using Dfe.Academies.External.Web.Middleware;
 using Dfe.Academies.External.Web.Services;
 
 namespace Dfe.Academies.External.Web.Extensions;
@@ -60,5 +61,13 @@ public static class StartupExtension
 		services.AddSingleton<IConversionApplicationRetrievalService, ConversionApplicationRetrievalService>();
 		services.AddSingleton<IReferenceDataRetrievalService, ReferenceDataRetrievalService>();
 
+	}
+
+	public static IApplicationBuilder UseBespokeExceptionHandling(this IApplicationBuilder @this, IHostEnvironment environment)
+	{
+		var logger = @this.ApplicationServices.GetRequiredService<ILogger<BespokeExceptionHandlingMiddleware>>();
+		@this.UseMiddleware<BespokeExceptionHandlingMiddleware>(environment, logger);
+
+		return @this;
 	}
 }

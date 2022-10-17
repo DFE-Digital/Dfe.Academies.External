@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -27,14 +26,13 @@ internal sealed class SchoolOverviewTests
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<SchoolOverviewModel>>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupSchoolOverviewModel(mockLogger.Object, mockConversionApplicationRetrievalService.Object, mockReferenceDataRetrievalService.Object);
+		var pageModel = SetupSchoolOverviewModel(mockConversionApplicationRetrievalService.Object, mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -51,14 +49,13 @@ internal sealed class SchoolOverviewTests
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static SchoolOverviewModel SetupSchoolOverviewModel(
-		ILogger<SchoolOverviewModel> mockLogger,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new SchoolOverviewModel(mockLogger, mockConversionApplicationRetrievalService, mockReferenceDataRetrievalService)
+		return new SchoolOverviewModel(mockConversionApplicationRetrievalService, mockReferenceDataRetrievalService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

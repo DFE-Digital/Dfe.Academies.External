@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -27,15 +26,13 @@ internal sealed class SchoolConversionKeyDetailsModelTests
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<SchoolConversionKeyDetailsModel>>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupSchoolConversionKeyDetailsModel(mockLogger.Object,
-			mockConversionApplicationRetrievalService.Object,
+		var pageModel = SetupSchoolConversionKeyDetailsModel(mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
@@ -53,14 +50,13 @@ internal sealed class SchoolConversionKeyDetailsModelTests
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static SchoolConversionKeyDetailsModel SetupSchoolConversionKeyDetailsModel(
-		ILogger<SchoolConversionKeyDetailsModel> mockLogger,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new SchoolConversionKeyDetailsModel(mockLogger, mockConversionApplicationRetrievalService,
+		return new SchoolConversionKeyDetailsModel(mockConversionApplicationRetrievalService,
 			mockReferenceDataRetrievalService)
 		{
 			PageContext = pageContext,

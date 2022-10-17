@@ -8,19 +8,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
+	// TODO:- amend below to us BaseSchoolPageEditModel
 	public class Leases : BasePageEditModel
 	{
-		private readonly ILogger<Leases> _logger;
 		private readonly IConversionApplicationCreationService _academisationCreationService;
 		
 		public Leases(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
-			ILogger<Leases> logger,
 			IConversionApplicationCreationService academisationCreationService) :
 			base(conversionApplicationRetrievalService, 
 				referenceDataRetrievalService)
 		{
-			_logger = logger;
 			_academisationCreationService = academisationCreationService;
 		}
 		
@@ -113,23 +111,16 @@ namespace Dfe.Academies.External.Web.Pages.School
 		
 		public async Task OnGetAsync(int urn, int appId)
 		{
-			try
-			{
-				LoadAndStoreCachedConversionApplication();
-				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-				ApplicationId = appId;
-				Urn = urn;
+			LoadAndStoreCachedConversionApplication();
+			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+			ApplicationId = appId;
+			Urn = urn;
 
-				// Grab other values from API
-				if (selectedSchool != null)
-				{
-					MergeCachedAndDatabaseEntities(selectedSchool);
-					PopulateUiModel(selectedSchool);
-				}
-			}
-			catch (Exception ex)
+			// Grab other values from API
+			if (selectedSchool != null)
 			{
-				_logger.LogError("School::Leases::OnGetAsync::Exception - {Message}", ex.Message);
+				MergeCachedAndDatabaseEntities(selectedSchool);
+				PopulateUiModel(selectedSchool);
 			}
 		}
 
@@ -193,12 +184,34 @@ namespace Dfe.Academies.External.Web.Pages.School
 			SchoolName = selectedSchool.SchoolName;
 			AnyLeases = LeaseViewModels.Any() ? SelectOption.Yes : SelectOption.No;
 		}
-		
+
+		///<inheritdoc/>
 		public override void PopulateValidationMessages()
 		{
 			PopulateViewDataErrorsWithModelStateErrors();
 		}
 
+		///<inheritdoc/>
+		public override bool RunUiValidation()
+		{
+			if (AnyLeases == SelectOption.Yes && !LeaseViewModels.Any())
+			{
+				ModelState.AddModelError("AddedLeasesButEmptyCollectionError", "You must provide the details on the lease");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (!AnyLeases.HasValue)
+			{
+				ModelState.AddModelError("InvalidSelectOptionError", "You must select an option");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			return true;
+		}
+
+		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
 			return new();

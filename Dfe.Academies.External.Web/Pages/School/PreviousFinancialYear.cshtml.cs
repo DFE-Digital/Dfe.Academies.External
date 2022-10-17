@@ -8,22 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-    public class PreviousFinancialYearModel : BasePageEditModel
+    public class PreviousFinancialYearModel : BaseSchoolPageEditModel
 	{
-		private readonly ILogger<PreviousFinancialYearModel> _logger;
-		private readonly IConversionApplicationCreationService _academisationCreationService;
 		public string PFYEndDateFormInputName = "sip_pfyenddate";
 
-		//// MR:- selected school props for UI rendering
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
-
-		public string SchoolName { get; private set; } = string.Empty;
-
-		//// MR:- VM props to capture Pfy data
+		// MR:- VM props to capture Pfy data
 		
 		[BindProperty]
 		public string? PFYEndDate { get; set; }
@@ -71,12 +60,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("PFYFinancialEndDateNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("PFYFinancialEndDateNotEntered");
 			}
 		}
 
@@ -84,12 +68,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("PFYRevenueStatusExplainedNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("PFYRevenueStatusExplainedNotEntered");
 			}
 		}
 
@@ -97,12 +76,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("PFYCapitalCarryForwardExplainedNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("PFYCapitalCarryForwardExplainedNotEntered");
 			}
 		}
 
@@ -123,38 +97,30 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public PreviousFinancialYearModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 										IReferenceDataRetrievalService referenceDataRetrievalService,
-										ILogger<PreviousFinancialYearModel> logger,
 										IConversionApplicationCreationService academisationCreationService) 
-	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-        {
-	        _logger = logger;
-	        _academisationCreationService = academisationCreationService;
-		}
+	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+		        academisationCreationService, "CurrentFinancialYear")
+        {}
 
-		public async Task OnGetAsync(int urn, int appId)
+		//public async Task OnGetAsync(int urn, int appId)
+		//{
+		//	LoadAndStoreCachedConversionApplication();
+
+		//	var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+		//	ApplicationId = appId;
+		//	Urn = urn;
+
+		//	// Grab other values from API
+		//	if (selectedSchool != null)
+		//	{
+		//		PopulateUiModel(selectedSchool);
+		//	}
+		//}
+
+		public override async Task<IActionResult> OnPostAsync()
 		{
-			try
-			{
-				LoadAndStoreCachedConversionApplication();
+			var form = Request.Form;
 
-				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-				ApplicationId = appId;
-				Urn = urn;
-
-				// Grab other values from API
-				if (selectedSchool != null)
-				{
-					PopulateUiModel(selectedSchool);
-				}
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::PreviousFinancialYearModel::OnGetAsync::Exception - {Message}", ex.Message);
-			}
-		}
-
-		public async Task<IActionResult> OnPostAsync(IFormCollection form)
-		{
 			// MR:- try and build a date from component parts !!!
 			var pfyEndDateComponents = RetrieveDateTimeComponentsFromDatePicker(form, PFYEndDateFormInputName);
 			string PFYEndDateComponentDay = pfyEndDateComponents.FirstOrDefault(x => x.Key == "day").Value;
@@ -163,77 +129,58 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			PFYFinancialEndDateLocal = BuildDateTime(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
 
-			if (!ModelState.IsValid)
+			if (!RunUiValidation())
 			{
-				// error messages component consumes ViewData["Errors"]
-				PopulateValidationMessages();
 				// MR:- date input disappears without below !!
 				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
 				return Page();
+			}
+			
+			// grab draft application from temp= null
+			var draftConversionApplication =
+				TempDataHelper.GetSerialisedValue<ConversionApplication>(
+					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+			var dictionaryMapper = PopulateUpdateDictionary();
+			await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+
+			// update temp store for next step - application overview
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+			return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
+		}
+
+		///<inheritdoc/>
+		public override bool RunUiValidation()
+		{
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				return false;
 			}
 
 			if (PFYFinancialEndDateLocal == DateTime.MinValue)
 			{
 				ModelState.AddModelError("PFYFinancialEndDateNotEntered", "You must input a valid date");
 				PopulateValidationMessages();
-				// MR:- date input disappears without below !!
-				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
-				return Page();
+				return false;
 			}
-			
+
 			if (PFYRevenueStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(PFYRevenueStatusExplained))
 			{
 				ModelState.AddModelError("PFYRevenueStatusExplainedNotEntered", "You must provide details");
 				PopulateValidationMessages();
-				// MR:- date input disappears without below !!
-				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
-				return Page();
+				return false;
 			}
-			
+
 			if (PFYCapitalCarryForwardStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(PFYCapitalCarryForwardExplained))
 			{
 				ModelState.AddModelError("PFYCapitalCarryForwardExplainedNotEntered", "You must provide details");
 				PopulateValidationMessages();
-				// MR:- date input disappears without below !!
-				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
-				return Page();
+				return false;
 			}
 
-			try
-			{
-				//// grab draft application from temp= null
-				var draftConversionApplication =
-					TempDataHelper.GetSerialisedValue<ConversionApplication>(
-						TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-				//var previousFinancialYear = new SchoolFinancialYear(PFYFinancialEndDateLocal,
-				//	Revenue,
-				//	PFYRevenueStatus,
-				//	PFYRevenueStatusExplained,
-				//	null,
-				//	CapitalCarryForward,
-				//	PFYCapitalCarryForwardStatus,
-				//	PFYCapitalCarryForwardExplained,
-				//	null);
-
-				//var mappingDictionary =
-				//	new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.PreviousFinancialYear), previousFinancialYear } };
-
-				var dictionaryMapper = PopulateUpdateDictionary();
-
-				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
-
-				// update temp store for next step - application overview
-				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-				return RedirectToPage("CurrentFinancialYear", new { appId = ApplicationId, urn = Urn });
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::PreviousFinancialYearModel::OnPostAsync::Exception - {Message}", ex.Message);
-				return Page();
-			}
-
+			return true;
 		}
 
 		///<inheritdoc/>
@@ -270,12 +217,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 			return new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.PreviousFinancialYear), previousFinancialYear } };
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		///<inheritdoc/>
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
-			PFYEndDate = (selectedSchool.PreviousFinancialYear.FinancialYearEndDate.HasValue ?
+			PFYEndDate = selectedSchool.PreviousFinancialYear.FinancialYearEndDate.HasValue ?
 				selectedSchool.PreviousFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy")
-				: string.Empty);
+				: string.Empty;
 
 			// Revenue
 			if (selectedSchool.PreviousFinancialYear.Revenue != null)

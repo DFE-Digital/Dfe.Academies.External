@@ -6,83 +6,31 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-	public class ApplicationJoinTrustReasonsModel : BasePageEditModel
+	public class ApplicationJoinTrustReasonsModel : BaseSchoolPageEditModel
 	{
-		private readonly ILogger<ApplicationJoinTrustReasonsModel> _logger;
-		private readonly IConversionApplicationCreationService _academisationCreationService;
-		private const string NextStepPage = "ApplicationChangeSchoolName";
-
-		//// MR:- selected school props for UI rendering
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
-
-		//// MR:- VM props to capture pupil numbers data
+		// MR:- VM props to capture pupil numbers data
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
 		public string? ApplicationJoinTrustReason { get; set; } = string.Empty;
 
-		public ApplicationJoinTrustReasonsModel(ILogger<ApplicationJoinTrustReasonsModel> logger,
-			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		public ApplicationJoinTrustReasonsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService)
-			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-		{
-			_logger = logger;
-			_academisationCreationService = academisationCreationService;
-		}
-
-		public async Task OnGetAsync(int urn, int appId)
-		{
-			try
-			{
-				LoadAndStoreCachedConversionApplication();
-
-				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-				ApplicationId = appId;
-				Urn = urn;
-
-				// Grab other values from API
-				if (selectedSchool != null)
-				{
-					PopulateUiModel(selectedSchool);
-				}
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::ApplicationJoinTrustReasonsModel::OnGetAsync::Exception - {Message}", ex.Message);
-			}
-		}
-
-		public async Task<IActionResult> OnPostAsync()
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, 
+				academisationCreationService, "ApplicationChangeSchoolName")
+		{}
+		
+		///<inheritdoc/>
+		public override bool RunUiValidation()
 		{
 			if (!ModelState.IsValid)
 			{
 				PopulateValidationMessages();
-				return Page();
+				return false;
 			}
-
-			try
+			else
 			{
-				//// grab draft application from temp= null
-				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-				var dictionaryMapper = PopulateUpdateDictionary();
-
-				// MR:- save away ApplicationJoinTrustReason
-				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
-
-				// update temp store for next step
-				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-				return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::ApplicationJoinTrustReasonsModel::OnPostAsync::Exception - {Message}", ex.Message);
-				return Page();
+				return true;
 			}
 		}
 
@@ -101,7 +49,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			};
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		///<inheritdoc/>
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			ApplicationJoinTrustReason = selectedSchool.ApplicationJoinTrustReason;
 		}

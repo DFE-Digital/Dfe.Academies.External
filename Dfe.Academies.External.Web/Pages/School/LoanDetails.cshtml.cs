@@ -73,9 +73,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public async Task<IActionResult> OnPostAsync()
 		{
-			if (!ModelState.IsValid)
+			if (!RunUiValidation())
 			{
-				PopulateValidationMessages();
 				return Page();
 			}
 
@@ -117,6 +116,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 			TempDataSetBySchool<List<LoanViewModel>>(Urn, loanViewModels);
 			return RedirectToPage( "Loans" ,new {urn = Urn, appId = ApplicationId});
+		}
+
+		///<inheritdoc/>
+		public override bool RunUiValidation()
+		{
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				return false;
+			}
+
+			return true;
 		}
 
 		///<inheritdoc/>

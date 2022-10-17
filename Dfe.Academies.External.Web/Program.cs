@@ -149,6 +149,9 @@ if (!app.Environment.IsDevelopment())
 // Combined with razor routing 404 display custom page NotFound
 app.UseStatusCodePagesWithReExecute("/error/{0}");
 
+//
+app.UseBespokeExceptionHandling(app.Environment);
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

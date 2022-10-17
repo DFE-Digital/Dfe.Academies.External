@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -27,14 +26,12 @@ internal sealed class ApplicationOverviewTests
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-
-		var mockLogger = new Mock<ILogger<ApplicationOverviewModel>>();
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupApplicationOverviewModel(mockLogger.Object, mockConversionApplicationRetrievalService.Object, mockReferenceDataRetrievalService.Object);
+		var pageModel = SetupApplicationOverviewModel(mockConversionApplicationRetrievalService.Object, mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -51,14 +48,13 @@ internal sealed class ApplicationOverviewTests
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static ApplicationOverviewModel SetupApplicationOverviewModel(
-		ILogger<ApplicationOverviewModel> mockLogger,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new ApplicationOverviewModel(mockLogger, mockConversionApplicationRetrievalService, mockReferenceDataRetrievalService)
+		return new ApplicationOverviewModel(mockConversionApplicationRetrievalService, mockReferenceDataRetrievalService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

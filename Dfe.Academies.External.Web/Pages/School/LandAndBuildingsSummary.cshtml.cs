@@ -4,54 +4,25 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-	public class LandAndBuildingsSummaryModel : BasePageEditModel
+	public class LandAndBuildingsSummaryModel : BaseSchoolSummaryPageModel
 	{
-		private readonly ILogger<LandAndBuildingsSummaryModel> _logger;
-
-		//// MR:- selected school props for UI rendering
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
-
-		public string SchoolName { get; private set; } = string.Empty;
-
 		//// MR:- VM props to show school conversion data
 		public List<SchoolLandAndBuildingsSummaryHeadingViewModel> ViewModel { get; set; } = new();
 
-		public LandAndBuildingsSummaryModel(ILogger<LandAndBuildingsSummaryModel> logger,
-			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		public LandAndBuildingsSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
-			_logger = logger;
 		}
 
-		public async Task OnGetAsync(int urn, int appId)
+		///<inheritdoc/>
+		public override bool RunUiValidation()
 		{
-			try
-			{
-				LoadAndStoreCachedConversionApplication();
-
-				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-				ApplicationId = appId;
-				Urn = urn;
-
-				// Grab other values from API
-				if (selectedSchool != null)
-				{
-					PopulateUiModel(selectedSchool);
-				}
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::LandAndBuildingsSummaryModel::OnGetAsync::Exception - {Message}", ex.Message);
-			}
+			// does not apply on this page
+			return true;
 		}
 
 		///<inheritdoc/>
@@ -67,10 +38,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			return new();
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		///<inheritdoc/>
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
-
 			var landAndBuildings = selectedSchool.LandAndBuildings;
 
 			SchoolLandAndBuildingsSummaryHeadingViewModel heading1 = new(SchoolLandAndBuildingsSummaryHeadingViewModel.Heading,

@@ -6,20 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School;
 
-public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
+public class ApplicationPreOpeningSupportGrantModel : BaseSchoolPageEditModel
 {
-	private readonly ILogger<ApplicationPreOpeningSupportGrantModel> _logger;
-	private readonly IConversionApplicationCreationService _academisationCreationService;
-
-	//// MR:- selected school props for UI rendering
-	[BindProperty]
-	public int ApplicationId { get; set; }
-
-	[BindProperty]
-	public int Urn { get; set; }
-
-	public string SchoolName { get; private set; } = string.Empty;
-
 	[BindProperty]
 	public ApplicationTypes ApplicationType { get; set; }
 
@@ -44,84 +32,57 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 	{
 		get
 		{
-			if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolSupportGrantFundsPaidToNotEntered"))
-			{
-				return true;
-			}
-
-			return false;
+			return !ModelState.IsValid && ModelState.Keys.Contains("SchoolSupportGrantFundsPaidToNotEntered");
 		}
 	}
 
-	public ApplicationPreOpeningSupportGrantModel(ILogger<ApplicationPreOpeningSupportGrantModel> logger,
-		IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+	public ApplicationPreOpeningSupportGrantModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		IReferenceDataRetrievalService referenceDataRetrievalService,
 		IConversionApplicationCreationService academisationCreationService)
-		: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+		: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+			academisationCreationService, "ApplicationPreOpeningSupportGrantSummary")
+	{}
+
+	/// <summary>
+	/// Consuming different PopulateUiModel() NOT from base, so need an overload
+	/// </summary>
+	/// <param name="urn"></param>
+	/// <param name="appId"></param>
+	/// <returns></returns>
+	public override async Task OnGetAsync(int urn, int appId)
 	{
-		_logger = logger;
-		_academisationCreationService = academisationCreationService;
-	}
+		LoadAndStoreCachedConversionApplication();
+		var draftConversionApplication =
+			TempDataHelper.GetSerialisedValue<ConversionApplication>(
+				TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-	public async Task OnGetAsync(int urn, int appId)
-	{
-		try
+		var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+		ApplicationId = appId;
+		Urn = urn;
+
+		if (selectedSchool != null)
 		{
-			LoadAndStoreCachedConversionApplication();
-			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-			ApplicationId = appId;
-			Urn = urn;
-
-			// Grab other values from API
-			if (selectedSchool != null)
-			{
-				PopulateUiModel(selectedSchool, draftConversionApplication);
-			}
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("School::ApplicationPreOpeningSupportGrantModel::OnGetAsync::Exception - {Message}", ex.Message);
+			PopulateUiModel(selectedSchool, draftConversionApplication);
 		}
 	}
-
-	public async Task<IActionResult> OnPostAsync()
+	
+	///<inheritdoc/>
+	public override bool RunUiValidation()
 	{
 		if (!ModelState.IsValid)
 		{
-			// error messages component consumes ViewData["Errors"]
 			PopulateValidationMessages();
-			return Page();
+			return false;
 		}
 
 		if (ApplicationType == ApplicationTypes.JoinAMat && !SchoolSupportGrantFundsPaidTo.HasValue)
 		{
 			ModelState.AddModelError("SchoolSupportGrantFundsPaidToNotEntered", "You must provide details");
 			PopulateValidationMessages();
-			return Page();
+			return false;
 		}
 
-		try
-		{
-			//// grab draft application from temp= null
-			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-			var dictionaryMapper = PopulateUpdateDictionary();
-
-			// MR:- call API endpoint to log data
-			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
-
-			// update temp store for next step - application overview
-			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-			return RedirectToPage("ApplicationPreOpeningSupportGrantSummary", new { appId = ApplicationId, urn = Urn });
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("School::ApplicationPreOpeningSupportGrantModel::OnPostAsync::Exception - {Message}", ex.Message);
-			return Page();
-		}
+		return true;
 	}
 
 	///<inheritdoc/>
@@ -156,10 +117,20 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 		};
 	}
 
+	///<inheritdoc/>
+	public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+	{
+		throw new NotImplementedException();
+	}
+
+	/// <summary>
+	/// Consume conversionApplication, so need different overload
+	/// </summary>
+	/// <param name="selectedSchool"></param>
+	/// <param name="conversionApplication"></param>
 	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ConversionApplication? conversionApplication)
 	{
 		ApplicationType = conversionApplication.ApplicationType;
-		SchoolName = selectedSchool.SchoolName;
 		if (conversionApplication.ApplicationType != ApplicationTypes.JoinAMat)
 		{
 			SchoolSupportGrantFundsPaidTo = PayFundsTo.Trust;

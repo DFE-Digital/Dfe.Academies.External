@@ -8,18 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-	public class ApplicationChangeSchoolNameModel : BasePageEditModel
+	public class ApplicationChangeSchoolNameModel : BaseSchoolPageEditModel
 	{
-		private readonly ILogger<ApplicationChangeSchoolNameModel> _logger;
-		private readonly IConversionApplicationCreationService _academisationCreationService;
-
-		//// MR:- selected school props for UI rendering
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
-
 		//// MR:- VM props to capture data
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
@@ -32,82 +22,34 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("ChangeSchoolNameNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("ChangeSchoolNameNotEntered");
 			}
 		}
 
-		public ApplicationChangeSchoolNameModel(ILogger<ApplicationChangeSchoolNameModel> logger,
-			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		public ApplicationChangeSchoolNameModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService)
-			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-		{
-			_logger = logger;
-			_academisationCreationService = academisationCreationService;
-		}
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, 
+				academisationCreationService, "SchoolConversionKeyDetails")
+		{}
 
-		public async Task OnGetAsync(int urn, int appId)
-		{
-			try
-			{
-				LoadAndStoreCachedConversionApplication();
-
-				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-				ApplicationId = appId;
-				Urn = urn;
-
-				// Grab other values from API
-				if (selectedSchool != null)
-				{
-					PopulateUiModel(selectedSchool);
-				}
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::ApplicationChangeSchoolNameModel::OnGetAsync::Exception - {Message}", ex.Message);
-			}
-		}
-
-		public async Task<IActionResult> OnPostAsync()
+		///<inheritdoc/>
+		public override bool RunUiValidation()
 		{
 			if (!ModelState.IsValid)
 			{
 				PopulateValidationMessages();
-				return Page();
+				return false;
 			}
 
 			if (ChangeName == SelectOption.Yes && string.IsNullOrWhiteSpace(ChangeSchoolName))
 			{
 				ModelState.AddModelError("ChangeSchoolNameNotEntered", "You must provide details");
 				PopulateValidationMessages();
-				return Page();
+				return false;
 			}
 
-			try
-			{
-				//// grab draft application from temp= null
-				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-				var dictionaryMapper = PopulateUpdateDictionary();
-
-				// MR:- save away ApplicationJoinTrustReason
-				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
-
-				// update temp store for next step - application overview as last step in process
-				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-				return RedirectToPage("SchoolConversionKeyDetails", new { appId = ApplicationId, urn = Urn });
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::ApplicationChangeSchoolNameModel::OnPostAsync::Exception - {Message}", ex.Message);
-				return Page();
-			}
+			return true;
 		}
 
 		///<inheritdoc/>
@@ -138,7 +80,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		///<inheritdoc/>
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			var conversionChangeNamePlanned = selectedSchool.ConversionChangeNamePlanned.GetEnumValue();
 

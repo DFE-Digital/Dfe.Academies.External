@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -29,15 +28,13 @@ internal sealed class SchoolMainContactsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<SchoolMainContactsModel>>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupSchoolMainContactsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupSchoolMainContactsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
@@ -56,11 +53,9 @@ internal sealed class SchoolMainContactsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<SchoolMainContactsModel>>();
 		var expectedErrorText = "You must provide details";
 
-		var pageModel = SetupSchoolMainContactsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupSchoolMainContactsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
@@ -83,11 +78,9 @@ internal sealed class SchoolMainContactsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<SchoolMainContactsModel>>();
 		var expectedErrorText = "You must provide details";
 
-		var pageModel = SetupSchoolMainContactsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupSchoolMainContactsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
@@ -110,11 +103,9 @@ internal sealed class SchoolMainContactsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<SchoolMainContactsModel>>();
 		var expectedErrorText = "You must provide details";
 
-		var pageModel = SetupSchoolMainContactsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupSchoolMainContactsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
@@ -137,11 +128,9 @@ internal sealed class SchoolMainContactsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<SchoolMainContactsModel>>();
 		var expectedErrorText = "You must provide details";
 
-		var pageModel = SetupSchoolMainContactsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupSchoolMainContactsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
@@ -164,11 +153,9 @@ internal sealed class SchoolMainContactsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<SchoolMainContactsModel>>();
 		var expectedErrorText = "You must provide details";
 
-		var pageModel = SetupSchoolMainContactsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupSchoolMainContactsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
@@ -191,11 +178,9 @@ internal sealed class SchoolMainContactsModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<SchoolMainContactsModel>>();
 		var expectedErrorText = "You must provide details";
 
-		var pageModel = SetupSchoolMainContactsModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupSchoolMainContactsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 
@@ -218,7 +203,6 @@ internal sealed class SchoolMainContactsModelTests
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static SchoolMainContactsModel SetupSchoolMainContactsModel(
-		ILogger<SchoolMainContactsModel> mockLogger,
 		IConversionApplicationCreationService mockConversionApplicationCreationService,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
@@ -226,7 +210,7 @@ internal sealed class SchoolMainContactsModelTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new SchoolMainContactsModel(mockLogger, mockConversionApplicationRetrievalService,
+		return new SchoolMainContactsModel(mockConversionApplicationRetrievalService,
 			mockReferenceDataRetrievalService, mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,

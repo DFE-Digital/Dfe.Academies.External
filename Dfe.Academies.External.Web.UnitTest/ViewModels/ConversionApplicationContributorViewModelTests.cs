@@ -35,7 +35,7 @@ internal sealed class ConversionApplicationContributorViewModelTests
 		// arrange
 		string fullname = Fixture.Create<string>();
 		SchoolRoles schoolRole = SchoolRoles.ChairOfGovernors;
-		
+
 		var contributor = new ConversionApplicationContributorViewModel(fullname, schoolRole, null);
 
 		// act

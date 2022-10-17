@@ -18,7 +18,6 @@ namespace Dfe.Academies.External.Web.Pages
 	/// </summary>
 	public class AddAContributorModel : BasePageEditModel
 	{
-	    private readonly ILogger<AddAContributorModel> _logger;
 	    private readonly IConversionApplicationCreationService _academisationCreationService;
 	    
 	    //// MR:- selected school props for UI rendering
@@ -68,11 +67,9 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public AddAContributorModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
-			ILogger<AddAContributorModel> logger,
 			IConversionApplicationCreationService academisationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
-			_logger = logger;
 			_academisationCreationService = academisationCreationService;
 		}
 
@@ -83,19 +80,12 @@ namespace Dfe.Academies.External.Web.Pages
 		/// <returns></returns>
 		public async Task OnGetAsync(int appId)
 		{
-			try
-			{
-				//// on load - grab draft application from temp
-				var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
+			//// on load - grab draft application from temp
+			var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
 
-				ApplicationId = appId;
+			ApplicationId = appId;
 
-				PopulateUiModel(draftConversionApplication);
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("Application::AddAContributorModel::OnGetAsync::Exception - {Message}", ex.Message);
-			}
+			PopulateUiModel(draftConversionApplication);
 		}
 
 		public async Task<IActionResult> OnPostAsync()
@@ -103,45 +93,25 @@ namespace Dfe.Academies.External.Web.Pages
 			//// grab draft application from temp= null
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			if (!ModelState.IsValid)
+			if (!RunUiValidation())
 			{
-				PopulateValidationMessages();
-				// MR:- need to call below otherwise will lose ExistingContributors()
-				PopulateUiModel(draftConversionApplication);
 				return Page();
 			}
 
-			if (ContributorRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleNotListed))
-			{
-				ModelState.AddModelError("OtherRoleNotEntered", "You must give your role at the school");
-				PopulateValidationMessages();
-				// MR:- need to call below otherwise will lose ExistingContributors()
-				PopulateUiModel(draftConversionApplication);
-				return Page();
-			}
+			var contributor = new ConversionApplicationContributor("", Name, EmailAddress, ContributorRole, OtherRoleNotListed);
 
-			try
-			{
-				var contributor = new ConversionApplicationContributor("", Name, EmailAddress, ContributorRole, OtherRoleNotListed);
+			await _academisationCreationService.AddContributorToApplication(contributor, ApplicationId);
 
-				await _academisationCreationService.AddContributorToApplication(contributor, ApplicationId);
+			// update temp store for next step
+			draftConversionApplication.Contributors.Add(contributor);
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-				// update temp store for next step
-				draftConversionApplication.Contributors.Add(contributor);
-				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+			// MR:- need to stay on the page to show user a green confirmation banner that email has been sent / db updated
+			ShowConfirmationBox = true;
 
-				// MR:- need to stay on the page to show user a green confirmation banner that email has been sent / db updated
-				ShowConfirmationBox = true;
-
-				// MR:- need to call below otherwise will lose ExistingContributors()
-				PopulateUiModel(draftConversionApplication);
-				return Page();
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("Application::AddAContributorModel::OnPostAsync::Exception - {Message}", ex.Message);
-				return Page();
-			}
+			// MR:- need to call below otherwise will lose ExistingContributors()
+			PopulateUiModel(draftConversionApplication);
+			return Page();
 		}
 
 		///<inheritdoc/>
@@ -151,12 +121,38 @@ namespace Dfe.Academies.External.Web.Pages
 		}
 
 		///<inheritdoc/>
+		public override bool RunUiValidation()
+		{
+			//// grab draft application from temp= null
+			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				// MR:- need to call below otherwise will lose ExistingContributors()
+				PopulateUiModel(draftConversionApplication);
+				return false;
+			}
+
+			if (ContributorRole == SchoolRoles.Other && string.IsNullOrWhiteSpace(OtherRoleNotListed))
+			{
+				ModelState.AddModelError("OtherRoleNotEntered", "You must give your role at the school");
+				PopulateValidationMessages();
+				// MR:- need to call below otherwise will lose ExistingContributors()
+				PopulateUiModel(draftConversionApplication);
+				return false;
+			}
+
+			return true;
+		}
+
+		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
 			// does not apply on this page
 			return new();
 		}
-
+		
 		private void PopulateUiModel(ConversionApplication? application)
 		{
 			if (application != null)

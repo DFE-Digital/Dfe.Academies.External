@@ -4,54 +4,25 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School;
 
-public class ApplicationPreOpeningSupportGrantSummaryModel : BasePageEditModel
+public class ApplicationPreOpeningSupportGrantSummaryModel : BaseSchoolSummaryPageModel
 {
-	private readonly ILogger<ApplicationPreOpeningSupportGrantSummaryModel> _logger;
-
-	//// MR:- selected school props for UI rendering
-	[BindProperty]
-	public int ApplicationId { get; set; }
-
-	[BindProperty]
-	public int Urn { get; set; }
-
-	public string SchoolName { get; private set; } = string.Empty;
-
 	//// MR:- VM props to show school conversion data
 	public List<ApplicationPreOpeningSupportGrantHeadingViewModel> ViewModel { get; set; } = new();
 
-	public ApplicationPreOpeningSupportGrantSummaryModel(ILogger<ApplicationPreOpeningSupportGrantSummaryModel> logger,
-		IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+	public ApplicationPreOpeningSupportGrantSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		IReferenceDataRetrievalService referenceDataRetrievalService)
 		: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 	{
-		_logger = logger;
 	}
 
-	public async Task OnGetAsync(int urn, int appId)
+	///<inheritdoc/>
+	public override bool RunUiValidation()
 	{
-		try
-		{
-			LoadAndStoreCachedConversionApplication();
-
-			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-			ApplicationId = appId;
-			Urn = urn;
-
-			// Grab other values from API
-			if (selectedSchool != null)
-			{
-				PopulateUiModel(selectedSchool);
-			}
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("School::ApplicationPreOpeningSupportGrantSummaryModel::OnGetAsync::Exception - {Message}", ex.Message);
-		}
+		// does not apply on this page
+		return true;
 	}
 
 	///<inheritdoc/>
@@ -67,10 +38,9 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BasePageEditModel
 		return new();
 	}
 
-	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+	///<inheritdoc/>
+	public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
-		SchoolName = selectedSchool.SchoolName;
-
 		ApplicationPreOpeningSupportGrantHeadingViewModel heading1 = new(ApplicationPreOpeningSupportGrantHeadingViewModel.Heading,
 			"/school/ApplicationPreOpeningSupportGrant"){
 			Status = !string.IsNullOrEmpty(selectedSchool.SchoolSupportGrantFundsPaidTo.ToString()) ?

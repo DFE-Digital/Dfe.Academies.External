@@ -8,24 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-	public class ApplicationConversionTargetDateModel : BasePageEditModel
+	public class ApplicationConversionTargetDateModel : BaseSchoolPageEditModel
 	{
-		private readonly ILogger<ApplicationConversionTargetDateModel> _logger;
-		private readonly IConversionApplicationCreationService _academisationCreationService;
-		private const string NextStepPage = "ApplicationJoinTrustReasons";
 		public string SchoolConversionTargetDateDate = "sip_ctddiferentdatevalue";
 
-		//// MR:- selected school props for UI rendering
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
-
-		public string SchoolName { get; private set; } = string.Empty;
-
-		//// MR:- VM props to capture data
-
+		// MR:- VM props to capture data
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
 		public SelectOption TargetDateDifferent { get; set; }
@@ -65,12 +52,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("SchoolConversionTargetDateNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("SchoolConversionTargetDateNotEntered");
 			}
 		}
 
@@ -78,49 +60,20 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				if (!ModelState.IsValid && ModelState.Keys.Contains("TargetDateExplainedNotEntered"))
-				{
-					return true;
-				}
-
-				return false;
+				return !ModelState.IsValid && ModelState.Keys.Contains("TargetDateExplainedNotEntered");
 			}
 		}
 
-		public ApplicationConversionTargetDateModel(ILogger<ApplicationConversionTargetDateModel> logger,
-			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		public ApplicationConversionTargetDateModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService)
-			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+				academisationCreationService, "ApplicationJoinTrustReasons")
+		{}
+
+		public override async Task<IActionResult> OnPostAsync()
 		{
-			_logger = logger;
-			_academisationCreationService = academisationCreationService;
-		}
-
-		public async Task OnGetAsync(int urn, int appId)
-		{
-			try
-			{
-				LoadAndStoreCachedConversionApplication();
-
-				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-				ApplicationId = appId;
-				Urn = urn;
-
-				// Grab other values from API
-				if (selectedSchool != null)
-				{
-					PopulateUiModel(selectedSchool);
-				}
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::ApplicationConversionTargetDateModel::OnGetAsync::Exception - {Message}", ex.Message);
-			}
-		}
-
-		public async Task<IActionResult> OnPostAsync(IFormCollection form)
-		{
+			var form = Request.Form;
 			//var id = Convert.ToInt32(form["ApplicationId"]);
 
 			// MR:- try and build a date from component parts !!!
@@ -131,59 +84,58 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			TargetDateLocal = BuildDateTime(day, month, year);
 
-			if (!ModelState.IsValid)
+			if (!RunUiValidation())
 			{
-				PopulateValidationMessages();
 				// MR:- date input disappears without below !!
 				RePopDatePickerModel(day, month, year);
 				return Page();
 			}
 
-			if (TargetDateDifferent == SelectOption.Yes && TargetDateLocal == DateTime.MinValue)
-			{
-				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must input a valid date");
-				PopulateValidationMessages();
-				// MR:- date input disappears without below !!
-				RePopDatePickerModel(day, month, year);
-				return Page();
-			}
+			// grab draft application from temp= null
+			var draftConversionApplication =
+				TempDataHelper.GetSerialisedValue<ConversionApplication>(
+					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			if (TargetDateDifferent == SelectOption.Yes && string.IsNullOrWhiteSpace(TargetDateExplained))
-			{
-				ModelState.AddModelError("TargetDateExplainedNotEntered", "You must provide details");
-				PopulateValidationMessages();
-				// MR:- date input disappears without below !!
-				RePopDatePickerModel(day, month, year);
-				return Page();
-			}
-			
-			try
-			{
-				//// grab draft application from temp= null
-				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+			var dictionaryMapper = PopulateUpdateDictionary();
+			await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
-				var dictionaryMapper = PopulateUpdateDictionary();
+			// update temp store for next step
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-				// MR:- call API endpoint to log data
-				await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
-
-				// update temp store for next step
-				TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-				// need to go onto next step in process 'reasons for conversion page'
-				return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError("School::ApplicationConversionTargetDateModel::OnPostAsync::Exception - {Message}", ex.Message);
-				return Page();
-			}
+			// need to go onto next step in process 'reasons for conversion page'
+			return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
 		}
 
 		///<inheritdoc/>
 		public override void PopulateValidationMessages()
 		{
 			PopulateViewDataErrorsWithModelStateErrors();
+		}
+
+		///<inheritdoc/>
+		public override bool RunUiValidation()
+		{
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (TargetDateDifferent == SelectOption.Yes && TargetDateLocal == DateTime.MinValue)
+			{
+				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must input a valid date");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (TargetDateDifferent == SelectOption.Yes && string.IsNullOrWhiteSpace(TargetDateExplained))
+			{
+				ModelState.AddModelError("TargetDateExplainedNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			return true;
 		}
 
 		///<inheritdoc/>
@@ -210,10 +162,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
-
 			var conversionDateSpecified = selectedSchool.SchoolConversionTargetDateSpecified.GetEnumValue();
 
 			if (conversionDateSpecified.HasValue)

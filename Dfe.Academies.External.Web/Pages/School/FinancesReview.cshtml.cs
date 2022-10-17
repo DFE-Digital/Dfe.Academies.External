@@ -4,55 +4,25 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-
 namespace Dfe.Academies.External.Web.Pages.School
 {
-    public class FinancesReviewModel : BasePageEditModel
+    public class FinancesReviewModel : BaseSchoolSummaryPageModel
 	{
-	    private readonly ILogger<FinancesReviewModel> _logger;
-
-	    //// MR:- selected school props for UI rendering
-	    [BindProperty]
-	    public int ApplicationId { get; set; }
-
-	    [BindProperty]
-	    public int Urn { get; set; }
-
-	    public string SchoolName { get; private set; } = string.Empty;
-
 	    //// MR:- VM props to show school conversion data
 	    public List<FinancesReviewHeadingViewModel> ViewModel { get; set; } = new();
 
-	    public FinancesReviewModel(ILogger<FinancesReviewModel> logger,
-		    IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+	    public FinancesReviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		    IReferenceDataRetrievalService referenceDataRetrievalService)
 		    : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 	    {
-		    _logger = logger;
 	    }
 
-		public async Task OnGetAsync(int urn, int appId)
-	    {
-		    try
-		    {
-			    LoadAndStoreCachedConversionApplication();
-
-			    var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-			    ApplicationId = appId;
-			    Urn = urn;
-
-			    // Grab other values from API
-			    if (selectedSchool != null)
-			    {
-				    PopulateUiModel(selectedSchool);
-			    }
-		    }
-		    catch (Exception ex)
-		    {
-			    _logger.LogError("School::FinancesReviewModel::OnGetAsync::Exception - {Message}", ex.Message);
-		    }
-	    }
+		///<inheritdoc/>
+		public override bool RunUiValidation()
+		{
+			// does not apply on this page
+			return true;
+		}
 
 		///<inheritdoc/>
 		public override void PopulateValidationMessages()
@@ -367,9 +337,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			return financialInvestigationsHeading;
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		///<inheritdoc/>
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	    {
-		    SchoolName = selectedSchool.SchoolName;
 		    var PFYheading = PopulatePreviousFinancialYear(selectedSchool);
 		    var CFYheading = PopulateCurrentFinancialYear(selectedSchool);
 			var NFYheading = PopulateNextFinancialYear(selectedSchool);

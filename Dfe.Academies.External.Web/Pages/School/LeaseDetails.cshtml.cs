@@ -3,7 +3,6 @@ using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -79,6 +78,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 				}
 			}
 		}
+
+		///<inheritdoc/>
 		public override void PopulateValidationMessages()
 		{
 			PopulateViewDataErrorsWithModelStateErrors();
@@ -132,13 +133,29 @@ namespace Dfe.Academies.External.Web.Pages.School
 				leaseViewModels.Add(selectedLoan);
 			}
 			TempDataSetBySchool<List<LeaseViewModel>>(Urn, leaseViewModels);
-			return RedirectToPage( "Leases" ,new {urn = Urn, appId = ApplicationId});
+			return RedirectToPage("Leases",new {urn = Urn, appId = ApplicationId});
 		}
 
-		public LeaseDetails(IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+		///<inheritdoc/>
+		public LeaseDetails(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
+																	IReferenceDataRetrievalService referenceDataRetrievalService) 
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
 		}
 
+		///<inheritdoc/>
+		public override bool RunUiValidation()
+		{
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				return false;
+			}
+
+			return true;
+		}
+
+		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
 			return new();

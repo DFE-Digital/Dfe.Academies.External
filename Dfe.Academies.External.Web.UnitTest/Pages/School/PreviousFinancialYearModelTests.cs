@@ -1,13 +1,12 @@
-﻿using Dfe.Academies.External.Web.Pages.School;
+﻿using System.Threading.Tasks;
+using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Moq;
-using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.School;
@@ -28,15 +27,13 @@ internal sealed class PreviousFinancialYearModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockLogger = new Mock<ILogger<PreviousFinancialYearModel>>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupPreviousFinancialYearModel(mockLogger.Object,
-			mockConversionApplicationCreationService.Object,
+		var pageModel = SetupPreviousFinancialYearModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
@@ -55,7 +52,6 @@ internal sealed class PreviousFinancialYearModelTests
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static PreviousFinancialYearModel SetupPreviousFinancialYearModel(
-		ILogger<PreviousFinancialYearModel> mockLogger,
 		IConversionApplicationCreationService mockConversionApplicationCreationService,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
@@ -64,7 +60,7 @@ internal sealed class PreviousFinancialYearModelTests
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
 		return new PreviousFinancialYearModel(mockConversionApplicationRetrievalService,
-			mockReferenceDataRetrievalService, mockLogger, mockConversionApplicationCreationService)
+			mockReferenceDataRetrievalService, mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

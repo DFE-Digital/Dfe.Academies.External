@@ -11,7 +11,7 @@ internal sealed class EmailValidatorTests
 {
 	private static readonly Fixture Fixture = new();
 	private static readonly Faker Faker = new();
-	
+
 	[Test]
 	public async Task EmailValidator___ValidEmail___IsValidTrue()
 	{
