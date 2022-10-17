@@ -47,42 +47,6 @@ public class ApplicationSchoolConsultationModel : BaseSchoolPageEditModel
 			academisationCreationService, "ApplicationSchoolConsultationSummary")
 	{}
 
-	//public async Task OnGetAsync(int urn, int appId)
-	//{
-	//	LoadAndStoreCachedConversionApplication();
-
-	//	var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-	//	ApplicationId = appId;
-	//	Urn = urn;
-
-	//	// Grab other values from API
-	//	if (selectedSchool != null)
-	//	{
-	//		PopulateUiModel(selectedSchool);
-	//	}
-	//}
-
-	//public async Task<IActionResult> OnPostAsync()
-	//{
-	//	if (!RunUiValidation())
-	//	{
-	//		return Page();
-	//	}
-
-	//	// grab draft application from temp= null
-	//	var draftConversionApplication =
-	//		TempDataHelper.GetSerialisedValue<ConversionApplication>(
-	//			TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-	//	var dictionaryMapper = PopulateUpdateDictionary();
-	//	await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
-
-	//	// update temp store for next step - application overview as last step in process
-	//	TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-	//	return RedirectToPage("ApplicationSchoolConsultationSummary", new { appId = ApplicationId, urn = Urn });
-	//}
-
 	///<inheritdoc/>
 	public override bool RunUiValidation()
 	{
