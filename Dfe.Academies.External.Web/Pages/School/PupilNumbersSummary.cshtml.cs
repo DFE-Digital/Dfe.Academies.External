@@ -3,43 +3,18 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-	public class PupilNumbersSummaryModel : BasePageEditModel
+	public class PupilNumbersSummaryModel : BaseSchoolSummaryPageModel
 	{
-		//// MR:- selected school props for UI rendering
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
-
-		public string SchoolName { get; private set; } = string.Empty;
-
-		//// MR:- VM props to show school conversion data
+		// MR:- VM props to show school conversion data
 		public List<SchoolPupilNumbersSummaryHeadingViewModel> ViewModel { get; set; } = new();
 
 		public PupilNumbersSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
-		}
-
-		public async Task OnGetAsync(int urn, int appId)
-		{
-			LoadAndStoreCachedConversionApplication();
-
-			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-			ApplicationId = appId;
-			Urn = urn;
-
-			// Grab other values from API
-			if (selectedSchool != null)
-			{
-				PopulateUiModel(selectedSchool);
-			}
 		}
 
 		///<inheritdoc/>
@@ -62,10 +37,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			return new();
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		///<inheritdoc/>
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
-
 			SchoolPupilNumbersSummaryHeadingViewModel heading1 = new(
 				SchoolPupilNumbersSummaryHeadingViewModel.Heading,
 				"/school/PupilNumbers")
