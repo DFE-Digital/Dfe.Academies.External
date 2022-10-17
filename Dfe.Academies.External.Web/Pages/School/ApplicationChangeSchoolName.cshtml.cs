@@ -84,7 +84,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 				};
 			}
 		}
-		
+
+		///<inheritdoc/>
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			var conversionChangeNamePlanned = selectedSchool.ConversionChangeNamePlanned.GetEnumValue();
