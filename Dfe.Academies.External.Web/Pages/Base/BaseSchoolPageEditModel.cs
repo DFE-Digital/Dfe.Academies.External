@@ -39,12 +39,13 @@ public abstract class BaseSchoolPageEditModel : BasePageEditModel
 	{
 		// MR:- don't need try/catch anymore as we have exception middleware
 		LoadAndStoreCachedConversionApplication();
-
-		var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+		
 		ApplicationId = appId;
 		Urn = urn;
 
 		// Grab other values from API
+		var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+
 		if (selectedSchool != null)
 		{
 			PopulateUiModel(selectedSchool);
