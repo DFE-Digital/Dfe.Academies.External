@@ -203,7 +203,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 				});
 
 			SchoolConversionComponentHeadingViewModel heading4 = new(SchoolConversionComponentHeadingViewModel.HeadingApplicationJoinTrustReason,
-				"/school/ApplicationJoinTrustReasons");
+				"/school/ApplicationJoinTrustReasons")
+			{
+				Status = !string.IsNullOrWhiteSpace(selectedSchool.ApplicationJoinTrustReason) ?
+					SchoolConversionComponentStatus.Complete : SchoolConversionComponentStatus.NotStarted
+			};
 			heading4.Sections.Add(new(SchoolConversionComponentSectionViewModel.ReasonsForJoiningTrustSectionName,
 				!string.IsNullOrWhiteSpace(selectedSchool.ApplicationJoinTrustReason) ?
 					selectedSchool.ApplicationJoinTrustReason
