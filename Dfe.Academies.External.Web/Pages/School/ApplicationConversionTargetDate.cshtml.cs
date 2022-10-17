@@ -8,23 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-	public class ApplicationConversionTargetDateModel : BasePageEditModel
+	public class ApplicationConversionTargetDateModel : BaseSchoolPageEditModel
 	{
-		private readonly IConversionApplicationCreationService _academisationCreationService;
-		private const string NextStepPage = "ApplicationJoinTrustReasons";
 		public string SchoolConversionTargetDateDate = "sip_ctddiferentdatevalue";
 
-		//// MR:- selected school props for UI rendering
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
-
-		public string SchoolName { get; private set; } = string.Empty;
-
-		//// MR:- VM props to capture data
-
+		// MR:- VM props to capture data
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
 		public SelectOption TargetDateDifferent { get; set; }
@@ -76,32 +64,16 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		public ApplicationConversionTargetDateModel(ILogger<ApplicationConversionTargetDateModel> logger,
-			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		public ApplicationConversionTargetDateModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService)
-			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+				academisationCreationService, "ApplicationJoinTrustReasons")
+		{}
+
+		public override async Task<IActionResult> OnPostAsync()
 		{
-			_academisationCreationService = academisationCreationService;
-		}
-
-		public async Task OnGetAsync(int urn, int appId)
-		{
-			LoadAndStoreCachedConversionApplication();
-
-			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-			ApplicationId = appId;
-			Urn = urn;
-
-			// Grab other values from API
-			if (selectedSchool != null)
-			{
-				PopulateUiModel(selectedSchool);
-			}
-		}
-
-		public async Task<IActionResult> OnPostAsync(IFormCollection form)
-		{
+			var form = Request.Form;
 			//var id = Convert.ToInt32(form["ApplicationId"]);
 
 			// MR:- try and build a date from component parts !!!
@@ -125,9 +97,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 			var dictionaryMapper = PopulateUpdateDictionary();
-
-			// MR:- call API endpoint to log data
-			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+			await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 			// update temp store for next step
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -192,10 +162,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
-
 			var conversionDateSpecified = selectedSchool.SchoolConversionTargetDateSpecified.GetEnumValue();
 
 			if (conversionDateSpecified.HasValue)
