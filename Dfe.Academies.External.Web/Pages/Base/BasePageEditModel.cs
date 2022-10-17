@@ -36,7 +36,15 @@ public abstract class BasePageEditModel : BasePageModel
 	public async Task<SchoolApplyingToConvert?> LoadAndSetSchoolDetails(int applicationId, int urn)
 	{
 		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(applicationId);
-		return applicationDetails.Schools.FirstOrDefault(s => s.URN == urn);
+
+		if (applicationDetails != null)
+		{
+			return applicationDetails.Schools.FirstOrDefault(s => s.URN == urn);
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	public void TempDataSetLoanViewModels(int schoolUrn, List<LoanViewModel> loanViewModels)
