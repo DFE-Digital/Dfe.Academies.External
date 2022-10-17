@@ -8,18 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School;
 
-public class CurrentFinancialYearModel : BasePageEditModel
+public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 {
-	private readonly IConversionApplicationCreationService _academisationCreationService;
-	public string CFYEndDateFormInputName = "sip_cfyenddate";
-	
-	[BindProperty]
-	public int ApplicationId { get; set; }
-
-	[BindProperty]
-	public int Urn { get; set; }
-
-	public string SchoolName { get; private set; } = string.Empty;
+	public const string CFYEndDateFormInputName = "sip_cfyenddate";
 
 	[BindProperty]
 	public string? CFYEndDate { get; set; }
@@ -113,30 +104,19 @@ public class CurrentFinancialYearModel : BasePageEditModel
 
 	public CurrentFinancialYearModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 									IReferenceDataRetrievalService referenceDataRetrievalService,
-									ILogger<CurrentFinancialYearModel> logger,
 									IConversionApplicationCreationService academisationCreationService) 
-        : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-    {
-        _academisationCreationService = academisationCreationService;
-	}
+        : base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+	        academisationCreationService, "NextFinancialYear")
+    {}
 
-	public async Task OnGetAsync(int urn, int appId)
+	/// <summary>
+	/// different overload because of datepicker stuff!!
+	/// </summary>
+	/// <returns></returns>
+	public override async Task<IActionResult> OnPostAsync()
 	{
-		LoadAndStoreCachedConversionApplication();
+		var form = Request.Form;
 
-		var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-		ApplicationId = appId;
-		Urn = urn;
-
-		// Grab other values from API
-		if (selectedSchool != null)
-		{
-			PopulateUiModel(selectedSchool);
-		}
-	}
-
-	public async Task<IActionResult> OnPostAsync(IFormCollection form)
-	{
 		// MR:- try and build a date from component parts !!!
 		var cfyEndDateComponents = RetrieveDateTimeComponentsFromDatePicker(form, CFYEndDateFormInputName);
 		string CFYEndDateComponentDay = cfyEndDateComponents.FirstOrDefault(x => x.Key == "day").Value;
@@ -158,9 +138,9 @@ public class CurrentFinancialYearModel : BasePageEditModel
 				TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 		var dictionaryMapper = PopulateUpdateDictionary();
-		await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+		await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
-		// update temp store for next step - application overview
+		// update temp store for next step
 		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
 		return RedirectToPage("NextFinancialYear", new { appId = ApplicationId, urn = Urn });
@@ -233,9 +213,8 @@ public class CurrentFinancialYearModel : BasePageEditModel
 		return new Dictionary<string, dynamic> { {nameof(SchoolApplyingToConvert.CurrentFinancialYear), currentFinancialYear} };
 	}
 
-	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+	public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
-		SchoolName = selectedSchool.SchoolName;
 		CFYEndDate = (selectedSchool.CurrentFinancialYear.FinancialYearEndDate.HasValue ?
 			selectedSchool.CurrentFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy")
 			: string.Empty);
