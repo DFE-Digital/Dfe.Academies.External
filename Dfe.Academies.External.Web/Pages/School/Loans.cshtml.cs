@@ -8,30 +8,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-	public class Loans : BasePageEditModel
+	public class Loans : BaseSchoolPageEditModel
 	{
-		private readonly IConversionApplicationCreationService _academisationCreationService;
-		
 		public Loans(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService) :
-			base(conversionApplicationRetrievalService, 
-				referenceDataRetrievalService)
-		{
-			_academisationCreationService = academisationCreationService;
-		}
-		
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
+			base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+				academisationCreationService, "FinancesReview")
+		{}
 		
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
 		public SelectOption? AnyLoans { get; set; }
-
-		public string SchoolName { get; private set; } = string.Empty;
 
 		public List<LoanViewModel> LoanViewModels { get; set; }
 		
@@ -53,7 +41,22 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		public async Task<IActionResult> OnPostAsync()
+		public override async Task OnGetAsync(int urn, int appId)
+		{
+			LoadAndStoreCachedConversionApplication();
+			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+			ApplicationId = appId;
+			Urn = urn;
+
+			// Grab other values from API
+			if (selectedSchool != null)
+			{
+				MergeCachedAndDatabaseLoans(selectedSchool);
+				PopulateUiModel(selectedSchool);
+			}
+		}
+
+		public override async Task<IActionResult> OnPostAsync()
 		{
 			var selectedSchool = await LoadAndSetSchoolDetails(ApplicationId, Urn);
 			MergeCachedAndDatabaseLoans(selectedSchool);
@@ -77,7 +80,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				{ nameof(SchoolApplyingToConvert.Loans), loans }
 			};
-			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+			await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -86,21 +89,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			return RedirectToPage("FinancesReview", new { urn = Urn, appId = ApplicationId });
 		}
 		
-		public async Task OnGetAsync(int urn, int appId)
-		{
-			LoadAndStoreCachedConversionApplication();
-			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-			ApplicationId = appId;
-			Urn = urn;
-
-			// Grab other values from API
-			if (selectedSchool != null)
-			{
-				MergeCachedAndDatabaseLoans(selectedSchool);
-				PopulateUiModel(selectedSchool);
-			}
-		}
-
 		private void LoadLoansFromDatabase(SchoolApplyingToConvert selectedSchool)
 		{
 			//Populate viewmodel from currently saved data
@@ -184,9 +172,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			return new();
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		///<inheritdoc/>
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
 			AnyLoans = LoanViewModels.Any() ? SelectOption.Yes : SelectOption.No;
 		}
 	}
