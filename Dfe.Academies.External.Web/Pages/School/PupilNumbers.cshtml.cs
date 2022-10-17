@@ -6,20 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-	public class PupilNumbersModel : BasePageEditModel
+	public class PupilNumbersModel : BaseSchoolPageEditModel
 	{
-		private readonly IConversionApplicationCreationService _academisationCreationService;
-
-		//// MR:- selected school props for UI rendering
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
-
-		public string SchoolName { get; private set; } = string.Empty;
-
-		//// MR:- VM props to capture pupil numbers data
+		// MR:- VM props to capture pupil numbers data
 
 		[BindProperty]
 		[Required(ErrorMessage = "You must give the school's published admissions number (PAN)")]
@@ -44,46 +33,45 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public PupilNumbersModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 								IReferenceDataRetrievalService referenceDataRetrievalService,
 								IConversionApplicationCreationService academisationCreationService)
-			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-		{
-			_academisationCreationService = academisationCreationService;
-		}
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+				academisationCreationService, "PupilNumbersSummary")
+		{}
 
-		public async Task OnGetAsync(int urn, int appId)
-		{
-			LoadAndStoreCachedConversionApplication();
+		//public async Task OnGetAsync(int urn, int appId)
+		//{
+		//	LoadAndStoreCachedConversionApplication();
 
-			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-			ApplicationId = appId;
-			Urn = urn;
+		//	var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+		//	ApplicationId = appId;
+		//	Urn = urn;
 
-			// Grab other values from API
-			if (selectedSchool != null)
-			{
-				PopulateUiModel(selectedSchool);
-			}
-		}
+		//	// Grab other values from API
+		//	if (selectedSchool != null)
+		//	{
+		//		PopulateUiModel(selectedSchool);
+		//	}
+		//}
 
-		public async Task<IActionResult> OnPostAsync()
-		{
-			if (!RunUiValidation())
-			{
-				return Page();
-			}
+		//public async Task<IActionResult> OnPostAsync()
+		//{
+		//	if (!RunUiValidation())
+		//	{
+		//		return Page();
+		//	}
 
-			// grab draft application from temp= null
-			var draftConversionApplication =
-				TempDataHelper.GetSerialisedValue<ConversionApplication>(
-					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+		//	// grab draft application from temp= null
+		//	var draftConversionApplication =
+		//		TempDataHelper.GetSerialisedValue<ConversionApplication>(
+		//			TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			var dictionaryMapper = PopulateUpdateDictionary();
-			await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+		//	var dictionaryMapper = PopulateUpdateDictionary();
+		//	await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
-			// update temp store for next step - application overview
-			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+		//	// update temp store for next step - application overview
+		//	TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-			return RedirectToPage("PupilNumbersSummary", new { appId = ApplicationId, urn = Urn });
-		}
+		//	return RedirectToPage("PupilNumbersSummary", new { appId = ApplicationId, urn = Urn });
+		//}
 
 		///<inheritdoc/>
 		public override bool RunUiValidation()
@@ -118,9 +106,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			};
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		///<inheritdoc/>
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
 			SchoolCapacityPublishedAdmissionsNumber = selectedSchool.SchoolCapacityPublishedAdmissionsNumber;
 			ProjectedPupilNumbersYear1 = selectedSchool.ProjectedPupilNumbersYear1;
 			ProjectedPupilNumbersYear2 = selectedSchool.ProjectedPupilNumbersYear2;
