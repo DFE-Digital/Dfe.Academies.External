@@ -6,19 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School;
 
-public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
+public class ApplicationPreOpeningSupportGrantModel : BaseSchoolPageEditModel
 {
-	private readonly IConversionApplicationCreationService _academisationCreationService;
-
-	//// MR:- selected school props for UI rendering
-	[BindProperty]
-	public int ApplicationId { get; set; }
-
-	[BindProperty]
-	public int Urn { get; set; }
-
-	public string SchoolName { get; private set; } = string.Empty;
-
 	[BindProperty]
 	public ApplicationTypes ApplicationType { get; set; }
 
@@ -52,52 +41,36 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 		}
 	}
 
-	public ApplicationPreOpeningSupportGrantModel(ILogger<ApplicationPreOpeningSupportGrantModel> logger,
-		IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+	public ApplicationPreOpeningSupportGrantModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		IReferenceDataRetrievalService referenceDataRetrievalService,
 		IConversionApplicationCreationService academisationCreationService)
-		: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-	{
-		_academisationCreationService = academisationCreationService;
-	}
+		: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+			academisationCreationService, "ApplicationPreOpeningSupportGrantSummary")
+	{}
 
-	public async Task OnGetAsync(int urn, int appId)
+	/// <summary>
+	/// Consuming different PopulateUiModel() NOT from base, so need an overload
+	/// </summary>
+	/// <param name="urn"></param>
+	/// <param name="appId"></param>
+	/// <returns></returns>
+	public override async Task OnGetAsync(int urn, int appId)
 	{
 		LoadAndStoreCachedConversionApplication();
-		var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+		var draftConversionApplication =
+			TempDataHelper.GetSerialisedValue<ConversionApplication>(
+				TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 		var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
 		ApplicationId = appId;
 		Urn = urn;
 
-		// Grab other values from API
 		if (selectedSchool != null)
 		{
 			PopulateUiModel(selectedSchool, draftConversionApplication);
 		}
 	}
-
-	public async Task<IActionResult> OnPostAsync()
-	{
-		if (!RunUiValidation())
-		{
-			return Page();
-		}
-
-		// grab draft application from temp= null
-		var draftConversionApplication =
-			TempDataHelper.GetSerialisedValue<ConversionApplication>(
-				TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-		var dictionaryMapper = PopulateUpdateDictionary();
-		await _academisationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
-
-		// update temp store for next step - application overview
-		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-		return RedirectToPage("ApplicationPreOpeningSupportGrantSummary", new { appId = ApplicationId, urn = Urn });
-	}
-
+	
 	///<inheritdoc/>
 	public override bool RunUiValidation()
 	{
@@ -149,10 +122,20 @@ public class ApplicationPreOpeningSupportGrantModel : BasePageEditModel
 		};
 	}
 
+	///<inheritdoc/>
+	public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+	{
+		throw new NotImplementedException();
+	}
+
+	/// <summary>
+	/// Consume conversionApplication.ApplicationType, so need different overload
+	/// </summary>
+	/// <param name="selectedSchool"></param>
+	/// <param name="conversionApplication"></param>
 	private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ConversionApplication? conversionApplication)
 	{
 		ApplicationType = conversionApplication.ApplicationType;
-		SchoolName = selectedSchool.SchoolName;
 		if (conversionApplication.ApplicationType != ApplicationTypes.JoinAMat)
 		{
 			SchoolSupportGrantFundsPaidTo = PayFundsTo.Trust;
