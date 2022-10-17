@@ -10,7 +10,7 @@ namespace Dfe.Academies.External.Web.Pages.School;
 
 public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 {
-	public const string CFYEndDateFormInputName = "sip_cfyenddate";
+	public string CFYEndDateFormInputName = "sip_cfyenddate";
 
 	[BindProperty]
 	public string? CFYEndDate { get; set; }
@@ -143,7 +143,7 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 		// update temp store for next step
 		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-		return RedirectToPage("NextFinancialYear", new { appId = ApplicationId, urn = Urn });
+		return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
 	}
 
 	///<inheritdoc/>
