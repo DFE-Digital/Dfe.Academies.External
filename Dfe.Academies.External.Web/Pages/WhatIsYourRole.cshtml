@@ -17,6 +17,9 @@
 		<form method="post" name="frmApplicationType" novalidate="">
 			<div class="@(!ViewData.ModelState.IsValid && !Model.OtherRoleError ? "govuk-form-group--error" : "")">
 				<h1 class="govuk-heading-l">What is your role?</h1>
+				    <p class="govuk-body govuk-radios__conditional">Anyone from the school can contribute to this form, but only the chair of<br/>
+                        governors can complete the declation section or submit it.
+                    </p>
 				<fieldset class="govuk-fieldset">
 					<div class="@(Model.OtherRoleError ? "govuk-visually-hidden" : "")">
 						<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
