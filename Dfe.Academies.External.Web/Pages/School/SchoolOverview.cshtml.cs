@@ -3,19 +3,11 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-	public class SchoolOverviewModel : BasePageEditModel
+	public class SchoolOverviewModel : BaseSchoolSummaryPageModel
 	{
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		public int Urn { get; set; }
-
-		public string SchoolName { get; private set; } = string.Empty;
-
 		public ApplicationTypes ApplicationType { get; private set; }
 
 		public SchoolComponentsViewModel SchoolComponents { get; private set; } = new();
@@ -26,14 +18,21 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 		}
 
-		public async Task OnGetAsync(int urn, int appId)
+		/// <summary>
+		/// Consuming different PopulateUiModel() NOT from base, so need an overload
+		/// </summary>
+		/// <param name="urn"></param>
+		/// <param name="appId"></param>
+		/// <returns></returns>
+		public override async Task OnGetAsync(int urn, int appId)
 		{
-			var conversionApplication = await LoadAndSetApplicationDetails(appId);
-			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
 			ApplicationId = appId;
 			Urn = urn;
 
 			// Grab other values from API
+			var conversionApplication = await LoadAndSetApplicationDetails(appId);
+			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+			
 			if (selectedSchool != null)
 			{
 				selectedSchool.SchoolApplicationComponents = await ConversionApplicationRetrievalService
@@ -42,7 +41,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				PopulateUiModel(selectedSchool, conversionApplication);
 			}
 		}
-
+		
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
@@ -62,11 +61,20 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// does not apply on this page
 			return new();
 		}
-		
+
+		///<inheritdoc/>
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// Consume conversionApplication, so need different overload
+		/// </summary>
+		/// <param name="selectedSchool"></param>
+		/// <param name="application"></param>
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ConversionApplication? application)
 		{
-			SchoolName = selectedSchool.SchoolName;
-
 			ApplicationType = application.ApplicationType;
 			SchoolComponentsViewModel componentsVm = new()
 			{

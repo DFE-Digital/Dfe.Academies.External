@@ -20,7 +20,7 @@ namespace Dfe.Academies.External.Web.Pages.Base
 		{
 		}
 
-		public async Task OnGetAsync(int urn, int appId)
+		public virtual async Task OnGetAsync(int urn, int appId)
 		{
 			// MR:- don't need try/catch anymore as we have exception middleware
 			LoadAndStoreCachedConversionApplication();
