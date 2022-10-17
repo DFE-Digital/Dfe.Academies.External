@@ -29,7 +29,7 @@ public abstract class BaseSchoolPageEditModel : BasePageEditModel
 	}
 
 	//1) Create OnGetAsync() func in new base class - call PopulateUiModel() method, that will be overridden in each page
-	public async Task OnGetAsync(int urn, int appId)
+	public virtual async Task OnGetAsync(int urn, int appId)
 	{
 		// MR:- don't need try/catch anymore as we have exception middleware
 		LoadAndStoreCachedConversionApplication();
