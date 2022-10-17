@@ -100,21 +100,6 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 		    academisationCreationService, "Loans")
     {}
 
-    //public async Task OnGetAsync(int urn, int appId)
-    //{
-	   // LoadAndStoreCachedConversionApplication();
-
-	   // var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-	   // ApplicationId = appId;
-	   // Urn = urn;
-
-	   // // Grab other values from API
-	   // if (selectedSchool != null)
-	   // {
-		  //  PopulateUiModel(selectedSchool);
-	   // }
-    //}
-
     public override async Task<IActionResult> OnPostAsync()
     {
 	    var form = Request.Form;
@@ -213,7 +198,8 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 		return new Dictionary<string, dynamic> { {nameof(SchoolApplyingToConvert.NextFinancialYear), nextFinancialYear} };
 	}
 
-    public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+    ///<inheritdoc/>
+	public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
 		NFYEndDate = (selectedSchool.NextFinancialYear.FinancialYearEndDate.HasValue ?
 			selectedSchool.NextFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy")
