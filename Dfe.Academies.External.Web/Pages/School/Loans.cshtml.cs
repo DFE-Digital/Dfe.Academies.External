@@ -68,27 +68,37 @@ namespace Dfe.Academies.External.Web.Pages.School
 			
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			List<SchoolLoan> loans = new();
-			
-			if(AnyLoans == SelectOption.Yes)
-				LoanViewModels.ForEach(x =>
-				{
-					loans.Add(new SchoolLoan(x.TotalAmount, x.Purpose, x.Provider,x.InterestRate, x.RepaymentSchedule));
-				});
-			
-			var dictionaryMapper = new Dictionary<string, dynamic>
+			foreach (var loanViewModel in LoanViewModels)
 			{
-				{ nameof(SchoolApplyingToConvert.Loans), loans }
-			};
-			await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+				if (AnyLoans == SelectOption.No && !loanViewModel.IsDraft)
+				{
+					await ConversionApplicationCreationService.DeleteLoan(ApplicationId, selectedSchool.id, loanViewModel.Id);
+					continue;
+				}
 
+				var loan = new SchoolLoan(
+					loanViewModel.Id,
+					loanViewModel.TotalAmount, 
+					loanViewModel.Purpose,
+					loanViewModel.Provider, 
+					loanViewModel.InterestRate,
+					loanViewModel.RepaymentSchedule);
+
+				if (loanViewModel.IsDraft)
+					await ConversionApplicationCreationService.CreateLoan(ApplicationId, selectedSchool.id, loan);
+				else
+				{
+					await ConversionApplicationCreationService.UpdateLoan(ApplicationId, selectedSchool.id, loan);
+				}
+			}
+			
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-			TempData[Urn.ToString()] = null;
+			TempData[$"{Urn.ToString()}-{typeof(List<LoanViewModel>)}"] = null;
 			
 			return RedirectToPage("FinancesReview", new { urn = Urn, appId = ApplicationId });
 		}
-		
+
 		private void LoadLoansFromDatabase(SchoolApplyingToConvert selectedSchool)
 		{
 			//Populate viewmodel from currently saved data
@@ -114,7 +124,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			
 			//Try to merge with what is saved in the cache
 			//Use the ID on the loan view model
-			var tempDataLoanViewModels = TempDataLoadLoanViewModels(Urn) ?? new List<LoanViewModel>();
+			var tempDataLoanViewModels = TempDataLoadBySchool<List<LoanViewModel>>(Urn) ?? new List<LoanViewModel>();
 			tempDataLoanViewModels.ForEach(x =>
 			{
 				var loan = LoanViewModels.Find(y => y.Id == x.Id && !x.IsDraft);
@@ -136,7 +146,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 					LoanViewModels.Add(x);
 				}
 			});
-			TempDataSetLoanViewModels(Urn, LoanViewModels);
+			TempDataSetBySchool<List<LoanViewModel>>(Urn, LoanViewModels);
 		}
 
 		///<inheritdoc/>

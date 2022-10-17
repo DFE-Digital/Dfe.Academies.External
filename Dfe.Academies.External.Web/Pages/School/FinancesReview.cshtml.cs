@@ -36,8 +36,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// does not apply on this page
 			return new();
 		}
-
-		private FinancesReviewHeadingViewModel PopulatePreviousFinancialYear(SchoolApplyingToConvert selectedSchool)
+		
+	    private FinancesReviewHeadingViewModel PopulatePreviousFinancialYear(SchoolApplyingToConvert selectedSchool)
 	    {
 		     var previousFinancialYear = selectedSchool.PreviousFinancialYear;
 
@@ -266,14 +266,38 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		private FinancesReviewHeadingViewModel PopulateLeasesHeading(SchoolApplyingToConvert selectedSchool)
 		{
-			var lease = selectedSchool.Leases.FirstOrDefault();
 			FinancesReviewHeadingViewModel leasesHeading = new(FinancesReviewHeadingViewModel.HeadingLeases,
 				"/school/Leases")
 			{
-				Status = SchoolConversionComponentStatus.NotStarted
+				Status = selectedSchool.Leases != null ? SchoolConversionComponentStatus.Complete : SchoolConversionComponentStatus.NotStarted
 			};
+			var isStarted = leasesHeading.Status != SchoolConversionComponentStatus.NotStarted;
+			
+			var subQuestionAndAnswers = new List<SchoolQuestionAndAnswerViewModel>();
+				
+			for (int i = 0; i < selectedSchool.Leases.Count; i++)
+			{
+				subQuestionAndAnswers.AddRange(new List<SchoolQuestionAndAnswerViewModel>
+				{
+					new FinancesReviewSectionViewModel($"Lease {i+1}", ""),
+					new FinancesReviewSectionViewModel("Details of the term of the finance lease agreement", $"{selectedSchool.Leases.ElementAt(i).LeaseTerm}"),
+					new FinancesReviewSectionViewModel("Confirmation of the repayment value", $"{selectedSchool.Leases.ElementAt(i).RepaymentAmount}"),
+					new FinancesReviewSectionViewModel("Confirmation of the interest rate chargeable", $"{selectedSchool.Leases.ElementAt(i).InterestRate}"),
+					new FinancesReviewSectionViewModel("Details of the value of payments made to date", $"£{selectedSchool.Leases.ElementAt(i).PaymentsToDate}"),
+					new FinancesReviewSectionViewModel("Details of the purpose of the finance lease", $"{selectedSchool.Leases.ElementAt(i).Purpose}"),
+					new FinancesReviewSectionViewModel("Confirmation of the value of the assets at the initiation of the finance lease agreement", $"{selectedSchool.Leases.ElementAt(i).ValueOfAssets}"),
+					new FinancesReviewSectionViewModel("Confirmation of who is responsible for the finance lease agreement", $"{selectedSchool.Leases.ElementAt(i).ResponsibleForAssets}")
+				});
+			}
 
-			// TODO API:-
+			var financesReviewHeading = new FinancesReviewSectionViewModel(
+				FinancesReviewSectionViewModel.ExistingLeases,
+				isStarted ? selectedSchool.Leases.Any() ? "Yes" : "No" : QuestionAndAnswerConstants.NoInfoAnswer);
+			
+			if (selectedSchool.Leases.Any())
+				financesReviewHeading.SubQuestionAndAnswers = subQuestionAndAnswers;
+				
+			leasesHeading.Sections.Add(financesReviewHeading);
 
 			return leasesHeading;
 		}

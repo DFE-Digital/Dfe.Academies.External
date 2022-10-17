@@ -12,11 +12,18 @@ internal sealed class SchoolLeaseTests
 	public void Constructor___PropertiesSet()
 	{
 		// arrange
+		int id = Fixture.Create<int>();
+		int leaseTerm = Fixture.Create<int>();
+		decimal repaymentAmount = Fixture.Create<decimal>(); 
+		decimal interestRate = Fixture.Create<decimal>();
+		decimal paymentsToDate = Fixture.Create<decimal>();
 		string purpose = Fixture.Create<string>();
-
-		var applicationComponent = new SchoolLease(purpose)
+		string valueOfAssets = Fixture.Create<string>();
+		string responsibleForAssets = Fixture.Create<string>();
+		
+		var applicationComponent = new SchoolLease(id, leaseTerm, repaymentAmount, interestRate, paymentsToDate, purpose, valueOfAssets, responsibleForAssets)
 		{
-			Id = int.MaxValue
+			LeaseId = int.MaxValue
 		};
 
 		// act
@@ -24,7 +31,12 @@ internal sealed class SchoolLeaseTests
 
 		// assert
 		Assert.That(applicationComponent, Is.Not.Null);
-		Assert.That(applicationComponent.Id, Is.EqualTo(int.MaxValue));
+		Assert.That(applicationComponent.LeaseId, Is.EqualTo(int.MaxValue));
+		Assert.That(applicationComponent.LeaseTerm, Is.EqualTo(leaseTerm));
+		Assert.That(applicationComponent.RepaymentAmount, Is.EqualTo(repaymentAmount));
+		Assert.That(applicationComponent.InterestRate, Is.EqualTo(interestRate));
+		Assert.That(applicationComponent.PaymentsToDate, Is.EqualTo(paymentsToDate));
 		Assert.That(applicationComponent.Purpose, Is.EqualTo(purpose));
+		Assert.That(applicationComponent.ValueOfAssets, Is.EqualTo(valueOfAssets));
 	}
 }

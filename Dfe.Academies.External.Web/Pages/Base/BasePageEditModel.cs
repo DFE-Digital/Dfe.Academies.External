@@ -46,26 +46,20 @@ public abstract class BasePageEditModel : BasePageModel
 			return null;
 		}
 	}
-
-	public void TempDataSetLoanViewModels(int schoolUrn, List<LoanViewModel> loanViewModels)
+	
+	public void TempDataSetBySchool<T>(int schoolUrn, T value)
 	{
-		TempData[schoolUrn.ToString()] = JsonSerializer.Serialize(loanViewModels);
-		//TempDataHelper.StoreSerialisedValue(, TempData, loanViewModels);
+		TempData[$"{schoolUrn}-{typeof(T)}"] = JsonSerializer.Serialize(value);
 	}
 	
-	public List<LoanViewModel> TempDataLoadLoanViewModels(int schoolUrn)
+	public T TempDataLoadBySchool<T>(int schoolUrn)
 	{
-		var loanViewModels = TempDataHelper.GetSerialisedValue<List<LoanViewModel>>(schoolUrn.ToString(), TempData);
-		TempData[schoolUrn.ToString()] = JsonSerializer.Serialize(loanViewModels);
-		//TempDataHelper.StoreSerialisedValue(TempDataHelper.LoanViewModelsKey, TempData, loanViewModels);
-		return loanViewModels;
+		var tempDataKey = $"{schoolUrn}-{typeof(T)}";
+		var value = TempDataHelper.GetSerialisedValue<T>(tempDataKey, TempData);
+		TempData[tempDataKey] = JsonSerializer.Serialize(value);
+		return value;
 	}
 	
-	public LoanViewModel? TempDataLoadSelectedLoan(int schoolUrn)
-	{
-		return TempDataHelper.GetSerialisedValue<LoanViewModel>(schoolUrn.ToString(), TempData) ?? null;
-	}
-
 	
 	public void LoadAndStoreCachedConversionApplication()
 	{

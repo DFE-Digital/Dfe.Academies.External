@@ -189,7 +189,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 				PropertyNameCaseInsensitive = true,
 				Converters = {
 					new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-				}
+				},
+				PropertyNamingPolicy = JsonNamingPolicy.CamelCase
 			};
 
 			// Get data from Academisation API
