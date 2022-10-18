@@ -62,13 +62,13 @@
 											    <dd class="govuk-summary-list__value">
 												    <p class="govuk-label">Purpose: <strong>@Model.LeaseViewModels[i].Purpose</strong></p>
 												    <p class="govuk-label">Amount: <strong>@Model.LeaseViewModels[i].RepaymentAmount</strong></p>
-												    <a asp-page="/school/LeaseDetails" aria-describedby="component-change" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LeaseViewModels[i].Id" asp-route-isEdit="true">
+												    <a asp-page="/school/LeaseDetails" aria-describedby="component-change" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LeaseViewModels[i].Id" asp-route-isEdit="true" asp-route-isDraft="@Model.LeaseViewModels[i].IsDraft">
 												       Change answers
 													</a>
 											    </dd>
 										    </dl>
 									    }
-										    <a asp-page="/school/LeaseDetails" aria-describedby="component-change" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-TempId="@Model.LeaseViewModels.Count" asp-route-id="@Model.LeaseViewModels.Count" asp-route-isEdit="false">
+										    <a asp-page="/school/LeaseDetails" aria-describedby="component-change" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LeaseViewModels.Count" asp-route-isEdit="false" asp-route-isDraft="true">
 											    Add new lease
 											</a>
 									</div>

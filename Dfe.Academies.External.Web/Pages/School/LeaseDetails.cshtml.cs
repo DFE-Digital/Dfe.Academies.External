@@ -49,7 +49,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public bool IsDraft { get; set; }
 
-		public void OnGet(int appId, int urn, int id, bool isEdit)
+		public void OnGet(int appId, int urn, int id, bool isEdit, bool isDraft)
 		{
 			LoadAndStoreCachedConversionApplication();
 			
@@ -57,6 +57,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			Urn = urn;
 			IsEdit = isEdit;
 			Id = id;
+			IsDraft = isDraft;
 			
 			//If clicked changed answers then load the lease from tempdata and populate the fields
 			if (IsEdit)
@@ -115,7 +116,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				if (leaseViewModel != null)
 				{
 					leaseViewModel.Id = Id;
-					leaseViewModel.IsDraft = false;
+					leaseViewModel.IsDraft = IsDraft;
 					leaseViewModel.LeaseTerm = LeaseTerm;
 					leaseViewModel.RepaymentAmount = RepaymentAmount;
 					leaseViewModel.InterestRate = InterestRate;
