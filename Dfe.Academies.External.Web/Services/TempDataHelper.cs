@@ -18,7 +18,8 @@ public static class TempDataHelper
 	
 	public static T? GetSerialisedValue<T>(string key, ITempDataDictionary tempData)
 	{
-		if (tempData.ContainsKey(key))
+		tempData.TryGetValue(key, out object? val);
+		if (tempData.ContainsKey(key) && val != null)
 		{
 			return JsonSerializer.Deserialize<T>(tempData[key]?.ToString() ?? string.Empty) ?? default(T);
 		}

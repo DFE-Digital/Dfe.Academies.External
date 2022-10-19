@@ -43,7 +43,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 		}
 
-		public void OnGet(int appId, int urn, int id, bool isEdit)
+		public void OnGet(int appId, int urn, int id, bool isEdit, bool isDraft)
 		{
 			LoadAndStoreCachedConversionApplication();
 			
@@ -51,6 +51,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			Urn = urn;
 			IsEdit = isEdit;
 			Id = id;
+			IsDraft = isDraft;
 			
 			//If clicked changed answers then load the loan from tempdata and populate the fields
 			if (IsEdit)
@@ -99,7 +100,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				if (loanViewModel != null)
 				{
 					loanViewModel.Id = Id;
-					loanViewModel.IsDraft = false;
+					loanViewModel.IsDraft = IsDraft;
 					loanViewModel.TotalAmount = TotalAmount;
 					loanViewModel.InterestRate = InterestRate;
 					loanViewModel.Provider = Provider;
