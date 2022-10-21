@@ -5,7 +5,7 @@
 		public int Id { get; set; }
 		public bool IsDraft { get; set; }
 
-		public int LeaseTerm { get; set; }
+		public string LeaseTerm { get; set; }
 		public decimal RepaymentAmount { get; set; }
 		public decimal InterestRate { get; set; }
 		public decimal PaymentsToDate { get; set; }

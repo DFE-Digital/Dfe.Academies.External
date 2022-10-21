@@ -9,7 +9,7 @@ public class CreateLeaseCommand
 	[DataMember]
 	public int SchoolId { get; set; }
 	[DataMember]
-	public int LeaseTerm { get; set; }
+	public string LeaseTerm { get; set; }
 	[DataMember]
 	public decimal RepaymentAmount { get; set; }
 	[DataMember]

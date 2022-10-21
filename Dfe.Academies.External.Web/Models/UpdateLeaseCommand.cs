@@ -11,7 +11,7 @@ public class UpdateLeaseCommand
 	[DataMember]
 	public int LeaseId { get; set; }
 	[DataMember]
-	public int LeaseTerm { get; set; }
+	public string LeaseTerm { get; set; }
 	[DataMember]
 	public decimal RepaymentAmount { get; set; }
 	[DataMember]

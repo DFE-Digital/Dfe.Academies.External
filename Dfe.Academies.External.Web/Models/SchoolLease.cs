@@ -3,7 +3,7 @@
 public class SchoolLease
 {
 	public SchoolLease(int leaseId,
-		int leaseTerm, 
+		string leaseTerm, 
 		decimal repaymentAmount,
 		decimal interestRate, 
 		decimal paymentsToDate, 
@@ -28,7 +28,7 @@ public class SchoolLease
 	/// <summary>
 	/// months or years ?
 	/// </summary>
-	public int LeaseTerm { get; set; }
+	public string LeaseTerm { get; set; }
 
 	public decimal RepaymentAmount { get; set; }
 
