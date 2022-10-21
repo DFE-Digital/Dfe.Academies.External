@@ -18,7 +18,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
-		public int LeaseTerm { get; set; }
+		public string LeaseTerm { get; set; }
 		
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]

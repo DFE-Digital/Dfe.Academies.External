@@ -13,7 +13,7 @@ internal sealed class SchoolLeaseTests
 	{
 		// arrange
 		int id = Fixture.Create<int>();
-		int leaseTerm = Fixture.Create<int>();
+		string leaseTerm = Fixture.Create<string>();
 		decimal repaymentAmount = Fixture.Create<decimal>(); 
 		decimal interestRate = Fixture.Create<decimal>();
 		decimal paymentsToDate = Fixture.Create<decimal>();
