@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using System.Security.Claims;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -136,6 +137,22 @@ namespace Dfe.Academies.External.Web.Pages
 					};
 
 					SchoolComponents = componentsVm;
+				}
+
+				// grab current user email
+				string email = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
+
+				// look up user in contributors collection to find their role !!!
+				if (!string.IsNullOrWhiteSpace(email))
+				{
+					var currentUser =
+						conversionApplication.Contributors.FirstOrDefault(x => x.EmailAddress == email);
+
+					// set users role
+					if (currentUser is { Role: SchoolRoles.ChairOfGovernors })
+					{
+						UserHasSubmitApplicationRole = true;
+					}
 				}
 
 				// contributors
