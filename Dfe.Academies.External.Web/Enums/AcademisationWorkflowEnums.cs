@@ -54,6 +54,14 @@ public enum SelectOption
 	No = 0
 }
 
+public enum SchoolEqualitiesImpactAssessment
+{
+	[Description("That the Secretary of State's decision is unlikely to disproportionately affect any particular person or group who share protected characteristics")]
+	Yes = 1,
+	[Description("That there are some impacts but on balance the changes will not disproportionately affect any particular person or group who share protected characteristics")]
+	No = 0
+}
+
 public enum SchoolConversionComponentStatus
 {
 	Ignore = -1,
