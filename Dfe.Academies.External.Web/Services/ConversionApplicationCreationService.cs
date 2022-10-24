@@ -85,9 +85,28 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
 			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
-			SchoolApplyingToConvert school = new(name, schoolUrn, null);
-			application.Schools.Add(school);
+			// MR:- need to check if application type =JoinAMat and application already has school remove existing school - add new one
+			// otherwise API validation will reject !! which is correct !!!
+			if (!application.Schools.Any())
+			{
+				SchoolApplyingToConvert school = new(name, schoolUrn, null);
+				application.Schools.Add(school);
+			}
+			else
+			{
+				if (application.ApplicationType == ApplicationTypes.JoinAMat)
+				{
+					var existingSchool = application.Schools.FirstOrDefault();
+					if (existingSchool != null)
+					{
+						application.Schools.Remove(existingSchool);
+					}
 
+					SchoolApplyingToConvert school = new(name, schoolUrn, null);
+					application.Schools.Add(school);
+				}
+			}
+			
 			//// structure of JSON in body is having a 'contributors' prop - same as ConversionApplication() obj
 			// MR:- no response from Academies API - Just an OK
 			await _resilientRequestProvider.PutAsync(apiurl, application);
