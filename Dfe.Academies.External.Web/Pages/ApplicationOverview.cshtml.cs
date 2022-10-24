@@ -24,7 +24,7 @@ namespace Dfe.Academies.External.Web.Pages
 		public string? NameOfTrustToJoin { get; private set; }
 
 		// overall application status
-		public string ApplicationStatus { get; private set; } = string.Empty;
+		public ApplicationStatus ApplicationStatus { get; private set; }
 
 		public Status ConversionStatus { get; private set; }
 
@@ -84,10 +84,13 @@ namespace Dfe.Academies.External.Web.Pages
 		{
 			if (conversionApplication != null)
 			{
+				// ApplicationStatus = whether school.SchoolApplicationComponents.Status == Completed !!
+				// ApplicationStatus = could be 'NotStarted', 'InProgress' or 'Complete'
+
 				ApplicationId = conversionApplication.ApplicationId;
 				ApplicationType = conversionApplication.ApplicationType;
 				ApplicationReferenceNumber = conversionApplication.ApplicationReference;
-				ApplicationStatus = "incomplete"; // TODO MR:- what logic drives this !
+				ApplicationStatus = conversionApplication.ApplicationStatus;
 				ConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
 				SchoolOrSchoolsApplyingToConvert = conversionApplication.Schools;
 				NameOfTrustToJoin = conversionApplication.TrustName;
@@ -105,15 +108,15 @@ namespace Dfe.Academies.External.Web.Pages
 					SchoolName = school?.SchoolName;
 					TrustConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
 
-					// Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
-					//Audits = auditEntries.Select(e =>
-					// new ViewModels.ApplicationAuditViewModel
-					// {
-					//  What =
-					//   $"{e.CreatedBy} {e.TypeOfChange} the {e.PropertyChanged}", // TODO MR:- re-work text when I can how this looks on screen !
-					//  When = e.DateCreated,
-					//  Who = e.CreatedBy
-					// }).ToList();
+					//// Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
+					////Audits = auditEntries.Select(e =>
+					//// new ViewModels.ApplicationAuditViewModel
+					//// {
+					////  What =
+					////   $"{e.CreatedBy} {e.TypeOfChange} the {e.PropertyChanged}",
+					////  When = e.DateCreated,
+					////  Who = e.CreatedBy
+					//// }).ToList();
 				}
 
 				// Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
@@ -160,6 +163,8 @@ namespace Dfe.Academies.External.Web.Pages
 
 					ExistingContributors = contributors;
 				}
+
+				// TODO MR:- submit button should NOT be available unless ALL school.SchoolApplicationComponents.Status == Completed !!
 			}
 		}
 
