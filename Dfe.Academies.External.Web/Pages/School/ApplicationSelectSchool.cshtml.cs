@@ -85,6 +85,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
+			// TODO MR:- need to check if application type =JoinAMat and application already has school remove existing school - add new one
 			await _conversionApplicationCreationService.AddSchoolToApplication(ApplicationId, SelectedUrn, SelectedSchoolName);
 			return RedirectToPage(NextSchoolStepPage, new { appId = ApplicationId });
 		}
