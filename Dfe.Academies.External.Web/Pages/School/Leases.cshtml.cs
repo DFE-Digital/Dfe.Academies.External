@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-	// TODO:- amend below to us BaseSchoolPageEditModel
 	public class Leases : BaseSchoolPageEditModel
 	{
 		public Leases(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
@@ -18,12 +17,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				referenceDataRetrievalService, academisationCreationService, "FinancialInvestigations")
 		{
 		}
-		
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
 		
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
@@ -55,20 +48,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			var selectedSchool = await LoadAndSetSchoolDetails(ApplicationId, Urn);
 			MergeCachedAndDatabaseEntities(selectedSchool);
-			
-			if (AnyLeases == SelectOption.Yes && !LeaseViewModels.Any())
-			{
-				ModelState.AddModelError("AddedLeasesButEmptyCollectionError", "You must provide the details on the lease");
-				PopulateValidationMessages();
-				return Page();
-			}
 
-			if (!AnyLeases.HasValue)
-			{
-				ModelState.AddModelError("InvalidSelectOptionError", "You must select an option");
-				PopulateValidationMessages();
-				return Page();
-			}
+			if (!RunUiValidation()) return Page();
 
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 			
@@ -178,7 +159,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
 			AnyLeases = LeaseViewModels.Any() ? SelectOption.Yes : SelectOption.No;
 		}
 
