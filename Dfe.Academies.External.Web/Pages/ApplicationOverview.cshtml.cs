@@ -19,10 +19,6 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public string ApplicationReferenceNumber { get; private set; } = string.Empty;
 
-		public short CompletedSections { get; private set; }
-
-		public short TotalNumberOfSections => 8;
-
 		public List<SchoolApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; private set; } = new();
 
 		public string? NameOfTrustToJoin { get; private set; }
@@ -91,7 +87,6 @@ namespace Dfe.Academies.External.Web.Pages
 				ApplicationId = conversionApplication.ApplicationId;
 				ApplicationType = conversionApplication.ApplicationType;
 				ApplicationReferenceNumber = conversionApplication.ApplicationReference;
-				CompletedSections = 0; // TODO MR:- what logic drives this !
 				ApplicationStatus = "incomplete"; // TODO MR:- what logic drives this !
 				ConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
 				SchoolOrSchoolsApplyingToConvert = conversionApplication.Schools;
@@ -171,8 +166,8 @@ namespace Dfe.Academies.External.Web.Pages
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			// TODO:- move code to here !!
-			throw new NotImplementedException();
+			// does not apply on this page
+			return true;
 		}
 
 		///<inheritdoc/>
