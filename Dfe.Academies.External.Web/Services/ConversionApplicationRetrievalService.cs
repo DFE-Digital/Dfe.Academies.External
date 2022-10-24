@@ -51,12 +51,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	{
 		try
 		{
-			// TODO: Get data from Academisation API
-			//// var applications = await _resilientRequestProvider.GetAsync();
-
-			// **** Mock Demo Data - as per Figma - for now ****
-			//baseaddress has a backslash at the end to be a valid URI !!!
-			//https://academies-academisation-api-dev.azurewebsites.net/application/99
+			// baseaddress has a backslash at the end to be a valid URI !!!
+			// https://academies-academisation-api-dev.azurewebsites.net/application/99
 			// endpoint will return 404 if id NOT found !
 			string apiurl = $"{_httpClient.BaseAddress}application/contributor/{email}?api-version=V1";
 
@@ -114,27 +110,29 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	{
 		try
 		{
-			// TODO API: get application from API then re-shape it !
-			// var application = await GetApplication(applicationId);
+			var application = await GetApplication(applicationId);
 
-			// **** Mock Demo Data - as per Figma ****
+			if (application?.ApplicationId != applicationId)
+			{
+				throw new ArgumentException("Application not found");
+			}
+
+			var school = application.Schools.FirstOrDefault(s => s.URN == schoolId);
+			if (school == null)
+			{
+				throw new ArgumentException("School not found");
+			}
+
 			List<ConversionApplicationComponent> conversionApplicationComponents = new()
 			{
-			    //V1:-
-			    new(name:"About the conversion") {Id = 1, SchoolId = schoolId, Status = Status.InProgress},
-				new(name:"Further information") {Id = 1, SchoolId = schoolId, Status = Status.NotStarted},
-				new(name:"Finances") {Id = 4, SchoolId = schoolId, Status = Status.NotStarted}, // existing
-			    new(name:"Future pupil numbers") {Id = 3, SchoolId = schoolId, Status = Status.NotStarted},
-				new(name:"Land and buildings") {Id = 7, SchoolId = schoolId, Status = Status.NotStarted},
-				new(name:"Consultation") {Id = 7, SchoolId = schoolId, Status = Status.NotStarted},
+			    new(name:"About the conversion") {Id = 1, SchoolId = schoolId, Status = CalculateAboutTheConversionSectionStatus(school)},
+				new(name:"Further information") {Id = 1, SchoolId = schoolId, Status = CalculateFurtherInformationSectionStatus(school)},
+				new(name:"Finances") {Id = 4, SchoolId = schoolId, Status = CalculateFinanceSectionStatus(school)},
+			    new(name:"Future pupil numbers") {Id = 3, SchoolId = schoolId, Status = CalculateFuturePupilNumbersSectionStatus(school)},
+				new(name:"Land and buildings") {Id = 7, SchoolId = schoolId, Status = CalculateLandAndBuildingsSectionStatus(school)},
+				new(name:"Consultation") {Id = 7, SchoolId = schoolId, Status = CalculateConsultationSectionStatus(school)},
 				new(name:"Pre-opening support grant") {Id = 7, SchoolId = schoolId, Status = Status.NotStarted},
 				new(name:"Declaration") {Id = 7, SchoolId = schoolId, Status = Status.NotStarted}
-			    //// V2 below:-
-			    ////new(name:"Contact details") {ApplicationId = 1, SchoolId = schoolId, Status = Status.Completed},
-			    ////new(name:"Performance and safeguarding") {ApplicationId = 2, SchoolId = schoolId, Status = Status.InProgress},
-			    ////new(name:"Partnerships and affiliations") {ApplicationId = 5, SchoolId = schoolId, Status = Status.NotStarted},
-			    ////new(name:"Religious education") {ApplicationId = 6, SchoolId = schoolId, Status = Status.NotStarted},
-			    ////new(name:"Local authority") {ApplicationId = 8, SchoolId = schoolId, Status = Status.NotStarted}
 		    };
 
 			return conversionApplicationComponents;
@@ -151,21 +149,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	{
 		try
 		{
-			// MR:- contributors are a list<> against the application within API json!
+			var application = await GetApplication(applicationId);
 
-			// TODO: Get data from Academisation API
-			// var application = await GetApplication(applicationId);
-
-			// **** Mock Demo Data - as per Figma ****
-			List<ConversionApplicationContributor> conversionApplicationContributors = new()
-			{
-				new(firstName: "Phillip", lastName:"Frond","Phillip@email.com", SchoolRoles.ChairOfGovernors, null)
-					{ApplicationId = applicationId},
-				new(firstName: "Robert", lastName: "Phillips", "Robert@email.com", role:SchoolRoles.Other ,  otherRoleName: "PA to the headteacher")
-					{ApplicationId = applicationId}
-			};
-
-			return conversionApplicationContributors;
+			return application?.Contributors ?? new List<ConversionApplicationContributor>();
 		}
 		catch (Exception ex)
 		{
@@ -179,8 +165,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	{
 		try
 		{
-			//baseaddress has a backslash at the end to be a valid URI !!!
-			//https://academies-academisation-api-dev.azurewebsites.net/application/99
+			// baseaddress has a backslash at the end to be a valid URI !!!
+			// https://academies-academisation-api-dev.azurewebsites.net/application/99
 			// endpoint will return 404 if id NOT found !
 			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
@@ -204,4 +190,79 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			return new ConversionApplication();
 		}
 	}
+
+	/// <summary>
+	/// About the conversion = 5 sections - so could return 'In Progress'
+	/// </summary>
+	/// <param name="selectedSchool"></param>
+	/// <returns></returns>
+	private Status CalculateAboutTheConversionSectionStatus(SchoolApplyingToConvert? selectedSchool)
+	{
+		// TODO MR:- agree logic
+		return Status.InProgress;
+	}
+
+	/// <summary>
+	/// Further information = 2 sections(?) - so could return 'In Progress'
+	/// </summary>
+	/// <param name="selectedSchool"></param>
+	/// <returns></returns>
+	private Status CalculateFurtherInformationSectionStatus(SchoolApplyingToConvert? selectedSchool)
+	{
+		// TODO MR:- agree logic
+		return Status.InProgress;
+	}
+
+	/// <summary>
+	/// Finance = 6 sections - so could return 'In Progress'
+	/// </summary>
+	/// <param name="selectedSchool"></param>
+	/// <returns></returns>
+	private Status CalculateFinanceSectionStatus(SchoolApplyingToConvert? selectedSchool)
+	{
+		//need 6 bools to represent each sub-section. completed = yes/no
+
+		// TODO MR:- agree logic
+		return Status.InProgress;
+	}
+
+	/// <summary>
+	/// Same logic in here as future pupil numbers summary. Should we re-factor?
+	/// </summary>
+	/// <param name="selectedSchool"></param>
+	/// <returns></returns>
+	private Status CalculateFuturePupilNumbersSectionStatus(SchoolApplyingToConvert? selectedSchool)
+	{
+		return selectedSchool?.ProjectedPupilNumbersYear1 != null
+			? Status.Completed
+			: Status.NotStarted;
+	}
+
+	/// <summary>
+	/// Same logic in here as Land and buildings summary. Should we re-factor?
+	/// </summary>
+	/// <param name="selectedSchool"></param>
+	/// <returns></returns>
+	private Status CalculateLandAndBuildingsSectionStatus(SchoolApplyingToConvert? selectedSchool)
+	{
+		return selectedSchool?.LandAndBuildings.WorksPlanned.HasValue != null
+			? Status.Completed
+			: Status.NotStarted;
+	}
+
+	/// <summary>
+	/// Same logic in here as consultation summary. Should we re-factor?
+	/// </summary>
+	/// <param name="selectedSchool"></param>
+	/// <returns></returns>
+	private Status CalculateConsultationSectionStatus(SchoolApplyingToConvert? selectedSchool)
+	{
+		return selectedSchool?.SchoolHasConsultedStakeholders.HasValue != null
+			? Status.Completed
+			: Status.NotStarted;
+	}
+
+	// Pre-opening support grant
+
+	// Declaration
 }
