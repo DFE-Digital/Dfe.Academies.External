@@ -131,8 +131,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			    new(name:"Future pupil numbers") {Id = 3, SchoolId = schoolId, Status = CalculateFuturePupilNumbersSectionStatus(school)},
 				new(name:"Land and buildings") {Id = 7, SchoolId = schoolId, Status = CalculateLandAndBuildingsSectionStatus(school)},
 				new(name:"Consultation") {Id = 7, SchoolId = schoolId, Status = CalculateConsultationSectionStatus(school)},
-				new(name:"Pre-opening support grant") {Id = 7, SchoolId = schoolId, Status = Status.NotStarted},
-				new(name:"Declaration") {Id = 7, SchoolId = schoolId, Status = Status.NotStarted}
+				new(name:"Pre-opening support grant") {Id = 7, SchoolId = schoolId, Status = CalculatePreOpeningSupportGrantSectionStatus(school)},
+				new(name:"Declaration") {Id = 7, SchoolId = schoolId, Status = CalculateDeclarationSectionStatus(school)}
 		    };
 
 			return conversionApplicationComponents;
@@ -262,7 +262,27 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			: Status.NotStarted;
 	}
 
-	// Pre-opening support grant
+	/// <summary>
+	/// Same logic in here as Pre-opening support grant summary. Should we re-factor?
+	/// </summary>
+	/// <param name="selectedSchool"></param>
+	/// <returns></returns>
+	private Status CalculatePreOpeningSupportGrantSectionStatus(SchoolApplyingToConvert? selectedSchool)
+	{
+		return selectedSchool?.SchoolSupportGrantFundsPaidTo.HasValue != null
+			? Status.Completed
+			: Status.NotStarted;
+	}
 
-	// Declaration
+	/// <summary>
+	/// Same logic in here as declaration summary. Should we re-factor?
+	/// </summary>
+	/// <param name="selectedSchool"></param>
+	/// <returns></returns>
+	private Status CalculateDeclarationSectionStatus(SchoolApplyingToConvert? selectedSchool)
+	{
+		return selectedSchool?.DeclarationBodyAgree.HasValue != null 
+			? Status.Completed
+			: Status.NotStarted;
+	}
 }
