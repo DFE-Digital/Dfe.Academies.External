@@ -4,7 +4,6 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -55,7 +54,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			heading1.Sections.Add(
 				new(SchoolConversionComponentSectionViewModel.NameOfSchoolSectionName,
-					SchoolName));
+					selectedSchool.SchoolName));
 
 			SchoolConversionComponentHeadingViewModel heading2 =
 				new(SchoolConversionComponentHeadingViewModel.HeadingApplicationContactDetails,
