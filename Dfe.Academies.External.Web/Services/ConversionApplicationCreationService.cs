@@ -99,11 +99,10 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 					var existingSchool = application.Schools.FirstOrDefault();
 					if (existingSchool != null)
 					{
-						application.Schools.Remove(existingSchool);
+						// MR:- can't do remove because then we will bin all the associated data !!
+						existingSchool.URN = schoolUrn;
+						existingSchool.SchoolName = name;
 					}
-
-					SchoolApplyingToConvert school = new(name, schoolUrn, null);
-					application.Schools.Add(school);
 				}
 			}
 			
