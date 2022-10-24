@@ -75,7 +75,7 @@ namespace Dfe.Academies.External.Web.Pages
 			}
 		}
 
-		public async Task<IActionResult> OnPostAsync()
+		public IActionResult OnPostAsync()
 		{
 			return RedirectToPage("/SchoolOverview", ApplicationId);
 		}
@@ -165,6 +165,7 @@ namespace Dfe.Academies.External.Web.Pages
 				}
 
 				// TODO MR:- submit button should NOT be available unless ALL school.SchoolApplicationComponents.Status == Completed !!
+				// &&&&&&& application should have a trust ++ trust sections filled in !!
 			}
 		}
 
