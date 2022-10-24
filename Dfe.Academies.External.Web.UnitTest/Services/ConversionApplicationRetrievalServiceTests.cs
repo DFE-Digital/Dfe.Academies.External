@@ -200,10 +200,11 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 	public async Task GetSchoolApplicationComponents___ApiReturns200___Success()
 	{
 		// arrange
-		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO:- will be json from Academies API
-		int expectedCount = 8; // TODO: 
-		int applicationId = 99; // TODO: 
-		int URN = 96; // TODO: 
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+		int expectedCount = 8;
+		int applicationId = 25;
+		int URN = 113537;
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
@@ -221,9 +222,10 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 	public async Task GetConversionApplicationContributors___ApiReturns200___Success()
 	{
 		// arrange
-		var expectedJson = @"{ ""foo"": ""bar"" }"; // TODO:- will be json from Academies API
-		int expectedCount = 2; // TODO: 
-		int applicationId = 1; // TODO: 
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+		int expectedCount = 3; 
+		int applicationId = 25; 
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
