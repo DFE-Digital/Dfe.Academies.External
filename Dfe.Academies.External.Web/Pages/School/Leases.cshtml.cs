@@ -8,25 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-	// TODO:- amend below to us BaseSchoolPageEditModel
-	public class Leases : BasePageEditModel
+	public class Leases : BaseSchoolPageEditModel
 	{
-		private readonly IConversionApplicationCreationService _academisationCreationService;
-		
 		public Leases(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService) :
 			base(conversionApplicationRetrievalService, 
-				referenceDataRetrievalService)
+				referenceDataRetrievalService, academisationCreationService, "FinancialInvestigations")
 		{
-			_academisationCreationService = academisationCreationService;
 		}
-		
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
 		
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
@@ -54,24 +44,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		public async Task<IActionResult> OnPostAsync()
+		public override async Task<IActionResult> OnPostAsync()
 		{
 			var selectedSchool = await LoadAndSetSchoolDetails(ApplicationId, Urn);
 			MergeCachedAndDatabaseEntities(selectedSchool);
-			
-			if (AnyLeases == SelectOption.Yes && !LeaseViewModels.Any())
-			{
-				ModelState.AddModelError("AddedLeasesButEmptyCollectionError", "You must provide the details on the lease");
-				PopulateValidationMessages();
-				return Page();
-			}
 
-			if (!AnyLeases.HasValue)
-			{
-				ModelState.AddModelError("InvalidSelectOptionError", "You must select an option");
-				PopulateValidationMessages();
-				return Page();
-			}
+			if (!RunUiValidation()) return Page();
 
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 			
@@ -79,7 +57,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				if (AnyLeases == SelectOption.No && !leaseViewModel.IsDraft)
 				{
-					await _academisationCreationService.DeleteLease(ApplicationId, selectedSchool.id, leaseViewModel.Id);
+					await ConversionApplicationCreationService.DeleteLease(ApplicationId, selectedSchool.id, leaseViewModel.Id);
 					continue;
 				}
 
@@ -94,10 +72,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 
 				if (leaseViewModel.IsDraft)
-					await _academisationCreationService.CreateLease(ApplicationId, selectedSchool.id, lease);
+					await ConversionApplicationCreationService.CreateLease(ApplicationId, selectedSchool.id, lease);
 				else
 				{
-					await _academisationCreationService.UpdateLease(ApplicationId, selectedSchool.id, lease);
+					await ConversionApplicationCreationService.UpdateLease(ApplicationId, selectedSchool.id, lease);
 				}
 			}
 
@@ -106,10 +84,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 			TempData[$"{Urn.ToString()}-{typeof(List<LeaseViewModel>)}"] = null;
 			
-			return RedirectToPage("FinancesReview", new { urn = Urn, appId = ApplicationId });
+			return RedirectToPage(NextStepPage, new { urn = Urn, appId = ApplicationId });
 		}
 		
-		public async Task OnGetAsync(int urn, int appId)
+		public override async Task OnGetAsync(int urn, int appId)
 		{
 			LoadAndStoreCachedConversionApplication();
 			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
@@ -179,9 +157,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			TempDataSetBySchool<List<LeaseViewModel>>(Urn, LeaseViewModels);
 		}
 
-		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolName = selectedSchool.SchoolName;
 			AnyLeases = LeaseViewModels.Any() ? SelectOption.Yes : SelectOption.No;
 		}
 

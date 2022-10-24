@@ -14,7 +14,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService) :
 			base(conversionApplicationRetrievalService, referenceDataRetrievalService,
-				academisationCreationService, "FinancesReview")
+				academisationCreationService, "Leases")
 		{}
 		
 		[BindProperty]
@@ -96,7 +96,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 			TempData[$"{Urn.ToString()}-{typeof(List<LoanViewModel>)}"] = null;
 			
-			return RedirectToPage("FinancesReview", new { urn = Urn, appId = ApplicationId });
+			return RedirectToPage(NextStepPage, new { urn = Urn, appId = ApplicationId });
 		}
 
 		private void LoadLoansFromDatabase(SchoolApplyingToConvert selectedSchool)
