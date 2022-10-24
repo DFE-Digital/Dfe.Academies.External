@@ -97,7 +97,7 @@
 		            </td>
 		            <td class="govuk-table__cell govuk-!-text-align-right">
 			            @{
-				            var trustConversionStatusValue = (int)Model.ConversionStatus;
+				            var trustConversionStatusValue = (int)Model.TrustConversionStatus;
 			            }
 			            <status enumvalue=@trustConversionStatusValue></status>
 		            </td>
@@ -120,7 +120,7 @@
     }
 
     <div class="govuk-button-group">
-        @if (Model.UserHasSubmitApplicationRole)
+        @if (Model.UserHasSubmitApplicationRole && Model.ConversionStatus == Status.Completed)
         {
             <button data-prevent-double-click="true" class="govuk-button govuk-!-margin-top-6" data-module="govuk-button">
                 Review and Submit
