@@ -14,20 +14,22 @@
 }
 
 <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">@Model.ApplicationType.GetDescription()</h1>
-
-    <p class="govuk-body">
-        <strong>Application reference number:</strong>&nbsp;&nbsp;@Model.ApplicationReferenceNumber
+	<p class="govuk-body">
+		Application reference:&nbsp;&nbsp;@Model.ApplicationReferenceNumber
+	</p>
+	
+	<h1 class="govuk-heading-l">@Model.ApplicationType.GetDescription()</h1>
+    
+	<p class="govuk-body govuk-radios__conditional">You answers will be saved after each question. 
+		Once all sections are complete, the school's' chair will be able to submit the application.
     </p>
+    
+	<div class="govuk-!-margin-6"></div>
 
-    <p class="govuk-body govuk-radios__conditional">You must complete every section before you can submit your application.<br/>
-        Your progress will be saved after each one.
-    </p>
-
-    <h2 class="govuk-heading-l">Application @Model.ApplicationStatus.GetDescription()</h2>
+	<h2 class="govuk-heading-m">@Model.SchoolHeaderText</h2>
 
 	<table class="govuk-table">
-		<caption class="govuk-table__caption govuk-table__caption--l">@Model.SchoolHeaderText</caption>
+@*		<caption class="govuk-table__caption govuk-table__caption--l">@Model.SchoolHeaderText</caption>*@
 		<tbody class="govuk-table__body">
 		@*If no school selected - render button instead*@
 		@if (!Model.SchoolOrSchoolsApplyingToConvert.Any() && Model.ApplicationType != ApplicationTypes.FormAMat)
@@ -102,8 +104,9 @@
             else{
 	            <tr class="govuk-table__row">
 		            <td class="govuk-table__cell">
-			            <a asp-page="trust/applicationselecttrust" asp-route-appId="@Model.ApplicationId" 
-			               class="govuk-link">@Model.NameOfTrustToJoin</a>
+			            <span class="govuk-!-font-weight-bold govuk-!-padding-right-5">@Model.NameOfTrustToJoin</span>
+			            <a asp-page="trust/applicationselecttrust" asp-route-appId="@Model.ApplicationId"
+			               class="govuk-link">Change</a>
 		            </td>
 		            <td class="govuk-table__cell govuk-!-text-align-right">
 			            @{
@@ -133,7 +136,7 @@
         @if (Model.UserHasSubmitApplicationRole && Model.ConversionStatus == Status.Completed)
         {
             <button data-prevent-double-click="true" class="govuk-button govuk-!-margin-top-6" data-module="govuk-button">
-                Review and Submit
+                Review and submit
             </button>
         }
         <a asp-page="YourApplications" class="govuk-button govuk-button--warning" data-module="govuk-button">Cancel this application</a>
