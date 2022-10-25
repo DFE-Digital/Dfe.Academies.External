@@ -34,7 +34,7 @@
 		{
 			<tr class="govuk-table__row">
 				<td class="govuk-table__cell govuk-!-text-align-right">
-					<a asp-page="school/applicationselectschool" asp-route-appId="@Model.ApplicationId"
+					<a asp-page="school/ApplicationSelectSchool" asp-route-appId="@Model.ApplicationId"
 					   class="govuk-button" data-module="govuk-button">Add a school</a>
 				</td>
 			</tr>
@@ -46,7 +46,7 @@
 				foreach (var school in Model.SchoolOrSchoolsApplyingToConvert)
 				{
 					<tr class="govuk-table__row">
-						<td class="govuk-table__cell govuk-!-text-align-right">
+						<td class="govuk-table__cell">
 							<a asp-page="school/SchoolOverview"
 							   asp-route-appId="@Model.ApplicationId"
 							   asp-route-urn="@school.URN"
@@ -54,12 +54,18 @@
 								@school.SchoolName
 							</a>
 						</td>
+						<td class="govuk-table__cell">
+							<a asp-page="/school/ApplicationSelectSchool" aria-describedby="component-change" class="govuk-link"
+							   asp-route-appId="@Model.ApplicationId">
+								Change
+							</a>
+						</td>
 					</tr>
 				}
 				<tr class="govuk-table__row">
-					<td class="govuk-table__cell govuk-!-text-align-right">
-						<a asp-page="school/applicationselectschool" 
-						   asp-route-appId="@Model.ApplicationId"
+					<td class="govuk-table__cell govuk-!-text-align-right" colspan="2">
+                            <a asp-page="school/ApplicationSelectSchool"
+								asp-route-appId="@Model.ApplicationId"
 						   class="govuk-button" data-module="govuk-button">Add a school</a>
 					</td>
 				</tr>
@@ -67,8 +73,12 @@
 			else
 			{
 				<tr class="govuk-table__row">
-					<td class="govuk-table__cell govuk-!-text-align-right">
-						@Model.SchoolName
+					<td class="govuk-table__cell">
+						<span class="govuk-!-font-weight-bold govuk-!-padding-right-5">@Model.SchoolName</span>
+						<a asp-page="/school/ApplicationSelectSchool" aria-describedby="component-change" class="govuk-link"
+						   asp-route-appId="@Model.ApplicationId">
+							Change
+						</a>
 					</td>
 				</tr>
 				<partial name="_SchoolComponentsStatusPartial" model="Model.SchoolComponents"/>
@@ -83,7 +93,7 @@
             @*If no trust selected - render button instead*@
             @if (string.IsNullOrWhiteSpace(Model.NameOfTrustToJoin)){
                 <tr class="govuk-table__row">
-                    <td class="govuk-table__cell govuk-!-text-align-right">
+                    <td class="govuk-table__cell govuk-!-text-align-right" colspan="2">
 	                    <a asp-page="trust/applicationselecttrust" asp-route-appId="@Model.ApplicationId"
 	                       class="govuk-button govuk-button--secondary" data-module="govuk-button">Add a trust</a>
                     </td>
