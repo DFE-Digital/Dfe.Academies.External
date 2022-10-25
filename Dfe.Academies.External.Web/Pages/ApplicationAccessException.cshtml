@@ -1,0 +1,25 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.ApplicationAccessExceptionModel
+@{
+	ViewData["Title"] = "Oops";
+}
+
+@section BeforeMain
+{
+	<a class="govuk-back-link">Back</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<h1 class="govuk-heading-l">You do not have permission to view this application</h1>
+	<p class="govuk-body">To view and contribute:</p>
+	<ul class="govuk-list govuk-list--bullet">
+		<li>you must have been invited by an existing contributor</li>
+		<li>your email address must match the one entered for you by the person who sent you the invite</li>
+	</ul>
+	<p class="govuk-body">
+		If you have checked these details and are still seeing this message, contact
+        <a class="govuk-link" href="mailto:regionalservices.rg@education.gov.uk">
+            regionalservices.rg@education.gov.uk
+		</a>
+	</p>
+</div>
