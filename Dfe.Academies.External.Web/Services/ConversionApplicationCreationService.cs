@@ -105,14 +105,21 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 					}
 				}
 			}
-			
+
 			//// structure of JSON in body is having a 'contributors' prop - same as ConversionApplication() obj
 			// MR:- no response from Academies API - Just an OK
 			await _resilientRequestProvider.PutAsync(apiurl, application);
 		}
+		catch (HttpRequestException httpEx)
+		{
+			_logger.LogError("ConversionApplicationCreationService::AddSchoolToApplication::APIException - {Message}",
+				httpEx.Message);
+			throw;
+		}
 		catch (Exception ex)
 		{
-			_logger.LogError("ConversionApplicationCreationService::AddSchoolToApplication::Exception - {Message}", ex.Message);
+			_logger.LogError("ConversionApplicationCreationService::AddSchoolToApplication::Exception - {Message}",
+				ex.Message);
 			throw;
 		}
 	}
