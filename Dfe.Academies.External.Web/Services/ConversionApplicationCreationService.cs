@@ -107,17 +107,26 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
 			// to grab current application data
 			// before then patching ConversionApplication returned with data from application object
+			var application = await GetApplication(applicationId);
+
+			if (application.ApplicationId != applicationId)
+			{
+				throw new ArgumentException("Application not found");
+			}
+
+			if (application.ApplicationType != ApplicationTypes.JoinAMat)
+			{
+				throw new ArgumentException("Application not of correct type");
+			}
 
 			//// baseaddress has a backslash at the end to be a valid URI !!!
-			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
-			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+			//// https://s184d01-aca-aca-app.nicedesert-a691fec6.westeurope.azurecontainerapps.io/application/99/join-trust
+			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/join-trust?api-version=V1";
 
-			// TODO MR:- add to existing / form new route to think about here !
-			// application.Trust = new trust();
+			var trust = new ExistingTrust(applicationId, name, trustUkPrn);
 
-			// TODO API: 
 			// MR:- no response from Academies API - Just an OK
-			// await _resilientRequestProvider.PutAsync(apiurl, application);
+			await _resilientRequestProvider.PutAsync(apiurl, trust);
 		}
 		catch (Exception ex)
 		{
