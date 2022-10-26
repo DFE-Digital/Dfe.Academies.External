@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Compile Remove="Constants\FieldConstants.cs" />
+    <Compile Remove="Models\NewTrustKeyPerson.cs" />
   </ItemGroup>
 
   <ItemGroup>
