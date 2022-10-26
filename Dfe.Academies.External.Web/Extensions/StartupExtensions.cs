@@ -70,4 +70,11 @@ public static class StartupExtension
 
 		return @this;
 	}
+
+	public static IApplicationBuilder UseTimeoutHandling(this IApplicationBuilder @this)
+	{
+		@this.UseMiddleware<TimeoutMiddleware>();
+
+		return @this;
+	}
 }

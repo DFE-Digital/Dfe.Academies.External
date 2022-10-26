@@ -152,6 +152,9 @@ app.UseStatusCodePagesWithReExecute("/error/{0}");
 //
 app.UseBespokeExceptionHandling(app.Environment);
 
+// new one, to try and detect session / auth timeout and re-direct user to home page
+app.UseTimeoutHandling();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
