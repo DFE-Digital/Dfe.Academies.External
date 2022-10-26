@@ -26,6 +26,9 @@ namespace Dfe.Academies.External.Web.Pages
 			ExistingApplications = await _conversionApplications.GetPendingApplications(userEmail);
 
 			CompletedApplications = await _conversionApplications.GetCompletedApplications(userEmail);
+
+			// MR:- added below to check if session has blown in middleware
+			this.HttpContext.Session.SetString("a2b_username", userEmail);
 		}
 
 		public override void PopulateValidationMessages()
