@@ -5,14 +5,34 @@
 /// </summary>
 public class NewTrust
 {
-	public NewTrust(string proposedTrustName)
+	// TODO MR:- amend this obj = record and to be same as following json
+	// {
+//"applicationId": 0,
+//"formTrustOpeningDate": "2022-10-26T10:30:04.046Z",
+//"formTrustProposedNameOfTrust": "string",
+//"trustApproverName": "string",
+//"trustApproverEmail": "string",
+//"formTrustReasonApprovaltoConvertasSAT": true,
+//"formTrustReasonApprovedPerson": "string",
+//"formTrustReasonForming": "string",
+//"formTrustReasonVision": "string",
+//"formTrustReasonGeoAreas": "string",
+//"formTrustReasonFreedom": "string",
+//"formTrustReasonImproveTeaching": "string",
+//"formTrustPlanForGrowth": "string",
+//"formTrustPlansForNoGrowth": "string",
+//"formTrustGrowthPlansYesNo": true,
+//"formTrustImprovementSupport": "string",
+//"formTrustImprovementStrategy": "string",
+//"formTrustImprovementApprovedSponsor": "string"
+//}
+
+public NewTrust(string proposedTrustName)
 	{
 		ProposedTrustName = proposedTrustName;
 	}
 
 	public int Id { get; set; }
-
-	// TODO MR:- what to do about trust id ????
 
 	public string ProposedTrustName { get; set; }
 
@@ -39,5 +59,5 @@ public class NewTrust
 
 	public string? FormTrustImprovementStrategy { get; set; }
 
-	public List<NewTrustKeyPerson> NewTrustKeyPersons { get; set; } = new();
+	//public List<NewTrustKeyPerson> NewTrustKeyPersons { get; set; } = new();
 }
