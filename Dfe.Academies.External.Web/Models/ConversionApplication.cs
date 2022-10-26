@@ -34,11 +34,12 @@ public class ConversionApplication
 
 	public int ConversionStatus { get; set; }
 
+	// TODO :- wire up below
 	public NewTrust? FormATrust { get; set; }
 
-	public ExistingTrust? ExistingTrust { get; set; }
+	public ExistingTrust? JoinTrustDetails { get; set; }
 
 	public string TrustName => (ApplicationType == ApplicationTypes.JoinAMat
-		? ExistingTrust?.TrustName
+		? JoinTrustDetails?.TrustName
 		: FormATrust?.ProposedTrustName) ?? string.Empty;
 }
