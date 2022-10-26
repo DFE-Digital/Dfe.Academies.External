@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\NewTrustKeyPersonTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="ExampleJsonResponses\createApplicationResponse.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

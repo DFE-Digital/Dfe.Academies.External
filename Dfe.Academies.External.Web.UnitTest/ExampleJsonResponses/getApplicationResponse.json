@@ -8,7 +8,7 @@
 			"firstName": "Dan",
 			"lastName": "Good",
 			"emailAddress": "Dan.GOOD@education.gov.uk",
-			"role": "other"
+			"role": "chairOfGovernors"
 		},
 		{
 			"contributorId": 129,
@@ -104,16 +104,8 @@
 				"capitalCarryForwardExplained": "capitalCarryForwardExplained string next Financial Year",
 				"capitalCarryForwardFileLink": "capitalCarryForwardFileLink string"
 			},
-			"loans": [
-				{
-					"loanId": 26,
-					"amount": 500000.00,
-					"purpose": "The purpose of this is to totally revitalise Plymstock School as an even better",
-					"provider": "string",
-					"interestRate": 3.25,
-					"schedule": "string"
-				}
-			],
+			"loans": [],
+			"leases": [],
 			"schoolContributionToTrust": "string",
 			"governingBodyConsentEvidenceDocumentLink": "string",
 			"additionalInformationAdded": false,
@@ -138,7 +130,7 @@
 			"schoolConversionTargetDateExplained": "string",
 			"conversionChangeNamePlanned": true,
 			"proposedNewSchoolName": "string",
-			"applicationJoinTrustReason": "string",
+			"applicationJoinTrustReason": "Because this trust is awesome!",
 			"projectedPupilNumbersYear1": 1000,
 			"projectedPupilNumbersYear2": 1250,
 			"projectedPupilNumbersYear3": 1500,
@@ -147,5 +139,14 @@
 			"schoolSupportGrantFundsPaidTo": "school",
 			"confirmPaySupportGrantToSchool": false
 		}
-	]
+	],
+	"joinTrustDetails": {
+		"id": 2,
+		"ukprn": 1001,
+		"trustName": "Plymouth Community Trust",
+		"changesToTrust": false,
+		"changesToTrustExplained": "Changes To Trust Explanation",
+		"changesToLaGovernance": true,
+		"changesToLaGovernanceExplained": "Governance Governance Governance. Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum "
+	}
 }
