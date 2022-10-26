@@ -80,6 +80,7 @@ builder.Services.AddAuthentication(options =>
 			options.Scope.Add("surname");
 			options.Scope.Add("organisation");
 
+			options.MaxAge = TimeSpan.FromMinutes(5); // MR:- temp messing about to force logout
 			options.UseTokenLifetime = true;
 			options.SaveTokens = true;
 			options.GetClaimsFromUserInfoEndpoint = true;
@@ -88,6 +89,20 @@ builder.Services.AddAuthentication(options =>
 			{
 				context.ProtocolMessage.Prompt = "login";
 				return Task.CompletedTask;
+			};
+
+			options.Events = new OpenIdConnectEvents
+			{
+				OnMessageReceived = context =>
+				{
+					if (context.HttpContext.Request.Query.ContainsKey("error"))
+					{
+						context.HandleResponse(); // <-- Fires
+						context.Response.Redirect("../Index"); // <-- Redirect fires but user is not redirected
+					}
+
+					return Task.FromResult(0);
+				}
 			};
 		}
 	);
@@ -113,13 +128,14 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 	options.CheckConsentNeeded = context => true;
 	options.MinimumSameSitePolicy = SameSiteMode.None;
 });
+
 builder.Services.AddSession(options =>
-	{
-		options.Cookie.HttpOnly = true;
-		options.Cookie.SameSite = SameSiteMode.Strict;
-		options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-		options.Cookie.IsEssential = true;
-	}
+{
+	options.Cookie.HttpOnly = true;
+	options.Cookie.SameSite = SameSiteMode.Strict;
+	options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+	options.Cookie.IsEssential = true;
+}
 );
 
 // culture - https://dotnetcoretutorials.com/2017/06/22/request-culture-asp-net-core/
@@ -153,7 +169,8 @@ app.UseStatusCodePagesWithReExecute("/error/{0}");
 app.UseBespokeExceptionHandling(app.Environment);
 
 // new one, to try and detect session / auth timeout and re-direct user to home page
-app.UseTimeoutHandling();
+//app.UseSession();
+//app.UseTimeoutHandling();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
