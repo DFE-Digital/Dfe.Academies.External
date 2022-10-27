@@ -5,7 +5,7 @@ namespace Dfe.Academies.External.Web.Pages.Base;
 
 public abstract class BasePageModel : PageModel
 {
-	public bool UserHasSubmitApplicationRole { get; private set; } = false;
+	public bool UserHasSubmitApplicationRole { get; set; } = false;
 
 	public ValidationErrorMessagesViewModel ValidationErrorMessagesViewModel { get; set; }
 

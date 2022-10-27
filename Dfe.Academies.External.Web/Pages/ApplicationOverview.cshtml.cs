@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using System.Security.Claims;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -13,31 +14,38 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public int ApplicationId { get; private set; }
 
-		// Below are props for UI display, shunt over to separate view model?
+		//// Below are props for UI display
 		public ApplicationTypes ApplicationType { get; private set; }
 
 		public string ApplicationReferenceNumber { get; private set; } = string.Empty;
-
-		public short CompletedSections { get; private set; }
-
-		public short TotalNumberOfSections => 8;
 
 		public List<SchoolApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; private set; } = new();
 
 		public string? NameOfTrustToJoin { get; private set; }
 
-		// overall application status
-		public string ApplicationStatus { get; private set; } = string.Empty;
+		/// <summary>
+		/// Overall application status - comes from API now
+		/// </summary>
+		public ApplicationStatus ApplicationStatus { get; private set; }
 
+		/// <summary>
+		/// Calculated within here ONLY dependent on whether all the components / sections have been completed !
+		/// </summary>
 		public Status ConversionStatus { get; private set; }
 
+		/// <summary>
+		/// UI text, set within here ONLY dependent on ApplicationType
+		/// </summary>
 		public string SchoolHeaderText { get; private set; } = string.Empty;
 
 		/// <summary>
-		/// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
+		/// This will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
 		/// </summary>
 		public string? SchoolName { get; private set; }
 
+		/// <summary>
+		/// UI text, set within here ONLY dependent on ApplicationType
+		/// </summary>
 		public string TrustHeaderText { get; private set; } = string.Empty;
 
 		/// <summary>
@@ -78,7 +86,7 @@ namespace Dfe.Academies.External.Web.Pages
 			}
 		}
 
-		public async Task<IActionResult> OnPostAsync()
+		public IActionResult OnPostAsync()
 		{
 			return RedirectToPage("/SchoolOverview", ApplicationId);
 		}
@@ -87,12 +95,17 @@ namespace Dfe.Academies.External.Web.Pages
 		{
 			if (conversionApplication != null)
 			{
+				// ConversionStatus = whether school.SchoolApplicationComponents.Status == Completed !!
+				// ConversionStatus = could be 'NotStarted', 'InProgress' or 'Complete'
+				if (school != null && school.SchoolApplicationComponents.Any())
+				{
+					ConversionStatus = CalculateApplicationStatus(school);
+				}
+
 				ApplicationId = conversionApplication.ApplicationId;
 				ApplicationType = conversionApplication.ApplicationType;
 				ApplicationReferenceNumber = conversionApplication.ApplicationReference;
-				CompletedSections = 0; // TODO MR:- what logic drives this !
-				ApplicationStatus = "incomplete"; // TODO MR:- what logic drives this !
-				ConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
+				ApplicationStatus = conversionApplication.ApplicationStatus;
 				SchoolOrSchoolsApplyingToConvert = conversionApplication.Schools;
 				NameOfTrustToJoin = conversionApplication.TrustName;
 
@@ -109,15 +122,15 @@ namespace Dfe.Academies.External.Web.Pages
 					SchoolName = school?.SchoolName;
 					TrustConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
 
-					// Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
-					//Audits = auditEntries.Select(e =>
-					// new ViewModels.ApplicationAuditViewModel
-					// {
-					//  What =
-					//   $"{e.CreatedBy} {e.TypeOfChange} the {e.PropertyChanged}", // TODO MR:- re-work text when I can how this looks on screen !
-					//  When = e.DateCreated,
-					//  Who = e.CreatedBy
-					// }).ToList();
+					//// Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
+					////Audits = auditEntries.Select(e =>
+					//// new ViewModels.ApplicationAuditViewModel
+					//// {
+					////  What =
+					////   $"{e.CreatedBy} {e.TypeOfChange} the {e.PropertyChanged}",
+					////  When = e.DateCreated,
+					////  Who = e.CreatedBy
+					//// }).ToList();
 				}
 
 				// Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
@@ -138,6 +151,22 @@ namespace Dfe.Academies.External.Web.Pages
 					SchoolComponents = componentsVm;
 				}
 
+				// grab current user email
+				string email = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
+
+				// look up user in contributors collection to find their role !!!
+				if (!string.IsNullOrWhiteSpace(email))
+				{
+					var currentUser =
+						conversionApplication.Contributors.FirstOrDefault(x => x.EmailAddress == email);
+
+					// set users role
+					if (currentUser is { Role: SchoolRoles.ChairOfGovernors })
+					{
+						UserHasSubmitApplicationRole = true;
+					}
+				}
+
 				// contributors
 				// convert application?.Contributors -> list<ConversionApplicationContributorViewModel>
 				if (conversionApplication.Contributors.Any())
@@ -148,14 +177,35 @@ namespace Dfe.Academies.External.Web.Pages
 
 					ExistingContributors = contributors;
 				}
+
+				// TODO MR:- submit button should NOT be available unless ALL school.SchoolApplicationComponents.Status == Completed !!
+				// &&&&&&& application should have a trust ++ trust sections filled in !!
 			}
+		}
+
+		// TODO MR:- what logic drives this !
+		private Status CalculateApplicationStatus(SchoolApplyingToConvert? school)
+		{
+			if (school != null && school.SchoolApplicationComponents.Any())
+			{
+				if(school.SchoolApplicationComponents.All(comp => comp.Status == Status.Completed))
+				{
+					return Status.Completed;
+				}
+				else
+				{
+					return Status.InProgress;
+				}
+			}
+
+			return Status.NotStarted;
 		}
 
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			// TODO:- move code to here !!
-			throw new NotImplementedException();
+			// does not apply on this page
+			return true;
 		}
 
 		///<inheritdoc/>
