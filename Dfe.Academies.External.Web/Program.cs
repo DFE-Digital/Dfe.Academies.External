@@ -1,12 +1,17 @@
 ﻿using System.Globalization;
 using Dfe.Academies.External.Web.Extensions;
+using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Middleware;
 using Dfe.Academies.External.Web.Routing;
+using Dfe.Academies.External.Web.Services;
 using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Polly;
+using Polly.Extensions.Http;
+
 //using Serilog;
 //using Serilog.Events;
 //using Serilog.Formatting.Compact;
@@ -121,6 +126,22 @@ builder.Services.AddSession(options =>
 		options.Cookie.IsEssential = true;
 	}
 );
+builder.Services.AddScoped<IAadAuthorisationHelper, AadAuthorisationHelper>();
+
+builder.Services.AddHttpClient<IFileUploadService, FileUploadService>(client =>
+	{
+		client.BaseAddress = new Uri(configuration["Sharepoint:ApiUrl"]);
+	})
+	.AddPolicyHandler(GetRetryPolicy());
+
+static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+{
+	return HttpPolicyExtensions
+		.HandleTransientHttpError()
+		.OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+		.WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2,
+			retryAttempt)));
+}
 
 // culture - https://dotnetcoretutorials.com/2017/06/22/request-culture-asp-net-core/
 builder.Services.Configure<RequestLocalizationOptions>(options =>

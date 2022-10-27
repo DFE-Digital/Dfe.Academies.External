@@ -11,6 +11,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class AdditionalDetails : BaseSchoolPageEditModel
 	{
+		private readonly IFileUploadService _fileUploadService;
 		
 		[BindProperty]
 		public string TrustBenefitDetails { get; set; }
@@ -61,7 +62,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public SelectOption SupportedByFoundationTrustOrBody { get; set; }
 		
 		[BindProperty]
-		public string FoundationTrustOrBodyName { get; set; }
+		public string? FoundationTrustOrBodyName { get; set; }
 		
 		[BindProperty]
 		public List<IFormFile>? FoundationConsentFiles { get; set; }
@@ -99,7 +100,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SchoolEqualitiesImpactAssessment DisproportionateProtectedCharacteristics { get; set; }
+		public SchoolEqualitiesProtectedCharacteristics DisproportionateProtectedCharacteristics { get; set; }
 		
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
@@ -129,6 +130,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public override Task OnGetAsync(int urn, int appId)
 		{
+			OfstedInspected = !string.IsNullOrWhiteSpace(OfstedInspectionDetails) ? SelectOption.Yes : SelectOption.No;
+
+			_fileUploadService.GetFileNames("sip_changestotrustconsent", appId.ToString(),
+				"2E1744ED8976EB11A81200224880B3B5", "example");
 			return base.OnGetAsync(urn, appId);
 		}
 
@@ -141,12 +146,29 @@ namespace Dfe.Academies.External.Web.Pages.School
 			string ExemptionEndDateComponentYear = exemptionEndDateComponents.FirstOrDefault(x => x.Key == "year").Value;
 
 			ExemptionEndDate = BuildDateTime(ExemptionEndDateComponentDay, ExemptionEndDateComponentMonth, ExemptionEndDateComponentYear);
+			if (!RunUiValidation())
+			{
+				RePopDatePickerModel(ExemptionEndDateComponentDay, ExemptionEndDateComponentMonth, ExemptionEndDateComponentYear);
+				return Page();
+			}
 
-			return Redirect(NextStepPage);
+			// grab draft application from temp= null
+			var draftConversionApplication =
+				TempDataHelper.GetSerialisedValue<ConversionApplication>(
+					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+			var dictionaryMapper = PopulateUpdateDictionary();
+			await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+
+			// update temp store for next step
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+			return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
 		}
 		
-		public AdditionalDetails(IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "FurtherInformationSummary")
+		public AdditionalDetails(IFileUploadService fileUploadService, IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "FurtherInformationSummary")
 		{
+			_fileUploadService = fileUploadService;
 		}
 
 		public override void PopulateValidationMessages()
@@ -180,6 +202,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			OfstedInspectionDetails = selectedSchool.LocalAuthority.LaClosurePlanDetails;
+		}
+		
+		private void RePopDatePickerModel(string exemptionEndDateDay, string exemptionEndDateMonth, string exemptionEndDateYear)
+		{
+			ExemptionEndDateDay = exemptionEndDateDay;
+			ExemptionEndDateMonth = exemptionEndDateMonth;
+			ExemptionEndDateYear = exemptionEndDateYear;
 		}
 	}
 }

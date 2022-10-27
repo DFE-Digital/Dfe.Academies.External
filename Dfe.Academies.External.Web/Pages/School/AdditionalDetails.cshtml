@@ -464,7 +464,7 @@
 									   class="@(Model.EqualityAssessment == SelectOption.Yes ? "govuk-error-message" : "govuk-visually-hidden")">
 										You must enter an option
 									</a>
-									@foreach (var disproportionateProtectedCharacteristicsOption in Enum.GetValues<SchoolEqualitiesImpactAssessment>().OrderByDescending(x => x.ToString()))
+									@foreach (var disproportionateProtectedCharacteristicsOption in Enum.GetValues<SchoolEqualitiesProtectedCharacteristics>().OrderByDescending(x => x.ToString()))
 									{
 										<div class="govuk-radios__item">
 											<input type="radio"
