@@ -21,17 +21,17 @@ public sealed class ContributorEmailSenderService : BaseService, IContributorEma
 	}
 
 	///<inheritdoc/>
-	public async Task InvitationToContributorChair(string invitationEmailRecipient, string invitationName, string schoolName,
-		string invitingContributorName)
+	public async Task InvitationToContributorChair(string contributorEmailAddress, string contributorName, string schoolName,
+		string invitingUserName)
 	{
 		Dictionary<string, dynamic> personalisation = new Dictionary<string, dynamic>
 		{
-			{ "invitee_name", invitationName },
+			{ "invitee_name", contributorName },
 			{ "school", schoolName },
-			{ "inviting_contributor", invitingContributorName },
+			{ "inviting_contributor", invitingUserName },
 		};
 
-		MessageDto emailMessage = new MessageDto(invitationEmailRecipient, InvitationToContributeChairTemplateId)
+		MessageDto emailMessage = new MessageDto(contributorEmailAddress, InvitationToContributeChairTemplateId)
 		{
 			Personalisation = personalisation
 		};
@@ -40,17 +40,17 @@ public sealed class ContributorEmailSenderService : BaseService, IContributorEma
 	}
 
 	///<inheritdoc/>
-	public async Task InvitationToContributorNonChair(string invitationEmailRecipient, string invitationName, string schoolName,
-		string invitingContributorName)
+	public async Task InvitationToContributorNonChair(string contributorEmailAddress, string contributorName, string schoolName,
+		string invitingUserName)
 	{
 		Dictionary<string, dynamic> personalisation = new Dictionary<string, dynamic>
 		{
-			{ "invitee_name", invitationName },
+			{ "invitee_name", contributorName },
 			{ "school", schoolName },
-			{ "inviting_contributor", invitingContributorName },
+			{ "inviting_contributor", invitingUserName },
 		};
 
-		MessageDto emailMessage = new MessageDto(invitationEmailRecipient, InvitationToContributeNonChairTemplateId)
+		MessageDto emailMessage = new MessageDto(contributorEmailAddress, InvitationToContributeNonChairTemplateId)
 		{
 			Personalisation = personalisation
 		};
