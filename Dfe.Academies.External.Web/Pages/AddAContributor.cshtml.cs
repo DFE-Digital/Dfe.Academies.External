@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
@@ -19,9 +20,10 @@ namespace Dfe.Academies.External.Web.Pages
 	public class AddAContributorModel : BasePageEditModel
 	{
 	    private readonly IConversionApplicationCreationService _academisationCreationService;
-	    
-	    //// MR:- selected school props for UI rendering
-	    [BindProperty]
+	    private readonly IContributorEmailSenderService _contributorEmailSenderService;
+
+		//// MR:- selected school props for UI rendering
+		[BindProperty]
 	    public int ApplicationId { get; set; }
 
 	    [BindProperty]
@@ -67,10 +69,12 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public AddAContributorModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
-			IConversionApplicationCreationService academisationCreationService)
+			IConversionApplicationCreationService academisationCreationService,
+			IContributorEmailSenderService contributorEmailSenderService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
 			_academisationCreationService = academisationCreationService;
+			_contributorEmailSenderService = contributorEmailSenderService;
 		}
 
 		/// <summary>
@@ -102,6 +106,22 @@ namespace Dfe.Academies.External.Web.Pages
 
 			await _academisationCreationService.AddContributorToApplication(contributor, ApplicationId);
 
+			string firstName = User.FindFirst(ClaimTypes.GivenName)?.Value ?? "";
+			string lastName = User.FindFirst(ClaimTypes.Surname)?.Value ?? "";
+			string invitingUserName = $"{firstName} {lastName}";
+
+			// TODO:- send email
+			if (ContributorRole == SchoolRoles.ChairOfGovernors)
+			{
+				// TODO:- school name?
+				await _contributorEmailSenderService.InvitationToContributorChair(EmailAddress, Name, "", invitingUserName);
+			}
+			else
+			{
+				// TODO:- school name?
+				await _contributorEmailSenderService.InvitationToContributorNonChair(EmailAddress, Name, "", invitingUserName);
+			}
+			
 			// update temp store for next step
 			draftConversionApplication.Contributors.Add(contributor);
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
