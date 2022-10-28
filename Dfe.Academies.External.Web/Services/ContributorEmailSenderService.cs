@@ -21,14 +21,14 @@ public sealed class ContributorEmailSenderService : BaseService, IContributorEma
 	}
 
 	///<inheritdoc/>
-	public async Task InvitationToContributeChair(string invitationEmailRecipient, string invitationName, string schoolName,
+	public async Task InvitationToContributorChair(string invitationEmailRecipient, string invitationName, string schoolName,
 		string invitingContributorName)
 	{
 		Dictionary<string, dynamic> personalisation = new Dictionary<string, dynamic>
 		{
-			{ "invitee name", invitationName },
+			{ "invitee_name", invitationName },
 			{ "school", schoolName },
-			{ "inviting contributor", invitingContributorName },
+			{ "inviting_contributor", invitingContributorName },
 		};
 
 		MessageDto emailMessage = new MessageDto(invitationEmailRecipient, InvitationToContributeChairTemplateId)
@@ -39,5 +39,22 @@ public sealed class ContributorEmailSenderService : BaseService, IContributorEma
 		await _emailNotificationService.SendAsync(emailMessage);
 	}
 
-	// TODO:- InvitationToContributeNonChair()
+	///<inheritdoc/>
+	public async Task InvitationToContributorNonChair(string invitationEmailRecipient, string invitationName, string schoolName,
+		string invitingContributorName)
+	{
+		Dictionary<string, dynamic> personalisation = new Dictionary<string, dynamic>
+		{
+			{ "invitee_name", invitationName },
+			{ "school", schoolName },
+			{ "inviting_contributor", invitingContributorName },
+		};
+
+		MessageDto emailMessage = new MessageDto(invitationEmailRecipient, InvitationToContributeNonChairTemplateId)
+		{
+			Personalisation = personalisation
+		};
+
+		await _emailNotificationService.SendAsync(emailMessage);
+	}
 }

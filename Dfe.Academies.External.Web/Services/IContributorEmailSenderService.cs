@@ -2,7 +2,8 @@
 
 public interface IContributorEmailSenderService
 {
-	Task InvitationToContributeChair(string invitationEmailRecipient, string invitationName, string schoolName,  string invitingContributorName);
-	
-	
+	Task InvitationToContributorChair(string invitationEmailRecipient, string invitationName, string schoolName,  string invitingContributorName);
+
+	Task InvitationToContributorNonChair(string invitationEmailRecipient, string invitationName, string schoolName,
+		string invitingContributorName);
 }
