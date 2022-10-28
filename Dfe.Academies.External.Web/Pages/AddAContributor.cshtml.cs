@@ -102,7 +102,7 @@ namespace Dfe.Academies.External.Web.Pages
 				return Page();
 			}
 
-			var contributor = new ConversionApplicationContributor("", Name, EmailAddress, ContributorRole, OtherRoleNotListed);
+			var contributor = new ConversionApplicationContributor("", Name!, EmailAddress!, ContributorRole, OtherRoleNotListed);
 
 			await _academisationCreationService.AddContributorToApplication(contributor, ApplicationId);
 
@@ -110,16 +110,16 @@ namespace Dfe.Academies.External.Web.Pages
 			string lastName = User.FindFirst(ClaimTypes.Surname)?.Value ?? "";
 			string invitingUserName = $"{firstName} {lastName}";
 
-			// TODO:- send email
+			// send email - diff templates for different roles
 			if (ContributorRole == SchoolRoles.ChairOfGovernors)
 			{
 				// TODO:- school name?
-				await _contributorEmailSenderService.InvitationToContributorChair(EmailAddress, Name, "", invitingUserName);
+				await _contributorEmailSenderService.InvitationToContributorChair(EmailAddress!, Name!, "", invitingUserName);
 			}
 			else
 			{
 				// TODO:- school name?
-				await _contributorEmailSenderService.InvitationToContributorNonChair(EmailAddress, Name, "", invitingUserName);
+				await _contributorEmailSenderService.InvitationToContributorNonChair(EmailAddress!, Name!, "", invitingUserName);
 			}
 			
 			// update temp store for next step
