@@ -5,6 +5,9 @@ using Notify.Models.Responses;
 
 namespace Dfe.Academies.External.Web.Services;
 
+/// <summary>
+/// see https://docs.notifications.service.gov.uk/net.html for further information
+/// </summary>
 public class EmailNotificationService : IEmailNotificationService
 {
 	private readonly NotificationClient _notificationClient;
@@ -19,8 +22,8 @@ public class EmailNotificationService : IEmailNotificationService
 		_notificationClient = new NotificationClient(apiKey);
 		_logger = logger;
 
-		// MR:- alternative client spin up using HttpClient
-		// TODO:- amend startupextensions to create new client ???
+		// MR:- alternative create client method spin up using HttpClient
+		// TODO:- amend startupextensions to create new client - not sure, as no URI specified in https://docs.notifications.service.gov.uk/net.html ???
 		//var httpClientWithProxy = new HttpClientWrapper(new HttpClient(...));
 		//var client = new NotificationClient(httpClientWithProxy, apiKey);
 	}
@@ -38,7 +41,7 @@ public class EmailNotificationService : IEmailNotificationService
 		//}
 
 		// TODO:- log response?
-		_logger.LogInformation($"Email Sent to:- {message.EmailAddress}");
+		_logger.LogInformation($"Email successfully Sent to:- {message.EmailAddress}");
 		
 		return Task.CompletedTask;
     }

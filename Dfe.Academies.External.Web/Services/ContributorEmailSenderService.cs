@@ -15,7 +15,7 @@ public sealed class ContributorEmailSenderService : BaseService, IContributorEma
 		IConfiguration configuration) 
 		: base(httpClientFactory)
 	{
-		// TODO:- amend startupextensions to create new client ???
+		// TODO:- amend startupextensions to create new client - not sure, as no URI specified in https://docs.notifications.service.gov.uk/net.html ???
 		_httpClient = httpClientFactory.CreateClient(AcademiesAPIHttpClientName);
 		_emailNotificationService = new EmailNotificationService(configuration, logger);
 	}
