@@ -1,26 +1,40 @@
-﻿using Dfe.Academies.External.Web.Models.Notifications;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
+﻿using Dfe.Academies.External.Web.Middleware;
+using Dfe.Academies.External.Web.Models.Notifications;
 using Notify.Client;
-using Notify.Models;
+//// using Notify.Models;
 using Notify.Models.Responses;
 
 namespace Dfe.Academies.External.Web.Services;
 
 public class EmailNotificationService : IEmailNotificationService
 {
-	public EmailNotificationService()
-	{
-		// TODO:- grab api key from "emailnotifications":"key"
-		//var client = new NotificationClient(apiKey);
+	private readonly NotificationClient _notificationClient;
+	private readonly ILogger<BespokeExceptionHandlingMiddleware> _logger;
 
-		var httpClientWithProxy = new HttpClientWrapper(new HttpClient(...));
-		var client = new NotificationClient(httpClientWithProxy, apiKey);
+	public EmailNotificationService(IConfiguration configuration,
+		ILogger<BespokeExceptionHandlingMiddleware> logger)
+	{
+		// grab api key from "emailnotifications":"key"
+		var apiKey = configuration["emailnotifications:key"];
+
+		_notificationClient = new NotificationClient(apiKey);
+		_logger = logger;
+
+		// MR:- alternative client spin up using HttpClient
+		// TODO:- amend startupextensions to create new client ???
+		//var httpClientWithProxy = new HttpClientWrapper(new HttpClient(...));
+		//var client = new NotificationClient(httpClientWithProxy, apiKey);
 	}
 
-    public Task SendAsync(MessageDto message)
-    {
-		// TODO MR:-
-		//EmailNotificationResponse response = client.SendEmail(emailAddress, templateId, personalisation, reference, emailReplyToId);
+	public Task SendAsync(MessageDto message)
+	{
+		// TODO :-
+		EmailNotificationResponse response = _notificationClient.SendEmail(message.EmailAddress, 
+			message.TemplateId, message.Personalisation, 
+			message.Reference, message.EmailReplyToId);
+
+		// TODO:- log response?
+
 		return Task.CompletedTask;
     }
 
