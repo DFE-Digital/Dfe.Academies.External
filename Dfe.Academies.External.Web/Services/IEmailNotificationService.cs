@@ -1,9 +1,8 @@
 ﻿using Dfe.Academies.External.Web.Models.Notifications;
 
-namespace Dfe.Academies.External.Web.Services
+namespace Dfe.Academies.External.Web.Services;
+
+public interface IEmailNotificationService
 {
-	public interface IEmailNotificationService
-	{
-		Task SendAsync(MessageDto message);
-	}
+	Task SendAsync(MessageDto message);
 }
