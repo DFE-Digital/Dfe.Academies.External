@@ -1,10 +1,11 @@
-﻿namespace Dfe.Academies.External.Web.Services;
+﻿using Dfe.Academies.External.Web.Enums;
+
+namespace Dfe.Academies.External.Web.Services;
 
 public interface IContributorEmailSenderService
 {
-	Task InvitationToContributorChair(string contributorEmailAddress, string contributorName, string schoolName, 
-		string invitingUserName);
-
-	Task InvitationToContributorNonChair(string contributorEmailAddress, string contributorName, string schoolName,
+	Task SendInvitationToContributor(ApplicationTypes applicationType, SchoolRoles contributorRole,
+		string contributorName, string contributorEmailAddress,
+		string schoolName,
 		string invitingUserName);
 }

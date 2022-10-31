@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Middleware;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Middleware;
 using Dfe.Academies.External.Web.Models.Notifications;
 
 namespace Dfe.Academies.External.Web.Services;
@@ -21,7 +22,24 @@ public sealed class ContributorEmailSenderService : BaseService, IContributorEma
 	}
 
 	///<inheritdoc/>
-	public async Task InvitationToContributorChair(string contributorEmailAddress, string contributorName, string schoolName,
+	public async Task SendInvitationToContributor(ApplicationTypes applicationType, SchoolRoles contributorRole,
+		string contributorName, string contributorEmailAddress, 
+		string schoolName,
+		string invitingUserName)
+	{
+		// send email - diff templates for different roles
+		// TODO:- && different email dependent on application type? i.e. grab FirstOrDefault() on school for JoinAMat ?
+		if (contributorRole == SchoolRoles.ChairOfGovernors)
+		{
+			await InvitationToContributorChair(contributorName, contributorEmailAddress, schoolName, invitingUserName);
+		}
+		else
+		{
+			await InvitationToContributorNonChair(contributorName,contributorEmailAddress, schoolName, invitingUserName);
+		}
+	}
+	
+	private async Task InvitationToContributorChair(string contributorName, string contributorEmailAddress,  string schoolName,
 		string invitingUserName)
 	{
 		Dictionary<string, dynamic> personalisation = new Dictionary<string, dynamic>
@@ -39,8 +57,7 @@ public sealed class ContributorEmailSenderService : BaseService, IContributorEma
 		await _emailNotificationService.SendAsync(emailMessage);
 	}
 
-	///<inheritdoc/>
-	public async Task InvitationToContributorNonChair(string contributorEmailAddress, string contributorName, string schoolName,
+	private async Task InvitationToContributorNonChair(string contributorName, string contributorEmailAddress,  string schoolName,
 		string invitingUserName)
 	{
 		Dictionary<string, dynamic> personalisation = new Dictionary<string, dynamic>
