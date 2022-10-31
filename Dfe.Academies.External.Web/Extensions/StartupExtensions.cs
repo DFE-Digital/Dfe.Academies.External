@@ -60,7 +60,7 @@ public static class StartupExtension
 		services.AddSingleton<IConversionApplicationCreationService, ConversionApplicationCreationService>();
 		services.AddSingleton<IConversionApplicationRetrievalService, ConversionApplicationRetrievalService>();
 		services.AddSingleton<IReferenceDataRetrievalService, ReferenceDataRetrievalService>();
-
+		services.AddSingleton<IContributorEmailSenderService, ContributorEmailSenderService>();
 	}
 
 	public static IApplicationBuilder UseBespokeExceptionHandling(this IApplicationBuilder @this, IHostEnvironment environment)

@@ -19,6 +19,7 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.2.2" />
     <PackageReference Include="GovUk.Frontend.AspNetCore" Version="0.5.1" />
+    <PackageReference Include="GovukNotify" Version="6.1.0" />
     <PackageReference Include="jQuery.Validation" Version="1.19.5" />
     <PackageReference Include="Sentry.AspNetCore" Version="3.20.1" />
     <PackageReference Include="Sentry.Extensions.Logging" Version="3.20.1" />
