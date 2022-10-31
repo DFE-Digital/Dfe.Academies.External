@@ -167,3 +167,15 @@
 	margin-left: 10px;
 	margin-top: 2px;
 }
+
+.button-link{
+	background: none!important;
+	border: none;
+	padding: 0!important;
+	/*optional*/
+	
+	/*input has OS specific font-family*/
+	color: #069;
+	text-decoration: underline;
+	cursor: pointer;
+}

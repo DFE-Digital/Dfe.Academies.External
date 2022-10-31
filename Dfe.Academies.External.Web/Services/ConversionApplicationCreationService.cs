@@ -255,6 +255,38 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.DeleteAsync<DeleteLeaseCommand>(apiurl, deleteLeaseCommand);
 	}
 
+	public async Task SetAdditionalDetails(int applicationId, int schoolId, string trustBenefitDetails, string? ofstedInspectionDetails,
+		string? safeguardingDetails, string? localAuthorityReorganisationDetails, string? localAuthorityClosurePlanDetails,
+		string? dioceseName, string dioceseFolderIdentifier, bool partOfFederation, string? foundationTrustOrBodyName,
+		string foundationConsentFolderIdentifier, DateTimeOffset? exemptionEndDate, string mainFeederSchools,
+		string resolutionConsentFolderIdentifier, SchoolEqualitiesProtectedCharacteristics? protectedCharacteristics,
+		string? furtherInformation)
+	{
+		var setAdditionalDetailsCommand = new SetAdditionalDetailsCommand
+		{
+			ApplicationId = applicationId,
+			SchoolId = schoolId,
+			TrustBenefitDetails = trustBenefitDetails,
+			OfstedInspectionDetails = ofstedInspectionDetails,
+			SafeguardingDetails = safeguardingDetails,
+			LocalAuthorityReorganisationDetails = localAuthorityReorganisationDetails,
+			LocalAuthorityClosurePlanDetails = localAuthorityClosurePlanDetails,
+			DioceseName = dioceseName,
+			DioceseFolderIdentifier = dioceseFolderIdentifier,
+			PartOfFederation = partOfFederation,
+			FoundationTrustOrBodyName = foundationTrustOrBodyName,
+			FoundationConsentFolderIdentifier = foundationConsentFolderIdentifier,
+			ExemptionEndDate = exemptionEndDate,
+			MainFeederSchools = mainFeederSchools,
+			ResolutionConsentFolderIdentifier = resolutionConsentFolderIdentifier,
+			ProtectedCharacteristics = protectedCharacteristics,
+			FurtherInformation = furtherInformation
+		};
+
+		string apiurl = $"{_httpClient.BaseAddress}school/additional-details";
+		await _resilientRequestProvider.PutAsync<SetAdditionalDetailsCommand>(apiurl, setAdditionalDetailsCommand);
+	}
+
 	private async Task<ConversionApplication?> GetApplication(int applicationId)
 	{
 		return await _conversionApplicationRetrievalService.GetApplication(applicationId);

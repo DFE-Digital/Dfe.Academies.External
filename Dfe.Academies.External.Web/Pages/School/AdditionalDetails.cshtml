@@ -1,6 +1,7 @@
 ﻿@page
 @using Dfe.Academies.External.Web.Enums
 @using Dfe.Academies.External.Web.Extensions
+@using Dfe.Academies.External.Web.Helpers
 @using Dfe.Academies.External.Web.TagHelpers
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.AdditionalDetails
@@ -20,7 +21,6 @@
 	<h1 class="govuk-heading-l">
 		Additional details
 	</h1>
-
 	<form method="post" name="frmAdditionalDetails" novalidate="" enctype="multipart/form-data">
 		@Html.AntiForgeryToken()
 		<input type="hidden" asp-for="Urn"/>
@@ -66,7 +66,7 @@
                 														id="ofstedInspectedOption-yes" aria-expanded="false">
                 									<div class="govuk-form-group govuk-error-summary__list">
                 										<a href="#OfstedInspectionDetailsNotAdded" 
-                										   class="@(Model.OfstedInspected == SelectOption.Yes ? "govuk-error-message" : "govuk-visually-hidden")">
+                										   class="@(Model.OfstedInspectedDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
                 											You must provide details
                 										</a>
                 										<label for="ofstedInspectedOption-yes" class="govuk-label">Provide the inspection date and a short summary of the outcome</label>
@@ -101,12 +101,12 @@
                                 							</div>
                                 							@if (safeguardingOption == SelectOption.Yes)
                                 							{
-                                								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
-                                			                                            @(safeguardingOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
-                                														id="safeguardingOption-yes" aria-expanded="false">
+								                                <div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
+																	@(safeguardingOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+								                                     id="safeguardingOption-yes" aria-expanded="false">
                                 									<div class="govuk-form-group govuk-error-summary__list">
                                 										<a href="#SafeguardingDetailsNotAdded" 
-                                										   class="@(Model.SafeguardingInvestigations == SelectOption.Yes ? "govuk-error-message" : "govuk-visually-hidden")">
+                                										   class="@(Model.SafeguardingInvestigationsError ? "govuk-error-message" : "govuk-visually-hidden")">
                                 											You must provide details
                                 										</a>
                                 										<label for="safeguardingOption-yes" class="govuk-label">Details of the investigation</label>
@@ -142,11 +142,11 @@
 							@if (localAuthorityOption == SelectOption.Yes)
 							{
 								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
-                                                			                                            @(localAuthorityOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+                                     @(localAuthorityOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 								     id="localAuthorityOption-yes" aria-expanded="false">
 									<div class="govuk-form-group govuk-error-summary__list">
 										<a href="#LocalAuthorityReorganisationDetailsNotAdded" 
-										   class="@(Model.LocalAuthorityReorganisation == SelectOption.Yes ? "govuk-error-message" : "govuk-visually-hidden")">
+										   class="@(Model.LocalAuthorityReorganisationDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must provide details
 										</a>
 										<label for="localAuthorityOption-yes" class="govuk-label">Details of the reorganisation</label>
@@ -182,11 +182,11 @@
 							@if (localAuthorityClosurePlanOption == SelectOption.Yes)
 							{
 								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
-                                                                			                                            @(localAuthorityClosurePlanOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+                                     @(localAuthorityClosurePlanOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 								     id="localAuthorityClosurePlanOption-yes" aria-expanded="false">
 									<div class="govuk-form-group govuk-error-summary__list">
-										<a href="#localAuthorityClosurePlanDetailsNotAdded" 
-										   class="@(Model.LocalAuthorityClosurePlans == SelectOption.Yes ? "govuk-error-message" : "govuk-visually-hidden")">
+										<a href="#localAuthorityClosurePlanDetailsNotAdded"
+										   class="@(Model.LocalAuthorityClosurePlanDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must provide details
 										</a>
 										<label for="localAuthorityClosurePlanOption-yes" class="govuk-label">Details of the closure plans</label>
@@ -222,11 +222,11 @@
 						@if (dioceseOption == SelectOption.Yes)
 						{
 							<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
-                                                                                            			                                            @(dioceseOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
-							     id="dioceseOption-yes" aria-expanded="false">
+                            			                                            @(dioceseOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+                            														id="dioceseOption-yes" aria-expanded="false">
 								<div class="govuk-form-group govuk-error-summary__list">
 									<a href="#DioceseNameNotAdded" 
-									   class="@(Model.LinkedToDiocese == SelectOption.Yes ? "govuk-error-message" : "govuk-visually-hidden")">
+									   class="@(Model.DioceseNameError ? "govuk-error-message" : "govuk-visually-hidden")">
 										You must provide details
 									</a>
 									<label for="dioceseOption-yes" class="govuk-label">Name of diocese</label>
@@ -246,12 +246,36 @@
 										Uploaded files
 									</legend>
 									<hr/>
-            										                                
-									<label for="Upload-diocese-files" asp-for="DioceseFiles" class="govuk-label">
-										No file uploaded
-									</label>
-            										                                
-									<hr/>
+				
+									@if (!Model.DioceseFileNames.Any())
+									{		
+										<label class="govuk-label">
+											No file uploaded
+										</label>
+									}
+									else
+									{
+										@foreach (var fileName in @Model.DioceseFileNames)
+										{
+											<table class="govuk-table">
+												<tbody class="govuk-table__body">
+												<tr class="govuk-table__row">
+													<td class="govuk-table__cell govuk-!-text-align-left">
+														<p class="govuk-label">@fileName</p>
+													</td>
+													<td class="govuk-table__cell govuk-!-text-align-right">
+														<form asp-page-handler="RemoveFile" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-section=@FileUploadConstants.DioceseFilePrefixFieldName asp-route-fileName="@fileName" method="post">
+															@Html.AntiForgeryToken()
+															<button aria-describedby="component-change" class="govuk-link button-link">Remove</button>
+															<input type="hidden"/>
+														</form>
+													</td>
+												</tr>
+				
+												</tbody>
+											</table>
+										}
+									}
             										                                
 								</div>
 							</div>
@@ -311,11 +335,11 @@
 						@if (supportedByFoundationTrustOrBodyOption == SelectOption.Yes)
 						{
 							<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
-                                                                                			                                            @(supportedByFoundationTrustOrBodyOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+																	@(supportedByFoundationTrustOrBodyOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 							     id="supportedByFoundationTrustOrBodyOption-yes" aria-expanded="false">
 								<div class="govuk-form-group govuk-error-summary__list">
 									<a href="#FoundationTrustOrBodyNameNotAdded" 
-									   class="@(Model.SupportedByFoundationTrustOrBody == SelectOption.Yes ? "govuk-error-message" : "govuk-visually-hidden")">
+									   class="@(Model.SupportedByFoundationTrustOrBodyError ? "govuk-error-message" : "govuk-visually-hidden")">
 										You must provide details
 									</a>
 									<label for="supportedByFoundationTrustOrBodyOption-yes" class="govuk-label">Name of this body</label>
@@ -330,18 +354,41 @@
 									<br/>
 									<input type="file" asp-for="FoundationConsentFiles" class="govuk-label" multiple/>
 									<br/>
-										                                
+            										                                
 									<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 										Uploaded files
 									</legend>
 									<hr/>
-										                                
-									<label for="Upload-foundation-body-files" asp-for="FoundationConsentFiles" class="govuk-label">
-										No file uploaded
-									</label>
-										                                
-									<hr/>
-										                                
+				
+									@if (!Model.FoundationConsentFileNames.Any())
+									{		
+										<label class="govuk-label">
+											No file uploaded
+										</label>
+									}
+									else
+									{
+										@foreach (var fileName in @Model.FoundationConsentFileNames)
+										{
+											<table class="govuk-table">
+												<tbody class="govuk-table__body">
+												<tr class="govuk-table__row">
+													<td class="govuk-table__cell govuk-!-text-align-left">
+														<p class="govuk-label">@fileName</p>
+													</td>
+													<td class="govuk-table__cell govuk-!-text-align-right">
+														<form asp-page-handler="RemoveFile" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-section=@FileUploadConstants.FoundationConsentFilePrefixFieldName asp-route-fileName="@fileName" method="post">
+															@Html.AntiForgeryToken()
+															<button aria-describedby="component-change" class="govuk-link button-link">Remove</button>
+															<input type="hidden"/>
+														</form>
+													</td>
+												</tr>
+				
+												</tbody>
+											</table>
+										}
+									}
 								</div>
 							</div>
 						}
@@ -372,11 +419,11 @@
 						@if (exemptionFromSACREOption == SelectOption.Yes)
 						{
 							<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
-                                                                            			                                            @(exemptionFromSACREOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+																	@(exemptionFromSACREOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 							     id="exemptionFromSACREOption-yes" aria-expanded="false">
 								<div class="govuk-form-group govuk-error-summary__list">
 									<a href="#exemptionFromSACREEndDateNotAdded" 
-									   class="@(Model.ExemptionFromSACRE == SelectOption.Yes ? "govuk-error-message" : "govuk-visually-hidden")">
+									   class="@(Model.ExemptionFromSACREError ? "govuk-error-message" : "govuk-visually-hidden")">
 										You must provide details
 									</a>
 									<div id="exemption-end-date-hint" class="govuk-hint">
@@ -424,10 +471,35 @@
 					Uploaded files
 				</legend>
 				<hr/>
-            										                                
-				<label for="Upload-resolutionConsentFiles" asp-for="ResolutionConsentFiles" class="govuk-label">
-					No file uploaded
-				</label>
+				
+				@if (!Model.ResolutionConsentFileNames.Any())
+				{		
+					<label class="govuk-label">
+						No file uploaded
+						</label>
+				}
+				else
+				{
+					@foreach (var fileName in @Model.ResolutionConsentFileNames)
+					{
+						<table class="govuk-table">
+							<tbody class="govuk-table__body">
+							<tr class="govuk-table__row">
+								<td class="govuk-table__cell govuk-!-text-align-left">
+									<p class="govuk-label">@fileName</p>
+								</td>
+								<td class="govuk-table__cell govuk-!-text-align-right">
+									<a class="govuk-link" aria-describedby="component-change" asp-page-handler="RemoveFile" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-section=@FileUploadConstants.ResolutionConsentfilePrefixFieldName asp-route-fileName="@fileName">
+										Remove
+									</a>
+								</td>
+							</tr>
+				
+							</tbody>
+						</table>
+					}
+				}
+			
             										                                
 				<hr/>
 			</div>
@@ -457,11 +529,11 @@
 						{
 								                
 							<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
-                                                                                			                                            @(equalitiesImpactAssessmentOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+                            																	@(equalitiesImpactAssessmentOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 							     id="equalitiesImpactAssessmentOption-yes" aria-expanded="false">
 								<div class="govuk-form-group govuk-error-summary__list">
-									<a href="#equalitiesImpactAssessmentOptionNoOptionSelected" 
-									   class="@(Model.EqualityAssessment == SelectOption.Yes ? "govuk-error-message" : "govuk-visually-hidden")">
+									<a href="#equalitiesImpactAssessmentOptionNoOptionSelected"
+									   class="@(Model.EqualityAssessmentError ? "govuk-error-message" : "govuk-visually-hidden")">
 										You must enter an option
 									</a>
 									@foreach (var disproportionateProtectedCharacteristicsOption in Enum.GetValues<SchoolEqualitiesProtectedCharacteristics>().OrderByDescending(x => x.ToString()))
@@ -511,11 +583,11 @@
 							@if (furtherInformationOption == SelectOption.Yes)
 							{
 								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
-                                                                			                                            @(furtherInformationOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+                            																	@(furtherInformationOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 								     id="furtherInformationOption-yes" aria-expanded="false">
 									<div class="govuk-form-group govuk-error-summary__list">
 										<a href="#furtherInformationDetailsNotAdded" 
-										   class="@(Model.FurtherInformation == SelectOption.Yes ? "govuk-error-message" : "govuk-visually-hidden")">
+										   class="@(Model.FurtherInformationError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must provide details
 										</a>
 										<label for="furtherInformationOption-yes" class="govuk-label">Any other information</label>
@@ -530,7 +602,7 @@
 			
 			</fieldset>
 		</div>
-	<br/>
-		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+<br/>
+<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 	</form>
 </div>

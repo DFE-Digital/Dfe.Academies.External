@@ -1,12 +1,19 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
+using System.Text.RegularExpressions;
 using Dfe.Academies.External.Web.Helpers;
+using Microsoft.VisualBasic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Dfe.Academies.External.Web.Services;
 
 public interface IFileUploadService
 {
-	Task<List<string>> GetFileNames(string entityName, string recordId, string recordName, string fieldName);
+	Task<List<string>> GetFiles(string entityName, string recordId, string recordName, string fieldName);
+	Task<string> UploadFile(string entity, string recordId, string recordName, string fieldName, IFormFile file);
+	Task DeleteFile(string entityName, string recordId, string recordName, string fieldName, string fileName);
 }
 
 public class FileUploadService : IFileUploadService
@@ -19,13 +26,51 @@ public class FileUploadService : IFileUploadService
 			_aadAuthorisationHelper = aadAuthorisationHelper;
 		}
 
-		private async Task<string> GetFile(string entityName, string recordId, string recordName, string fieldName)
+		public async Task<List<string>> GetFiles(string entityName, string recordId, string recordName, string fieldName)
 		{
 			var url = $"?entityName={entityName}&recordName={recordName}&recordId={recordId}&fieldName={fieldName}";
 			
 			using var request = new HttpRequestMessage(HttpMethod.Get, url);
 
-			
+			var content = await DoHttpRequest(request);
+
+			return ParseJResponse(content);
+		}
+		
+		public async Task<string> UploadFile(string entity, string recordId, string recordName, string fieldName, IFormFile file)
+		{
+			await using var memoryStream = new MemoryStream();
+			await file.CopyToAsync(memoryStream);
+
+			var fileName = Path.GetFileName(file.FileName);
+			var newFile = new JObject
+			{
+				{"entity", entity},
+				{"fileName", string.IsNullOrEmpty(fileName) ? fileName : Regex.Replace(fileName, "[^a-zA-Z0-9_.]+", "", RegexOptions.Compiled)},
+				{"fieldName", fieldName},
+				{"recordName", recordName},
+				{"recordId", recordId},
+				{"fileContentBase64", Convert.ToBase64String(memoryStream.ToArray())}
+			};
+
+			using var request = new HttpRequestMessage(HttpMethod.Post, "")
+			{
+				Content = new StringContent(GetJsonAsString(newFile), Encoding.UTF8, "application/json")
+			};
+			var response = await DoHttpRequest(request);
+			return response;
+		}
+		
+		public async Task DeleteFile(string entityName, string recordId, string recordName, string fieldName, string fileName)
+		{
+			var url = $@"?entityName={entityName}&recordName={recordName}&recordId={recordId}&fieldName={fieldName}&fileName={fileName}";
+
+			using var request = new HttpRequestMessage(HttpMethod.Delete, url);
+			await DoHttpRequest(request);
+		}
+
+		private async Task<string> DoHttpRequest(HttpRequestMessage request)
+		{
 			var accessToken = await _aadAuthorisationHelper.GetAccessToken();
 			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
@@ -38,12 +83,29 @@ public class FileUploadService : IFileUploadService
 			using var readStream = new StreamReader(receiveStream, Encoding.UTF8);
 			return await readStream.ReadToEndAsync();
 		}
-
-		public async Task<List<string>> GetFileNames(string entityName, string recordId, string recordName, string fieldName)
+		
+		private List<string> ParseJResponse(string content)
 		{
-			var fileResponse = await GetFile(entityName, recordId, recordName, fieldName);
-			
+			var jobject = JObject.Parse(content);
+			var jfiles = (JArray)jobject?.GetValue("Files", StringComparison.OrdinalIgnoreCase)!;
+			return jfiles.Select(x => (string)x).ToList();
+		}
 
-			return new List<string>(){fileResponse};
+		internal static string GetJsonAsString(JObject jObject)
+		{
+			var sb = new StringBuilder();
+			sb.Append("\"");
+			using (var sw = new StringWriter(sb))
+			using (var writer = new JsonTextWriter(sw))
+			{
+				writer.QuoteChar = '\'';
+
+				var ser = new JsonSerializer();
+				ser.Serialize(writer, jObject);
+			}
+
+			sb.Append("\"");
+
+			return sb.ToString();
 		}
 }

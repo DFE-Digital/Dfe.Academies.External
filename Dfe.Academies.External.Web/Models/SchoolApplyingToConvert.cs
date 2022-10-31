@@ -20,10 +20,21 @@ public class SchoolApplyingToConvert
         public string SchoolName { get; set; }
         public string UKPRN { get; set; }
         public SchoolLandAndBuildings LandAndBuildings { get; set; }
-        public SchoolPerformance Performance { get; set; } = new();
-		public LocalAuthority LocalAuthority { get; set; } = new();
-		public PartnershipsAndAffliations PartnershipsAndAffliations { get; set; } = new();
-		public SchoolReligiousEducation ReligiousEducation { get; set; }
+        public string TrustBenefitDetails  { get; set; }
+        public string? OfstedInspectionDetails  { get; set; }
+        public string? SafeguardingDetails  { get; set; }
+        public string? LocalAuthorityReorganisationDetails  { get; set; }
+        public string? LocalAuthorityClosurePlanDetails  { get; set; }
+        public string? DioceseName  { get; set; }
+        public string? DioceseFolderIdentifier  { get; set; }
+        public bool PartOfFederation { get; set; }
+        public string? FoundationTrustOrBodyName { get; set; }
+        public string? FoundationConsentFolderIdentifier { get; set; }
+        public DateTimeOffset? ExemptionEndDate { get; set; }
+        public string MainFeederSchools { get; set; }
+        public string ResolutionConsentFolderIdentifier { get; set; }
+        public SchoolEqualitiesProtectedCharacteristics? ProtectedCharacteristics { get; set; }
+        public string? FurtherInformation { get; set; }
 		public SchoolFinancialYear PreviousFinancialYear { get; set; } = new();
 		public SchoolFinancialYear CurrentFinancialYear { get; set; } = new();
 		public SchoolFinancialYear NextFinancialYear { get; set; } = new();
@@ -31,9 +42,7 @@ public class SchoolApplyingToConvert
         public string GoverningBodyConsentEvidenceDocumentLink { get; set; }
         public bool? AdditionalInformationAdded { get; set; }
         public string AdditionalInformation { get; set; }
-        public EqualityImpact? EqualitiesImpactAssessmentCompleted { get; set; }
-        public string EqualitiesImpactAssessmentDetails { get; set; }
-        
+
         //// School Contacts / Key people
         public string SchoolConversionContactHeadName { get; set; }
         public string SchoolConversionContactHeadEmail { get; set; }
