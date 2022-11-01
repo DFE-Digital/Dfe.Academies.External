@@ -1,4 +1,6 @@
-﻿using Dfe.Academies.External.Web.ViewModels;
+﻿using System.Security.Claims;
+using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.Academies.External.Web.Pages.Base;
@@ -46,5 +48,41 @@ public abstract class BasePageModel : PageModel
 				}
 			}
 		}
+	}
+
+	protected bool UserIsContributorToApplication(ConversionApplication application)
+	{
+		// 1) grab application
+		// 2) does application.Contributors() contain GetCurrentUserEmail()
+		if (application.Contributors.Any())
+		{
+			return application.Contributors.Any(c =>
+				string.Equals(c.EmailAddress.ToLower(), GetCurrentUserEmail().ToLower(), StringComparison.Ordinal));
+		}
+
+		return false;
+	}
+
+	protected void CheckUserAccess(ConversionApplication application)
+	{
+		if (!UserIsContributorToApplication(application))
+		{
+			throw new UnauthorizedAccessException("Not allowed to access application");
+		}
+	}
+
+	protected string GetCurrentUserFirstName()
+	{
+		return User.FindFirst(ClaimTypes.GivenName)?.Value ?? string.Empty;
+	}
+
+	protected string GetCurrentUserSurname()
+	{
+		return User.FindFirst(ClaimTypes.Surname)?.Value ?? string.Empty;
+	}
+
+	protected string GetCurrentUserEmail()
+	{
+		return User.FindFirst(ClaimTypes.Email)?.Value ?? string.Empty;
 	}
 }
