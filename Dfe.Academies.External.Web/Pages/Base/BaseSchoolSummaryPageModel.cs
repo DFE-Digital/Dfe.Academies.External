@@ -22,24 +22,15 @@ namespace Dfe.Academies.External.Web.Pages.Base
 
 		public virtual async Task<ActionResult> OnGetAsync(int urn, int appId)
 		{
-			// TODO:- refactor below into BasePageEditModel() for use across multiple places
 			// MR:- don't need try/catch anymore as we have exception middleware
-			//LoadAndStoreCachedConversionApplication();
-
-			var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
+			LoadAndStoreCachedConversionApplication();
 
 			// check user access
-			try
+			var checkStatus = await CheckApplicationPermission(appId);
+
+			if (checkStatus is ForbidResult)
 			{
-				if (draftConversionApplication != null)
-				{
-					base.CheckUserAccess(draftConversionApplication);
-				}
-			}
-			catch (UnauthorizedAccessException ex)
-			{
-				// re-direct to un-auth page
-				return RedirectToPage("../ApplicationAccessException", new { errorMessage = ex.Message });
+				return RedirectToPage("../ApplicationAccessException", new { errorMessage = "Not allowed to access application" });
 			}
 
 			ApplicationId = appId;
