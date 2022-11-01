@@ -49,7 +49,7 @@ public class ApplicationPreOpeningSupportGrantModel : BaseSchoolPageEditModel
 	/// <param name="urn"></param>
 	/// <param name="appId"></param>
 	/// <returns></returns>
-	public override async Task OnGetAsync(int urn, int appId)
+	public override async Task<ActionResult> OnGetAsync(int urn, int appId)
 	{
 		LoadAndStoreCachedConversionApplication();
 		var draftConversionApplication =
@@ -64,6 +64,8 @@ public class ApplicationPreOpeningSupportGrantModel : BaseSchoolPageEditModel
 		{
 			PopulateUiModel(selectedSchool, draftConversionApplication);
 		}
+
+		return Page();
 	}
 	
 	///<inheritdoc/>

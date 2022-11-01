@@ -41,7 +41,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		public override async Task OnGetAsync(int urn, int appId)
+		public override async Task<ActionResult> OnGetAsync(int urn, int appId)
 		{
 			LoadAndStoreCachedConversionApplication();
 			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
@@ -54,6 +54,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 				MergeCachedAndDatabaseLoans(selectedSchool);
 				PopulateUiModel(selectedSchool);
 			}
+
+			return Page();
 		}
 
 		public override async Task<IActionResult> OnPostAsync()

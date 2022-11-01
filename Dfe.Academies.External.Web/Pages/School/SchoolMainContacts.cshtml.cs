@@ -64,7 +64,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		/// <param name="urn"></param>
 		/// <param name="appId"></param>
 		/// <returns></returns>
-		public override async Task OnGetAsync(int urn, int appId)
+		public override async Task<ActionResult> OnGetAsync(int urn, int appId)
 		{
 			LoadAndStoreCachedConversionApplication();
 
@@ -79,6 +79,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 				PopulateUiModel(selectedSchool, draftConversionApplication.ApplicationType);
 			}
+
+			return Page();
 		}
 
 		///<inheritdoc/>
