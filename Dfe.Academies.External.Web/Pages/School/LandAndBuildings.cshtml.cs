@@ -240,6 +240,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 				this.SchoolBuildLandPFISchemeType = null;
 			}
 
+			// if this.SchoolBuildLandGrants == 'no', blank out 'SchoolBuildLandGrantsBodies'
+			if (this.SchoolBuildLandGrants == SelectOption.No)
+			{
+				this.SchoolBuildLandGrantsBodies = null;
+			}
+
 			var landAndBuildingsData = new SchoolLandAndBuildings(
 				this.SchoolBuildLandOwnerExplained,
 				this.SchoolBuildLandWorksPlanned == SelectOption.Yes,
