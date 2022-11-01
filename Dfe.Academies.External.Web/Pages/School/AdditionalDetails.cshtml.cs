@@ -118,16 +118,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[RequiredEnum(ErrorMessage = "You must provide details")]
 		public SelectOption FurtherInformation { get; set; }
 		
+		[BindProperty]
 		public string? FurtherInformationDetails { get; set; }
 		
 		public bool HasError
 		{
 			get
 			{
-				var bools = new[] { OfstedInspectionDetailsNotAdded,
+				var bools = new[] { OfstedInspectedDetailsError,
 					ExemptionEndDateNotEntered,
 					DioceseNameError,
-					OfstedInspectedDetailsError,
+					DioceseFileError,
 					SafeguardingInvestigationsError, 
 					LocalAuthorityReorganisationDetailsError, 
 					LocalAuthorityClosurePlanDetailsError,
@@ -141,25 +142,22 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 		
-		public bool OfstedInspectionDetailsNotAdded
-		{
-			get
-			{
-				return !ModelState.IsValid && ModelState.Keys.Contains("OfstedInspectionDetailsNotAdded");
-			}
-		}
-
-		public bool DioceseNameError => !ModelState.IsValid && ModelState.Keys.Contains("DioceseNameNotAdded");
 		public bool OfstedInspectedDetailsError => !ModelState.IsValid && ModelState.Keys.Contains("OfstedInspectionDetailsNotAdded");
 		public bool SafeguardingInvestigationsError => !ModelState.IsValid && ModelState.Keys.Contains("SafeguardingDetailsNotAdded");
+		public bool DioceseNameError => !ModelState.IsValid && ModelState.Keys.Contains("DioceseNameNotAdded");
 		public bool LocalAuthorityReorganisationDetailsError => !ModelState.IsValid && ModelState.Keys.Contains("LocalAuthorityReorganisationDetailsNotAdded");
 		public bool LocalAuthorityClosurePlanDetailsError => !ModelState.IsValid && ModelState.Keys.Contains("localAuthorityClosurePlanDetailsNotAdded");
 		public bool SupportedByFoundationTrustOrBodyError => !ModelState.IsValid && ModelState.Keys.Contains("FoundationTrustOrBodyNameNotAdded");
+		public bool FoundationConsentFileError => !ModelState.IsValid && ModelState.Keys.Contains("FoundationConsentFileNotAddedError");
+		public bool ResolutionConsentFileError => !ModelState.IsValid && ModelState.Keys.Contains("ResolutionConsentFileNotAddedError");
+		public bool DioceseFileError => !ModelState.IsValid && ModelState.Keys.Contains("DioceseFileNotAddedError");
+		
 		public bool ExemptionFromSACREError => !ModelState.IsValid && ModelState.Keys.Contains("exemptionFromSACREEndDateNotAdded");
 		public bool EqualityAssessmentError => !ModelState.IsValid && ModelState.Keys.Contains("equalitiesImpactAssessmentOptionNoOptionSelected");
 		public bool FurtherInformationError => !ModelState.IsValid && ModelState.Keys.Contains("furtherInformationDetailsNotAdded");
 		
 		public bool ExemptionEndDateNotEntered => !ModelState.IsValid && ModelState.Keys.Contains("ExemptionEndDateNotEntered");
+		public bool MainFeederSchoolsError => !ModelState.IsValid && ModelState.Keys.Contains("MainFeederSchoolsDetailsNotAdded");
 
 		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName)
 		{
@@ -185,8 +183,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 			OfstedInspected = !string.IsNullOrWhiteSpace(OfstedInspectionDetails) ? SelectOption.Yes : SelectOption.No;
 			
 			DioceseFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{ApplicationId}", FileUploadConstants.DioceseFilePrefixFieldName);
+			TempDataHelper.StoreSerialisedValue($"{appId}-dioceseFiles", TempData, DioceseFileNames);
 			FoundationConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{ApplicationId}", FileUploadConstants.FoundationConsentFilePrefixFieldName);
+			TempDataHelper.StoreSerialisedValue($"{appId}-foundationConsentFiles", TempData, FoundationConsentFileNames);
 			ResolutionConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{ApplicationId}", FileUploadConstants.ResolutionConsentfilePrefixFieldName);
+			TempDataHelper.StoreSerialisedValue($"{appId}-resolutionConsentFiles", TempData, ResolutionConsentFileNames);
 		}
 
 		public override async Task<IActionResult> OnPostAsync()
@@ -200,6 +201,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			var dateTime = BuildDateTime(ExemptionEndDateComponentDay, ExemptionEndDateComponentMonth, ExemptionEndDateComponentYear);
 			ExemptionEndDate = dateTime == DateTime.MinValue ? null : dateTime;
+
+			DioceseFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{ApplicationId}-dioceseFiles", TempData) ?? new List<string>();
+			FoundationConsentFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{ApplicationId}-foundationConsentFiles", TempData) ?? new List<string>();
+			ResolutionConsentFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{ApplicationId}-resolutionConsentFiles", TempData) ?? new List<string>();
+			
 			if (!RunUiValidation())
 			{
 				RePopDatePickerModel(ExemptionEndDateComponentDay, ExemptionEndDateComponentMonth, ExemptionEndDateComponentYear);
@@ -226,6 +232,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName, file);				
 			});
 
+			SetBindedProperties();
+			
 			await _conversionApplicationCreationService.SetAdditionalDetails(
 				ApplicationId,
 				selectedSchool.id,
@@ -253,7 +261,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
 		}
 		
-		public AdditionalDetails(IFileUploadService fileUploadService, IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "application-overview")
+		public AdditionalDetails(IFileUploadService fileUploadService, IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "FurtherInformationSummary")
 		{
 			_fileUploadService = fileUploadService;
 			_conversionApplicationCreationService = conversionApplicationCreationService;
@@ -272,6 +280,99 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return false;
 			}
 			
+			if (OfstedInspected == SelectOption.Yes && string.IsNullOrWhiteSpace(OfstedInspectionDetails))
+			{
+				ModelState.AddModelError("OfstedInspectionDetailsNotAdded", "You must enter Ofsted inspection details");
+				PopulateValidationMessages();
+				return false;
+			}
+			if (SafeguardingInvestigations == SelectOption.Yes && string.IsNullOrWhiteSpace(SafeguardingDetails))
+			{
+				ModelState.AddModelError("SafeguardingDetailsNotAdded", "You must enter safeguarding investigation details");
+				PopulateValidationMessages();
+				return false;
+			}
+			if (LocalAuthorityReorganisation == SelectOption.Yes && string.IsNullOrWhiteSpace(LocalAuthorityReorganisationDetails))
+			{
+				ModelState.AddModelError("LocalAuthorityReorganisationDetailsNotAdded", "You must enter details of the reorganisation");
+				PopulateValidationMessages();
+				return false;
+			}
+			if (LocalAuthorityClosurePlans == SelectOption.Yes && string.IsNullOrWhiteSpace(LocalAuthorityClosurePlanDetails))
+			{
+				ModelState.AddModelError("localAuthorityClosurePlanDetailsNotAdded", "You must enter details of the closure plans");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (LinkedToDiocese == SelectOption.Yes && string.IsNullOrWhiteSpace(DioceseName))
+			{
+				ModelState.AddModelError("DioceseNameNotAdded", "You must enter the name of the diocese");
+				PopulateValidationMessages();
+				return false;
+			}
+			if (LinkedToDiocese == SelectOption.Yes &&
+			    (DioceseFiles == null || !DioceseFiles.Any()) &&
+			    (!DioceseFileNames.Any()))
+			{
+				ModelState.AddModelError("DioceseFileNotAddedError", "You must upload a file");
+				PopulateValidationMessages();
+				return false;
+			}
+			if (SupportedByFoundationTrustOrBody == SelectOption.Yes && string.IsNullOrWhiteSpace(FoundationTrustOrBodyName))
+			{
+				ModelState.AddModelError("FoundationTrustOrBodyNameNotAdded", "You must enter the name of the body");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (SupportedByFoundationTrustOrBody == SelectOption.Yes &&
+			    (FoundationConsentFiles == null || !FoundationConsentFiles.Any()) &&
+			    (!FoundationConsentFileNames.Any()))
+			{
+				ModelState.AddModelError("FoundationConsentFileNotAddedError", "You must upload a file");
+				PopulateValidationMessages();
+				return false;
+			}
+			
+			if ((!ResolutionConsentFiles.Any()) &&
+			    (!ResolutionConsentFileNames.Any()))
+			{
+				ModelState.AddModelError("ResolutionConsentFileNotAddedError", "You must upload a file");
+				PopulateValidationMessages();
+				return false;
+			}
+			
+
+			if (ExemptionFromSACRE == SelectOption.Yes && (!ExemptionEndDate.HasValue ||
+			    ExemptionEndDate.Value == DateTimeOffset.MinValue))
+			{
+				ModelState.AddModelError("exemptionFromSACREEndDateNotAdded", "You must enter a valid date");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (string.IsNullOrWhiteSpace(MainFeederSchools))
+			{
+				ModelState.AddModelError("MainFeederSchoolsDetailsNotAdded", "You must provide details");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (EqualityAssessment == SelectOption.Yes && DisproportionateProtectedCharacteristics == null)
+			{
+				ModelState.AddModelError("equalitiesImpactAssessmentOptionNoOptionSelected", "You must select an equalities impact assessment option");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (FurtherInformation == SelectOption.Yes && string.IsNullOrWhiteSpace(FurtherInformationDetails))
+			{
+				ModelState.AddModelError("furtherInformationDetailsNotAdded", "You must provide details");
+				PopulateValidationMessages();
+				return false;
+			}
+			
 			return true;
 		}
 
@@ -280,10 +381,23 @@ namespace Dfe.Academies.External.Web.Pages.School
 			throw new NotImplementedException();
 		}
 
+		private void SetBindedProperties()
+		{
+			OfstedInspectionDetails = OfstedInspected == SelectOption.No ? null : OfstedInspectionDetails;
+			LocalAuthorityReorganisationDetails = LocalAuthorityReorganisation == SelectOption.No ? null : LocalAuthorityReorganisationDetails;
+			LocalAuthorityClosurePlanDetails = LocalAuthorityClosurePlans == SelectOption.No ? null : LocalAuthorityClosurePlanDetails;
+			DioceseName = LinkedToDiocese == SelectOption.No ? null : DioceseName;
+			FoundationTrustOrBodyName = SupportedByFoundationTrustOrBody == SelectOption.No ? null : FoundationTrustOrBodyName;
+			FurtherInformationDetails = FurtherInformation == SelectOption.No ? null : FurtherInformationDetails;
+		}
+
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			TrustBenefitDetails = selectedSchool.TrustBenefitDetails;
-			OfstedInspectionDetails = selectedSchool.TrustBenefitDetails;
+			OfstedInspectionDetails = selectedSchool.OfstedInspectionDetails;
+			OfstedInspected = selectedSchool.OfstedInspectionDetails == null
+				? SelectOption.No
+				: SelectOption.Yes;
 			SafeguardingDetails = selectedSchool.SafeguardingDetails;
 			LocalAuthorityReorganisation = selectedSchool.LocalAuthorityReorganisationDetails == null
 				? SelectOption.No
@@ -293,13 +407,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 				? SelectOption.No
 				: SelectOption.Yes;
 			LocalAuthorityClosurePlanDetails = selectedSchool.LocalAuthorityClosurePlanDetails;
-			LinkedToDiocese = DioceseName == null
+			DioceseName = selectedSchool.DioceseName;
+			LinkedToDiocese = selectedSchool.DioceseName == null
 				? SelectOption.No
 				: SelectOption.Yes;
-			DioceseName = selectedSchool.DioceseName;
 
 			PartOfFederation = selectedSchool.PartOfFederation ? SelectOption.Yes : SelectOption.No;
-			SupportedByFoundationTrustOrBody = FoundationTrustOrBodyName == null
+			SupportedByFoundationTrustOrBody = selectedSchool.FoundationTrustOrBodyName == null
 				? SelectOption.No
 				: SelectOption.Yes;
 			
