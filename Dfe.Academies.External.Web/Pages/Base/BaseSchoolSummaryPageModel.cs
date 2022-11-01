@@ -30,7 +30,7 @@ namespace Dfe.Academies.External.Web.Pages.Base
 
 			if (checkStatus is ForbidResult)
 			{
-				return RedirectToPage("../ApplicationAccessException", new { errorMessage = "Not allowed to access application" });
+				return RedirectToPage("../ApplicationAccessException");
 			}
 
 			ApplicationId = appId;

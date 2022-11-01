@@ -61,7 +61,7 @@ public class ApplicationPreOpeningSupportGrantModel : BaseSchoolPageEditModel
 
 		if (checkStatus is ForbidResult)
 		{
-			return RedirectToPage("../ApplicationAccessException", new { errorMessage = "Not allowed to access application" });
+			return RedirectToPage("../ApplicationAccessException");
 		}
 
 		var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);

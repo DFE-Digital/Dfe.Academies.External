@@ -74,7 +74,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 			if (checkStatus is ForbidResult)
 			{
-				return RedirectToPage("ApplicationAccessException", new { errorMessage = "Not allowed to access application" });
+				return RedirectToPage("ApplicationAccessException");
 			}
 
 			//// on load - grab draft application from temp
