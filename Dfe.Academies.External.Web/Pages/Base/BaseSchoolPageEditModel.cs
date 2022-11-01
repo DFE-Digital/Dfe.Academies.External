@@ -35,25 +35,27 @@ public abstract class BaseSchoolPageEditModel : BasePageEditModel
 	/// <param name="urn"></param>
 	/// <param name="appId"></param>
 	/// <returns></returns>
-	public virtual async Task OnGetAsync(int urn, int appId)
+	public virtual async Task<ActionResult> OnGetAsync(int urn, int appId)
 	{
 		// MR:- don't need try/catch anymore as we have exception middleware
-		LoadAndStoreCachedConversionApplication();
+		//LoadAndStoreCachedConversionApplication();
 
-		// TODO:- check user access
-		//try
-		//{
-		//	if (draftConversionApplication != null)
-		//	{
-		//		base.CheckUserAccess(draftConversionApplication);
-		//	}
-		//}
-		//catch (UnauthorizedAccessException ex)
-		//{
-		//	// re-direct to un-auth page
-		//	return RedirectToPage("../ApplicationAccessException", new { errorMessage = ex.Message });
-		//}
-		
+		var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
+
+		// check user access
+		try
+		{
+			if (draftConversionApplication != null)
+			{
+				base.CheckUserAccess(draftConversionApplication);
+			}
+		}
+		catch (UnauthorizedAccessException ex)
+		{
+			// re-direct to un-auth page
+			return RedirectToPage("../ApplicationAccessException", new { errorMessage = ex.Message });
+		}
+
 		ApplicationId = appId;
 		Urn = urn;
 
@@ -65,6 +67,8 @@ public abstract class BaseSchoolPageEditModel : BasePageEditModel
 			PopulateUiModel(selectedSchool);
 			SchoolName = selectedSchool.SchoolName;
 		}
+
+		return Page();
 	}
 
 	/// <summary>
