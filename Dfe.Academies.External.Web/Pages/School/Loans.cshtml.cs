@@ -44,6 +44,15 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public override async Task<ActionResult> OnGetAsync(int urn, int appId)
 		{
 			LoadAndStoreCachedConversionApplication();
+
+			// check user access
+			var checkStatus = await CheckApplicationPermission(appId);
+
+			if (checkStatus is ForbidResult)
+			{
+				return RedirectToPage("../ApplicationAccessException");
+			}
+
 			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
 			ApplicationId = appId;
 			Urn = urn;

@@ -68,6 +68,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			LoadAndStoreCachedConversionApplication();
 
+			// check user access
+			var checkStatus = await CheckApplicationPermission(appId);
+
+			if (checkStatus is ForbidResult)
+			{
+				return RedirectToPage("../ApplicationAccessException");
+			}
+
 			ApplicationId = appId;
 			Urn = urn;
 			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
