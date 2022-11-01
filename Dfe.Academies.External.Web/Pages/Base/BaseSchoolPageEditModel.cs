@@ -39,6 +39,20 @@ public abstract class BaseSchoolPageEditModel : BasePageEditModel
 	{
 		// MR:- don't need try/catch anymore as we have exception middleware
 		LoadAndStoreCachedConversionApplication();
+
+		// TODO:- check user access
+		//try
+		//{
+		//	if (draftConversionApplication != null)
+		//	{
+		//		base.CheckUserAccess(draftConversionApplication);
+		//	}
+		//}
+		//catch (UnauthorizedAccessException ex)
+		//{
+		//	// re-direct to un-auth page
+		//	return RedirectToPage("../ApplicationAccessException", new { errorMessage = ex.Message });
+		//}
 		
 		ApplicationId = appId;
 		Urn = urn;
