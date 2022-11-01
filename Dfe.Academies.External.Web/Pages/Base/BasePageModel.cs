@@ -63,14 +63,6 @@ public abstract class BasePageModel : PageModel
 		return false;
 	}
 
-	protected void CheckUserAccess(ConversionApplication application)
-	{
-		if (!UserIsContributorToApplication(application))
-		{
-			throw new UnauthorizedAccessException("Not allowed to access application");
-		}
-	}
-
 	protected string GetCurrentUserFirstName()
 	{
 		return User.FindFirst(ClaimTypes.GivenName)?.Value ?? string.Empty;
