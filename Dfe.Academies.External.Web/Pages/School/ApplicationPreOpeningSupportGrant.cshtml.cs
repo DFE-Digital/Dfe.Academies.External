@@ -56,6 +56,14 @@ public class ApplicationPreOpeningSupportGrantModel : BaseSchoolPageEditModel
 			TempDataHelper.GetSerialisedValue<ConversionApplication>(
 				TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
+		// check user access
+		var checkStatus = await CheckApplicationPermission(appId);
+
+		if (checkStatus is ForbidResult)
+		{
+			return RedirectToPage("../ApplicationAccessException", new { errorMessage = "Not allowed to access application" });
+		}
+
 		var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
 		ApplicationId = appId;
 		Urn = urn;
