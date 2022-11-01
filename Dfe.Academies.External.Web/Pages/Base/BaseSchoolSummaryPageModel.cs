@@ -20,10 +20,27 @@ namespace Dfe.Academies.External.Web.Pages.Base
 		{
 		}
 
-		public virtual async Task OnGetAsync(int urn, int appId)
+		public virtual async Task<ActionResult> OnGetAsync(int urn, int appId)
 		{
+			// TODO:- refactor below into BasePageEditModel() for use across multiple places
 			// MR:- don't need try/catch anymore as we have exception middleware
-			LoadAndStoreCachedConversionApplication();
+			//LoadAndStoreCachedConversionApplication();
+
+			var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
+
+			// check user access
+			try
+			{
+				if (draftConversionApplication != null)
+				{
+					base.CheckUserAccess(draftConversionApplication);
+				}
+			}
+			catch (UnauthorizedAccessException ex)
+			{
+				// re-direct to un-auth page
+				return RedirectToPage("../ApplicationAccessException", new { errorMessage = ex.Message });
+			}
 
 			ApplicationId = appId;
 			Urn = urn;
@@ -36,6 +53,8 @@ namespace Dfe.Academies.External.Web.Pages.Base
 				PopulateUiModel(selectedSchool);
 				SchoolName = selectedSchool.SchoolName;
 			}
+
+			return Page();
 		}
 
 		/// <summary>
