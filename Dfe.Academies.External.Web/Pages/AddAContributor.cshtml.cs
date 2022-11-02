@@ -92,7 +92,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 			if (checkStatus is ForbidResult)
 			{
-				return RedirectToPage("../ApplicationAccessException");
+				return RedirectToPage("ApplicationAccessException");
 			}
 
 			ApplicationId = appId;
