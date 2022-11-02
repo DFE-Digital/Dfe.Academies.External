@@ -82,14 +82,24 @@ namespace Dfe.Academies.External.Web.Pages
 		/// </summary>
 		/// <param name="appId"></param>
 		/// <returns></returns>
-		public async Task OnGetAsync(int appId)
+		public async Task<ActionResult> OnGetAsync(int appId)
 		{
 			//// on load - grab draft application from temp
 			var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
 
+			// check user access
+			var checkStatus = await CheckApplicationPermission(appId);
+
+			if (checkStatus is ForbidResult)
+			{
+				return RedirectToPage("../ApplicationAccessException");
+			}
+
 			ApplicationId = appId;
 
 			PopulateUiModel(draftConversionApplication);
+
+			return Page();
 		}
 
 		public async Task<IActionResult> OnPostAsync()
