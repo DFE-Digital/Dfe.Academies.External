@@ -6,6 +6,7 @@ Web Application to contain any functionality accessed externally (i.e. outside D
 
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
+  - [Shared Components](#Shared-Components)
   - [User Secrets](#user-secrets)
   - [Installing](#installing)
 - [Contributing](#contributing)
@@ -33,18 +34,32 @@ dotnet --version
 
 This is all that is required to run this project.
 
+### Shared Components
+- [GOV.UK Frontend](https://github.com/alphagov/govuk-frontend)
+- [GOV.UK Accessible autocomplete](https://github.com/alphagov/accessible-autocomplete)
+- [dxw Mail Notify](https://github.com/dxw/mail-notify)
+
 ### User Secrets
 
 You will need to configure user secrets to be able to run / contribute to the project. It will look similar to below:-
 {
-  "SignIn:OneLoginUrl": "",
-  "SignIn:OneLogoutUrl": "",
-  "SignIn:OneloginOpenIdConnectClientId": "",
-  "OneloginOpeIdConnectClientSecret": "",
-  "academies-api:endpoint": "",
-  "academies-api:key": "",
-  "academisation-api:endpoint": "",
-  "academisation-api:key": ""
+  "SignIn": {
+    "OneLoginUrl": "",
+    "OneLogoutUrl": "https://test-oidc.signin.education.gov.uk",
+    "OneloginOpenIdConnectClientId": "",
+    "OneloginOpenIdConnectClientSecret": ""
+  },
+  "academies-api": {
+    "endpoint": "https://trams-external-api.azurewebsites.net/",
+    "key": ""
+  },
+  "academisation-api": {
+    "endpoint": "https://s184d01-aca-aca-app.nicedesert-a691fec6.westeurope.azurecontainerapps.io/",
+    "key": ""
+  },
+  "emailnotifications": {
+    "key": ""
+  }
 }
 
 ### Installing
@@ -97,6 +112,8 @@ There are 2 API's configured / consumed by the application. These are:-
 There are currently 2 base abstract classes to inherit from in a razor page. These are:-
 - BasePageModel - Contains ValidationErrorMessagesViewModel property which is consumed across all pages. Contains UserHasSubmitApplicationRole property which means current user has elevated privileges and contains a helper func called ConvertModelStateToDictionary()
 - BasePageEditModel - Inherits off BasePageModel and extends with crud based data functionality common across all pages
+- BaseSchoolPageEditModel - Inherits off BasePageEditModel and extends to give functionality required for all application school pages
+- BaseApplicationPageEditModel - Inherits off BasePageEditModel and extends to give functionality required for all application trust pages
 
 - Services - these are the middleware to interface to the API layers from within the pages. Injected using Dependency Injection. Currently these are:-
 

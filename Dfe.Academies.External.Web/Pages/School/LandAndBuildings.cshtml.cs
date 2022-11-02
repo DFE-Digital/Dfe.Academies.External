@@ -240,6 +240,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 				this.SchoolBuildLandPFISchemeType = null;
 			}
 
+			// if this.SchoolBuildLandGrants == 'no', blank out 'SchoolBuildLandGrantsBodies'
+			if (this.SchoolBuildLandGrants == SelectOption.No)
+			{
+				this.SchoolBuildLandGrantsBodies = null;
+			}
+
 			var landAndBuildingsData = new SchoolLandAndBuildings(
 				this.SchoolBuildLandOwnerExplained,
 				this.SchoolBuildLandWorksPlanned == SelectOption.Yes,
@@ -260,20 +266,37 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolBuildLandOwnerExplained = selectedSchool.LandAndBuildings.OwnerExplained;
-			SchoolBuildLandWorksPlanned = selectedSchool.LandAndBuildings.WorksPlanned.Value ? SelectOption.Yes : SelectOption.No;
+			SchoolBuildLandOwnerExplained = selectedSchool.LandAndBuildings.OwnerExplained ?? string.Empty;
+			SchoolBuildLandWorksPlanned = selectedSchool.LandAndBuildings.WorksPlanned.HasValue 
+				? (selectedSchool.LandAndBuildings.WorksPlanned.Value ? SelectOption.Yes : SelectOption.No) 
+				: SelectOption.No;
+
 			SchoolBuildLandWorksPlannedExplained = selectedSchool.LandAndBuildings.WorksPlannedExplained;
 			WorksPlannedDate = (selectedSchool.LandAndBuildings.WorksPlannedDate.HasValue ?
 				selectedSchool.LandAndBuildings.WorksPlannedDate.Value.ToString("dd/MM/yyyy")
 				: string.Empty);
-			SchoolBuildLandSharedFacilities = selectedSchool.LandAndBuildings.FacilitiesShared.Value ? SelectOption.Yes : SelectOption.No;
+
+			SchoolBuildLandSharedFacilities = selectedSchool.LandAndBuildings.FacilitiesShared.HasValue
+				? (selectedSchool.LandAndBuildings.FacilitiesShared.Value ? SelectOption.Yes : SelectOption.No)
+				: SelectOption.No;
 			SchoolBuildLandSharedFacilitiesExplained = selectedSchool.LandAndBuildings.FacilitiesSharedExplained;
-			SchoolBuildLandGrants = selectedSchool.LandAndBuildings.Grants.Value ? SelectOption.Yes : SelectOption.No;
+
+			SchoolBuildLandGrants = selectedSchool.LandAndBuildings.Grants.HasValue
+				? (selectedSchool.LandAndBuildings.Grants.Value ? SelectOption.Yes : SelectOption.No)
+				: SelectOption.No;
 			SchoolBuildLandGrantsBodies = selectedSchool.LandAndBuildings.GrantsAwardingBodies;
-			SchoolBuildLandPFIScheme = selectedSchool.LandAndBuildings.PartOfPFIScheme.Value ? SelectOption.Yes : SelectOption.No;
+
+			SchoolBuildLandPFIScheme = selectedSchool.LandAndBuildings.PartOfPFIScheme.HasValue
+				? (selectedSchool.LandAndBuildings.PartOfPFIScheme.Value ? SelectOption.Yes : SelectOption.No)
+				: SelectOption.No;
 			SchoolBuildLandPFISchemeType = selectedSchool.LandAndBuildings.PartOfPFISchemeType;
-			SchoolBuildLandPriorityBuildingProgramme = selectedSchool.LandAndBuildings.PartOfPrioritySchoolsBuildingProgramme.Value ? SelectOption.Yes : SelectOption.No;
-			SchoolBuildLandFutureProgramme = selectedSchool.LandAndBuildings.PartOfBuildingSchoolsForFutureProgramme.Value ? SelectOption.Yes : SelectOption.No;
+
+			SchoolBuildLandPriorityBuildingProgramme = selectedSchool.LandAndBuildings.PartOfPrioritySchoolsBuildingProgramme.HasValue
+				? (selectedSchool.LandAndBuildings.PartOfPrioritySchoolsBuildingProgramme.Value ? SelectOption.Yes : SelectOption.No)
+				: SelectOption.No;
+			SchoolBuildLandFutureProgramme = selectedSchool.LandAndBuildings.PartOfBuildingSchoolsForFutureProgramme.HasValue
+				? (selectedSchool.LandAndBuildings.PartOfBuildingSchoolsForFutureProgramme.Value ? SelectOption.Yes : SelectOption.No)
+				: SelectOption.No;
 		}
 
 		private void RePopDatePickerModel(string worksPlannedDateDay, string worksPlannedDateMonth, string worksPlannedDateYear)

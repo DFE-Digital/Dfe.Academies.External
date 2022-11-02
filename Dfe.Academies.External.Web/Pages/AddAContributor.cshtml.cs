@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
@@ -19,9 +20,10 @@ namespace Dfe.Academies.External.Web.Pages
 	public class AddAContributorModel : BasePageEditModel
 	{
 	    private readonly IConversionApplicationCreationService _academisationCreationService;
-	    
-	    //// MR:- selected school props for UI rendering
-	    [BindProperty]
+	    private readonly IContributorEmailSenderService _contributorEmailSenderService;
+
+		//// MR:- selected school props for UI rendering
+		[BindProperty]
 	    public int ApplicationId { get; set; }
 
 	    [BindProperty]
@@ -67,10 +69,12 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public AddAContributorModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
-			IConversionApplicationCreationService academisationCreationService)
+			IConversionApplicationCreationService academisationCreationService,
+			IContributorEmailSenderService contributorEmailSenderService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
 			_academisationCreationService = academisationCreationService;
+			_contributorEmailSenderService = contributorEmailSenderService;
 		}
 
 		/// <summary>
@@ -98,9 +102,18 @@ namespace Dfe.Academies.External.Web.Pages
 				return Page();
 			}
 
-			var contributor = new ConversionApplicationContributor("", Name, EmailAddress, ContributorRole, OtherRoleNotListed);
+			var contributor = new ConversionApplicationContributor("", Name!, EmailAddress!, ContributorRole, OtherRoleNotListed);
 
 			await _academisationCreationService.AddContributorToApplication(contributor, ApplicationId);
+
+			string firstName = User.FindFirst(ClaimTypes.GivenName)?.Value ?? "";
+			string lastName = User.FindFirst(ClaimTypes.Surname)?.Value ?? "";
+			string invitingUserName = $"{firstName} {lastName}";
+
+			// TODO:- school name?
+			await _contributorEmailSenderService.SendInvitationToContributor(draftConversionApplication.ApplicationType, ContributorRole,
+				Name!, EmailAddress!, "",
+				invitingUserName);
 
 			// update temp store for next step
 			draftConversionApplication.Contributors.Add(contributor);
