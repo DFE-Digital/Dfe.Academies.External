@@ -22,7 +22,7 @@ public abstract class BaseApplicationPageEditModel : BasePageEditModel
 		NextStepPage = nextStepPage;
 	}
 
-	public async Task OnGetAsync(int appId)
+	public async Task<ActionResult> OnGetAsync(int appId)
 	{
 		// on load - grab draft application from temp
 		var conversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
@@ -30,7 +30,19 @@ public abstract class BaseApplicationPageEditModel : BasePageEditModel
 		// MR:- Need to drop into this pages cache here ready for post / server callback !
 		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, conversionApplication);
 
+		// check user access
+		var checkStatus = await CheckApplicationPermission(appId);
+
+		if (checkStatus is ForbidResult)
+		{
+			return RedirectToPage("../ApplicationAccessException");
+		}
+
+		ApplicationId = appId;
+
 		PopulateUiModel(conversionApplication);
+
+		return Page();
 	}
 
 	public async Task<IActionResult> OnPostAsync()
