@@ -7,9 +7,9 @@ public enum ApplicationTypes
 	[Description("Join a multi-academy trust")]
 	JoinAMat,
 	[Description("Form a new multi-academy trust")]
-	FormAMat,
-	[Description("Form new single academy trust")]
-	FormASat
+	FormAMat
+	//[Description("Form new single academy trust")]
+	//FormASat
 }
 
 public enum Status
