@@ -20,10 +20,18 @@ namespace Dfe.Academies.External.Web.Pages.Base
 		{
 		}
 
-		public virtual async Task OnGetAsync(int urn, int appId)
+		public virtual async Task<ActionResult> OnGetAsync(int urn, int appId)
 		{
 			// MR:- don't need try/catch anymore as we have exception middleware
 			LoadAndStoreCachedConversionApplication();
+
+			// check user access
+			var checkStatus = await CheckApplicationPermission(appId);
+
+			if (checkStatus is ForbidResult)
+			{
+				return RedirectToPage("../ApplicationAccessException");
+			}
 
 			ApplicationId = appId;
 			Urn = urn;
@@ -36,6 +44,8 @@ namespace Dfe.Academies.External.Web.Pages.Base
 				PopulateUiModel(selectedSchool);
 				SchoolName = selectedSchool.SchoolName;
 			}
+
+			return Page();
 		}
 
 		/// <summary>

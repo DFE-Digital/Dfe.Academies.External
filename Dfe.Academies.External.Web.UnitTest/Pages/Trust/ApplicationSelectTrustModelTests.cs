@@ -24,15 +24,20 @@ public class ApplicationSelectTrustModelTests
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		int applicationId = int.MaxValue;
 
 		// act
-		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationCreationService.Object);
+		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationRetrievalService.Object,
+															mockReferenceDataRetrievalService.Object,
+															mockConversionApplicationCreationService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync();
+		await pageModel.OnGetAsync(applicationId);
 
 		// assert
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
@@ -43,15 +48,20 @@ public class ApplicationSelectTrustModelTests
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		int applicationId = int.MaxValue;
 
 		// act
-		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationCreationService.Object);
+		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object,
+			mockConversionApplicationCreationService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync();
+		await pageModel.OnGetAsync(applicationId);
 
 		pageModel.SearchQuery = "Wise Owl primary school (587634)";
 
@@ -64,15 +74,20 @@ public class ApplicationSelectTrustModelTests
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		int applicationId = int.MaxValue;
 
 		// act
-		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationCreationService.Object);
+		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object,
+			mockConversionApplicationCreationService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync();
+		await pageModel.OnGetAsync(applicationId);
 
 		pageModel.SearchQuery = "";
 
@@ -85,15 +100,20 @@ public class ApplicationSelectTrustModelTests
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		int applicationId = int.MaxValue;
 
 		// act
-		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationCreationService.Object);
+		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object,
+			mockConversionApplicationCreationService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync();
+		await pageModel.OnGetAsync(applicationId);
 
 		pageModel.SearchQuery = "Wise Owl primary school (587634)";
 
@@ -106,15 +126,20 @@ public class ApplicationSelectTrustModelTests
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		int applicationId = int.MaxValue;
 
 		// act
-		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationCreationService.Object);
+		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object,
+			mockConversionApplicationCreationService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync();
+		await pageModel.OnGetAsync(applicationId);
 
 		pageModel.SearchQuery = "";
 
@@ -129,12 +154,16 @@ public class ApplicationSelectTrustModelTests
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static ApplicationSelectTrustModel SetupApplicationSelectSchoolModel(
+		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
+		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		IConversionApplicationCreationService mockConversionApplicationCreationService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new ApplicationSelectTrustModel(mockConversionApplicationCreationService)
+		return new ApplicationSelectTrustModel(mockConversionApplicationRetrievalService,
+			mockReferenceDataRetrievalService,
+			mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

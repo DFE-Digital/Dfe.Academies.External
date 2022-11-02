@@ -43,10 +43,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 		}
 
-		public void OnGet(int appId, int urn, int id, bool isEdit, bool isDraft)
+		public async Task<IActionResult> OnGet(int appId, int urn, int id, bool isEdit, bool isDraft)
 		{
 			LoadAndStoreCachedConversionApplication();
-			
+
+			// check user access
+			var checkStatus = await CheckApplicationPermission(appId);
+
+			if (checkStatus is ForbidResult)
+			{
+				return RedirectToPage("../ApplicationAccessException");
+			}
+
 			ApplicationId = appId;
 			Urn = urn;
 			IsEdit = isEdit;
@@ -70,6 +78,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 					RepaymentSchedule = selectedLoan.RepaymentSchedule;
 				}
 			}
+
+			return Page();
 		}
 
 		public async Task<IActionResult> OnPostAsync()

@@ -6,21 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.Trust
 {
-	public class ApplicationSelectTrustModel : BasePageModel
+	public class ApplicationSelectTrustModel : BaseApplicationPageEditModel
 	{
-		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
-		private const string NextStepPage = "/ApplicationOverview";
-
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
 		[BindProperty]
 		[MinimumLength(ErrorMessage = "You must give the name of the trust")]
 		public string? SearchQuery { get; set; } = string.Empty;
 
 		[BindProperty]
 		[ConfirmTrue(ErrorMessage = "You must confirm that this is the correct trust")]
-		public bool CorrectTrustConfirmation { get; set; } = false;
+		public bool CorrectTrustConfirmation { get; set; }
 
 		public string SelectedTrustName
 		{
@@ -28,7 +22,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 			{
 				if (!string.IsNullOrWhiteSpace(SearchQuery))
 				{
-					var trustSplit = SearchQuery
+					string[] trustSplit = SearchQuery
 						.Trim()
 						.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
@@ -45,7 +39,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 			{
 				if (!string.IsNullOrWhiteSpace(SearchQuery))
 				{
-					var trustSplit = SearchQuery
+					string[] trustSplit = SearchQuery
 						.Trim()
 						.Replace(")", string.Empty)
 						.Split('(', StringSplitOptions.RemoveEmptyEntries);
@@ -57,24 +51,56 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 			}
 		}
 
-		public ApplicationSelectTrustModel(IConversionApplicationCreationService conversionApplicationCreationService)
+		public ApplicationSelectTrustModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+			IReferenceDataRetrievalService referenceDataRetrievalService,
+			IConversionApplicationCreationService conversionApplicationCreationService) 
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+				conversionApplicationCreationService, "/ApplicationOverview")
 		{
-			_conversionApplicationCreationService = conversionApplicationCreationService;
-		}
-
-		public async Task OnGetAsync()
-		{
-			//// on load - grab draft application from temp
-			var conversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-			//// MR:- Need to drop into this pages cache here ready for post / server callback !
-			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, conversionApplication);
-
-			PopulateUiModel(conversionApplication);
 		}
 
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> OnPostAddTrust()
+		{
+			if (!RunUiValidation())
+			{
+				return Page();
+			}
+
+			// grab draft application from temp
+			var draftConversionApplication =
+				TempDataHelper.GetSerialisedValue<ConversionApplication>(
+					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+			await ConversionApplicationCreationService.AddTrustToApplication(draftConversionApplication.ApplicationId, SelectedUkPrn, SelectedTrustName);
+
+			// update temp store for next step - application overview
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+			return RedirectToPage(NextStepPage, new { appId = draftConversionApplication.ApplicationId });
+		}
+
+		public async Task<IActionResult> OnPostFind()
+		{
+			string? query = SearchQuery;
+
+			return RedirectToPage("TrustSearchResults");
+		}
+
+		public override void PopulateValidationMessages()
+		{
+			PopulateViewDataErrorsWithModelStateErrors();
+		}
+
+		public override void PopulateUiModel(ConversionApplication? conversionApplication)
+		{
+			if (conversionApplication != null)
+			{
+				// other view model properties initialized within properties
+			}
+		}
+
+		public override bool RunUiValidation()
 		{
 			if (!ModelState.IsValid)
 			{
@@ -88,43 +114,17 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 					ModelState.AddModelError("InvalidTrust", "You must give the name of the trust");
 				}
 
-				// error messages component consumes ViewData["Errors"] so populate it
 				PopulateValidationMessages();
-				return Page();
+				return false;
 			}
 
-			// grab draft application from temp
-			var draftConversionApplication =
-				TempDataHelper.GetSerialisedValue<ConversionApplication>(
-					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-
-			await _conversionApplicationCreationService.AddTrustToApplication(draftConversionApplication.ApplicationId, SelectedUkPrn, SelectedTrustName);
-
-			// update temp store for next step - application overview
-			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-
-			return RedirectToPage(NextStepPage, new { appId = draftConversionApplication.ApplicationId });
+			return true;
 		}
 
-		public async Task<IActionResult> OnPostFind()
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
-			var query = SearchQuery;
-
-			return RedirectToPage("TrustSearchResults");
-		}
-
-		public override void PopulateValidationMessages()
-		{
-			PopulateViewDataErrorsWithModelStateErrors();
-		}
-
-		private void PopulateUiModel(ConversionApplication? conversionApplication)
-		{
-			if (conversionApplication != null)
-			{
-				ApplicationId = conversionApplication.ApplicationId;
-				// other view model properties initialized within properties
-			}
+			// does not apply on this page
+			return new();
 		}
 	}
 }
