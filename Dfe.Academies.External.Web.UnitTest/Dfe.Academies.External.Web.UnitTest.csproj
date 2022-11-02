@@ -18,9 +18,6 @@
     <Content Include="ExampleJsonResponses\createApplicationResponseInValid.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ExampleJsonResponses\getApplicationResponseFormASAT.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="ExampleJsonResponses\getApplicationResponse.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
