@@ -1,15 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using Sentry.Protocol;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
     public class PreviousFinancialYearModel : BaseSchoolPageEditModel
 	{
+		private readonly IFileUploadService _fileUploadService;
+
 		public string PFYEndDateFormInputName = "sip_pfyenddate";
 
 		// MR:- VM props to capture Pfy data
@@ -37,7 +41,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		public string? PFYRevenueStatusExplained { get; set; }
-		
+
+		public List<IFormFile>? RecoveryPlanFiles { get; set; } = new();
+
+		[BindProperty]
+		public List<string> RecoveryPlanFileNames { get; set; }
+
 		// TODO MR:- below, once file upload whoopsy sorted!
 		//string? RevenueStatusFileLink = null,
 
@@ -95,12 +104,21 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public DateTime PFYFinancialEndDateLocal { get; set; }
 
-		public PreviousFinancialYearModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
-										IReferenceDataRetrievalService referenceDataRetrievalService,
-										IConversionApplicationCreationService academisationCreationService) 
-	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService,
-		        academisationCreationService, "CurrentFinancialYear")
-        {}
+		public PreviousFinancialYearModel(IFileUploadService fileUploadService,
+			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+			IReferenceDataRetrievalService referenceDataRetrievalService,
+			IConversionApplicationCreationService academisationCreationService)
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+				academisationCreationService, "CurrentFinancialYear")
+		{
+			_fileUploadService = fileUploadService;
+		}
+
+		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName)
+		{
+			await _fileUploadService.DeleteFile(FileUploadConstants.SchoolPFYRevenueStatusFile, appId.ToString(), $"A2B_{appId}", section, fileName);
+			return RedirectToPage("AdditionalDetails", new { Urn = urn, AppId = appId });
+		}
 
 		//public async Task OnGetAsync(int urn, int appId)
 		//{
@@ -140,6 +158,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 			var draftConversionApplication =
 				TempDataHelper.GetSerialisedValue<ConversionApplication>(
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+			RecoveryPlanFiles?.ForEach(async file =>
+			{
+				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolPFYRevenueStatusFile, file);
+			});
 
 			var dictionaryMapper = PopulateUpdateDictionary();
 			await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
@@ -218,7 +241,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		}
 
 		///<inheritdoc/>
-		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		public override async void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			PFYEndDate = selectedSchool.PreviousFinancialYear.FinancialYearEndDate.HasValue ?
 				selectedSchool.PreviousFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy")
@@ -249,6 +272,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 
 			PFYCapitalCarryForwardExplained = selectedSchool.PreviousFinancialYear.CapitalCarryForwardExplained;
+
+			RecoveryPlanFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), $"A2B_{ApplicationId}", FileUploadConstants.SchoolPFYRevenueStatusFile);
+			TempDataHelper.StoreSerialisedValue($"{ApplicationId}-recoveryPlanFileNames", TempData, RecoveryPlanFileNames);
 		}
 
 		private void RePopDatePickerModel(string pfyEndDateComponentDay, string pfyEndDateComponentMonth, string pfyEndDateComponentYear)

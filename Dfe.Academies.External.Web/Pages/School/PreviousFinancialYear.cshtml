@@ -1,7 +1,9 @@
 @page
 @using Dfe.Academies.External.Web.Enums
 @using Dfe.Academies.External.Web.Extensions
+@using Dfe.Academies.External.Web.Helpers
 @using Dfe.Academies.External.Web.TagHelpers
+@using Dfe.Academies.External.Web.ViewModels
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.PreviousFinancialYearModel
 @{
@@ -96,13 +98,34 @@
                                             <p class="govuk-label">
 									            You can upload the school’s recovery plan.
 								            </p>
-								            <span class="govuk-hint">
-									            We prefer schools to set out their income and expenditure using the
-									            <a href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"
-													target="_blank" class="govuk-link">consistent financial reporting</a>
-									            codes.
-								            </span>
-	                                        TODO MR:- file upload control !
+	                                    <span class="govuk-hint">
+		                                    We prefer schools to set out their income and expenditure using the
+		                                    <a href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"
+		                                       target="_blank" class="govuk-link">consistent financial reporting</a>
+		                                    codes.
+	                                    </span>
+
+	                                    @*	                                    <div class="@(Model.DioceseFileError ? "govuk-form-group--error" : "govuk-radios__conditional")"
+	                                         id="DioceseFileNotAddedError" aria-expanded="false">
+		                                    <div class="govuk-form-group govuk-error-summary__list">
+			                                    <a href="#DioceseFileNotAddedError" 
+			                                       class="@(Model.DioceseFileError ? "govuk-error-message" : "govuk-visually-hidden")">
+				                                    You must upload a file
+			                                    </a>
+		                                    </div>
+	                                    </div>*@
+							
+	                                    <label for="Upload-recovery-plan" class="govuk-label">
+		                                    <br/>
+		                                    <br/>
+		                                    Upload a file
+	                                    </label>
+	                                    <br/>
+	                                    <input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="RecoveryPlanFiles" class="govuk-label" multiple/>
+	                                    <br/>
+            										                                
+										 <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn, FileNames = Model.RecoveryPlanFileNames, FilePrefixSection = FileUploadConstants.SchoolPFYRevenueStatusFile}"/>
+	                                    
                                     </div>
 	                            }
 	                        }

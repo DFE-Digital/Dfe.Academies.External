@@ -27,13 +27,14 @@ internal sealed class PreviousFinancialYearModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockFileUploadService = new Mock<IFileUploadService>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupPreviousFinancialYearModel(mockConversionApplicationCreationService.Object,
+		var pageModel = SetupPreviousFinancialYearModel(mockFileUploadService.Object, mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
@@ -52,6 +53,7 @@ internal sealed class PreviousFinancialYearModelTests
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static PreviousFinancialYearModel SetupPreviousFinancialYearModel(
+		IFileUploadService mockFileUploadService,
 		IConversionApplicationCreationService mockConversionApplicationCreationService,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
@@ -59,7 +61,7 @@ internal sealed class PreviousFinancialYearModelTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new PreviousFinancialYearModel(mockConversionApplicationRetrievalService,
+		return new PreviousFinancialYearModel(mockFileUploadService, mockConversionApplicationRetrievalService,
 			mockReferenceDataRetrievalService, mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,
