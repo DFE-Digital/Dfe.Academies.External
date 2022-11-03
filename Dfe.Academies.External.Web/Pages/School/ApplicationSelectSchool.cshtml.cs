@@ -6,14 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-	public class ApplicationSelectSchoolModel : BasePageModel
+	public class ApplicationSelectSchoolModel : BaseApplicationPageEditModel
 	{
-		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
-		private const string NextSchoolStepPage = "/ApplicationOverview";
-
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
 		[BindProperty]
 		[MinimumLengthAttribute(ErrorMessage = "You must give the name of the school")]
 		public string? SearchQuery { get; set; } = string.Empty;
@@ -28,7 +22,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				if (!string.IsNullOrWhiteSpace(SearchQuery))
 				{
-					var schoolSplit = SearchQuery
+					string[] schoolSplit = SearchQuery
 						.Trim()
 						.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
@@ -45,7 +39,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				if (!string.IsNullOrWhiteSpace(SearchQuery))
 				{
-					var schoolSplit = SearchQuery
+					string[] schoolSplit = SearchQuery
 						.Trim()
 						.Replace(")", string.Empty)
 						.Split('(', StringSplitOptions.RemoveEmptyEntries);
@@ -57,42 +51,29 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
-		public ApplicationSelectSchoolModel(IConversionApplicationCreationService conversionApplicationCreationService)
+		public ApplicationSelectSchoolModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+			IReferenceDataRetrievalService referenceDataRetrievalService,
+			IConversionApplicationCreationService academisationCreationService) :
+			base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+				academisationCreationService, "/ApplicationOverview")
 		{
-			_conversionApplicationCreationService = conversionApplicationCreationService;
-		}
-		public void OnGet(int appId)
-		{
-			ApplicationId = appId;
 		}
 
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> OnPostAddSchool()
 		{
-			if (!ModelState.IsValid)
+			if (!RunUiValidation())
 			{
-				// MR:- if you enter an incorrect name into the autocomplete, then the hidden input is blank (not populated in JS)
-				// so, currently get the 'You must give the name of the school' validation warning
-				// rather than the "You must choose a school from the list" (code below)
-
-				//// 2nd phase validation - check selected school
-				if (string.IsNullOrWhiteSpace(SearchQuery))
-				{
-					ModelState.AddModelError("InvalidSchool", "You must give the name of the school");
-				}
-
-				PopulateValidationMessages();
 				return Page();
 			}
 
-			// TODO MR:- need to check if application type =JoinAMat and application already has school remove existing school - add new one
-			await _conversionApplicationCreationService.AddSchoolToApplication(ApplicationId, SelectedUrn, SelectedSchoolName);
-			return RedirectToPage(NextSchoolStepPage, new { appId = ApplicationId });
+			await ConversionApplicationCreationService.AddSchoolToApplication(ApplicationId, SelectedUrn, SelectedSchoolName);
+			return RedirectToPage(NextStepPage, new { appId = ApplicationId });
 		}
 
 		public IActionResult OnPostFind()
 		{
-			var query = SearchQuery;
+			string? query = SearchQuery;
 
 			return RedirectToPage("SchoolSearchResults");
 		}
@@ -102,13 +83,39 @@ namespace Dfe.Academies.External.Web.Pages.School
 			PopulateViewDataErrorsWithModelStateErrors();
 		}
 
-		private void PopulateUiModel(ConversionApplication? conversionApplication)
+		public override void PopulateUiModel(ConversionApplication? conversionApplication)
 		{
 			if (conversionApplication != null)
 			{
-				ApplicationId = conversionApplication.ApplicationId;
 				// other view model properties initialized within properties
 			}
+		}
+
+		public override bool RunUiValidation()
+		{
+			if (!ModelState.IsValid)
+			{
+				// MR:- if you enter an incorrect name into the autocomplete, then the hidden input is blank (not populated in JS)
+				// so, currently get the 'You must give the trust of the school' validation warning
+				// rather than the "You must choose a trust from the list" (code below)
+
+				// 2nd phase validation - check selected trust
+				if (string.IsNullOrWhiteSpace(SearchQuery))
+				{
+					ModelState.AddModelError("InvalidSchool", "You must give the name of the school");
+				}
+
+				PopulateValidationMessages();
+				return false;
+			}
+
+			return true;
+		}
+
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+		{
+			// does not apply on this page
+			return new();
 		}
 	}
 }

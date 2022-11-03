@@ -4,6 +4,7 @@ using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 
 namespace Dfe.Academies.External.Web.Pages.Base;
@@ -154,4 +155,22 @@ public abstract class BasePageEditModel : BasePageModel
 	/// i.e. if user changes answer from no -> yes need to clear out optional string data capture
 	/// </summary>
 	public abstract Dictionary<string, dynamic> PopulateUpdateDictionary();
+
+	/// <summary>
+	/// check application contributors vs current user
+	/// </summary>
+	/// <param name="appId"></param>
+	/// <returns></returns>
+	public async Task<ActionResult> CheckApplicationPermission(int appId)
+	{
+		var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
+
+		// check user access
+		if (draftConversionApplication != null && !UserIsContributorToApplication(draftConversionApplication))
+		{
+			return Forbid();
+		}
+
+		return new OkResult();
+	}
 }

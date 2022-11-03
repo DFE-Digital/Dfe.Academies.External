@@ -3,6 +3,7 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -24,7 +25,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		/// <param name="urn"></param>
 		/// <param name="appId"></param>
 		/// <returns></returns>
-		public override async Task OnGetAsync(int urn, int appId)
+		public override async Task<ActionResult> OnGetAsync(int urn, int appId)
 		{
 			ApplicationId = appId;
 			Urn = urn;
@@ -40,6 +41,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 				PopulateUiModel(selectedSchool, conversionApplication);
 			}
+
+			return Page();
 		}
 		
 		///<inheritdoc/>

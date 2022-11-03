@@ -67,23 +67,35 @@ namespace Dfe.Academies.External.Web.Pages
 			_conversionApplicationRetrievalService = conversionApplicationRetrievalService;
 		}
 
-		public async Task OnGetAsync(int appId)
+		public async Task<ActionResult> OnGetAsync(int appId)
 		{
+			// check user access
+			var checkStatus = await CheckApplicationPermission(appId);
+
+			if (checkStatus is ForbidResult)
+			{
+				return RedirectToPage("ApplicationAccessException");
+			}
+
 			//// on load - grab draft application from temp
 			var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
 
-			if (draftConversionApplication != null)
+			if (draftConversionApplication == null)
 			{
-				var school = draftConversionApplication.Schools.FirstOrDefault();
-
-				if (school != null)
-				{
-					school.SchoolApplicationComponents =
-						await _conversionApplicationRetrievalService.GetSchoolApplicationComponents(appId, school.URN);
-				}
-
-				PopulateUiModel(draftConversionApplication, school);
+				return Page();
 			}
+
+			var school = draftConversionApplication.Schools.FirstOrDefault();
+
+			if (school != null)
+			{
+				school.SchoolApplicationComponents =
+					await _conversionApplicationRetrievalService.GetSchoolApplicationComponents(appId, school.URN);
+			}
+
+			PopulateUiModel(draftConversionApplication, school);
+
+			return Page();
 		}
 
 		public IActionResult OnPostAsync()
