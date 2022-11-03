@@ -1,0 +1,554 @@
+﻿@page
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@using Dfe.Academies.External.Web.Helpers
+@using Dfe.Academies.External.Web.TagHelpers
+@using Dfe.Academies.External.Web.ViewModels
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Dfe.Academies.External.Web.Pages.School.AdditionalDetails
+@{
+	ViewData["Title"] = "Apply to become an academy - Additional Details";
+}
+
+@section BeforeMain
+{
+	<a asp-page="AdditionalDetails" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">Back to application summary</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+<span class="govuk-caption-l">
+	@Model.SchoolName
+</span>
+<h1 class="govuk-heading-l">
+	Additional details
+</h1>
+<form method="post" name="frmAdditionalDetails" novalidate="" enctype="multipart/form-data">
+@Html.AntiForgeryToken()
+<input type="hidden" asp-for="Urn"/>
+<input type="hidden" asp-for="ApplicationId"/>		
+<partial name="_HiddenFields"/>
+		
+<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+<fieldset class="govuk-fieldset">
+<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+	<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+</div>
+				
+<div class="govuk-form-group">
+	<label for="TrustBenefitDetails" class="govuk-label">What will the school bring to the trust they are joining?</label>
+	<textarea asp-for="TrustBenefitDetails" id="TrustBenefitDetails" 
+                								class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+</div>
+				
+<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+	<fieldset class="govuk-fieldset" role="group" aria-describedby="ofsted-report-hint">
+		<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+			Have Ofsted recently inspected the school but not published the report yet?
+		</legend>
+		@foreach (var ofstedInspectedOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+		{
+			<div class="govuk-radios__item">
+				<input type="radio"
+				       asp-for="OfstedInspected"
+				       value="@Convert.ToInt32(ofstedInspectedOption)"
+				       id="ofstedInspectedOption@(ofstedInspectedOption)"
+				       class="govuk-radios__input"
+				       data-aria-controls="ofstedInspectedOption-@(ofstedInspectedOption.ToString().ToLower())"
+				       checked="@(ofstedInspectedOption.Equals(ViewData.Model.OfstedInspected))"
+				       aria-expanded="False"/>
+				<label for="ofstedInspectedOption@(ofstedInspectedOption)" class="govuk-label govuk-radios__label">
+					@ofstedInspectedOption.GetDescription()
+				</label>
+			</div>
+			@if (ofstedInspectedOption == SelectOption.Yes)
+			{
+				<div class="@(Model.OfstedInspectedDetailsError ? "govuk-form-group--error" : "govuk-radios__conditional") @(ofstedInspectedOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")" id="ofstedInspectedOption-yes" aria-expanded="false">
+					<div class="govuk-form-group govuk-error-summary__list">
+						<a href="#OfstedInspectionDetailsNotAdded" 
+						   class="@(Model.OfstedInspectedDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
+							You must provide details
+						</a>
+						<label for="ofstedInspectedOption-yes" class="govuk-label">Provide the inspection date and a short summary of the outcome</label>
+						<textarea asp-for="OfstedInspectionDetails" id="OfstedInspectedDetails" class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+					</div>
+				</div>
+			}
+		}
+	</fieldset>
+</div>
+
+<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+	<fieldset class="govuk-fieldset" role="group" aria-describedby="safeguarding-report-hint">
+		<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+			Are there any safeguarding investigations ongoing at the school?
+		</legend>
+		@foreach (var safeguardingOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+		{
+			<div class="govuk-radios__item">
+				<input type="radio"
+				       asp-for="SafeguardingInvestigations"
+				       value="@Convert.ToInt32(safeguardingOption)"
+				       id="safeguardingOption@(safeguardingOption)"
+				       class="govuk-radios__input"
+				       data-aria-controls="safeguardingOption-@(safeguardingOption.ToString().ToLower())"
+				       checked="@(safeguardingOption.Equals(ViewData.Model.SafeguardingInvestigations))"
+				       aria-expanded="False"/>
+				<label for="safeguardingOption@(safeguardingOption)" class="govuk-label govuk-radios__label">
+					@safeguardingOption.GetDescription()
+				</label>
+			</div>
+			@if (safeguardingOption == SelectOption.Yes)
+			{
+				<div class="@(Model.SafeguardingInvestigationsError ? "govuk-form-group--error" : "govuk-radios__conditional")
+																	@(safeguardingOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+				     id="safeguardingOption-yes" aria-expanded="false">
+					<div class="govuk-form-group govuk-error-summary__list">
+						<a href="#SafeguardingDetailsNotAdded" 
+						   class="@(Model.SafeguardingInvestigationsError ? "govuk-error-message" : "govuk-visually-hidden")">
+							You must provide details
+						</a>
+						<label for="safeguardingOption-yes" class="govuk-label">Details of the investigation</label>
+						<textarea asp-for="SafeguardingDetails" id="SafeguardingDetails" 
+                                													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+					</div>
+				</div>
+			}
+		}
+	</fieldset>
+</div>
+
+<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+	<fieldset class="govuk-fieldset" role="group" aria-describedby="local-authority-report-hint">
+		<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+			Is the school part of a local authority reorganisation?
+		</legend>
+		@foreach (var localAuthorityOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+		{
+			<div class="govuk-radios__item">
+				<input type="radio"
+				       asp-for="LocalAuthorityReorganisation"
+				       value="@Convert.ToInt32(localAuthorityOption)"
+				       id="localAuthorityOption@(localAuthorityOption)"
+				       class="govuk-radios__input"
+				       data-aria-controls="localAuthorityOption-@(localAuthorityOption.ToString().ToLower())"
+				       checked="@(localAuthorityOption.Equals(ViewData.Model.LocalAuthorityReorganisation))"
+				       aria-expanded="False"/>
+				<label for="localAuthorityOption@(localAuthorityOption)" class="govuk-label govuk-radios__label">
+					@localAuthorityOption.GetDescription()
+				</label>
+			</div>
+			@if (localAuthorityOption == SelectOption.Yes)
+			{
+				<div class="@(Model.LocalAuthorityReorganisationDetailsError ? "govuk-form-group--error" : "govuk-radios__conditional")
+                                     @(localAuthorityOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+				     id="localAuthorityOption-yes" aria-expanded="false">
+					<div class="govuk-form-group govuk-error-summary__list">
+						<a href="#LocalAuthorityReorganisationDetailsNotAdded" 
+						   class="@(Model.LocalAuthorityReorganisationDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
+							You must provide details
+						</a>
+						<label for="localAuthorityOption-yes" class="govuk-label">Details of the reorganisation</label>
+						<textarea asp-for="LocalAuthorityReorganisationDetails" id="LocalAuthorityReorganisationDetails" 
+                                                													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+					</div>
+				</div>
+			}
+		}
+	</fieldset>
+</div>
+				
+<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+	<fieldset class="govuk-fieldset" role="group" aria-describedby="local-authority-closure-report-hint">
+		<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+			Is the school part of any local authority closure plans?
+		</legend>
+		@foreach (var localAuthorityClosurePlanOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+		{
+			<div class="govuk-radios__item">
+				<input type="radio"
+				       asp-for="LocalAuthorityClosurePlans"
+				       value="@Convert.ToInt32(localAuthorityClosurePlanOption)"
+				       id="localAuthorityClosurePlanOption@(localAuthorityClosurePlanOption)"
+				       class="govuk-radios__input"
+				       data-aria-controls="localAuthorityClosurePlanOption-@(localAuthorityClosurePlanOption.ToString().ToLower())"
+				       checked="@(localAuthorityClosurePlanOption.Equals(ViewData.Model.LocalAuthorityClosurePlans))"
+				       aria-expanded="False"/>
+				<label for="localAuthorityClosurePlanOption@(localAuthorityClosurePlanOption)" class="govuk-label govuk-radios__label">
+					@localAuthorityClosurePlanOption.GetDescription()
+				</label>
+			</div>
+			@if (localAuthorityClosurePlanOption == SelectOption.Yes)
+			{
+				<div class="@(Model.LocalAuthorityClosurePlanDetailsError ? "govuk-form-group--error" : "govuk-radios__conditional")
+                                     @(localAuthorityClosurePlanOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+				     id="localAuthorityClosurePlanOption-yes" aria-expanded="false">
+					<div class="govuk-form-group govuk-error-summary__list">
+						<a href="#localAuthorityClosurePlanDetailsNotAdded"
+						   class="@(Model.LocalAuthorityClosurePlanDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
+							You must provide details
+						</a>
+						<label for="localAuthorityClosurePlanOption-yes" class="govuk-label">Details of the closure plans</label>
+						<textarea asp-for="LocalAuthorityClosurePlanDetails" id="LocalAuthorityClosurePlanDetails" 
+                                                                													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+					</div>
+				</div>
+			}
+		}
+	</fieldset>
+</div>
+			
+<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+	<fieldset class="govuk-fieldset" role="group" aria-describedby="diocese-report-hint">
+		<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+			Is the school linked to a diocese?
+		</legend>
+		@foreach (var dioceseOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+		{
+			<div class="govuk-radios__item">
+				<input type="radio"
+				       asp-for="LinkedToDiocese"
+				       value="@Convert.ToInt32(dioceseOption)"
+				       id="dioceseOption@(dioceseOption)"
+				       class="govuk-radios__input"
+				       data-aria-controls="dioceseOption-@(dioceseOption.ToString().ToLower())"
+				       checked="@(dioceseOption.Equals(ViewData.Model.LinkedToDiocese))"
+				       aria-expanded="False"/>
+				<label for="dioceseOption@(dioceseOption)" class="govuk-label govuk-radios__label">
+					@dioceseOption.GetDescription()
+				</label>
+			</div>
+			@if (dioceseOption == SelectOption.Yes)
+			{
+				<div class="@(Model.DioceseNameError ? "govuk-form-group--error" : "govuk-radios__conditional")
+                            			                                            @(dioceseOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+				     id="dioceseOption-yes" aria-expanded="false">
+					<div class="govuk-form-group govuk-error-summary__list">
+						<a href="#DioceseNameNotAdded" 
+						   class="@(Model.DioceseNameError ? "govuk-error-message" : "govuk-visually-hidden")">
+							You must provide details
+						</a>
+					</div>
+					<label for="dioceseOption-yes" class="govuk-label">Name of diocese</label>
+					<textarea asp-for="DioceseName" id="DioceseName" class="govuk-textarea" cols="5" rows="1" maxlength="200"></textarea>
+            					
+					<div class="@(Model.DioceseFileError ? "govuk-form-group--error" : "govuk-radios__conditional")"
+					     id="DioceseFileNotAddedError" aria-expanded="false">
+						<div class="govuk-form-group govuk-error-summary__list">
+							<a href="#DioceseFileNotAddedError" 
+							   class="@(Model.DioceseFileError ? "govuk-error-message" : "govuk-visually-hidden")">
+								You must upload a file
+							</a>
+						</div>
+					</div>
+							
+					<label for="Upload-diocese" class="govuk-label">
+						Upload a letter from the diocese giving permission for the school to convert.
+						<br/>
+						<br/>
+						Upload a file
+					</label>
+					<br/>
+					<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="DioceseFiles" class="govuk-label" multiple/>
+					<br/>
+            		
+					<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {ApplicationId = Model.ApplicationId,Urn = Model.Urn, FilePrefixSection = FileUploadConstants.DioceseFilePrefixFieldName,FileNames = Model.DioceseFileNames}'/>
+				</div>
+			}
+		}
+	</fieldset>
+</div>
+
+<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+	<fieldset class="govuk-fieldset" role="group" aria-describedby="federation-report-hint">
+		<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+			Is the school part of a federation
+		</legend>
+		<span id="federation-hint" class="govuk-hint">
+			A federation is a group of maintained schools under one governing body
+			<a href="https://www.legislation.gov.uk/uksi/2012/1035/contents/made" target="_blank" class="govuk-link--no-visited-state">(The School Governance (Federations) (England) Regulations 2012)</a>
+		</span>
+		@foreach (var federationOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+		{
+			<div class="govuk-radios__item">
+				<input type="radio"
+				       asp-for="PartOfFederation"
+				       value="@Convert.ToInt32(federationOption)"
+				       id="federationOption@(federationOption)"
+				       class="govuk-radios__input"
+				       data-aria-controls="federationOption-@(federationOption.ToString().ToLower())"
+				       checked="@(federationOption.Equals(ViewData.Model.PartOfFederation))"
+				       aria-expanded="False"/>
+				<label for="federationOption@(federationOption)" class="govuk-label govuk-radios__label">
+					@federationOption.GetDescription()
+				</label>
+			</div>
+		}
+	</fieldset>
+</div>
+			
+<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+	<fieldset class="govuk-fieldset" role="group" aria-describedby="foundation-report-hint">
+		<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+			Is the school supported by a foundation, trust or other body(e.g. parish council) that appoints foundation governors?
+		</legend>
+		@foreach (var supportedByFoundationTrustOrBodyOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+		{
+			<div class="govuk-radios__item">
+				<input type="radio"
+				       asp-for="SupportedByFoundationTrustOrBody"
+				       value="@Convert.ToInt32(supportedByFoundationTrustOrBodyOption)"
+				       id="supportedByFoundationTrustOrBodyOption@(supportedByFoundationTrustOrBodyOption)"
+				       class="govuk-radios__input"
+				       data-aria-controls="supportedByFoundationTrustOrBodyOption-@(supportedByFoundationTrustOrBodyOption.ToString().ToLower())"
+				       checked="@(supportedByFoundationTrustOrBodyOption.Equals(ViewData.Model.SupportedByFoundationTrustOrBody))"
+				       aria-expanded="False"/>
+				<label for="supportedByFoundationTrustOrBodyOption@(supportedByFoundationTrustOrBodyOption)" class="govuk-label govuk-radios__label">
+					@supportedByFoundationTrustOrBodyOption.GetDescription()
+				</label>
+			</div>
+			@if (supportedByFoundationTrustOrBodyOption == SelectOption.Yes)
+			{
+				<div class="@(Model.SupportedByFoundationTrustOrBodyError ? "govuk-form-group--error" : "govuk-radios__conditional")
+																	@(supportedByFoundationTrustOrBodyOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+				     id="supportedByFoundationTrustOrBodyOption-yes" aria-expanded="false">
+					<div class="govuk-form-group govuk-error-summary__list">
+						<a href="#FoundationTrustOrBodyNameNotAdded" 
+						   class="@(Model.SupportedByFoundationTrustOrBodyError ? "govuk-error-message" : "govuk-visually-hidden")">
+							You must provide details
+						</a>
+					</div>
+					<label for="supportedByFoundationTrustOrBodyOption-yes" class="govuk-label">Name of this body</label>
+					<textarea asp-for="FoundationTrustOrBodyName" id="FoundationTrustOrBodyName" class="govuk-textarea" cols="10" rows="1" maxlength="200"></textarea>
+										
+					<div class="@(Model.FoundationConsentFileError ? "govuk-form-group--error" : "govuk-radios__conditional")"
+					     id="FoundationConsentFileNotAddedError" aria-expanded="false">
+						<div class="govuk-form-group govuk-error-summary__list">
+							<a href="#FoundationConsentFileNotAddedError" 
+							   class="@(Model.FoundationConsentFileError ? "govuk-error-message" : "govuk-visually-hidden")">
+								You must upload a file
+							</a>
+						</div>
+					</div>
+							
+					<label for="Upload-foundationBodyTrust" class="govuk-label">
+						Please upload their letter of consent
+						<br/>
+						<br/>
+						Upload a file
+					</label>
+					<br/>
+					<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="FoundationConsentFiles" class="govuk-label" multiple/>
+					<br/>
+            			
+					<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {
+														ApplicationId = Model.ApplicationId,
+														Urn = Model.Urn, 
+														FilePrefixSection = FileUploadConstants.FoundationConsentFilePrefixFieldName,
+														FileNames = Model.FoundationConsentFileNames
+														}'/>
+				</div>
+			}
+		}
+	</fieldset>
+</div>
+			
+<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+	<fieldset class="govuk-fieldset" role="group" aria-describedby="sacre-exemption-report-hint">
+		<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+			Does the school currently have an exemption from providing broadly Christian collective worship issued by the local Standing Committee on Religious Education (SACRE)?
+		</legend>
+		@foreach (var exemptionFromSACREOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+		{
+			<div class="govuk-radios__item">
+				<input type="radio"
+				       asp-for="ExemptionFromSACRE"
+				       value="@Convert.ToInt32(exemptionFromSACREOption)"
+				       id="exemptionFromSACREOption@(exemptionFromSACREOption)"
+				       class="govuk-radios__input"
+				       data-aria-controls="exemptionFromSACREOption-@(exemptionFromSACREOption.ToString().ToLower())"
+				       checked="@(exemptionFromSACREOption.Equals(ViewData.Model.ExemptionFromSACRE))"
+				       aria-expanded="False"/>
+				<label for="exemptionFromSACREOption@(exemptionFromSACREOption)" class="govuk-label govuk-radios__label">
+					@exemptionFromSACREOption.GetDescription()
+				</label>
+			</div>
+			@if (exemptionFromSACREOption == SelectOption.Yes)
+			{
+				<div class="@(Model.ExemptionFromSACREError ? "govuk-form-group--error" : "govuk-radios__conditional")
+																	@(exemptionFromSACREOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+				     id="exemptionFromSACREOption-yes" aria-expanded="false">
+					<div class="govuk-form-group govuk-error-summary__list">
+						<a href="#exemptionFromSACREEndDateNotAdded" 
+						   class="@(Model.ExemptionFromSACREError ? "govuk-error-message" : "govuk-visually-hidden")">
+							You must provide details
+						</a>
+						<div id="exemption-end-date-hint" class="govuk-hint">
+							For example, 31 3 1980
+						</div>
+						<a href="#ExemptionEndDateNotEntered" class="@(Model.ExemptionEndDateNotEntered ? "govuk-error-message" : "govuk-visually-hidden")">
+							You must select a conversion date
+						</a>
+						<govuk-date field-name="@Model.ExemptionEndDateName"
+						            field-data="@Model.ExemptionEndDate"
+						            field-day="@Model.ExemptionEndDateDay"
+						            field-month="@Model.ExemptionEndDateMonth"
+						            field-year="@Model.ExemptionEndDateYear">
+						</govuk-date>
+					</div>
+				</div>
+			}
+		}
+	</fieldset>
+</div>
+			
+<div class="govuk-form-group">
+	<label for="MainFeederSchools" class="govuk-label">Please provide a list of your main feeder schools</label>
+	<span id="feeder-schools-hint" class="govuk-hint">
+		We recognise you may have many feeder schools, therefore please just detail the top 5
+	</span>
+				
+	<div class="@(Model.MainFeederSchoolsError ? "govuk-form-group--error" : "govuk-radios__conditional")"
+	     id="mainFeederSchools" aria-expanded="false">
+		<div class="govuk-form-group govuk-error-summary__list">
+			<a href="#MainFeederSchoolsDetailsNotAdded" 
+			   class="@(Model.MainFeederSchoolsError ? "govuk-error-message" : "govuk-visually-hidden")">
+				You must provide details
+			</a>
+		</div>
+	</div>
+	<textarea asp-for="MainFeederSchools" id="MainFeederSchools" class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+</div>
+			
+<div class="govuk-form-group">
+	<div class="@(Model.ResolutionConsentFileError ? "govuk-form-group--error" : "govuk-radios__conditional")"
+	     id="ResolutionConsentFileNotAddedError" aria-expanded="false">
+		<div class="govuk-form-group govuk-error-summary__list">
+			<a href="#ResolutionConsentFileNotAddedError" 
+			   class="@(Model.ResolutionConsentFileError ? "govuk-error-message" : "govuk-visually-hidden")">
+				You must upload a file
+			</a>
+		</div>
+	</div>
+				
+	<label for="ResolutionConsent" class="govuk-label">The school's Governing Body must have passed a resolution to apply to convert to academy status.
+		Upload a copy of the school's consent to converting and joining the trust</label>
+
+	<label for="Upload-resolutionConsentFiles" class="govuk-label">This is normally in the form of the minutes from the Governing Body meeting at which the resolution to convert was passed
+		<br/>
+		<br/>
+		Upload a file
+	</label>
+	<br/>
+	<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="@Model.ResolutionConsentFiles" class="govuk-label" multiple/>
+	<br/>
+
+	<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {
+														ApplicationId = Model.ApplicationId,
+														Urn = Model.Urn, 
+														FilePrefixSection = FileUploadConstants.ResolutionConsentfilePrefixFieldName,
+														FileNames = Model.ResolutionConsentFileNames
+                                                   	}'/>
+</div>
+			
+<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+	<fieldset class="govuk-fieldset" role="group" aria-describedby="equalities-impact-report-hint">
+		<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+			Has an equalities impact assessment been carried out and considered by the governing body?
+		</legend>
+		@foreach (var equalitiesImpactAssessmentOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+		{
+			<div class="govuk-radios__item">
+				<input type="radio"
+				       asp-for="EqualityAssessment"
+				       value="@Convert.ToInt32(equalitiesImpactAssessmentOption)"
+				       id="equalitiesImpactAssessmentOption@(equalitiesImpactAssessmentOption)"
+				       class="govuk-radios__input"
+				       data-aria-controls="equalitiesImpactAssessmentOption-@(equalitiesImpactAssessmentOption.ToString().ToLower())"
+				       checked="@(equalitiesImpactAssessmentOption.Equals(ViewData.Model.EqualityAssessment))"
+				       aria-expanded="False"/>
+								                
+				<label for="equalitiesImpactAssessmentOption@(equalitiesImpactAssessmentOption)" class="govuk-label govuk-radios__label">
+					@equalitiesImpactAssessmentOption.GetDescription()
+				</label>
+			</div>
+			@if (equalitiesImpactAssessmentOption == SelectOption.Yes)
+			{
+								                
+				<div class="@(Model.EqualityAssessmentError ? "govuk-form-group--error" : "govuk-radios__conditional")
+                            																	@(equalitiesImpactAssessmentOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+				     id="equalitiesImpactAssessmentOption-yes" aria-expanded="false">
+					<div class="govuk-form-group govuk-error-summary__list">
+						<a href="#equalitiesImpactAssessmentOptionNoOptionSelected"
+						   class="@(Model.EqualityAssessmentError ? "govuk-error-message" : "govuk-visually-hidden")">
+							You must enter an option
+						</a>
+						@foreach (var disproportionateProtectedCharacteristicsOption in Enum.GetValues<SchoolEqualitiesProtectedCharacteristics>().OrderByDescending(x => x.ToString()))
+						{
+							<div class="govuk-radios__item">
+								<input type="radio"
+								       asp-for="DisproportionateProtectedCharacteristics"
+								       value="@Convert.ToInt32(disproportionateProtectedCharacteristicsOption)"
+								       id="disproportionateProtectedCharacteristicsOption@(disproportionateProtectedCharacteristicsOption)"
+								       class="govuk-radios__input"
+								       data-aria-controls="disproportionateProtectedCharacteristicsOption-@(disproportionateProtectedCharacteristicsOption.ToString().ToLower())"
+								       checked="@(disproportionateProtectedCharacteristicsOption.Equals(ViewData.Model.DisproportionateProtectedCharacteristics))"
+								       aria-expanded="False"/>
+								<label for="disproportionateProtectedCharacteristicsOption@(disproportionateProtectedCharacteristicsOption)" class="govuk-label govuk-radios__label">
+									@disproportionateProtectedCharacteristicsOption.GetDescription()
+								</label>
+							</div>
+						}
+					</div>
+				</div>
+								                
+			}
+		}
+	</fieldset>
+</div>
+			
+<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+	<fieldset class="govuk-fieldset" role="group" aria-describedby="further-information-hint">
+		<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+			Do you want to add any further information?
+		</legend>
+		@foreach (var furtherInformationOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+		{
+			<div class="govuk-radios__item">
+				<input type="radio"
+				       asp-for="FurtherInformation"
+				       value="@Convert.ToInt32(furtherInformationOption)"
+				       id="furtherInformationOption@(furtherInformationOption)"
+				       class="govuk-radios__input"
+				       data-aria-controls="furtherInformationOption-@(furtherInformationOption.ToString().ToLower())"
+				       checked="@(furtherInformationOption.Equals(ViewData.Model.FurtherInformation))"
+				       aria-expanded="False"/>
+				<label for="furtherInformationOption@(furtherInformationOption)" class="govuk-label govuk-radios__label">
+					@furtherInformationOption.GetDescription()
+				</label>
+			</div>
+			@if (furtherInformationOption == SelectOption.Yes)
+			{
+				<div class="@(Model.FurtherInformationError ? "govuk-form-group--error" : "govuk-radios__conditional")
+                            																	@(furtherInformationOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+				     id="furtherInformationOption-yes" aria-expanded="false">
+					<div class="govuk-form-group govuk-error-summary__list">
+						<a href="#furtherInformationDetailsNotAdded" 
+						   class="@(Model.FurtherInformationError ? "govuk-error-message" : "govuk-visually-hidden")">
+							You must provide details
+						</a>
+						<label for="furtherInformationOption-yes" class="govuk-label">Any other information</label>
+						<textarea asp-for="FurtherInformationDetails" id="furtherInformationOption" 
+                                                                													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+					</div>
+				</div>
+			}
+		}
+	</fieldset>
+</div>
+			
+</fieldset>
+</div>
+<br/>
+<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+</form>
+</div>
