@@ -111,7 +111,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public SelectOption EqualityAssessment { get; set; }
 		
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
 		public SchoolEqualitiesProtectedCharacteristics? DisproportionateProtectedCharacteristics { get; set; }
 		
 		[BindProperty]
@@ -274,12 +273,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public override bool RunUiValidation()
 		{
-			if (!ModelState.IsValid)
-			{
-				PopulateValidationMessages();
-				return false;
-			}
-			
 			if (OfstedInspected == SelectOption.Yes && string.IsNullOrWhiteSpace(OfstedInspectionDetails))
 			{
 				ModelState.AddModelError("OfstedInspectionDetailsNotAdded", "You must enter Ofsted inspection details");
@@ -373,6 +366,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return false;
 			}
 			
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				return false;
+			}
+			
 			return true;
 		}
 
@@ -389,6 +388,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			DioceseName = LinkedToDiocese == SelectOption.No ? null : DioceseName;
 			FoundationTrustOrBodyName = SupportedByFoundationTrustOrBody == SelectOption.No ? null : FoundationTrustOrBodyName;
 			FurtherInformationDetails = FurtherInformation == SelectOption.No ? null : FurtherInformationDetails;
+			DisproportionateProtectedCharacteristics = EqualityAssessment == SelectOption.No ? null : DisproportionateProtectedCharacteristics;
 		}
 
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
@@ -421,6 +421,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			MainFeederSchools = selectedSchool.MainFeederSchools;
 			
 			DisproportionateProtectedCharacteristics = selectedSchool.ProtectedCharacteristics;
+			EqualityAssessment = DisproportionateProtectedCharacteristics.HasValue ? SelectOption.Yes : SelectOption.No;
 			FurtherInformation = selectedSchool.FurtherInformation == null 
 				? SelectOption.No 
 				: SelectOption.Yes;
