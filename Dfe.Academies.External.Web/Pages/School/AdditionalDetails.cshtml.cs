@@ -101,6 +101,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public string MainFeederSchools { get; set; }
 		
+		[BindProperty]
 		public List<IFormFile> ResolutionConsentFiles { get; set; }
 		
 		[BindProperty]

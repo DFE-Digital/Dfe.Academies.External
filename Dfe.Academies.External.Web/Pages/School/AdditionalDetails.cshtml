@@ -3,6 +3,7 @@
 @using Dfe.Academies.External.Web.Extensions
 @using Dfe.Academies.External.Web.Helpers
 @using Dfe.Academies.External.Web.TagHelpers
+@using Dfe.Academies.External.Web.ViewModels
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.AdditionalDetails
 @{
@@ -249,39 +250,8 @@
 					<br/>
 					<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="DioceseFiles" class="govuk-label" multiple/>
 					<br/>
-            										                                
-					<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-						Uploaded files
-					</legend>
-					<hr/>
-				
-					@if (!Model.DioceseFileNames.Any())
-					{		
-						<label class="govuk-label">
-							No file uploaded
-						</label>
-					}
-					else
-					{
-						@foreach (var fileName in @Model.DioceseFileNames)
-						{
-							<table class="govuk-table">
-								<tbody class="govuk-table__body">
-								<tr class="govuk-table__row">
-									<td class="govuk-table__cell govuk-!-text-align-left">
-										<p class="govuk-label">@fileName</p>
-									</td>
-									<td class="govuk-table__cell govuk-!-text-align-right">
-										<a class="govuk-link" aria-describedby="component-change" asp-page-handler="RemoveFile" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-section=@FileUploadConstants.DioceseFilePrefixFieldName asp-route-fileName="@fileName">
-											Remove
-										</a>
-									</td>
-								</tr>
-
-								</tbody>
-							</table>
-						}
-					}
+            		
+					<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {ApplicationId = Model.ApplicationId,Urn = Model.Urn, FilePrefixSection = FileUploadConstants.DioceseFilePrefixFieldName,FileNames = Model.DioceseFileNames}'/>
 				</div>
 			}
 		}
@@ -369,39 +339,13 @@
 					<br/>
 					<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="FoundationConsentFiles" class="govuk-label" multiple/>
 					<br/>
-            										                                
-					<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-						Uploaded files
-					</legend>
-					<hr/>
-				
-					@if (!Model.FoundationConsentFileNames.Any())
-					{		
-						<label class="govuk-label">
-							No file uploaded
-						</label>
-					}
-					else
-					{
-						@foreach (var fileName in @Model.FoundationConsentFileNames)
-						{
-							<table class="govuk-table">
-								<tbody class="govuk-table__body">
-								<tr class="govuk-table__row">
-									<td class="govuk-table__cell govuk-!-text-align-left">
-										<p class="govuk-label">@fileName</p>
-									</td>
-									<td class="govuk-table__cell govuk-!-text-align-right">
-										<a class="govuk-link" aria-describedby="component-change" asp-page-handler="RemoveFile" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-section=@FileUploadConstants.FoundationConsentFilePrefixFieldName asp-route-fileName="@fileName">
-											Remove
-										</a>
-									</td>
-								</tr>
-				
-								</tbody>
-							</table>
-						}
-					}
+            			
+					<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {
+														ApplicationId = Model.ApplicationId,
+														Urn = Model.Urn, 
+														FilePrefixSection = FileUploadConstants.FoundationConsentFilePrefixFieldName,
+														FileNames = Model.FoundationConsentFileNames
+														}'/>
 				</div>
 			}
 		}
@@ -495,41 +439,15 @@
 		Upload a file
 	</label>
 	<br/>
-	<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="ResolutionConsentFiles" class="govuk-label" multiple/>
+	<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="@Model.ResolutionConsentFiles" class="govuk-label" multiple/>
 	<br/>
 
-	<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-		Uploaded files
-	</legend>
-	<hr/>
-
-	@if (!Model.ResolutionConsentFileNames.Any())
-	{
-		<label class="govuk-label">
-			No file uploaded
-		</label>
-	}
-	else
-	{
-		@foreach (var fileName in @Model.ResolutionConsentFileNames)
-		{
-			<table class="govuk-table">
-				<tbody class="govuk-table__body">
-				<tr class="govuk-table__row">
-					<td class="govuk-table__cell govuk-!-text-align-left">
-						<p class="govuk-label">@fileName</p>
-					</td>
-					<td class="govuk-table__cell govuk-!-text-align-right">
-						<a class="govuk-link" aria-describedby="component-change" asp-page-handler="RemoveFile" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-section=@FileUploadConstants.ResolutionConsentfilePrefixFieldName asp-route-fileName="@fileName">
-							Remove
-						</a>
-					</td>
-				</tr>
-
-				</tbody>
-			</table>
-		}
-	}
+	<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {
+														ApplicationId = Model.ApplicationId,
+														Urn = Model.Urn, 
+														FilePrefixSection = FileUploadConstants.ResolutionConsentfilePrefixFieldName,
+														FileNames = Model.ResolutionConsentFileNames
+                                                   	}'/>
 </div>
 			
 <div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">

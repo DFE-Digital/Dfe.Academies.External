@@ -1,0 +1,36 @@
+﻿@using Dfe.Academies.External.Web.Helpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Dfe.Academies.External.Web.ViewModels.FileUploadViewModel
+
+<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+	Uploaded files
+</legend>
+<hr/>
+
+@if (!Model.FileNames.Any())
+{
+	<label class="govuk-label">
+		No file uploaded
+	</label>
+}
+else
+{
+	@foreach (var fileName in Model.FileNames)
+	{
+		<table class="govuk-table">
+			<tbody class="govuk-table__body">
+			<tr class="govuk-table__row">
+				<td class="govuk-table__cell govuk-!-text-align-left">
+					<p class="govuk-label">@fileName</p>
+				</td>
+				<td class="govuk-table__cell govuk-!-text-align-right">
+					<a class="govuk-link" aria-describedby="component-change" asp-page-handler="RemoveFile" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-section=@Model.FilePrefixSection asp-route-fileName="@fileName">
+						Remove
+					</a>
+				</td>
+			</tr>
+
+			</tbody>
+		</table>
+	}
+}
