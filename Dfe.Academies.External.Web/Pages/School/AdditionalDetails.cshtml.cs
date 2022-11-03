@@ -164,7 +164,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			return RedirectToPage("AdditionalDetails", new {Urn = urn, AppId = appId});
 		}
 
-		public override async Task OnGetAsync(int urn, int appId)
+		public override async Task<ActionResult> OnGetAsync(int urn, int appId)
 		{
 			LoadAndStoreCachedConversionApplication();
 		
@@ -187,6 +187,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			TempDataHelper.StoreSerialisedValue($"{appId}-foundationConsentFiles", TempData, FoundationConsentFileNames);
 			ResolutionConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{ApplicationId}", FileUploadConstants.ResolutionConsentfilePrefixFieldName);
 			TempDataHelper.StoreSerialisedValue($"{appId}-resolutionConsentFiles", TempData, ResolutionConsentFileNames);
+			return Page();
 		}
 
 		public override async Task<IActionResult> OnPostAsync()
