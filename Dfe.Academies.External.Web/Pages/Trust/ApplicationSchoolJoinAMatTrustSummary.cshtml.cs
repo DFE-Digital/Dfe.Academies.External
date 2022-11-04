@@ -13,7 +13,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 		public string SelectedTrustName { get; private set; }
 
 		// TODO:- summary view model - for binding
-		//	    public List<DeclarationSummaryHeadingViewModel> ViewModel { get; set; } = new();
+		// public List<ApplicationSchoolJoinAMatTrustSummaryViewModel> ViewModel { get; set; } = new();
 
 		public ApplicationSchoolJoinAMatTrustSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
@@ -34,17 +34,16 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 		{
 			if (conversionApplication != null)
 			{
-				// other view model properties initialized within properties
-				//DeclarationSummaryHeadingViewModel heading1 = new(DeclarationSummaryHeadingViewModel.Heading,
+				// heading 1 - the trust the school is joining
+				// sub question - 1a) name of the trust
+
+				//ApplicationSchoolJoinAMatTrustSummaryViewModel heading1 = new(ApplicationSchoolJoinAMatTrustSummaryViewModel.Heading,
 				//	"/trust/applicationselecttrust")
 				//{
 				//	Status = conversionApplication.JoinTrustDetails.TrustName.HasValue ?
 				//		SchoolConversionComponentStatus.Complete
 				//		: SchoolConversionComponentStatus.NotStarted
 				//};
-
-				// heading 2 - the trust the school is joining
-				// sub questions - name of the trust
 
 				// heading 2 - details - change - page not yet defined !
 				// sub questions 
@@ -54,7 +53,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 
 				// 2c) will there be any changes at a local level
 
-				//var vm = new List<DeclarationSummaryHeadingViewModel> { heading1, heading2 };
+				//var vm = new List<ApplicationSchoolJoinAMatTrustSummaryViewModel> { heading1, heading2 };
 
 				//ViewModel = vm;
 			}
