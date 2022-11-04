@@ -1,0 +1,23 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.Trust.ApplicationSchoolJoinAMatTrustSummaryModel
+@{
+	ViewData["Title"] = "Apply to become an academy - About the conversion";
+}
+
+@section BeforeMain
+{
+	<a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back to application overview</a>
+}
+
+<div class="govuk-grid-column-full">
+	<span class="govuk-caption-l">
+		@*@Model.SchoolName*@
+	</span>
+	<h1 class="govuk-heading-l">
+		Declaration
+	</h1>
+
+    <a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+</div>
+@*<input type="hidden" asp-for="Urn" />*@
+<partial name="_HiddenFields" />
