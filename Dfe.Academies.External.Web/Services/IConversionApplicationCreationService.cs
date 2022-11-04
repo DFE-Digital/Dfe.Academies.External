@@ -22,4 +22,21 @@ public interface IConversionApplicationCreationService
 	Task CreateLease(int applicationId, int schoolId, SchoolLease lease);
 	Task UpdateLease(int applicationId, int schoolId, SchoolLease lease);
 	Task DeleteLease(int applicationId, int schoolId, int leaseId);
+	Task SetAdditionalDetails(int applicationId, 
+		int schoolId,
+		string trustBenefitDetails, 
+		string? ofstedInspectionDetails, 
+		string? safeguardingDetails, 
+		string? localAuthorityReorganisationDetails,
+		string? localAuthorityClosurePlanDetails,
+		string? dioceseName,
+		string dioceseFolderIdentifier,
+		bool partOfFederation,
+		string? foundationTrustOrBodyName,
+		string foundationConsentFolderIdentifier, 
+		DateTimeOffset? exemptionEndDate,
+		string mainFeederSchools,
+		string resolutionConsentFolderIdentifier,
+		SchoolEqualitiesProtectedCharacteristics? protectedCharacteristics,
+		string? furtherInformation);
 }

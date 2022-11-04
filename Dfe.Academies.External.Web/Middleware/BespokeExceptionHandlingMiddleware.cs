@@ -44,13 +44,6 @@ public class BespokeExceptionHandlingMiddleware
 
         switch (exception)
         {
-            case TaskCanceledException ex:
-                // Because HTTP 418 MUST LIVE ON! (also no-one actually receives this as if
-                // task is cancelled the user stopped the request before receiving a response)
-                statusCode = StatusCodes.Status418ImATeapot;
-                response = null;
-                _logger.LogWarning("Request cancelled by the user.");
-                break;
             case NotImplementedException ex:
                 statusCode = StatusCodes.Status501NotImplemented;
                 response = new Default501NotImplementedResponse(ex);

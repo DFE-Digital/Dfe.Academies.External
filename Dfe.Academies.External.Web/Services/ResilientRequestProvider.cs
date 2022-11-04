@@ -61,7 +61,8 @@ namespace Dfe.Academies.External.Web.Services
 			}
 
 			var response = await this._client.PostAsync(uri, content);
-			response.EnsureSuccessStatusCode();
+			var responsecontent = await response.Content.ReadAsStringAsync();
+;			response.EnsureSuccessStatusCode();
 
 			// using stream reader as below
 			result = await this.ConvertResponseContent<TResult>(response);
