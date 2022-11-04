@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 
@@ -6,6 +7,11 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 {
     public class ApplicationSchoolJoinAMatTrustSummaryModel : BaseApplicationPageEditModel
 	{
+		//// Below are props for UI display
+		public ApplicationTypes ApplicationType { get; private set; }
+
+		public string SelectedTrustName { get; private set; }
+
 		// TODO:- summary view model - for binding
 		//	    public List<DeclarationSummaryHeadingViewModel> ViewModel { get; set; } = new();
 
@@ -29,6 +35,28 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 			if (conversionApplication != null)
 			{
 				// other view model properties initialized within properties
+				//DeclarationSummaryHeadingViewModel heading1 = new(DeclarationSummaryHeadingViewModel.Heading,
+				//	"/trust/applicationselecttrust")
+				//{
+				//	Status = conversionApplication.JoinTrustDetails.TrustName.HasValue ?
+				//		SchoolConversionComponentStatus.Complete
+				//		: SchoolConversionComponentStatus.NotStarted
+				//};
+
+				// heading 2 - the trust the school is joining
+				// sub questions - name of the trust
+
+				// heading 2 - details - change - page not yet defined !
+				// sub questions 
+				// 2a) upload evidence that the trust consents to the school joining 
+
+				// 2b) will there be any changes to the governance
+
+				// 2c) will there be any changes at a local level
+
+				//var vm = new List<DeclarationSummaryHeadingViewModel> { heading1, heading2 };
+
+				//ViewModel = vm;
 			}
 		}
 
