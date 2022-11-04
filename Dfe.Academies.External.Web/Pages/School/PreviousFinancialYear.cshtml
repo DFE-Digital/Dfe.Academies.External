@@ -20,7 +20,7 @@
 		<span class="govuk-caption-l">Finances (Step 1 of 6)</span>
 		Previous financial year
 	</h1>
-	<form method="post" name="frmFinancialPreviousYear" novalidate="">
+        <form method="post" name="frmFinancialPreviousYear" novalidate="" enctype="multipart/form-data">
 		@Html.AntiForgeryToken()
 		<input type="hidden" asp-for="Urn"/>
 		<input type="hidden" asp-for="ApplicationId"/>		
@@ -85,7 +85,7 @@
 												id="revenueType-deficit" aria-expanded="false">
 	                                    <a href="#PFYRevenueStatusExplainedNotEntered"
 												class="@(Model.PFYRevenueStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
-	                                            You must enter the reason for the revenue deficit
+	                                            You must enter the reason for the revenue deficit or upload a file
 	                                        </a>
 		                                    <label for="revenueType-deficit" class="govuk-label">
 			                                    Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.
@@ -104,28 +104,12 @@
 		                                       target="_blank" class="govuk-link">consistent financial reporting</a>
 		                                    codes.
 	                                    </span>
-
-	                                    @*	                                    <div class="@(Model.DioceseFileError ? "govuk-form-group--error" : "govuk-radios__conditional")"
-	                                         id="DioceseFileNotAddedError" aria-expanded="false">
-		                                    <div class="govuk-form-group govuk-error-summary__list">
-			                                    <a href="#DioceseFileNotAddedError" 
-			                                       class="@(Model.DioceseFileError ? "govuk-error-message" : "govuk-visually-hidden")">
-				                                    You must upload a file
-			                                    </a>
-		                                    </div>
-	                                    </div>*@
-							
 	                                    <label for="Upload-recovery-plan" class="govuk-label">
-		                                    <br/>
-		                                    <br/>
 		                                    Upload a file
 	                                    </label>
 	                                    <br/>
-	                                    <input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="RecoveryPlanFiles" class="govuk-label" multiple/>
-	                                    <br/>
-            										                                
-										 <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn, FileNames = Model.RecoveryPlanFileNames, FilePrefixSection = FileUploadConstants.SchoolPFYRevenueStatusFile}"/>
-	                                    
+                                        <input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="SchoolPFYRevenueStatusFiles" class="govuk-label" multiple />
+                                        <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn, FileNames = Model.SchoolPFYRevenueStatusFileNames, FilePrefixSection = FileUploadConstants.SchoolPFYRevenueStatusFile}" />
                                     </div>
 	                            }
 	                        }
@@ -168,7 +152,7 @@
 
                                         <a href="#PFYCapitalCarryForwardStatusExplainedNotEntered"
 											class="@(Model.PFYCapitalCarryForwardStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
-							                You must enter the reason for the capital carry forward deficit
+							                You must enter the reason for the capital carry forward deficit or upload a file
 						                </a>
                                         <label for="capitalCarryForwardStatus-deficit" class="govuk-label">
 							                Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.
@@ -187,7 +171,13 @@
 												target="_blank" class="govuk-link">consistent financial reporting</a>
 							                codes.
 						                </span>
-						                TODO MR:- file upload control !
+	                                    <label for="Upload-recovery-plan" class="govuk-label">
+		                                    Upload a file
+	                                    </label>
+	                                    <br/>
+                                        <input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="SchoolPFYCapitalForwardStatusFiles" class="govuk-label" multiple />
+                                        <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn, FileNames = Model.SchoolPFYCapitalForwardStatusFileNames, FilePrefixSection = FileUploadConstants.SchoolPFYCapitalForwardStatusFile}" />
+
 					                </div>
 								}
 			                }
