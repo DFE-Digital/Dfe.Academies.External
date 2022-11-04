@@ -240,35 +240,6 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 	}
 
 	[Test]
-	public async Task GetApplication___FormASat___ApiReturns200___Success()
-	{
-		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseFormASAT.json";
-		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
-		int applicationId = 2;
-		int expectedCount = 1;
-		int expectedURN = 123332;
-		ApplicationStatus status = ApplicationStatus.InProgress;
-		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-
-		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-
-		// act
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
-		var application = await applicationRetrievalService.GetApplication(applicationId);
-
-		// assert
-		Assert.That(application, Is.Not.Null);
-		Assert.That(application.ApplicationId, Is.EqualTo(applicationId));
-		Assert.That(application.ApplicationTitle, Is.EqualTo("Form new single academy trust A2B_2"));
-		Assert.That(application.ApplicationStatus, Is.EqualTo(status));
-
-		Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
-		Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("string"));
-		Assert.That(application.Schools.FirstOrDefault()?.URN, Is.EqualTo(expectedURN));
-	}
-
-	[Test]
 	public async Task GetApplication___JoinAMat___ApiReturns200___Success()
 	{
 		// arrange
