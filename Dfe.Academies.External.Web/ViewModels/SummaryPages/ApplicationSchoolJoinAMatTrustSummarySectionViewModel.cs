@@ -4,6 +4,8 @@
 	{
 		public const string NameOfTheTrust = "The name of the trust";
 		public const string TrustConsentEvidenceDoc = "Upload evidence that the trust consents to the school joining";
+		public const string ChangesToTrustGovernance = "Will there be any changes to the governance of the trust due to the school joining?";
+		public const string ChangesToLaGovernance = "Will there be any changes at a local level due to this school joining?";
 
 		//ChangesToLaGovernance
 
