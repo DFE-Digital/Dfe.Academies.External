@@ -27,6 +27,7 @@ internal sealed class ApplicationSelectSchoolModelTests
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		int urn = 101934;
 
 		// act
 		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationRetrievalService.Object,
@@ -35,7 +36,7 @@ internal sealed class ApplicationSelectSchoolModelTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		pageModel.OnGetAsync(conversionApplication.ApplicationId);
+		pageModel.OnGetAsync(conversionApplication.ApplicationId, urn);
 
 		// assert
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
@@ -56,6 +57,7 @@ internal sealed class ApplicationSelectSchoolModelTests
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		int urn = 101934;
 
 		// act
 		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationRetrievalService.Object,
@@ -64,7 +66,7 @@ internal sealed class ApplicationSelectSchoolModelTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		pageModel.OnGetAsync(conversionApplication.ApplicationId);
+		pageModel.OnGetAsync(conversionApplication.ApplicationId, urn);
 
 		pageModel.SearchQuery = "Wise Owl primary school (587634)";
 
@@ -81,6 +83,7 @@ internal sealed class ApplicationSelectSchoolModelTests
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		int urn = 101934;
 
 		// act
 		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationRetrievalService.Object,
@@ -89,7 +92,7 @@ internal sealed class ApplicationSelectSchoolModelTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		pageModel.OnGetAsync(conversionApplication.ApplicationId);
+		pageModel.OnGetAsync(conversionApplication.ApplicationId, urn);
 
 		pageModel.SearchQuery = "";
 
@@ -106,6 +109,7 @@ internal sealed class ApplicationSelectSchoolModelTests
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		int urn = 101934;
 
 		// act
 		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationRetrievalService.Object,
@@ -114,7 +118,7 @@ internal sealed class ApplicationSelectSchoolModelTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		pageModel.OnGetAsync(conversionApplication.ApplicationId);
+		pageModel.OnGetAsync(conversionApplication.ApplicationId, urn);
 
 		pageModel.SearchQuery = "Wise Owl primary school (587634)";
 
@@ -131,6 +135,7 @@ internal sealed class ApplicationSelectSchoolModelTests
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		int urn = 101934;
 
 		// act
 		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationRetrievalService.Object,
@@ -139,7 +144,7 @@ internal sealed class ApplicationSelectSchoolModelTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		pageModel.OnGetAsync(conversionApplication.ApplicationId);
+		pageModel.OnGetAsync(conversionApplication.ApplicationId, urn);
 
 		pageModel.SearchQuery = "";
 
