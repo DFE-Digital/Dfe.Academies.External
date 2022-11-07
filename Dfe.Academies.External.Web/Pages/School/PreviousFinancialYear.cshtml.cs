@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -10,6 +11,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 {
     public class PreviousFinancialYearModel : BaseSchoolPageEditModel
 	{
+		private readonly IFileUploadService _fileUploadService;
+
 		public string PFYEndDateFormInputName = "sip_pfyenddate";
 
 		// MR:- VM props to capture Pfy data
@@ -37,7 +40,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		public string? PFYRevenueStatusExplained { get; set; }
-		
+
+		public List<IFormFile>? SchoolPFYRevenueStatusFiles { get; set; } = new();
+
+		[BindProperty]
+		public List<string> SchoolPFYRevenueStatusFileNames { get; set; }
+
+		public List<IFormFile>? SchoolPFYCapitalForwardStatusFiles { get; set; } = new();
+
+		[BindProperty]
+		public List<string> SchoolPFYCapitalForwardStatusFileNames { get; set; }
+
 		// TODO MR:- below, once file upload whoopsy sorted!
 		//string? RevenueStatusFileLink = null,
 
@@ -52,9 +65,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		public string? PFYCapitalCarryForwardExplained { get; set; }
-
-		// TODO MR:- below, once file upload whoopsy sorted!
-		//string? CapitalCarryForwardFileLink = null
 
 		public bool PFYFinancialEndDateError
 		{
@@ -95,27 +105,32 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public DateTime PFYFinancialEndDateLocal { get; set; }
 
-		public PreviousFinancialYearModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
-										IReferenceDataRetrievalService referenceDataRetrievalService,
-										IConversionApplicationCreationService academisationCreationService) 
-	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService,
-		        academisationCreationService, "CurrentFinancialYear")
-        {}
+		public PreviousFinancialYearModel(IFileUploadService fileUploadService,
+			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+			IReferenceDataRetrievalService referenceDataRetrievalService,
+			IConversionApplicationCreationService academisationCreationService)
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+				academisationCreationService, "CurrentFinancialYear")
+		{
+			_fileUploadService = fileUploadService;
+		}
 
-		//public async Task OnGetAsync(int urn, int appId)
-		//{
-		//	LoadAndStoreCachedConversionApplication();
+		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName, string fileUploadConstant)
+		{
+			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", section, fileName);
+			return RedirectToPage("PreviousFinancialYear", new { Urn = urn, AppId = appId });
+		}
 
-		//	var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-		//	ApplicationId = appId;
-		//	Urn = urn;
+		public override async Task<ActionResult> OnGetAsync(int urn, int appId)
+		{
+			SchoolPFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", FileUploadConstants.SchoolPFYRevenueStatusFile);
+			SchoolPFYCapitalForwardStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", FileUploadConstants.SchoolPFYCapitalForwardStatusFile);
 
-		//	// Grab other values from API
-		//	if (selectedSchool != null)
-		//	{
-		//		PopulateUiModel(selectedSchool);
-		//	}
-		//}
+			TempDataHelper.StoreSerialisedValue($"{appId}-SchoolPFYRevenueStatusFileNames", TempData, SchoolPFYRevenueStatusFileNames);
+			TempDataHelper.StoreSerialisedValue($"{appId}-SchoolPFYRevenueStatusFileNames", TempData, SchoolPFYRevenueStatusFileNames);
+
+			return await base.OnGetAsync(urn, appId);
+		}
 
 		public override async Task<IActionResult> OnPostAsync()
 		{
@@ -127,10 +142,16 @@ namespace Dfe.Academies.External.Web.Pages.School
 			string PFYEndDateComponentMonth = pfyEndDateComponents.FirstOrDefault(x => x.Key == "month").Value;
 			string PFYEndDateComponentYear = pfyEndDateComponents.FirstOrDefault(x => x.Key == "year").Value;
 
+			SchoolPFYRevenueStatusFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{ApplicationId}-SchoolPFYRevenueStatusFileNames", TempData) ?? new List<string>();
+			SchoolPFYCapitalForwardStatusFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{ApplicationId}-SchoolPFYCapitalForwardStatusFileNames", TempData) ?? new List<string>();
+
 			PFYFinancialEndDateLocal = BuildDateTime(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
 
 			if (!RunUiValidation())
 			{
+				// PL:- had to put these back into tempdata or existing file names are removed after not valid scenarios
+				TempDataHelper.StoreSerialisedValue($"{ApplicationId}-SchoolPFYRevenueStatusFileNames", TempData, SchoolPFYRevenueStatusFileNames);
+				TempDataHelper.StoreSerialisedValue($"{ApplicationId}-SchoolPFYRevenueStatusFileNames", TempData, SchoolPFYRevenueStatusFileNames);
 				// MR:- date input disappears without below !!
 				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
 				return Page();
@@ -140,6 +161,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 			var draftConversionApplication =
 				TempDataHelper.GetSerialisedValue<ConversionApplication>(
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+
+
+			SchoolPFYRevenueStatusFiles?.ForEach(async file =>
+			{
+				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolPFYRevenueStatusFile, file);
+			});
+
+			SchoolPFYCapitalForwardStatusFiles?.ForEach(async file =>
+			{
+				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolPFYCapitalForwardStatusFile, file);
+			});
 
 			var dictionaryMapper = PopulateUpdateDictionary();
 			await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
@@ -166,16 +199,16 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return false;
 			}
 
-			if (PFYRevenueStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(PFYRevenueStatusExplained))
+			if (PFYRevenueStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(PFYRevenueStatusExplained) && (SchoolPFYRevenueStatusFiles == null || !SchoolPFYRevenueStatusFiles.Any()) && !SchoolPFYRevenueStatusFileNames.Any())
 			{
-				ModelState.AddModelError("PFYRevenueStatusExplainedNotEntered", "You must provide details");
+				ModelState.AddModelError("PFYRevenueStatusExplainedNotEntered", "You must provide details or upload a file");
 				PopulateValidationMessages();
 				return false;
 			}
 
-			if (PFYCapitalCarryForwardStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(PFYCapitalCarryForwardExplained))
+			if (PFYCapitalCarryForwardStatus == RevenueType.Deficit && string.IsNullOrWhiteSpace(PFYCapitalCarryForwardExplained) && (SchoolPFYCapitalForwardStatusFiles == null || !SchoolPFYCapitalForwardStatusFiles.Any()) && !SchoolPFYCapitalForwardStatusFileNames.Any())
 			{
-				ModelState.AddModelError("PFYCapitalCarryForwardExplainedNotEntered", "You must provide details");
+				ModelState.AddModelError("PFYCapitalCarryForwardExplainedNotEntered", "You must provide details or upload a file");
 				PopulateValidationMessages();
 				return false;
 			}
