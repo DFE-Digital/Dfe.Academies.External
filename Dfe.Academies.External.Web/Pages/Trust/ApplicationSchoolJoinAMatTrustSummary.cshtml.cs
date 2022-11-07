@@ -1,7 +1,10 @@
 ﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.ViewModels;
+using Dfe.Academies.External.Web.ViewModels.SummaryPages;
 
 namespace Dfe.Academies.External.Web.Pages.Trust
 {
@@ -12,8 +15,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 
 		public string SelectedTrustName { get; private set; }
 
-		// TODO:- summary view model - for binding
-		// public List<ApplicationSchoolJoinAMatTrustSummaryViewModel> ViewModel { get; set; } = new();
+		public List<ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel> ViewModel { get; set; } = new();
 
 		public ApplicationSchoolJoinAMatTrustSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
@@ -35,27 +37,62 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 			if (conversionApplication != null)
 			{
 				// heading 1 - the trust the school is joining
+				ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel headingChangeTrustName 
+					= new(ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel.HeadingTrustSchoolIsJoining,
+					"/trust/applicationselecttrust")
+				{
+					Status = string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) ?
+						SchoolConversionComponentStatus.Complete
+						: SchoolConversionComponentStatus.NotStarted
+				};
+
 				// sub question - 1a) name of the trust
+				headingChangeTrustName.Sections.Add(new(ApplicationSchoolJoinAMatTrustSummarySectionViewModel.NameOfTheTrust,
+						(!string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) ?
+							conversionApplication.JoinTrustDetails?.TrustName :
+							QuestionAndAnswerConstants.NoAnswer) ?? string.Empty
+						)
+				);
 
-				//ApplicationSchoolJoinAMatTrustSummaryViewModel heading1 = new(ApplicationSchoolJoinAMatTrustSummaryViewModel.Heading,
-				//	"/trust/applicationselecttrust")
-				//{
-				//	Status = conversionApplication.JoinTrustDetails.TrustName.HasValue ?
-				//		SchoolConversionComponentStatus.Complete
-				//		: SchoolConversionComponentStatus.NotStarted
-				//};
+				// heading 2 - details
+				// TODO:- change link - page not yet defined !
+				ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel headingChangeTrustDetails 
+					= new(ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel.HeadingChangeTrustDetails,
+					"/trust/applicationselecttrust")
+				{
+					Status = conversionApplication.JoinTrustDetails.ChangesToTrust.HasValue ?
+						SchoolConversionComponentStatus.Complete
+						: SchoolConversionComponentStatus.NotStarted
+				};
 
-				// heading 2 - details - change - page not yet defined !
 				// sub questions 
-				// 2a) upload evidence that the trust consents to the school joining 
+				// 2a) upload evidence that the trust consents to the school joining = ApplicationSchoolJoinAMatTrustSummarySectionViewModel.TrustConsentEvidenceDoc
+				headingChangeTrustDetails.Sections.Add(new(ApplicationSchoolJoinAMatTrustSummarySectionViewModel.TrustConsentEvidenceDoc,
+						// TODO:- no doc link in API json currently
+					//(!string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) ?
+					//	conversionApplication.JoinTrustDetails?.TrustName :
+					//	QuestionAndAnswerConstants.NoAnswer) ?? string.Empty
+					QuestionAndAnswerConstants.NoAnswer
+					)
+				);
 
-				// 2b) will there be any changes to the governance
+				// 2b) will there be any changes to the governance = ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToTrustGovernance
+				headingChangeTrustDetails.Sections.Add(new(
+						ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToTrustGovernance,
+						conversionApplication.JoinTrustDetails?.ChangesToTrust.GetStringDescription() ?? string.Empty
+					)
+				);
 
-				// 2c) will there be any changes at a local level
+				// 2c) will there be any changes at a local level = ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToLaGovernance
+				headingChangeTrustDetails.Sections.Add(new(
+						ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToLaGovernance,
+						conversionApplication.JoinTrustDetails?.ChangesToLaGovernance.GetStringDescription() ?? string.Empty
+					)
+				);
 
-				//var vm = new List<ApplicationSchoolJoinAMatTrustSummaryViewModel> { heading1, heading2 };
+				var vm = new List<ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel> { headingChangeTrustName, headingChangeTrustDetails };
 
-				//ViewModel = vm;
+				ViewModel = vm;
 			}
 		}
 
