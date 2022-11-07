@@ -12,7 +12,7 @@
 
 @section BeforeMain
 {
-	<a asp-page="AdditionalDetails" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">Back to application summary</a>
+	<a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">Back to application summary</a>
 }
 
 <div class="govuk-grid-column-two-thirds">
@@ -35,9 +35,18 @@
 </div>
 				
 <div class="govuk-form-group">
-	<label for="TrustBenefitDetails" class="govuk-label">What will the school bring to the trust they are joining?</label>
-	<textarea asp-for="TrustBenefitDetails" id="TrustBenefitDetails" 
+	<div class="govuk-form-group govuk-error-summary__list">
+		<a href="#TrustBenefitDetailsNotAdded" 
+		   class="@(Model.TrustBenefitDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
+			You must provide details
+		</a>
+		<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+			What will the school bring to the trust they are joining?
+		</legend>
+		<textarea asp-for="TrustBenefitDetails" id="TrustBenefitDetails" 
                 								class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+	</div>
+
 </div>
 				
 <div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
@@ -402,21 +411,21 @@
 </div>
 			
 <div class="govuk-form-group">
-	<label for="MainFeederSchools" class="govuk-label">Please provide a list of your main feeder schools</label>
+	<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Please provide a list of your main feeder schools</legend>
 	<span id="feeder-schools-hint" class="govuk-hint">
 		We recognise you may have many feeder schools, therefore please just detail the top 5
 	</span>
-				
+
 	<div class="@(Model.MainFeederSchoolsError ? "govuk-form-group--error" : "govuk-radios__conditional")"
 	     id="mainFeederSchools" aria-expanded="false">
 		<div class="govuk-form-group govuk-error-summary__list">
-			<a href="#MainFeederSchoolsDetailsNotAdded" 
+			<a href="#MainFeederSchoolsDetailsNotAdded"
 			   class="@(Model.MainFeederSchoolsError ? "govuk-error-message" : "govuk-visually-hidden")">
 				You must provide details
 			</a>
 		</div>
 	</div>
-	<textarea asp-for="MainFeederSchools" id="MainFeederSchools" class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+	<textarea asp-for="MainFeederSchools" id="MainFeederSchools" class="govuk-textarea" cols="40" rows="10" maxlength="200"></textarea>
 </div>
 			
 <div class="govuk-form-group">
@@ -430,12 +439,14 @@
 		</div>
 	</div>
 				
-	<label for="ResolutionConsent" class="govuk-label">The school's Governing Body must have passed a resolution to apply to convert to academy status.
-		Upload a copy of the school's consent to converting and joining the trust</label>
-
-	<label for="Upload-resolutionConsentFiles" class="govuk-label">This is normally in the form of the minutes from the Governing Body meeting at which the resolution to convert was passed
-		<br/>
-		<br/>
+	<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+		The school's Governing Body must have passed a resolution to apply to convert to academy status.
+		Upload a copy of the school's consent to converting and joining the trust.
+	</legend>
+		<span id="Upload-resolutionConsentFiles-hint" class="govuk-hint">
+    		This is normally in the form of the minutes from the Governing Body meeting at which the resolution to convert was passed
+    	</span>
+	<label for="Upload-resolutionConsentFiles" class="govuk-label">
 		Upload a file
 	</label>
 	<br/>
