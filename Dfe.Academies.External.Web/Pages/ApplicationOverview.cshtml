@@ -96,7 +96,7 @@
             @if (string.IsNullOrWhiteSpace(Model.NameOfTrustToJoin)){
                 <tr class="govuk-table__row">
                     <td class="govuk-table__cell govuk-!-text-align-right" colspan="2">
-	                    <a asp-page="trust/applicationselecttrust" asp-route-appId="@Model.ApplicationId"
+                        <a asp-page="trust/ApplicationSchoolJoinAMatTrustSummary" asp-route-appId="@Model.ApplicationId"
 	                       class="govuk-button govuk-button--secondary" data-module="govuk-button">Add a trust</a>
                     </td>
                 </tr>
@@ -105,7 +105,7 @@
 	            <tr class="govuk-table__row">
 		            <td class="govuk-table__cell">
 			            <span class="govuk-!-font-weight-bold govuk-!-padding-right-5">@Model.NameOfTrustToJoin</span>
-			            <a asp-page="trust/applicationselecttrust" asp-route-appId="@Model.ApplicationId"
+                        <a asp-page="trust/ApplicationSchoolJoinAMatTrustSummary" asp-route-appId="@Model.ApplicationId"
 			               class="govuk-link">Change</a>
 		            </td>
 		            <td class="govuk-table__cell govuk-!-text-align-right">
