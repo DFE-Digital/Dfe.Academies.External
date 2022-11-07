@@ -1,6 +1,6 @@
 ﻿namespace Dfe.Academies.External.Web.ViewModels;
 
-public class SchoolPupilNumbersSummaryHeadingViewModel : SchoolQuestionAndAnswerSectionViewModel
+public sealed class SchoolPupilNumbersSummaryHeadingViewModel : SchoolQuestionAndAnswerSectionViewModel
 {
 	public const string Heading = "Future pupil numbers";
 

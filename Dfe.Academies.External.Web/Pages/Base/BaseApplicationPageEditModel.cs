@@ -8,7 +8,11 @@ public abstract class BaseApplicationPageEditModel : BasePageEditModel
 {
 	public readonly IConversionApplicationCreationService ConversionApplicationCreationService;
 
-	[BindProperty] public int ApplicationId { get; set; }
+	[BindProperty]
+	public int ApplicationId { get; set; }
+
+	[BindProperty]
+	public int Urn { get; set; }
 
 	public string NextStepPage { get; private set; }
 
@@ -22,7 +26,7 @@ public abstract class BaseApplicationPageEditModel : BasePageEditModel
 		NextStepPage = nextStepPage;
 	}
 
-	public async Task<ActionResult> OnGetAsync(int appId)
+	public async Task<ActionResult> OnGetAsync(int appId, int urn)
 	{
 		// on load - grab draft application from temp
 		var conversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
@@ -39,6 +43,7 @@ public abstract class BaseApplicationPageEditModel : BasePageEditModel
 		}
 
 		ApplicationId = appId;
+		Urn = urn;
 
 		PopulateUiModel(conversionApplication);
 
