@@ -16,8 +16,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private readonly IFileUploadService _fileUploadService;
 		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
 		
-		private List<string> FileGroupingLists { get; set; }
-		
 		[BindProperty]
 		public string TrustBenefitDetails { get; set; }
 		
@@ -173,7 +171,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			Urn = urn;
 
 			// Grab other values from API
-			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
+			var selectedSchool = applicationDetails?.Schools.FirstOrDefault(x => x.URN == urn);
 
 			if (selectedSchool != null)
 			{
@@ -182,19 +181,19 @@ namespace Dfe.Academies.External.Web.Pages.School
 						
 			OfstedInspected = !string.IsNullOrWhiteSpace(OfstedInspectionDetails) ? SelectOption.Yes : SelectOption.No;
 			
-			DioceseFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{ApplicationId}", FileUploadConstants.DioceseFilePrefixFieldName);
+			DioceseFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.DioceseFilePrefixFieldName);
 			TempDataHelper.StoreSerialisedValue($"{appId}-dioceseFiles", TempData, DioceseFileNames);
-			FoundationConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{ApplicationId}", FileUploadConstants.FoundationConsentFilePrefixFieldName);
+			FoundationConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName);
 			TempDataHelper.StoreSerialisedValue($"{appId}-foundationConsentFiles", TempData, FoundationConsentFileNames);
-			ResolutionConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{ApplicationId}", FileUploadConstants.ResolutionConsentfilePrefixFieldName);
+			ResolutionConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName);
 			TempDataHelper.StoreSerialisedValue($"{appId}-resolutionConsentFiles", TempData, ResolutionConsentFileNames);
 			return Page();
 		}
 
 		public override async Task<IActionResult> OnPostAsync()
 		{
-			
-			var selectedSchool = await LoadAndSetSchoolDetails(ApplicationId, Urn);
+			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(ApplicationId);
+			var selectedSchool = applicationDetails?.Schools.FirstOrDefault(x => x.URN == Urn);
 			var exemptionEndDateComponents = RetrieveDateTimeComponentsFromDatePicker(Request.Form, ExemptionEndDateName);
 			string ExemptionEndDateComponentDay = exemptionEndDateComponents.FirstOrDefault(x => x.Key == "day").Value;
 			string ExemptionEndDateComponentMonth = exemptionEndDateComponents.FirstOrDefault(x => x.Key == "month").Value;
@@ -217,9 +216,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			var draftConversionApplication =
 				TempDataHelper.GetSerialisedValue<ConversionApplication>(
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-			
-			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(ApplicationId);
-			
+
 			DioceseFiles?.ForEach(async file =>
 			{
 				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.DioceseFilePrefixFieldName, file);
