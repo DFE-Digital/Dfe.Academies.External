@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace Dfe.Academies.External.Web.UnitTest.Pages.Trust;
 
 [Parallelizable(ParallelScope.All)]
-public class ApplicationSelectTrustModelTests
+internal sealed class ApplicationSelectTrustModelTests
 {
 	/// <summary>
 	/// "draftConversionApplication" in temp storage
