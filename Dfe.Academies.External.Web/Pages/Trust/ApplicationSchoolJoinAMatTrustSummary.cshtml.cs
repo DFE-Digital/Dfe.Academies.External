@@ -34,12 +34,14 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 		{
 			if (conversionApplication != null)
 			{
+				SelectedTrustName = conversionApplication.JoinTrustDetails?.TrustName ?? string.Empty;
+
 				// heading 1 - the trust the school is joining
 				ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel headingChangeTrustName 
 					= new(ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel.HeadingTrustSchoolIsJoining,
 					"/trust/applicationselecttrust")
 				{
-					Status = string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) ?
+					Status = !string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) ?
 						SchoolConversionComponentStatus.Complete
 						: SchoolConversionComponentStatus.NotStarted
 				};
