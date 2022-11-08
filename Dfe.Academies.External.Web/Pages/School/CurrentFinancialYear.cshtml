@@ -1,7 +1,9 @@
 ﻿@page
 @using Dfe.Academies.External.Web.Enums
 @using Dfe.Academies.External.Web.Extensions
+@using Dfe.Academies.External.Web.Helpers
 @using Dfe.Academies.External.Web.TagHelpers
+@using Dfe.Academies.External.Web.ViewModels
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.CurrentFinancialYearModel
 @{
@@ -18,7 +20,7 @@
 		<span class="govuk-caption-l">Finances (Step 2 of 6)</span>
 		Current financial year
 	</h1>
-	<form method="post" name="frmFinancialPreviousYear" novalidate="">
+        <form method="post" name="frmFinancialPreviousYear" novalidate="" enctype="multipart/form-data">
 		@Html.AntiForgeryToken()
 		<input type="hidden" asp-for="Urn"/>
 		<input type="hidden" asp-for="ApplicationId"/>		
@@ -93,7 +95,7 @@
 												id="revenueType-deficit" aria-expanded="false">
 	                                    <a href="#PFYRevenueStatusExplainedNotEntered"
 												class="@(Model.CFYRevenueStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
-	                                            You must enter the reason for the revenue deficit
+	                                            You must enter the reason for the revenue deficit or uplaod a file
 	                                        </a>
 		                                    <label for="revenueType-deficit" class="govuk-label">
 			                                    Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.
@@ -112,7 +114,13 @@
 													target="_blank" class="govuk-link">consistent financial reporting</a>
 									            codes.
 								            </span>
-	                                        TODO MR:- file upload control !
+                                        <label for="Upload-SchoolCFYRevenueStatusFile" class="govuk-label">
+		                                    Upload a file
+	                                    </label>
+	                                    <br/>
+	                                    <input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="SchoolCfyRevenueStatusFiles" class="govuk-label" multiple />
+	                                    <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn, FileNames = Model.SchoolCFYRevenueStatusFileNames, FilePrefixSection = FileUploadConstants.SchoolCFYRevenueStatusFile}" />
+
                                     </div>
 	                            }
 	                        }
@@ -155,7 +163,7 @@
 
                                         <a href="#PFYCapitalCarryForwardStatusExplainedNotEntered"
 											class="@(Model.CFYCapitalCarryForwardStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
-							                You must enter the reason for the capital carry forward deficit
+							                You must enter the reason for the capital carry forward deficit or upload a file
 						                </a>
                                         <label for="capitalCarryForwardStatus-deficit" class="govuk-label">
 							                Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.
@@ -174,7 +182,13 @@
 												target="_blank" class="govuk-link">consistent financial reporting</a>
 							                codes.
 						                </span>
-						                TODO MR:- file upload control !
+                                        <label for="Upload-SchoolCFYCapitalForwardFile" class="govuk-label">
+		                                    Upload a file
+	                                    </label>
+	                                    <br/>
+                                        <input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="SchoolCFYCapitalForwardFiles" class="govuk-label" multiple />
+                                        <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn, FileNames = Model.SchoolCFYCapitalForwardFileNames, FilePrefixSection = FileUploadConstants.SchoolCFYCapitalForwardFile}" />
+
 					                </div>
 								}
 			                }
