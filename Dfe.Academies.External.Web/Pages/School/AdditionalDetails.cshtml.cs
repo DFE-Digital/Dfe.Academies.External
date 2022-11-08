@@ -17,7 +17,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
 		
 		[BindProperty]
-		public string TrustBenefitDetails { get; set; }
+		public string? TrustBenefitDetails { get; set; }
 		
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
@@ -123,7 +123,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				var bools = new[] { OfstedInspectedDetailsError,
+				var bools = new[] {
+					TrustBenefitDetailsError,
+					OfstedInspectedDetailsError,
 					ExemptionEndDateNotEntered,
 					DioceseNameError,
 					DioceseFileError,
@@ -139,7 +141,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return bools.Any(b => b);
 			}
 		}
-		
+		public bool TrustBenefitDetailsError => !ModelState.IsValid && ModelState.Keys.Contains("TrustBenefitDetailsNotAdded");
 		public bool OfstedInspectedDetailsError => !ModelState.IsValid && ModelState.Keys.Contains("OfstedInspectionDetailsNotAdded");
 		public bool SafeguardingInvestigationsError => !ModelState.IsValid && ModelState.Keys.Contains("SafeguardingDetailsNotAdded");
 		public bool DioceseNameError => !ModelState.IsValid && ModelState.Keys.Contains("DioceseNameNotAdded");
@@ -272,6 +274,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public override bool RunUiValidation()
 		{
+			if (string.IsNullOrWhiteSpace(TrustBenefitDetails))
+			{
+				ModelState.AddModelError("TrustBenefitDetailsNotAdded", "You must enter details of the trust benefit");
+				PopulateValidationMessages();
+				return false;
+			}
 			if (OfstedInspected == SelectOption.Yes && string.IsNullOrWhiteSpace(OfstedInspectionDetails))
 			{
 				ModelState.AddModelError("OfstedInspectionDetailsNotAdded", "You must enter Ofsted inspection details");
