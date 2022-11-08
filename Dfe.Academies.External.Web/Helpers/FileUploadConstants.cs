@@ -8,4 +8,6 @@ public static class FileUploadConstants
 	public const string ResolutionConsentfilePrefixFieldName = "sip_adschoolgoverningbodyconsent";
 	public const string SchoolPFYRevenueStatusFile = "sip_pfyrevenuepreviousfinancialstatusfile";
 	public const string SchoolPFYCapitalForwardStatusFile = "sip_pfyrevenuecapitalcarriedforwardfile";
+	public const string SchoolCFYRevenueStatusFile = "sip_cfyrevenuecurrentfinancialstatusfile";
+	public const string SchoolCFYCapitalForwardFile = "sip_cfyforecastcapitalcarriedforwardfile";
 }
