@@ -10,4 +10,6 @@ public static class FileUploadConstants
 	public const string SchoolPFYCapitalForwardStatusFile = "sip_pfyrevenuecapitalcarriedforwardfile";
 	public const string SchoolCFYRevenueStatusFile = "sip_cfyrevenuecurrentfinancialstatusfile";
 	public const string SchoolCFYCapitalForwardFile = "sip_cfyforecastcapitalcarriedforwardfile";
+	public const string NFYForecastedRevenueFilePrefixFieldName = "sip_nfynextcurrentfinancialfile";
+	public const string NFYForecastedCapitalFilePrefixFieldName = "sip_nfyforecastcapitalcarriedforwardfile";
 }

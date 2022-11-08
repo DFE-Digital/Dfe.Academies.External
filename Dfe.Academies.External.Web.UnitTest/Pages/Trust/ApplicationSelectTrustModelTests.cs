@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace Dfe.Academies.External.Web.UnitTest.Pages.Trust;
 
 [Parallelizable(ParallelScope.All)]
-public class ApplicationSelectTrustModelTests
+internal sealed class ApplicationSelectTrustModelTests
 {
 	/// <summary>
 	/// "draftConversionApplication" in temp storage
@@ -29,6 +29,7 @@ public class ApplicationSelectTrustModelTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		int applicationId = int.MaxValue;
+		int urn = 101934;
 
 		// act
 		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationRetrievalService.Object,
@@ -37,7 +38,7 @@ public class ApplicationSelectTrustModelTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync(applicationId);
+		await pageModel.OnGetAsync(applicationId, urn);
 
 		// assert
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
@@ -53,6 +54,7 @@ public class ApplicationSelectTrustModelTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		int applicationId = int.MaxValue;
+		int urn = 101934;
 
 		// act
 		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationRetrievalService.Object,
@@ -61,7 +63,7 @@ public class ApplicationSelectTrustModelTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync(applicationId);
+		await pageModel.OnGetAsync(applicationId, urn);
 
 		pageModel.SearchQuery = "Wise Owl primary school (587634)";
 
@@ -79,6 +81,7 @@ public class ApplicationSelectTrustModelTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		int applicationId = int.MaxValue;
+		int urn = 101934;
 
 		// act
 		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationRetrievalService.Object,
@@ -87,7 +90,7 @@ public class ApplicationSelectTrustModelTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync(applicationId);
+		await pageModel.OnGetAsync(applicationId, urn);
 
 		pageModel.SearchQuery = "";
 
@@ -105,6 +108,7 @@ public class ApplicationSelectTrustModelTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		int applicationId = int.MaxValue;
+		int urn = 101934;
 
 		// act
 		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationRetrievalService.Object,
@@ -113,7 +117,7 @@ public class ApplicationSelectTrustModelTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync(applicationId);
+		await pageModel.OnGetAsync(applicationId, urn);
 
 		pageModel.SearchQuery = "Wise Owl primary school (587634)";
 
@@ -131,6 +135,7 @@ public class ApplicationSelectTrustModelTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		int applicationId = int.MaxValue;
+		int urn = 101934;
 
 		// act
 		var pageModel = SetupApplicationSelectSchoolModel(mockConversionApplicationRetrievalService.Object,
@@ -139,7 +144,7 @@ public class ApplicationSelectTrustModelTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync(applicationId);
+		await pageModel.OnGetAsync(applicationId, urn);
 
 		pageModel.SearchQuery = "";
 

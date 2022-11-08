@@ -1,18 +1,17 @@
-﻿using System.Threading.Tasks;
-using Dfe.Academies.External.Web.Pages.School;
-using Dfe.Academies.External.Web.Services;
+﻿using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using System.Threading.Tasks;
+using Dfe.Academies.External.Web.Pages.Trust;
 
-namespace Dfe.Academies.External.Web.UnitTest.Pages.School;
+namespace Dfe.Academies.External.Web.UnitTest.Pages.Trust;
 
-[Parallelizable(ParallelScope.All)]
-internal sealed class NextFinancialYearModelTests
+internal sealed class ApplicationSchoolJoinAMatTrustSummaryModelTests
 {
 	/// <summary>
 	/// "draftConversionApplication" in temp storage
@@ -24,18 +23,15 @@ internal sealed class NextFinancialYearModelTests
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockFileUploadService = new Mock<IFileUploadService>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupNextFinancialYearModel(mockFileUploadService.Object, mockConversionApplicationCreationService.Object,
-			mockConversionApplicationRetrievalService.Object,
+		var pageModel = SetupApplicationSchoolJoinAMatTrustSummaryModel(mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
@@ -46,23 +42,15 @@ internal sealed class NextFinancialYearModelTests
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
-	// TODO :- OnPostAsync___ModelIsValid___Invalid
-	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
-
-	// TODO :- OnPostAsync___ModelIsValid___Valid
-	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
-
-	private static NextFinancialYearModel SetupNextFinancialYearModel(
-		IFileUploadService mockFileUploadService,
-		IConversionApplicationCreationService mockConversionApplicationCreationService,
+	private static ApplicationSchoolJoinAMatTrustSummaryModel SetupApplicationSchoolJoinAMatTrustSummaryModel(
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new NextFinancialYearModel(mockConversionApplicationRetrievalService,
-			mockReferenceDataRetrievalService, mockConversionApplicationCreationService, mockFileUploadService)
+		return new ApplicationSchoolJoinAMatTrustSummaryModel(mockConversionApplicationRetrievalService,
+			mockReferenceDataRetrievalService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,
