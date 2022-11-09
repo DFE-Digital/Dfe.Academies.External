@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
@@ -41,11 +42,15 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public string? PFYRevenueStatusExplained { get; set; }
 
+		[DataType(DataType.Upload)]
+		[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", "pdf" })]
 		public List<IFormFile>? SchoolPFYRevenueStatusFiles { get; set; } = new();
 
 		[BindProperty]
 		public List<string> SchoolPFYRevenueStatusFileNames { get; set; }
 
+		[DataType(DataType.Upload)]
+		[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", "pdf" })]
 		public List<IFormFile>? SchoolPFYCapitalForwardStatusFiles { get; set; } = new();
 
 		[BindProperty]

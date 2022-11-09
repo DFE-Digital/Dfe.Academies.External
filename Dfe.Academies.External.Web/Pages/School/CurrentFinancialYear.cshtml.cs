@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
@@ -53,11 +54,15 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 	[BindProperty]
 	public string? PFYRevenueStatusExplained { get; set; }
 
+	[DataType(DataType.Upload)]
+	[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", "pdf" })]
 	public List<IFormFile>? SchoolCfyRevenueStatusFiles { get; set; } = new();
 
 	[BindProperty]
 	public List<string> SchoolCFYRevenueStatusFileNames { get; set; }
 
+	[DataType(DataType.Upload)]
+	[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", "pdf" })]
 	public List<IFormFile>? SchoolCFYCapitalForwardFiles { get; set; } = new();
 
 	[BindProperty]
