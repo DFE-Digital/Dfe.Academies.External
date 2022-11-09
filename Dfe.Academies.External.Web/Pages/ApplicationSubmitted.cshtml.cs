@@ -1,6 +1,7 @@
 ﻿using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages
@@ -8,15 +9,15 @@ namespace Dfe.Academies.External.Web.Pages
     public class ApplicationSubmittedModel : BasePageEditModel
 	{
 		//// Below are props for UI display
-		// TODO:- model props
 		public string ApplicationReferenceNumber { get; private set; } = string.Empty;
 
-		// List<ApplicationMilestone> = to replicate @ViewData["MilestonesConfig"]"/>
+		public ApplicationMilestonesViewModel Milestones { get; private set; }
 
 		public ApplicationSubmittedModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService) 
 	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-        {
-        }
+		{
+			Milestones = new();
+		}
 
 		public async Task<ActionResult> OnGetAsync(int appId)
 		{
@@ -48,6 +49,9 @@ namespace Dfe.Academies.External.Web.Pages
 				//ApplicationType = conversionApplication.ApplicationType;
 				ApplicationReferenceNumber = conversionApplication.ApplicationReference;
 				//NameOfTrustToJoin = conversionApplication.TrustName;
+
+				// TODO:- initialise - populate however @ViewData["MilestonesConfig"] is done in as-is !
+				Milestones = new ApplicationMilestonesViewModel();
 			}
 		}
 
