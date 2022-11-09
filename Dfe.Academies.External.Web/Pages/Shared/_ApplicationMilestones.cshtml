@@ -1,0 +1,18 @@
+﻿@model Dfe.Academies.External.Web.ViewModels.ApplicationMilestonesViewModel
+
+<div class="sip-application-status">
+	@for (var count = 0; count < Model.ApplicationMilestones.Count; count++)
+	{
+		var isComplete = count < 1 ? "completed" : ""; // Update when logic available for completed
+		var isCurrent = count == 1 ? "current" : ""; // Update this to determine which is current
+		var isLast = count == Model.ApplicationMilestones.Count - 1 ? "last" : "";
+
+		<div class="sip-application-status--row @isCurrent @isLast @isComplete">
+			<div class="sip-application-status--row-content">
+				<div class="sip-application-status--row-content-header">
+					@Model.ApplicationMilestones[count].SelectToken("SectionDisplayName")
+				</div>
+			</div>
+		</div>
+	}
+</div>
