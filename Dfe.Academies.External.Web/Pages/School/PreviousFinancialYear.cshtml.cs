@@ -115,7 +115,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			_fileUploadService = fileUploadService;
 		}
 
-		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName, string fileUploadConstant)
+		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName)
 		{
 			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", section, fileName);
 			return RedirectToPage("PreviousFinancialYear", new { Urn = urn, AppId = appId });
@@ -127,7 +127,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			SchoolPFYCapitalForwardStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", FileUploadConstants.SchoolPFYCapitalForwardStatusFile);
 
 			TempDataHelper.StoreSerialisedValue($"{appId}-SchoolPFYRevenueStatusFileNames", TempData, SchoolPFYRevenueStatusFileNames);
-			TempDataHelper.StoreSerialisedValue($"{appId}-SchoolPFYRevenueStatusFileNames", TempData, SchoolPFYRevenueStatusFileNames);
+			TempDataHelper.StoreSerialisedValue($"{appId}-SchoolPFYCapitalForwardStatusFileNames", TempData, SchoolPFYCapitalForwardStatusFileNames);
 
 			return await base.OnGetAsync(urn, appId);
 		}
@@ -151,7 +151,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				// PL:- had to put these back into tempdata or existing file names are removed after not valid scenarios
 				TempDataHelper.StoreSerialisedValue($"{ApplicationId}-SchoolPFYRevenueStatusFileNames", TempData, SchoolPFYRevenueStatusFileNames);
-				TempDataHelper.StoreSerialisedValue($"{ApplicationId}-SchoolPFYRevenueStatusFileNames", TempData, SchoolPFYRevenueStatusFileNames);
+				TempDataHelper.StoreSerialisedValue($"{ApplicationId}-SchoolPFYCapitalForwardStatusFileNames", TempData, SchoolPFYCapitalForwardStatusFileNames);
 				// MR:- date input disappears without below !!
 				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
 				return Page();
