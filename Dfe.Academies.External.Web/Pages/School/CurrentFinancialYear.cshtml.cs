@@ -55,7 +55,6 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 	public string? PFYRevenueStatusExplained { get; set; }
 
 	[DataType(DataType.Upload)]
-	[MaxFileSize(5 * 1024 * 1024)]
 	[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", "pdf" })]
 	public List<IFormFile>? SchoolCfyRevenueStatusFiles { get; set; } = new();
 
@@ -63,7 +62,6 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 	public List<string> SchoolCFYRevenueStatusFileNames { get; set; }
 
 	[DataType(DataType.Upload)]
-	[MaxFileSize(5 * 1024 * 1024)]
 	[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", "pdf" })]
 	public List<IFormFile>? SchoolCFYCapitalForwardFiles { get; set; } = new();
 

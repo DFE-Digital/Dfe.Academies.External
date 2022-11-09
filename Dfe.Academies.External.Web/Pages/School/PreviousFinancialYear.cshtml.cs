@@ -43,7 +43,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public string? PFYRevenueStatusExplained { get; set; }
 
 		[DataType(DataType.Upload)]
-		[MaxFileSize(5 * 1024 * 1024)]
 		[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", "pdf" })]
 		public List<IFormFile>? SchoolPFYRevenueStatusFiles { get; set; } = new();
 
@@ -51,7 +50,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public List<string> SchoolPFYRevenueStatusFileNames { get; set; }
 
 		[DataType(DataType.Upload)]
-		[MaxFileSize(5 * 1024 * 1024)]
 		[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", "pdf" })]
 		public List<IFormFile>? SchoolPFYCapitalForwardStatusFiles { get; set; } = new();
 
