@@ -7,13 +7,14 @@
 @*no back button !!*@
 
 <div class="govuk-grid-column-full">
-    drop govuk design system confirmation box in here:-
-
-	<p class="govuk-body">
-		Application reference:&nbsp;&nbsp;@Model.ApplicationReferenceNumber
-	</p>
-
-
+	<div class="govuk-panel govuk-panel--confirmation">
+		<h1 class="govuk-panel__title">
+			Your application has been submitted
+		</h1>
+		<div class="govuk-panel__body">
+			Your reference number is<br><strong>@Model.ApplicationReferenceNumber</strong>
+		</div>
+	</div>
 
 	<h2 class="govuk-heading-m">Completed application</h2>
 
