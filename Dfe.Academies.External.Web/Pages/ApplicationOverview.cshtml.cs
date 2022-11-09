@@ -10,8 +10,6 @@ namespace Dfe.Academies.External.Web.Pages
 {
 	public class ApplicationOverviewModel : BasePageEditModel
 	{
-		private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
-
 		public int ApplicationId { get; private set; }
 
 		//// Below are props for UI display
@@ -64,7 +62,6 @@ namespace Dfe.Academies.External.Web.Pages
 										IReferenceDataRetrievalService referenceDataRetrievalService
 		) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
-			_conversionApplicationRetrievalService = conversionApplicationRetrievalService;
 		}
 
 		public async Task<ActionResult> OnGetAsync(int appId)
@@ -90,7 +87,7 @@ namespace Dfe.Academies.External.Web.Pages
 			if (school != null)
 			{
 				school.SchoolApplicationComponents =
-					await _conversionApplicationRetrievalService.GetSchoolApplicationComponents(appId, school.URN);
+					await ConversionApplicationRetrievalService.GetSchoolApplicationComponents(appId, school.URN);
 			}
 
 			PopulateUiModel(draftConversionApplication, school);
