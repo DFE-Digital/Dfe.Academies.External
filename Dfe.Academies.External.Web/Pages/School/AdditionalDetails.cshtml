@@ -12,7 +12,7 @@
 
 @section BeforeMain
 {
-	<a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">Back to application summary</a>
+	<a asp-page="/FurtherInformationSummary" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">Back to additional details summary</a>
 }
 
 <div class="govuk-grid-column-two-thirds">
@@ -43,6 +43,9 @@
 		<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 			What will the school bring to the trust they are joining?
 		</legend>
+		<span id="trust-benefit-hint" class="govuk-hint">
+			Describe the contribution they will make
+		</span>
 		<textarea asp-for="TrustBenefitDetails" id="TrustBenefitDetails" 
                 								class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
 	</div>
@@ -255,6 +258,9 @@
 						<br/>
 						<br/>
 						Upload a file
+						<span class="govuk-hint govuk-body govuk-!-margin-bottom-5">
+							The application cannot be submitted without this. You can carry on the application and come back to this later.
+						</span>
 					</label>
 					<br/>
 					<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="DioceseFiles" class="govuk-label" multiple/>
@@ -391,6 +397,7 @@
 						   class="@(Model.ExemptionFromSACREError ? "govuk-error-message" : "govuk-visually-hidden")">
 							You must provide details
 						</a>
+						<label for="exemption-end-date" class="govuk-label">When does the exemption end?</label>
 						<div id="exemption-end-date-hint" class="govuk-hint">
 							For example, 31 3 1980
 						</div>
