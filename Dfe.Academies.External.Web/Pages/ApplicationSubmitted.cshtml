@@ -1,0 +1,66 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.ApplicationSubmittedModel
+@{
+	ViewData["Title"] = "Apply to become an academy - Application Submitted";
+}
+
+@*no back button !!*@
+
+<div class="govuk-grid-column-full">
+    drop govuk design system confirmation box in here:-
+
+	<p class="govuk-body">
+		Application reference:&nbsp;&nbsp;@Model.ApplicationReferenceNumber
+	</p>
+
+
+
+	<h2 class="govuk-heading-m">Completed application</h2>
+
+	<h3 class="govuk-heading-m">
+		What happens next
+	</h3>
+
+	<p class="govuk-body-m">
+		It takes us 2 to 6 weeks to assess your application and grant your academy order, if you're successful.
+	</p>
+
+	<p class="govuk-body-m">
+		Your project lead will contact you if they need to check anything.
+	</p>
+
+	<p class="govuk-body-m">These are the main steps in the conversion process:</p>
+
+	<partial name="_ApplicationMilestones" model="@ViewData["MilestonesConfig"]"/>
+
+	<p class="govuk-body-m">
+		If have any queries about the progress of your application, please
+		<a href="https://www.gov.uk/government/organisations/department-for-education" target="_blank">contact the Department for Education</a>.
+	</p>
+	<p class="govuk-body-m">
+		If you have any questions or comments about this service, e-mail <a href="mailto:applytoconvert.support@education.gov.uk">applytoconvert.support@education.gov.uk</a>
+	</p>
+
+	<p class="govuk-body-m">
+		As we continue to develop this service we would value your feedback on your experience. Please
+		<a href="https://dferesearch.fra1.qualtrics.com/jfe/form/SV_4PKkazZ7STV751b" target="_blank"> complete our short survey</a>.
+		The survey takes around 10 minutes to complete
+	</p>
+
+	<h2 class="govuk-heading-m govuk-!-margin-top-7">
+		If your application is successful
+	</h2>
+
+	<ul class="govuk-list sip-link-list">
+		<li>
+			<a class="govuk-!-font-weight-bold"
+			   href="https://www.gov.uk/guidance/convert-to-an-academy-information-for-schools/3-prepare-for-conversion"
+			   target="_blank">
+				Prepare for conversion
+			</a>
+		</li>
+	</ul>
+
+</div>
+
+<partial name="_HiddenFields" />
