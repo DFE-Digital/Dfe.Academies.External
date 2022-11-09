@@ -119,6 +119,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public string? FurtherInformationDetails { get; set; }
 		
+		public string SchoolName { get; private set; } = string.Empty;
+		
 		public bool HasError
 		{
 			get
@@ -211,6 +213,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			if (!RunUiValidation())
 			{
 				RePopDatePickerModel(ExemptionEndDateComponentDay, ExemptionEndDateComponentMonth, ExemptionEndDateComponentYear);
+				TempDataHelper.StoreSerialisedValue($"{ApplicationId}-dioceseFilePaths", TempData, DioceseFiles.FirstOrDefault().FileName);
 				return Page();
 			}
 
@@ -400,6 +403,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
+			SchoolName = selectedSchool.SchoolName;
 			TrustBenefitDetails = selectedSchool.TrustBenefitDetails;
 			OfstedInspectionDetails = selectedSchool.OfstedInspectionDetails;
 			OfstedInspected = selectedSchool.OfstedInspectionDetails == null
@@ -420,11 +424,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 				: SelectOption.Yes;
 
 			PartOfFederation = selectedSchool.PartOfFederation ? SelectOption.Yes : SelectOption.No;
+			FoundationTrustOrBodyName = selectedSchool.FoundationTrustOrBodyName;
 			SupportedByFoundationTrustOrBody = selectedSchool.FoundationTrustOrBodyName == null
 				? SelectOption.No
 				: SelectOption.Yes;
-			
+
 			ExemptionEndDate = selectedSchool.ExemptionEndDate;
+			ExemptionFromSACRE = ExemptionEndDate.HasValue ? SelectOption.Yes : SelectOption.No;
+			
 			MainFeederSchools = selectedSchool.MainFeederSchools;
 			
 			DisproportionateProtectedCharacteristics = selectedSchool.ProtectedCharacteristics;
