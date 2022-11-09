@@ -2,5 +2,13 @@
 
 public sealed class ApplicationMilestoneViewModel
 {
-	// TODO:-
+	public ApplicationMilestoneViewModel(string sectionName, string sectionDisplayName)
+	{
+		SectionName = sectionName;
+		SectionDisplayName = sectionDisplayName;
+	}
+
+	public string SectionName { get; set; }
+
+	public string SectionDisplayName { get; set; }
 }
