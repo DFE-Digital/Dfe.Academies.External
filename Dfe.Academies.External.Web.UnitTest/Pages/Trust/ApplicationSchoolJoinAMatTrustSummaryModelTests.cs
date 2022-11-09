@@ -42,14 +42,14 @@ internal sealed class ApplicationSchoolJoinAMatTrustSummaryModelTests
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
-	private static ApplicationSchoolJoinAMatTrustSummaryModel SetupApplicationSchoolJoinAMatTrustSummaryModel(
+	private static ApplicationSchoolTrustSummaryModel SetupApplicationSchoolJoinAMatTrustSummaryModel(
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new ApplicationSchoolJoinAMatTrustSummaryModel(mockConversionApplicationRetrievalService,
+		return new ApplicationSchoolTrustSummaryModel(mockConversionApplicationRetrievalService,
 			mockReferenceDataRetrievalService)
 		{
 			PageContext = pageContext,

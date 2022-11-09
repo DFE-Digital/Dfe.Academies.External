@@ -36,4 +36,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Trust\FormAMat\" />
+  </ItemGroup>
+
 </Project>

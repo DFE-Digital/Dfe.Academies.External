@@ -8,7 +8,7 @@ using Dfe.Academies.External.Web.ViewModels.SummaryPages;
 
 namespace Dfe.Academies.External.Web.Pages.Trust
 {
-    public class ApplicationSchoolJoinAMatTrustSummaryModel : BaseApplicationSummaryPageModel
+    public class ApplicationSchoolTrustSummaryModel : BaseApplicationSummaryPageModel
 	{
 		//// Below are props for UI display
 		public ApplicationTypes ApplicationType { get; private set; }
@@ -17,7 +17,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 
 		public List<ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel> ViewModel { get; set; } = new();
 
-		public ApplicationSchoolJoinAMatTrustSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		public ApplicationSchoolTrustSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
