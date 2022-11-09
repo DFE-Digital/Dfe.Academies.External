@@ -179,3 +179,127 @@
 	text-decoration: underline;
 	cursor: pointer;
 }
+
+/*below for application submitted page from as-is*/
+/*.sip-application-status {
+	counter-reset: section;
+	@extend .govuk-\!-margin-top-6;
+	.sip-application-status--row
+
+{
+	position: relative;
+	border-left: 3px solid $govuk-border-colour;
+	margin-left: $row-index-size-divide-by-2;
+	&.current
+
+{
+	&::before
+
+{
+	border-color: govuk-colour("black");
+	background-color: govuk-colour("black");
+	color: govuk-colour("white");
+}
+
+}
+
+&.completed {
+	&::before
+
+{
+	background-color: govuk-colour("grey-2");
+	color: govuk-colour("white");
+}
+
+.sip-application-status--row-content-header {
+	color: $govuk-secondary-text-colour;
+}
+
+}
+
+&.last {
+	border-left: none;
+	&::before
+
+{
+	content: "";
+	display: block;
+	position: absolute;
+	top: $row-index-size-divide-by-2;
+	left: $row-last-index-left;
+	width: $row-last-index-width;
+	height: 0;
+	border-radius: 0%;
+	border: none;
+	border-top: 3px solid $govuk-border-colour;
+}
+
+&::after {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: $row-index-size-divide-by-2;
+	border: none;
+	border-left: 3px solid $govuk-border-colour;
+}
+
+.sip-application-status--row-content {
+	@extend .govuk-\!-padding-bottom-6;
+	.govuk-details
+
+{
+	border-bottom: none;
+}
+
+}
+}
+
+&::before {
+	@extend .govuk-body, .govuk-\!-font-weight-bold;
+	counter-increment: section;
+	content: counter(section);
+	display: block;
+	position: absolute;
+	top: 0;
+	left: $row-index-left;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: $row-index-size;
+	height: $row-index-size;
+	border-radius: 100%;
+	border: 3px solid $govuk-border-colour;
+	background-color: govuk-colour("white");
+	color: govuk-colour("black");
+}
+
+.sip-application-status--row-content {
+	padding-left: $row-content-padding-left;
+	@extend .govuk-\!-padding-top-1, .govuk-\!-padding-bottom-6;
+	.sip-application-status--row-content-header
+
+{
+	@extend .govuk-heading-m;
+	margin-bottom: govuk-spacing(1);
+}
+
+.sip-application-status--row-content-date {
+	@extend .govuk-body-s;
+	color: $govuk-secondary-text-colour;
+}
+
+.govuk-details {
+	@extend .govuk-\!-padding-bottom-5;
+	margin-bottom: 0;
+	border-bottom: 1px solid $govuk-border-colour;
+}
+
+.govuk-details__summary-text {
+	@extend .govuk-\!-font-size-16;
+}
+
+}
+}
+}*/

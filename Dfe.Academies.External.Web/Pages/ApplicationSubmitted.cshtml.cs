@@ -50,7 +50,8 @@ namespace Dfe.Academies.External.Web.Pages
 				ApplicationReferenceNumber = conversionApplication.ApplicationReference;
 				//NameOfTrustToJoin = conversionApplication.TrustName;
 
-				// TODO:- initialise - populate however @ViewData["MilestonesConfig"] is done in as-is !
+				// initialise - populate however @ViewData["MilestonesConfig"] is done in as-is !
+				// ViewData["Milestones"] = SessionHelper.GetSectionsFromSession("Milestones"); gets data from json in constants !
 				Milestones = new ApplicationMilestonesViewModel();
 			}
 		}
