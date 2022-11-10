@@ -459,43 +459,37 @@ $row-index-size-divide-by-2: $row-index-size / 2;
 $row-index-left: -$row-index-size-divide-by-2 - 4px;
 $row-content-padding-left: $row-index-size-divide-by-2 + govuk-spacing(7);
 $row-last-index-left: -$row-index-size-divide-by-2 - 1px;
-$row-last-index-width: $row-index-size + (6px);	
+$row-last-index-width: $row-index-size + (6px);		
 	
-	
-	.sip-application-status {
+.sip-application-status 
+{
 	counter-reset: section;
 	@extend .govuk-\!-margin-top-6; /** inherit gov uk design system style - add a margin top
+	
 	.sip-application-status--row
+	{
+		position: relative;
+		border-left: 3px solid $govuk-border-colour; /** TBC
+		margin-left: $row-index-size-divide-by-2; /** TBC
 
-{
-	position: relative;
-	border-left: 3px solid $govuk-border-colour; /** TBC
-	margin-left: $row-index-size-divide-by-2; // ???
-	&.current
+		&.current
+		{
+			&::before {
+			border-color: govuk-colour("black"); /** TBC
+			background-color: govuk-colour("black"); /** TBC
+			color: govuk-colour("white"); /** TBC
+		}
+	}
 
-{
-	&::before
+	&.completed {
+		&::before {
+			background-color: govuk-colour("grey-2"); /** TBC
+			color: govuk-colour("white"); /** TBC
+		}
 
-{
-	border-color: govuk-colour("black"); /** TBC
-	background-color: govuk-colour("black"); /** TBC
-	color: govuk-colour("white"); /** TBC
-}
-
-}
-
-&.completed {
-	&::before
-
-{
-	background-color: govuk-colour("grey-2"); /** TBC
-	color: govuk-colour("white"); /** TBC
-}
-
-.sip-application-status--row-content-header {
-	color: $govuk-secondary-text-colour; /** TBC
-}
-
+	.sip-application-status--row-content-header {
+		color: $govuk-secondary-text-colour; /** TBC
+	}
 }
 
 &.last {
