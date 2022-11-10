@@ -181,24 +181,33 @@
 }
 
 /*below for application submitted page from as-is*/
-/*.sip-application-status {
+/*
+$row-index-size: 32px;
+$row-index-size-divide-by-2: $row-index-size / 2;
+$row-index-left: -$row-index-size-divide-by-2 - 4px;
+$row-content-padding-left: $row-index-size-divide-by-2 + govuk-spacing(7);
+$row-last-index-left: -$row-index-size-divide-by-2 - 1px;
+$row-last-index-width: $row-index-size + (6px);	
+	
+	
+	.sip-application-status {
 	counter-reset: section;
-	@extend .govuk-\!-margin-top-6;
+	@extend .govuk-\!-margin-top-6; /** inherit gov uk design system style - add a margin top
 	.sip-application-status--row
 
 {
 	position: relative;
-	border-left: 3px solid $govuk-border-colour;
-	margin-left: $row-index-size-divide-by-2;
+	border-left: 3px solid $govuk-border-colour; /** TBC
+	margin-left: $row-index-size-divide-by-2; // ???
 	&.current
 
 {
 	&::before
 
 {
-	border-color: govuk-colour("black");
-	background-color: govuk-colour("black");
-	color: govuk-colour("white");
+	border-color: govuk-colour("black"); /** TBC
+	background-color: govuk-colour("black"); /** TBC
+	color: govuk-colour("white"); /** TBC
 }
 
 }
@@ -207,12 +216,12 @@
 	&::before
 
 {
-	background-color: govuk-colour("grey-2");
-	color: govuk-colour("white");
+	background-color: govuk-colour("grey-2"); /** TBC
+	color: govuk-colour("white"); /** TBC
 }
 
 .sip-application-status--row-content-header {
-	color: $govuk-secondary-text-colour;
+	color: $govuk-secondary-text-colour; /** TBC
 }
 
 }
@@ -225,13 +234,13 @@
 	content: "";
 	display: block;
 	position: absolute;
-	top: $row-index-size-divide-by-2;
-	left: $row-last-index-left;
-	width: $row-last-index-width;
+	top: $row-index-size-divide-by-2; /** see above
+	left: $row-last-index-left; /** see above
+	width: $row-last-index-width; /** see above
 	height: 0;
 	border-radius: 0%;
 	border: none;
-	border-top: 3px solid $govuk-border-colour;
+	border-top: 3px solid $govuk-border-colour; /** TBC
 }
 
 &::after {
@@ -240,13 +249,13 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	height: $row-index-size-divide-by-2;
+	height: $row-index-size-divide-by-2; /** see above
 	border: none;
-	border-left: 3px solid $govuk-border-colour;
+	border-left: 3px solid $govuk-border-colour; /** TBC
 }
 
 .sip-application-status--row-content {
-	@extend .govuk-\!-padding-bottom-6;
+	@extend .govuk-\!-padding-bottom-6; /** inherit gov uk design system style - add a padding bottom
 	.govuk-details
 
 {
@@ -257,47 +266,47 @@
 }
 
 &::before {
-	@extend .govuk-body, .govuk-\!-font-weight-bold;
+	@extend .govuk-body, .govuk-\!-font-weight-bold; /** inherit gov uk design system style - font weight
 	counter-increment: section;
 	content: counter(section);
 	display: block;
 	position: absolute;
 	top: 0;
-	left: $row-index-left;
+	left: $row-index-left; /** see above
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: $row-index-size;
-	height: $row-index-size;
+	width: $row-index-size; /** see above
+	height: $row-index-size; /** see above
 	border-radius: 100%;
-	border: 3px solid $govuk-border-colour;
-	background-color: govuk-colour("white");
-	color: govuk-colour("black");
+	border: 3px solid $govuk-border-colour; /** TBC
+	background-color: govuk-colour("white"); /** TBC
+	color: govuk-colour("black"); /** TBC
 }
 
 .sip-application-status--row-content {
 	padding-left: $row-content-padding-left;
-	@extend .govuk-\!-padding-top-1, .govuk-\!-padding-bottom-6;
+	@extend .govuk-\!-padding-top-1, .govuk-\!-padding-bottom-6; /** inherit gov uk design system style - add a margin top
 	.sip-application-status--row-content-header
 
 {
 	@extend .govuk-heading-m;
-	margin-bottom: govuk-spacing(1);
+	margin-bottom: govuk-spacing(1); /** TBC
 }
 
 .sip-application-status--row-content-date {
 	@extend .govuk-body-s;
-	color: $govuk-secondary-text-colour;
+	color: $govuk-secondary-text-colour; /** TBC
 }
 
 .govuk-details {
-	@extend .govuk-\!-padding-bottom-5;
+	@extend .govuk-\!-padding-bottom-5; /** inherit gov uk design system style - add a margin top
 	margin-bottom: 0;
-	border-bottom: 1px solid $govuk-border-colour;
+	border-bottom: 1px solid $govuk-border-colour; /** TBC
 }
 
 .govuk-details__summary-text {
-	@extend .govuk-\!-font-size-16;
+	@extend .govuk-\!-font-size-16; /** inherit gov uk design system style - add a margin top
 }
 
 }
