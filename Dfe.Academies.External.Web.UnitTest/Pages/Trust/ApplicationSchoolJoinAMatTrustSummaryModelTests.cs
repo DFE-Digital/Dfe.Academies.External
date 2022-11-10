@@ -25,6 +25,7 @@ internal sealed class ApplicationSchoolJoinAMatTrustSummaryModelTests
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockFileUploadService = new Mock<IFileUploadService>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
@@ -32,7 +33,7 @@ internal sealed class ApplicationSchoolJoinAMatTrustSummaryModelTests
 
 		// act
 		var pageModel = SetupApplicationSchoolJoinAMatTrustSummaryModel(mockConversionApplicationRetrievalService.Object,
-			mockReferenceDataRetrievalService.Object);
+			mockReferenceDataRetrievalService.Object, mockFileUploadService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -45,12 +46,13 @@ internal sealed class ApplicationSchoolJoinAMatTrustSummaryModelTests
 	private static ApplicationSchoolTrustSummaryModel SetupApplicationSchoolJoinAMatTrustSummaryModel(
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
+		IFileUploadService fileUploadService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new ApplicationSchoolTrustSummaryModel(mockConversionApplicationRetrievalService,
-			mockReferenceDataRetrievalService)
+		return new ApplicationSchoolJoinAMatTrustSummaryModel(mockConversionApplicationRetrievalService,
+			mockReferenceDataRetrievalService, fileUploadService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

@@ -7,6 +7,7 @@ using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Sentry.Protocol;
+using Dfe.Academies.External.Web.CustomValidators;
 
 namespace Dfe.Academies.External.Web.Pages.School;
 public class NextFinancialYearModel : BaseSchoolPageEditModel
@@ -53,13 +54,17 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 	[BindProperty]
 	public string? NFYCapitalCarryForwardExplained { get; set; }
 
+	[DataType(DataType.Upload)]
+	[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", "pdf" })]
 	[BindProperty] 
 	public List<IFormFile> ForecastedRevenueFiles { get; set; } = new();
 	
 	[BindProperty]
 	public List<string> ForecastedRevenueFileNames { get; set; }
 
-	[BindProperty] 
+	[DataType(DataType.Upload)]
+	[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", "pdf" })]
+	[BindProperty]
 	public List<IFormFile> ForecastedCapitalFiles { get; set; } = new();
 	
 	[BindProperty]
