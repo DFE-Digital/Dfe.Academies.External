@@ -180,8 +180,170 @@
 	cursor: pointer;
 }
 
-/*below for application submitted page from as-is*/
 /*
+Classes generated / used in code:-
+	sip-application-status -- found in rendered code!	
+	sip-application-status--row   completed '3 spaces generated in c# code after row class name' -- found in rendered code!
+	sip-application-status--row   '3 spaces generated in c# code after row class name' -- found in rendered code!
+	sip-application-status--row current '0 spaces generated in c# code after row class name' -- found in rendered code!
+	sip-application-status--row  last '2 spaces generated in c# code after row class name' -- found in rendered code!
+	sip-application-status--row-content -- found in rendered code! 
+	sip-application-status--row-content-header -- found in rendered code!
+*/
+
+/*div class='sip-application-status' */
+.sip-application-status {
+	counter-reset: section;
+	margin-top: 30px !important; /*.govuk-\!-margin-top-6; inherit gov uk design system style - add a margin top */
+}
+
+/*div class='sip-application-status-- row   completed' */
+.sip-application-status--row {
+	position: relative;
+	border-left: 3px solid #bfc1c3; /* $govuk-border-colour */
+	margin-left: 16px;
+}
+
+.sip-application-status .sip-application-status--row.completed::before {
+	background-color: #bfc1c3;
+	color: #fff;
+}
+
+.sip-application-status .sip-application-status--row::before {
+	counter-increment: section;
+	content: counter(section);
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 100%;
+	border: 3px solid #bfc1c3;
+	background-color: #fff;
+	color: #0b0c0c;
+}
+
+.govuk-\!-font-weight-bold, .sip-application-status .sip-application-status--row::before, .sip-overview-table 
+{
+	font-weight: 700 !important;
+}
+
+@media (min-width: 40.0625em) 
+.autocomplete__option, .govuk-body, .govuk-body-m, .sip-application-status .sip-application-status--row::before, p 
+{
+	margin-bottom: 20px;
+}
+
+/*div class='sip-application-status--row-content' */
+.sip-application-status .sip-application-status--row .sip-application-status--row-content 
+{
+	padding-left: 56px;
+}
+
+@media (min-width: 40.0625em) 
+.govuk-\!-padding-bottom-6, .sip-application-status .sip-application-status--row .sip-application-status--row-content, .sip-application-status .sip-application-status--row.last .sip-application-status--row-content 
+{
+	padding-bottom: 30px!important;
+}
+
+.govuk-\!-padding-bottom-6, .sip-application-status .sip-application-status--row .sip-application-status--row-content, .sip-application-status .sip-application-status--row.last .sip-application-status--row-content 
+{
+	padding-bottom: 20px !important;
+}
+
+@media (min-width: 40.0625em) 
+.govuk-\!-padding-top-1, .sip-application-overview__item .govuk-inset-text, .sip-application-status .sip-application-status--row .sip-application-status--row-content 
+{
+	padding-top: 5px!important;
+}
+
+.govuk-\!-padding-top-1, .sip-application-overview__item .govuk-inset-text, .sip-application-status .sip-application-status--row .sip-application-status--row-content {
+	padding-top: 5px !important;
+}
+
+@media (min-width: 40.0625em) 
+.govuk-\!-padding-top-1, .sip-application-overview__item .govuk-inset-text, .sip-application-status .sip-application-status--row .sip-application-status--row-content {
+ padding-top: 5px!important;
+}
+
+.govuk-\!-padding-top-1, .sip-application-overview__item .govuk-inset-text, .sip-application-status .sip-application-status--row .sip-application-status--row-content {
+	padding-top: 5px !important;
+}
+
+/* sip-application-status--row-content-header */
+.sip-application-status .sip-application-status--row .sip-application-status--row-content .sip-application-status--row-content-header {
+	margin-bottom: 5px;
+}
+
+.sip-application-status .sip-application-status--row.completed .sip-application-status--row-content-header {
+	color: #6f777b;
+}
+
+@media (min-width: 40.0625em) 
+.govuk-heading-m, .sip-application-overview__item .sip-application-overview__heading, .sip-application-status .sip-application-status--row .sip-application-status--row-content .sip-application-status--row-content-header, .sip-overview-table__header {
+	margin-bottom: 20px;
+}
+
+@media (min-width: 40.0625em) 
+.govuk-heading-m, .sip-application-overview__item .sip-application-overview__heading, .sip-application-status .sip-application-status--row .sip-application-status--row-content .sip-application-status--row-content-header, .sip-overview-table__header {
+	font-size: 24px;
+	font-size: 1.5rem;
+	line-height: 1.25;
+}
+
+/* sip-application-status--row current */
+/* TODO */
+
+/* sip-application-status--row    */
+.sip-application-status .sip-application-status--row {
+	position: relative;
+	border-left: 3px solid #bfc1c3;
+	margin-left: 16px;
+}
+
+.sip-application-status .sip-application-status--row::before {
+	counter-increment: section;
+	content: counter(section);
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 100%;
+	border: 3px solid #bfc1c3;
+	background-color: #fff;
+	color: #0b0c0c;
+}
+
+.govuk-\!-font-weight-bold, .sip-application-status .sip-application-status--row::before, .sip-overview-table {
+	font-weight: 700 !important;
+}
+
+@media (min-width: 40.0625em) 
+.autocomplete__option, .govuk-body, .govuk-body-m, .sip-application-status .sip-application-status--row::before, p {
+	                              margin-bottom: 20px;
+}
+
+@media (min-width: 40.0625em) 
+.autocomplete__option, .govuk-body, .govuk-body-m, .sip-application-status .sip-application-status--row::before, p {
+	                              font-size: 19px;
+	                              font-size: 1.1875rem;
+	                              line-height: 1.3157894737;
+}
+
+/* sip-application-status--row  last */
+/* TODO */
+
+/*below for application submitted page from as-is*/
+	/*
 $row-index-size: 32px;
 $row-index-size-divide-by-2: $row-index-size / 2;
 $row-index-left: -$row-index-size-divide-by-2 - 4px;
