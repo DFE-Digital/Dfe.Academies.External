@@ -14,8 +14,8 @@ public static class StartupExtension
 	/// <exception cref="Exception"></exception>
 	public static void AddAcademiesApi(this IServiceCollection services, IConfiguration configuration)
 	{
-		var academiesApiEndpoint = configuration["academies-api:endpoint"];
-		var academiesApiKey = configuration["academies-api:key"];
+		var academiesApiEndpoint = configuration["academies_api:endpoint"];
+		var academiesApiKey = configuration["academies_api:key"];
 
 		if (string.IsNullOrWhiteSpace(academiesApiEndpoint) || string.IsNullOrWhiteSpace(academiesApiKey))
 			throw new Exception("AddAcademiesApi::missing configuration");
@@ -36,8 +36,8 @@ public static class StartupExtension
 	/// <exception cref="Exception"></exception>
 	public static void AddAcademisationApi(this IServiceCollection services, IConfiguration configuration)
 	{
-		var academisationApiEndpoint = configuration["academisation-api:endpoint"];
-		var academisationApiKey = configuration["academisation-api:key"];
+		var academisationApiEndpoint = configuration["academisation_api:endpoint"];
+		var academisationApiKey = configuration["academisation_api:key"];
 
 		if (string.IsNullOrWhiteSpace(academisationApiEndpoint) || string.IsNullOrWhiteSpace(academisationApiKey))
 			throw new Exception("AddAcademisationApi::missing configuration");
