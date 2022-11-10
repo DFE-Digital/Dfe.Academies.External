@@ -295,8 +295,52 @@ Classes generated / used in code:-
 	line-height: 1.25;
 }
 
-/* sip-application-status--row current */
-/* TODO */
+/* sip-application-status--row current    */
+.sip-application-status .sip-application-status--row {
+	position: relative;
+	border-left: 3px solid #bfc1c3;
+	margin-left: 16px;
+}
+
+.sip-application-status .sip-application-status--row.current::before {
+	border-color: #0b0c0c;
+	background-color: #0b0c0c;
+	color: #fff;
+}
+
+.sip-application-status .sip-application-status--row::before {
+	counter-increment: section;
+	content: counter(section);
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 100%;
+	border: 3px solid #bfc1c3;
+	background-color: #fff;
+	color: #0b0c0c;
+}
+
+.govuk-\!-font-weight-bold, .sip-application-status .sip-application-status--row::before, .sip-overview-table {
+	font-weight: 700 !important;
+}
+
+@media (min-width: 40.0625em) 
+.autocomplete__option, .govuk-body, .govuk-body-m, .sip-application-status .sip-application-status--row::before, p {
+	margin-bottom: 20px;
+}
+
+@media (min-width: 40.0625em) 
+.autocomplete__option, .govuk-body, .govuk-body-m, .sip-application-status .sip-application-status--row::before, p {
+	font-size: 19px;
+	font-size: 1.1875rem;
+	line-height: 1.3157894737;
+}
 
 /* sip-application-status--row    */
 .sip-application-status .sip-application-status--row {
@@ -340,10 +384,76 @@ Classes generated / used in code:-
 }
 
 /* sip-application-status--row  last */
-/* TODO */
+.sip-application-status .sip-application-status--row.last {
+	border-left: none;
+}
+
+.sip-application-status .sip-application-status--row {
+	position: relative;
+	border-left: 3px solid #bfc1c3;
+	margin-left: 16px;
+}
+
+.sip-application-status .sip-application-status--row.last::before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 16px;
+	left: -17px;
+	width: 38px;
+	height: 0;
+	border-radius: 0;
+	border: none;
+	border-top: 3px solid #bfc1c3;
+}
+
+.sip-application-status .sip-application-status--row::before {
+	counter-increment: section;
+	content: counter(section);
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 100%;
+	border: 3px solid #bfc1c3;
+	background-color: #fff;
+	color: #0b0c0c;
+}
+
+.govuk-\!-font-weight-bold, .sip-application-status .sip-application-status--row::before, .sip-overview-table {
+	font-weight: 700 !important;
+}
+
+@media (min-width: 40.0625em) 
+.autocomplete__option, .govuk-body, .govuk-body-m, .sip-application-status .sip-application-status--row::before, p {
+	margin-bottom: 20px;
+}
+
+@media (min-width: 40.0625em) 
+.autocomplete__option, .govuk-body, .govuk-body-m, .sip-application-status .sip-application-status--row::before, p {
+	font-size: 19px;
+	font-size: 1.1875rem;
+	line-height: 1.3157894737;
+}
+
+.sip-application-status .sip-application-status--row.last::after {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 16px;
+	border: none;
+	border-left: 3px solid #bfc1c3;
+}
 
 /*below for application submitted page from as-is*/
-	/*
+/*
 $row-index-size: 32px;
 $row-index-size-divide-by-2: $row-index-size / 2;
 $row-index-left: -$row-index-size-divide-by-2 - 4px;
