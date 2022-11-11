@@ -43,7 +43,7 @@ internal sealed class ApplicationSchoolJoinAMatTrustSummaryModelTests
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
-	private static ApplicationSchoolTrustSummaryModel SetupApplicationSchoolJoinAMatTrustSummaryModel(
+	private static ApplicationSchoolJoinAMatTrustSummaryModel SetupApplicationSchoolJoinAMatTrustSummaryModel(
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		IFileUploadService fileUploadService,

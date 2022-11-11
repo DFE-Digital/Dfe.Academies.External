@@ -55,7 +55,7 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 	public string? NFYCapitalCarryForwardExplained { get; set; }
 
 	[DataType(DataType.Upload)]
-	[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", "pdf" })]
+	[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", ".pdf" })]
 	[BindProperty] 
 	public List<IFormFile> ForecastedRevenueFiles { get; set; } = new();
 	
@@ -63,7 +63,7 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 	public List<string> ForecastedRevenueFileNames { get; set; }
 
 	[DataType(DataType.Upload)]
-	[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", "pdf" })]
+	[AllowedExtensions(new[] { ".doc", ".docx", ".ppt", ".pptx", ".pdf" })]
 	[BindProperty]
 	public List<IFormFile> ForecastedCapitalFiles { get; set; } = new();
 	
