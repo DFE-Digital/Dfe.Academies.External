@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using NUnit.Framework;
 
@@ -35,7 +36,7 @@ internal sealed class ExistingTrustTests
 		int applicationId = 99;
 		string trustName = Fixture.Create<string>();
 		int ukprn = Fixture.Create<int>();
-		bool? changesToTrust = Fixture.Create<bool>();
+		TrustChange? changesToTrust = Fixture.Create<TrustChange>();
 		string? changesToTrustExplained = null;
 		bool? changesToLaGovernance = Fixture.Create<bool>();
 		string? changesToLaGovernanceExplained = null;
