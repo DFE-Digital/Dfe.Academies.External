@@ -12,7 +12,7 @@
 
 @section BeforeMain
 {
-	<a asp-page="/FurtherInformationSummary" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">Back to additional details summary</a>
+	<a asp-page="FurtherInformationSummary" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">Back to additional details summary</a>
 }
 
 <div class="govuk-grid-column-two-thirds">
@@ -461,11 +461,12 @@
 	<br/>
 
 	<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {
-														ApplicationId = Model.ApplicationId,
-														Urn = Model.Urn, 
-														FilePrefixSection = FileUploadConstants.ResolutionConsentfilePrefixFieldName,
-														FileNames = Model.ResolutionConsentFileNames
-                                                   	}'/>
+	ApplicationId = Model.ApplicationId,
+	Urn = Model.Urn, 
+	FilePrefixSection = FileUploadConstants.ResolutionConsentfilePrefixFieldName,
+	FileNames = Model.ResolutionConsentFileNames
+}'/>
+	<p class="govuk-body govuk-radios__conditional">The application cannot be submitted without this. You can carry on the application and come back to this later.</p>
 </div>
 			
 <div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">

@@ -213,7 +213,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			if (!RunUiValidation())
 			{
 				RePopDatePickerModel(ExemptionEndDateComponentDay, ExemptionEndDateComponentMonth, ExemptionEndDateComponentYear);
-				TempDataHelper.StoreSerialisedValue($"{ApplicationId}-dioceseFilePaths", TempData, DioceseFiles.FirstOrDefault().FileName);
 				return Page();
 			}
 
