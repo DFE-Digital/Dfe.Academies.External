@@ -1,0 +1,62 @@
+@page
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@using Dfe.Academies.External.Web.Helpers
+@using Dfe.Academies.External.Web.ViewModels
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Dfe.Academies.External.Web.Pages.Trust.JoinAMat.TrustConsent
+@{
+	ViewData["Title"] = "Apply to become an academy - About the conversion";
+}
+
+@section BeforeMain
+{
+	<a asp-page="ApplicationSchoolJoinAMatTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back to trust summary</a>
+}
+
+<form method="post" name="frmTrustConsent" novalidate="" enctype="multipart/form-data">
+	@Html.AntiForgeryToken()
+	<input type="hidden" asp-for="Urn"/>
+	<input type="hidden" asp-for="ApplicationId"/>
+	<partial name="_HiddenFields"/>
+
+	<div class="govuk-grid-column-two-thirds">
+		<span class="govuk-caption-l">@Model.SelectedTrustName (step 1 of 3)</span>
+		<h1 class="govuk-heading-l">
+			Trust consent
+		</h1>
+
+		<div class="@(Model.TrustConsentFileError ? "govuk-form-group--error" : "govuk-radios__conditional")"
+		     id="TrustConsentFileNotAddedError" aria-expanded="false">
+			<div class="govuk-form-group govuk-error-summary__list">
+				<a href="#TrustConsentFileNotAddedError"
+				   class="@(Model.TrustConsentFileError ? "govuk-error-message" : "govuk-visually-hidden")">
+					You must upload a file
+				</a>
+			</div>
+		</div>
+
+		<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+			Upload evidence that the trust consents to the school joining
+		</legend>
+		<label class="govuk-label">This can be either a letter of consent from the trust, or the minutes of their board meeting.
+			<br/>
+			<br/>
+			Upload a file
+		</label>
+		<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="TrustConsentFiles" class="govuk-label" multiple/>
+
+		<br/>
+
+		<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel { ApplicationId = Model.ApplicationId, Urn = Model.Urn, FilePrefixSection = FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName, FileNames = Model.TrustConsentFileNames }'/>
+
+		<br/>
+		<p class="govuk-body govuk-radios__conditional">The application cannot be submitted without this. You can carry on the application and come back to this later.</p>
+
+
+		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+
+	</div>
+</form>
+@*<input type="hidden" asp-for="Urn" />*@
+<partial name="_HiddenFields" />
