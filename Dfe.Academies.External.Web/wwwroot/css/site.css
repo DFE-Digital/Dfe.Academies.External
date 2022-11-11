@@ -238,7 +238,8 @@ Classes generated / used in code:-
 	margin-bottom: 20px;
 }
 
-@media (min-width: 40.0625em) .autocomplete__option, .govuk-body, .govuk-body-m, .sip-application-status .sip-application-status--row::before, p {
+@media (min-width: 40.0625em) 
+.autocomplete__option, .govuk-body, .govuk-body-m, .sip-application-status .sip-application-status--row::before, p {
 	font-size: 19px;
 	font-size: 1.1875rem;
 	line-height: 1.3157894737;
@@ -265,15 +266,6 @@ Classes generated / used in code:-
 .govuk-\!-padding-top-1, .sip-application-overview__item .govuk-inset-text, .sip-application-status .sip-application-status--row .sip-application-status--row-content 
 {
 	padding-top: 5px!important;
-}
-
-.govuk-\!-padding-top-1, .sip-application-overview__item .govuk-inset-text, .sip-application-status .sip-application-status--row .sip-application-status--row-content {
-	padding-top: 5px !important;
-}
-
-@media (min-width: 40.0625em) 
-.govuk-\!-padding-top-1, .sip-application-overview__item .govuk-inset-text, .sip-application-status .sip-application-status--row .sip-application-status--row-content {
- padding-top: 5px!important;
 }
 
 .govuk-\!-padding-top-1, .sip-application-overview__item .govuk-inset-text, .sip-application-status .sip-application-status--row .sip-application-status--row-content {
