@@ -22,7 +22,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		[BindProperty]
 		public TrustChange? TrustChange { get; set; }
 
-		public string SelectedTrustName { get; set; }
+		public string? SelectedTrustName { get; set; }
 
 		[BindProperty]
 		public string? TrustChangeExplained { get; set; }

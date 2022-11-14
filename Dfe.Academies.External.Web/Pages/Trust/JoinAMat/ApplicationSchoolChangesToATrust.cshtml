@@ -31,44 +31,41 @@
                             Will there be changes to the governance of the trust due to the school joining?
                         </legend>
                         <label for="trustChangeReason" class="govuk-label">For example, changes to the trustees or their roles</label>
-	                    <fieldset class="govuk-fieldset" role="group" aria-describedby="">
-                            <div class="govuk-form-group">
-                            @foreach (var trustChange in Enum.GetValues(typeof(TrustChange)).OfType<TrustChange>())
+                        <div class="govuk-form-group">
+                        @foreach (var trustChange in Enum.GetValues(typeof(TrustChange)).OfType<TrustChange>())
+                        {
+                            <div class="govuk-radios__item">
+                                <input type="radio"
+                                   asp-for="TrustChange"
+                                   value="@Convert.ToInt32(trustChange)"
+                                   id="revenueRevenueType@(trustChange)"
+                                   class="govuk-radios__input"
+                                   data-aria-controls="trustChange-@(trustChange.ToString().ToLower())"
+                                   checked="@(trustChange.Equals(Model.TrustChange))"
+                                   aria-expanded="False" />
+                                <label for="revenueType@(trustChange)" class="govuk-label govuk-radios__label">
+                                    @trustChange.GetDescription()
+                                </label>
+                            </div>
+
+                            @if (trustChange == TrustChange.Yes)
                             {
-                                <div class="govuk-radios__item">
-                                    <input type="radio"
-                                       asp-for="TrustChange"
-                                       value="@Convert.ToInt32(trustChange)"
-                                       id="revenueRevenueType@(trustChange)"
-                                       class="govuk-radios__input"
-                                       data-aria-controls="trustChange-@(trustChange.ToString().ToLower())"
-                                       checked="@(trustChange.Equals(Model.TrustChange))"
-                                       aria-expanded="False" />
-                                    <label for="revenueType@(trustChange)" class="govuk-label govuk-radios__label">
-                                        @trustChange.GetDescription()
-                                    </label>
-                                </div>
-
-                                @if (trustChange == TrustChange.Yes)
-                                {
-                                    <div class="@(Model.TrustChangeExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
+                                <div class="@(Model.TrustChangeExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
 							@(Model.TrustChange != TrustChange.Yes ? "govuk-radios__conditional--hidden" : "")"
-                                 id="trustChange-yes" aria-expanded="false">
-                                        <a href="#TrustChangeExplainedNotEntered"
-                                   class="@(Model.TrustChangeExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                            You must enter the details of the changes to the trust
-                                        </a>
-	                                    <span class="govuk-hint">
-                                            What are the changes
-                                        </span>
-                                        <textarea asp-for="TrustChangeExplained" id="PFYRevenueStatusExplained"
-                                          class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
-                                    </div>
-                                }
+                             id="trustChange-yes" aria-expanded="false">
+                                    <a href="#TrustChangeExplainedNotEntered"
+                               class="@(Model.TrustChangeExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
+                                        You must enter the details of the changes to the trust
+                                    </a>
+                                    <span class="govuk-hint">
+                                        What are the changes
+                                    </span>
+                                    <textarea asp-for="TrustChangeExplained" id="PFYRevenueStatusExplained"
+                                      class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                                </div>
                             }
-                        </div>
-
-                    </fieldset>
+                        }
+                    </div>
                 </div>
             </fieldset>
         </div>
