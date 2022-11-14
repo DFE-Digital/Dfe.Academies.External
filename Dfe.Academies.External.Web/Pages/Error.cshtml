@@ -5,14 +5,26 @@
 }
 
 <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Sorry, there is a problem with the service</h1>
-	<p class="govuk-body">Try again later.</p>
-	<p class="govuk-body">An error occurred while processing your request.</p>
+	<a class="govuk-back-link" href="JavaScript:window.history.back();">Back</a>
+
+	<h1 class="govuk-heading-l">Sorry, something has gone wrong</h1>
+	<p class="govuk-body">A fault has stopped us from doing what you asked.
+		It might work next time if you try again.
+	</p>
+	<h2 class="govuk-heading-m">If the problem continues</h2>
+	<p class="govuk-body">
+		Email
+		<a class="govuk-link" href="mailto:regionalservices.rg@education.gov.uk">
+			regionalservices.rg@education.gov.uk
+		</a>, giving as much information as you can about what you were doing when the problem happened.
+	</p>
+
+	<p class="govuk-body">Please include the following error code in your message:</p>
 
 	@if (Model.ShowRequestId)
 	{
-		<p>
-			<strong>Request ID:</strong> <code>@Model.RequestId</code>
+        <p class="govuk-body">
+			<code>@Model.RequestId</code>
 		</p>
 	}
 </div>
