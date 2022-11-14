@@ -13,7 +13,10 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 	{
 		private readonly IFileUploadService _fileUploadService;
 		
-		public TrustConsent(IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService, IFileUploadService fileUploadService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "ApplicationSchoolChangesToATrust")
+		public TrustConsent(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
+			IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService, 
+			IFileUploadService fileUploadService) 
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "ApplicationSchoolChangesToATrust")
 		{
 			_fileUploadService = fileUploadService;
 		}
