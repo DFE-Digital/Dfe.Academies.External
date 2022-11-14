@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Helpers;
@@ -13,7 +13,10 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 	{
 		private readonly IFileUploadService _fileUploadService;
 		
-		public TrustConsent(IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService, IFileUploadService fileUploadService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "ApplicationSchoolJoinAMatTrustSummary")
+		public TrustConsent(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
+			IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService, 
+			IFileUploadService fileUploadService) 
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "ApplicationSchoolChangesToATrust")
 		{
 			_fileUploadService = fileUploadService;
 		}
@@ -21,14 +24,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 
 		public string SelectedTrustName { get; private set; }
 		
-		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
-		public int Urn { get; set; }
-		
 		[DataType(DataType.Upload)]
-		[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", "pdf" })]
+		[AllowedExtensions(new[] { ".doc", ".docx", ".ppt", ".pptx", ".pdf" })]
 		[BindProperty]
 		public List<IFormFile> TrustConsentFiles { get; set; } = new();
 
