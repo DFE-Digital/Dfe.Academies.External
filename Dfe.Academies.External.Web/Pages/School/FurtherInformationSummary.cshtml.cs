@@ -1,11 +1,9 @@
 ﻿using Dfe.Academies.External.Web.Enums;
-using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -46,7 +44,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		    var sectionStarted = !string.IsNullOrEmpty(selectedSchool.TrustBenefitDetails);
 			// Heading
-			FurtherInformationSummaryViewModel FISheading = new(FurtherInformationSummaryViewModel.Heading,
+			FurtherInformationSummaryViewModel FISheading = new(FurtherInformationSummaryViewModel.AdditionalDetailsHeading,
 				"/school/AdditionalDetails")
 		    {
 			    Status = sectionStarted ?
