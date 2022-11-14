@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Dfe.Academies.External.Web.Pages.Trust;
+using Dfe.Academies.External.Web.Pages.Trust.JoinAMat;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.AspNetCore.Mvc;

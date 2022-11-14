@@ -43,14 +43,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public string? PFYRevenueStatusExplained { get; set; }
 
 		[DataType(DataType.Upload)]
-		[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", "pdf" })]
+		[AllowedExtensions(new[] { ".doc", ".docx", ".ppt", ".pptx", ".pdf" })]
 		public List<IFormFile>? SchoolPFYRevenueStatusFiles { get; set; } = new();
 
 		[BindProperty]
 		public List<string> SchoolPFYRevenueStatusFileNames { get; set; }
 
 		[DataType(DataType.Upload)]
-		[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", "pdf" })]
+		[AllowedExtensions(new[] { ".doc", ".docx", ".ppt", ".pptx", ".pdf" })]
 		public List<IFormFile>? SchoolPFYCapitalForwardStatusFiles { get; set; } = new();
 
 		[BindProperty]

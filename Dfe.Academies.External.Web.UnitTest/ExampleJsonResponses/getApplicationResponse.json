@@ -144,7 +144,7 @@
 		"id": 2,
 		"ukprn": 1001,
 		"trustName": "Plymouth Community Trust",
-		"changesToTrust": false,
+		"changesToTrust": "yes",
 		"changesToTrustExplained": "Changes To Trust Explanation",
 		"changesToLaGovernance": true,
 		"changesToLaGovernanceExplained": "Governance Governance Governance. Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum "
