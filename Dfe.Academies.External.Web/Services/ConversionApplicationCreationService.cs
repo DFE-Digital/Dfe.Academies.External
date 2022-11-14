@@ -361,25 +361,4 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	{
 		return await _conversionApplicationRetrievalService.GetApplication(applicationId);
 	}
-
-	/////<inheritdoc/>
-	//public async Task UpdateDraftApplication(ConversionApplication application)
-	//   {
-	//    try
-	//    {
-	//	    // MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
-	//	    // to grab current application data
-	//	    // before then patching ConversionApplication returned with data from application object
-
-	//	    //https://academies-academisation-api-dev.azurewebsites.net/application/99
-	//	    string apiurl = $"{_httpClient.BaseAddress}application/{application.ApplicationId}?api-version=V1";
-
-	//	    // var result = await _resilientRequestProvider.PutAsync<ConversionApplication>(apiurl, application);
-	//    }
-	//    catch (Exception ex)
-	//    {
-	//	    _logger.LogError("ConversionApplicationCreationService::AddSchoolToApplication::Exception - {Message}", ex.Message);
-	//	    throw;
-	//    }
-	//}
 }

@@ -7,7 +7,7 @@ using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 using Dfe.Academies.External.Web.ViewModels.SummaryPages;
 
-namespace Dfe.Academies.External.Web.Pages.Trust
+namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 {
 	public class ApplicationSchoolJoinAMatTrustSummaryModel : BaseApplicationSummaryPageModel
 	{
@@ -58,7 +58,6 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 				);
 
 				// heading 2 - details
-				// TODO:- change link - page not yet defined !
 				ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel headingChangeTrustDetails
 					= new(ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel.HeadingChangeTrustDetails,
 					"/trust/joinamat/trustconsent")

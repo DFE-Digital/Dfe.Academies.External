@@ -25,9 +25,6 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		public string SelectedTrustName { get; set; }
 
 		[BindProperty]
-		public int Urn { get; set; }
-
-		[BindProperty]
 		public string? TrustChangeExplained { get; set; }
 
 		public bool TrustChangeExplainedError

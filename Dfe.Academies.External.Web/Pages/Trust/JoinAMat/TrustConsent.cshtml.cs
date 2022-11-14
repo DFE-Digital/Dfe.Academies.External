@@ -20,13 +20,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		public ApplicationTypes ApplicationType { get; private set; }
 
 		public string SelectedTrustName { get; private set; }
-		
-		[BindProperty]
-		public int ApplicationId { get; set; }
 
-		[BindProperty]
-		public int Urn { get; set; }
-		
 		[DataType(DataType.Upload)]
 		[AllowedExtensions(new[] { ".doc", ".docx", ".ppt", ".pptx", ".pdf" })]
 		[BindProperty]

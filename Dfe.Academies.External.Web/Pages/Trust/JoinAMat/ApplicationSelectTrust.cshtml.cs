@@ -4,7 +4,7 @@ using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Dfe.Academies.External.Web.Pages.Trust
+namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 {
 	public class ApplicationSelectTrustModel : BaseApplicationPageEditModel
 	{
