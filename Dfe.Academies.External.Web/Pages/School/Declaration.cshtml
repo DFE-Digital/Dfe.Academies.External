@@ -28,11 +28,15 @@
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>
                 
+				<div class="govuk-inset-text">
+					This section <b>must</b> be completed by the chair of the school's governing body.
+                    You can <a asp-page="AddAContributor" asp-route-appId="@Model.ApplicationId" class="govuk-link">invite the chair to contribute</a> if this is not you.
+				</div>
+
 				<p class="govuk-body govuk-!-margin-bottom-7">
-					As the chair of the governing body of the applying school or the headteacher of the school acting on their behalf,
-					I confirm that the governing body agrees with these statements:
+					As the chair of the governing body of the applying school, I confirm that the governing body agrees with these statements:
 				</p>
-						<ul class="govuk-list govuk-list--bullet govuk-!-padding-bottom-6">
+				<ul class="govuk-list govuk-list--bullet govuk-!-padding-bottom-6">
 					<li>The governing body has passed a resolution that the school should become an academy.</li>
 					<li>The school will complete a consultation with relevant stakeholders (such as parents, staff, the local communities and others), and consider their equality needs before they sign the funding agreement.</li>
 					<li>The school agrees to the terms set out in the academy <a href="https://www.gov.uk/government/publications/academy-support-grant" target="_blank">pre-opening support grant certificate</a>.</li>
@@ -50,7 +54,7 @@
 							<div class="govuk-checkboxes__item">
 								<input asp-for="SchoolDeclarationTeacherChair" type="checkbox" class="govuk-checkboxes__input">
 								<label for='SchoolDeclarationTeacherChair' class="govuk-label govuk-checkboxes__label">
-									I am the chair of governors or the headteacher of the applying school
+									I am the chair of governors of the applying school
 								</label>
 							</div>
 							<div class="govuk-checkboxes__item">
@@ -67,6 +71,6 @@
 			
 		<br />
 
-		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+		<input type="submit" value="Save and return" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 	</form>
 </div>
