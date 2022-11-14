@@ -171,7 +171,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			// before then patching ConversionApplication returned with data from application object
 			var application = await GetApplication(applicationId);
 
-			if (application.ApplicationId != applicationId)
+			if (application == null || application.ApplicationId != applicationId)
 			{
 				throw new ArgumentException("Application not found");
 			}
@@ -193,7 +193,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		{
 			_logger.LogError("ConversionApplicationCreationService::SetExistingTrustDetails::Exception - {Message}", ex.Message);
 			throw;
-		};
+		}
 	}
 
 	public async Task PutSchoolApplicationDetails(int applicationId, int schoolUrn, Dictionary<string, dynamic> schoolProperties)
