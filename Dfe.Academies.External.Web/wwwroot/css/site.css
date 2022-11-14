@@ -179,3 +179,364 @@
 	text-decoration: underline;
 	cursor: pointer;
 }
+
+/*
+Classes generated / used in code:-
+	sip-application-status -- found in rendered code!	
+	sip-application-status--row   completed '3 spaces generated in c# code after row class name' -- found in rendered code!
+	sip-application-status--row   '3 spaces generated in c# code after row class name' -- found in rendered code!
+	sip-application-status--row current '0 spaces generated in c# code after row class name' -- found in rendered code!
+	sip-application-status--row  last '2 spaces generated in c# code after row class name' -- found in rendered code!
+	sip-application-status--row-content -- found in rendered code! 
+	sip-application-status--row-content-header -- found in rendered code!
+*/
+
+/*div class='sip-application-status' */
+.sip-application-status {
+	counter-reset: section;
+	margin-top: 30px !important; /*.govuk-\!-margin-top-6; inherit gov uk design system style - add a margin top */
+}
+
+/*div class='sip-application-status-- row   completed' */
+.sip-application-status--row {
+	position: relative;
+	border-left: 3px solid #bfc1c3; /* $govuk-border-colour */
+	margin-left: 16px;
+}
+
+.sip-application-status .sip-application-status--row.completed::before {
+	background-color: #bfc1c3;
+	color: #fff;
+}
+
+.sip-application-status .sip-application-status--row::before {
+	counter-increment: section;
+	content: counter(section);
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 100%;
+	border: 3px solid #bfc1c3;
+	background-color: #fff;
+	color: #0b0c0c;
+}
+
+.govuk-\!-font-weight-bold, .sip-application-status .sip-application-status--row::before, .sip-overview-table 
+{
+	font-weight: 700 !important;
+}
+
+@media (min-width: 40.0625em) 
+.autocomplete__option, .govuk-body, .govuk-body-m, .sip-application-status .sip-application-status--row::before, p 
+{
+	margin-bottom: 20px;
+}
+
+@media (min-width: 40.0625em) 
+.autocomplete__option, .govuk-body, .govuk-body-m, .sip-application-status .sip-application-status--row::before, p {
+	font-size: 19px;
+	font-size: 1.1875rem;
+	line-height: 1.3157894737;
+}
+
+/*div class='sip-application-status--row-content' */
+.sip-application-status .sip-application-status--row .sip-application-status--row-content 
+{
+	padding-left: 56px;
+}
+
+@media (min-width: 40.0625em) 
+.govuk-\!-padding-bottom-6, .sip-application-status .sip-application-status--row .sip-application-status--row-content, .sip-application-status .sip-application-status--row.last .sip-application-status--row-content 
+{
+	padding-bottom: 30px!important;
+}
+
+.govuk-\!-padding-bottom-6, .sip-application-status .sip-application-status--row .sip-application-status--row-content, .sip-application-status .sip-application-status--row.last .sip-application-status--row-content 
+{
+	padding-bottom: 20px !important;
+}
+
+@media (min-width: 40.0625em) 
+.govuk-\!-padding-top-1, .sip-application-overview__item .govuk-inset-text, .sip-application-status .sip-application-status--row .sip-application-status--row-content 
+{
+	padding-top: 5px!important;
+}
+
+.govuk-\!-padding-top-1, .sip-application-overview__item .govuk-inset-text, .sip-application-status .sip-application-status--row .sip-application-status--row-content {
+	padding-top: 5px !important;
+}
+
+/* sip-application-status--row-content-header */
+.sip-application-status .sip-application-status--row .sip-application-status--row-content .sip-application-status--row-content-header {
+	margin-bottom: 5px;
+}
+
+.sip-application-status .sip-application-status--row.completed .sip-application-status--row-content-header {
+	color: #6f777b;
+}
+
+@media (min-width: 40.0625em) 
+.govuk-heading-m, .sip-application-overview__item .sip-application-overview__heading, .sip-application-status .sip-application-status--row .sip-application-status--row-content .sip-application-status--row-content-header, .sip-overview-table__header {
+	margin-bottom: 20px;
+}
+
+@media (min-width: 40.0625em) 
+.govuk-heading-m, .sip-application-overview__item .sip-application-overview__heading, .sip-application-status .sip-application-status--row .sip-application-status--row-content .sip-application-status--row-content-header, .sip-overview-table__header {
+	font-size: 24px;
+	font-size: 1.5rem;
+	line-height: 1.25;
+}
+
+/* sip-application-status--row current    */
+.sip-application-status .sip-application-status--row {
+	position: relative;
+	border-left: 3px solid #bfc1c3;
+	margin-left: 16px;
+}
+
+.sip-application-status .sip-application-status--row.current::before {
+	border-color: #0b0c0c;
+	background-color: #0b0c0c;
+	color: #fff;
+}
+
+.sip-application-status .sip-application-status--row::before {
+	counter-increment: section;
+	content: counter(section);
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 100%;
+	border: 3px solid #bfc1c3;
+	background-color: #fff;
+	color: #0b0c0c;
+}
+
+.govuk-\!-font-weight-bold, .sip-application-status .sip-application-status--row::before, .sip-overview-table {
+	font-weight: 700 !important;
+}
+
+/* sip-application-status--row    */
+.sip-application-status .sip-application-status--row {
+	position: relative;
+	border-left: 3px solid #bfc1c3;
+	margin-left: 16px;
+}
+
+.sip-application-status .sip-application-status--row::before {
+	counter-increment: section;
+	content: counter(section);
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 100%;
+	border: 3px solid #bfc1c3;
+	background-color: #fff;
+	color: #0b0c0c;
+}
+
+.govuk-\!-font-weight-bold, .sip-application-status .sip-application-status--row::before, .sip-overview-table {
+	font-weight: 700 !important;
+}
+
+/* sip-application-status--row  last */
+.sip-application-status .sip-application-status--row.last {
+	border-left: none;
+}
+
+.sip-application-status .sip-application-status--row {
+	position: relative;
+	border-left: 3px solid #bfc1c3;
+	margin-left: 16px;
+}
+
+.sip-application-status .sip-application-status--row.last::before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 16px;
+	left: -17px;
+	width: 38px;
+	height: 0;
+	border-radius: 0;
+	border: none;
+	border-top: 3px solid #bfc1c3;
+}
+
+.sip-application-status .sip-application-status--row::before {
+	counter-increment: section;
+	content: counter(section);
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 100%;
+	border: 3px solid #bfc1c3;
+	background-color: #fff;
+	color: #0b0c0c;
+}
+
+.govuk-\!-font-weight-bold, .sip-application-status .sip-application-status--row::before, .sip-overview-table {
+	font-weight: 700 !important;
+}
+
+.sip-application-status .sip-application-status--row.last::after {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 16px;
+	border: none;
+	border-left: 3px solid #bfc1c3;
+}
+
+/*below for application submitted page from as-is*/
+/*
+$row-index-size: 32px;
+$row-index-size-divide-by-2: $row-index-size / 2;
+$row-index-left: -$row-index-size-divide-by-2 - 4px;
+$row-content-padding-left: $row-index-size-divide-by-2 + govuk-spacing(7);
+$row-last-index-left: -$row-index-size-divide-by-2 - 1px;
+$row-last-index-width: $row-index-size + (6px);		
+	
+.sip-application-status 
+{
+	counter-reset: section;
+	@extend .govuk-\!-margin-top-6; /** inherit gov uk design system style - add a margin top
+	
+	.sip-application-status--row
+	{
+		position: relative;
+		border-left: 3px solid $govuk-border-colour; /** TBC
+		margin-left: $row-index-size-divide-by-2; /** TBC
+
+		&.current
+		{
+			&::before {
+			border-color: govuk-colour("black"); /** TBC
+			background-color: govuk-colour("black"); /** TBC
+			color: govuk-colour("white"); /** TBC
+		}
+	}
+
+	&.completed {
+		&::before {
+			background-color: govuk-colour("grey-2"); /** TBC
+			color: govuk-colour("white"); /** TBC
+		}
+
+	.sip-application-status--row-content-header {
+		color: $govuk-secondary-text-colour; /** TBC
+	}
+}
+
+&.last {
+	border-left: none;
+	&::before
+
+{
+	content: "";
+	display: block;
+	position: absolute;
+	top: $row-index-size-divide-by-2; /** see above
+	left: $row-last-index-left; /** see above
+	width: $row-last-index-width; /** see above
+	height: 0;
+	border-radius: 0%;
+	border: none;
+	border-top: 3px solid $govuk-border-colour; /** TBC
+}
+
+&::after {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: $row-index-size-divide-by-2; /** see above
+	border: none;
+	border-left: 3px solid $govuk-border-colour; /** TBC
+}
+
+.sip-application-status--row-content {
+	@extend .govuk-\!-padding-bottom-6; /** inherit gov uk design system style - add a padding bottom
+	.govuk-details
+
+{
+	border-bottom: none;
+}
+
+}
+}
+
+&::before {
+	@extend .govuk-body, .govuk-\!-font-weight-bold; /** inherit gov uk design system style - font weight
+	counter-increment: section;
+	content: counter(section);
+	display: block;
+	position: absolute;
+	top: 0;
+	left: $row-index-left; /** see above
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: $row-index-size; /** see above
+	height: $row-index-size; /** see above
+	border-radius: 100%;
+	border: 3px solid $govuk-border-colour; /** TBC
+	background-color: govuk-colour("white"); /** TBC
+	color: govuk-colour("black"); /** TBC
+}
+
+.sip-application-status--row-content {
+	padding-left: $row-content-padding-left;
+	@extend .govuk-\!-padding-top-1, .govuk-\!-padding-bottom-6; /** inherit gov uk design system style - add a margin top
+	.sip-application-status--row-content-header
+
+{
+	@extend .govuk-heading-m;
+	margin-bottom: govuk-spacing(1); /** TBC
+}
+
+.sip-application-status--row-content-date {
+	@extend .govuk-body-s;
+	color: $govuk-secondary-text-colour; /** TBC
+}
+
+.govuk-details {
+	@extend .govuk-\!-padding-bottom-5; /** inherit gov uk design system style - add a margin top
+	margin-bottom: 0;
+	border-bottom: 1px solid $govuk-border-colour; /** TBC
+}
+
+.govuk-details__summary-text {
+	@extend .govuk-\!-font-size-16; /** inherit gov uk design system style - add a margin top
+}
+
+}
+}
+}*/

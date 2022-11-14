@@ -1,0 +1,68 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.ApplicationSubmittedModel
+@{
+	ViewData["Title"] = "Apply to become an academy - Application Submitted";
+}
+
+@*no back button !!*@
+
+<div class="govuk-grid-column-full">
+	<div class="govuk-panel govuk-panel--confirmation">
+		<h1 class="govuk-panel__title">
+			Your application has been submitted
+		</h1>
+		<div class="govuk-panel__body">
+			Your reference number is<br><strong>@Model.ApplicationReferenceNumber</strong>
+		</div>
+	</div>
+
+	<h2 class="govuk-heading-m">Completed application</h2>
+
+	<h3 class="govuk-heading-m">
+		What happens next
+	</h3>
+
+	<p class="govuk-body-m">
+		It takes us 2 to 6 weeks to assess your application and grant your academy order, if you're successful.
+	</p>
+
+	<p class="govuk-body-m">
+		Your project lead will contact you if they need to check anything.
+	</p>
+
+	<p class="govuk-body-m">These are the main steps in the conversion process:</p>
+
+	<partial name="_ApplicationMilestones" model="@Model.Milestones"/>
+
+	<p class="govuk-body-m">
+		If have any queries about the progress of your application, please
+        <a class="govuk-link" href="https://www.gov.uk/government/organisations/department-for-education" rel="noopener" target="_blank">contact the Department for Education</a>.
+	</p>
+	<p class="govuk-body-m">
+		If you have any questions or comments about this service, e-mail <a href="mailto:applytoconvert.support@education.gov.uk">applytoconvert.support@education.gov.uk</a>
+	</p>
+
+	<p class="govuk-body-m">
+		As we continue to develop this service we would value your feedback on your experience. Please
+        <a class="govuk-link" href="https://dferesearch.fra1.qualtrics.com/jfe/form/SV_4PKkazZ7STV751b" rel="noopener" target="_blank"> complete our short survey</a>.
+		The survey takes around 10 minutes to complete
+	</p>
+
+	<h2 class="govuk-heading-m govuk-!-margin-top-7">
+		If your application is successful
+	</h2>
+
+	<ul class="govuk-list sip-link-list">
+		<li>
+            <a class="govuk-!-font-weight-bold govuk-link"
+               href="https://www.gov.uk/guidance/convert-to-an-academy-information-for-schools/3-prepare-for-conversion"
+               rel="noopener"
+			   target="_blank">
+				Prepare for conversion
+			</a>
+		</li>
+	</ul>
+
+</div>
+
+<partial name="_HiddenFields" />
