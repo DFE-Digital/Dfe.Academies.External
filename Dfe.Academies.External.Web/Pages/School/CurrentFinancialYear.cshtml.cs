@@ -55,14 +55,14 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 	public string? PFYRevenueStatusExplained { get; set; }
 
 	[DataType(DataType.Upload)]
-	[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", ".pdf" })]
+	[AllowedExtensions(new[] { ".doc", ".docx", ".ppt", ".pptx", ".pdf" })]
 	public List<IFormFile>? SchoolCfyRevenueStatusFiles { get; set; } = new();
 
 	[BindProperty]
 	public List<string> SchoolCFYRevenueStatusFileNames { get; set; }
 
 	[DataType(DataType.Upload)]
-	[AllowedExtensions(new[] { ".doc", ".docx", "ppt", ".pptx", ".pdf" })]
+	[AllowedExtensions(new[] { ".doc", ".docx", ".ppt", ".pptx", ".pdf" })]
 	public List<IFormFile>? SchoolCFYCapitalForwardFiles { get; set; } = new();
 
 	[BindProperty]
