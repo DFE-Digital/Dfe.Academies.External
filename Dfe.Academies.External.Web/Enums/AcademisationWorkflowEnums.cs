@@ -117,3 +117,13 @@ public enum RevenueType
 	Deficit = 2
 }
 
+public enum TrustChange
+{
+	[Description("Yes")]
+	Yes = 1,
+	[Description("No")]
+	No = 2,
+	[Description("Unknown at this point")]
+	Unknown = 3
+}
+

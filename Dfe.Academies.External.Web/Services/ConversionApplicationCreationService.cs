@@ -1,7 +1,9 @@
-﻿using System.Net.Http.Headers;
+﻿using System;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Xml.Linq;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
@@ -159,7 +161,41 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			throw;
 		}
 	}
-	
+
+	public async Task SetExistingTrustDetails(int applicationId, ExistingTrust existingTrust)
+	{
+		try
+		{
+			// MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
+			// to grab current application data
+			// before then patching ConversionApplication returned with data from application object
+			var application = await GetApplication(applicationId);
+
+			if (application == null || application.ApplicationId != applicationId)
+			{
+				throw new ArgumentException("Application not found");
+			}
+
+			if (application.ApplicationType != ApplicationTypes.JoinAMat)
+			{
+				throw new ArgumentException("Application not of correct type");
+			}
+
+			//// baseaddress has a backslash at the end to be a valid URI !!!
+			//// https://s184d01-aca-aca-app.nicedesert-a691fec6.westeurope.azurecontainerapps.io/application/99/join-trust
+			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/join-trust?api-version=V1";
+
+
+			// MR:- no response from Academies API - Just an OK
+			await _resilientRequestProvider.PutAsync(apiurl, existingTrust);
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError("ConversionApplicationCreationService::SetExistingTrustDetails::Exception - {Message}", ex.Message);
+			throw;
+		}
+	}
+
 	public async Task PutSchoolApplicationDetails(int applicationId, int schoolUrn, Dictionary<string, dynamic> schoolProperties)
 	{
 		var application = await GetApplication(applicationId);
@@ -325,25 +361,4 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	{
 		return await _conversionApplicationRetrievalService.GetApplication(applicationId);
 	}
-
-	/////<inheritdoc/>
-	//public async Task UpdateDraftApplication(ConversionApplication application)
-	//   {
-	//    try
-	//    {
-	//	    // MR:- may need to call GetApplication() first within ConversionApplicationRetrievalService()
-	//	    // to grab current application data
-	//	    // before then patching ConversionApplication returned with data from application object
-
-	//	    //https://academies-academisation-api-dev.azurewebsites.net/application/99
-	//	    string apiurl = $"{_httpClient.BaseAddress}application/{application.ApplicationId}?api-version=V1";
-
-	//	    // var result = await _resilientRequestProvider.PutAsync<ConversionApplication>(apiurl, application);
-	//    }
-	//    catch (Exception ex)
-	//    {
-	//	    _logger.LogError("ConversionApplicationCreationService::AddSchoolToApplication::Exception - {Message}", ex.Message);
-	//	    throw;
-	//    }
-	//}
 }

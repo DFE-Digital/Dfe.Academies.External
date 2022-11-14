@@ -10,7 +10,8 @@ public interface IConversionApplicationCreationService
 	Task AddSchoolToApplication(int applicationId, int schoolUrn, string name);
 
 	Task AddTrustToApplication(int applicationId, int trustUkPrn, string name);
-	
+	Task SetExistingTrustDetails(int applicationId, ExistingTrust existingTrust);
+
 	Task PutSchoolApplicationDetails(int applicationId, int schoolUrn, Dictionary<string, dynamic> schoolProperties);
 	//Task UpdateDraftApplication(ConversionApplication application);
 

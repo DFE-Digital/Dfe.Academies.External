@@ -7,11 +7,11 @@ using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 using Dfe.Academies.External.Web.ViewModels.SummaryPages;
 
-namespace Dfe.Academies.External.Web.Pages.Trust
+namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 {
-    public class ApplicationSchoolJoinAMatTrustSummaryModel : BaseApplicationSummaryPageModel
-    {
-	    private readonly IFileUploadService _fileUploadService;
+	public class ApplicationSchoolJoinAMatTrustSummaryModel : BaseApplicationSummaryPageModel
+	{
+		private readonly IFileUploadService _fileUploadService;
 		//// Below are props for UI display
 		public ApplicationTypes ApplicationType { get; private set; }
 
@@ -40,14 +40,14 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 				SelectedTrustName = conversionApplication.JoinTrustDetails?.TrustName ?? string.Empty;
 
 				// heading 1 - the trust the school is joining
-				ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel headingChangeTrustName 
+				ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel headingChangeTrustName
 					= new(ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel.HeadingTrustSchoolIsJoining,
 					"/trust/joinamat/applicationselecttrust")
-				{
-					Status = !string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) ?
+					{
+						Status = !string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) ?
 						SchoolConversionComponentStatus.Complete
 						: SchoolConversionComponentStatus.NotStarted
-				};
+					};
 
 				// sub question - 1a) name of the trust
 				headingChangeTrustName.Sections.Add(new(ApplicationSchoolJoinAMatTrustSummarySectionViewModel.NameOfTheTrust,
@@ -58,15 +58,14 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 				);
 
 				// heading 2 - details
-				// TODO:- change link - page not yet defined !
-				ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel headingChangeTrustDetails 
+				ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel headingChangeTrustDetails
 					= new(ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel.HeadingChangeTrustDetails,
 					"/trust/joinamat/trustconsent")
-				{
-					Status = conversionApplication.JoinTrustDetails != null && conversionApplication.JoinTrustDetails.ChangesToTrust.HasValue ?
+					{
+						Status = conversionApplication.JoinTrustDetails != null && conversionApplication.JoinTrustDetails.ChangesToTrust.HasValue ?
 						SchoolConversionComponentStatus.Complete
 						: SchoolConversionComponentStatus.NotStarted
-				};
+					};
 
 				var trustConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, conversionApplication.ApplicationId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName).Result;
 				// sub questions 
@@ -77,8 +76,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust
 				// 2b) will there be any changes to the governance = ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToTrustGovernance
 				headingChangeTrustDetails.Sections.Add(new(
 						ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToTrustGovernance,
-						conversionApplication.JoinTrustDetails?.ChangesToTrust.GetStringDescription() ?? string.Empty
-					)
+						conversionApplication.JoinTrustDetails != null && conversionApplication.JoinTrustDetails.ChangesToTrust.HasValue ? conversionApplication.JoinTrustDetails.ChangesToTrust.Value.GetDescription() : string.Empty)
 				);
 
 				// 2c) will there be any changes at a local level = ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToLaGovernance
