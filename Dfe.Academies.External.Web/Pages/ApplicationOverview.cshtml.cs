@@ -56,8 +56,6 @@ namespace Dfe.Academies.External.Web.Pages
 		/// </summary>
 		public SchoolComponentsViewModel SchoolComponents { get; private set; } = new();
 
-		public List<ConversionApplicationContributorViewModel> ExistingContributors { get; private set; } = new();
-
 		public ApplicationOverviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 										IReferenceDataRetrievalService referenceDataRetrievalService
 		) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
@@ -176,23 +174,12 @@ namespace Dfe.Academies.External.Web.Pages
 					}
 				}
 
-				// contributors
-				// convert application?.Contributors -> list<ConversionApplicationContributorViewModel>
-				if (conversionApplication.Contributors.Any())
-				{
-					var contributors = conversionApplication.Contributors
-						.Select(e => new ConversionApplicationContributorViewModel(e.FullName, e.Role, e.OtherRoleName))
-						.ToList();
-
-					ExistingContributors = contributors;
-				}
-
-				// TODO MR:- submit button should NOT be available unless ALL school.SchoolApplicationComponents.Status == Completed !!
+				// TODO :- submit button should NOT be available unless ALL school.SchoolApplicationComponents.Status == Completed !!
 				// &&&&&&& application should have a trust ++ trust sections filled in !!
 			}
 		}
 
-		// TODO MR:- what logic drives this !
+		// TODO :- what logic drives this !
 		private Status CalculateApplicationStatus(SchoolApplyingToConvert? school)
 		{
 			if (school != null && school.SchoolApplicationComponents.Any())
