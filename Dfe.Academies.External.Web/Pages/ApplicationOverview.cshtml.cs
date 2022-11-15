@@ -56,6 +56,8 @@ namespace Dfe.Academies.External.Web.Pages
 		/// </summary>
 		public SchoolComponentsViewModel SchoolComponents { get; private set; } = new();
 
+		public bool HasSchool { get; private set; }
+
 		public ApplicationOverviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 										IReferenceDataRetrievalService referenceDataRetrievalService
 		) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
@@ -115,6 +117,8 @@ namespace Dfe.Academies.External.Web.Pages
 				ApplicationStatus = conversionApplication.ApplicationStatus;
 				SchoolOrSchoolsApplyingToConvert = conversionApplication.Schools;
 				NameOfTrustToJoin = conversionApplication.TrustName;
+
+				HasSchool = conversionApplication.HasSchool;
 
 				if (conversionApplication.ApplicationType == ApplicationTypes.FormAMat)
 				{
