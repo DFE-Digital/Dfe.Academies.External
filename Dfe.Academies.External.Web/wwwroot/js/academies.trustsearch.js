@@ -88,7 +88,7 @@ academies.renderTrustSearchOption = function (selectedValue) {
 	// render partial & set results DIV HTML
 	// unhide selected trust section of screen
 	$.ajax({
-		url: 'trust/ReturnTrustDetailsPartialViewPopulated',
+		url: '../trust/ReturnTrustDetailsPartialViewPopulated',
 		type: 'GET',
 		data: { 'selectedTrust': selectedValue }, // selected value will be in the format 'trust name (UKprn)'
 		success: function (response) {
@@ -112,7 +112,7 @@ function debounceSuggest(query, syncResults) {
 
 academies.GetTrustSearchResults = function (query, syncResults) {
 	$.ajax({
-		url: 'trust/Search',
+		url: '../trust/Search',
 		type: 'GET',
 		data: { 'searchQuery': query },
 		success: function (response) {
