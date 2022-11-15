@@ -42,4 +42,12 @@ public class ConversionApplication
 	public string TrustName => (ApplicationType == ApplicationTypes.JoinAMat
 		? JoinTrustDetails?.TrustName
 		: FormATrust?.ProposedTrustName) ?? string.Empty;
+
+	public bool HasSchool
+	{
+		get
+		{
+			return Schools.Any();
+		}
+	}
 }
