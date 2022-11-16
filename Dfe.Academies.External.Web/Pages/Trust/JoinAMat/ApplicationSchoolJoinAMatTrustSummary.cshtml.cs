@@ -60,7 +60,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 				// heading 2 - details
 				ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel headingChangeTrustDetails
 					= new(ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel.HeadingChangeTrustDetails,
-					"/trust/joinamat/trustconsent")
+					"/trust/joinamat/applicationschooltrustconsent")
 					{
 						Status = conversionApplication.JoinTrustDetails != null && conversionApplication.JoinTrustDetails.ChangesToTrust.HasValue ?
 						SchoolConversionComponentStatus.Complete
@@ -82,7 +82,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 				// 2c) will there be any changes at a local level = ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToLaGovernance
 				headingChangeTrustDetails.Sections.Add(new(
 						ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToLaGovernance,
-						conversionApplication.JoinTrustDetails?.ChangesToLaGovernance.GetStringDescription() ?? string.Empty
+						     conversionApplication.JoinTrustDetails.ChangesToLaGovernance.HasValue
+						? conversionApplication.JoinTrustDetails?.ChangesToLaGovernance.GetStringDescription() : QuestionAndAnswerConstants.NoAnswer
 					)
 				);
 

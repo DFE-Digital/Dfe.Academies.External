@@ -15,7 +15,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 	public class ApplicationSchoolChangesToATrustModel : BaseSchoolPageEditModel
 	{
 
-		public ApplicationSchoolChangesToATrustModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "ApplicationSchoolJoinAMatTrustSummary")
+		public ApplicationSchoolChangesToATrustModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "ApplicationSchoolLocalGovernanceArrangements")
 		{
 		}
 
@@ -84,6 +84,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 				throw new InvalidOperationException("Application has no existing trust details");
 			}
 
+			TrustChangeExplained = TrustChange == Enums.TrustChange.Yes ? TrustChangeExplained : null;
 			var updatedTrustDetails = applicationDetails.JoinTrustDetails with { ChangesToTrust = TrustChange, ChangesToTrustExplained = TrustChangeExplained };
 
 			await ConversionApplicationCreationService.SetExistingTrustDetails(ApplicationId, updatedTrustDetails);
