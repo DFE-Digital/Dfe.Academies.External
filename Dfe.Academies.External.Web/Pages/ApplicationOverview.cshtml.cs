@@ -146,23 +146,20 @@ namespace Dfe.Academies.External.Web.Pages
 
 				if (conversionApplication.ApplicationType == ApplicationTypes.FormAMat)
 				{
+					HeaderText = "All school and trust details must be given before this application can be submitted.";
 					TrustHeaderText = "The trust being formed";
 					SchoolHeaderText = "The schools applying to convert";
 					TrustConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
-
-					// TODO:- also check UserHasSubmitApplicationRole - chair / non-chair ??
-					HeaderText = "All school and trust details must be given before this application can be submitted.";
 				}
 				else // JAM
 				{
+					// Also check UserHasSubmitApplicationRole - chair / non-chair !!
+					HeaderText = UserHasSubmitApplicationRole ? "This application can’t be submitted until all sections are complete. Your answers will be saved after each question."
+						: "Your answers will be saved after each question. Once all sections are complete, the school's chair will be able to submit the application.";
 					TrustHeaderText = "The trust the school will join";
 					SchoolHeaderText = "The school applying to convert";
 					SchoolName = school?.SchoolName;
 					TrustConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
-
-					// Also check UserHasSubmitApplicationRole - chair / non-chair !!
-					HeaderText = UserHasSubmitApplicationRole ? "This application can’t be submitted until all sections are complete. Your answers will be saved after each question."
-						: "Your answers will be saved after each question. Once all sections are complete, the school's chair will be able to submit the application.";
 					
 					//// Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
 					////Audits = auditEntries.Select(e =>
