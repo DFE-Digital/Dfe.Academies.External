@@ -19,9 +19,9 @@
 	</p>
 	
 	<h1 class="govuk-heading-l">@Model.ApplicationType.GetDescription()</h1>
-    
-	<p class="govuk-body govuk-radios__conditional">Your answers will be saved after each question. 
-		Once all sections are complete, the school's chair will be able to submit the application.
+
+    <p class="govuk-body govuk-radios__conditional">
+        @Model.HeaderText
     </p>
     
 	<div class="govuk-!-margin-6"></div>
@@ -118,8 +118,17 @@
         </tbody>
     </table>       
 
-    <h2 class="govuk-heading-l">Contributors</h2>
-    <p class="govuk-body">You can <a asp-page="AddAContributor" asp-route-appId="@Model.ApplicationId" class="govuk-link">invite other people to help you complete this form</a> or see who has already been invited.</p>
+	<h2 class="govuk-heading-l">Contributors</h2>
+    
+	@if (Model.HasSchool)
+	{
+        <p class="govuk-body">You can <a asp-page="AddAContributor" asp-route-appId="@Model.ApplicationId" class="govuk-link">invite other people to help you complete this form</a> or see who has already been invited.</p>
+    }
+    else
+    {
+	    <p class="govuk-body">You will be able to invite other people to help you complete this form after you have added a school.</p>
+    }
+
 	<div class="govuk-!-margin-6"></div>
     
     @if (!Model.UserHasSubmitApplicationRole)
