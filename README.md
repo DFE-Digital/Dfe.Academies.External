@@ -69,6 +69,18 @@ Once the solution is fully loaded, you can right click on the solution file in t
 This will assert that the packages required for all projects under this solution are restored. 
 Finally build the solution; the main project to set as the "Start Up Project" should be `Dfe.Academies.External.Web`.
 
+### Launching with Docker Compose
+
+This app has also been containerised with Docker.
+
+To launch locally, run:
+
+```
+docker-compose up -f docker-compose.yml --build
+```
+
+The app will then be exposed on port 80 localhost (http://localhost)
+
 ## Contributing
 
 Before contributing please read the following to get a better understanding of the standards and structure followed with this project.
