@@ -190,6 +190,8 @@ namespace Dfe.Academies.External.Web.Pages
 							}).ToList()
 					};
 
+					// TODO:- need to remove declaration if NOT all sections have been completed!
+
 					SchoolComponents = componentsVm;
 				}
 
