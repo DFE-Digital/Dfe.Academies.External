@@ -49,11 +49,11 @@ You will need to configure user secrets to be able to run / contribute to the pr
     "OneloginOpenIdConnectClientId": "",
     "OneloginOpenIdConnectClientSecret": ""
   },
-  "academies-api": {
+  "academies_api": {
     "endpoint": "https://trams-external-api.azurewebsites.net/",
     "key": ""
   },
-  "academisation-api": {
+  "academisation_api": {
     "endpoint": "https://s184d01-aca-aca-app.nicedesert-a691fec6.westeurope.azurecontainerapps.io/",
     "key": ""
   },

@@ -33,8 +33,8 @@ internal sealed class StartupExtensionTests
 		serviceCollection.AddAcademiesApi(new ConfigurationBuilder()
 				   .AddInMemoryCollection(new List<KeyValuePair<string, string>>
 				   {
-						   new("academies-api:endpoint", "1"),
-						   new("academies-api:key", "2")
+						   new("academies_api:endpoint", "1"),
+						   new("academies_api:key", "2")
 				   })
 			.Build());
 
@@ -64,8 +64,8 @@ internal sealed class StartupExtensionTests
 		serviceCollection.AddAcademisationApi(new ConfigurationBuilder()
 			.AddInMemoryCollection(new List<KeyValuePair<string, string>>
 			{
-				new("academisation-api:endpoint", "1"),
-				new("academisation-api:key", "2")
+				new("academisation_api:endpoint", "1"),
+				new("academisation_api:key", "2")
 			})
 			.Build());
 
