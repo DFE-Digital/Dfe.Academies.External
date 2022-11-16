@@ -150,8 +150,8 @@ namespace Dfe.Academies.External.Web.Pages
 					SchoolHeaderText = "The schools applying to convert";
 					TrustConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
 
-					// TODO:- also check UserHasSubmitApplicationRole - chair / non-chair !!
-					HeaderText = "Your answers will be saved after each question. Once all sections are complete, the school's chair will be able to submit the application.";
+					// TODO:- also check UserHasSubmitApplicationRole - chair / non-chair ??
+					HeaderText = "All school and trust details must be given before this application can be submitted.";
 				}
 				else // JAM
 				{
