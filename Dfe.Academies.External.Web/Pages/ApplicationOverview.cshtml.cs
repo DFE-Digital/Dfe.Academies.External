@@ -56,7 +56,15 @@ namespace Dfe.Academies.External.Web.Pages
 		/// </summary>
 		public SchoolComponentsViewModel SchoolComponents { get; private set; } = new();
 
+		/// <summary>
+		/// flag to set different UI text - contributors
+		/// </summary>
 		public bool HasSchool { get; private set; }
+
+		/// <summary>
+		/// UI text, set within here ONLY dependent on ApplicationType &&& user role !!!
+		/// </summary>
+		public string HeaderText { get; private set; } = string.Empty;
 
 		public ApplicationOverviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 										IReferenceDataRetrievalService referenceDataRetrievalService
@@ -102,6 +110,22 @@ namespace Dfe.Academies.External.Web.Pages
 
 		private void PopulateUiModel(ConversionApplication? conversionApplication, SchoolApplyingToConvert? school)
 		{
+			// grab current user email
+			string email = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
+
+			// look up user in contributors collection to find their role !!!
+			if (!string.IsNullOrWhiteSpace(email))
+			{
+				var currentUser =
+					conversionApplication.Contributors.FirstOrDefault(x => x.EmailAddress == email);
+
+				// set users role
+				if (currentUser is { Role: SchoolRoles.ChairOfGovernors })
+				{
+					UserHasSubmitApplicationRole = true;
+				}
+			}
+
 			if (conversionApplication != null)
 			{
 				// ConversionStatus = whether school.SchoolApplicationComponents.Status == Completed !!
@@ -125,14 +149,21 @@ namespace Dfe.Academies.External.Web.Pages
 					TrustHeaderText = "The trust being formed";
 					SchoolHeaderText = "The schools applying to convert";
 					TrustConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
+
+					// TODO:- also check UserHasSubmitApplicationRole - chair / non-chair !!
+					HeaderText = "Your answers will be saved after each question. Once all sections are complete, the school's chair will be able to submit the application.";
 				}
-				else
+				else // JAM
 				{
 					TrustHeaderText = "The trust the school will join";
 					SchoolHeaderText = "The school applying to convert";
 					SchoolName = school?.SchoolName;
 					TrustConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
 
+					// Also check UserHasSubmitApplicationRole - chair / non-chair !!
+					HeaderText = UserHasSubmitApplicationRole ? "This application can’t be submitted until all sections are complete. Your answers will be saved after each question."
+						: "Your answers will be saved after each question. Once all sections are complete, the school's chair will be able to submit the application.";
+					
 					//// Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
 					////Audits = auditEntries.Select(e =>
 					//// new ViewModels.ApplicationAuditViewModel
@@ -160,22 +191,6 @@ namespace Dfe.Academies.External.Web.Pages
 					};
 
 					SchoolComponents = componentsVm;
-				}
-
-				// grab current user email
-				string email = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
-
-				// look up user in contributors collection to find their role !!!
-				if (!string.IsNullOrWhiteSpace(email))
-				{
-					var currentUser =
-						conversionApplication.Contributors.FirstOrDefault(x => x.EmailAddress == email);
-
-					// set users role
-					if (currentUser is { Role: SchoolRoles.ChairOfGovernors })
-					{
-						UserHasSubmitApplicationRole = true;
-					}
 				}
 
 				// TODO :- submit button should NOT be available unless ALL school.SchoolApplicationComponents.Status == Completed !!
