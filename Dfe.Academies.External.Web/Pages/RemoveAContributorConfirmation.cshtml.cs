@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Pages.Base;
+﻿using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,10 +19,25 @@ namespace Dfe.Academies.External.Web.Pages
         {
         }
 
-		// TODO:- might need to override - passing in app ID via query string? passing in contributor id?
-        public void OnGet()
+        // TODO:- might need to override - passing in app ID via query string? passing in contributor id?
+		public async Task<ActionResult> OnGetAsync(int appId)
         {
-			// TODO:-  need to grab contrbutor name to show on UI
+	        //// on load - grab draft application from temp
+	        var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
+
+	        // check user access
+	        var checkStatus = await CheckApplicationPermission(appId);
+
+	        if (checkStatus is ForbidResult)
+	        {
+		        return RedirectToPage("ApplicationAccessException");
+	        }
+
+	        ApplicationId = appId;
+			
+			PopulateUiModel(draftConversionApplication);
+
+			return Page();
         }
 
 		public override void PopulateValidationMessages()
@@ -39,5 +55,13 @@ namespace Dfe.Academies.External.Web.Pages
         {
 	        throw new NotImplementedException();
         }
+
+        private void PopulateUiModel(ConversionApplication? application)
+        {
+	        if (application != null)
+	        {
+		        // TODO:-  need to grab contrbutor name to show on UI
+			}
+		}
 	}
 }
