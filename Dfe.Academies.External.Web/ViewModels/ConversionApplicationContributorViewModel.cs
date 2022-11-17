@@ -5,12 +5,15 @@ namespace Dfe.Academies.External.Web.ViewModels;
 
 public sealed class ConversionApplicationContributorViewModel
 {
-	public ConversionApplicationContributorViewModel(string fullName, SchoolRoles role, string? otherRole)
+	public ConversionApplicationContributorViewModel(int applicationId, string fullName, SchoolRoles role, string? otherRole)
 	{
+		ApplicationId = applicationId;
 		FullName = fullName;
 		Role = role;
 		OtherRoleNotListed = otherRole;
 	}
+
+	public int ApplicationId { get; set; }
 
 	public string FullName { get; }
 
