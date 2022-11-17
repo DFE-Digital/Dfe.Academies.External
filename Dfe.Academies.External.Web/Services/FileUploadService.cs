@@ -39,8 +39,8 @@ public class FileUploadService : IFileUploadService
 		
 		public async Task<string> UploadFile(string entity, string recordId, string recordName, string fieldName, IFormFile file)
 		{
-			await using var memoryStream = new MemoryStream();
-			await file.CopyToAsync(memoryStream);
+			using var memoryStream = new MemoryStream();
+			file.CopyTo(memoryStream);
 
 			var fileName = Path.GetFileName(file.FileName);
 			var newFile = new JObject

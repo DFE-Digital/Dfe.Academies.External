@@ -49,11 +49,11 @@ You will need to configure user secrets to be able to run / contribute to the pr
     "OneloginOpenIdConnectClientId": "",
     "OneloginOpenIdConnectClientSecret": ""
   },
-  "academies-api": {
+  "academies_api": {
     "endpoint": "https://trams-external-api.azurewebsites.net/",
     "key": ""
   },
-  "academisation-api": {
+  "academisation_api": {
     "endpoint": "https://s184d01-aca-aca-app.nicedesert-a691fec6.westeurope.azurecontainerapps.io/",
     "key": ""
   },
@@ -68,6 +68,18 @@ Using Visual Studio, open the `Dfe.Academies.External.sln` file and let the IDE 
 Once the solution is fully loaded, you can right click on the solution file in the file explorer (inside Visual Studio) and then click on "Restore NuGet Packages". 
 This will assert that the packages required for all projects under this solution are restored. 
 Finally build the solution; the main project to set as the "Start Up Project" should be `Dfe.Academies.External.Web`.
+
+### Launching with Docker Compose
+
+This app has also been containerised with Docker.
+
+To launch locally, run:
+
+```
+docker-compose up -f docker-compose.yml --build
+```
+
+The app will then be exposed on port 80 localhost (http://localhost)
 
 ## Contributing
 
