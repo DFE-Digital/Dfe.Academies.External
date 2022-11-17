@@ -25,7 +25,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public string SchoolName { get; private set; } = string.Empty;
 
 		public List<LeaseViewModel> LeaseViewModels { get; set; }
-		
+
+		public bool? HasLeases { get; set; }
+
 		//Validation errors
 		public bool AddedLeasesButEmptyCollectionError => !ModelState.IsValid && ModelState.Keys.Contains("AddedLeasesButEmptyCollectionError");
 		public bool InvalidSelectOptionError => !ModelState.IsValid && ModelState.Keys.Contains("InvalidSelectOptionError");
@@ -79,6 +81,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 				}
 			}
 
+			// if user has selected no then update the school and set hasLoans
+			if (!LeaseViewModels.Any() && AnyLeases == SelectOption.No)
+			{
+				var dictionaryMapper = PopulateUpdateDictionary();
+				await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+			}
 
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -116,6 +124,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private void LoadLeasesFromDatabase(SchoolApplyingToConvert selectedSchool)
 		{
 			//Populate viewmodel from currently saved data
+			HasLeases = selectedSchool.HasLeases;
 			LeaseViewModels = new List<LeaseViewModel>();
 			selectedSchool.Leases.ForEach(lease =>
 			{
@@ -142,6 +151,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 			//Try to merge with what is saved in the cache
 			//Use the ID on the lease view model
 			var tempDataViewModels = TempDataLoadBySchool<List<LeaseViewModel>>(Urn) ?? new List<LeaseViewModel>();
+
+			if (tempDataViewModels.Any())
+			{
+				//override hasLeases value if we have some temp leases 
+				HasLeases = true;
+			}
+
 			tempDataViewModels.ForEach(x =>
 			{
 				var lease = LeaseViewModels.Find(y => y.Id == x.Id && !x.IsDraft);
@@ -166,11 +182,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 				}
 			});
 			TempDataSetBySchool<List<LeaseViewModel>>(Urn, LeaseViewModels);
+
 		}
 
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			AnyLeases = LeaseViewModels.Any() ? SelectOption.Yes : SelectOption.No;
+			AnyLeases = HasLeases.HasValue && HasLeases.Value ? SelectOption.Yes : SelectOption.No;
 		}
 
 		///<inheritdoc/>
@@ -202,7 +219,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
-			return new();
+			return new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.HasLeases), AnyLeases == SelectOption.Yes } };
 		}
 	}
 }
