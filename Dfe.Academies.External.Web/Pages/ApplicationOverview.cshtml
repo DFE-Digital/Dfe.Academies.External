@@ -133,7 +133,13 @@
     
     @if (!Model.UserHasSubmitApplicationRole)
     {
-        <p class="govuk-body govuk-radios__conditional">Only the school's chair of governors can submit this application.</p>
+	    <div class="govuk-warning-text">
+		    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+		    <strong class="govuk-warning-text__text">
+			    <span class="govuk-warning-text__assistive">Warning</span>
+                Only the school's chair of governors can submit this application.
+		    </strong>
+	    </div>
     }
 
     <div class="govuk-button-group">
