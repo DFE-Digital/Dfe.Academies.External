@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 {
-	public class TrustConsent : BaseSchoolPageEditModel
+	public class ApplicationSchoolTrustConsent : BaseSchoolPageEditModel
 	{
 		private readonly IFileUploadService _fileUploadService;
 		
-		public TrustConsent(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
+		public ApplicationSchoolTrustConsent(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 			IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService, 
 			IFileUploadService fileUploadService) 
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "ApplicationSchoolChangesToATrust")
