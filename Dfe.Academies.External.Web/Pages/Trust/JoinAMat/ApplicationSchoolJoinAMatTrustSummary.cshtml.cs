@@ -82,8 +82,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 				// 2c) will there be any changes at a local level = ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToLaGovernance
 				headingChangeTrustDetails.Sections.Add(new(
 						ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToLaGovernance,
-						     conversionApplication.JoinTrustDetails.ChangesToLaGovernance.HasValue
-						? conversionApplication.JoinTrustDetails?.ChangesToLaGovernance.GetStringDescription() : QuestionAndAnswerConstants.NoAnswer
+						conversionApplication.JoinTrustDetails is { ChangesToLaGovernance: { } }
+						? conversionApplication.JoinTrustDetails.ChangesToLaGovernance.GetStringDescription() : QuestionAndAnswerConstants.NoAnswer
 					)
 				);
 
