@@ -8,9 +8,6 @@ namespace Dfe.Academies.External.Web.Pages
     public class RemoveAContributorConfirmationModel : BaseApplicationPageEditModel
 	{
 		[BindProperty]
-		public int ApplicationId { get; set; }
-
-		[BindProperty]
 		public int ContributorId { get; set; }
 
 		public string ContributorName { get; private set; } = string.Empty;
@@ -89,16 +86,16 @@ namespace Dfe.Academies.External.Web.Pages
 	        throw new NotImplementedException();
         }
 
-        private void PopulateUiModel(ConversionApplication? application)
+        public override void PopulateUiModel(ConversionApplication? conversionApplication)
         {
-	        if (application != null)
+	        if (conversionApplication != null)
 	        {
-				var contributor = application.Contributors.FirstOrDefault( c=> c.ContributorId == this.ContributorId);
+		        var contributor = conversionApplication.Contributors.FirstOrDefault(c => c.ContributorId == this.ContributorId);
 
-				if (contributor != null)
-				{
-					ContributorName = contributor.FullName;
-				}
+		        if (contributor != null)
+		        {
+			        ContributorName = contributor.FullName;
+		        }
 	        }
 		}
 	}
