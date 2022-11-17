@@ -5,17 +5,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages
 {
-    public class RemoveAContributorConfirmationModel : BasePageEditModel
+    public class RemoveAContributorConfirmationModel : BaseApplicationPageEditModel
 	{
 		[BindProperty]
 		public int ApplicationId { get; set; }
 
-		//// TODO MR:- VM props to capture data -
+		[BindProperty]
+		public int ContributorId { get; set; }
+
 		public string ContributorName { get; private set; } = string.Empty;
 
-		public RemoveAContributorConfirmationModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
-													IReferenceDataRetrievalService referenceDataRetrievalService) 
-	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+		public RemoveAContributorConfirmationModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+			IReferenceDataRetrievalService referenceDataRetrievalService,
+			IConversionApplicationCreationService academisationCreationService) 
+	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService,
+		        academisationCreationService, "/AddAContributor")
         {
         }
 
@@ -35,11 +39,36 @@ namespace Dfe.Academies.External.Web.Pages
 
 	        ApplicationId = appId;
 	        int contributorId = 0; // TODO:- fix!
-			
-			PopulateUiModel(draftConversionApplication, contributorId);
+	        ContributorId = contributorId;
+
+			PopulateUiModel(draftConversionApplication);
 
 			return Page();
         }
+
+		public async Task<IActionResult> OnPostAsync()
+		{
+			//// grab draft application from temp= null
+			var draftConversionApplication =
+				TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey,
+					TempData) ?? new ConversionApplication();
+
+			if (!RunUiValidation())
+			{
+				return Page();
+			}
+
+			var contributor = draftConversionApplication.Contributors.FirstOrDefault(c => c.ContributorId == this.ContributorId);
+
+			// TODO:- api data access
+			//await AcademisationCreationService.AddContributorToApplication(contributor, ApplicationId);
+
+			// update temp store for next step
+			draftConversionApplication.Contributors.Remove(contributor);
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+			return RedirectToPage(NextStepPage, new { appId = ApplicationId });
+		}
 
 		///<inheritdoc/>
 		public override void PopulateValidationMessages()
@@ -60,12 +89,11 @@ namespace Dfe.Academies.External.Web.Pages
 	        throw new NotImplementedException();
         }
 
-        private void PopulateUiModel(ConversionApplication? application, int contributorId)
+        private void PopulateUiModel(ConversionApplication? application)
         {
 	        if (application != null)
 	        {
-				// TODO:-  need to grab contributor show name on UI
-				var contributor = application.Contributors.FirstOrDefault( c=> c.ContributorId == contributorId);
+				var contributor = application.Contributors.FirstOrDefault( c=> c.ContributorId == this.ContributorId);
 
 				if (contributor != null)
 				{
