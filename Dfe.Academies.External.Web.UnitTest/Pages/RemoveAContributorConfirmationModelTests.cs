@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Dfe.Academies.External.Web.Pages;
+using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.AspNetCore.Mvc;
@@ -26,12 +27,15 @@ internal sealed class RemoveAContributorConfirmationModelTests
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupRemoveAContributorConfirmationModel(mockConversionApplicationRetrievalService.Object, mockReferenceDataRetrievalService.Object);
+		var pageModel = SetupRemoveAContributorConfirmationModel(mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object,
+			mockConversionApplicationCreationService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -44,11 +48,13 @@ internal sealed class RemoveAContributorConfirmationModelTests
 	private static RemoveAContributorConfirmationModel SetupRemoveAContributorConfirmationModel(
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
+		IConversionApplicationCreationService mockConversionApplicationCreationService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new RemoveAContributorConfirmationModel(mockConversionApplicationRetrievalService, mockReferenceDataRetrievalService)
+		return new RemoveAContributorConfirmationModel(mockConversionApplicationRetrievalService, mockReferenceDataRetrievalService,
+			mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,
