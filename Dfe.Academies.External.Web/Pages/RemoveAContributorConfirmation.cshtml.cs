@@ -34,34 +34,44 @@ namespace Dfe.Academies.External.Web.Pages
 	        }
 
 	        ApplicationId = appId;
+	        int contributorId = 0; // TODO:- fix!
 			
-			PopulateUiModel(draftConversionApplication);
+			PopulateUiModel(draftConversionApplication, contributorId);
 
 			return Page();
         }
 
+		///<inheritdoc/>
 		public override void PopulateValidationMessages()
         {
-	        throw new NotImplementedException();
-        }
+	        PopulateViewDataErrorsWithModelStateErrors();
+		}
 
-        public override bool RunUiValidation()
+		///<inheritdoc/>
+		public override bool RunUiValidation()
         {
-			// TODO:- not sure this applies
-	        throw new NotImplementedException();
-        }
+	        // does not apply on this page
+	        return true;
+		}
 
-        public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+        ///<inheritdoc/>
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
         {
 	        throw new NotImplementedException();
         }
 
-        private void PopulateUiModel(ConversionApplication? application)
+        private void PopulateUiModel(ConversionApplication? application, int contributorId)
         {
 	        if (application != null)
 	        {
-		        // TODO:-  need to grab contrbutor name to show on UI
-			}
+				// TODO:-  need to grab contributor show name on UI
+				var contributor = application.Contributors.FirstOrDefault( c=> c.ContributorId == contributorId);
+
+				if (contributor != null)
+				{
+					ContributorName = contributor.FullName;
+				}
+	        }
 		}
 	}
 }
