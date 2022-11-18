@@ -229,13 +229,15 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		private FinancesReviewHeadingViewModel PopulateLoansHeading(SchoolApplyingToConvert selectedSchool)
 		{
+			// work out whether section started or not !
+			//var isStarted = loansHeading.Status != SchoolConversionComponentStatus.NotStarted;
+			bool? isStarted = selectedSchool.HasLoans;
 			
 			FinancesReviewHeadingViewModel loansHeading = new(FinancesReviewHeadingViewModel.HeadingLoans,
 				"/school/Loans")
 			{
-				Status = selectedSchool.Loans != null ? SchoolConversionComponentStatus.Complete : SchoolConversionComponentStatus.NotStarted
+				Status = isStarted.HasValue ? SchoolConversionComponentStatus.Complete : SchoolConversionComponentStatus.NotStarted
 			};
-			var isStarted = loansHeading.Status != SchoolConversionComponentStatus.NotStarted;
 			
 			var subQuestionAndAnswers = new List<SchoolQuestionAndAnswerViewModel>();
 				
@@ -254,7 +256,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			var financesReviewHeading = new FinancesReviewSectionViewModel(
 					FinancesReviewSectionViewModel.ExistingLoans,
-					isStarted ? selectedSchool.Loans.Any() ? "Yes" : "No" : QuestionAndAnswerConstants.NoInfoAnswer);
+					selectedSchool.Loans.Any() ? "Yes" : "No");
 
 			if (selectedSchool.Loans.Any())
 				financesReviewHeading.SubQuestionAndAnswers = subQuestionAndAnswers;
@@ -266,12 +268,15 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		private FinancesReviewHeadingViewModel PopulateLeasesHeading(SchoolApplyingToConvert selectedSchool)
 		{
+			// work out whether section started or not !
+			//var isStarted = leasesHeading.Status != SchoolConversionComponentStatus.NotStarted;
+			bool? isStarted = selectedSchool.HasLeases;
+
 			FinancesReviewHeadingViewModel leasesHeading = new(FinancesReviewHeadingViewModel.HeadingLeases,
 				"/school/Leases")
 			{
-				Status = selectedSchool.Leases != null ? SchoolConversionComponentStatus.Complete : SchoolConversionComponentStatus.NotStarted
+				Status = isStarted.HasValue ? SchoolConversionComponentStatus.Complete : SchoolConversionComponentStatus.NotStarted
 			};
-			var isStarted = leasesHeading.Status != SchoolConversionComponentStatus.NotStarted;
 			
 			var subQuestionAndAnswers = new List<SchoolQuestionAndAnswerViewModel>();
 				
@@ -292,7 +297,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			var financesReviewHeading = new FinancesReviewSectionViewModel(
 				FinancesReviewSectionViewModel.ExistingLeases,
-				isStarted ? selectedSchool.Leases.Any() ? "Yes" : "No" : QuestionAndAnswerConstants.NoInfoAnswer);
+				selectedSchool.Leases.Any() ? "Yes" : "No");
 			
 			if (selectedSchool.Leases.Any())
 				financesReviewHeading.SubQuestionAndAnswers = subQuestionAndAnswers;
