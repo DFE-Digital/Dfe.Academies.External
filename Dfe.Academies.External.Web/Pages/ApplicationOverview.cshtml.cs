@@ -187,17 +187,24 @@ namespace Dfe.Academies.External.Web.Pages
 							}).ToList()
 					};
 
-					// TODO:- need to remove declaration if NOT all sections have been completed!
-
 					SchoolComponents = componentsVm;
 				}
 
-				// TODO :- submit button should NOT be available unless ALL school.SchoolApplicationComponents.Status == Completed !!
+				// TODO:- need to remove 'Only the school's chair of governors can submit this application' for
+				// non-chair user if declaration not filled in?? see ticket (https://dfe-gov-uk.visualstudio.com.mcas.ms/Academies-and-Free-Schools-SIP/_workitems/edit/112259)
+				// TODO:- need seperate flag against conversionApplication?
+
+				// TODO :- submit button should NOT be available unless ALL school.SchoolApplicationComponents.Status == Completed !! see ticket (https://dfe-gov-uk.visualstudio.com.mcas.ms/Academies-and-Free-Schools-SIP/_workitems/edit/112260)
 				// &&&&&&& application should have a trust ++ trust sections filled in !!
 			}
 		}
 
-		// TODO :- what logic drives this !
+		/// <summary>
+		/// calculate overall application status based on whether all sections have been completed
+		/// INCLUDING declaration i.e. submit button is visible!!
+		/// </summary>
+		/// <param name="school"></param>
+		/// <returns></returns>
 		private Status CalculateApplicationStatus(SchoolApplyingToConvert? school)
 		{
 			if (school != null && school.SchoolApplicationComponents.Any())
@@ -211,6 +218,8 @@ namespace Dfe.Academies.External.Web.Pages
 					return Status.InProgress;
 				}
 			}
+
+			// TODO:- will also need to check trust status flag which is separate from above
 
 			return Status.NotStarted;
 		}
