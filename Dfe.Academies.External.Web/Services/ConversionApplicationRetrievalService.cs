@@ -336,33 +336,46 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	public Status CalculateJoinAMatTrustStatus(ConversionApplication? conversionApplication)
 	{
-		// need 2 bools to represent each sub-section. completed = yes/no
+		// need 3 bools to represent each sub-section. completed = yes/no
 		// 1) applicationselecttrust :- !string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) = complete
-		// 2) applicationschooltrustconsent :- conversionApplication.JoinTrustDetails != null && conversionApplication.JoinTrustDetails.ChangesToTrust.HasValue = complete
+		// 2) applicationschooltrustconsent - 3 steps :-
+		// a) step 1 (ApplicationSchoolTrustConsent) = conversionApplication.JoinTrustDetails != null ??? as this step is docs
+		// b) step 2 (ApplicationSchoolChangesToATrust) = conversionApplication.JoinTrustDetails.ChangesToTrust.HasValue = complete
+		// c) step 3 (ApplicationSchoolLocalGovernanceArrangements) = conversionApplication.JoinTrustDetails.ChangesToLaGovernanceExplained.HasValue
 
-		BitArray statuses = new BitArray(2);
-		statuses.Set(0, string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName));
-
-		////bool hasAnyFalse = statuses.Cast<bool>().Contains(false);
-		////bool hasAnyTrue = statuses.Cast<bool>().Contains(true);
-		
-		int falseCount = (from bool m in statuses
-					   where !m
-					   select m).Count();
-
-		//need to do a count of false. if count = 2 - status = NotStarted
-		//need to do a count of false. if count = 1 - status = InProgress
-		//need to do a count of false. if count = 0 - status = Completed
-		switch (falseCount)
+		if (conversionApplication != null && conversionApplication.JoinTrustDetails != null)
 		{
-			case 0:
-				return Status.Completed;
-			case 1:
+			BitArray statuses = new BitArray(3);
+			statuses.Set(0, !string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails.TrustName)); // ONLY set to false IF EMPTY!
+			statuses.Set(1, conversionApplication.JoinTrustDetails!.ChangesToTrust.HasValue);
+			statuses.Set(2, conversionApplication.JoinTrustDetails!.ChangesToLaGovernance.HasValue);
+
+			////bool hasAnyFalse = statuses.Cast<bool>().Contains(false);
+			////bool hasAnyTrue = statuses.Cast<bool>().Contains(true);
+
+			int falseCount = (from bool m in statuses
+				where !m
+				select m).Count();
+
+			//// need to do a count of false. if falseCount = 3 - status = NotStarted
+			//// need to do a count of false. if falseCount = >=1 || falseCount <=2 - status = InProgress
+			//// need to do a count of false. if falseCount = 0 - status = Completed
+			if (falseCount == 3)
+			{
+				return Status.NotStarted;
+			}
+			else if (falseCount > 0)
+			{
 				return Status.InProgress;
-			case 2:
-				return Status.NotStarted;
-			default: 
-				return Status.NotStarted;
+			}
+			else
+			{
+				return Status.Completed;
+			}
+		}
+		else
+		{
+			return Status.NotStarted;
 		}
 	}
 
