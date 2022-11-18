@@ -5,19 +5,26 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages
 {
-    public class RemoveAContributorConfirmationModel : BaseApplicationPageEditModel
+    public class RemoveAContributorConfirmationModel : BasePageEditModel
 	{
+		private readonly IConversionApplicationCreationService _academisationCreationService;
+		
 		[BindProperty]
 		public int ContributorId { get; set; }
 
+		[BindProperty]
+		public int ApplicationId { get; set; }
+
 		public string ContributorName { get; private set; } = string.Empty;
+
+		private string NextStepPage { get; set; } = "/AddAContributor";
 
 		public RemoveAContributorConfirmationModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService) 
-	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService,
-		        academisationCreationService, "/AddAContributor")
+	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
         {
+	        _academisationCreationService = academisationCreationService;
         }
 
 		public async Task<ActionResult> OnGetAsync(int appId, int contributorId)
@@ -56,7 +63,7 @@ namespace Dfe.Academies.External.Web.Pages
 			var contributor = draftConversionApplication.Contributors.FirstOrDefault(c => c.ContributorId == this.ContributorId);
 
 			// TODO:- api data access
-			//await AcademisationCreationService.AddContributorToApplication(contributor, ApplicationId);
+			// await _academisationCreationService.AddContributorToApplication(contributor, ApplicationId);
 
 			// update temp store for next step
 			draftConversionApplication.Contributors.Remove(contributor);
@@ -67,24 +74,24 @@ namespace Dfe.Academies.External.Web.Pages
 
 		///<inheritdoc/>
 		public override void PopulateValidationMessages()
-        {
-	        PopulateViewDataErrorsWithModelStateErrors();
+		{
+			PopulateViewDataErrorsWithModelStateErrors();
 		}
 
 		///<inheritdoc/>
 		public override bool RunUiValidation()
-        {
-	        // does not apply on this page
-	        return true;
+		{
+			// does not apply on this page
+			return true;
 		}
 
-        ///<inheritdoc/>
+		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
-        {
-	        throw new NotImplementedException();
-        }
+		{
+			throw new NotImplementedException();
+		}
 
-        public override void PopulateUiModel(ConversionApplication? conversionApplication)
+		public void PopulateUiModel(ConversionApplication? conversionApplication)
         {
 	        if (conversionApplication != null)
 	        {
