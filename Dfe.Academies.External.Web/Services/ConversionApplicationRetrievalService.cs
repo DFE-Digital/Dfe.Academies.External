@@ -136,8 +136,6 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 				new(name:"Declaration") {Id = 7, SchoolId = schoolId, Status = CalculateDeclarationSectionStatus(school)}
 		    };
 
-			// TODO:- calc trust status??
-
 			return conversionApplicationComponents;
 		}
 		catch (Exception ex)
@@ -312,13 +310,31 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			: Status.NotStarted;
 	}
 
+	public Status CalculateTrustStatus(ConversionApplication? conversionApplication)
+	{
+		if (conversionApplication != null)
+		{
+			switch (conversionApplication.ApplicationType)
+			{
+				case ApplicationTypes.JoinAMat:
+					return CalculateJoinAMatTrustStatus(conversionApplication);
+				case ApplicationTypes.FormAMat:
+					return CalculateFormAMatTrustStatus(conversionApplication);
+				default:
+					return Status.NotStarted;
+			}
+		}
+
+		return Status.NotStarted;
+	}
+
 	/// <summary>
 	/// calc JAM trust status - JAM specific components = 6 sections - so could return 'In Progress' or Completed or NotStarted
 	/// Same logic in here as ApplicationSchoolJoinAMatTrustSummary page. Should we re-factor?
 	/// </summary>
 	/// <param name="conversionApplication"></param>
 	/// <returns></returns>
-	private Status CalculateJoinAMatTrustStatus(ConversionApplication? conversionApplication)
+	public Status CalculateJoinAMatTrustStatus(ConversionApplication? conversionApplication)
 	{
 		// need 2 bools to represent each sub-section. completed = yes/no
 		// 1) applicationselecttrust :- !string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) = complete
@@ -351,7 +367,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	}
 
 	// calc FAM trust status - FAM specific components !!
-	private Status CalculateFormAMatTrustStatus(ConversionApplication? conversionApplication)
+	public Status CalculateFormAMatTrustStatus(ConversionApplication? conversionApplication)
 	{
 		// TODO:- agree logic !!
 
