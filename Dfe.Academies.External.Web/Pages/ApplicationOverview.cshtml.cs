@@ -138,6 +138,8 @@ namespace Dfe.Academies.External.Web.Pages
 					ConversionStatus = CalculateApplicationStatus(school);
 				}
 
+				TrustConversionStatus = ConversionApplicationRetrievalService.CalculateTrustStatus(conversionApplication);
+
 				ApplicationId = conversionApplication.ApplicationId;
 				ApplicationType = conversionApplication.ApplicationType;
 				ApplicationReferenceNumber = conversionApplication.ApplicationReference;
@@ -146,13 +148,12 @@ namespace Dfe.Academies.External.Web.Pages
 				NameOfTrustToJoin = conversionApplication.TrustName;
 
 				HasSchool = conversionApplication.HasSchool;
-
+				
 				if (conversionApplication.ApplicationType == ApplicationTypes.FormAMat)
 				{
 					HeaderText = "All school and trust details must be given before this application can be submitted.";
 					TrustHeaderText = "The trust being formed";
 					SchoolHeaderText = "The schools applying to convert";
-					TrustConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
 				}
 				else // JAM
 				{
@@ -162,17 +163,6 @@ namespace Dfe.Academies.External.Web.Pages
 					TrustHeaderText = "The trust the school will join";
 					SchoolHeaderText = "The school applying to convert";
 					SchoolName = school?.SchoolName;
-					TrustConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
-					
-					//// Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
-					////Audits = auditEntries.Select(e =>
-					//// new ViewModels.ApplicationAuditViewModel
-					//// {
-					////  What =
-					////   $"{e.CreatedBy} {e.TypeOfChange} the {e.PropertyChanged}",
-					////  When = e.DateCreated,
-					////  Who = e.CreatedBy
-					//// }).ToList();
 				}
 
 				// Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
@@ -199,6 +189,16 @@ namespace Dfe.Academies.External.Web.Pages
 
 				// TODO :- submit button should NOT be available unless ALL school.SchoolApplicationComponents.Status == Completed !! see ticket (https://dfe-gov-uk.visualstudio.com.mcas.ms/Academies-and-Free-Schools-SIP/_workitems/edit/112260)
 				// &&&&&&& application should have a trust ++ trust sections filled in !!
+
+				//// Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
+				////Audits = auditEntries.Select(e =>
+				//// new ViewModels.ApplicationAuditViewModel
+				//// {
+				////  What =
+				////   $"{e.CreatedBy} {e.TypeOfChange} the {e.PropertyChanged}",
+				////  When = e.DateCreated,
+				////  Who = e.CreatedBy
+				//// }).ToList();
 			}
 		}
 
