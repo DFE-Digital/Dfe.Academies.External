@@ -57,6 +57,7 @@
 
   <ItemGroup>
     <Folder Include="AcademiesAPIResponseModels\Trusts\" />
+    <Folder Include="Pages\Trust\FormAMat\" />
     <Folder Include="Validators\" />
   </ItemGroup>
 
