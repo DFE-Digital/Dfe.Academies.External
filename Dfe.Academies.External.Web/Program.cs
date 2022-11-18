@@ -161,18 +161,23 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
 if (!app.Environment.IsDevelopment())
 {
 	app.UseExceptionHandler("/Error");
 	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 	app.UseHsts();
 }
+else
+{
+	app.UseDeveloperExceptionPage();
+}
 
 // Combined with razor routing 404 display custom page NotFound
 app.UseStatusCodePagesWithReExecute("/error/{0}");
 
 //
-app.UseBespokeExceptionHandling(app.Environment);
+//app.UseBespokeExceptionHandling(app.Environment);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

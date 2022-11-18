@@ -172,18 +172,19 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 			TempDataHelper.GetSerialisedValue<ConversionApplication>(
 				TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-		ForecastedRevenueFiles?.ForEach(async file =>
+		foreach (var file in ForecastedRevenueFiles)
 		{
 			await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(),
 				applicationDetails.ApplicationReference, FileUploadConstants.NFYForecastedRevenueFilePrefixFieldName,
 				file);
-		});
-		ForecastedCapitalFiles?.ForEach(async file =>
+		}
+
+		foreach (var file in ForecastedCapitalFiles)
 		{
 			await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(),
 				applicationDetails.ApplicationReference, FileUploadConstants.NFYForecastedCapitalFilePrefixFieldName,
 				file);
-		});
+		}
 		
 		var dictionaryMapper = PopulateUpdateDictionary();
 		await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);

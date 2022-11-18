@@ -167,17 +167,15 @@ namespace Dfe.Academies.External.Web.Pages.School
 				TempDataHelper.GetSerialisedValue<ConversionApplication>(
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-
-
-			SchoolPFYRevenueStatusFiles?.ForEach(async file =>
+			foreach (var file in SchoolPFYRevenueStatusFiles)
 			{
 				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolPFYRevenueStatusFile, file);
-			});
+			}
 
-			SchoolPFYCapitalForwardStatusFiles?.ForEach(async file =>
+			foreach (var file in SchoolPFYCapitalForwardStatusFiles)
 			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolPFYCapitalForwardStatusFile, file);
-			});
+				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolPFYCapitalForwardStatusFile, file);	
+			}
 
 			var dictionaryMapper = PopulateUpdateDictionary();
 			await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);

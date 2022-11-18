@@ -77,7 +77,7 @@ public class FileUploadService : IFileUploadService
 			var response = await _httpClient.SendAsync(request);
 
 			if (!response.IsSuccessStatusCode)
-				throw new Exception($"The request failed with a status of {response.ReasonPhrase}. \n\n" + await request.Content.ReadAsStringAsync());
+				throw new Exception($"The file upload service failed with a status of {response.ReasonPhrase}");
 
 			var receiveStream = await response.Content.ReadAsStreamAsync();
 			using var readStream = new StreamReader(receiveStream, Encoding.UTF8);
