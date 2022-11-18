@@ -327,14 +327,27 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		BitArray statuses = new BitArray(2);
 		statuses.Set(0, string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName));
 
-		bool hasAnyFalse = statuses.Cast<bool>().Contains(false);
-		bool hasAnyTrue = statuses.Cast<bool>().Contains(true);
+		////bool hasAnyFalse = statuses.Cast<bool>().Contains(false);
+		////bool hasAnyTrue = statuses.Cast<bool>().Contains(true);
+		
+		int falseCount = (from bool m in statuses
+					   where !m
+					   select m).Count();
 
-		// TODO:- need to do a count of false. if count = 2 - status = NotStarted
-		// TODO:- need to do a count of false. if count = 1 - status = InProgress
-		// TODO:- need to do a count of false. if count = 0 - status = Completed
-
-		return Status.NotStarted;
+		//need to do a count of false. if count = 2 - status = NotStarted
+		//need to do a count of false. if count = 1 - status = InProgress
+		//need to do a count of false. if count = 0 - status = Completed
+		switch (falseCount)
+		{
+			case 0:
+				return Status.Completed;
+			case 1:
+				return Status.InProgress;
+			case 2:
+				return Status.NotStarted;
+			default: 
+				return Status.NotStarted;
+		}
 	}
 
 	// calc FAM trust status - FAM specific components !!
