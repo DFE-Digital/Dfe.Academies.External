@@ -62,8 +62,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 			var contributor = draftConversionApplication.Contributors.FirstOrDefault(c => c.ContributorId == this.ContributorId);
 
-			// TODO:- api data access
-			// await _academisationCreationService.AddContributorToApplication(contributor, ApplicationId);
+			await _academisationCreationService.RemoveContributorFromApplication(contributor, ApplicationId);
 
 			// update temp store for next step
 			draftConversionApplication.Contributors.Remove(contributor);

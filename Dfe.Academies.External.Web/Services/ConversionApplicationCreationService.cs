@@ -1,11 +1,4 @@
-﻿using System;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Xml.Linq;
-using Dfe.Academies.External.Web.Enums;
-using Dfe.Academies.External.Web.Extensions;
+﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -233,6 +226,20 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 		await _resilientRequestProvider.PutAsync(apiurl, application);
+	}
+
+	public async Task RemoveContributorFromApplication(ConversionApplicationContributor contributor, int applicationId)
+	{
+		var application = await GetApplication(applicationId);
+
+		if (application?.ApplicationId != applicationId)
+		{
+			throw new ArgumentException("Application not found");
+		}
+
+		// TODO:- what to do?
+
+		throw new NotImplementedException();
 	}
 
 	public async Task CreateLoan(int applicationId, int schoolId, SchoolLoan loan)
