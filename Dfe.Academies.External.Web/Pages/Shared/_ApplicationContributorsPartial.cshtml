@@ -17,7 +17,8 @@
                     <th scope="row" class="govuk-table__cell">@contributor.FullName</th>
 	                <td class="govuk-table__cell">@contributor.RoleName</td>
                     <td class="govuk-table__cell">
-                        <a asp-page="RemoveAContributorConfirmation" asp-route-appId="@contributor.ApplicationId"
+	                    <a asp-page="RemoveAContributorConfirmation" asp-route-appId="@contributor.ApplicationId"
+	                       asp-route-contributorId="@contributor.ContributorId"
 	                       class="govuk-link">Remove contributor</a>
 	                    </td>
                 </tr>

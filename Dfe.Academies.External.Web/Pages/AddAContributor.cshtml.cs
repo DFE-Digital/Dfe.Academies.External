@@ -184,7 +184,11 @@ namespace Dfe.Academies.External.Web.Pages
 				if (application.Contributors.Any())
 				{
 					var contributors = application.Contributors
-						.Select(e => new ConversionApplicationContributorViewModel(application.ApplicationId, e.FullName, e.Role, e.OtherRoleName))
+						.Select(e => new ConversionApplicationContributorViewModel(e.ContributorId,
+																									application.ApplicationId,
+																									e.FullName, 
+																									e.Role, 
+																									e.OtherRoleName))
 						.ToList();
 
 					ExistingContributors = contributors;
