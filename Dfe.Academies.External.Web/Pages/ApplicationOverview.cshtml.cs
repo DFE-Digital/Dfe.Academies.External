@@ -187,8 +187,8 @@ namespace Dfe.Academies.External.Web.Pages
 				// non-chair user if declaration not filled in?? see ticket (https://dfe-gov-uk.visualstudio.com.mcas.ms/Academies-and-Free-Schools-SIP/_workitems/edit/112259)
 				// TODO:- need seperate flag against conversionApplication?
 
-				// TODO :- submit button should NOT be available unless ALL school.SchoolApplicationComponents.Status == Completed !! see ticket (https://dfe-gov-uk.visualstudio.com.mcas.ms/Academies-and-Free-Schools-SIP/_workitems/edit/112260)
-				// &&&&&&& application should have a trust ++ trust sections filled in !!
+				// TODO :- submit button should NOT be available unless ConversionStatus == Completed &&&&&&& TrustConversionStatus = Completed !!
+				// see ticket (https://dfe-gov-uk.visualstudio.com.mcas.ms/Academies-and-Free-Schools-SIP/_workitems/edit/112260)
 
 				//// Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
 				////Audits = auditEntries.Select(e =>
