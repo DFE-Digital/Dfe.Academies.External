@@ -221,18 +221,20 @@ namespace Dfe.Academies.External.Web.Pages.School
 				TempDataHelper.GetSerialisedValue<ConversionApplication>(
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			DioceseFiles?.ForEach(async file =>
+			foreach (var file in DioceseFiles)
 			{
 				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.DioceseFilePrefixFieldName, file);
-			});
-			FoundationConsentFiles?.ForEach(async file =>
+			}
+
+			foreach (var file in FoundationConsentFiles)
 			{
 				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName, file);
-			});
-			ResolutionConsentFiles?.ForEach(async file =>
+			}
+
+			foreach (var file in ResolutionConsentFiles)
 			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName, file);				
-			});
+				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName, file);
+			}
 
 			SetBindedProperties();
 			

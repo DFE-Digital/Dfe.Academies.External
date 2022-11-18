@@ -104,11 +104,11 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 			{
 				return Page();
 			}
-			
-			TrustConsentFiles?.ForEach(async file =>
+
+			foreach (var file in TrustConsentFiles)
 			{
 				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName, file);
-			});
+			}
 			
 			var draftConversionApplication =
 				TempDataHelper.GetSerialisedValue<ConversionApplication>(
