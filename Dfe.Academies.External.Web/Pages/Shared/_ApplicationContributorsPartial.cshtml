@@ -6,7 +6,8 @@
         <thead class="govuk-table__head">
             <tr class="govuk-table__row">
                 <th scope="col" class="govuk-table__header">Name</th>
-                <th scope="col" class="govuk-table__header">Role</th>
+	            <th scope="col" class="govuk-table__header">Role</th>
+	            <th scope="col" class="govuk-table__header">Role</th>
             </tr>
         </thead>
         <tbody class="govuk-table__body">
@@ -14,7 +15,12 @@
             {
                 <tr class="govuk-table__row">  
                     <th scope="row" class="govuk-table__cell">@contributor.FullName</th>
-                    <td class="govuk-table__cell">@contributor.RoleName</td>
+	                <td class="govuk-table__cell">@contributor.RoleName</td>
+                    <td class="govuk-table__cell">
+	                    <a asp-page="RemoveAContributorConfirmation" asp-route-appId="@contributor.ApplicationId"
+	                       asp-route-contributorId="@contributor.ContributorId"
+	                       class="govuk-link">Remove contributor</a>
+	                    </td>
                 </tr>
             }        
         </tbody>

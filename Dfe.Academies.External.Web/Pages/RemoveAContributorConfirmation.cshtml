@@ -1,0 +1,31 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.RemoveAContributorConfirmationModel
+@{
+	ViewData["Title"] = "Apply to become an academy - Remove a contributor";
+}
+
+@section BeforeMain
+{
+    <a asp-page="AddAContributor" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">
+		Back
+	</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+    
+	<h1 class="govuk-heading-l">
+		Are you sure you want to remove @Model.ContributorName from the application?
+	</h1>
+
+    <p class="govuk-body-m">@Model.ContributorName will be removed as a contributor and will no longer be able to make changes to this application.</p>
+
+	<form method="post" name="frmAddContributor" novalidate="">
+		@Html.AntiForgeryToken()
+		<input type="hidden" asp-for="ApplicationId"/>
+		<partial name="_HiddenFields"/>
+		<div class="govuk-button-group">
+			<input type="submit" value="Confirm" class="govuk-button"/>
+            <a asp-page="AddAContributor" asp-route-appId="@Model.ApplicationId" class="govuk-button govuk-button--secondary">Cancel</a>
+		</div>
+	</form>
+</div>

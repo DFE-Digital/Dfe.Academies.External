@@ -17,6 +17,8 @@ public interface IConversionApplicationCreationService
 
 	Task AddContributorToApplication(ConversionApplicationContributor contributor, int applicationId);
 
+	Task RemoveContributorFromApplication(int contributorId, int applicationId);
+
 	Task CreateLoan(int applicationId, int schoolId, SchoolLoan loan);
 	Task UpdateLoan(int applicationId, int schoolId, SchoolLoan loan);
 	Task DeleteLoan(int applicationId, int schoolId, int loanId);

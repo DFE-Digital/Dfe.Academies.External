@@ -1,11 +1,4 @@
-﻿using System;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Xml.Linq;
-using Dfe.Academies.External.Web.Enums;
-using Dfe.Academies.External.Web.Extensions;
+﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -230,6 +223,25 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		}
 
 		application.Contributors.Add(contributor);
+
+		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+		await _resilientRequestProvider.PutAsync(apiurl, application);
+	}
+
+	public async Task RemoveContributorFromApplication(int contributorId, int applicationId)
+	{
+		var application = await GetApplication(applicationId);
+
+		if (application?.ApplicationId != applicationId)
+		{
+			throw new ArgumentException("Application not found");
+		}
+
+		var contributor = application.Contributors.FirstOrDefault(c => c.ContributorId == contributorId);
+		if (contributor != null)
+		{
+			application.Contributors.Remove(contributor);
+		}
 
 		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 		await _resilientRequestProvider.PutAsync(apiurl, application);
