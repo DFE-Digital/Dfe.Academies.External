@@ -60,11 +60,10 @@ namespace Dfe.Academies.External.Web.Pages
 				return Page();
 			}
 
-			var contributor = draftConversionApplication.Contributors.FirstOrDefault(c => c.ContributorId == this.ContributorId);
-
-			await _academisationCreationService.RemoveContributorFromApplication(contributor, ApplicationId);
+			await _academisationCreationService.RemoveContributorFromApplication(ContributorId, ApplicationId);
 
 			// update temp store for next step
+			var contributor = draftConversionApplication.Contributors.FirstOrDefault(c => c.ContributorId == this.ContributorId);
 			draftConversionApplication.Contributors.Remove(contributor);
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 

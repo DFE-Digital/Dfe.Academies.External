@@ -228,7 +228,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PutAsync(apiurl, application);
 	}
 
-	public async Task RemoveContributorFromApplication(ConversionApplicationContributor contributor, int applicationId)
+	public async Task RemoveContributorFromApplication(int contributorId, int applicationId)
 	{
 		var application = await GetApplication(applicationId);
 
@@ -237,8 +237,11 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			throw new ArgumentException("Application not found");
 		}
 
-		// TODO:- what to do?
-		application.Contributors.Remove(contributor);
+		var contributor = application.Contributors.FirstOrDefault(c => c.ContributorId == contributorId);
+		if (contributor != null)
+		{
+			application.Contributors.Remove(contributor);
+		}
 
 		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 		await _resilientRequestProvider.PutAsync(apiurl, application);
