@@ -19,10 +19,13 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public List<SchoolApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; private set; } = new();
 
+		/// <summary>
+		/// This is already set dependent on whether application type = join a mat / form a mat!
+		/// </summary>
 		public string? NameOfTrustToJoin { get; private set; }
 
 		/// <summary>
-		/// Overall application status - comes from API now
+		/// Overall application status from API
 		/// </summary>
 		public ApplicationStatus ApplicationStatus { get; private set; }
 
