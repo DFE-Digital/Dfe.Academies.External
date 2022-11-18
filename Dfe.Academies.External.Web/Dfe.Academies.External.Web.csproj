@@ -8,13 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Pages\Trust\FormAMat\**" />
-    <Content Remove="Pages\Trust\FormAMat\**" />
-    <EmbeddedResource Remove="Pages\Trust\FormAMat\**" />
-    <None Remove="Pages\Trust\FormAMat\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Remove="Constants\FieldConstants.cs" />
     <Compile Remove="Models\NewTrustKeyPerson.cs" />
   </ItemGroup>
