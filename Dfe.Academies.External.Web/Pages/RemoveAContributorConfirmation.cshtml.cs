@@ -20,8 +20,7 @@ namespace Dfe.Academies.External.Web.Pages
         {
         }
 
-        // TODO:- might need to override - passing in app ID via query string? passing in contributor id?
-		public async Task<ActionResult> OnGetAsync(int appId)
+		public async Task<ActionResult> OnGetAsync(int appId, int contributorId)
         {
 	        //// on load - grab draft application from temp
 	        var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
@@ -35,7 +34,6 @@ namespace Dfe.Academies.External.Web.Pages
 	        }
 
 	        ApplicationId = appId;
-	        int contributorId = 0; // TODO:- fix!
 	        ContributorId = contributorId;
 
 			PopulateUiModel(draftConversionApplication);

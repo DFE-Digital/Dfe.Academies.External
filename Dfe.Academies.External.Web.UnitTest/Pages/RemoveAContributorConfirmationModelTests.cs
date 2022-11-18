@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
+using AutoFixture;
 using Dfe.Academies.External.Web.Pages;
-using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +15,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages;
 [Parallelizable(ParallelScope.All)]
 internal sealed class RemoveAContributorConfirmationModelTests
 {
+	private static readonly Fixture Fixture = new();
+
 	/// <summary>
 	/// "draftConversionApplication" in temp storage
 	/// from previous step in the new application wizard
@@ -28,7 +30,8 @@ internal sealed class RemoveAContributorConfirmationModelTests
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
-		int applicationId = int.MaxValue;
+		int contributorId = Fixture.Create<int>();
+		int applicationId = Fixture.Create<int>();
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
@@ -39,7 +42,7 @@ internal sealed class RemoveAContributorConfirmationModelTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync(applicationId);
+		await pageModel.OnGetAsync(contributorId, applicationId);
 
 		// assert
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
