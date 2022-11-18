@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
 public interface IConversionApplicationRetrievalService
@@ -44,4 +45,26 @@ public interface IConversionApplicationRetrievalService
 	/// <param name="applicationId"></param>
 	/// <returns></returns>
 	Task<ConversionApplication?> GetApplication(int applicationId);
+
+	/// <summary>
+	/// calculate whether all trust sections of application have been filled in
+	/// </summary>
+	/// <param name="conversionApplication"></param>
+	/// <returns></returns>
+	Status CalculateTrustStatus(ConversionApplication? conversionApplication);
+
+	/// <summary>
+	/// calc JAM trust status - JAM specific components = 6 sections - could return InProgress or Completed or NotStarted
+	/// Contains same logic in here as ApplicationSchoolJoinAMatTrustSummary page.
+	/// </summary>
+	/// <param name="conversionApplication"></param>
+	/// <returns></returns>
+	Status CalculateJoinAMatTrustStatus(ConversionApplication? conversionApplication);
+
+	/// <summary>
+	/// calc FAM trust status - FAM specific components !! could return InProgress or Completed or NotStarted
+	/// </summary>
+	/// <param name="conversionApplication"></param>
+	/// <returns></returns>
+	Status CalculateFormAMatTrustStatus(ConversionApplication? conversionApplication);
 }
