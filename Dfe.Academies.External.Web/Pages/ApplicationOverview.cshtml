@@ -101,10 +101,24 @@
             }
             else{
 	            <tr class="govuk-table__row">
-		            <td class="govuk-table__cell">
+                    <td class="govuk-table__cell" colspan="2">
 			            <span class="govuk-!-font-weight-bold govuk-!-padding-right-5">@Model.NameOfTrustToJoin</span>
-                        <a asp-page="trust/joinamat/ApplicationSchoolJoinAMatTrustSummary" asp-route-appId="@Model.ApplicationId"
+                        <a asp-page="trust/joinamat/ApplicationSelectTrust" asp-route-appId="@Model.ApplicationId"
 			               class="govuk-link">Change</a>
+                    </td>
+	            </tr>
+	            <tr class="govuk-table__row">
+		            <td class="govuk-table__cell">
+			            @if (Model.ApplicationType == ApplicationTypes.JoinAMat)
+			            {
+				            <a asp-page="trust/joinamat/ApplicationSchoolJoinAMatTrustSummary" asp-route-appId="@Model.ApplicationId"
+				               class="govuk-link">Trust details</a>
+			            }
+			            else
+			            {
+				            <a asp-page="trust/formamat/ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId"
+								class="govuk-link">Trust details</a>
+			            }
 		            </td>
 		            <td class="govuk-table__cell govuk-!-text-align-right">
 			            @{
@@ -145,7 +159,7 @@
         @if (Model.UserHasSubmitApplicationRole && Model.ConversionStatus == Status.Completed)
         {
             <button data-prevent-double-click="true" class="govuk-button govuk-!-margin-top-6" data-module="govuk-button">
-                Review and submit
+                Submit
             </button>
         }
 @*        <a asp-page="YourApplications" class="govuk-button govuk-button--warning" data-module="govuk-button">Cancel this application</a>*@
