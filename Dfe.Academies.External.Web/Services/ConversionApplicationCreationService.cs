@@ -238,8 +238,10 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		}
 
 		// TODO:- what to do?
+		application.Contributors.Remove(contributor);
 
-		throw new NotImplementedException();
+		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+		await _resilientRequestProvider.PutAsync(apiurl, application);
 	}
 
 	public async Task CreateLoan(int applicationId, int schoolId, SchoolLoan loan)
