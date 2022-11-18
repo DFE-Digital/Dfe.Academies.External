@@ -192,42 +192,61 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	}
 
 	/// <summary>
-	/// About the conversion = 5 sections - so could return 'In Progress'
+	/// About the conversion = 4 sections - so could return 'In Progress' or Completed or NotStarted
+	/// Same logic in here as summary page. Should we re-factor?
 	/// </summary>
 	/// <param name="selectedSchool"></param>
 	/// <returns></returns>
 	private Status CalculateAboutTheConversionSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		// TODO MR:- agree logic
+		// need 4 bools to represent each sub-section. completed = yes/no
+		// 1) SchoolMainContacts = !string.IsNullOrEmpty(selectedSchool.SchoolConversionContactHeadName)
+		// 2) ApplicationConversionTargetDate = selectedSchool.SchoolConversionTargetDateSpecified.HasValue
+		// 3) ApplicationJoinTrustReasons = !string.IsNullOrWhiteSpace(selectedSchool.ApplicationJoinTrustReason)
+		// 4) ApplicationChangeSchoolName = selectedSchool.ConversionChangeNamePlanned.HasValue
+
+		// TODO :- agree logic
 		return Status.InProgress;
 	}
 
 	/// <summary>
-	/// Further information = 2 sections(?) - so could return 'In Progress'
+	/// Will only return Completed or NotStarted as only one logic check !
+	/// Same logic in here as summary page. Should we re-factor?
 	/// </summary>
 	/// <param name="selectedSchool"></param>
 	/// <returns></returns>
 	private Status CalculateFurtherInformationSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		// TODO MR:- agree logic
+		// one LARGE form in v1.5. So can just use below logic:-
+		// var sectionStarted = !string.IsNullOrEmpty(selectedSchool.TrustBenefitDetails)
+
+		// TODO
 		return Status.InProgress;
 	}
 
 	/// <summary>
-	/// Finance = 6 sections - so could return 'In Progress'
+	/// Finance = 6 sections - so could return 'In Progress' or Completed or NotStarted
+	/// Same logic in here as summary page. Should we re-factor?
 	/// </summary>
 	/// <param name="selectedSchool"></param>
 	/// <returns></returns>
 	private Status CalculateFinanceSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		//need 6 bools to represent each sub-section. completed = yes/no
+		// need 6 bools to represent each sub-section. completed = yes/no
+		// 1) PreviousFinancialYear = selectedSchool.previousFinancialYear.FinancialYearEndDate.HasValue
+		// 2) CurrentFinancialYear = selectedSchool.currentFinancialYear.FinancialYearEndDate.HasValue
+		// 3) NextFinancialYear = selectedSchool.nextFinancialYear.FinancialYearEndDate.HasValue
+		// 4) loans = selectedSchool.HasLoans
+		// 5) leases = selectedSchool.HasLeases
+		// 6) FinancialInvestigations = selectedSchool.FinanceOngoingInvestigations.HasValue
 
-		// TODO MR:- agree logic
+		// TODO :- agree logic
 		return Status.InProgress;
 	}
 
 	/// <summary>
-	/// Same logic in here as future pupil numbers summary. Should we re-factor?
+	/// Will only return Completed or NotStarted as only one logic check !
+	/// Same logic in here as future pupil numbers summary page. Should we re-factor?
 	/// </summary>
 	/// <param name="selectedSchool"></param>
 	/// <returns></returns>
@@ -239,7 +258,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	}
 
 	/// <summary>
-	/// Same logic in here as Land and buildings summary. Should we re-factor?
+	/// Will only return Completed or NotStarted as only one logic check !
+	/// Same logic in here as Land and buildings summary page. Should we re-factor?
 	/// </summary>
 	/// <param name="selectedSchool"></param>
 	/// <returns></returns>
@@ -251,7 +271,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	}
 
 	/// <summary>
-	/// Same logic in here as consultation summary. Should we re-factor?
+	/// Will only return Completed or NotStarted as only one logic check !
+	/// Same logic in here as consultation summary page. Should we re-factor?
 	/// </summary>
 	/// <param name="selectedSchool"></param>
 	/// <returns></returns>
@@ -263,7 +284,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	}
 
 	/// <summary>
-	/// Same logic in here as Pre-opening support grant summary. Should we re-factor?
+	/// Will only return Completed or NotStarted as only one logic check !
+	/// Same logic in here as Pre-opening support grant summary page. Should we re-factor?
 	/// </summary>
 	/// <param name="selectedSchool"></param>
 	/// <returns></returns>
@@ -275,7 +297,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	}
 
 	/// <summary>
-	/// Same logic in here as declaration summary. Should we re-factor?
+	/// Will only return Completed or NotStarted as only one logic check !
+	/// Same logic in here as declaration summary page. Should we re-factor?
 	/// </summary>
 	/// <param name="selectedSchool"></param>
 	/// <returns></returns>
