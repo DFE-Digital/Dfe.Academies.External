@@ -96,10 +96,12 @@ public class SchoolApplyingToConvert
 	
 		public List<SchoolLoan> Loans { get; set; } = new();
 
-		// TODO API:-
         public List<SchoolLease> Leases { get; set; } = new();
 
-        /// <summary>
+		public bool? HasLoans { get; set; }
+		public bool? HasLeases { get; set; }
+
+		/// <summary>
         /// TODO:- is below more a VM thing?
         /// </summary>
         public List<ConversionApplicationComponent> SchoolApplicationComponents { get; set; } = new();

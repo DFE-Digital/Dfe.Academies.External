@@ -22,7 +22,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public SelectOption? AnyLoans { get; set; }
 
 		public List<LoanViewModel> LoanViewModels { get; set; }
-		
+		public bool? HasLoans { get; set; }
+
 		//Validation errors
 		public bool AddedLoansButEmptyCollectionError => !ModelState.IsValid && ModelState.Keys.Contains("AddedLoansButEmptyCollectionError");
 		public bool InvalidSelectOptionError => !ModelState.IsValid && ModelState.Keys.Contains("InvalidSelectOptionError");
@@ -102,7 +103,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 					await ConversionApplicationCreationService.UpdateLoan(ApplicationId, selectedSchool.id, loan);
 				}
 			}
-			
+
+			// if user has selected no then update the school and set hasLoans
+			if (!LoanViewModels.Any() && AnyLoans == SelectOption.No)
+			{
+				var dictionaryMapper = PopulateUpdateDictionary();
+				await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+			}
+
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 			TempData[$"{Urn.ToString()}-{typeof(List<LoanViewModel>)}"] = null;
@@ -113,6 +121,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private void LoadLoansFromDatabase(SchoolApplyingToConvert selectedSchool)
 		{
 			//Populate viewmodel from currently saved data
+			HasLoans = selectedSchool.HasLoans;
 			LoanViewModels = new List<LoanViewModel>();
 			selectedSchool.Loans.ForEach(loan =>
 			{
@@ -136,6 +145,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 			//Try to merge with what is saved in the cache
 			//Use the ID on the loan view model
 			var tempDataLoanViewModels = TempDataLoadBySchool<List<LoanViewModel>>(Urn) ?? new List<LoanViewModel>();
+			if (tempDataLoanViewModels.Any())
+			{
+				//override hasLoans value if we have some temp loans 
+				HasLoans = true;
+			}
+
 			tempDataLoanViewModels.ForEach(x =>
 			{
 				var loan = LoanViewModels.Find(y => y.Id == x.Id && !x.IsDraft);
@@ -189,14 +204,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
-			// does not apply on this page
-			return new();
+			return new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.HasLoans), AnyLoans == SelectOption.Yes} };
 		}
 
 		///<inheritdoc/>
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			AnyLoans = LoanViewModels.Any() ? SelectOption.Yes : SelectOption.No;
+			AnyLoans = HasLoans.HasValue && HasLoans.Value ? SelectOption.Yes : SelectOption.No;
 		}
 	}
 }
