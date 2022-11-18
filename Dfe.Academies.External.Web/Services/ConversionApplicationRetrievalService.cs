@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Dfe.Academies.External.Web.Enums;
@@ -134,6 +135,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 				new(name:"Pre-opening support grant") {Id = 7, SchoolId = schoolId, Status = CalculatePreOpeningSupportGrantSectionStatus(school)},
 				new(name:"Declaration") {Id = 7, SchoolId = schoolId, Status = CalculateDeclarationSectionStatus(school)}
 		    };
+
+			// TODO:- calc trust status??
 
 			return conversionApplicationComponents;
 		}
@@ -307,5 +310,41 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		return selectedSchool?.DeclarationBodyAgree.HasValue != null 
 			? Status.Completed
 			: Status.NotStarted;
+	}
+
+	/// <summary>
+	/// calc JAM trust status - JAM specific components = 6 sections - so could return 'In Progress' or Completed or NotStarted
+	/// Same logic in here as ApplicationSchoolJoinAMatTrustSummary page. Should we re-factor?
+	/// </summary>
+	/// <param name="conversionApplication"></param>
+	/// <returns></returns>
+	private Status CalculateJoinAMatTrustStatus(ConversionApplication? conversionApplication)
+	{
+		// need 2 bools to represent each sub-section. completed = yes/no
+		// 1) applicationselecttrust :- !string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) = complete
+		// 2) applicationschooltrustconsent :- conversionApplication.JoinTrustDetails != null && conversionApplication.JoinTrustDetails.ChangesToTrust.HasValue = complete
+
+		BitArray statuses = new BitArray(2);
+		statuses.Set(0, string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName));
+
+		bool hasAnyFalse = statuses.Cast<bool>().Contains(false);
+		bool hasAnyTrue = statuses.Cast<bool>().Contains(true);
+
+		// TODO:- need to do a count of false. if count = 2 - status = NotStarted
+		// TODO:- need to do a count of false. if count = 1 - status = InProgress
+		// TODO:- need to do a count of false. if count = 0 - status = Completed
+
+		return Status.NotStarted;
+	}
+
+	// calc FAM trust status - FAM specific components !!
+	private Status CalculateFormAMatTrustStatus(ConversionApplication? conversionApplication)
+	{
+		// TODO:- agree logic !!
+
+		// consume below:-
+		// conversionApplication.FormATrust
+
+		return Status.NotStarted;
 	}
 }
