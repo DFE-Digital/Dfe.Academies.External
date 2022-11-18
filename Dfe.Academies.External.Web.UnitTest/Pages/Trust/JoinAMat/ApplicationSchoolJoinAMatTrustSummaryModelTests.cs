@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System.Threading.Tasks;
-using Dfe.Academies.External.Web.Pages.Trust;
 using Dfe.Academies.External.Web.Pages.Trust.JoinAMat;
 
-namespace Dfe.Academies.External.Web.UnitTest.Pages.Trust;
+namespace Dfe.Academies.External.Web.UnitTest.Pages.Trust.JoinAMat;
 
+[Parallelizable(ParallelScope.All)]
 internal sealed class ApplicationSchoolJoinAMatTrustSummaryModelTests
 {
 	/// <summary>
