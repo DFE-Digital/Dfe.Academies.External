@@ -140,7 +140,7 @@ namespace Dfe.Academies.External.Web.Pages
 				// ConversionStatus = could be 'NotStarted', 'InProgress' or 'Complete'
 				if (school != null && school.SchoolApplicationComponents.Any())
 				{
-					ConversionStatus = CalculateApplicationStatus(school);
+					ConversionStatus = CalculateApplicationStatus(school, conversionApplication);
 				}
 
 				TrustConversionStatus = ConversionApplicationRetrievalService.CalculateTrustStatus(conversionApplication);
@@ -211,23 +211,29 @@ namespace Dfe.Academies.External.Web.Pages
 		/// </summary>
 		/// <param name="school"></param>
 		/// <returns></returns>
-		private Status CalculateApplicationStatus(SchoolApplyingToConvert? school)
+		private Status CalculateApplicationStatus(SchoolApplyingToConvert? school, ConversionApplication? conversionApplication)
 		{
+			Status overallStatus = Status.NotStarted;
+			Status schoolConversionStatus = Status.NotStarted;
+
 			if (school != null && school.SchoolApplicationComponents.Any())
 			{
 				if(school.SchoolApplicationComponents.All(comp => comp.Status == Status.Completed))
 				{
-					return Status.Completed;
+					schoolConversionStatus = Status.Completed;
 				}
 				else
 				{
-					return Status.InProgress;
+					schoolConversionStatus = Status.InProgress;
 				}
 			}
 
 			// TODO:- will also need to check trust status flag which is separate from above
+			var trustStatus = ConversionApplicationRetrievalService.CalculateTrustStatus(conversionApplication);
 
-			return Status.NotStarted;
+			// overallStatus = schoolConversionStatus + trustStatus;
+
+			return overallStatus;
 		}
 
 		///<inheritdoc/>
