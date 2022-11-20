@@ -144,7 +144,7 @@
 
 	<div class="govuk-!-margin-6"></div>
     
-    @if (!Model.UserHasSubmitApplicationRole)
+    @if (!Model.UserHasSubmitApplicationRole && Model.DeclarationStatus == Status.Completed)
     {
 	    <div class="govuk-warning-text">
 		    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
@@ -156,7 +156,7 @@
     }
 
     <div class="govuk-button-group">
-        @if (Model.UserHasSubmitApplicationRole && Model.ConversionStatus == Status.Completed)
+        @if (Model.UserHasSubmitApplicationRole && Model.DeclarationStatus == Status.Completed)
         {
             <button data-prevent-double-click="true" class="govuk-button govuk-!-margin-top-6" data-module="govuk-button">
                 Submit

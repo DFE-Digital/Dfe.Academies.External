@@ -35,6 +35,13 @@ namespace Dfe.Academies.External.Web.Pages
 		public Status ConversionStatus { get; private set; }
 
 		/// <summary>
+		/// Always have a trust conversion status whether Join a MAT or form a MAT !!
+		/// </summary>
+		public Status TrustConversionStatus { get; private set; }
+
+		public Status DeclarationStatus { get; private set; }
+
+		/// <summary>
 		/// UI text, set within here ONLY dependent on ApplicationType
 		/// </summary>
 		public string SchoolHeaderText { get; private set; } = string.Empty;
@@ -48,12 +55,7 @@ namespace Dfe.Academies.External.Web.Pages
 		/// UI text, set within here ONLY dependent on ApplicationType
 		/// </summary>
 		public string TrustHeaderText { get; private set; } = string.Empty;
-
-		/// <summary>
-		/// Always have a trust conversion status whether Join a MAT or form a MAT !!
-		/// </summary>
-		public Status TrustConversionStatus { get; private set; }
-
+		
 		/// <summary>
 		/// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
 		/// </summary>
@@ -139,6 +141,8 @@ namespace Dfe.Academies.External.Web.Pages
 				}
 
 				TrustConversionStatus = ConversionApplicationRetrievalService.CalculateTrustStatus(conversionApplication);
+				DeclarationStatus =
+					ConversionApplicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
 
 				ApplicationId = conversionApplication.ApplicationId;
 				ApplicationType = conversionApplication.ApplicationType;

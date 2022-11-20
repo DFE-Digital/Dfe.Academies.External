@@ -19,7 +19,7 @@ public interface IConversionApplicationRetrievalService
 	Task<List<ConversionApplication>> GetPendingApplications(string? username);
 
 	/// <summary>
-	/// 
+	/// Not sure whether this is needed for V1.5
 	/// </summary>
 	/// <param name="applicationId"></param>
 	/// <returns></returns>
@@ -67,4 +67,12 @@ public interface IConversionApplicationRetrievalService
 	/// <param name="conversionApplication"></param>
 	/// <returns></returns>
 	Status CalculateFormAMatTrustStatus(ConversionApplication? conversionApplication);
+
+	/// <summary>
+	/// Calc whether school declaration has been filled in
+	/// Will only return Completed or NotStarted as only one logic check !
+	/// </summary>
+	/// <param name="conversionApplication"></param>
+	/// <returns></returns>
+	Status CalculateApplicationDeclarationStatus(ConversionApplication? conversionApplication);
 }
