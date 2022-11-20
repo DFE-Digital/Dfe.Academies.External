@@ -187,10 +187,6 @@ namespace Dfe.Academies.External.Web.Pages
 					SchoolComponents = componentsVm;
 				}
 
-				// TODO:- need to remove 'Only the school's chair of governors can submit this application' for
-				// non-chair user if declaration not filled in?? see ticket (https://dfe-gov-uk.visualstudio.com.mcas.ms/Academies-and-Free-Schools-SIP/_workitems/edit/112259)
-				// TODO:- need seperate flag against conversionApplication?
-
 				// TODO :- submit button should NOT be available unless ConversionStatus == Completed &&&&&&& TrustConversionStatus = Completed !!
 				// see ticket (https://dfe-gov-uk.visualstudio.com.mcas.ms/Academies-and-Free-Schools-SIP/_workitems/edit/112260)
 
