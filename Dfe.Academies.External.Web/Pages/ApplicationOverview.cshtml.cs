@@ -39,6 +39,9 @@ namespace Dfe.Academies.External.Web.Pages
 		/// </summary>
 		public Status TrustConversionStatus { get; private set; }
 
+		/// <summary>
+		/// ONLY whether declaration section has been completed!
+		/// </summary>
 		public Status DeclarationStatus { get; private set; }
 
 		/// <summary>
@@ -47,7 +50,7 @@ namespace Dfe.Academies.External.Web.Pages
 		public string SchoolHeaderText { get; private set; } = string.Empty;
 
 		/// <summary>
-		/// This will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
+		/// This will ONLY have a value IF ApplicationType = FormNewMat
 		/// </summary>
 		public string? SchoolName { get; private set; }
 
@@ -57,7 +60,7 @@ namespace Dfe.Academies.External.Web.Pages
 		public string TrustHeaderText { get; private set; } = string.Empty;
 		
 		/// <summary>
-		/// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
+		/// this will ONLY have a value IF ApplicationType = FormNewMat
 		/// </summary>
 		public SchoolComponentsViewModel SchoolComponents { get; private set; } = new();
 
