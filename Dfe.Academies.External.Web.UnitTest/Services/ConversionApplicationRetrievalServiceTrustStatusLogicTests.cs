@@ -67,6 +67,9 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 
 	// TODO:- Status.Completed - all 3 sections complete
 
+
+	// TODO:- add tests for CalculateApplicationDeclarationStatus()
+
 	private static Mock<IHttpClientFactory> SetupMockHttpClientFactory(HttpStatusCode expectedStatusCode, string expectedJson)
 	{
 		var mockFactory = new Mock<IHttpClientFactory>();
