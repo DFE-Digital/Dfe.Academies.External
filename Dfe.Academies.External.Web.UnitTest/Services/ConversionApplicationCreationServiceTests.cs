@@ -32,7 +32,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		// arrange
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/createApplicationResponseInValid.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
-		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationNoRoles();
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationNoRoles();
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.BadRequest, expectedJson);
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
@@ -55,7 +55,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		// arrange
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/createApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
-		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithOtherRole();
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithOtherRole();
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.Created, expectedJson);
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
