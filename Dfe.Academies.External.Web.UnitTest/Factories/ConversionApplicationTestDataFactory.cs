@@ -95,7 +95,7 @@ internal static class ConversionApplicationTestDataFactory
 			},
 			Schools = new()
 			{
-				new SchoolApplyingToConvert(Fixture.Create<string>(), Int32.MaxValue, null)
+				new SchoolApplyingToConvert(Fixture.Create<string>(), int.MaxValue, null)
 			}
 		};
 	}
