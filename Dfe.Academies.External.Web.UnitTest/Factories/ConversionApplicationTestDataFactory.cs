@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using AutoFixture;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
@@ -143,7 +142,7 @@ internal static class ConversionApplicationTestDataFactory
 			{
 				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
 			},
-			JoinTrustDetails = new ExistingTrust(int.MaxValue,
+			JoinTrustDetails = new ExistingTrust(applicationId.HasValue ? applicationId.Value : int.MaxValue,
 				Fixture.Create<string>(),
 				Fixture.Create<int>(),
 				TrustChange.No,
@@ -178,26 +177,30 @@ internal static class ConversionApplicationTestDataFactory
 		};
 	}
 
-	public static ConversionApplication BuildNewJoinAMatConversionApplicationWithCompleteJoinTrustDetails()
+	public static ConversionApplication BuildNewJoinAMatConversionApplicationWithCompleteJoinTrustDetails(int? applicationId)
 	{
 		return new ConversionApplication
 		{
 			UserEmail = Fixture.Create<string>(),
-			ApplicationId = int.MaxValue,
+			ApplicationId = applicationId.HasValue ? applicationId.Value : int.MaxValue,
 			ApplicationType = ApplicationTypes.JoinAMat,
 			ApplicationStatus = ApplicationStatus.InProgress,
 			Contributors = new()
 			{
 				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
 			},
-			JoinTrustDetails = new ExistingTrust(int.MaxValue,
+			JoinTrustDetails = new ExistingTrust(applicationId.HasValue ? applicationId.Value : int.MaxValue,
 				Fixture.Create<string>(),
 				Fixture.Create<int>(),
 				ChangesToTrust: TrustChange.No,
 				ChangesToTrustExplained: null,
 				ChangesToLaGovernance: false,
 				ChangesToLaGovernanceExplained: null
-			)
+			),
+			Schools = new()
+			{
+				new SchoolApplyingToConvert(Fixture.Create<string>(), int.MaxValue, null)
+			}
 		};
 	}
 }
