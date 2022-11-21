@@ -76,7 +76,7 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
 
-		var conversionApplication = ConversionApplicationTestDataFactory.BuildJoinAMatConversionApplicationWithContributorWithSchool();
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildJoinAMatConversionApplicationWithContributorWithSchool(null);
 
 		// act
 		var declarationStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
@@ -100,7 +100,7 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
 
-		var conversionApplication = ConversionApplicationTestDataFactory.BuildJoinAMatConversionApplicationWithContributorWithSchool();
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildJoinAMatConversionApplicationWithContributorWithSchool(null);
 		var applicationSchool = conversionApplication.Schools.FirstOrDefault()!.DeclarationBodyAgree = true;
 		
 		// act
