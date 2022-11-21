@@ -185,8 +185,8 @@ namespace Dfe.Academies.External.Web.Pages
 					SchoolComponents = componentsVm;
 				}
 
-				// TODO :- submit button should NOT be available unless ConversionStatus == Completed &&&&&&& TrustConversionStatus = Completed !!
-				// see ticket (https://dfe-gov-uk.visualstudio.com.mcas.ms/Academies-and-Free-Schools-SIP/_workitems/edit/112260)
+				//// submit button should NOT be available unless ConversionStatus == Completed &&&&&&& TrustConversionStatus = Completed !!
+				//// logic is now contained within ConversionApplicationRetrievalService.CalculateApplicationStatus(conversionApplication);
 
 				//// Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
 				////Audits = auditEntries.Select(e =>
