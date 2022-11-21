@@ -207,7 +207,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		// 4) ApplicationChangeSchoolName = selectedSchool.ConversionChangeNamePlanned.HasValue
 
 		// TODO :- agree logic
-		return Status.InProgress;
+		return Status.NotStarted;
 	}
 
 	/// <summary>
@@ -222,7 +222,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		// var sectionStarted = !string.IsNullOrEmpty(selectedSchool.TrustBenefitDetails)
 
 		// TODO
-		return Status.InProgress;
+		return Status.NotStarted;
 	}
 
 	/// <summary>
@@ -242,7 +242,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		// 6) FinancialInvestigations = selectedSchool.FinanceOngoingInvestigations.HasValue
 
 		// TODO :- agree logic
-		return Status.InProgress;
+		return Status.NotStarted;
 	}
 
 	/// <summary>
