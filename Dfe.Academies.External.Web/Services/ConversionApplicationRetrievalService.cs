@@ -469,6 +469,10 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 					{
 						overallStatus = Status.InProgress;
 					}
+					else if (schoolConversionStatus == Status.Completed)
+					{
+						overallStatus = trustStatus;
+					}
 					else
 					{
 						// neither status are completed, one InProgress / one NotStarted for instance

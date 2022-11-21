@@ -115,24 +115,203 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			Assert.That(applicationStatus, Is.EqualTo(Status.NotStarted));
 		}
 
+		/// <summary>
+		/// ApplicationType == ApplicationTypes.JoinAMat && trust status = not started && conversion status = in prog
+		/// </summary>
+		/// <returns></returns>
+		[Test]
+		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatAndSchoolAndComponents___Returns___InProgress()
+		{
+			// arrange
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
+			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
 
-		// TODO:- ApplicationType == ApplicationTypes.JoinAMat && trust status = not started && conversion status = in prog
+			int applicationId = 25; // hard coded as per example JSON
+			int URN = 113537;
 
-		// TODO:- ApplicationType == ApplicationTypes.JoinAMat && trust status = not started && conversion status = completed
+			var conversionApplication = ConversionApplicationTestDataFactory.BuildJoinAMatConversionApplicationWithContributorWithSchool(applicationId);
+			var school = conversionApplication.Schools.FirstOrDefault();
+			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
 
-		// TODO:- ApplicationType == ApplicationTypes.JoinAMat && trust status = in prog && conversion status = not started
+			// set one SchoolApplicationComponents = InProgress. means schoolConversionStatus = InProgress
+			var firstComponent = school!.SchoolApplicationComponents.FirstOrDefault();
+			firstComponent!.Status = Status.InProgress;
+			
+			// act
+			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
 
-		// TODO:- ApplicationType == ApplicationTypes.JoinAMat && trust status = in prog && conversion status = in prog
+			// assert
+			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
+		}
 
-		// TODO:- ApplicationType == ApplicationTypes.JoinAMat && trust status = in prog && conversion status = completed
+		/// <summary>
+		/// ApplicationType == ApplicationTypes.JoinAMat && trust status = not started && conversion status = completed
+		/// </summary>
+		/// <returns></returns>
+		[Test]
+		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatAndSchoolAndComponents___Returns___InProgress2()
+		{
+			// arrange
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
+			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
 
-		// TODO:- ApplicationType == ApplicationTypes.JoinAMat && trust status = completed && conversion status = not started
+			int applicationId = 25; // hard coded as per example JSON
+			int URN = 113537;
 
-		// TODO:- ApplicationType == ApplicationTypes.JoinAMat && trust status = completed && conversion status = in prog
+			var conversionApplication = ConversionApplicationTestDataFactory.BuildJoinAMatConversionApplicationWithContributorWithSchool(applicationId);
+			var school = conversionApplication.Schools.FirstOrDefault();
+			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
 
-		// TODO:-  ApplicationType == ApplicationTypes.JoinAMat &&trust status = completed && conversion status = completed
+			// set EVERY SchoolApplicationComponents = Completed. means schoolConversionStatus = Completed
+			foreach (var component in school!.SchoolApplicationComponents)
+			{
+				component!.Status = Status.Completed;
+			}
 
-		// TODO:- conversionApplication.ApplicationType == ApplicationTypes.FormAMat etc....
+			// act
+			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
+
+			// assert
+			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
+		}
+
+		/// <summary>
+		/// ApplicationType == ApplicationTypes.JoinAMat && trust status = InProgress && conversion status = not started
+		/// </summary>
+		/// <returns></returns>
+		[Test]
+		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatTrustStatusInProgress___ConversionStatusNotStarted___Returns___InProgress()
+		{
+			// arrange
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
+			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+
+			int applicationId = 25; // hard coded as per example JSON
+			int URN = 113537;
+
+			// set trust status = InProgress. TrustName = set
+			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithMinimalAndTrustChangesJoinTrustDetails(applicationId);
+			var school = conversionApplication.Schools.FirstOrDefault();
+			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
+
+			// act
+			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
+
+			// assert
+			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
+		}
+
+		/// <summary>
+		/// ApplicationType == ApplicationTypes.JoinAMat && trust status = InProgress && conversion status = InProgress
+		/// </summary>
+		/// <returns></returns>
+		[Test]
+		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatTrustStatusInProgress___ConversionStatusInProgress___Returns___InProgress()
+		{
+			// arrange
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
+			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+
+			int applicationId = 25; // hard coded as per example JSON
+			int URN = 113537;
+
+			// set trust status = InProgress. TrustName = set
+			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithMinimalAndTrustChangesJoinTrustDetails(applicationId);
+			var school = conversionApplication.Schools.FirstOrDefault();
+			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
+
+			// set one SchoolApplicationComponents = InProgress. means schoolConversionStatus = InProgress
+			var firstComponent = school!.SchoolApplicationComponents.FirstOrDefault();
+			firstComponent!.Status = Status.InProgress;
+
+			// act
+			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
+
+			// assert
+			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
+		}
+
+		/// <summary>
+		/// ApplicationType == ApplicationTypes.JoinAMat && trust status = InProgress && conversion status = Completed
+		/// </summary>
+		/// <returns></returns>
+		[Test]
+		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatTrustStatusInProgress___ConversionStatusCompleted___Returns___InProgress()
+		{
+			// arrange
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
+			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+
+			int applicationId = 25; // hard coded as per example JSON
+			int URN = 113537;
+
+			// set trust status = InProgress. TrustName = set
+			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithMinimalAndTrustChangesJoinTrustDetails(applicationId);
+			var school = conversionApplication.Schools.FirstOrDefault();
+			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
+
+			// set EVERY SchoolApplicationComponents = Completed. means schoolConversionStatus = Completed
+			foreach (var component in school!.SchoolApplicationComponents)
+			{
+				component.Status = Status.Completed;
+			}
+
+			// act
+			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
+
+			// assert
+			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
+		}
+		
+
+		// TODO:- ApplicationType == ApplicationTypes.JoinAMat && trust status = Completed && conversion status = not started
+
+		// TODO:- ApplicationType == ApplicationTypes.JoinAMat && trust status = Completed && conversion status = InProgress
+
+		// TODO:-  ApplicationType == ApplicationTypes.JoinAMat && trust status = Completed && conversion status = Completed
+
+		/// <summary>
+		/// conversionApplication.ApplicationType == ApplicationTypes.FormAMat - with school
+		/// </summary>
+		/// <returns></returns>
+		[Test]
+		public async Task CalculateApplicationStatus___ApplicationTypeFormAMatAndSchool___Returns___NotStarted()
+		{
+			// arrange
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+
+			int applicationId = 25; // hard coded as per example JSON
+			int URN = 113537;
+
+			var conversionApplication = ConversionApplicationTestDataFactory.BuildFormAMatConversionApplicationWithContributorWithSchool();
+			var school = conversionApplication.Schools.FirstOrDefault();
+			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
+
+			// act
+			var declarationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
+
+			// assert
+			Assert.That(declarationStatus, Is.EqualTo(Status.NotStarted));
+		}
 
 		// TODO:- other tests when the know the FormAMat logic
 	}
