@@ -167,13 +167,17 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 
 		SchoolCfyRevenueStatusFiles?.ForEach(async file =>
 		{
-			await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile, file);
+			
 		});
-
-		SchoolCFYCapitalForwardFiles?.ForEach(async file =>
+		foreach (var file in SchoolCfyRevenueStatusFiles)
 		{
-			await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolCFYCapitalForwardFile, file);
-		});
+			await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile, file);
+		}
+
+		foreach (var file in SchoolCFYCapitalForwardFiles)
+		{
+			await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolCFYCapitalForwardFile, file);	
+		}
 
 		// update temp store for next step
 		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
