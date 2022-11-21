@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
 public interface IConversionApplicationRetrievalService
@@ -18,7 +19,7 @@ public interface IConversionApplicationRetrievalService
 	Task<List<ConversionApplication>> GetPendingApplications(string? username);
 
 	/// <summary>
-	/// 
+	/// Not sure whether this is needed for V1.5
 	/// </summary>
 	/// <param name="applicationId"></param>
 	/// <returns></returns>
@@ -44,4 +45,43 @@ public interface IConversionApplicationRetrievalService
 	/// <param name="applicationId"></param>
 	/// <returns></returns>
 	Task<ConversionApplication?> GetApplication(int applicationId);
+
+	/// <summary>
+	/// Calculate whether all trust sections of application have been filled in.
+	/// Could return InProgress or Completed or NotStarted because inner method will return that
+	/// </summary>
+	/// <param name="conversionApplication"></param>
+	/// <returns></returns>
+	Status CalculateTrustStatus(ConversionApplication? conversionApplication);
+
+	/// <summary>
+	/// calc JAM trust status - JAM specific components = 6 sections - could return InProgress or Completed or NotStarted
+	/// Contains same logic in here as ApplicationSchoolJoinAMatTrustSummary page.
+	/// </summary>
+	/// <param name="conversionApplication"></param>
+	/// <returns></returns>
+	Status CalculateJoinAMatTrustStatus(ConversionApplication? conversionApplication);
+
+	/// <summary>
+	/// calc FAM trust status - FAM specific components !! could return InProgress or Completed or NotStarted
+	/// </summary>
+	/// <param name="conversionApplication"></param>
+	/// <returns></returns>
+	Status CalculateFormAMatTrustStatus(ConversionApplication? conversionApplication);
+
+	/// <summary>
+	/// Calc whether school declaration has been filled in
+	/// Will only return Completed or NotStarted as only one logic check !
+	/// </summary>
+	/// <param name="conversionApplication"></param>
+	/// <returns></returns>
+	Status CalculateApplicationDeclarationStatus(ConversionApplication? conversionApplication);
+
+	/// <summary>
+	/// Calculate overall application status based on whether all sections have been completed
+	/// INCLUDING trust
+	/// </summary>
+	/// <param name="conversionApplication"></param>
+	/// <returns></returns>
+	Status CalculateApplicationStatus(ConversionApplication? conversionApplication);
 }

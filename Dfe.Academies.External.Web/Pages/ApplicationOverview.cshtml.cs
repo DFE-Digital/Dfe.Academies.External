@@ -19,10 +19,13 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public List<SchoolApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; private set; } = new();
 
+		/// <summary>
+		/// This is already set dependent on whether application type = join a mat / form a mat!
+		/// </summary>
 		public string? NameOfTrustToJoin { get; private set; }
 
 		/// <summary>
-		/// Overall application status - comes from API now
+		/// Overall application status from API
 		/// </summary>
 		public ApplicationStatus ApplicationStatus { get; private set; }
 
@@ -32,12 +35,22 @@ namespace Dfe.Academies.External.Web.Pages
 		public Status ConversionStatus { get; private set; }
 
 		/// <summary>
+		/// Always have a trust conversion status whether Join a MAT or form a MAT !!
+		/// </summary>
+		public Status TrustConversionStatus { get; private set; }
+
+		/// <summary>
+		/// ONLY whether declaration section has been completed!
+		/// </summary>
+		public Status DeclarationStatus { get; private set; }
+
+		/// <summary>
 		/// UI text, set within here ONLY dependent on ApplicationType
 		/// </summary>
 		public string SchoolHeaderText { get; private set; } = string.Empty;
 
 		/// <summary>
-		/// This will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
+		/// This will ONLY have a value IF ApplicationType = FormNewMat
 		/// </summary>
 		public string? SchoolName { get; private set; }
 
@@ -45,14 +58,9 @@ namespace Dfe.Academies.External.Web.Pages
 		/// UI text, set within here ONLY dependent on ApplicationType
 		/// </summary>
 		public string TrustHeaderText { get; private set; } = string.Empty;
-
+		
 		/// <summary>
-		/// Always have a trust conversion status whether Join a MAT or form a MAT !!
-		/// </summary>
-		public Status TrustConversionStatus { get; private set; }
-
-		/// <summary>
-		/// this will ONLY have a value IF ApplicationType = FormNewMat OR FormNewSingleAcademyTrust
+		/// this will ONLY have a value IF ApplicationType = FormNewMat
 		/// </summary>
 		public SchoolComponentsViewModel SchoolComponents { get; private set; } = new();
 
@@ -128,12 +136,11 @@ namespace Dfe.Academies.External.Web.Pages
 
 			if (conversionApplication != null)
 			{
-				// ConversionStatus = whether school.SchoolApplicationComponents.Status == Completed !!
-				// ConversionStatus = could be 'NotStarted', 'InProgress' or 'Complete'
-				if (school != null && school.SchoolApplicationComponents.Any())
-				{
-					ConversionStatus = CalculateApplicationStatus(school);
-				}
+				// 3 statuses required by UI !!!!
+				TrustConversionStatus = ConversionApplicationRetrievalService.CalculateTrustStatus(conversionApplication);
+				DeclarationStatus =
+					ConversionApplicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
+				ConversionStatus = ConversionApplicationRetrievalService.CalculateApplicationStatus(conversionApplication);
 
 				ApplicationId = conversionApplication.ApplicationId;
 				ApplicationType = conversionApplication.ApplicationType;
@@ -143,13 +150,12 @@ namespace Dfe.Academies.External.Web.Pages
 				NameOfTrustToJoin = conversionApplication.TrustName;
 
 				HasSchool = conversionApplication.HasSchool;
-
+				
 				if (conversionApplication.ApplicationType == ApplicationTypes.FormAMat)
 				{
 					HeaderText = "All school and trust details must be given before this application can be submitted.";
 					TrustHeaderText = "The trust being formed";
 					SchoolHeaderText = "The schools applying to convert";
-					TrustConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
 				}
 				else // JAM
 				{
@@ -159,17 +165,6 @@ namespace Dfe.Academies.External.Web.Pages
 					TrustHeaderText = "The trust the school will join";
 					SchoolHeaderText = "The school applying to convert";
 					SchoolName = school?.SchoolName;
-					TrustConversionStatus = Status.NotStarted; // TODO MR:- what logic drives this !
-					
-					//// Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
-					////Audits = auditEntries.Select(e =>
-					//// new ViewModels.ApplicationAuditViewModel
-					//// {
-					////  What =
-					////   $"{e.CreatedBy} {e.TypeOfChange} the {e.PropertyChanged}",
-					////  When = e.DateCreated,
-					////  Who = e.CreatedBy
-					//// }).ToList();
 				}
 
 				// Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
@@ -190,38 +185,19 @@ namespace Dfe.Academies.External.Web.Pages
 					SchoolComponents = componentsVm;
 				}
 
-				// TODO:- need to remove 'Only the school's chair of governors can submit this application' for
-				// non-chair user if declaration not filled in?? see ticket (https://dfe-gov-uk.visualstudio.com.mcas.ms/Academies-and-Free-Schools-SIP/_workitems/edit/112259)
-				// TODO:- need seperate flag against conversionApplication?
+				//// submit button should NOT be available unless ConversionStatus == Completed &&&&&&& TrustConversionStatus = Completed !!
+				//// logic is now contained within ConversionApplicationRetrievalService.CalculateApplicationStatus(conversionApplication);
 
-				// TODO :- submit button should NOT be available unless ALL school.SchoolApplicationComponents.Status == Completed !! see ticket (https://dfe-gov-uk.visualstudio.com.mcas.ms/Academies-and-Free-Schools-SIP/_workitems/edit/112260)
-				// &&&&&&& application should have a trust ++ trust sections filled in !!
+				//// Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
+				////Audits = auditEntries.Select(e =>
+				//// new ViewModels.ApplicationAuditViewModel
+				//// {
+				////  What =
+				////   $"{e.CreatedBy} {e.TypeOfChange} the {e.PropertyChanged}",
+				////  When = e.DateCreated,
+				////  Who = e.CreatedBy
+				//// }).ToList();
 			}
-		}
-
-		/// <summary>
-		/// calculate overall application status based on whether all sections have been completed
-		/// INCLUDING declaration i.e. submit button is visible!!
-		/// </summary>
-		/// <param name="school"></param>
-		/// <returns></returns>
-		private Status CalculateApplicationStatus(SchoolApplyingToConvert? school)
-		{
-			if (school != null && school.SchoolApplicationComponents.Any())
-			{
-				if(school.SchoolApplicationComponents.All(comp => comp.Status == Status.Completed))
-				{
-					return Status.Completed;
-				}
-				else
-				{
-					return Status.InProgress;
-				}
-			}
-
-			// TODO:- will also need to check trust status flag which is separate from above
-
-			return Status.NotStarted;
 		}
 
 		///<inheritdoc/>

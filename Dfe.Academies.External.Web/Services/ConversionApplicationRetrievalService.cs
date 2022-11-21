@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Dfe.Academies.External.Web.Enums;
@@ -206,7 +207,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		// 4) ApplicationChangeSchoolName = selectedSchool.ConversionChangeNamePlanned.HasValue
 
 		// TODO :- agree logic
-		return Status.InProgress;
+		return Status.NotStarted;
 	}
 
 	/// <summary>
@@ -221,7 +222,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		// var sectionStarted = !string.IsNullOrEmpty(selectedSchool.TrustBenefitDetails)
 
 		// TODO
-		return Status.InProgress;
+		return Status.NotStarted;
 	}
 
 	/// <summary>
@@ -241,7 +242,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		// 6) FinancialInvestigations = selectedSchool.FinanceOngoingInvestigations.HasValue
 
 		// TODO :- agree logic
-		return Status.InProgress;
+		return Status.NotStarted;
 	}
 
 	/// <summary>
@@ -252,9 +253,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculateFuturePupilNumbersSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		return selectedSchool?.ProjectedPupilNumbersYear1 != null
-			? Status.Completed
-			: Status.NotStarted;
+		return selectedSchool?.ProjectedPupilNumbersYear1.HasValue == false
+			? Status.NotStarted
+			: Status.Completed;
 	}
 
 	/// <summary>
@@ -265,9 +266,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculateLandAndBuildingsSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		return selectedSchool?.LandAndBuildings.WorksPlanned.HasValue != null
-			? Status.Completed
-			: Status.NotStarted;
+		return selectedSchool?.LandAndBuildings.WorksPlanned.HasValue == false
+			? Status.NotStarted
+			: Status.Completed;
 	}
 
 	/// <summary>
@@ -278,9 +279,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculateConsultationSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		return selectedSchool?.SchoolHasConsultedStakeholders.HasValue != null
-			? Status.Completed
-			: Status.NotStarted;
+		return selectedSchool?.SchoolHasConsultedStakeholders.HasValue == false
+			? Status.NotStarted
+			: Status.Completed;
 	}
 
 	/// <summary>
@@ -291,9 +292,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculatePreOpeningSupportGrantSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		return selectedSchool?.SchoolSupportGrantFundsPaidTo.HasValue != null
-			? Status.Completed
-			: Status.NotStarted;
+		return selectedSchool?.SchoolSupportGrantFundsPaidTo.HasValue == false
+			? Status.NotStarted
+			: Status.Completed;
 	}
 
 	/// <summary>
@@ -304,8 +305,192 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculateDeclarationSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		return selectedSchool?.DeclarationBodyAgree.HasValue != null 
-			? Status.Completed
-			: Status.NotStarted;
+		if (selectedSchool?.DeclarationBodyAgree != null)
+		{
+			return Status.Completed;
+		}
+		else
+		{
+			return Status.NotStarted;
+		}
+	}
+
+	///<inheritdoc/>
+	public Status CalculateTrustStatus(ConversionApplication? conversionApplication)
+	{
+		if (conversionApplication != null)
+		{
+			switch (conversionApplication.ApplicationType)
+			{
+				case ApplicationTypes.JoinAMat:
+					return CalculateJoinAMatTrustStatus(conversionApplication);
+				case ApplicationTypes.FormAMat:
+					return CalculateFormAMatTrustStatus(conversionApplication);
+				default:
+					return Status.NotStarted;
+			}
+		}
+
+		return Status.NotStarted;
+	}
+
+	///<inheritdoc/>
+	public Status CalculateJoinAMatTrustStatus(ConversionApplication? conversionApplication)
+	{
+		// need 3 bools to represent each sub-section. completed = yes/no
+		// 1) applicationselecttrust :- !string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) = complete
+		// 2) applicationschooltrustconsent - 3 steps :-
+		// a) step 1 (ApplicationSchoolTrustConsent) = conversionApplication.JoinTrustDetails != null ??? as this step is docs
+		// b) step 2 (ApplicationSchoolChangesToATrust) = conversionApplication.JoinTrustDetails.ChangesToTrust.HasValue = complete
+		// c) step 3 (ApplicationSchoolLocalGovernanceArrangements) = conversionApplication.JoinTrustDetails.ChangesToLaGovernanceExplained.HasValue
+
+		if (conversionApplication != null && conversionApplication.JoinTrustDetails != null)
+		{
+			BitArray statuses = new BitArray(3);
+			statuses.Set(0, !string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails.TrustName)); // ONLY set to false IF EMPTY!
+			statuses.Set(1, conversionApplication.JoinTrustDetails!.ChangesToTrust.HasValue);
+			statuses.Set(2, conversionApplication.JoinTrustDetails!.ChangesToLaGovernance.HasValue);
+
+			////bool hasAnyFalse = statuses.Cast<bool>().Contains(false);
+			////bool hasAnyTrue = statuses.Cast<bool>().Contains(true);
+
+			int falseCount = (from bool m in statuses
+				where !m
+				select m).Count();
+
+			//// need to do a count of false. if falseCount = 3 - status = NotStarted
+			//// need to do a count of false. if falseCount = >=1 || falseCount <=2 - status = InProgress
+			//// need to do a count of false. if falseCount = 0 - status = Completed
+			if (falseCount == 3)
+			{
+				return Status.NotStarted;
+			}
+			else if (falseCount > 0)
+			{
+				return Status.InProgress;
+			}
+			else
+			{
+				return Status.Completed;
+			}
+		}
+		else
+		{
+			return Status.NotStarted;
+		}
+	}
+
+	///<inheritdoc/>
+	public Status CalculateFormAMatTrustStatus(ConversionApplication? conversionApplication)
+	{
+		// TODO:- agree logic !!
+
+		// consume below:-
+		// conversionApplication.FormATrust
+
+		return Status.NotStarted;
+	}
+
+	///<inheritdoc/>
+	public Status CalculateApplicationDeclarationStatus(ConversionApplication? conversionApplication)
+	{
+		if (conversionApplication != null)
+		{
+			if (conversionApplication.ApplicationType == ApplicationTypes.JoinAMat)
+			{
+				var school = conversionApplication.Schools.FirstOrDefault();
+
+				if (school != null)
+				{
+					return CalculateDeclarationSectionStatus(school);
+				}
+			}
+			else // FAM
+			{
+				// TODO: no idea what logic will be !!
+				return Status.NotStarted;
+			}
+		}
+
+		return Status.NotStarted;
+	}
+
+	///<inheritdoc/>
+	public Status CalculateApplicationStatus(ConversionApplication? conversionApplication)
+	{
+		Status overallStatus = Status.NotStarted;
+		Status schoolConversionStatus = Status.NotStarted;
+		BitArray statuses = new BitArray(2);
+
+		if (conversionApplication != null)
+		{
+			if (conversionApplication.ApplicationType == ApplicationTypes.JoinAMat)
+			{
+				var school = conversionApplication.Schools.FirstOrDefault();
+
+				if (school != null && school.SchoolApplicationComponents.Any())
+				{
+					if (school.SchoolApplicationComponents.All(comp => comp.Status == Status.NotStarted))
+					{
+						schoolConversionStatus = Status.NotStarted;
+					}
+					else
+					{
+						schoolConversionStatus = school.SchoolApplicationComponents.All(comp => comp.Status == Status.Completed) ?
+							Status.Completed : Status.InProgress;
+					}
+				}
+
+				// below could return InProgress or Completed or NotStarted
+				var trustStatus = CalculateTrustStatus(conversionApplication);
+				statuses.Set(0, schoolConversionStatus == Status.Completed); // ONLY set to false IF NOT completed
+				statuses.Set(1, trustStatus == Status.Completed);
+
+				// bitwise, trustStatus == completed == true
+				// bitwise, schoolConversionStatus == completed == true
+				// need 2 true's for overall = Completed
+
+				int trueCount = (from bool m in statuses
+					where m
+					select m).Count();
+
+				if (trueCount == 2)
+				{
+					overallStatus = Status.Completed;
+				}
+				else
+				{
+					// one of schoolConversionStatus OR trustStatus is NOT completed !!!
+					if (schoolConversionStatus == Status.Completed && trustStatus == Status.NotStarted)
+					{
+						overallStatus = Status.InProgress;
+					}
+					else if (trustStatus == Status.Completed && schoolConversionStatus == Status.NotStarted)
+					{
+						overallStatus = Status.InProgress;
+					}
+					else if (schoolConversionStatus == Status.Completed)
+					{
+						overallStatus = trustStatus;
+					}
+					else if (trustStatus == Status.Completed)
+					{
+						overallStatus = schoolConversionStatus;
+					}
+					else
+					{
+						// neither status are completed, one InProgress / one NotStarted for instance
+						overallStatus = schoolConversionStatus > trustStatus ? schoolConversionStatus : trustStatus;
+					}
+				}
+			}
+			else // FAM
+			{
+				// TODO: no idea what logic will be !!
+				overallStatus = Status.NotStarted;
+			}
+		}
+		
+		return overallStatus;
 	}
 }
