@@ -47,7 +47,8 @@ public interface IConversionApplicationRetrievalService
 	Task<ConversionApplication?> GetApplication(int applicationId);
 
 	/// <summary>
-	/// calculate whether all trust sections of application have been filled in
+	/// Calculate whether all trust sections of application have been filled in.
+	/// Could return InProgress or Completed or NotStarted because inner method will return that
 	/// </summary>
 	/// <param name="conversionApplication"></param>
 	/// <returns></returns>
@@ -80,8 +81,7 @@ public interface IConversionApplicationRetrievalService
 	/// Calculate overall application status based on whether all sections have been completed
 	/// INCLUDING trust
 	/// </summary>
-	/// <param name="school"></param>
 	/// <param name="conversionApplication"></param>
 	/// <returns></returns>
-	Status CalculateApplicationStatus(SchoolApplyingToConvert? school, ConversionApplication? conversionApplication);
+	Status CalculateApplicationStatus(ConversionApplication? conversionApplication);
 }
