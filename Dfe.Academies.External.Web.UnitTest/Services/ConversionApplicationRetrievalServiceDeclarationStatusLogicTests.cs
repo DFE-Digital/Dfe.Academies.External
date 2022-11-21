@@ -55,10 +55,10 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationNoRoles();
 
 		// act
-		var trustStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
+		var declarationStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
 
 		// assert
-		Assert.That(trustStatus, Is.EqualTo(Status.NotStarted));
+		Assert.That(declarationStatus, Is.EqualTo(Status.NotStarted));
 	}
 
 	/// <summary>
@@ -79,10 +79,10 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildJoinAMatConversionApplicationWithContributorWithSchool();
 
 		// act
-		var trustStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
+		var declarationStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
 
 		// assert
-		Assert.That(trustStatus, Is.EqualTo(Status.NotStarted));
+		Assert.That(declarationStatus, Is.EqualTo(Status.NotStarted));
 	}
 
 	/// <summary>
@@ -104,10 +104,10 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var applicationSchool = conversionApplication.Schools.FirstOrDefault()!.DeclarationBodyAgree = true;
 		
 		// act
-		var trustStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
+		var declarationStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
 
 		// assert
-		Assert.That(trustStatus, Is.EqualTo(Status.Completed));
+		Assert.That(declarationStatus, Is.EqualTo(Status.Completed));
 	}
 
 	/// <summary>
@@ -128,10 +128,10 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildMinimalFormAMatConversionApplicationNoContributors();
 
 		// act
-		var trustStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
+		var declarationStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
 
 		// assert
-		Assert.That(trustStatus, Is.EqualTo(Status.NotStarted));
+		Assert.That(declarationStatus, Is.EqualTo(Status.NotStarted));
 	}
 
 	/// <summary>
@@ -152,10 +152,10 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildFormAMatConversionApplicationWithContributorWithSchool();
 
 		// act
-		var trustStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
+		var declarationStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
 
 		// assert
-		Assert.That(trustStatus, Is.EqualTo(Status.NotStarted));
+		Assert.That(declarationStatus, Is.EqualTo(Status.NotStarted));
 	}
 
 	// TODO:- other tests when the know the FormAMat logic
