@@ -1,0 +1,89 @@
+{
+	"applicationId": 25,
+	"applicationType": "joinAMat",
+	"applicationStatus": "inProgress",
+	"contributors": [
+		{
+			"contributorId": 128,
+			"firstName": "Dan",
+			"lastName": "Good",
+			"emailAddress": "Dan.GOOD@education.gov.uk",
+			"role": "chairOfGovernors"
+		},
+		{
+			"contributorId": 129,
+			"firstName": "Andrew",
+			"lastName": "Parsons",
+			"emailAddress": "andrew.parsons@plym.sch.uk",
+			"role": "other",
+			"otherRoleName": "HeadTeacher"
+		},
+		{
+			"contributorId": 130,
+			"firstName": "Sean",
+			"lastName": "Cormac",
+			"emailAddress": "sean.cormac@plym.sch.uk",
+			"role": "other",
+			"otherRoleName": "DeputyHead"
+		}
+	],
+	"schools": [
+		{
+			"id": 48,
+			"urn": 113537,
+			"schoolName": "Plymstock School",
+			"landAndBuildings": {
+			},
+			"performance": {
+			},
+			"localAuthority": {
+			},
+			"partnershipsAndAffliations": {
+			},
+			"religiousEducation": {
+			},
+			"previousFinancialYear": {
+			},
+			"currentFinancialYear": {
+			},
+			"nextFinancialYear": {
+			},
+			"loans": [],
+			"leases": [],
+			"schoolContributionToTrust": "",
+			"governingBodyConsentEvidenceDocumentLink": "",
+			"additionalInformationAdded": null,
+			"additionalInformation": "",
+			"equalitiesImpactAssessmentCompleted": "",
+			"equalitiesImpactAssessmentDetails": "",
+			"schoolConversionContactHeadName": "",
+			"schoolConversionContactHeadEmail": "",
+			"schoolConversionContactHeadTel": "",
+			"schoolConversionContactChairName": "",
+			"schoolConversionContactChairEmail": "",
+			"schoolConversionContactChairTel": "",
+			"schoolConversionContactRole": "",
+			"schoolConversionMainContactOtherName": "",
+			"schoolConversionMainContactOtherEmail": "",
+			"schoolConversionMainContactOtherTelephone": "",
+			"schoolConversionMainContactOtherRole": "",
+			"schoolConversionApproverContactName": "",
+			"schoolConversionApproverContactEmail": "",
+			"schoolConversionTargetDateSpecified": null,
+			"schoolConversionTargetDate": null,
+			"schoolConversionTargetDateExplained": "",
+			"conversionChangeNamePlanned": null,
+			"proposedNewSchoolName": "",
+			"applicationJoinTrustReason": "",
+			"projectedPupilNumbersYear1": null,
+			"projectedPupilNumbersYear2": null,
+			"projectedPupilNumbersYear3": null,
+			"schoolCapacityAssumptions": "",
+			"schoolCapacityPublishedAdmissionsNumber": null,
+			"schoolSupportGrantFundsPaidTo": null,
+			"confirmPaySupportGrantToSchool": null
+		}
+	],
+	"joinTrustDetails": {
+	}
+}
