@@ -81,6 +81,25 @@ internal static class ConversionApplicationTestDataFactory
 		};
 	}
 
+	public static ConversionApplication BuildJoinAMatConversionApplicationWithContributorWithSchool()
+	{
+		return new ConversionApplication
+		{
+			UserEmail = Fixture.Create<string>(),
+			ApplicationId = int.MaxValue,
+			ApplicationType = ApplicationTypes.JoinAMat,
+			ApplicationStatus = ApplicationStatus.InProgress,
+			Contributors = new()
+			{
+				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
+			},
+			Schools = new()
+			{
+				new SchoolApplyingToConvert(Fixture.Create<string>(), Int32.MaxValue, null)
+			}
+		};
+	}
+
 	public static ConversionApplication BuildNewConversionApplicationWithChairRole()
 	{
 		return new ConversionApplication
