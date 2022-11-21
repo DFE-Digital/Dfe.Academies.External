@@ -102,7 +102,7 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
 
-		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithMinimalAndTrustChangesJoinTrustDetails();
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithMinimalAndTrustChangesJoinTrustDetails(null);
 
 		// act
 		var trustStatus = applicationRetrievalService.CalculateTrustStatus(conversionApplication);
