@@ -253,9 +253,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculateFuturePupilNumbersSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		return selectedSchool?.ProjectedPupilNumbersYear1 != null
-			? Status.Completed
-			: Status.NotStarted;
+		return selectedSchool?.ProjectedPupilNumbersYear1.HasValue == false
+			? Status.NotStarted
+			: Status.Completed;
 	}
 
 	/// <summary>
@@ -266,9 +266,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculateLandAndBuildingsSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		return selectedSchool?.LandAndBuildings.WorksPlanned.HasValue != null
-			? Status.Completed
-			: Status.NotStarted;
+		return selectedSchool?.LandAndBuildings.WorksPlanned.HasValue == false
+			? Status.NotStarted
+			: Status.Completed;
 	}
 
 	/// <summary>
@@ -279,9 +279,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculateConsultationSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		return selectedSchool?.SchoolHasConsultedStakeholders.HasValue != null
-			? Status.Completed
-			: Status.NotStarted;
+		return selectedSchool?.SchoolHasConsultedStakeholders.HasValue == false
+			? Status.NotStarted
+			: Status.Completed;
 	}
 
 	/// <summary>
@@ -292,9 +292,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculatePreOpeningSupportGrantSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		return selectedSchool?.SchoolSupportGrantFundsPaidTo.HasValue != null
-			? Status.Completed
-			: Status.NotStarted;
+		return selectedSchool?.SchoolSupportGrantFundsPaidTo.HasValue == false
+			? Status.NotStarted
+			: Status.Completed;
 	}
 
 	/// <summary>
@@ -430,8 +430,15 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
 				if (school != null && school.SchoolApplicationComponents.Any())
 				{
-					schoolConversionStatus = school.SchoolApplicationComponents.All(comp => comp.Status == Status.Completed) ?
-						Status.Completed : Status.InProgress;
+					if (school.SchoolApplicationComponents.All(comp => comp.Status == Status.NotStarted))
+					{
+						schoolConversionStatus = Status.NotStarted;
+					}
+					else
+					{
+						schoolConversionStatus = school.SchoolApplicationComponents.All(comp => comp.Status == Status.Completed) ?
+							Status.Completed : Status.InProgress;
+					}
 				}
 
 				// below could return InProgress or Completed or NotStarted
