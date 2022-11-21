@@ -81,12 +81,12 @@ internal static class ConversionApplicationTestDataFactory
 		};
 	}
 
-	public static ConversionApplication BuildJoinAMatConversionApplicationWithContributorWithSchool()
+	public static ConversionApplication BuildJoinAMatConversionApplicationWithContributorWithSchool(int? applicationId)
 	{
 		return new ConversionApplication
 		{
 			UserEmail = Fixture.Create<string>(),
-			ApplicationId = int.MaxValue,
+			ApplicationId = applicationId.HasValue ? applicationId.Value : int.MaxValue,
 			ApplicationType = ApplicationTypes.JoinAMat,
 			ApplicationStatus = ApplicationStatus.InProgress,
 			Contributors = new()
