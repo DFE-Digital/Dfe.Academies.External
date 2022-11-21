@@ -305,9 +305,14 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculateDeclarationSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		return selectedSchool?.DeclarationBodyAgree.HasValue != null 
-			? Status.Completed
-			: Status.NotStarted;
+		if (selectedSchool?.DeclarationBodyAgree != null)
+		{
+			return Status.Completed;
+		}
+		else
+		{
+			return Status.NotStarted;
+		}
 	}
 
 	///<inheritdoc/>
