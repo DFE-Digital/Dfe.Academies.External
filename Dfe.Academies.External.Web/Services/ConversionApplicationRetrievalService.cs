@@ -460,16 +460,14 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 				}
 				else
 				{
-					// if 1 true check schoolConversionStatus OR trustStatus
-					// if (schoolConversionStatus == completed) overallStatus= trustStatus;
-					if (schoolConversionStatus == Status.Completed)
+					// one of schoolConversionStatus OR trustStatus is NOT completed !!!
+					if (schoolConversionStatus == Status.Completed && trustStatus == Status.NotStarted)
 					{
-						overallStatus = trustStatus;
+						overallStatus = Status.InProgress;
 					}
-					else if (trustStatus == Status.Completed)
+					else if (trustStatus == Status.Completed && schoolConversionStatus == Status.NotStarted)
 					{
-						// if (trustStatus == completed) overallStatus= schoolConversionStatus;
-						overallStatus = schoolConversionStatus;
+						overallStatus = Status.InProgress;
 					}
 					else
 					{
