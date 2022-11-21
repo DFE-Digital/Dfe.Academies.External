@@ -138,7 +138,29 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 		Assert.That(trustStatus, Is.EqualTo(Status.InProgress));
 	}
 
-	// TODO:- Status.Completed - all 3 sections complete
+	/// <summary>
+	/// Status.Completed - all 3 sections complete
+	/// </summary>
+	/// <returns></returns>
+	[Test]
+	public async Task CalculateTrustStatus___JoinTrustDetailsReturns___Completed()
+	{
+		// arrange
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+
+		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithCompleteJoinTrustDetails();
+
+		// act
+		var trustStatus = applicationRetrievalService.CalculateTrustStatus(conversionApplication);
+
+		// assert
+		Assert.That(trustStatus, Is.EqualTo(Status.Completed));
+	}
 
 	// TODO:- add tests for CalculateApplicationDeclarationStatus() = returns NotStarted
 

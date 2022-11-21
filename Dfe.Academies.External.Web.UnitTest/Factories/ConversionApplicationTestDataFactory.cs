@@ -108,5 +108,26 @@ internal static class ConversionApplicationTestDataFactory
 		};
 	}
 
-
+	public static ConversionApplication BuildNewConversionApplicationWithCompleteJoinTrustDetails()
+	{
+		return new ConversionApplication
+		{
+			UserEmail = Fixture.Create<string>(),
+			ApplicationId = int.MaxValue,
+			ApplicationType = ApplicationTypes.JoinAMat,
+			ApplicationStatus = ApplicationStatus.InProgress,
+			Contributors = new()
+			{
+				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
+			},
+			JoinTrustDetails = new ExistingTrust(int.MaxValue,
+				Fixture.Create<string>(),
+				Fixture.Create<int>(),
+				ChangesToTrust: TrustChange.No,
+				ChangesToTrustExplained: null,
+				ChangesToLaGovernance: false,
+				ChangesToLaGovernanceExplained: null
+			)
+		};
+	}
 }
