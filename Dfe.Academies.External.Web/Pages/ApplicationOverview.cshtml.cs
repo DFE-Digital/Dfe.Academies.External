@@ -140,7 +140,7 @@ namespace Dfe.Academies.External.Web.Pages
 				// ConversionStatus = could be 'NotStarted', 'InProgress' or 'Complete'
 				if (school != null && school.SchoolApplicationComponents.Any())
 				{
-					ConversionStatus = CalculateApplicationStatus(school, conversionApplication);
+					ConversionStatus = ConversionApplicationRetrievalService.CalculateApplicationStatus(school, conversionApplication);
 				}
 
 				TrustConversionStatus = ConversionApplicationRetrievalService.CalculateTrustStatus(conversionApplication);
@@ -203,37 +203,6 @@ namespace Dfe.Academies.External.Web.Pages
 				////  Who = e.CreatedBy
 				//// }).ToList();
 			}
-		}
-
-		/// <summary>
-		/// calculate overall application status based on whether all sections have been completed
-		/// INCLUDING declaration i.e. submit button is visible!!
-		/// </summary>
-		/// <param name="school"></param>
-		/// <returns></returns>
-		private Status CalculateApplicationStatus(SchoolApplyingToConvert? school, ConversionApplication? conversionApplication)
-		{
-			Status overallStatus = Status.NotStarted;
-			Status schoolConversionStatus = Status.NotStarted;
-
-			if (school != null && school.SchoolApplicationComponents.Any())
-			{
-				if(school.SchoolApplicationComponents.All(comp => comp.Status == Status.Completed))
-				{
-					schoolConversionStatus = Status.Completed;
-				}
-				else
-				{
-					schoolConversionStatus = Status.InProgress;
-				}
-			}
-
-			// TODO:- will also need to check trust status flag which is separate from above
-			var trustStatus = ConversionApplicationRetrievalService.CalculateTrustStatus(conversionApplication);
-
-			// overallStatus = schoolConversionStatus + trustStatus;
-
-			return overallStatus;
 		}
 
 		///<inheritdoc/>
