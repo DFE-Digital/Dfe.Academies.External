@@ -277,9 +277,35 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
 		}
-		
 
-		// TODO:- ApplicationType == ApplicationTypes.JoinAMat && trust status = Completed && conversion status = not started
+		/// <summary>
+		/// ApplicationType == ApplicationTypes.JoinAMat && trust status = Completed && conversion status = not started
+		/// </summary>
+		/// <returns></returns>
+		[Test]
+		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatTrustStatusCompleted___ConversionStatusNotStarted___Returns___InProgress()
+		{
+			// arrange
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
+			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+
+			int applicationId = 25; // hard coded as per example JSON
+			int URN = 113537;
+
+			// set trust status = Completed. TrustName = set, 
+			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithCompleteJoinTrustDetails(applicationId);
+			var school = conversionApplication.Schools.FirstOrDefault();
+			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
+
+			// act
+			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
+
+			// assert
+			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
+		}
 
 		// TODO:- ApplicationType == ApplicationTypes.JoinAMat && trust status = Completed && conversion status = InProgress
 
