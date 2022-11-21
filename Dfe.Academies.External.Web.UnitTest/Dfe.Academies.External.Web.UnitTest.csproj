@@ -12,10 +12,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ExampleJsonResponses\getApplicationResponseBasicJoinAMat.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="ExampleJsonResponses\createApplicationResponse.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ExampleJsonResponses\createApplicationResponseInValid.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExampleJsonResponses\getApplicationResponseBasicJoinAMat.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ExampleJsonResponses\getApplicationResponse.json">
