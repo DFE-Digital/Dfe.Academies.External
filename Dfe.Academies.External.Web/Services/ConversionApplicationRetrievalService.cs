@@ -414,4 +414,29 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
 		return Status.NotStarted;
 	}
+
+	public Status CalculateApplicationStatus(SchoolApplyingToConvert? school, ConversionApplication? conversionApplication)
+	{
+		Status overallStatus = Status.NotStarted;
+		Status schoolConversionStatus = Status.NotStarted;
+
+		if (school != null && school.SchoolApplicationComponents.Any())
+		{
+			if (school.SchoolApplicationComponents.All(comp => comp.Status == Status.Completed))
+			{
+				schoolConversionStatus = Status.Completed;
+			}
+			else
+			{
+				schoolConversionStatus = Status.InProgress;
+			}
+		}
+
+		// TODO:- will also need to check trust status flag which is separate from above
+		var trustStatus = CalculateTrustStatus(conversionApplication);
+
+		// overallStatus = schoolConversionStatus + trustStatus;
+
+		return overallStatus;
+	}
 }

@@ -75,4 +75,13 @@ public interface IConversionApplicationRetrievalService
 	/// <param name="conversionApplication"></param>
 	/// <returns></returns>
 	Status CalculateApplicationDeclarationStatus(ConversionApplication? conversionApplication);
+
+	/// <summary>
+	/// Calculate overall application status based on whether all sections have been completed
+	/// INCLUDING trust
+	/// </summary>
+	/// <param name="school"></param>
+	/// <param name="conversionApplication"></param>
+	/// <returns></returns>
+	Status CalculateApplicationStatus(SchoolApplyingToConvert? school, ConversionApplication? conversionApplication);
 }
