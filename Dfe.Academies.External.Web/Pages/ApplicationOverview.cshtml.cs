@@ -136,16 +136,11 @@ namespace Dfe.Academies.External.Web.Pages
 
 			if (conversionApplication != null)
 			{
-				// ConversionStatus = whether school.SchoolApplicationComponents.Status == Completed !!
-				// ConversionStatus = could be 'NotStarted', 'InProgress' or 'Complete'
-				if (school != null && school.SchoolApplicationComponents.Any())
-				{
-					ConversionStatus = ConversionApplicationRetrievalService.CalculateApplicationStatus(school, conversionApplication);
-				}
-
+				// 3 statuses required by UI !!!!
 				TrustConversionStatus = ConversionApplicationRetrievalService.CalculateTrustStatus(conversionApplication);
 				DeclarationStatus =
 					ConversionApplicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
+				ConversionStatus = ConversionApplicationRetrievalService.CalculateApplicationStatus(conversionApplication);
 
 				ApplicationId = conversionApplication.ApplicationId;
 				ApplicationType = conversionApplication.ApplicationType;

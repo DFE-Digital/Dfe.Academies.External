@@ -405,7 +405,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 					return CalculateDeclarationSectionStatus(school);
 				}
 			}
-			else
+			else // FAM
 			{
 				// TODO: no idea what logic will be !!
 				return Status.NotStarted;
@@ -415,28 +415,42 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		return Status.NotStarted;
 	}
 
-	public Status CalculateApplicationStatus(SchoolApplyingToConvert? school, ConversionApplication? conversionApplication)
+	///<inheritdoc/>
+	public Status CalculateApplicationStatus(ConversionApplication? conversionApplication)
 	{
 		Status overallStatus = Status.NotStarted;
 		Status schoolConversionStatus = Status.NotStarted;
 
-		if (school != null && school.SchoolApplicationComponents.Any())
+		if (conversionApplication != null)
 		{
-			if (school.SchoolApplicationComponents.All(comp => comp.Status == Status.Completed))
+			if (conversionApplication.ApplicationType == ApplicationTypes.JoinAMat)
 			{
-				schoolConversionStatus = Status.Completed;
+				var school = conversionApplication.Schools.FirstOrDefault();
+
+				if (school != null && school.SchoolApplicationComponents.Any())
+				{
+					schoolConversionStatus = school.SchoolApplicationComponents.All(comp => comp.Status == Status.Completed) ?
+						Status.Completed : Status.InProgress;
+				}
+
+				// below could return InProgress or Completed or NotStarted
+				var trustStatus = CalculateTrustStatus(conversionApplication);
+
+				// TODO:- bitwise, trustStatus == completed == true
+				// TODO:- bitwise, schoolConversionStatus == completed == true
+				// TODO:- so, need 2 trues for overall = InProgress
+				// TODO:- if 1 true check schoolConversionStatus OR trustStatus
+				// if (schoolConversionStatus == completed) overallStatus= trustStatus;
+
+				// if (trustStatus == completed) overallStatus= schoolConversionStatus;
 			}
-			else
+			else // FAM
 			{
-				schoolConversionStatus = Status.InProgress;
+				// TODO: no idea what logic will be !!
+				overallStatus = Status.NotStarted;
 			}
 		}
-
-		// TODO:- will also need to check trust status flag which is separate from above
-		var trustStatus = CalculateTrustStatus(conversionApplication);
-
-		// overallStatus = schoolConversionStatus + trustStatus;
-
+		
 		return overallStatus;
 	}
 }
