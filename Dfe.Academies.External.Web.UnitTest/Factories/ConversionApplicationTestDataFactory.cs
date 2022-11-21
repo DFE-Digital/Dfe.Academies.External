@@ -131,12 +131,12 @@ internal static class ConversionApplicationTestDataFactory
 		};
 	}
 
-	public static ConversionApplication BuildNewJoinAMatConversionApplicationWithMinimalAndTrustChangesJoinTrustDetails()
+	public static ConversionApplication BuildNewJoinAMatConversionApplicationWithMinimalAndTrustChangesJoinTrustDetails(int? applicationId)
 	{
 		return new ConversionApplication
 		{
 			UserEmail = Fixture.Create<string>(),
-			ApplicationId = int.MaxValue,
+			ApplicationId = applicationId.HasValue ? applicationId.Value : int.MaxValue,
 			ApplicationType = ApplicationTypes.JoinAMat,
 			ApplicationStatus = ApplicationStatus.InProgress,
 			Contributors = new()
@@ -147,7 +147,11 @@ internal static class ConversionApplicationTestDataFactory
 				Fixture.Create<string>(),
 				Fixture.Create<int>(),
 				TrustChange.No,
-				null)
+				null),
+			Schools = new()
+			{
+				new SchoolApplyingToConvert(Fixture.Create<string>(), int.MaxValue, null)
+			}
 		};
 	}
 
