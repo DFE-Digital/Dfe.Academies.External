@@ -17,6 +17,10 @@ namespace Dfe.Academies.External.Web.UnitTest.Services;
 [Parallelizable(ParallelScope.All)]
 internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 {
+	/// <summary>
+	/// conversionApplication == null && conversionApplication.JoinTrustDetails == null
+	/// </summary>
+	/// <returns></returns>
 	[Test]
 	public async Task CalculateTrustStatus___ConversionApplicationNullReturns___NotStarted()
 	{
@@ -35,8 +39,10 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 		Assert.That(trustStatus, Is.EqualTo(Status.NotStarted));
 	}
 
-	// TODO:- conversionApplication != null && conversionApplication.JoinTrustDetails == null
-
+	/// <summary>
+	/// conversionApplication != null && conversionApplication.JoinTrustDetails == null
+	/// </summary>
+	/// <returns></returns>
 	[Test]
 	public async Task CalculateTrustStatus___JoinTrustDetailsNullReturns___NotStarted()
 	{
@@ -57,9 +63,33 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 		Assert.That(trustStatus, Is.EqualTo(Status.NotStarted));
 	}
 
-	// TODO:- conversionApplication != null && conversionApplication.JoinTrustDetails != null (but empty)
+	// conversionApplication != null && conversionApplication.JoinTrustDetails != null (but empty)
+	// = not applicable because new ExistingTrust() because of mandatory ctor params
 
-	// TODO:- Status.InProgress - section 1 = done = conversionApplication.JoinTrustDetails.TrustName ONLY
+	/// <summary>
+	/// Status.InProgress - section 1 = done = conversionApplication.JoinTrustDetails.TrustName ONLY
+	/// </summary>
+	/// <returns></returns>
+	[Test]
+	public async Task CalculateTrustStatus___JoinTrustDetailsTrustNameOnlyReturns___InProgress()
+	{
+		// arrange
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+
+		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithJoinTrustDetails();
+
+		// act
+		var trustStatus = applicationRetrievalService.CalculateTrustStatus(conversionApplication);
+
+		// assert
+		Assert.That(trustStatus, Is.EqualTo(Status.InProgress));
+	}
+
 
 	// TODO:- Status.InProgress - section 2 = done = conversionApplication.JoinTrustDetails!.ChangesToTrust.HasValue  
 
@@ -68,7 +98,7 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 	// TODO:- Status.Completed - all 3 sections complete
 
 
-	// TODO:- add tests for CalculateApplicationDeclarationStatus()
+	// TODO:- add tests for CalculateApplicationDeclarationStatus() = only returns NotStarted / InProgress
 
 	private static Mock<IHttpClientFactory> SetupMockHttpClientFactory(HttpStatusCode expectedStatusCode, string expectedJson)
 	{
