@@ -55,7 +55,7 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationNoRoles();
 
 		// act
-		var trustStatus = applicationRetrievalService.CalculateTrustStatus(conversionApplication);
+		var trustStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
 
 		// assert
 		Assert.That(trustStatus, Is.EqualTo(Status.NotStarted));
@@ -79,7 +79,7 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildJoinAMatConversionApplicationWithContributorWithSchool();
 
 		// act
-		var trustStatus = applicationRetrievalService.CalculateTrustStatus(conversionApplication);
+		var trustStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
 
 		// assert
 		Assert.That(trustStatus, Is.EqualTo(Status.NotStarted));
@@ -104,7 +104,7 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var applicationSchool = conversionApplication.Schools.FirstOrDefault()!.DeclarationBodyAgree = true;
 		
 		// act
-		var trustStatus = applicationRetrievalService.CalculateTrustStatus(conversionApplication);
+		var trustStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
 
 		// assert
 		Assert.That(trustStatus, Is.EqualTo(Status.Completed));
@@ -128,7 +128,7 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildMinimalFormAMatConversionApplicationNoContributors();
 
 		// act
-		var trustStatus = applicationRetrievalService.CalculateTrustStatus(conversionApplication);
+		var trustStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
 
 		// assert
 		Assert.That(trustStatus, Is.EqualTo(Status.NotStarted));
@@ -152,7 +152,7 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildFormAMatConversionApplicationWithContributorWithSchool();
 
 		// act
-		var trustStatus = applicationRetrievalService.CalculateTrustStatus(conversionApplication);
+		var trustStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
 
 		// assert
 		Assert.That(trustStatus, Is.EqualTo(Status.NotStarted));
