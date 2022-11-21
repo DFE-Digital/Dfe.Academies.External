@@ -420,6 +420,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	{
 		Status overallStatus = Status.NotStarted;
 		Status schoolConversionStatus = Status.NotStarted;
+		BitArray statuses = new BitArray(2);
 
 		if (conversionApplication != null)
 		{
@@ -435,14 +436,40 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
 				// below could return InProgress or Completed or NotStarted
 				var trustStatus = CalculateTrustStatus(conversionApplication);
+				statuses.Set(0, schoolConversionStatus == Status.Completed); // ONLY set to false IF NOT completed
+				statuses.Set(1, trustStatus == Status.Completed);
 
-				// TODO:- bitwise, trustStatus == completed == true
-				// TODO:- bitwise, schoolConversionStatus == completed == true
-				// TODO:- so, need 2 trues for overall = InProgress
-				// TODO:- if 1 true check schoolConversionStatus OR trustStatus
-				// if (schoolConversionStatus == completed) overallStatus= trustStatus;
+				// bitwise, trustStatus == completed == true
+				// bitwise, schoolConversionStatus == completed == true
+				// need 2 true's for overall = Completed
 
-				// if (trustStatus == completed) overallStatus= schoolConversionStatus;
+				int trueCount = (from bool m in statuses
+					where m
+					select m).Count();
+
+				if (trueCount == 2)
+				{
+					overallStatus = Status.Completed;
+				}
+				else
+				{
+					// if 1 true check schoolConversionStatus OR trustStatus
+					// if (schoolConversionStatus == completed) overallStatus= trustStatus;
+					if (schoolConversionStatus == Status.Completed)
+					{
+						overallStatus = trustStatus;
+					}
+					else if (trustStatus == Status.Completed)
+					{
+						// if (trustStatus == completed) overallStatus= schoolConversionStatus;
+						overallStatus = schoolConversionStatus;
+					}
+					else
+					{
+						// neither status are completed, one InProgress / one NotStarted for instance
+						overallStatus = schoolConversionStatus > trustStatus ? schoolConversionStatus : trustStatus;
+					}
+				}
 			}
 			else // FAM
 			{
