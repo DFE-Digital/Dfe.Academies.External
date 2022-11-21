@@ -81,7 +81,7 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
 
-		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithJoinTrustDetails();
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithMinimalJoinTrustDetails();
 
 		// act
 		var trustStatus = applicationRetrievalService.CalculateTrustStatus(conversionApplication);
@@ -90,15 +90,59 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 		Assert.That(trustStatus, Is.EqualTo(Status.InProgress));
 	}
 
+	/// <summary>
+	/// Status.InProgress - section 2 = done = conversionApplication.JoinTrustDetails!.ChangesToTrust.HasValue && minimal 
+	/// </summary>
+	/// <returns></returns>
+	[Test]
+	public async Task CalculateTrustStatus___JoinTrustDetailsMinimalAndTrustChangesReturns___InProgress()
+	{
+		// arrange
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
-	// TODO:- Status.InProgress - section 2 = done = conversionApplication.JoinTrustDetails!.ChangesToTrust.HasValue  
+		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
 
-	// TODO:- Status.InProgress - section 3 = done conversionApplication.JoinTrustDetails!.ChangesToLaGovernance.HasValue ONLY
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithMinimalAndTrustChangesJoinTrustDetails();
+
+		// act
+		var trustStatus = applicationRetrievalService.CalculateTrustStatus(conversionApplication);
+
+		// assert
+		Assert.That(trustStatus, Is.EqualTo(Status.InProgress));
+	}
+
+	/// <summary>
+	/// Status.InProgress - section 3 = done conversionApplication.JoinTrustDetails!.ChangesToLaGovernance.HasValue && minimal
+	/// </summary>
+	/// <returns></returns>
+	[Test]
+	public async Task CalculateTrustStatus___JoinTrustDetailsMinimalAndChangesToLaGovernanceReturns___InProgress()
+	{
+		// arrange
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
+		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
+
+		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+
+		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithMinimalAndChangesToLaGovernanceJoinTrustDetails();
+
+		// act
+		var trustStatus = applicationRetrievalService.CalculateTrustStatus(conversionApplication);
+
+		// assert
+		Assert.That(trustStatus, Is.EqualTo(Status.InProgress));
+	}
 
 	// TODO:- Status.Completed - all 3 sections complete
 
+	// TODO:- add tests for CalculateApplicationDeclarationStatus() = returns NotStarted
 
-	// TODO:- add tests for CalculateApplicationDeclarationStatus() = only returns NotStarted / InProgress
+	// TODO:- add tests for CalculateApplicationDeclarationStatus() = returns InProgress
 
 	private static Mock<IHttpClientFactory> SetupMockHttpClientFactory(HttpStatusCode expectedStatusCode, string expectedJson)
 	{

@@ -49,7 +49,7 @@ internal static class ConversionApplicationTestDataFactory
 		};
 	}
 
-	public static ConversionApplication BuildNewConversionApplicationWithJoinTrustDetails()
+	public static ConversionApplication BuildNewConversionApplicationWithMinimalJoinTrustDetails()
 	{
 		return new ConversionApplication
 		{
@@ -64,4 +64,49 @@ internal static class ConversionApplicationTestDataFactory
 			JoinTrustDetails = new ExistingTrust(int.MaxValue, Fixture.Create<string>(), Fixture.Create<int>())
 		};
 	}
+
+	public static ConversionApplication BuildNewConversionApplicationWithMinimalAndTrustChangesJoinTrustDetails()
+	{
+		return new ConversionApplication
+		{
+			UserEmail = Fixture.Create<string>(),
+			ApplicationId = int.MaxValue,
+			ApplicationType = ApplicationTypes.JoinAMat,
+			ApplicationStatus = ApplicationStatus.InProgress,
+			Contributors = new()
+			{
+				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
+			},
+			JoinTrustDetails = new ExistingTrust(int.MaxValue,
+				Fixture.Create<string>(),
+				Fixture.Create<int>(),
+				TrustChange.No,
+				null)
+		};
+	}
+
+	public static ConversionApplication BuildNewConversionApplicationWithMinimalAndChangesToLaGovernanceJoinTrustDetails()
+	{
+		return new ConversionApplication
+		{
+			UserEmail = Fixture.Create<string>(),
+			ApplicationId = int.MaxValue,
+			ApplicationType = ApplicationTypes.JoinAMat,
+			ApplicationStatus = ApplicationStatus.InProgress,
+			Contributors = new()
+			{
+				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
+			},
+			JoinTrustDetails = new ExistingTrust(int.MaxValue, 
+				Fixture.Create<string>(),
+				Fixture.Create<int>(),
+				ChangesToTrust: null,
+				ChangesToTrustExplained:null,
+				ChangesToLaGovernance: false,
+				ChangesToLaGovernanceExplained: null
+				)
+		};
+	}
+
+
 }
