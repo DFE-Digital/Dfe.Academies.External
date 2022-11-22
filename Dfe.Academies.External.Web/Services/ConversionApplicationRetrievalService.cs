@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections;
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -201,13 +202,23 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	private Status CalculateAboutTheConversionSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
 		// need 4 bools to represent each sub-section. completed = yes/no
-		// 1) SchoolMainContacts = !string.IsNullOrEmpty(selectedSchool.SchoolConversionContactHeadName)
-		// 2) ApplicationConversionTargetDate = selectedSchool.SchoolConversionTargetDateSpecified.HasValue
-		// 3) ApplicationJoinTrustReasons = !string.IsNullOrWhiteSpace(selectedSchool.ApplicationJoinTrustReason)
-		// 4) ApplicationChangeSchoolName = selectedSchool.ConversionChangeNamePlanned.HasValue
+		var schoolMainContacts = !string.IsNullOrEmpty(selectedSchool.SchoolConversionContactHeadName);
+		var applicationConversionTargetDate = selectedSchool.SchoolConversionTargetDateSpecified.HasValue;
+		var applicationJoinTrustReasons = !string.IsNullOrWhiteSpace(selectedSchool.ApplicationJoinTrustReason);
+		var applicationChangeSchoolName = selectedSchool.ConversionChangeNamePlanned.HasValue;
 
-		// TODO :- agree logic
-		return Status.NotStarted;
+		var boolList = new List<bool>
+		{
+			schoolMainContacts,
+			applicationConversionTargetDate,
+			applicationJoinTrustReasons,
+			applicationChangeSchoolName
+		};
+
+		if (boolList.All(x => x))
+			return Status.Completed;
+		
+		return boolList.All(x => !x) ? Status.NotStarted : Status.InProgress;
 	}
 
 	/// <summary>
@@ -218,11 +229,10 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculateFurtherInformationSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		// one LARGE form in v1.5. So can just use below logic:-
-		// var sectionStarted = !string.IsNullOrEmpty(selectedSchool.TrustBenefitDetails)
-
-		// TODO
-		return Status.NotStarted;
+		//This might only return InProgress if any of the file uploads are mandatory for the application but don't have to be uploaded immediately
+		var sectionStarted = !string.IsNullOrEmpty(selectedSchool.TrustBenefitDetails);
+		
+		return sectionStarted ? Status.Completed : Status.NotStarted;
 	}
 
 	/// <summary>
@@ -234,15 +244,19 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	private Status CalculateFinanceSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
 		// need 6 bools to represent each sub-section. completed = yes/no
-		// 1) PreviousFinancialYear = selectedSchool.previousFinancialYear.FinancialYearEndDate.HasValue
-		// 2) CurrentFinancialYear = selectedSchool.currentFinancialYear.FinancialYearEndDate.HasValue
-		// 3) NextFinancialYear = selectedSchool.nextFinancialYear.FinancialYearEndDate.HasValue
-		// 4) loans = selectedSchool.HasLoans
-		// 5) leases = selectedSchool.HasLeases
-		// 6) FinancialInvestigations = selectedSchool.FinanceOngoingInvestigations.HasValue
+		bool? previousFinancialYear = selectedSchool.PreviousFinancialYear.FinancialYearEndDate.HasValue ? true : null;
+		bool? currentFinancialYear = selectedSchool.CurrentFinancialYear.FinancialYearEndDate.HasValue ? true : null;
+		bool? nextFinancialYear = selectedSchool.NextFinancialYear.FinancialYearEndDate.HasValue ? true : null;
+		bool? loans = selectedSchool.HasLoans;
+		bool? leases = selectedSchool.HasLeases;
+		bool? financialInvestigations = selectedSchool.FinanceOngoingInvestigations;
 
-		// TODO :- agree logic
-		return Status.NotStarted;
+		var validationList = new List<bool?> { previousFinancialYear, currentFinancialYear, nextFinancialYear, loans, leases, financialInvestigations };
+
+		if (validationList.All(x => x.HasValue))
+			return Status.Completed;
+		
+		return validationList.All(x => !x.HasValue) ? Status.NotStarted : Status.InProgress;
 	}
 
 	/// <summary>
@@ -266,9 +280,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculateLandAndBuildingsSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		return selectedSchool?.LandAndBuildings.WorksPlanned.HasValue == false
-			? Status.NotStarted
-			: Status.Completed;
+		return !string.IsNullOrWhiteSpace(selectedSchool?.LandAndBuildings.OwnerExplained)
+			? Status.Completed
+			: Status.NotStarted;
 	}
 
 	/// <summary>
@@ -337,47 +351,17 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	///<inheritdoc/>
 	public Status CalculateJoinAMatTrustStatus(ConversionApplication? conversionApplication)
 	{
-		// need 3 bools to represent each sub-section. completed = yes/no
-		// 1) applicationselecttrust :- !string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) = complete
-		// 2) applicationschooltrustconsent - 3 steps :-
-		// a) step 1 (ApplicationSchoolTrustConsent) = conversionApplication.JoinTrustDetails != null ??? as this step is docs
-		// b) step 2 (ApplicationSchoolChangesToATrust) = conversionApplication.JoinTrustDetails.ChangesToTrust.HasValue = complete
-		// c) step 3 (ApplicationSchoolLocalGovernanceArrangements) = conversionApplication.JoinTrustDetails.ChangesToLaGovernanceExplained.HasValue
+		if (!string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails.TrustName)
+		    && conversionApplication.JoinTrustDetails!.ChangesToTrust.HasValue
+		    && conversionApplication.JoinTrustDetails!.ChangesToLaGovernance.HasValue)
+			return Status.Completed;
+		
+		if (!string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails.TrustName)
+		    || conversionApplication.JoinTrustDetails!.ChangesToTrust.HasValue
+		    || conversionApplication.JoinTrustDetails!.ChangesToLaGovernance.HasValue)
+			return Status.InProgress;
 
-		if (conversionApplication != null && conversionApplication.JoinTrustDetails != null)
-		{
-			BitArray statuses = new BitArray(3);
-			statuses.Set(0, !string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails.TrustName)); // ONLY set to false IF EMPTY!
-			statuses.Set(1, conversionApplication.JoinTrustDetails!.ChangesToTrust.HasValue);
-			statuses.Set(2, conversionApplication.JoinTrustDetails!.ChangesToLaGovernance.HasValue);
-
-			////bool hasAnyFalse = statuses.Cast<bool>().Contains(false);
-			////bool hasAnyTrue = statuses.Cast<bool>().Contains(true);
-
-			int falseCount = (from bool m in statuses
-				where !m
-				select m).Count();
-
-			//// need to do a count of false. if falseCount = 3 - status = NotStarted
-			//// need to do a count of false. if falseCount = >=1 || falseCount <=2 - status = InProgress
-			//// need to do a count of false. if falseCount = 0 - status = Completed
-			if (falseCount == 3)
-			{
-				return Status.NotStarted;
-			}
-			else if (falseCount > 0)
-			{
-				return Status.InProgress;
-			}
-			else
-			{
-				return Status.Completed;
-			}
-		}
-		else
-		{
-			return Status.NotStarted;
-		}
+		return Status.NotStarted;
 	}
 
 	///<inheritdoc/>
