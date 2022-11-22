@@ -120,9 +120,8 @@ namespace Dfe.Academies.External.Web.Pages
 			string lastName = User.FindFirst(ClaimTypes.Surname)?.Value ?? "";
 			string invitingUserName = $"{firstName} {lastName}";
 
-			// TODO:- school name?
 			await _contributorEmailSenderService.SendInvitationToContributor(draftConversionApplication.ApplicationType, ContributorRole,
-				Name!, EmailAddress!, "",
+				Name!, EmailAddress!, ApplicationSchoolName(draftConversionApplication),
 				invitingUserName);
 
 			// update temp store for next step
@@ -134,6 +133,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 			// MR:- need to call below otherwise will lose ExistingContributors()
 			PopulateUiModel(draftConversionApplication);
+			Name = Name;
 			return Page();
 		}
 
@@ -214,6 +214,29 @@ namespace Dfe.Academies.External.Web.Pages
 			}
 			
 			// this form won't be used as an update. Only add, so hence, so no VM property binding
+		}
+
+		private string ApplicationSchoolName(ConversionApplication? conversionApplication)
+		{
+			if (conversionApplication != null)
+			{
+				if (conversionApplication.ApplicationType == ApplicationTypes.JoinAMat)
+				{
+					var school = conversionApplication.Schools.FirstOrDefault();
+
+					if (school != null)
+					{
+						return school.SchoolName;
+					}
+				}
+				else // FAM
+				{
+					// TODO: user will have to select a school !!!!
+					return string.Empty;
+				}
+			}
+
+			return string.Empty;
 		}
 	}
 }
