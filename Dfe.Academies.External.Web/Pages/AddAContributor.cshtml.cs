@@ -166,6 +166,17 @@ namespace Dfe.Academies.External.Web.Pages
 				return false;
 			}
 
+			// check not stupidly inviting yourself!
+			string currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
+			if (EmailAddress?.Trim().ToLower() == currentUserEmail.Trim().ToLower())
+			{
+				ModelState.AddModelError("InvitedYourself", "You cannot invite yourself as a contributor");
+				PopulateValidationMessages();
+				// MR:- need to call below otherwise will lose ExistingContributors()
+				PopulateUiModel(draftConversionApplication);
+				return false;
+			}
+
 			return true;
 		}
 
