@@ -35,16 +35,18 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 			}
 		}
 
+		///<inheritdoc/>
 		public override void PopulateValidationMessages()
 		{
 			PopulateViewDataErrorsWithModelStateErrors();
 		}
 
+		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
 			if (!TrustChange.HasValue || TrustChange.Value == Enums.TrustChange.Yes && string.IsNullOrWhiteSpace(TrustChangeExplained))
 			{
-				ModelState.AddModelError("TrustChangeExplainedNotEntered", "You must provide details");
+				ModelState.AddModelError("TrustChangeExplainedNotEntered", "You must select an option");
 				PopulateValidationMessages();
 				return false;
 			}
@@ -52,8 +54,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 			return true;
 		}
 
-
-
+		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
 			return new();
@@ -98,6 +99,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 			return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
 		}
 
+		///<inheritdoc/>
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 		}
