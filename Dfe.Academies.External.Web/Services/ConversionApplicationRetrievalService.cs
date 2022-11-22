@@ -351,14 +351,14 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	///<inheritdoc/>
 	public Status CalculateJoinAMatTrustStatus(ConversionApplication? conversionApplication)
 	{
-		if (!string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails.TrustName)
-		    && conversionApplication.JoinTrustDetails!.ChangesToTrust.HasValue
-		    && conversionApplication.JoinTrustDetails!.ChangesToLaGovernance.HasValue)
+		if (!string.IsNullOrWhiteSpace(conversionApplication?.JoinTrustDetails?.TrustName)
+		    && conversionApplication.JoinTrustDetails.ChangesToTrust.HasValue
+		    && conversionApplication.JoinTrustDetails.ChangesToLaGovernance.HasValue)
 			return Status.Completed;
 		
-		if (!string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails.TrustName)
-		    || conversionApplication.JoinTrustDetails!.ChangesToTrust.HasValue
-		    || conversionApplication.JoinTrustDetails!.ChangesToLaGovernance.HasValue)
+		if ((conversionApplication != null && conversionApplication.JoinTrustDetails != null) && (!string.IsNullOrWhiteSpace(conversionApplication?.JoinTrustDetails?.TrustName)
+		    || conversionApplication.JoinTrustDetails.ChangesToTrust.HasValue
+		    || conversionApplication.JoinTrustDetails.ChangesToLaGovernance.HasValue))
 			return Status.InProgress;
 
 		return Status.NotStarted;
