@@ -36,7 +36,7 @@ public abstract class BaseTrustFamApplicationPageEditModel : BasePageEditModel
 
 		if (checkStatus is ForbidResult)
 		{
-			return RedirectToPage("../ApplicationAccessException");
+			return RedirectToPage("../../ApplicationAccessException");
 		}
 
 		ApplicationId = appId;
