@@ -3,8 +3,15 @@
 /// <summary>
 /// Object to represent data capture required when Forming a new MAT / FormNewSingleAcademyTrust
 /// </summary>
-public class NewTrust
+public sealed class NewTrust
 {
+	/// <summary>
+	/// need empty ctor for JSON de-serialization !!
+	/// </summary>
+	public NewTrust()
+	{
+	}
+
 	public NewTrust(int applicationId, string proposedTrustName)
 	{
 		ApplicationId = applicationId;
