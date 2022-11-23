@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 {
-    public class ApplicationNewTrustNameModel : BaseApplicationPageEditModel
+    public class ApplicationNewTrustNameModel : BaseTrustFAMApplicationPageEditModel
 	{
 		//// MR:- VM props to capture data -
 
@@ -21,8 +21,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
         {
         }
 
-		// TODO:- overrride post() ???
-		// on save() -> the user is redirected to Your Application page (ApplicationOverview)
+		// using base Get() && Post() funcs as this is a pretty simple page !
 
 		///<inheritdoc/>
 		public override void PopulateValidationMessages()
@@ -46,8 +45,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
         {
-	        // does not apply on this page
-	        return new();
+			return new Dictionary<string, dynamic> { { nameof(NewTrust.ProposedTrustName), ProposedNameOfTrust ?? string.Empty } };
 		}
 
 		///<inheritdoc/>
