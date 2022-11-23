@@ -1,0 +1,152 @@
+﻿using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.Pages.Base;
+using Dfe.Academies.External.Web.Services;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
+{
+    public class ApplicationNewTrustOpeningDateModel : BaseTrustFamApplicationPageEditModel
+	{
+		public string OpeningDateDate = "sip_formtrustopeningdate";
+
+		public string TrustName { get; private set; }
+
+		// MR:- VM props to capture data
+
+		/// <summary>
+		/// Full 'Date' representation of date selected
+		/// i.e. day + month + year entered !
+		/// </summary>
+		[BindProperty]
+		public string? OpeningDate { get; set; }
+
+		[BindProperty] // MR:- don't know whether I need this
+		public string? OpeningDateDay { get; set; }
+
+		[BindProperty] // MR:- don't know whether I need this
+		public string? OpeningDateMonth { get; set; }
+
+		[BindProperty] // MR:- don't know whether I need this
+		public string? OpeningDateYear { get; set; }
+
+		[BindProperty]
+		public string? TrustApproverName { get; set; }
+
+		[BindProperty]
+		public string? TrustApproverEmail { get; set; }
+
+		public DateTime OpeningDateLocal { get; set; }
+
+		public bool HasError
+		{
+			get
+			{
+				bool[] bools = new[] { SchoolConversionTargetDateError };
+
+				return bools.Any(b => b);
+			}
+		}
+
+		public bool SchoolConversionTargetDateError
+		{
+			get
+			{
+				return !ModelState.IsValid && ModelState.Keys.Contains("TrustOpeningDateNotEntered");
+			}
+		}
+
+		public ApplicationNewTrustOpeningDateModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
+			IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService) 
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "TBC")
+		{
+		}
+
+		// Override Post because of datepicker madness
+		public override async Task<IActionResult> OnPostAsync()
+		{
+			var form = Request.Form;
+			var dateComponents = RetrieveDateTimeComponentsFromDatePicker(form, OpeningDateDate);
+			string day = dateComponents.FirstOrDefault(x => x.Key == "day").Value;
+			string month = dateComponents.FirstOrDefault(x => x.Key == "month").Value;
+			string year = dateComponents.FirstOrDefault(x => x.Key == "year").Value;
+
+			OpeningDateLocal = BuildDateTime(day, month, year);
+
+			if (!RunUiValidation())
+			{
+				// MR:- date input disappears without below !!
+				RePopDatePickerModel(day, month, year);
+				return Page();
+			}
+
+			// grab draft application from temp= null
+			var draftConversionApplication =
+				TempDataHelper.GetSerialisedValue<ConversionApplication>(
+					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+			var dictionaryMapper = PopulateUpdateDictionary();
+			await ConversionApplicationCreationService.PutApplicationFormAMatDetails(ApplicationId, dictionaryMapper);
+			
+			// update temp store for next step
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+			// need to go onto next step in process 'reasons for conversion page'
+			return RedirectToPage(NextStepPage, new { appId = ApplicationId });
+		}
+
+		///<inheritdoc/>
+		public override void PopulateValidationMessages()
+		{
+			PopulateViewDataErrorsWithModelStateErrors();
+		}
+
+		///<inheritdoc/>
+		public override bool RunUiValidation()
+		{
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (OpeningDateLocal == DateTime.MinValue)
+			{
+				ModelState.AddModelError("TrustOpeningDateNotEntered", "You must input a valid date");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			return true;
+		}
+
+		///<inheritdoc/>
+		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
+		{
+			return new Dictionary<string, dynamic>
+			{
+				{ nameof(NewTrust.FormTrustOpeningDate), OpeningDate ?? string.Empty },
+				{ nameof(NewTrust.TrustApproverName), TrustApproverName ?? string.Empty },
+				{ nameof(NewTrust.TrustApproverEmail), TrustApproverEmail ?? string.Empty },
+			};
+		}
+
+		///<inheritdoc/>
+		public override void PopulateUiModel(ConversionApplication? conversionApplication)
+		{
+			if (conversionApplication != null && conversionApplication.FormTrustDetails != null)
+			{
+				TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
+				OpeningDate = conversionApplication.FormTrustDetails.FormTrustOpeningDate.ToString();
+				TrustApproverName = conversionApplication.FormTrustDetails.TrustApproverName;
+				TrustApproverEmail = conversionApplication.FormTrustDetails.TrustApproverEmail;
+			}
+		}
+
+		private void RePopDatePickerModel(string openingDateDay, string openingDateMonth, string openingDateYear)
+		{
+			OpeningDateDay = openingDateDay;
+			OpeningDateMonth = openingDateMonth;
+			OpeningDateYear = openingDateYear;
+		}
+	}
+}
