@@ -1,13 +1,12 @@
-﻿using System.Text.Json;
+﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -53,7 +52,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		
 		[BindProperty]
 		public string? DioceseName { get; set; }
-		
+
+		[DataType(DataType.Upload)]
+		[AllowedExtensions(new[] { ".doc", ".docx", ".ppt", ".pptx", ".pdf" })]
 		public List<IFormFile>? DioceseFiles { get; set; } = new();
 		
 		[BindProperty]
@@ -70,6 +71,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public string? FoundationTrustOrBodyName { get; set; }
 
+		[DataType(DataType.Upload)]
+		[AllowedExtensions(new[] { ".doc", ".docx", ".ppt", ".pptx", ".pdf" })]
 		public List<IFormFile>? FoundationConsentFiles { get; set; } = new();
 		
 		[BindProperty]
@@ -98,7 +101,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		
 		[BindProperty]
 		public string MainFeederSchools { get; set; }
-		
+
+		[DataType(DataType.Upload)]
+		[AllowedExtensions(new[] { ".doc", ".docx", ".ppt", ".pptx", ".pdf" })]
 		[BindProperty]
 		public List<IFormFile> ResolutionConsentFiles { get; set; }
 		
