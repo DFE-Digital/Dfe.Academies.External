@@ -19,58 +19,56 @@
         <partial name="_HiddenFields" />
 
         <div class="govuk-grid-column-two-thirds">
-            <span class="govuk-caption-l">@Model.SelectedTrustName (step 2 of 3)</span>
-            <h1 class="govuk-heading-l">
-                Changes to the trust
-            </h1>
+	        <h1 class="govuk-heading-l">
+	            <span class="govuk-caption-l">@Model.SelectedTrustName (step 2 of 3)</span>
+	            Changes to the trust
+	        </h1>
 
-            <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
-                <fieldset class="govuk-fieldset">
-                    <div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-                        <legend id="role-hint" class="govuk-fieldset__legend govuk-!-font-weight-bold">
-                            Will there be changes to the governance of the trust due to the school joining?
-                        </legend>
-                        <label for="trustChangeReason" class="govuk-label">For example, changes to the trustees or their roles</label>
-                        <div class="govuk-form-group">
-                        @foreach (var trustChange in Enum.GetValues(typeof(TrustChange)).OfType<TrustChange>())
-                        {
-                            <div class="govuk-radios__item">
-                                <input type="radio"
-                                   asp-for="TrustChange"
-                                   value="@Convert.ToInt32(trustChange)"
-                                   id="revenueRevenueType@(trustChange)"
-                                   class="govuk-radios__input"
-                                   data-aria-controls="trustChange-@(trustChange.ToString().ToLower())"
-                                   checked="@(trustChange.Equals(Model.TrustChange))"
-                                   aria-expanded="False" />
-                                <label for="revenueType@(trustChange)" class="govuk-label govuk-radios__label">
-                                    @trustChange.GetDescription()
-                                </label>
-                            </div>
+	        <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+		        <fieldset class="govuk-fieldset">
+			        <div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+				        <legend id="role-hint" class="govuk-fieldset__legend govuk-!-font-weight-bold">
+					        Will there be changes to the governance of the trust due to the school joining?
+				        </legend>
+						<label for="TrustChange" class="govuk-caption-l">For example, changes to the trustees or their roles</label>
+				        <div class="govuk-form-group">
+					        @foreach (var trustChange in Enum.GetValues(typeof(TrustChange)).OfType<TrustChange>())
+					        {
+						        <div class="govuk-radios__item">
+							        <input type="radio"
+							               asp-for="TrustChange"
+							               value="@Convert.ToInt32(trustChange)"
+							               id="revenueRevenueType@(trustChange)"
+							               class="govuk-radios__input"
+							               data-aria-controls="trustChange-@(trustChange.ToString().ToLower())"
+							               checked="@(trustChange.Equals(Model.TrustChange))"
+							               aria-expanded="False"/>
+							        <label for="revenueType@(trustChange)" class="govuk-label govuk-radios__label">
+								        @trustChange.GetDescription()
+							        </label>
+						        </div>
 
-                            @if (trustChange == TrustChange.Yes)
-                            {
-                                <div class="@(Model.TrustChangeExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
-							@(Model.TrustChange != TrustChange.Yes ? "govuk-radios__conditional--hidden" : "")"
-                             id="trustChange-yes" aria-expanded="false">
-                                    <a href="#TrustChangeExplainedNotEntered"
-                               class="@(Model.TrustChangeExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                        You must enter the details of the changes to the trust
-                                    </a>
-                                    <span class="govuk-hint">
-                                        What are the changes
-                                    </span>
-                                    <textarea asp-for="TrustChangeExplained" id="PFYRevenueStatusExplained"
+						        @if (trustChange == TrustChange.Yes)
+						        {
+							        <div class="@(Model.TrustChangeExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
+										@(Model.TrustChange != TrustChange.Yes ? "govuk-radios__conditional--hidden" : "")"
+							             id="trustChange-yes" aria-expanded="false">
+								        <a href="#TrustChangeExplainedNotEntered"
+								           class="@(Model.TrustChangeExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
+									        You must enter the details of the changes to the trust
+								        </a>
+										<label for="TrustChangeExplained" class="govuk-label">What are the changes?</label>
+								        <textarea asp-for="TrustChangeExplained" id="PFYRevenueStatusExplained"
                                       class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
-                                </div>
-                            }
-                        }
-                    </div>
-                </div>
-            </fieldset>
+							        </div>
+						        }
+					        }
+				        </div>
+			        </div>
+		        </fieldset>
+	        </div>
+
+	        <input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+
         </div>
-
-        <input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
-
-    </div>
 </form>

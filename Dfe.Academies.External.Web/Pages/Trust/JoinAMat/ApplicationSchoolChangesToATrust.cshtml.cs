@@ -9,6 +9,8 @@ using Dfe.Academies.External.Web.Pages.Base;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Notify.Models;
+using Dfe.Academies.External.Web.Attributes;
+using static GovUk.Frontend.AspNetCore.ComponentDefaults;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 {
@@ -35,14 +37,23 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 			}
 		}
 
+		///<inheritdoc/>
 		public override void PopulateValidationMessages()
 		{
 			PopulateViewDataErrorsWithModelStateErrors();
 		}
 
+		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			if (!TrustChange.HasValue || TrustChange.Value == Enums.TrustChange.Yes && string.IsNullOrWhiteSpace(TrustChangeExplained))
+			if (!TrustChange.HasValue)
+			{
+				ModelState.AddModelError("TrustChangeExplainedNotSelected", "You must select an option");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (TrustChange.HasValue && TrustChange.Value == Enums.TrustChange.Yes && string.IsNullOrWhiteSpace(TrustChangeExplained))
 			{
 				ModelState.AddModelError("TrustChangeExplainedNotEntered", "You must provide details");
 				PopulateValidationMessages();
@@ -52,8 +63,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 			return true;
 		}
 
-
-
+		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
 			return new();
@@ -98,6 +108,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 			return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
 		}
 
+		///<inheritdoc/>
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 		}
