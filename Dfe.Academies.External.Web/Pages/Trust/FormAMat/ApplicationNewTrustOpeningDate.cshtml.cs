@@ -9,7 +9,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 	{
 		public string OpeningDateDate = "sip_formtrustopeningdate";
 
-		public string TrustName { get; private set; }
+		public string TrustName { get; private set; } = string.Empty;
 
 		// MR:- VM props to capture data
 
@@ -41,13 +41,13 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		{
 			get
 			{
-				bool[] bools = new[] { SchoolConversionTargetDateError };
+				bool[] bools = new[] { OpeningDateError };
 
 				return bools.Any(b => b);
 			}
 		}
 
-		public bool SchoolConversionTargetDateError
+		public bool OpeningDateError
 		{
 			get
 			{
@@ -61,7 +61,10 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		{
 		}
 
-		// Override Post because of datepicker madness
+		/// <summary>
+		/// Override Post because of datepicker madness
+		/// </summary>
+		/// <returns></returns>
 		public override async Task<IActionResult> OnPostAsync()
 		{
 			var form = Request.Form;
