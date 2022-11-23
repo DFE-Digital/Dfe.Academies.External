@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using System;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,12 +54,16 @@ public abstract class BaseTrustFAMApplicationPageEditModel : BasePageEditModel
 			return Page();
 		}
 
+		// grab draft application from temp= null
 		var draftConversionApplication =
 			TempDataHelper.GetSerialisedValue<ConversionApplication>(
 				TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-		// TODO :- API calling / data saving
-		// new patch service method, same as school one !
+		var dictionaryMapper = PopulateUpdateDictionary();
+		await ConversionApplicationCreationService.PutApplicationFormAMatDetails(ApplicationId, dictionaryMapper);
+
+		// update temp store for next step
+		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
 		return RedirectToPage(NextStepPage, new { appId = ApplicationId });
 	}
