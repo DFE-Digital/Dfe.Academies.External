@@ -5,29 +5,7 @@
 /// </summary>
 public class NewTrust
 {
-	// TODO MR:- amend this obj = record and to be same as following json
-	// {
-//"applicationId": 0,
-//"formTrustOpeningDate": "2022-10-26T10:30:04.046Z",
-//"formTrustProposedNameOfTrust": "string",
-//"trustApproverName": "string",
-//"trustApproverEmail": "string",
-//"formTrustReasonApprovaltoConvertasSAT": true,
-//"formTrustReasonApprovedPerson": "string",
-//"formTrustReasonForming": "string",
-//"formTrustReasonVision": "string",
-//"formTrustReasonGeoAreas": "string",
-//"formTrustReasonFreedom": "string",
-//"formTrustReasonImproveTeaching": "string",
-//"formTrustPlanForGrowth": "string",
-//"formTrustPlansForNoGrowth": "string",
-//"formTrustGrowthPlansYesNo": true,
-//"formTrustImprovementSupport": "string",
-//"formTrustImprovementStrategy": "string",
-//"formTrustImprovementApprovedSponsor": "string"
-//}
-
-public NewTrust(string proposedTrustName)
+	public NewTrust(string proposedTrustName)
 	{
 		ProposedTrustName = proposedTrustName;
 	}
