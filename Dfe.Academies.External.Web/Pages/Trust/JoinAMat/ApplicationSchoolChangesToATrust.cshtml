@@ -30,7 +30,10 @@
 				        <legend id="role-hint" class="govuk-fieldset__legend govuk-!-font-weight-bold">
 					        Will there be changes to the governance of the trust due to the school joining?
 				        </legend>
-						<label for="TrustChange" class="govuk-caption-l">For example, changes to the trustees or their roles</label>
+				        <label for="TrustChange" class="govuk-caption-l">
+					        For example, changes to the trustees or their roles
+				        </label>
+				        <div class="govuk-!-margin-6"></div>
 				        <div class="govuk-form-group">
 					        @foreach (var trustChange in Enum.GetValues(typeof(TrustChange)).OfType<TrustChange>())
 					        {
