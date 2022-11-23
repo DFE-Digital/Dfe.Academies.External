@@ -12,9 +12,10 @@ internal sealed class NewTrustTests
 	public void Constructor___PropertiesSet()
 	{
 		// arrange
+		int applicationId = Fixture.Create<int>();
 		string proposedTrustName = Fixture.Create<string>();
 
-		var applicationComponent = new NewTrust(proposedTrustName)
+		var applicationComponent = new NewTrust(applicationId, proposedTrustName)
 		{
 			Id = int.MaxValue
 		};
@@ -25,6 +26,7 @@ internal sealed class NewTrustTests
 		// assert
 		Assert.That(applicationComponent, Is.Not.Null);
 		Assert.That(applicationComponent.Id, Is.EqualTo(int.MaxValue));
-		Assert.That(applicationComponent.ProposedTrustName, Is.EqualTo(proposedTrustName));
+		Assert.That(applicationComponent.ApplicationId, Is.EqualTo(applicationId));
+		Assert.That(applicationComponent.FormTrustProposedNameOfTrust, Is.EqualTo(proposedTrustName));
 	}
 }

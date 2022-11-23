@@ -42,4 +42,12 @@ public interface IConversionApplicationCreationService
 		string resolutionConsentFolderIdentifier,
 		SchoolEqualitiesProtectedCharacteristics? protectedCharacteristics,
 		string? furtherInformation);
+
+	/// <summary>
+	/// Create / update application form a trust details
+	/// </summary>
+	/// <param name="applicationId"></param>
+	/// <param name="famTrustProperties"></param>
+	/// <returns></returns>
+	Task PutApplicationFormAMatDetails(int applicationId, Dictionary<string, dynamic> famTrustProperties);
 }

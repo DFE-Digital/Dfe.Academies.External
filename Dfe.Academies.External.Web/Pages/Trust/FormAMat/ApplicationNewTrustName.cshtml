@@ -1,0 +1,40 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.Trust.FormAMat.ApplicationNewTrustNameModel
+@{
+	ViewData["Title"] = "Apply to become an academy - New academy name";
+}
+
+@section BeforeMain
+{
+    <a asp-page="../../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<h1 class="govuk-heading-l">
+		Multi-academy trust name
+	</h1>
+	<form method="post" name="frmNewTrustName" novalidate="">
+		@Html.AntiForgeryToken()
+		<input type="hidden" asp-for="ApplicationId"/>		
+		<partial name="_HiddenFields"/>    
+			        
+		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+			<fieldset class="govuk-fieldset">
+				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+				</div>
+                
+				<legend id="role-hint" class="govuk-fieldset__legend">
+					Proposed name for the new trust
+				</legend>
+                
+				<div class="govuk-form-group">
+                    <label for="ProposedNameOfTrust" class="govuk-caption-m">You can change this later</label>
+                    <input type="text" asp-for="ProposedNameOfTrust" id="ProposedNameOfTrust" class="govuk-input" />
+				</div>
+			</fieldset>
+		</div>
+
+		<input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+	</form>
+</div>
