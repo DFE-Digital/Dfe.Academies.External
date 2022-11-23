@@ -44,7 +44,7 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
 		// WhatIsYourRole page will carry on updating it and commit the API / DB !
 		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-		return RedirectToPage(NextStepPage);
+		return RedirectToPage(NextStepPage, new {Type = (int)ApplicationType});
 	}
 
 	public override void PopulateValidationMessages()
