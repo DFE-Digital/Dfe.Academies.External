@@ -94,17 +94,33 @@
             @if (string.IsNullOrWhiteSpace(Model.NameOfTrustToJoin)){
                 <tr class="govuk-table__row">
                     <td class="govuk-table__cell" colspan="2">
-                        <a asp-page="trust/joinamat/ApplicationSelectTrust" asp-route-appId="@Model.ApplicationId"
-	                       class="govuk-button govuk-button--secondary" data-module="govuk-button">Add a trust</a>
+	                    @if (Model.ApplicationType == ApplicationTypes.JoinAMat)
+	                    {
+		                    <a asp-page="trust/joinamat/ApplicationSelectTrust" asp-route-appId="@Model.ApplicationId"
+								class="govuk-button govuk-button--secondary" data-module="govuk-button">Add a trust</a>
+	                    }
+	                    else
+	                    {
+		                    <a asp-page="trust/formamat/ApplicationNewTrustName" asp-route-appId="@Model.ApplicationId"
+								class="govuk-button govuk-button--secondary" data-module="govuk-button">Select new trust name</a>
+	                    }
                     </td>
                 </tr>
             }
             else{
 	            <tr class="govuk-table__row">
                     <td class="govuk-table__cell" colspan="2">
-			            <span class="govuk-!-font-weight-bold govuk-!-padding-right-5">@Model.NameOfTrustToJoin</span>
-                        <a asp-page="trust/joinamat/ApplicationSelectTrust" asp-route-appId="@Model.ApplicationId"
-			               class="govuk-link">Change</a>
+	                    <span class="govuk-!-font-weight-bold govuk-!-padding-right-5">@Model.NameOfTrustToJoin</span>
+	                    @if (Model.ApplicationType == ApplicationTypes.JoinAMat)
+	                    {
+		                    <a asp-page="trust/joinamat/ApplicationSelectTrust" asp-route-appId="@Model.ApplicationId"
+		                       class="govuk-link">Change</a>
+                        }
+                        else
+                        {
+                            <a asp-page="trust/formamat/ApplicationNewTrustName" asp-route-appId="@Model.ApplicationId"
+	                           class="govuk-link">Change</a>
+                        }
                     </td>
 	            </tr>
 	            <tr class="govuk-table__row">
