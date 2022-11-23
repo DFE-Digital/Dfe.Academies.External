@@ -16,9 +16,30 @@
 	<div id="divApplyingToDo" class="govuk-form-group">
 		<form method="post" name="frmApplicationType" novalidate="">
 			<div class="@(!ViewData.ModelState.IsValid && !Model.OtherRoleError ? "govuk-form-group--error" : "")">
-				<h1 class="govuk-heading-l">What is your role?</h1>
-				    <p class="govuk-body govuk-radios__conditional">Anyone from the school can contribute to this form, but only the chair of governors can complete the declaration section or submit it.
-                    </p>
+
+				@if (Model.ApplicationTypes == ApplicationTypes.FormAMat)
+				{
+					<h1 class="govuk-heading-l">Your role</h1>
+					<legend class="govuk-fieldset__legend">Anyone from the school can fill out this form, but only the chair of a
+						school's governing body can:
+					</legend>
+					<br/>
+					<ul class="govuk-list govuk-list--bullet govuk-body-m">
+						<li>complete it's declaration section</li>
+						<li>submit the application</li>
+					</ul>
+					<br/>
+					<legend class="govuk-fieldset__legend">If you are not the chair, you will be able to invite them as a
+						contributor.</legend>
+					<br/>
+					<h2 class="govuk-heading-m">What is your role?</h2>
+				}
+				else
+				{
+					<h1 class="govuk-heading-l">What is your role?</h1>
+					<p class="govuk-body govuk-radios__conditional">Anyone from the school can contribute to this form, but only the chair of governors can complete the declaration section or submit it.}
+					</p>
+				}
 				<fieldset class="govuk-fieldset">
 					<div class="@(Model.OtherRoleError ? "govuk-visually-hidden" : "")">
 						<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>

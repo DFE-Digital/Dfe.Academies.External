@@ -32,7 +32,7 @@ internal sealed class WhatIsYourRoleModelTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync();
+		await pageModel.OnGetAsync(1);
 
 		// assert
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
@@ -51,7 +51,7 @@ internal sealed class WhatIsYourRoleModelTests
 		var pageModel = SetupWhatIsYourRoleModel(mockAcademisationCreationService.Object);
 
 		// act
-		await pageModel.OnGetAsync();
+		await pageModel.OnGetAsync(1);
 
 		// assert
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));

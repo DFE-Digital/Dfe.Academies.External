@@ -21,7 +21,10 @@ public class WhatIsYourRoleModel : BasePageModel
 	[BindProperty]
 	[RequiredEnum(ErrorMessage = "You must give your role at the school")]
 	public SchoolRoles SchoolRole { get; set; }
-
+	
+	[BindProperty]
+	public ApplicationTypes ApplicationTypes { get; set; }
+	
 	[BindProperty]
 	public string? OtherRoleNotListed { get; set; }
 
@@ -38,13 +41,15 @@ public class WhatIsYourRoleModel : BasePageModel
 		}
 	}
 
-	public async Task OnGetAsync()
+	public async Task OnGetAsync(int type)
 	{
+		ApplicationTypes = Enum.Parse<ApplicationTypes>(type.ToString());
 		//// on load - grab draft application from temp
 		var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 		//// MR:- Need to drop into THIS pages cache here ready for post / server callback !
 		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
 	}
 
 	public async Task<IActionResult> OnPostAsync()
