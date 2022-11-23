@@ -34,7 +34,6 @@ public class ConversionApplication
 
 	public int ConversionStatus { get; set; }
 
-	// TODO :- wire up below
 	public NewTrust? FormATrust { get; set; }
 
 	public ExistingTrust? JoinTrustDetails { get; set; }
