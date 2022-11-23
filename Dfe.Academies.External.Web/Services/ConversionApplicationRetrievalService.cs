@@ -280,9 +280,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculateLandAndBuildingsSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		return selectedSchool?.LandAndBuildings.WorksPlanned.HasValue == false
-			? Status.NotStarted
-			: Status.Completed;
+		return !string.IsNullOrWhiteSpace(selectedSchool?.LandAndBuildings.OwnerExplained)
+			? Status.Completed
+			: Status.NotStarted;
 	}
 
 	/// <summary>
