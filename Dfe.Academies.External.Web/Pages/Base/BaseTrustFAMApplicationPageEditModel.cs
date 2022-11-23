@@ -1,11 +1,10 @@
-﻿using System;
-using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.Base;
 
-public abstract class BaseTrustFAMApplicationPageEditModel : BasePageEditModel
+public abstract class BaseTrustFamApplicationPageEditModel : BasePageEditModel
 {
 	public readonly IConversionApplicationCreationService ConversionApplicationCreationService;
 
@@ -14,7 +13,7 @@ public abstract class BaseTrustFAMApplicationPageEditModel : BasePageEditModel
 
 	public string NextStepPage { get; private set; }
 
-	protected BaseTrustFAMApplicationPageEditModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
+	protected BaseTrustFamApplicationPageEditModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 										IReferenceDataRetrievalService referenceDataRetrievalService,
 										IConversionApplicationCreationService conversionApplicationCreationService,
 										string nextStepPage)
