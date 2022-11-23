@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 {
-    public class ApplicationNewTrustNameModel : BaseTrustFAMApplicationPageEditModel
+    public class ApplicationNewTrustNameModel : BaseTrustFamApplicationPageEditModel
 	{
 		//// MR:- VM props to capture data -
 
