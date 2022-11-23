@@ -6,14 +6,14 @@
 
 @section BeforeMain
 {
-	<a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back</a>
+    <a asp-page="ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back</a>
 }
 
 <div class="govuk-grid-column-two-thirds">
 	<h1 class="govuk-heading-l">
 		Multi-academy trust name
 	</h1>
-	<form method="post" name="frmDeclaration" novalidate="">
+	<form method="post" name="frmNewTrustName" novalidate="">
 		@Html.AntiForgeryToken()
 		<input type="hidden" asp-for="ApplicationId"/>		
 		<partial name="_HiddenFields"/>    
@@ -25,17 +25,15 @@
 				</div>
                 
 				<legend id="role-hint" class="govuk-fieldset__legend">
-					Proposed name for the trust
+					Proposed name for the new trust
 				</legend>
                 
 				<div class="govuk-form-group">
-                    <label for="ProposedNameOfTrust" class="govuk-heading-m">You can change this later</label>
-                    <input type="text" asp-for="ProposedNameOfTrust" id="ProposedNameOfTrust" class="govuk-input govuk-input--width-20" />
+                    <label for="ProposedNameOfTrust" class="govuk-caption-m">You can change this later</label>
+                    <input type="text" asp-for="ProposedNameOfTrust" id="ProposedNameOfTrust" class="govuk-input" />
 				</div>
 			</fieldset>
 		</div>
-					
-		<br />
 
 		<input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 	</form>
