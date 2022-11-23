@@ -380,12 +380,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			throw new ArgumentException("Application not found");
 		}
 
-		var existingFamDetails = application.FormATrust;
-
-		if (existingFamDetails == null)
-		{
-			existingFamDetails = new NewTrust("");
-		}
+		var existingFamDetails = application.FormTrustDetails ?? new NewTrust(applicationId, "");
 
 		// Populate all form a trust fields with the values in the dictionary
 		foreach (var property in famTrustProperties)
@@ -393,8 +388,10 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			existingFamDetails.GetType().GetProperty(property.Key)?.SetValue(existingFamDetails, property.Value);
 		}
 
+		application.FormTrustDetails = existingFamDetails;
+
 		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/form-trust?api-version=V1";
-		await _resilientRequestProvider.PutAsync(apiurl, application);
+		await _resilientRequestProvider.PutAsync(apiurl, application.FormTrustDetails);
 	}
 
 	private async Task<ConversionApplication?> GetApplication(int applicationId)

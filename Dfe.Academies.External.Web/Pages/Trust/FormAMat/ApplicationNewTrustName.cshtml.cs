@@ -52,9 +52,9 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		///<inheritdoc/>
 		public override void PopulateUiModel(ConversionApplication? conversionApplication)
         {
-	        if (conversionApplication != null && conversionApplication.FormATrust != null)
+	        if (conversionApplication != null && conversionApplication.FormTrustDetails != null)
 	        {
-		        ProposedNameOfTrust = conversionApplication.FormATrust.FormTrustProposedNameOfTrust;
+		        ProposedNameOfTrust = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
 	        }
         }
 	}
