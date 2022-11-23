@@ -46,7 +46,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
         {
-			return new Dictionary<string, dynamic> { { nameof(NewTrust.ProposedTrustName), ProposedNameOfTrust ?? string.Empty } };
+			return new Dictionary<string, dynamic> { { nameof(NewTrust.FormTrustProposedNameOfTrust), ProposedNameOfTrust ?? string.Empty } };
 		}
 
 		///<inheritdoc/>
@@ -54,7 +54,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
         {
 	        if (conversionApplication != null && conversionApplication.FormATrust != null)
 	        {
-		        ProposedNameOfTrust = conversionApplication.FormATrust.ProposedTrustName;
+		        ProposedNameOfTrust = conversionApplication.FormATrust.FormTrustProposedNameOfTrust;
 	        }
         }
 	}
