@@ -164,11 +164,7 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 
 		var dictionaryMapper = PopulateUpdateDictionary();
 		await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
-
-		SchoolCfyRevenueStatusFiles?.ForEach(async file =>
-		{
-			
-		});
+		
 		foreach (var file in SchoolCfyRevenueStatusFiles)
 		{
 			await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile, file);

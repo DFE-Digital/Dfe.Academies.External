@@ -17,7 +17,10 @@
 	<input type="hidden" asp-for="Urn"/>
 	<input type="hidden" asp-for="ApplicationId"/>
 	<partial name="_HiddenFields"/>
-
+	<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+		<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+	</div>
+	
 	<div class="govuk-grid-column-two-thirds">
 		<span class="govuk-caption-l">@Model.SelectedTrustName (step 1 of 3)</span>
 		<h1 class="govuk-heading-l">
