@@ -30,7 +30,6 @@ internal sealed class ApplicationNewTrustSummaryModelTests
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		int applicationId = Fixture.Create<int>();
-		int urn = Fixture.Create<int>();
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
@@ -40,7 +39,7 @@ internal sealed class ApplicationNewTrustSummaryModelTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync(urn, applicationId);
+		await pageModel.OnGetAsync(applicationId);
 
 		// assert
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
