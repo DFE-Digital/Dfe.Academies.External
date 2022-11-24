@@ -23,7 +23,7 @@ public abstract class BaseTrustFamApplicationPageEditModel : BasePageEditModel
 		NextStepPage = nextStepPage;
 	}
 
-	public async Task<ActionResult> OnGetAsync(int appId)
+	public virtual async Task<ActionResult> OnGetAsync(int appId)
 	{
 		// on load - grab draft application from temp
 		var conversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
@@ -46,7 +46,7 @@ public abstract class BaseTrustFamApplicationPageEditModel : BasePageEditModel
 		return Page();
 	}
 
-	public async Task<IActionResult> OnPostAsync()
+	public virtual async Task<IActionResult> OnPostAsync()
 	{
 		if (!RunUiValidation())
 		{

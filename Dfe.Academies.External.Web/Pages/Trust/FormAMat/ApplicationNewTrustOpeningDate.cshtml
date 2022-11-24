@@ -1,0 +1,74 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.Trust.FormAMat.ApplicationNewTrustOpeningDateModel
+@{
+	ViewData["Title"] = "Apply to become an academy - New academy name";
+}
+
+@section BeforeMain
+{
+    <a asp-page="ApplicationNewTrustOpeningDateSummary" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<h1 class="govuk-heading-l">
+		<span class="govuk-caption-l">@Model.TrustName</span>
+        Opening date
+	</h1>
+
+	<form method="post" name="frmNewTrustOpeningDate" novalidate="">
+		@Html.AntiForgeryToken()
+		<input type="hidden" asp-for="ApplicationId"/>
+		<partial name="_HiddenFields"/>
+
+		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+			<fieldset class="govuk-fieldset">
+				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+				</div>
+                
+				<div class="govuk-form-group">
+					<fieldset class="govuk-fieldset" role="group" aria-describedby="conversion-date-different-date-hint">
+						<legend id="role-hint" class="govuk-fieldset__legend">
+							When do the schools plan to establish the new trust?
+						</legend>
+						<div id="conversion-date-different-date-hint" class="govuk-hint">
+							For example, 1 9 2022
+						</div>
+                        <a href="#OpeningDateNotEntered" class="@(Model.OpeningDateError ? "govuk-error-message" : "govuk-visually-hidden")">
+							You must select a date
+						</a>
+                        <govuk-date field-name="@Model.OpeningDateDate"
+						            field-data="@Model.OpeningDate"
+                                    field-day="@Model.OpeningDateDay"
+                                    field-month="@Model.OpeningDateMonth"
+                                    field-year="@Model.OpeningDateYear">
+						</govuk-date>
+					</fieldset>
+				</div>
+
+				<div class="govuk-form-group">
+					<legend class="govuk-fieldset__legend govuk-fieldset__legend--xs">
+						<h1 class="govuk-fieldset__heading">
+							When your trust is formed, we need to create a new DfE sign-in account. Please supply the most appropriate contact within your trust to be set up as the DfE Sign-in approver.
+						</h1>
+						<span class="govuk-hint">
+                            For more details on the approvers role and responsibilities please see <a href="https://help.signin.education.gov.uk/dashboard" rel="noopener" target="_blank" class="govuk-link">the approver guide</a>.
+						</span>
+					</legend>
+                    
+					<div class="govuk-form-group">
+						<label for="TrustApproverName" class="govuk-heading-m">Full name</label>
+						<input type="text" asp-for="TrustApproverName" id="TrustApproverName" class="govuk-input govuk-input--width-20" />
+					</div>
+
+					<div class="govuk-form-group">
+	                    <label for="TrustApproverEmail" class="govuk-heading-m">Email address</label>
+	                    <input type="email" asp-for="TrustApproverEmail" id="TrustApproverEmail" class="govuk-input govuk-input--width-20" />
+					</div>
+				</div>
+			</fieldset>
+		</div>
+
+		<input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+	</form>
+</div>
