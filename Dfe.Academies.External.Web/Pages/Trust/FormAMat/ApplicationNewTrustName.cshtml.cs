@@ -11,7 +11,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		//// MR:- VM props to capture data -
 
 		[BindProperty]
-		[Required(ErrorMessage = "Please enter the Trust name")]
+		[Required(ErrorMessage = "You must provide details")]
 		public string? ProposedNameOfTrust { get; set; }
 
 		public ApplicationNewTrustNameModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
