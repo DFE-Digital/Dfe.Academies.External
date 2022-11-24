@@ -2,7 +2,9 @@
 {
 	public sealed class ApplicationNewTrustOpeningDateSectionViewModel : SchoolQuestionAndAnswerViewModel
 	{
-		public const string OpeningDate = "The name of the trust"; // TODO:- fix up
+		public const string OpeningDate = "When do the schools plan to establish the new multi-academy trust?";
+		public const string ApproverFullname = "Approver full name";
+		public const string ApproverEmail = "Approver email address";
 
 		public ApplicationNewTrustOpeningDateSectionViewModel(string name, string answer) : base(name, answer)
 		{
