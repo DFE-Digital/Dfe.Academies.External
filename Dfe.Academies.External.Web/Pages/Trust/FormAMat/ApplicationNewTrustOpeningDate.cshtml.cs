@@ -57,7 +57,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 		public ApplicationNewTrustOpeningDateModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 			IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService) 
-			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "TBC")
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "ApplicationNewTrustOpeningDateSummary")
 		{
 		}
 
