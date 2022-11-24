@@ -1,0 +1,23 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.Trust.FormAMat.ApplicationNewTrustOpeningDateSummaryModel
+@{
+	ViewData["Title"] = "Apply to become an academy - Trust opening date summary";
+}
+
+@section BeforeMain
+{
+	<a asp-page="../../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back to application overview</a>
+}
+
+<div class="govuk-grid-column-full">
+	<span class="govuk-caption-l">
+		@Model.TrustName
+	</span>
+    <h1 class="govuk-heading-l">Trust opening date summary</h1>
+    
+    CONTENT !!!
+
+	<a asp-page="../../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+</div>
+
+<partial name="_HiddenFields" />
