@@ -135,7 +135,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		{
 			return new Dictionary<string, dynamic>
 			{
-				{ nameof(NewTrust.FormTrustOpeningDate), OpeningDate ?? string.Empty },
+				{ nameof(NewTrust.FormTrustOpeningDate), OpeningDateLocal  },
 				{ nameof(NewTrust.TrustApproverName), TrustApproverName ?? string.Empty },
 				{ nameof(NewTrust.TrustApproverEmail), TrustApproverEmail ?? string.Empty },
 			};
