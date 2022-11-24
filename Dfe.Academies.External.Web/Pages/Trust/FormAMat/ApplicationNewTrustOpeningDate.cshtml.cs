@@ -119,6 +119,14 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 				return false;
 			}
 
+			// date not less < today
+			if (OpeningDateLocal <= DateTime.Now.Date)
+			{
+				ModelState.AddModelError("TrustOpeningDateNotEntered", "Opening date must be in the future");
+				PopulateValidationMessages();
+				return false;
+			}
+
 			return true;
 		}
 
