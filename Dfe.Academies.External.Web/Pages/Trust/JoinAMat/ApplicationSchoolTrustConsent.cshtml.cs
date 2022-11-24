@@ -50,6 +50,12 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 
 		public override bool RunUiValidation()
 		{
+			if (!ModelState.IsValid)
+			{
+				PopulateValidationMessages();
+				return false;
+			}
+
 			if ((!TrustConsentFiles.Any()) &&
 			    (!TrustConsentFileNames.Any()))
 			{
@@ -63,7 +69,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName)
 		{
 			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", section, fileName);
-			return RedirectToPage("TrustConsent", new {Urn = urn, AppId = appId});
+			return RedirectToPage("ApplicationSchoolTrustConsent", new {Urn = urn, AppId = appId});
 		}
 		
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
