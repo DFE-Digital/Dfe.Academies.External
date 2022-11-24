@@ -18,8 +18,10 @@ internal sealed class ConversionApplicationContributorViewModelTests
 		string fullname = Fixture.Create<string>();
 		SchoolRoles schoolRole = SchoolRoles.Other;
 		string otherRoleNotListed = Fixture.Create<string>();
+		string emailAddress = Fixture.Create<string>();
 
-		var contributor = new ConversionApplicationContributorViewModel(contributorId, applicationId, fullname, schoolRole, otherRoleNotListed);
+		var contributor = new ConversionApplicationContributorViewModel(contributorId, applicationId, 
+			fullname, schoolRole, otherRoleNotListed, emailAddress);
 
 		// act
 		// nothing!
@@ -30,6 +32,7 @@ internal sealed class ConversionApplicationContributorViewModelTests
 		Assert.That(contributor.ApplicationId, Is.EqualTo(applicationId));
 		Assert.That(contributor.FullName, Is.EqualTo(fullname));
 		Assert.That(contributor.RoleName, Is.EqualTo($"{otherRoleNotListed}"));
+		Assert.That(contributor.EmailAddress, Is.EqualTo(emailAddress));
 	}
 
 	[Test]
@@ -40,8 +43,10 @@ internal sealed class ConversionApplicationContributorViewModelTests
 		int applicationId = Fixture.Create<int>();
 		string fullname = Fixture.Create<string>();
 		SchoolRoles schoolRole = SchoolRoles.ChairOfGovernors;
+		string emailAddress = Fixture.Create<string>();
 
-		var contributor = new ConversionApplicationContributorViewModel(contributorId, applicationId, fullname, schoolRole, null);
+		var contributor = new ConversionApplicationContributorViewModel(contributorId, applicationId, 
+			fullname, schoolRole, null, emailAddress);
 
 		// act
 		// nothing!
@@ -52,5 +57,6 @@ internal sealed class ConversionApplicationContributorViewModelTests
 		Assert.That(contributor.ApplicationId, Is.EqualTo(applicationId));
 		Assert.That(contributor.FullName, Is.EqualTo(fullname));
 		Assert.That(contributor.RoleName, Is.EqualTo("The chair of the school's governors"));
+		Assert.That(contributor.EmailAddress, Is.EqualTo(emailAddress));
 	}
 }

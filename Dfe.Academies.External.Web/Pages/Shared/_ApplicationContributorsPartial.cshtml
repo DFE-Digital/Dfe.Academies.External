@@ -1,4 +1,10 @@
-﻿@model List<Dfe.Academies.External.Web.ViewModels.ConversionApplicationContributorViewModel>
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<Dfe.Academies.External.Web.ViewModels.ConversionApplicationContributorViewModel>
+
+@{
+	string currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value ?? string.Empty;
+}
 
 @if (Model.Count > 0)
 {
@@ -16,11 +22,14 @@
                 <tr class="govuk-table__row">  
                     <th scope="row" class="govuk-table__cell">@contributor.FullName</th>
 	                <td class="govuk-table__cell">@contributor.RoleName</td>
-                    <td class="govuk-table__cell">
-	                    <a asp-page="RemoveAContributorConfirmation" asp-route-appId="@contributor.ApplicationId"
-	                       asp-route-contributorId="@contributor.ContributorId"
-	                       class="govuk-link">Remove contributor</a>
-	                    </td>
+	                <td class="govuk-table__cell">
+                        @if (!string.Equals(currentUserEmail.Trim().ToLower(), contributor.EmailAddress.Trim().ToLower(), StringComparison.Ordinal))
+                        {
+	                        <a asp-page="RemoveAContributorConfirmation" asp-route-appId="@contributor.ApplicationId"
+	                           asp-route-contributorId="@contributor.ContributorId"
+	                           class="govuk-link">Remove contributor</a>
+                        }
+	                </td>
                 </tr>
             }        
         </tbody>
