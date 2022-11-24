@@ -63,12 +63,19 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 						conversionApplication.FormTrustDetails.FormTrustOpeningDate.Value.ToString("dd/MM/yyyy")
 				));
 
-				// TODO:- 2 more sections !!!
-				// approver full name
-				// ApplicationNewTrustOpeningDateSectionViewModel.ApproverFullname
+				heading1.Sections.Add(new(
+					ApplicationNewTrustOpeningDateSectionViewModel.ApproverFullname,
+					(string.IsNullOrWhiteSpace(conversionApplication.FormTrustDetails.TrustApproverName) ?
+						QuestionAndAnswerConstants.NoInfoAnswer :
+						conversionApplication.FormTrustDetails.TrustApproverName)
+				));
 
-				// approver email
-				// ApplicationNewTrustOpeningDateSectionViewModel.ApproverEmail
+				heading1.Sections.Add(new(
+					ApplicationNewTrustOpeningDateSectionViewModel.ApproverEmail,
+					(string.IsNullOrWhiteSpace(conversionApplication.FormTrustDetails.TrustApproverEmail) ?
+						QuestionAndAnswerConstants.NoInfoAnswer :
+						conversionApplication.FormTrustDetails.TrustApproverEmail)
+				));
 
 				var vm = new List<ApplicationNewTrustOpeningDateHeadingViewModel> { heading1 };
 
