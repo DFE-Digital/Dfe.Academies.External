@@ -5,7 +5,7 @@ using Dfe.Academies.External.Web.Services;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 {
-    public class ApplicationNewTrustSummaryModel : BaseApplicationSummaryPageModel
+    public class ApplicationNewTrustSummaryModel : BaseTrustFamApplicationSummaryPageModel
 	{
 		public ApplicationTypes ApplicationType { get; private set; }
 
@@ -38,10 +38,11 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		///<inheritdoc/>
 		public override void PopulateUiModel(ConversionApplication? conversionApplication)
         {
-	        if (conversionApplication != null)
+	        if (conversionApplication != null && conversionApplication.FormTrustDetails != null)
 	        {
+				TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
 				ApplicationType = conversionApplication.ApplicationType;
-	        }
+			}
         }
 	}
 }

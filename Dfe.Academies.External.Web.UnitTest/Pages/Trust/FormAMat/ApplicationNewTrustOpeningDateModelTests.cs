@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 namespace Dfe.Academies.External.Web.UnitTest.Pages.Trust.FormAMat;
 
 [Parallelizable(ParallelScope.All)]
-internal sealed class ApplicationNewTrustSummaryModelTests
+internal sealed class ApplicationNewTrustOpeningDateModelTests
 {
 	private static readonly Fixture Fixture = new();
 
@@ -29,13 +29,15 @@ internal sealed class ApplicationNewTrustSummaryModelTests
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
 		int applicationId = Fixture.Create<int>();
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupApplicationNewTrustSummaryModel(mockConversionApplicationRetrievalService.Object,
-			mockReferenceDataRetrievalService.Object);
+		var pageModel = SetupApplicationNewTrustOpeningDateModel(mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object,
+			mockConversionApplicationCreationService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -45,15 +47,16 @@ internal sealed class ApplicationNewTrustSummaryModelTests
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
-	private static ApplicationNewTrustSummaryModel SetupApplicationNewTrustSummaryModel(
+	private static ApplicationNewTrustOpeningDateModel SetupApplicationNewTrustOpeningDateModel(
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
+		IConversionApplicationCreationService mockConversionApplicationCreationService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new ApplicationNewTrustSummaryModel(mockConversionApplicationRetrievalService, 
-			mockReferenceDataRetrievalService)
+		return new ApplicationNewTrustOpeningDateModel(mockConversionApplicationRetrievalService, mockReferenceDataRetrievalService,
+			mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

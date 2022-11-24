@@ -337,6 +337,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.DeleteAsync<DeleteLeaseCommand>(apiurl, deleteLeaseCommand);
 	}
 
+	///<inheritdoc/>
 	public async Task SetAdditionalDetails(int applicationId, int schoolId, string trustBenefitDetails, string? ofstedInspectionDetails,
 		string? safeguardingDetails, string? localAuthorityReorganisationDetails, string? localAuthorityClosurePlanDetails,
 		string? dioceseName, string dioceseFolderIdentifier, bool partOfFederation, string? foundationTrustOrBodyName,
@@ -367,6 +368,30 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 		string apiurl = $"{_httpClient.BaseAddress}school/additional-details";
 		await _resilientRequestProvider.PutAsync<SetAdditionalDetailsCommand>(apiurl, setAdditionalDetailsCommand);
+	}
+
+	///<inheritdoc/>
+	public async Task PutApplicationFormAMatDetails(int applicationId, Dictionary<string, dynamic> famTrustProperties)
+	{
+		var application = await GetApplication(applicationId);
+
+		if (application?.ApplicationId != applicationId)
+		{
+			throw new ArgumentException("Application not found");
+		}
+
+		var existingFamDetails = application.FormTrustDetails ?? new NewTrust(applicationId, "");
+
+		// Populate all form a trust fields with the values in the dictionary
+		foreach (var property in famTrustProperties)
+		{
+			existingFamDetails.GetType().GetProperty(property.Key)?.SetValue(existingFamDetails, property.Value);
+		}
+
+		application.FormTrustDetails = existingFamDetails;
+
+		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/form-trust?api-version=V1";
+		await _resilientRequestProvider.PutAsync(apiurl, application.FormTrustDetails);
 	}
 
 	private async Task<ConversionApplication?> GetApplication(int applicationId)
