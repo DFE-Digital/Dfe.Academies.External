@@ -199,7 +199,8 @@ namespace Dfe.Academies.External.Web.Pages
 																									application.ApplicationId,
 																									e.FullName, 
 																									e.Role, 
-																									e.OtherRoleName))
+																									e.OtherRoleName,
+																									e.EmailAddress))
 						.ToList();
 
 					ExistingContributors = contributors;
