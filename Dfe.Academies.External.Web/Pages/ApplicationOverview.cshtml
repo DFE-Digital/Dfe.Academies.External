@@ -87,10 +87,11 @@
 		}
 		</tbody>
 	</table>
+    
+	<h2 class="govuk-heading-m">@Model.TrustHeaderText</h2>
 
-    <table class="govuk-table">
-        <caption class="govuk-table__caption govuk-table__caption--l">@Model.TrustHeaderText</caption>
-        <tbody class="govuk-table__body">
+	<table class="govuk-table">
+		<tbody class="govuk-table__body">
             @if (string.IsNullOrWhiteSpace(Model.NameOfTrustToJoin)){
                 <tr class="govuk-table__row">
                     <td class="govuk-table__cell" colspan="2">
@@ -146,6 +147,19 @@
             }
         </tbody>
     </table>       
+    
+	<div class="govuk-!-margin-6"></div>
+    
+	@if (!Model.UserHasSubmitApplicationRole && Model.DeclarationStatus == Status.Completed)
+	{
+		<div class="govuk-warning-text">
+			<span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+			<strong class="govuk-warning-text__text">
+				<span class="govuk-warning-text__assistive">Warning</span>
+				Only the school's chair of governors can submit this application.
+			</strong>
+		</div>
+	}
 
 	<h2 class="govuk-heading-l">Contributors</h2>
     
@@ -157,25 +171,12 @@
     {
 	    <p class="govuk-body">You will be able to invite other people to help you complete this form after you have added a school.</p>
     }
-
-	<div class="govuk-!-margin-6"></div>
     
-    @if (!Model.UserHasSubmitApplicationRole && Model.DeclarationStatus == Status.Completed)
-    {
-	    <div class="govuk-warning-text">
-		    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-		    <strong class="govuk-warning-text__text">
-			    <span class="govuk-warning-text__assistive">Warning</span>
-                Only the school's chair of governors can submit this application.
-		    </strong>
-	    </div>
-    }
-
     <div class="govuk-button-group">
         @if (Model.UserHasSubmitApplicationRole && Model.ConversionStatus == Status.Completed)
         {
             <button data-prevent-double-click="true" class="govuk-button govuk-!-margin-top-6" data-module="govuk-button">
-                Submit
+                Submit application
             </button>
         }
 @*        <a asp-page="YourApplications" class="govuk-button govuk-button--warning" data-module="govuk-button">Cancel this application</a>*@
