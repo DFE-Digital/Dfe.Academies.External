@@ -27,8 +27,14 @@
 	<div class="govuk-!-margin-6"></div>
 
 	<h2 class="govuk-heading-m">@Model.SchoolHeaderText</h2>
-
-	<table class="govuk-table">
+    @*<p id="schoolTableDescription" class="govuk-body">Application School Details</p>*@
+    <table class="govuk-table" aria-describedby="schoolTableDescription">
+		<thead>
+		<tr>
+			<th scope="col"></th>
+			<th scope="col"></th>
+		</tr>
+		</thead>
 		<tbody class="govuk-table__body">
 		@*If no school selected - render button instead*@
 		@if (!Model.SchoolOrSchoolsApplyingToConvert.Any() && Model.ApplicationType != ApplicationTypes.FormAMat)
@@ -36,7 +42,7 @@
 			<tr class="govuk-table__row">
 				<td class="govuk-table__cell">
 					<a asp-page="school/ApplicationSelectSchool" asp-route-appId="@Model.ApplicationId"
-                       class="govuk-button" data-module="govuk-button govuk-button--secondary">Add a school</a>
+					   class="govuk-button" data-module="govuk-button govuk-button--secondary">Add a school</a>
 				</td>
 			</tr>
 		}
@@ -65,9 +71,9 @@
 				}
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell" colspan="2">
-                            <a asp-page="school/ApplicationSelectSchool"
-								asp-route-appId="@Model.ApplicationId"
-								class="govuk-button" data-module="govuk-button govuk-button--secondary">Add a school</a>
+						<a asp-page="school/ApplicationSelectSchool"
+						   asp-route-appId="@Model.ApplicationId"
+						   class="govuk-button" data-module="govuk-button govuk-button--secondary">Add a school</a>
 					</td>
 				</tr>
 			}
@@ -89,64 +95,73 @@
 	</table>
     
 	<h2 class="govuk-heading-m">@Model.TrustHeaderText</h2>
-
-	<table class="govuk-table">
+    
+    @*<p id="trustTableDescription" class="govuk-body">Application Trust Details</p>*@
+    <table class="govuk-table" aria-describedby="trustTableDescription">
+		<thead>
+		<tr>
+			<th scope="col"></th>
+			<th scope="col"></th>
+		</tr>
+		</thead>
 		<tbody class="govuk-table__body">
-            @if (string.IsNullOrWhiteSpace(Model.NameOfTrustToJoin)){
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell" colspan="2">
-	                    @if (Model.ApplicationType == ApplicationTypes.JoinAMat)
-	                    {
-		                    <a asp-page="trust/joinamat/ApplicationSelectTrust" asp-route-appId="@Model.ApplicationId"
-								class="govuk-button govuk-button--secondary" data-module="govuk-button">Add a trust</a>
-	                    }
-	                    else
-	                    {
-		                    <a asp-page="trust/formamat/ApplicationNewTrustName" asp-route-appId="@Model.ApplicationId"
-								class="govuk-button govuk-button--secondary" data-module="govuk-button">Select new trust name</a>
-	                    }
-                    </td>
-                </tr>
-            }
-            else{
-	            <tr class="govuk-table__row">
-                    <td class="govuk-table__cell" colspan="2">
-	                    <span class="govuk-!-font-weight-bold govuk-!-padding-right-5">@Model.NameOfTrustToJoin</span>
-	                    @if (Model.ApplicationType == ApplicationTypes.JoinAMat)
-	                    {
-		                    <a asp-page="trust/joinamat/ApplicationSelectTrust" asp-route-appId="@Model.ApplicationId"
-		                       class="govuk-link">Change</a>
-                        }
-                        else
-                        {
-                            <a asp-page="trust/formamat/ApplicationNewTrustName" asp-route-appId="@Model.ApplicationId"
-	                           class="govuk-link">Change</a>
-                        }
-                    </td>
-	            </tr>
-	            <tr class="govuk-table__row">
-		            <td class="govuk-table__cell">
-			            @if (Model.ApplicationType == ApplicationTypes.JoinAMat)
-			            {
-				            <a asp-page="trust/joinamat/ApplicationSchoolJoinAMatTrustSummary" asp-route-appId="@Model.ApplicationId"
-				               class="govuk-link">Trust details</a>
-			            }
-			            else
-			            {
-				            <a asp-page="trust/formamat/ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId"
-								class="govuk-link">Trust details</a>
-			            }
-		            </td>
-		            <td class="govuk-table__cell govuk-!-text-align-right">
-			            @{
-				            var trustConversionStatusValue = (int)Model.TrustConversionStatus;
-			            }
-			            <status enumvalue=@trustConversionStatusValue></status>
-		            </td>
-	            </tr>
-            }
-        </tbody>
-    </table>       
+		@if (string.IsNullOrWhiteSpace(Model.NameOfTrustToJoin))
+		{
+			<tr class="govuk-table__row">
+				<td class="govuk-table__cell" colspan="2">
+					@if (Model.ApplicationType == ApplicationTypes.JoinAMat)
+					{
+						<a asp-page="trust/joinamat/ApplicationSelectTrust" asp-route-appId="@Model.ApplicationId"
+						   class="govuk-button govuk-button--secondary" data-module="govuk-button">Add a trust</a>
+					}
+					else
+					{
+						<a asp-page="trust/formamat/ApplicationNewTrustName" asp-route-appId="@Model.ApplicationId"
+						   class="govuk-button govuk-button--secondary" data-module="govuk-button">Select new trust name</a>
+					}
+				</td>
+			</tr>
+		}
+		else
+		{
+			<tr class="govuk-table__row">
+				<td class="govuk-table__cell" colspan="2">
+					<span class="govuk-!-font-weight-bold govuk-!-padding-right-5">@Model.NameOfTrustToJoin</span>
+					@if (Model.ApplicationType == ApplicationTypes.JoinAMat)
+					{
+						<a asp-page="trust/joinamat/ApplicationSelectTrust" asp-route-appId="@Model.ApplicationId"
+						   class="govuk-link">Change</a>
+					}
+					else
+					{
+						<a asp-page="trust/formamat/ApplicationNewTrustName" asp-route-appId="@Model.ApplicationId"
+						   class="govuk-link">Change</a>
+					}
+				</td>
+			</tr>
+			<tr class="govuk-table__row">
+				<td class="govuk-table__cell">
+					@if (Model.ApplicationType == ApplicationTypes.JoinAMat)
+					{
+						<a asp-page="trust/joinamat/ApplicationSchoolJoinAMatTrustSummary" asp-route-appId="@Model.ApplicationId"
+						   class="govuk-link">Trust details</a>
+					}
+					else
+					{
+						<a asp-page="trust/formamat/ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId"
+						   class="govuk-link">Trust details</a>
+					}
+				</td>
+				<td class="govuk-table__cell govuk-!-text-align-right">
+					@{
+						var trustConversionStatusValue = (int)Model.TrustConversionStatus;
+					}
+					<status enumvalue=@trustConversionStatusValue></status>
+				</td>
+			</tr>
+		}
+		</tbody>
+	</table>       
     
 	<div class="govuk-!-margin-6"></div>
     
