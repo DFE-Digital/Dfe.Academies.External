@@ -18,10 +18,17 @@
 	<h1 class="govuk-heading-l">
 		Consultation
 	</h1>
-	
+
+    @*    <p id="summaryTableDescription" class="govuk-body">Application School Consultation Summary</p>*@
 	@foreach (var question in Model.ViewModel)
 	{
-		<table class="govuk-table">
+        <table class="govuk-table" aria-describedby="summaryTableDescription">
+			<thead>
+				<tr>
+					<th scope="col"></th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
 			<tbody class="govuk-table__body">
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell">
@@ -46,9 +53,8 @@
 				</tr>
 				@foreach (var conversionComponent in question.Sections)
 				{
-					<partial name="_SchoolConversionComponentPartial" model="@conversionComponent" />
+					<partial name="_SchoolConversionComponentPartial" model="@conversionComponent"/>
 				}
-
 			</tbody>
 		</table>
 		<div class="govuk-!-margin-6"></div>
