@@ -26,14 +26,17 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 		public override async Task<ActionResult> OnGetAsync(int appId)
 		{
+			LoadAndStoreCachedConversionApplication();
 			ApplicationId = appId;
 			var application = await ConversionApplicationRetrievalService.GetApplication(appId);
-			if (application == null)
-				throw new Exception($"Application not found for ID{appId}");
+			if (application != null)
+			{
+				TrustName = application.TrustName;
 
-			TrustName = application.TrustName;
-			this.FormAMaTComponents = await ConversionApplicationRetrievalService.GetFormAMatTrustComponents(appId);
-			PopulateUiModel(application);
+				this.FormAMaTComponents = await ConversionApplicationRetrievalService.GetFormAMatTrustComponents(appId);
+				PopulateUiModel(application);
+			}
+
 			return Page();
 		}
 
