@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -111,11 +112,6 @@ namespace Dfe.Academies.External.Web.Pages
 			return Page();
 		}
 
-		public IActionResult OnPostAsync()
-		{
-			return RedirectToPage("/SchoolOverview", ApplicationId);
-		}
-
 		private void PopulateUiModel(ConversionApplication? conversionApplication, SchoolApplyingToConvert? school)
 		{
 			// grab current user email
@@ -219,6 +215,25 @@ namespace Dfe.Academies.External.Web.Pages
 		{
 			// does not apply on this page
 			return new();
+		}
+
+		public async Task<IActionResult> OnPostAsync()
+		{
+			// no inputs from form - just logging WHO has submitted it !!
+
+			// grab draft application from temp= null
+			var draftConversionApplication =
+				TempDataHelper.GetSerialisedValue<ConversionApplication>(
+					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+			var dictionaryMapper = PopulateUpdateDictionary();
+			await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, dictionaryMapper);
+
+			// update temp store for next step
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+			// need to go onto next step in process 'reasons for conversion page'
+			return RedirectToPage("ApplicationSubmitted", new { appId = ApplicationId });
 		}
 	}
 }
