@@ -12,7 +12,8 @@ namespace Dfe.Academies.External.Web.Pages
 	{
 		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
 
-		public int ApplicationId { get; private set; }
+		[BindProperty]
+		public int ApplicationId { get; set; }
 
 		//// Below are props for UI display
 		public ApplicationTypes ApplicationType { get; private set; }
@@ -110,6 +111,8 @@ namespace Dfe.Academies.External.Web.Pages
 					await ConversionApplicationRetrievalService.GetSchoolApplicationComponents(appId, school.URN);
 			}
 
+			ApplicationId = appId;
+
 			PopulateUiModel(draftConversionApplication, school);
 
 			return Page();
@@ -141,7 +144,6 @@ namespace Dfe.Academies.External.Web.Pages
 					ConversionApplicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
 				ConversionStatus = ConversionApplicationRetrievalService.CalculateApplicationStatus(conversionApplication);
 
-				ApplicationId = conversionApplication.ApplicationId;
 				ApplicationType = conversionApplication.ApplicationType;
 				ApplicationReferenceNumber = conversionApplication.ApplicationReference;
 				ApplicationStatus = conversionApplication.ApplicationStatus;
