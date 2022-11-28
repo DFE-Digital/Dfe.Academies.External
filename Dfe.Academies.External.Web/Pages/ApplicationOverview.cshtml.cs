@@ -163,7 +163,7 @@ namespace Dfe.Academies.External.Web.Pages
 					// Also check UserHasSubmitApplicationRole - chair / non-chair !!
 					HeaderText = UserHasSubmitApplicationRole
 						? "Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application."
-						: "This application can’t be submitted until all sections are complete. Your answers will be saved after each question.";
+						: "Your answers will be saved after each question. Once all sections are complete, the school's chair will be able to submit the application.";
 					TrustHeaderText = "The trust the school will join";
 					SchoolHeaderText = "The school applying to convert";
 					SchoolName = school?.SchoolName;
