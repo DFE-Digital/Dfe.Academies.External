@@ -19,27 +19,34 @@
 	
 	@if (Model.FormAMatTrustComponents.TrustComponents.Any())
     {
-    	<table class="govuk-table">
-    		<tbody class="govuk-table__body">
-    		@foreach (var component in Model.FormAMatTrustComponents.TrustComponents)
-    		{
-    			<tr class="govuk-table__row">
-    				<td class="govuk-table__cell">
-    					<a asp-page="@component.URI" aria-describedby="component-@(component.Name)-status" class="govuk-link"
-    					   asp-route-appId="@Model.ApplicationId">
-    						@component.Name
-    					</a>
-    				</td>
-    				<td class="govuk-table__cell govuk-!-text-align-right">
-    					@{
-    						var statusValue = (int)component.Status;
-    					}
-    					<status enumvalue=@statusValue></status>
-    				</td>
-    			</tr>
-    		}
-    		</tbody>
-    	</table>  
+	    <table class="govuk-table">
+		    <caption class="govuk-visually-hidden">Trust summary statuses</caption>
+		    <thead>
+		    <tr>
+			    <th scope="col"></th>
+			    <th scope="col"></th>
+		    </tr>
+		    </thead>
+		    <tbody class="govuk-table__body">
+		    @foreach (var component in Model.FormAMatTrustComponents.TrustComponents)
+		    {
+			    <tr class="govuk-table__row">
+				    <td class="govuk-table__cell">
+					    <a asp-page="@component.URI" aria-describedby="component-@(component.Name)-status" class="govuk-link"
+					       asp-route-appId="@Model.ApplicationId">
+						    @component.Name
+					    </a>
+				    </td>
+				    <td class="govuk-table__cell govuk-!-text-align-right">
+					    @{
+						    var statusValue = (int)component.Status;
+					    }
+					    <status enumvalue=@statusValue></status>
+				    </td>
+			    </tr>
+		    }
+		    </tbody>
+	    </table>  
     }
 	
 	
