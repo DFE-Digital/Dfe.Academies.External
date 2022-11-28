@@ -144,6 +144,82 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			return new List<ConversionApplicationComponent>();
 		}
 	}
+	
+	public async Task<List<ConversionApplicationComponent>> GetFormAMatTrustComponents(int applicationId)
+	{
+		try
+		{
+			var application = await GetApplication(applicationId);
+
+			if (application?.ApplicationId != applicationId)
+			{
+				throw new ArgumentException("Application not found");
+			}
+			
+
+			List<ConversionApplicationComponent> conversionApplicationComponents = new()
+			{
+				new(name:"Name of the trust") {Id = 1, Status = CalculateNameOfTheTrustSectionStatus(application.FormTrustDetails)},
+				new(name:"Opening date") {Id = 2, Status = CalculateOpeningDateSectionStatus(application.FormTrustDetails)},
+				new(name:"Reasons for forming the trust") {Id = 3,Status = CalculateReasonsForFormingTrustSectionStatus(application.FormTrustDetails)},
+				new(name:"Plans for growth") {Id = 4, Status = CalculatePlansForGrowthSectionStatus(application.FormTrustDetails)},
+				new(name:"School improvement strategy") {Id = 5, Status = CalculateSchoolImprovementStrategyStatus(application.FormTrustDetails)},
+				new(name:"Governance structure") {Id = 6, Status = CalculateGovernanceStructureSectionStatus(application.FormTrustDetails)},
+				new(name:"Key people") {Id = 7, Status = CalculateKeyPeopleSectionStatus(application.FormTrustDetails)}
+			};
+
+			return conversionApplicationComponents;
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError("ConversionApplicationRetrievalService::GetSchoolApplicationComponents::Exception - {Message}", ex.Message);
+			return new List<ConversionApplicationComponent>();
+		}
+	}
+
+	private Status CalculateKeyPeopleSectionStatus(NewTrust applicationFormTrustDetails)
+	{
+		return Status.NotStarted;
+	}
+
+	private Status CalculateGovernanceStructureSectionStatus(NewTrust applicationFormTrustDetails)
+	{
+		return Status.NotStarted;
+	}
+
+	private Status CalculateSchoolImprovementStrategyStatus(NewTrust applicationFormTrustDetails)
+	{
+		return !string.IsNullOrWhiteSpace(applicationFormTrustDetails.FormTrustImprovementStrategy)
+			? Status.Completed
+			: Status.NotStarted;
+	}
+
+	private Status CalculatePlansForGrowthSectionStatus(NewTrust applicationFormTrustDetails)
+	{
+		return !string.IsNullOrWhiteSpace(applicationFormTrustDetails.FormTrustPlanForGrowth)
+			? Status.Completed
+			: Status.NotStarted;
+	}
+
+	private Status CalculateReasonsForFormingTrustSectionStatus(NewTrust applicationFormTrustDetails)
+	{
+		return !string.IsNullOrWhiteSpace(applicationFormTrustDetails.FormTrustReasonForming)
+			? Status.Completed
+			: Status.NotStarted;
+	}
+
+	private Status CalculateOpeningDateSectionStatus(NewTrust applicationFormTrustDetails)
+	{
+		return applicationFormTrustDetails.FormTrustOpeningDate.HasValue ? Status.Completed : Status.NotStarted;
+	}
+
+	private Status CalculateNameOfTheTrustSectionStatus(NewTrust applicationFormTrustDetails)
+	{
+		return !string.IsNullOrWhiteSpace(applicationFormTrustDetails.FormTrustProposedNameOfTrust)
+			? Status.Completed
+			: Status.NotStarted;
+	}
+
 
 	///<inheritdoc/>
 	public async Task<List<ConversionApplicationContributor>> GetConversionApplicationContributors(int applicationId)
