@@ -143,8 +143,20 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			//// https://s184d01-aca-aca-app.nicedesert-a691fec6.westeurope.azurecontainerapps.io/application/99/join-trust
 			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/join-trust?api-version=V1";
 
-			var trust = new ExistingTrust(applicationId, name, trustUkPrn);
-
+			ExistingTrust trust;
+			if (application.JoinTrustDetails != null)
+			{
+				trust = new ExistingTrust(applicationId, name, trustUkPrn,
+					application.JoinTrustDetails.ChangesToTrust,
+					application.JoinTrustDetails.ChangesToTrustExplained,
+					application.JoinTrustDetails.ChangesToLaGovernance,
+					application.JoinTrustDetails.ChangesToLaGovernanceExplained);
+			}
+			else
+			{
+				trust = new ExistingTrust(applicationId, name, trustUkPrn);
+			}
+			
 			// MR:- no response from Academies API - Just an OK
 			await _resilientRequestProvider.PutAsync(apiurl, trust);
 		}
