@@ -22,8 +22,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[RequiredEnum(ErrorMessage = "You must provide details")]
 		public SelectOption? AnyLeases { get; set; }
 
-		public string SchoolName { get; private set; } = string.Empty;
-
 		public List<LeaseViewModel> LeaseViewModels { get; set; }
 
 		public bool? HasLeases { get; set; }
