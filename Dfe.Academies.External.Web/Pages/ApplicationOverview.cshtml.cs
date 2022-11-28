@@ -1,5 +1,4 @@
-﻿using System;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -11,6 +10,8 @@ namespace Dfe.Academies.External.Web.Pages
 {
 	public class ApplicationOverviewModel : BasePageEditModel
 	{
+		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
+
 		public int ApplicationId { get; private set; }
 
 		//// Below are props for UI display
@@ -76,9 +77,11 @@ namespace Dfe.Academies.External.Web.Pages
 		public string HeaderText { get; private set; } = string.Empty;
 
 		public ApplicationOverviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-										IReferenceDataRetrievalService referenceDataRetrievalService
+										IReferenceDataRetrievalService referenceDataRetrievalService,
+										IConversionApplicationCreationService conversionApplicationCreationService
 		) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
+			_conversionApplicationCreationService = conversionApplicationCreationService;
 		}
 
 		public async Task<ActionResult> OnGetAsync(int appId)
@@ -220,19 +223,21 @@ namespace Dfe.Academies.External.Web.Pages
 		public async Task<IActionResult> OnPostAsync()
 		{
 			// no inputs from form - just logging WHO has submitted it !!
+			// only have 'applicationStatus' in PUT
 
 			// grab draft application from temp= null
 			var draftConversionApplication =
 				TempDataHelper.GetSerialisedValue<ConversionApplication>(
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			var dictionaryMapper = PopulateUpdateDictionary();
-			await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, dictionaryMapper);
+			draftConversionApplication.ApplicationStatus = ApplicationStatus.Submitted;
+
+			await _conversionApplicationCreationService.SubmitApplication(ApplicationId);
 
 			// update temp store for next step
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-			// need to go onto next step in process 'reasons for conversion page'
+			// need to go onto next step in process 'submit confirmation'
 			return RedirectToPage("ApplicationSubmitted", new { appId = ApplicationId });
 		}
 	}
