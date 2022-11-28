@@ -84,4 +84,7 @@ public interface IConversionApplicationRetrievalService
 	/// <param name="conversionApplication"></param>
 	/// <returns></returns>
 	Status CalculateApplicationStatus(ConversionApplication? conversionApplication);
+
+
+	Task<List<ConversionApplicationComponent>> GetFormAMatTrustComponents(int applicationId);
 }
