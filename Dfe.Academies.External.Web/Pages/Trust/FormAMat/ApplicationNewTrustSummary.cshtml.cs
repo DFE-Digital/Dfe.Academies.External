@@ -2,6 +2,9 @@
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.ViewModels;
+using Dfe.Academies.External.Web.ViewModels.TrustSummaryPages;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 {
@@ -9,11 +12,33 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 	{
 		public ApplicationTypes ApplicationType { get; private set; }
 
+		public string SelectedTrustName { get; private set; }
+		
+		public List<ConversionApplicationComponent> FormAMaTComponents { get; set; }
+
+		public TrustComponentViewModel FormAMatTrustComponents { get; set; } = new();
+		
 		public ApplicationNewTrustSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 												IReferenceDataRetrievalService referenceDataRetrievalService) 
 	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
         {
         }
+
+		public override async Task<ActionResult> OnGetAsync(int appId)
+		{
+			LoadAndStoreCachedConversionApplication();
+			ApplicationId = appId;
+			var application = await ConversionApplicationRetrievalService.GetApplication(appId);
+			if (application != null)
+			{
+				TrustName = application.TrustName;
+
+				this.FormAMaTComponents = await ConversionApplicationRetrievalService.GetFormAMatTrustComponents(appId);
+				PopulateUiModel(application);
+			}
+
+			return Page();
+		}
 
 		///<inheritdoc/>
 		public override void PopulateValidationMessages()
@@ -42,6 +67,19 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 	        {
 				TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
 				ApplicationType = conversionApplication.ApplicationType;
+				
+				TrustComponentViewModel componentsVm = new()
+				{
+					ApplicationId = conversionApplication.ApplicationId,
+					TrustComponents = FormAMaTComponents.Select(c =>
+						new ApplicationComponentViewModel(name: c.Name,
+							uri: SetFormAMatComponentUriFromName(c.Name))
+						{
+							Status = c.Status
+						}).ToList()
+				};
+
+				FormAMatTrustComponents = componentsVm;
 			}
         }
 	}

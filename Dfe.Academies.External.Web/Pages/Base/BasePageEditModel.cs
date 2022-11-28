@@ -104,6 +104,21 @@ public abstract class BasePageEditModel : BasePageModel
 		};
 	}
 
+	protected string SetFormAMatComponentUriFromName(string componentName)
+	{
+		return componentName.ToLower().Trim() switch
+		{
+			"name of the trust" => "applicationnewtrustname",
+			"opening date" => "applicationnewtrustopeningdatesummary",
+			"reasons for forming the trust" => "/formamat/applicationnewtrustreason",
+			"plans for growth" => "/formamat/applicationnewtrustplansforgrowth",
+			"school improvement strategy" => "/formamat/applicationnewtrustschoolimprovement",
+			"governance structure" => "/formamat/applicationnewtrustgovernancestructure",
+			"key people" => "/formamat/applicationnewtrustkeypeople",
+			_ => string.Empty
+		};
+	}
+
 	private void CacheSelectedSchool(EstablishmentResponse? schoolDetails)
 	{
 		if (schoolDetails != null)

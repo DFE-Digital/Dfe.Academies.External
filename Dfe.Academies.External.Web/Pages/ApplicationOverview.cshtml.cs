@@ -62,7 +62,7 @@ namespace Dfe.Academies.External.Web.Pages
 		/// <summary>
 		/// this will ONLY have a value IF ApplicationType = FormNewMat
 		/// </summary>
-		public SchoolComponentsViewModel SchoolComponents { get; private set; } = new();
+		public SchoolComponentsViewModel  SchoolComponents { get; private set; } = new();
 
 		/// <summary>
 		/// flag to set different UI text - contributors
