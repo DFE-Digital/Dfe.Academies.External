@@ -187,13 +187,17 @@
     }
     
     <div class="govuk-button-group">
-        @if (Model.UserHasSubmitApplicationRole && Model.ConversionStatus == Status.Completed)
-        {
-            <button data-prevent-double-click="true" class="govuk-button govuk-!-margin-top-6" data-module="govuk-button">
-                Submit application
-            </button>
-        }
-@*        <a asp-page="YourApplications" class="govuk-button govuk-button--warning" data-module="govuk-button">Cancel this application</a>*@
+	    <form method="post" name="frmApplicationOverview" novalidate="">
+			@Html.AntiForgeryToken()
+			<input type="hidden" asp-for="ApplicationId"/>
+
+			@if (Model.UserHasSubmitApplicationRole && Model.ConversionStatus == Status.Completed)
+		    {
+			    <input type="submit" value="Submit application" class="govuk-button govuk-!-margin-top-6" />
+		    }
+            @* <input type="submit" value="Cancel application" class="govuk-button govuk-!-margin-top-6" />*@
+
+	    </form>
     </div>
 </div>
 

@@ -124,7 +124,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public string? FurtherInformationDetails { get; set; }
 		
-		public string SchoolName { get; private set; } = string.Empty;
+		public new string SchoolName { get; private set; } = string.Empty;
 		
 		public bool HasError
 		{

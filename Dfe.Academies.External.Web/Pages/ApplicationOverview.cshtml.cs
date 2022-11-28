@@ -10,7 +10,10 @@ namespace Dfe.Academies.External.Web.Pages
 {
 	public class ApplicationOverviewModel : BasePageEditModel
 	{
-		public int ApplicationId { get; private set; }
+		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
+
+		[BindProperty]
+		public int ApplicationId { get; set; }
 
 		//// Below are props for UI display
 		public ApplicationTypes ApplicationType { get; private set; }
@@ -75,9 +78,11 @@ namespace Dfe.Academies.External.Web.Pages
 		public string HeaderText { get; private set; } = string.Empty;
 
 		public ApplicationOverviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-										IReferenceDataRetrievalService referenceDataRetrievalService
+										IReferenceDataRetrievalService referenceDataRetrievalService,
+										IConversionApplicationCreationService conversionApplicationCreationService
 		) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
+			_conversionApplicationCreationService = conversionApplicationCreationService;
 		}
 
 		public async Task<ActionResult> OnGetAsync(int appId)
@@ -106,14 +111,11 @@ namespace Dfe.Academies.External.Web.Pages
 					await ConversionApplicationRetrievalService.GetSchoolApplicationComponents(appId, school.URN);
 			}
 
+			ApplicationId = appId;
+
 			PopulateUiModel(draftConversionApplication, school);
 
 			return Page();
-		}
-
-		public IActionResult OnPostAsync()
-		{
-			return RedirectToPage("/SchoolOverview", ApplicationId);
 		}
 
 		private void PopulateUiModel(ConversionApplication? conversionApplication, SchoolApplyingToConvert? school)
@@ -142,7 +144,6 @@ namespace Dfe.Academies.External.Web.Pages
 					ConversionApplicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
 				ConversionStatus = ConversionApplicationRetrievalService.CalculateApplicationStatus(conversionApplication);
 
-				ApplicationId = conversionApplication.ApplicationId;
 				ApplicationType = conversionApplication.ApplicationType;
 				ApplicationReferenceNumber = conversionApplication.ApplicationReference;
 				ApplicationStatus = conversionApplication.ApplicationStatus;
@@ -219,6 +220,27 @@ namespace Dfe.Academies.External.Web.Pages
 		{
 			// does not apply on this page
 			return new();
+		}
+
+		public async Task<IActionResult> OnPostAsync()
+		{
+			// no inputs from form - just logging WHO has submitted it !!
+			// only have 'applicationStatus' in PUT
+
+			// grab draft application from temp= null
+			var draftConversionApplication =
+				TempDataHelper.GetSerialisedValue<ConversionApplication>(
+					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
+			draftConversionApplication.ApplicationStatus = ApplicationStatus.Submitted;
+
+			await _conversionApplicationCreationService.SubmitApplication(ApplicationId);
+
+			// update temp store for next step
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+
+			// need to go onto next step in process 'submit confirmation'
+			return RedirectToPage("ApplicationSubmitted", new { appId = ApplicationId });
 		}
 	}
 }

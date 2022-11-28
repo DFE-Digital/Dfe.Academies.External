@@ -50,4 +50,12 @@ public interface IConversionApplicationCreationService
 	/// <param name="famTrustProperties"></param>
 	/// <returns></returns>
 	Task PutApplicationFormAMatDetails(int applicationId, Dictionary<string, dynamic> famTrustProperties);
+
+	/// <summary>
+	/// Final application stage, submit, can only be done when everything is filled in.
+	/// Access controlled by UI
+	/// </summary>
+	/// <param name="applicationId"></param>
+	/// <returns></returns>
+	Task SubmitApplication(int applicationId);
 }

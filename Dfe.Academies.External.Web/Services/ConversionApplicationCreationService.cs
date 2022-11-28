@@ -394,6 +394,22 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PutAsync(apiurl, application.FormTrustDetails);
 	}
 
+	public async Task SubmitApplication(int applicationId)
+	{
+		var application = await GetApplication(applicationId);
+
+		if (application?.ApplicationId != applicationId)
+		{
+			throw new ArgumentException("Application not found");
+		}
+
+		// MR:- shouldn't we set who did this in the database?
+		var command = new SubmitApplicationCommand(applicationId);
+
+		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/submit?api-version=V1";
+		await _resilientRequestProvider.PostAsync<ConversionApplication, SubmitApplicationCommand>(apiurl, command);
+	}
+
 	private async Task<ConversionApplication?> GetApplication(int applicationId)
 	{
 		return await _conversionApplicationRetrievalService.GetApplication(applicationId);
