@@ -61,13 +61,32 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 				));
 
 		        heading1.Sections.Add(new(
-			        ApplicationNewTrustReasonsSectionViewModel.WhyForming,
-			        (!string.IsNullOrWhiteSpace(conversionApplication.FormTrustDetails.FormTrustReasonForming) ?
-				        conversionApplication.FormTrustDetails.FormTrustReasonForming :
+			        ApplicationNewTrustReasonsSectionViewModel.Vision,
+			        (!string.IsNullOrWhiteSpace(conversionApplication.FormTrustDetails.FormTrustReasonVision) ?
+				        conversionApplication.FormTrustDetails.FormTrustReasonVision :
 				        QuestionAndAnswerConstants.NoInfoAnswer)
 		        ));
 
-				// TODO:- setup VM - 5 sub sections - 1 header
+		        heading1.Sections.Add(new(
+			        ApplicationNewTrustReasonsSectionViewModel.GeoAreas,
+			        (!string.IsNullOrWhiteSpace(conversionApplication.FormTrustDetails.FormTrustReasonGeoAreas) ?
+				        conversionApplication.FormTrustDetails.FormTrustReasonGeoAreas :
+				        QuestionAndAnswerConstants.NoInfoAnswer)
+		        ));
+
+		        heading1.Sections.Add(new(
+			        ApplicationNewTrustReasonsSectionViewModel.Freedom,
+			        (!string.IsNullOrWhiteSpace(conversionApplication.FormTrustDetails.FormTrustReasonFreedom) ?
+				        conversionApplication.FormTrustDetails.FormTrustReasonFreedom :
+				        QuestionAndAnswerConstants.NoInfoAnswer)
+		        ));
+
+		        heading1.Sections.Add(new(
+			        ApplicationNewTrustReasonsSectionViewModel.ImproveTeaching,
+			        (!string.IsNullOrWhiteSpace(conversionApplication.FormTrustDetails.FormTrustReasonImproveTeaching) ?
+				        conversionApplication.FormTrustDetails.FormTrustReasonImproveTeaching :
+				        QuestionAndAnswerConstants.NoInfoAnswer)
+		        ));
 
 				var vm = new List<ApplicationNewTrustReasonsHeadingViewModel> { heading1 };
 
