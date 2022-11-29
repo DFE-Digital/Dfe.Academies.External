@@ -12,7 +12,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 	/// </summary>
 	public class ApplicationNewTrustOpeningDateSummaryModel : BaseTrustFamApplicationSummaryPageModel
 	{
-		//// MR:- VM props to show school conversion data
+		//// MR:- VM props to show data
 		public List<ApplicationNewTrustOpeningDateHeadingViewModel> ViewModel { get; set; } = new();
 
 		public ApplicationNewTrustOpeningDateSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
