@@ -25,13 +25,16 @@
 				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>
-                
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Why are the schools forming the trust?</legend>
-                
-                // what is top big textbox?
 
 				<div class="govuk-form-group">
-                    <label for="FormTrustReasonVision" class="govuk-label">What vision and aspiration have the schools agreed for the trust?</label>
+					<label for="ReasonForming" class="govuk-label">Why are the schools forming the trust?</label>
+                    *** grey text ***
+                    <textarea asp-for="ReasonForming" id="ReasonForming"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+				</div>
+
+				<div class="govuk-form-group">
+                    <label for="ReasonVision" class="govuk-label">What vision and aspiration have the schools agreed for the trust?</label>
                     <textarea asp-for="ReasonVision" id="ReasonVision"
                               class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
                 </div>

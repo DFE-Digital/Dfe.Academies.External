@@ -12,7 +12,9 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 		// MR:- VM props to capture data
 
-		// TODO:- top one ??
+		[BindProperty]
+		[Required(ErrorMessage = "You must provide details")]
+		public string ReasonForming { get; set; } = string.Empty;
 
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
@@ -60,7 +62,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		{
 			return new Dictionary<string, dynamic>
 			{
-				// TODO:- what is top one ??
+				{ nameof(NewTrust.FormTrustReasonForming), ReasonForming },
 				{ nameof(NewTrust.FormTrustReasonVision), ReasonVision },
 				{ nameof(NewTrust.FormTrustReasonGeoAreas), GeoAreas },
 				{ nameof(NewTrust.FormTrustReasonFreedom), Freedom },
@@ -73,12 +75,11 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			if (conversionApplication != null && conversionApplication.FormTrustDetails != null)
 			{
 				TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
-				// TODO:- what is top one ??
-				// ReasonVision = conversionApplication.FormTrustDetails.;
-				ReasonVision = conversionApplication.FormTrustDetails.FormTrustReasonVision;
-				GeoAreas = conversionApplication.FormTrustDetails.FormTrustReasonGeoAreas;
-				Freedom = conversionApplication.FormTrustDetails.FormTrustReasonFreedom;
-				ImproveTeaching = conversionApplication.FormTrustDetails.FormTrustReasonImproveTeaching;
+				ReasonForming = conversionApplication.FormTrustDetails.FormTrustReasonForming ?? string.Empty;
+				ReasonVision = conversionApplication.FormTrustDetails.FormTrustReasonVision ?? string.Empty;
+				GeoAreas = conversionApplication.FormTrustDetails.FormTrustReasonGeoAreas ?? string.Empty;
+				Freedom = conversionApplication.FormTrustDetails.FormTrustReasonFreedom ?? string.Empty;
+				ImproveTeaching = conversionApplication.FormTrustDetails.FormTrustReasonImproveTeaching ?? string.Empty;
 			}
 		}
 	}
