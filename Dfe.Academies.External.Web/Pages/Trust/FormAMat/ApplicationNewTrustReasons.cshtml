@@ -1,0 +1,65 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.Trust.FormAMat.ApplicationNewTrustReasonsModel
+@{
+	ViewData["Title"] = "Apply to become an academy - New trust reasons";
+}
+
+@section BeforeMain
+{
+    <a asp-page="ApplicationNewTrustReasonsSummary" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<h1 class="govuk-heading-l">
+		<span class="govuk-caption-l">@Model.TrustName</span>
+		Reasons for forming the trust
+	</h1>
+
+	<form method="post" name="frmNewTrustOpeningDate" novalidate="">
+		@Html.AntiForgeryToken()
+		<input type="hidden" asp-for="ApplicationId"/>
+		<partial name="_HiddenFields"/>
+        
+		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+			<fieldset class="govuk-fieldset">
+                <legend></legend>
+				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+				</div>
+
+				<div class="govuk-form-group">
+					<label for="ReasonForming" class="govuk-label govuk-!-font-weight-bold">Why are the schools forming the trust?</label>
+					<p class="govuk-caption-m">This could include the expected benefits or existing links you are building on.</p>
+					<textarea asp-for="ReasonForming" id="ReasonForming"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+				</div>
+
+				<div class="govuk-form-group">
+					<label for="ReasonVision" class="govuk-label govuk-!-font-weight-bold">What vision and aspiration have the schools agreed for the trust?</label>
+					<textarea asp-for="ReasonVision" id="ReasonVision"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+				</div>
+
+				<div class="govuk-form-group">
+					<label for="GeoAreas" class="govuk-label govuk-!-font-weight-bold">What geographical areas and communities will the trust service?</label>
+					<textarea asp-for="GeoAreas" id="GeoAreas"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+				</div>
+
+				<div class="govuk-form-group">
+					<label for="Freedom" class="govuk-label govuk-!-font-weight-bold">How will the schools make the most of the freedoms that academies have?</label>
+					<textarea asp-for="Freedom" id="Freedom"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+				</div>
+
+				<div class="govuk-form-group">
+					<label for="ImproveTeaching" class="govuk-label govuk-!-font-weight-bold">How will the schools work together to improve teaching and learning in the trust and potentially support other schools beyond the trust?</label>
+					<textarea asp-for="ImproveTeaching" id="ImproveTeaching"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+				</div>
+			</fieldset>
+		</div>        
+
+		<input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+	</form>
+</div>
