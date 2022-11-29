@@ -25,8 +25,34 @@
 				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>
-				
-                // 3 big input boxes !!
+                
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Why are the schools forming the trust?</legend>
+                
+                // what is top big textbox?
+
+				<div class="govuk-form-group">
+                    <label for="FormTrustReasonVision" class="govuk-label">What vision and aspiration have the schools agreed for the trust?</label>
+                    <textarea asp-for="ReasonVision" id="ReasonVision"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                </div>
+                
+                <div class="govuk-form-group">
+                    <label for="GeoAreas" class="govuk-label">What geographical areas and communities will the trust service?</label>
+                    <textarea asp-for="GeoAreas" id="GeoAreas"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                </div>
+                
+                <div class="govuk-form-group">
+                    <label for="Freedom" class="govuk-label">How will the schools make the most of the freedoms that academies have?</label>
+                    <textarea asp-for="Freedom" id="Freedom"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                </div>
+
+                <div class="govuk-form-group">
+                    <label for="ImproveTeaching" class="govuk-label">How will the schools work together to improve teaching and learning in the trust and potentially support other schools beyond the trust?</label>
+                    <textarea asp-for="ImproveTeaching" id="ImproveTeaching"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                </div>
 			</fieldset>
 		</div>        
 

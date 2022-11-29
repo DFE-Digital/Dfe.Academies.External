@@ -1,6 +1,8 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 {
@@ -9,6 +11,24 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		public string TrustName { get; private set; } = string.Empty;
 
 		// MR:- VM props to capture data
+
+		// TODO:- top one ??
+
+		[BindProperty]
+		[Required(ErrorMessage = "You must provide details")]
+		public string ReasonVision { get; set; } = string.Empty;
+
+		[BindProperty]
+		[Required(ErrorMessage = "You must provide details")]
+		public string GeoAreas { get; set; } = string.Empty;
+
+		[BindProperty]
+		[Required(ErrorMessage = "You must provide details")]
+		public string Freedom { get; set; } = string.Empty;
+
+		[BindProperty]
+		[Required(ErrorMessage = "You must provide details")]
+		public string ImproveTeaching { get; set; } = string.Empty;
 
 		public ApplicationNewTrustReasonsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 												IReferenceDataRetrievalService referenceDataRetrievalService, 
@@ -38,8 +58,14 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
-			// TODO:-
-			throw new NotImplementedException();
+			return new Dictionary<string, dynamic>
+			{
+				// TODO:- what is top one ??
+				{ nameof(NewTrust.FormTrustReasonVision), ReasonVision },
+				{ nameof(NewTrust.FormTrustReasonGeoAreas), GeoAreas },
+				{ nameof(NewTrust.FormTrustReasonFreedom), Freedom },
+				{ nameof(NewTrust.FormTrustReasonImproveTeaching), ImproveTeaching },
+			};
 		}
 
 		public override void PopulateUiModel(ConversionApplication? conversionApplication)
@@ -47,10 +73,12 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			if (conversionApplication != null && conversionApplication.FormTrustDetails != null)
 			{
 				TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
-				// TODO:-
-				//OpeningDate = conversionApplication.FormTrustDetails.FormTrustOpeningDate.ToString();
-				//TrustApproverName = conversionApplication.FormTrustDetails.TrustApproverName;
-				//TrustApproverEmail = conversionApplication.FormTrustDetails.TrustApproverEmail;
+				// TODO:- what is top one ??
+				// ReasonVision = conversionApplication.FormTrustDetails.;
+				ReasonVision = conversionApplication.FormTrustDetails.FormTrustReasonVision;
+				GeoAreas = conversionApplication.FormTrustDetails.FormTrustReasonGeoAreas;
+				Freedom = conversionApplication.FormTrustDetails.FormTrustReasonFreedom;
+				ImproveTeaching = conversionApplication.FormTrustDetails.FormTrustReasonImproveTeaching;
 			}
 		}
 	}
