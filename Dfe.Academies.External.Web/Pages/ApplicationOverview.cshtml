@@ -191,7 +191,7 @@
 			@Html.AntiForgeryToken()
 			<input type="hidden" asp-for="ApplicationId"/>
 
-			@if (Model.UserHasSubmitApplicationRole && Model.ConversionStatus == Status.Completed)
+			@if (Model.UserHasSubmitApplicationRole && Model.ConversionStatus == Status.Completed && Model.ApplicationStatus == ApplicationStatus.InProgress)
 		    {
 			    <input type="submit" value="Submit application" class="govuk-button govuk-!-margin-top-6" />
 		    }
