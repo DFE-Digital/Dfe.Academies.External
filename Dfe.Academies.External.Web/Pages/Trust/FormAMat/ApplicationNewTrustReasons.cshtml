@@ -1,7 +1,7 @@
 ﻿@page
 @model Dfe.Academies.External.Web.Pages.Trust.FormAMat.ApplicationNewTrustReasonsModel
 @{
-	ViewData["Title"] = "Apply to become an academy - New trusts reasons";
+	ViewData["Title"] = "Apply to become an academy - New trust reasons";
 }
 
 @section BeforeMain
@@ -28,7 +28,7 @@
 
 				<div class="govuk-form-group">
 					<label for="ReasonForming" class="govuk-label">Why are the schools forming the trust?</label>
-                    *** grey text ***
+                    <p class="govuk-caption-l">This could include the expected benefits or existing links you are building on.</p>
                     <textarea asp-for="ReasonForming" id="ReasonForming"
                               class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
 				</div>
