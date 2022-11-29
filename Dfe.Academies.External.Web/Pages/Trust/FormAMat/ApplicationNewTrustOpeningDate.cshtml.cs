@@ -32,10 +32,12 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		public string? OpeningDateYear { get; set; }
 
 		[BindProperty]
+		[RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$", ErrorMessage = "You must input a valid name")]
+		[Required(ErrorMessage = "Name is required")]
 		public string? TrustApproverName { get; set; }
 
 		[BindProperty]
-		[Required(ErrorMessage = "The email address is required")]
+		[Required(ErrorMessage = "Email address is required")]
 		[EmailAddress(ErrorMessage = "You must input a valid email address")]
 		public string? TrustApproverEmail { get; set; }
 
