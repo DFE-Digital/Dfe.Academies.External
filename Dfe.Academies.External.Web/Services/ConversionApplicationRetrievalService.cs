@@ -281,13 +281,16 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		var applicationConversionTargetDate = selectedSchool.SchoolConversionTargetDateSpecified.HasValue;
 		var applicationJoinTrustReasons = !string.IsNullOrWhiteSpace(selectedSchool.ApplicationJoinTrustReason);
 		var applicationChangeSchoolName = selectedSchool.ConversionChangeNamePlanned.HasValue;
-
+		var approversFullName = !string.IsNullOrWhiteSpace(selectedSchool.SchoolConversionApproverContactName);
+		var approversEmailAddress = !string.IsNullOrWhiteSpace(selectedSchool.SchoolConversionApproverContactEmail);
 		var boolList = new List<bool>
 		{
 			schoolMainContacts,
 			applicationConversionTargetDate,
 			applicationJoinTrustReasons,
-			applicationChangeSchoolName
+			applicationChangeSchoolName,
+			approversFullName,
+			approversEmailAddress
 		};
 
 		if (boolList.All(x => x))
