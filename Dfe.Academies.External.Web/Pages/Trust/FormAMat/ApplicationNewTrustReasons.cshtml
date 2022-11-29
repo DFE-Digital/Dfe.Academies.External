@@ -1,0 +1,35 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.Trust.FormAMat.ApplicationNewTrustReasonsModel
+@{
+	ViewData["Title"] = "Apply to become an academy - New trusts reasons";
+}
+
+@section BeforeMain
+{
+	<a asp-page="ApplicationNewTrustOpeningDateSummary" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<h1 class="govuk-heading-l">
+		<span class="govuk-caption-l">@Model.TrustName</span>
+		Reasons for forming the trust
+	</h1>
+
+	<form method="post" name="frmNewTrustOpeningDate" novalidate="">
+		@Html.AntiForgeryToken()
+		<input type="hidden" asp-for="ApplicationId"/>
+		<partial name="_HiddenFields"/>
+        
+		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+			<fieldset class="govuk-fieldset">
+				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+				</div>
+				
+                // 3 big input boxes !!
+			</fieldset>
+		</div>        
+
+		<input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+	</form>
+</div>
