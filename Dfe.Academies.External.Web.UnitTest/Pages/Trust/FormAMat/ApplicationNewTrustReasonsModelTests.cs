@@ -56,7 +56,7 @@ internal sealed class ApplicationNewTrustReasonsModelTests
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
 		return new ApplicationNewTrustReasonsModel(mockConversionApplicationRetrievalService, mockReferenceDataRetrievalService,
-			mockConversionApplicationCreationService, "")
+			mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,
