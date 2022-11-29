@@ -110,7 +110,7 @@ public abstract class BasePageEditModel : BasePageModel
 		{
 			"name of the trust" => "applicationnewtrustname",
 			"opening date" => "applicationnewtrustopeningdatesummary",
-			"reasons for forming the trust" => "/formamat/applicationnewtrustreason",
+			"reasons for forming the trust" => "ApplicationNewTrustReason",
 			"plans for growth" => "/formamat/applicationnewtrustplansforgrowth",
 			"school improvement strategy" => "/formamat/applicationnewtrustschoolimprovement",
 			"governance structure" => "/formamat/applicationnewtrustgovernancestructure",
