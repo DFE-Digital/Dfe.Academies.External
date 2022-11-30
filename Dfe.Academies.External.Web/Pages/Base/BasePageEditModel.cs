@@ -112,7 +112,7 @@ public abstract class BasePageEditModel : BasePageModel
 			"opening date" => "/trust/formamat/applicationnewtrustopeningdatesummary",
 			"reasons for forming the trust" => "/trust/formamat/ApplicationNewTrustReasonsSummary",
 			"plans for growth" => "/trust/formamat/applicationnewtrustplansforgrowth",
-			"school improvement strategy" => "/trust/formamat/applicationnewtrustschoolimprovement",
+			"school improvement strategy" => "/trust/formamat/ApplicationNewTrustImprovementStrategySummary",
 			"governance structure" => "/trust/formamat/applicationnewtrustgovernancestructure",
 			"key people" => "/trust/formamat/applicationnewtrustkeypeople",
 			_ => string.Empty
