@@ -1,7 +1,9 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using static GovUk.Frontend.AspNetCore.ComponentDefaults;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 {
@@ -30,9 +32,13 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		public string? OpeningDateYear { get; set; }
 
 		[BindProperty]
+		[RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$", ErrorMessage = "You must input a valid name")]
+		[Required(ErrorMessage = "Name is required")]
 		public string? TrustApproverName { get; set; }
 
 		[BindProperty]
+		[Required(ErrorMessage = "Email address is required")]
+		[EmailAddress(ErrorMessage = "You must input a valid email address")]
 		public string? TrustApproverEmail { get; set; }
 
 		public DateTime OpeningDateLocal { get; set; }
