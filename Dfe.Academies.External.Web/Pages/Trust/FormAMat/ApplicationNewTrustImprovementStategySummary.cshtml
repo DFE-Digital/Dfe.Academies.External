@@ -1,31 +1,31 @@
 ﻿@page
 @using Dfe.Academies.External.Web.Enums
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model Dfe.Academies.External.Web.Pages.Trust.FormAMat.ApplicationNewTrustOpeningDateSummaryModel
+@model Dfe.Academies.External.Web.Pages.Trust.FormAMat.ApplicationNewTrustImprovementStategySummaryModel
 @{
-	ViewData["Title"] = "Apply to become an academy - Trust opening date summary";
+    ViewData["Title"] = "Apply to become an academy - Trust improvement strategy summary";
 }
 
 @section BeforeMain
 {
-    <a asp-page="ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back to application overview</a>
+	<a asp-page="ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back to application overview</a>
 }
 
 <div class="govuk-grid-column-full">
 	<span class="govuk-caption-l">
 		@Model.TrustName
 	</span>
-    <h1 class="govuk-heading-l">Opening date</h1>
+    <h1 class="govuk-heading-l">School improvement strategy</h1>
 
-@*    <p id="summaryTableDescription" class="govuk-body">Trust opening date summary</p>*@
+	@*    <p id="summaryTableDescription" class="govuk-body">Trust improvement strategy summary</p>*@
 	@foreach (var question in Model.ViewModel)
 	{
 		<table class="govuk-table" aria-describedby="summaryTableDescription">
 			<thead>
-				<tr>
-					<th scope="col"></th>
-					<th scope="col"></th>
-				</tr>
+			<tr>
+				<th scope="col"></th>
+				<th scope="col"></th>
+			</tr>
 			</thead>
 			<tbody class="govuk-table__body">
 			<tr class="govuk-table__row">
@@ -58,5 +58,5 @@
 		<div class="govuk-!-margin-6"></div>
 	}
 
-    <a asp-page="ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+	<a asp-page="ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
 </div>
