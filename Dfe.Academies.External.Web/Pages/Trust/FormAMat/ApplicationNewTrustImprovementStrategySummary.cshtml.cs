@@ -1,14 +1,15 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
-
+using Dfe.Academies.External.Web.ViewModels.TrustSummaryPages;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 {
     public class ApplicationNewTrustImprovementStrategySummaryModel : BaseTrustFamApplicationSummaryPageModel
 	{
 		//// MR:- VM props to show data
-		///  TODO:-
+		public List<ApplicationNewTrustImprovementStrategyHeadingViewModel> ViewModel { get; set; } = new();
 
 		public ApplicationNewTrustImprovementStrategySummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 																IReferenceDataRetrievalService referenceDataRetrievalService) 
@@ -42,7 +43,22 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			{
 				TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
 
-				// TODO:- setup VM
+				ApplicationNewTrustImprovementStrategyHeadingViewModel heading1 = new(ApplicationNewTrustImprovementStrategyHeadingViewModel.Heading, // heading = 'Details'
+					"/Trust/FormAMat/ApplicationNewTrustImprovementStrategy")
+				{
+					Status = !string.IsNullOrWhiteSpace(conversionApplication.FormTrustDetails.FormTrustImprovementSupport) ?
+						SchoolConversionComponentStatus.Complete
+						: SchoolConversionComponentStatus.NotStarted
+				};
+
+				// TODO:- setup VM - 3 sections
+				//FormTrustImprovementSupport
+				//FormTrustImprovementStrategy
+				//FormTrustImprovementStrategyApprovedSponsor
+
+				var vm = new List<ApplicationNewTrustImprovementStrategyHeadingViewModel> { heading1 };
+
+				ViewModel = vm;
 			}
 		}
 	}
