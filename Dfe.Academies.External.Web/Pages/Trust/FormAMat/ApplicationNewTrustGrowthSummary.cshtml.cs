@@ -1,4 +1,6 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels.TrustSummaryPages;
@@ -42,7 +44,23 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			{
 				TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
 
-				// TODO:- setup VM
+				ApplicationNewTrustGrowthHeadingViewModel heading1 = new(ApplicationNewTrustGrowthHeadingViewModel.Heading, // heading = 'Details'
+					"/Trust/FormAMat/ApplicationNewTrustGrowth")
+				{
+					Status = conversionApplication.FormTrustDetails.FormTrustGrowthPlansYesNo.HasValue ?
+						SchoolConversionComponentStatus.Complete
+						: SchoolConversionComponentStatus.NotStarted
+				};
+
+				heading1.Sections.Add(new(
+					ApplicationNewTrustGrowthSectionViewModel.Growth,
+					conversionApplication.FormTrustDetails.FormTrustGrowthPlansYesNo.GetStringDescription()
+					)
+				);
+				
+				var vm = new List<ApplicationNewTrustGrowthHeadingViewModel> { heading1 };
+
+				ViewModel = vm;
 			}
 		}
 	}
