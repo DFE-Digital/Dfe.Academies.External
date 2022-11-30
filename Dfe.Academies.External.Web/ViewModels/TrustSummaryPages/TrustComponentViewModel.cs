@@ -1,14 +1,13 @@
-﻿namespace Dfe.Academies.External.Web.ViewModels.TrustSummaryPages
-{
-	public class TrustComponentViewModel
-	{
-		public TrustComponentViewModel()
-		{
-			TrustComponents = new ();
-		}
+﻿namespace Dfe.Academies.External.Web.ViewModels.TrustSummaryPages;
 
-		public int ApplicationId { get; set; }
-		
-		public List<ApplicationComponentViewModel> TrustComponents { get; set; }
+public sealed class TrustComponentViewModel
+{
+	public TrustComponentViewModel()
+	{
+		TrustComponents = new ();
 	}
+
+	public int ApplicationId { get; set; }
+	
+	public List<ApplicationComponentViewModel> TrustComponents { get; set; }
 }
