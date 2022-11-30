@@ -5,12 +5,12 @@ using Dfe.Academies.External.Web.Services;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 {
-    public class ApplicationNewTrustImprovementStategySummaryModel : BaseTrustFamApplicationSummaryPageModel
+    public class ApplicationNewTrustImprovementStrategySummaryModel : BaseTrustFamApplicationSummaryPageModel
 	{
 		//// MR:- VM props to show data
 		///  TODO:-
 
-		public ApplicationNewTrustImprovementStategySummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
+		public ApplicationNewTrustImprovementStrategySummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 																IReferenceDataRetrievalService referenceDataRetrievalService) 
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
