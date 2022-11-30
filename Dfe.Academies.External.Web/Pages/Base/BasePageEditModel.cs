@@ -108,13 +108,13 @@ public abstract class BasePageEditModel : BasePageModel
 	{
 		return componentName.ToLower().Trim() switch
 		{
-			"name of the trust" => "/trust/formamat/applicationnewtrustname",
+			"name of the trust" => "/trust/formamat/ApplicationNewTrustName",
 			"opening date" => "/trust/formamat/applicationnewtrustopeningdatesummary",
 			"reasons for forming the trust" => "/trust/formamat/ApplicationNewTrustReasonsSummary",
-			"plans for growth" => "/trust/formamat/applicationnewtrustplansforgrowth",
+			"plans for growth" => "/trust/formamat/ApplicationNewTrustGrowthSummary",
 			"school improvement strategy" => "/trust/formamat/ApplicationNewTrustImprovementStrategySummary",
-			"governance structure" => "/trust/formamat/applicationnewtrustgovernancestructure",
-			"key people" => "/trust/formamat/applicationnewtrustkeypeople",
+			"governance structure" => "/trust/formamat/applicationnewtrustgovernancestructuresummary",
+			"key people" => "/trust/formamat/applicationnewtrustkeypeoplesummary",
 			_ => string.Empty
 		};
 	}
