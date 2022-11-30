@@ -1,14 +1,13 @@
-﻿namespace Dfe.Academies.External.Web.ViewModels.TrustSummaryPages
+﻿namespace Dfe.Academies.External.Web.ViewModels.TrustSummaryPages;
+
+public sealed class ApplicationNewTrustReasonsHeadingViewModel : SchoolQuestionAndAnswerSectionViewModel
 {
-	public class ApplicationNewTrustReasonsHeadingViewModel : SchoolQuestionAndAnswerSectionViewModel
+	public const string Heading = "Details";
+
+	public ApplicationNewTrustReasonsHeadingViewModel(string title, string uRi) : base(title, uRi)
 	{
-		public const string Heading = "Details";
-
-		public ApplicationNewTrustReasonsHeadingViewModel(string title, string uRi) : base(title, uRi)
-		{
-			Sections = new();
-		}
-
-		public List<ApplicationNewTrustReasonsSectionViewModel> Sections { get; set; }
+		Sections = new();
 	}
+
+	public List<ApplicationNewTrustReasonsSectionViewModel> Sections { get; set; }
 }

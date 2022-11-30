@@ -1,4 +1,4 @@
-﻿namespace Dfe.Academies.External.Web.ViewModels.TrustSummaryPages
+namespace Dfe.Academies.External.Web.ViewModels.TrustSummaryPages
 {
 	public sealed class ApplicationNewTrustOpeningDateSectionViewModel : SchoolQuestionAndAnswerViewModel
 	{
