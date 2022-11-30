@@ -113,7 +113,7 @@ public abstract class BasePageEditModel : BasePageModel
 			"reasons for forming the trust" => "/trust/formamat/ApplicationNewTrustReasonsSummary",
 			"plans for growth" => "/trust/formamat/applicationnewtrustplansforgrowth",
 			"school improvement strategy" => "/trust/formamat/applicationnewtrustschoolimprovement",
-			"governance structure" => "/trust/formamat/applicationnewtrustgovernancestructure",
+			"governance structure" => "/trust/formamat/ApplicationNewTrustGovernanceSummary",
 			"key people" => "/trust/formamat/applicationnewtrustkeypeople",
 			_ => string.Empty
 		};
