@@ -2,6 +2,7 @@
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.ViewModels;
 using Dfe.Academies.External.Web.ViewModels.TrustSummaryPages;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
@@ -51,10 +52,26 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 						: SchoolConversionComponentStatus.NotStarted
 				};
 
-				// TODO:- setup VM - 3 sections
-				//FormTrustImprovementSupport
-				//FormTrustImprovementStrategy
-				//FormTrustImprovementStrategyApprovedSponsor
+				heading1.Sections.Add(new(
+					ApplicationNewTrustImprovementStrategySectionViewModel.Support,
+					(!string.IsNullOrWhiteSpace(conversionApplication.FormTrustDetails.FormTrustImprovementSupport) ?
+						conversionApplication.FormTrustDetails.FormTrustImprovementSupport :
+						QuestionAndAnswerConstants.NoInfoAnswer))
+				);
+
+				heading1.Sections.Add(new(
+					ApplicationNewTrustImprovementStrategySectionViewModel.Strategy,
+					(!string.IsNullOrWhiteSpace(conversionApplication.FormTrustDetails.FormTrustImprovementStrategy) ?
+						conversionApplication.FormTrustDetails.FormTrustImprovementStrategy :
+						QuestionAndAnswerConstants.NoInfoAnswer))
+				);
+
+				heading1.Sections.Add(new(
+					ApplicationNewTrustImprovementStrategySectionViewModel.ApprovedSponsor,
+					(!string.IsNullOrWhiteSpace(conversionApplication.FormTrustDetails.FormTrustImprovementApprovedSponsor)
+						? conversionApplication.FormTrustDetails.FormTrustImprovementApprovedSponsor
+						: QuestionAndAnswerConstants.NoInfoAnswer))
+				);
 
 				var vm = new List<ApplicationNewTrustImprovementStrategyHeadingViewModel> { heading1 };
 

@@ -2,10 +2,9 @@
 
 public sealed class ApplicationNewTrustImprovementStrategySectionViewModel : SchoolQuestionAndAnswerViewModel
 {
-	// TODO:- fix text !
-	public const string WhyForming = "Why are the schools forming the trust";
-	public const string Vision = "What vision and aspiration have the schools agreed for the trust?";
-	public const string GeoAreas = "What geographical areas and communities will the trust service?";
+	public const string Support = "How will the trust support and improve the academies in the trust?";
+	public const string Strategy = "How will the trust make sure that the school improvement strategy is fit for purpose and will improve standards?";
+	public const string ApprovedSponsor = "If the trust wants to become an approved sponsor, when would it plan to apply and begin sponsoring other schools?";
 
 	public ApplicationNewTrustImprovementStrategySectionViewModel(string title, string uRi) : base(title, uRi)
 	{
