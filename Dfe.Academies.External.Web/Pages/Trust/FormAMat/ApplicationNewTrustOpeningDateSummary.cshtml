@@ -17,10 +17,12 @@
 	</span>
     <h1 class="govuk-heading-l">Opening date</h1>
 	<br/>
-	<h2 class="govuk-heading-m">Details</h2>
 @*    <p id="summaryTableDescription" class="govuk-body">Trust opening date summary</p>*@
-	@foreach (var question in Model.ViewModel)
+	@foreach (var heading in Model.ViewModel)
 	{
+		<h1 class="govuk-heading-m">
+			@heading.Title
+		</h1>
 		<table class="govuk-table" aria-describedby="summaryTableDescription">
 			<thead>
 				<tr>
@@ -31,16 +33,16 @@
 			<tbody class="govuk-table__body">
 			<tr class="govuk-table__row">
 				<td class="govuk-table__cell">
-					@if (question.Status == SchoolConversionComponentStatus.NotStarted)
+					@if (heading.Status == SchoolConversionComponentStatus.NotStarted)
 					{
-						<a asp-page="@question.URI" aria-describedby="component-not started" class="govuk-button govuk-button--secondary"
+                            <a asp-page="@heading.URI" aria-describedby="component-not started" class="govuk-button govuk-button--secondary"
 						   asp-route-appId="@Model.ApplicationId">
 							Start section
 						</a>
 					}
 					else
 					{
-						<a asp-page="@question.URI" aria-describedby="component-change" class="govuk-link"
+                            <a asp-page="@heading.URI" aria-describedby="component-change" class="govuk-link"
 						   asp-route-appId="@Model.ApplicationId">
 							Change your answers
 						</a>
@@ -48,7 +50,7 @@
 				</td>
 				<td class="govuk-table__cell"></td>
 			</tr>
-			@foreach (var conversionComponent in question.Sections)
+			@foreach (var conversionComponent in heading.Sections)
 			{
 				<partial name="_SchoolConversionComponentPartial" model="@conversionComponent"/>
 			}
