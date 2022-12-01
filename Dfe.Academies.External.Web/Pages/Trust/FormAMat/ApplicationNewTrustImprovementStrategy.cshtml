@@ -1,0 +1,56 @@
+﻿@page
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Dfe.Academies.External.Web.Pages.Trust.FormAMat.ApplicationNewTrustImprovementStrategyModel
+@{
+    ViewData["Title"] = "Apply to become an academy - School improvement strategy";
+}
+
+@section BeforeMain
+    {
+    <a asp-page="ApplicationNewTrustImprovementStrategySummary" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back</a>
+}
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+            <span class="govuk-caption-l">@Model.TrustName</span>
+	        School improvement strategy
+        </h1>
+
+        <form method="post" name="frmNewTrustOpeningDate" novalidate="">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ApplicationId" />
+            <partial name="_HiddenFields" />
+
+            <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+                <fieldset class="govuk-fieldset">
+                    <legend></legend>
+                    <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+                        <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel" />
+                    </div>
+
+                    <div class="govuk-form-group">
+                        <label for="ImprovementSupport" class="govuk-label govuk-!-font-weight-bold">How will the trust support and improve the academies in the trust?</label>
+                        <p class="govuk-caption-m">Include details of where the expertise, resources and staff will come from and how the schools will monitor improvement.</p>
+                        <textarea asp-for="ImprovementSupport" id="ImprovementSupport"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                    </div>
+
+                    <div class="govuk-form-group">
+                        <label for="ImprovementStrategy" class="govuk-label govuk-!-font-weight-bold">How will the trust make sure that the school improvement strategy is fit for purpose and will improve standards?</label>
+                        <textarea asp-for="ImprovementStrategy" id="ImprovementStrategy"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                    </div>
+
+                    <div class="govuk-form-group">
+                        <label for="ImprovementApprovedSponsor" class="govuk-label govuk-!-font-weight-bold">If the trust wants to become an approved sponsor, when would it plan to apply and begin sponsoring other schools?</label>
+	                    <p class="govuk-caption-m">A separate Academy Sponsor application needs to be completed to become a sponsor.</p>
+                        <textarea asp-for="ImprovementApprovedSponsor" id="ImprovementApprovedSponsor"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                    </div>
+                </fieldset>
+            </div>
+
+            <input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
+        </form>
+    </div>
