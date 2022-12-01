@@ -28,7 +28,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+			var mockFileUploadService = new Mock<IFileUploadService>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 			// act
 			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(null);
@@ -50,7 +51,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+			var mockFileUploadService = new Mock<IFileUploadService>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationNoRoles();
 
@@ -75,7 +77,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+			var mockFileUploadService = new Mock<IFileUploadService>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildJoinAMatConversionApplicationWithContributorWithSchool(null);
 
@@ -99,7 +102,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+			var mockFileUploadService = new Mock<IFileUploadService>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -127,7 +131,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+			var mockFileUploadService = new Mock<IFileUploadService>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -159,7 +164,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+			var mockFileUploadService = new Mock<IFileUploadService>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -193,7 +199,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+			var mockFileUploadService = new Mock<IFileUploadService>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -222,7 +229,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+			var mockFileUploadService = new Mock<IFileUploadService>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -255,7 +263,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+			var mockFileUploadService = new Mock<IFileUploadService>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -290,7 +299,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+			var mockFileUploadService = new Mock<IFileUploadService>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -319,7 +329,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+			var mockFileUploadService = new Mock<IFileUploadService>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -352,7 +363,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+			var mockFileUploadService = new Mock<IFileUploadService>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -387,7 +399,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+			var mockFileUploadService = new Mock<IFileUploadService>();
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;

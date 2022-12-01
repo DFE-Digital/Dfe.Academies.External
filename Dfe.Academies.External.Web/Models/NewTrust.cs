@@ -12,10 +12,11 @@ public sealed class NewTrust
 	{
 	}
 
-	public NewTrust(int applicationId, string proposedTrustName)
+	public NewTrust(int applicationId, string proposedTrustName, string applicationReference)
 	{
 		ApplicationId = applicationId;
 		FormTrustProposedNameOfTrust = proposedTrustName;
+		ApplicationReference = applicationReference;
 	}
 
 	/// <summary>
@@ -24,6 +25,8 @@ public sealed class NewTrust
 	public int Id { get; set; }
 
 	public int ApplicationId { get; set; }
+	
+	public string ApplicationReference { get; set; }
 
 	public string FormTrustProposedNameOfTrust { get; set; }
 
