@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
@@ -12,11 +13,12 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	private readonly ILogger<ConversionApplicationRetrievalService> _logger;
 	private readonly HttpClient _httpClient;
 	private readonly ResilientRequestProvider _resilientRequestProvider;
-
-	public ConversionApplicationRetrievalService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationRetrievalService> logger) : base(httpClientFactory)
+	private readonly IFileUploadService _fileUploadService;
+	public ConversionApplicationRetrievalService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationRetrievalService> logger, IFileUploadService fileUploadService) : base(httpClientFactory)
 	{
 		_httpClient = httpClientFactory.CreateClient(AcademisationAPIHttpClientName);
 		_logger = logger;
+		_fileUploadService = fileUploadService;
 		_resilientRequestProvider = new ResilientRequestProvider(_httpClient);
 	}
 
@@ -164,7 +166,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 				new(name:"Reasons for forming the trust") {Id = 3,Status = CalculateReasonsForFormingTrustSectionStatus(application.FormTrustDetails)},
 				new(name:"Plans for growth") {Id = 4, Status = CalculatePlansForGrowthSectionStatus(application.FormTrustDetails)},
 				new(name:"School improvement strategy") {Id = 5, Status = CalculateSchoolImprovementStrategyStatus(application.FormTrustDetails)},
-				new(name:"Governance structure") {Id = 6, Status = CalculateGovernanceStructureSectionStatus(application.FormTrustDetails)},
+				new(name:"Governance structure") {Id = 6, Status = CalculateGovernanceStructureSectionStatus(application)},
 				new(name:"Key people") {Id = 7, Status = CalculateKeyPeopleSectionStatus(application.FormTrustDetails)}
 			};
 
@@ -182,9 +184,10 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		return Status.NotStarted;
 	}
 
-	private Status CalculateGovernanceStructureSectionStatus(NewTrust applicationFormTrustDetails)
+	private Status CalculateGovernanceStructureSectionStatus(ConversionApplication application)
 	{
-		return Status.NotStarted;
+		 var result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, application.ApplicationId.ToString(), application.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
+		 return result.Any() ? Status.Completed : Status.NotStarted;
 	}
 
 	private Status CalculateSchoolImprovementStrategyStatus(NewTrust applicationFormTrustDetails)

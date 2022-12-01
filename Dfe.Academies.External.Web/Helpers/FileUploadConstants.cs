@@ -13,4 +13,5 @@ public static class FileUploadConstants
 	public const string NFYForecastedRevenueFilePrefixFieldName = "sip_nfynextcurrentfinancialfile";
 	public const string NFYForecastedCapitalFilePrefixFieldName = "sip_nfyforecastcapitalcarriedforwardfile";
 	public const string JoinAMatTrustConsentFilePrefixFieldName = "sip_changestotrustconsent";
+	public const string JoinAMatTrustGovernanceFilePrefixFieldName = "sip_formtrustgovernancefile";
 }

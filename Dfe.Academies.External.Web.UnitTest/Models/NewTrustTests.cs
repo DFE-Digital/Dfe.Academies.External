@@ -14,8 +14,9 @@ internal sealed class NewTrustTests
 		// arrange
 		int applicationId = Fixture.Create<int>();
 		string proposedTrustName = Fixture.Create<string>();
-
-		var applicationComponent = new NewTrust(applicationId, proposedTrustName)
+		string applicationReference = Fixture.Create<string>();
+		
+		var applicationComponent = new NewTrust(applicationId, proposedTrustName, applicationReference)
 		{
 			Id = int.MaxValue
 		};

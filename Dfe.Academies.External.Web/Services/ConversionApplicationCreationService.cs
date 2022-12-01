@@ -392,7 +392,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			throw new ArgumentException("Application not found");
 		}
 
-		var existingFamDetails = application.FormTrustDetails ?? new NewTrust(applicationId, "");
+		var existingFamDetails = application.FormTrustDetails ?? new NewTrust(applicationId, "", application.ApplicationReference);
 
 		// Populate all form a trust fields with the values in the dictionary
 		foreach (var property in famTrustProperties)
