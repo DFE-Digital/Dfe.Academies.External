@@ -1,6 +1,7 @@
 ﻿@page
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Dfe.Academies.External.Web.Extensions
+@using Dfe.Academies.External.Web.Enums
 @model SchoolOverviewModel
 @{
 	ViewData["Title"] = "Apply to become an academy - School Overview";
@@ -24,8 +25,18 @@
 	</p>
 
 	<partial name="_SchoolComponentsStatusPartial" model="Model.SchoolComponents"/>
+    
+	@if (!Model.UserHasSubmitApplicationRole && Model.DeclarationStatus == Status.Completed)
+	{
+		<div class="govuk-warning-text">
+			<span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+			<strong class="govuk-warning-text__text">
+				<span class="govuk-warning-text__assistive">Warning</span>
+				Only the school's chair of governors can submit this application.
+			</strong>
+		</div>
+	}
 
-        <a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+	<a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
 </div>
 <input type="hidden" value="@Model.Urn"/>
-<partial name="_HiddenFields"/>

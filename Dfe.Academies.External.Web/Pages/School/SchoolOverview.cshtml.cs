@@ -13,6 +13,21 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public SchoolComponentsViewModel SchoolComponents { get; private set; } = new();
 
+		/// <summary>
+		/// Calculated within here ONLY dependent on whether all the components / sections have been completed !
+		/// </summary>
+		public Status ConversionStatus { get; private set; }
+
+		/// <summary>
+		/// ONLY whether declaration section has been completed!
+		/// </summary>
+		public Status DeclarationStatus { get; private set; }
+
+		/// <summary>
+		/// Always have a trust conversion status whether Join a MAT or form a MAT !!
+		/// </summary>
+		public Status TrustConversionStatus { get; private set; }
+
 		public SchoolOverviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 									IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
@@ -90,6 +105,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 					{
 						Status = c.Status
 					}).ToList()
+
+				// TODO:- set statuses
 			};
 
 			SchoolComponents = componentsVm;

@@ -155,8 +155,8 @@ namespace Dfe.Academies.External.Web.Pages
 				if (conversionApplication.ApplicationType == ApplicationTypes.FormAMat)
 				{
 					HeaderText = "All school and trust details must be given before this application can be submitted.";
-					TrustHeaderText = "The trust being formed";
-					SchoolHeaderText = "The schools applying to convert";
+					TrustHeaderText = "Give details of the trust";
+					SchoolHeaderText = "Give details of schools in the trust";
 				}
 				else // JAM
 				{
