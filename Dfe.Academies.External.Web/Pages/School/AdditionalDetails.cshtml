@@ -280,7 +280,7 @@
 		</legend>
 		<span id="federation-hint" class="govuk-hint">
 			A federation is a group of maintained schools under one governing body
-			<a href="https://www.legislation.gov.uk/uksi/2012/1035/contents/made" target="_blank" class="govuk-link--no-visited-state">(The School Governance (Federations) (England) Regulations 2012)</a>
+			<a href="https://www.legislation.gov.uk/uksi/2012/1035/contents/made" target="_blank" class="govuk-link--no-visited-state" rel="noopener">(The School Governance (Federations) (England) Regulations 2012)</a>
 		</span>
 		@foreach (var federationOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
 		{
