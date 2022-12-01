@@ -45,7 +45,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 				TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
 
 				ApplicationNewTrustGrowthHeadingViewModel heading1 = new(ApplicationNewTrustGrowthHeadingViewModel.Heading, // heading = 'Details'
-					"/Trust/FormAMat/ApplicationNewTrustGrowth")
+					"/Trust/FormAMat/ApplicationNewTrustPlansForGrowth")
 				{
 					Status = conversionApplication.FormTrustDetails.FormTrustGrowthPlansYesNo.HasValue ?
 						SchoolConversionComponentStatus.Complete
