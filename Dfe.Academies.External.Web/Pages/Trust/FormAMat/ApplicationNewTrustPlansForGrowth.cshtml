@@ -42,7 +42,7 @@
 				                           value="@Convert.ToInt32(growthPlansOption)"
 				                           id="plansForGrowthOption@(growthPlansOption)"
 				                           class="govuk-radios__input"
-				                           data-aria-controls="growthPlans_@(growthPlansOption.ToString().ToLower())"
+				                           data-aria-controls="growthplan-@(growthPlansOption.ToString().ToLower())"
 				                           checked="@(growthPlansOption.Equals(Model.GrowthPlansOption))"
 				                           aria-expanded="False"/>
 				                    <label for="plansForGrowthOption@(growthPlansOption)" class="govuk-label govuk-radios__label">
@@ -52,7 +52,9 @@
 
 			                    @if (growthPlansOption == SelectOption.Yes)
 			                    {
-				                    <div class="@(Model.GrowthPlanDescriptionError ? "govuk-form-group--error" : "govuk-radios__conditional") @(Model.GrowthPlansOption != SelectOption.Yes ? "govuk-radios__conditional--hidden" : "")" id="growthPlan-yes" aria-expanded="false">
+				                    <div class="@(Model.GrowthPlanDescriptionError ? "govuk-form-group--error" : "govuk-radios__conditional") 
+                                    @(Model.GrowthPlansOption != SelectOption.Yes ? "govuk-radios__conditional--hidden" : "")" 
+				                         id="growthplan-yes" aria-expanded="false">
 					                    <a href="#GrowthPlanDescriptionNotEntered"
 					                       class="@(Model.GrowthPlanDescriptionError ? "govuk-error-message" : "govuk-visually-hidden")">
 						                    What are your plans
