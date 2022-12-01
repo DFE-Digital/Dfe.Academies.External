@@ -5,7 +5,6 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 {
@@ -55,28 +54,38 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			// Grab other values from API
 			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
 			TrustName = applicationDetails?.TrustName ?? string.Empty;
+			if (applicationDetails?.ApplicationReference != null)
+			{
+				GovernanceStructureDetailsFileNames = await _fileUploadService.GetFiles(
+					FileUploadConstants.TopLevelFolderName, appId.ToString(), applicationDetails.ApplicationReference,
+					FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName);
+				TempDataHelper.StoreSerialisedValue($"{appId}-governanceStructureDetailsFiles", TempData,
+					GovernanceStructureDetailsFileNames);
+			}
 
-			GovernanceStructureDetailsFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName);
-			TempDataHelper.StoreSerialisedValue($"{appId}-governanceStructureDetailsFiles", TempData, GovernanceStructureDetailsFileNames);
 			return Page();
 		}
 		
 		public override async Task<IActionResult> OnPostAsync()
 		{
 			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(ApplicationId);
-			
+
 			GovernanceStructureDetailsFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{ApplicationId}-governanceStructureDetailsFiles", TempData) ?? new List<string>();
-			
-			if (!RunUiValidation())
+
+			if (!RunUiValidation()) 
 			{
-				return Page();
+					return Page();
+			}
+			if (applicationDetails?.ApplicationReference != null)
+			{
+				foreach (var file in GovernanceStructureDetailsFiles)
+				{
+					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName,
+						ApplicationId.ToString(), applicationDetails.ApplicationReference,
+						FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName, file);
+				}
 			}
 
-			foreach (var file in GovernanceStructureDetailsFiles)
-			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName, file);
-			}
-			
 			var draftConversionApplication =
 				TempDataHelper.GetSerialisedValue<ConversionApplication>(
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
