@@ -37,7 +37,7 @@
 		</thead>
 		<tbody class="govuk-table__body">
 		@*If no school selected - render button instead*@
-		@if (!Model.SchoolOrSchoolsApplyingToConvert.Any() && Model.ApplicationType != ApplicationTypes.FormAMat)
+		@if (!Model.SchoolOrSchoolsApplyingToConvert.Any() && Model.ApplicationType == ApplicationTypes.JoinAMat)
 		{
 			<tr class="govuk-table__row">
 				<td class="govuk-table__cell">
@@ -61,18 +61,22 @@
 								@school.SchoolName
 							</a>
 						</td>
-						<td class="govuk-table__cell">
-							<a asp-page="/school/ApplicationSelectSchool" aria-describedby="component-change" class="govuk-link"
-							   asp-route-appId="@Model.ApplicationId">
-								Change
-							</a>
+                            <td class="govuk-table__cell govuk-!-text-align-right">
+                            TODO:- calc overall school status 
 						</td>
 					</tr>
 				}
 				<tr class="govuk-table__row">
-					<td class="govuk-table__cell" colspan="2">
+					<td class="govuk-table__cell">
 						<a asp-page="school/ApplicationSelectSchool"
 						   asp-route-appId="@Model.ApplicationId" class="govuk-button govuk-button--secondary">Add a school</a>
+					</td>
+					<td class="govuk-table__cell">
+						@if (Model.SchoolOrSchoolsApplyingToConvert.Any())
+	                    {
+	                        <a asp-page="school/Remove"
+	                           asp-route-appId="@Model.ApplicationId" class="govuk-button govuk-button--secondary">Remove a school</a>                                
+	                    }
 					</td>
 				</tr>
 			}
