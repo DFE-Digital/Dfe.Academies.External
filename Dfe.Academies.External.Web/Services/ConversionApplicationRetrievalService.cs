@@ -199,7 +199,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
 	private Status CalculatePlansForGrowthSectionStatus(NewTrust applicationFormTrustDetails)
 	{
-		return !string.IsNullOrWhiteSpace(applicationFormTrustDetails.FormTrustPlanForGrowth)
+		return !string.IsNullOrWhiteSpace(applicationFormTrustDetails.FormTrustPlanForGrowth) || !string.IsNullOrWhiteSpace(applicationFormTrustDetails.FormTrustPlansForNoGrowth)
 			? Status.Completed
 			: Status.NotStarted;
 	}
