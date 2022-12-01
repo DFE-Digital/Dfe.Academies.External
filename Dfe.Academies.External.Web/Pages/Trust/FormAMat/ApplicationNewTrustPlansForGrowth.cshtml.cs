@@ -14,15 +14,13 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		// MR:- VM props to capture data
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must select an option")]
 		public SelectOption GrowthPlansOption { get; set; }
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
 		public string GrowthPlanDescription { get; set; } = string.Empty;
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
 		public string NoGrowthPlanDescription { get; set; } = string.Empty;
 
 		public bool GrowthPlanDescriptionError
@@ -45,7 +43,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 												IReferenceDataRetrievalService referenceDataRetrievalService,
 												IConversionApplicationCreationService conversionApplicationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService,
-				"ApplicationNewTrustGrowthPlans")
+				"ApplicationNewTrustGrowthSummary")
 		{
 		}
 
@@ -58,8 +56,18 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			if (!ModelState.IsValid)
+			ModelState.Clear();
+
+			if (GrowthPlansOption == SelectOption.Yes && string.IsNullOrWhiteSpace(GrowthPlanDescription))
 			{
+				ModelState.AddModelError("GrowthPlanDescriptionNotEntered", "You must provide details");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (GrowthPlansOption == SelectOption.No && string.IsNullOrWhiteSpace(NoGrowthPlanDescription))
+			{
+				ModelState.AddModelError("NoGrowthPlanDescriptionNotEntered", "You must provide details");
 				PopulateValidationMessages();
 				return false;
 			}

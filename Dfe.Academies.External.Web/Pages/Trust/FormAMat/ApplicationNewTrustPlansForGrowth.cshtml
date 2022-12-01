@@ -52,33 +52,33 @@
 
 			                    @if (growthPlansOption == SelectOption.Yes)
 			                    {
-				                    <div class="@(Model.GrowthPlanDescriptionError ? "govuk-form-group--error" : "govuk-radios__conditional") 
+                                <div class="@(Model.GrowthPlanDescriptionError && Model.GrowthPlansOption != SelectOption.Yes ? "govuk-form-group--error" : "govuk-radios__conditional")
                                     @(Model.GrowthPlansOption != SelectOption.Yes ? "govuk-radios__conditional--hidden" : "")" 
 				                         id="growthplan-yes" aria-expanded="false">
 					                    <a href="#GrowthPlanDescriptionNotEntered"
 					                       class="@(Model.GrowthPlanDescriptionError ? "govuk-error-message" : "govuk-visually-hidden")">
-						                    What are your plans
+                                        You must enter the details of plans for growth
 					                    </a>
 					                    <label for="GrowthPlanDescription" class="govuk-label">What are your plans?</label>
 					                    <textarea asp-for="GrowthPlanDescription" id="GrowthPlanDescription"
                                       class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
 				                    </div>
 			                    }
-@*
+
                             @if (growthPlansOption == SelectOption.No)
                             {
-                                <div class="@(Model.NoGrowthPlanDescriptionError ? "govuk-form-group--error" : "govuk-radios__conditional")
+                                <div class="@(Model.NoGrowthPlanDescriptionError && Model.GrowthPlansOption != SelectOption.No ? "govuk-form-group--error" : "govuk-radios__conditional")
 										@(Model.GrowthPlansOption != SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
-                             id="growthPlan-no" aria-expanded="false">
+                             id="growthplan-no" aria-expanded="false">
                                     <a href="#NoGrowthPlanDescriptionNotEntered"
                                class="@(Model.NoGrowthPlanDescriptionError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                        You must enter the details of wy there is no plans for growth
+                                        You must enter the details of why there is no plans for growth
                                     </a>
                                     <label for="NoGrowthPlanDescription" class="govuk-label">Why are you not planning to grow?</label>
                                     <textarea asp-for="NoGrowthPlanDescription" id="NoGrowthPlanDescription"
                                       class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
                                 </div>
-                            }*@
+                            }
 		                    }
 	                    </div>
                 </div>
