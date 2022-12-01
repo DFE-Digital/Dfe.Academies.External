@@ -1,4 +1,4 @@
-using Dfe.Academies.External.Web.Attributes;
+﻿using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -19,10 +19,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
 		public SelectOption ChangesToLaGovernanceOption { get; set; }
-		
-		[BindProperty]
-		public bool? ChangesToLaGovernance { get; set; }
-		
+
 		[BindProperty]
 		public string ChangesToLaGovernanceExplained { get; set; }
 		

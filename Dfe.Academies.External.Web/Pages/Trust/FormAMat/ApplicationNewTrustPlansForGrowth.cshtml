@@ -11,7 +11,7 @@
     {
     <a asp-page="ApplicationNewTrustReasonsSummary" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back</a>
 }
-    <form method="post" name="frmNewTrustOpeningDate" novalidate="">
+    <form method="post" name="frmNewTrustPlansForGrowth" novalidate="">
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="ApplicationId" />
         <partial name="_HiddenFields" />
@@ -24,7 +24,7 @@
 
             <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
                 <fieldset class="govuk-fieldset">
-                    <div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+	                <div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
                         <legend id="role-hint" class="govuk-fieldset__legend govuk-!-font-weight-bold">
                             Do you plan to grow the trust over the next 5 years?
                         </legend>
@@ -32,37 +32,36 @@
                             For example, do you plan to form a multi-academy trust?
                         </label>
                         <div class="govuk-!-margin-6"></div>
-                        <div class="govuk-form-group">
-                        @foreach (var growthPlansOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x == SelectOption.Yes))
-                        {
-                            <div class="govuk-radios__item">
-                                <input type="radio"
-                                   asp-for="GrowthPlansOption"
-                                   value="@Convert.ToInt32(growthPlansOption)"
-                                   id="plansForGrowthOption@(growthPlansOption)"
-                                   class="govuk-radios__input"
-                                   data-aria-controls="growthPlans_@(growthPlansOption.ToString().ToLower())"
-                                   checked="@(growthPlansOption.Equals(Model.GrowthPlansOption))"
-                                   aria-expanded="False" />
-                                <label for="plansForGrowthOption@(growthPlansOption)" class="govuk-label govuk-radios__label">
-                                    @growthPlansOption.GetDescription()
-                                </label>
-                            </div>
+	                    <div class="govuk-form-group">
 
-                            @if (growthPlansOption == SelectOption.Yes)
-                            {
-                                <div class="@(Model.GrowthPlanDescriptionError ? "govuk-form-group--error" : "govuk-radios__conditional")
-										@(Model.GrowthPlansOption != SelectOption.Yes ? "govuk-radios__conditional--hidden" : "")"
-                             id="growthPlan-yes" aria-expanded="false">
-                                    <a href="#GrowthPlanDescriptionNotEntered"
-                               class="@(Model.GrowthPlanDescriptionError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                        What are your plans
-                                    </a>
-                                    <label for="GrowthPlanDescription" class="govuk-label">What are your plans?</label>
-                                    <textarea asp-for="GrowthPlanDescription" id="GrowthPlanDescription"
+		                    @foreach (var growthPlansOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x == SelectOption.Yes))
+		                    {
+			                    <div class="govuk-radios__item">
+				                    <input type="radio"
+				                           asp-for="GrowthPlansOption"
+				                           value="@Convert.ToInt32(growthPlansOption)"
+				                           id="plansForGrowthOption@(growthPlansOption)"
+				                           class="govuk-radios__input"
+				                           data-aria-controls="growthPlans_@(growthPlansOption.ToString().ToLower())"
+				                           checked="@(growthPlansOption.Equals(Model.GrowthPlansOption))"
+				                           aria-expanded="False"/>
+				                    <label for="plansForGrowthOption@(growthPlansOption)" class="govuk-label govuk-radios__label">
+					                    @growthPlansOption.GetDescription()
+				                    </label>
+			                    </div>
+
+			                    @if (growthPlansOption == SelectOption.Yes)
+			                    {
+				                    <div class="@(Model.GrowthPlanDescriptionError ? "govuk-form-group--error" : "govuk-radios__conditional") @(Model.GrowthPlansOption != SelectOption.Yes ? "govuk-radios__conditional--hidden" : "")" id="growthPlan-yes" aria-expanded="false">
+					                    <a href="#GrowthPlanDescriptionNotEntered"
+					                       class="@(Model.GrowthPlanDescriptionError ? "govuk-error-message" : "govuk-visually-hidden")">
+						                    What are your plans
+					                    </a>
+					                    <label for="GrowthPlanDescription" class="govuk-label">What are your plans?</label>
+					                    <textarea asp-for="GrowthPlanDescription" id="GrowthPlanDescription"
                                       class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
-                                </div>
-                            }
+				                    </div>
+			                    }
 @*
                             @if (growthPlansOption == SelectOption.No)
                             {
@@ -78,8 +77,8 @@
                                       class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
                                 </div>
                             }*@
-                        }
-                    </div>
+		                    }
+	                    </div>
                 </div>
             </fieldset>
         </div>
