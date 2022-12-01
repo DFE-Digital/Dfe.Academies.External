@@ -18,10 +18,10 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		public SelectOption GrowthPlansOption { get; set; }
 
 		[BindProperty]
-		public string GrowthPlanDescription { get; set; } = string.Empty;
+		public string? GrowthPlanDescription { get; set; } = string.Empty;
 
 		[BindProperty]
-		public string NoGrowthPlanDescription { get; set; } = string.Empty;
+		public string? NoGrowthPlanDescription { get; set; } = string.Empty;
 
 		public bool GrowthPlanDescriptionError
 		{
