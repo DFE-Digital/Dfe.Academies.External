@@ -25,10 +25,11 @@
 
 		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 			<fieldset class="govuk-fieldset">
+				<legend class="govuk-fieldset__legend govuk-fieldset__legend--s"></legend>
 				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>
-				
+
 				<div class="govuk-form-group">
 					<label for="ProjectedPupilNumbersYear1" class="govuk-label">Projected pupil numbers on roll in the year the academy opens (year 1)</label>
 					<input type="number" asp-for="ProjectedPupilNumbersYear1" id="ProjectedPupilNumbersYear1" class="govuk-input govuk-input--width-20"/>
