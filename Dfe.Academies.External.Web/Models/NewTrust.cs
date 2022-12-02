@@ -48,5 +48,5 @@ public sealed class NewTrust
 	public string? FormTrustImprovementStrategy { get; set; }
 	public string? FormTrustImprovementApprovedSponsor { get; set; }
 
-	//public List<NewTrustKeyPerson> NewTrustKeyPersons { get; set; } = new();
+	public List<NewTrustKeyPerson> KeyPeople { get; set; } = new();
 }
