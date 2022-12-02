@@ -7,12 +7,11 @@ public class NewTrustKeyPerson
 	public NewTrustKeyPerson(string firstName, string surname, KeyPersonRole role)
 	{
 		Role = role;
-		Person = new Person(firstName, surname);
+		FirstName = firstName;
+		Surname = surname;
 	}
 
-	public int Id { get; set; }
-
-	public int TrustId { get; set; }
+	public int ApplicationId { get; set; }
 
 	/// <summary>
 	/// Below replaces A2C-SIP bools
@@ -24,9 +23,10 @@ public class NewTrustKeyPerson
 	/// </summary>
 	public string TimeInRole { get; set; } = string.Empty;
 
-	public int PersonId { get; set; }
-	public Person Person { get; set; }
-
+	public string FirstName { get; set; }
+	public string Surname { get; set; }
+	public string ContactEmailAddress { get; set; }
+	
 	public DateTime? DateOfBirth { get; set; }
 
 	// MR:- Biography - KeyPersonBiography within A2C-SIP - ApplicationKeyPersons object
