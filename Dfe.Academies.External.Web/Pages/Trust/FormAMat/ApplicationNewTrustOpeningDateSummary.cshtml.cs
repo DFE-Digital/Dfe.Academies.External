@@ -16,10 +16,10 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		public List<ApplicationNewTrustOpeningDateHeadingViewModel> ViewModel { get; set; } = new();
 
 		public ApplicationNewTrustOpeningDateSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
-													IReferenceDataRetrievalService referenceDataRetrievalService) 
+													IReferenceDataRetrievalService referenceDataRetrievalService)
 	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-        {
-        }
+		{
+		}
 
         ///<inheritdoc/>
 		public override void PopulateValidationMessages()
@@ -48,12 +48,14 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 	        {
 		        TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
 
+		        var status =
+			        ConversionApplicationRetrievalService.CalculateOpeningDateSectionStatus(conversionApplication
+				        .FormTrustDetails);
+
 				ApplicationNewTrustOpeningDateHeadingViewModel heading1 = new(ApplicationNewTrustOpeningDateHeadingViewModel.Heading, // heading = 'Details'
 					"/Trust/FormAMat/ApplicationNewTrustOpeningDate")
 				{
-					Status = conversionApplication.FormTrustDetails.FormTrustOpeningDate.HasValue ?
-						SchoolConversionComponentStatus.Complete
-						: SchoolConversionComponentStatus.NotStarted
+					Status = (SchoolConversionComponentStatus)status
 				};
 
 				heading1.Sections.Add(new(
