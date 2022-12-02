@@ -443,7 +443,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
 		return Status.NotStarted;
 	}
-
+	
 	///<inheritdoc/>
 	public Status CalculateJoinAMatTrustStatus(ConversionApplication? conversionApplication)
 	{
@@ -463,10 +463,34 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	///<inheritdoc/>
 	public Status CalculateFormAMatTrustStatus(ConversionApplication? conversionApplication)
 	{
-		// TODO:- agree logic !!
+		if (conversionApplication?.FormTrustDetails != null)
+		{
+			var applicationFormTrustDetails = conversionApplication.FormTrustDetails;
 
-		// consume below:-
-		// conversionApplication.FormATrust
+			bool nameOfTrustStatus = CalculateNameOfTheTrustSectionStatus(applicationFormTrustDetails) == Status.Completed;
+			bool openingDateStatus = CalculateOpeningDateSectionStatus(applicationFormTrustDetails) == Status.Completed;
+			bool trustReasonsStatus = CalculateReasonsForFormingTrustSectionStatus(applicationFormTrustDetails) == Status.Completed;
+			bool plansForGrowthStatus = CalculatePlansForGrowthSectionStatus(applicationFormTrustDetails) == Status.Completed;
+			bool improvementStatus = CalculateSchoolImprovementStrategyStatus(applicationFormTrustDetails) == Status.Completed;
+			bool governanceStatus = CalculateGovernanceStructureSectionStatus(conversionApplication) == Status.Completed;
+			bool keyPeopleStatus = CalculateKeyPeopleSectionStatus(applicationFormTrustDetails) == Status.Completed;
+
+			var boolList = new List<bool>
+			{
+				nameOfTrustStatus,
+				openingDateStatus,
+				trustReasonsStatus,
+				plansForGrowthStatus,
+				improvementStatus,
+				governanceStatus,
+				keyPeopleStatus
+			};
+
+			if (boolList.All(x => x))
+				return Status.Completed;
+
+			return boolList.All(x => !x) ? Status.NotStarted : Status.InProgress;
+		}
 
 		return Status.NotStarted;
 	}
