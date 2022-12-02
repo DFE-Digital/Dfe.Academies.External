@@ -211,9 +211,25 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			: Status.NotStarted;
 	}
 
-	private Status CalculateOpeningDateSectionStatus(NewTrust applicationFormTrustDetails)
+	///<inheritdoc/>
+	public Status CalculateOpeningDateSectionStatus(NewTrust applicationFormTrustDetails)
 	{
-		return applicationFormTrustDetails.FormTrustOpeningDate.HasValue ? Status.Completed : Status.NotStarted;
+		// MR:- now have partial completion in this section, so need to check all 3 component parts !
+		var part1 = applicationFormTrustDetails.FormTrustOpeningDate.HasValue ? Status.Completed : Status.NotStarted;
+		var part2 = !string.IsNullOrWhiteSpace(applicationFormTrustDetails.TrustApproverName) ? Status.Completed : Status.NotStarted;
+		var part3 = !string.IsNullOrWhiteSpace(applicationFormTrustDetails.TrustApproverEmail) ? Status.Completed : Status.NotStarted;
+
+		var boolList = new List<bool>
+		{
+			part1 == Status.Completed,
+			part2 == Status.Completed,
+			part3 == Status.Completed
+		};
+
+		if (boolList.All(x => x))
+			return Status.Completed;
+
+		return boolList.All(x => !x) ? Status.NotStarted : Status.InProgress;
 	}
 
 	private Status CalculateNameOfTheTrustSectionStatus(NewTrust applicationFormTrustDetails)
@@ -222,8 +238,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			? Status.Completed
 			: Status.NotStarted;
 	}
-
-
+	
 	///<inheritdoc/>
 	public async Task<List<ConversionApplicationContributor>> GetConversionApplicationContributors(int applicationId)
 	{

@@ -85,6 +85,17 @@ public interface IConversionApplicationRetrievalService
 	/// <returns></returns>
 	Status CalculateApplicationStatus(ConversionApplication? conversionApplication);
 
-
+	/// <summary>
+	/// Return a list<viewmodel> to render FAM application progress on screen
+	/// </summary>
+	/// <param name="applicationId"></param>
+	/// <returns></returns>
 	Task<List<ConversionApplicationComponent>> GetFormAMatTrustComponents(int applicationId);
+
+	/// <summary>
+	/// Calculate FAM opening date section status
+	/// </summary>
+	/// <param name="applicationFormTrustDetails"></param>
+	/// <returns></returns>
+	Status CalculateOpeningDateSectionStatus(NewTrust applicationFormTrustDetails);
 }
