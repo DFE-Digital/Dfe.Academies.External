@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
@@ -12,11 +13,12 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	private readonly ILogger<ConversionApplicationRetrievalService> _logger;
 	private readonly HttpClient _httpClient;
 	private readonly ResilientRequestProvider _resilientRequestProvider;
-
-	public ConversionApplicationRetrievalService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationRetrievalService> logger) : base(httpClientFactory)
+	private readonly IFileUploadService _fileUploadService;
+	public ConversionApplicationRetrievalService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationRetrievalService> logger, IFileUploadService fileUploadService) : base(httpClientFactory)
 	{
 		_httpClient = httpClientFactory.CreateClient(AcademisationAPIHttpClientName);
 		_logger = logger;
+		_fileUploadService = fileUploadService;
 		_resilientRequestProvider = new ResilientRequestProvider(_httpClient);
 	}
 
@@ -164,7 +166,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 				new(name:"Reasons for forming the trust") {Id = 3,Status = CalculateReasonsForFormingTrustSectionStatus(application.FormTrustDetails)},
 				new(name:"Plans for growth") {Id = 4, Status = CalculatePlansForGrowthSectionStatus(application.FormTrustDetails)},
 				new(name:"School improvement strategy") {Id = 5, Status = CalculateSchoolImprovementStrategyStatus(application.FormTrustDetails)},
-				new(name:"Governance structure") {Id = 6, Status = CalculateGovernanceStructureSectionStatus(application.FormTrustDetails)},
+				new(name:"Governance structure") {Id = 6, Status = CalculateGovernanceStructureSectionStatus(application)},
 				new(name:"Key people") {Id = 7, Status = CalculateKeyPeopleSectionStatus(application.FormTrustDetails)}
 			};
 
@@ -182,9 +184,10 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		return Status.NotStarted;
 	}
 
-	private Status CalculateGovernanceStructureSectionStatus(NewTrust applicationFormTrustDetails)
+	private Status CalculateGovernanceStructureSectionStatus(ConversionApplication application)
 	{
-		return Status.NotStarted;
+		 var result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, application.ApplicationId.ToString(), application.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
+		 return result.Any() ? Status.Completed : Status.NotStarted;
 	}
 
 	private Status CalculateSchoolImprovementStrategyStatus(NewTrust applicationFormTrustDetails)
@@ -208,9 +211,25 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			: Status.NotStarted;
 	}
 
-	private Status CalculateOpeningDateSectionStatus(NewTrust applicationFormTrustDetails)
+	///<inheritdoc/>
+	public Status CalculateOpeningDateSectionStatus(NewTrust applicationFormTrustDetails)
 	{
-		return applicationFormTrustDetails.FormTrustOpeningDate.HasValue ? Status.Completed : Status.NotStarted;
+		// MR:- now have partial completion in this section, so need to check all 3 component parts !
+		var part1 = applicationFormTrustDetails.FormTrustOpeningDate.HasValue ? Status.Completed : Status.NotStarted;
+		var part2 = !string.IsNullOrWhiteSpace(applicationFormTrustDetails.TrustApproverName) ? Status.Completed : Status.NotStarted;
+		var part3 = !string.IsNullOrWhiteSpace(applicationFormTrustDetails.TrustApproverEmail) ? Status.Completed : Status.NotStarted;
+
+		var boolList = new List<bool>
+		{
+			part1 == Status.Completed,
+			part2 == Status.Completed,
+			part3 == Status.Completed
+		};
+
+		if (boolList.All(x => x))
+			return Status.Completed;
+
+		return boolList.All(x => !x) ? Status.NotStarted : Status.InProgress;
 	}
 
 	private Status CalculateNameOfTheTrustSectionStatus(NewTrust applicationFormTrustDetails)
@@ -219,8 +238,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			? Status.Completed
 			: Status.NotStarted;
 	}
-
-
+	
 	///<inheritdoc/>
 	public async Task<List<ConversionApplicationContributor>> GetConversionApplicationContributors(int applicationId)
 	{
@@ -425,7 +443,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
 		return Status.NotStarted;
 	}
-
+	
 	///<inheritdoc/>
 	public Status CalculateJoinAMatTrustStatus(ConversionApplication? conversionApplication)
 	{
@@ -445,10 +463,34 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	///<inheritdoc/>
 	public Status CalculateFormAMatTrustStatus(ConversionApplication? conversionApplication)
 	{
-		// TODO:- agree logic !!
+		if (conversionApplication?.FormTrustDetails != null)
+		{
+			var applicationFormTrustDetails = conversionApplication.FormTrustDetails;
 
-		// consume below:-
-		// conversionApplication.FormATrust
+			bool nameOfTrustStatus = CalculateNameOfTheTrustSectionStatus(applicationFormTrustDetails) == Status.Completed;
+			bool openingDateStatus = CalculateOpeningDateSectionStatus(applicationFormTrustDetails) == Status.Completed;
+			bool trustReasonsStatus = CalculateReasonsForFormingTrustSectionStatus(applicationFormTrustDetails) == Status.Completed;
+			bool plansForGrowthStatus = CalculatePlansForGrowthSectionStatus(applicationFormTrustDetails) == Status.Completed;
+			bool improvementStatus = CalculateSchoolImprovementStrategyStatus(applicationFormTrustDetails) == Status.Completed;
+			bool governanceStatus = CalculateGovernanceStructureSectionStatus(conversionApplication) == Status.Completed;
+			bool keyPeopleStatus = CalculateKeyPeopleSectionStatus(applicationFormTrustDetails) == Status.Completed;
+
+			var boolList = new List<bool>
+			{
+				nameOfTrustStatus,
+				openingDateStatus,
+				trustReasonsStatus,
+				plansForGrowthStatus,
+				improvementStatus,
+				governanceStatus,
+				keyPeopleStatus
+			};
+
+			if (boolList.All(x => x))
+				return Status.Completed;
+
+			return boolList.All(x => !x) ? Status.NotStarted : Status.InProgress;
+		}
 
 		return Status.NotStarted;
 	}

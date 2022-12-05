@@ -127,7 +127,7 @@ builder.Services.AddSession(options =>
 		options.Cookie.IsEssential = true;
 	}
 );
-builder.Services.AddScoped<IAadAuthorisationHelper, AadAuthorisationHelper>();
+builder.Services.AddSingleton<IAadAuthorisationHelper, AadAuthorisationHelper>();
 
 builder.Services.AddHttpClient<IFileUploadService, FileUploadService>(client =>
 	{

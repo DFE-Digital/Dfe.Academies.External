@@ -23,6 +23,7 @@
         
         <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 	        <fieldset class="govuk-fieldset">
+		        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s"></legend>
 		        <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 			        <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 		        </div>

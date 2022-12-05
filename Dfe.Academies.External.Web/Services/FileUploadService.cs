@@ -20,7 +20,10 @@ public class FileUploadService : IFileUploadService
 {
 	private readonly HttpClient _httpClient;
 	private readonly IAadAuthorisationHelper _aadAuthorisationHelper;
-		public FileUploadService(HttpClient httpClient, IAadAuthorisationHelper aadAuthorisationHelper)
+
+	public FileUploadService() { }
+
+	public FileUploadService(HttpClient httpClient, IAadAuthorisationHelper aadAuthorisationHelper)
 		{
 			_httpClient = httpClient;
 			_aadAuthorisationHelper = aadAuthorisationHelper;

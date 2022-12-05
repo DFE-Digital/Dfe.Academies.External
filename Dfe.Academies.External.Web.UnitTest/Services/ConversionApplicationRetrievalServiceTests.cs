@@ -96,7 +96,8 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
 		// act
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+		var mockFileUploadService = new Mock<IFileUploadService>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 		var expectedExistingApplicationsTestData = await applicationRetrievalService.GetPendingApplications(userEmail);
 
 		// assert
@@ -165,7 +166,8 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
 		// act
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+		var mockFileUploadService = new Mock<IFileUploadService>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 		var expectedExistingApplicationsTestData = await applicationRetrievalService.GetCompletedApplications(userEmail);
 
 		// assert
@@ -185,7 +187,8 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
 		// act
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+		var mockFileUploadService = new Mock<IFileUploadService>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 		var auditEntries = await applicationRetrievalService.GetConversionApplicationAuditEntries(applicationId);
 
 		// assert
@@ -207,7 +210,8 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
 		// act
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+		var mockFileUploadService = new Mock<IFileUploadService>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 		var applicationComponentStatuses = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
 
 		// assert
@@ -228,7 +232,8 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
 		// act
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+		var mockFileUploadService = new Mock<IFileUploadService>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 		var applicationContributors = await applicationRetrievalService.GetConversionApplicationContributors(applicationId);
 
 		// assert
@@ -250,7 +255,8 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 
 		// act
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+		var mockFileUploadService = new Mock<IFileUploadService>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 		var application = await applicationRetrievalService.GetApplication(GetApplicationId);
 
 		// assert

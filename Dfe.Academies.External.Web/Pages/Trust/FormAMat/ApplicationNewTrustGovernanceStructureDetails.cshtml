@@ -1,0 +1,82 @@
+﻿@page
+@using Dfe.Academies.External.Web.ViewModels
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Dfe.Academies.External.Web.Helpers
+@model Dfe.Academies.External.Web.Pages.Trust.FormAMat.ApplicationNewTrustGovernanceStructureDetails
+@{
+	ViewData["Title"] = "Apply to become an academy - New academy name";
+}
+
+@section BeforeMain
+{
+    <a asp-page="ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	<h1 class="govuk-heading-l">
+		<span class="govuk-caption-l">@Model.TrustName</span>
+        Governance structure
+	</h1>
+
+	<form method="post" name="frmNewTrustGovernanceStructureDetails" novalidate="" enctype="multipart/form-data">
+		@Html.AntiForgeryToken()
+		<input type="hidden" asp-for="ApplicationId"/>
+		<partial name="_HiddenFields"/>
+
+		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+			<fieldset class="govuk-fieldset">
+				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+				</div>
+                
+				<div class="govuk-form-group">
+				<legend id="role-hint" class="govuk-fieldset__legend">
+					We know you may not yet have a final agreed governance structure, but we
+					would like to know your current plans. This should include the number of
+					trustees, members, details of the executive leadership and what the local
+					governing bodies arrangements will be.
+				</legend>
+				<div class="govuk-inset-text">
+					The <a class="govuk-link" href="https://www.gov.uk/government/publications/governance-handbook">governance handbook</a> has examples of different multi-academy
+					trust structures
+				</div>
+				
+				<label for="trust-structure" class="govuk-label">Upload an A4 diagram of the proposed governance structure of the trust</label>
+				<details class="govuk-details" data-module="govuk-details">
+					<summary class="govuk-details__summary">
+						<span class="govuk-details__summary-text">
+							Describing the trust structure
+						</span>
+					</summary>
+					<div class="govuk-details__text">
+						Tell us how the trust will be structured. Show the lines of accountability
+						between the trust and the academies. Use text to explain how the trust
+						will hold each academy to account.
+					</div>
+					
+					<div class="@(Model.GovernanceStructureDetailsFileError ? "govuk-form-group--error" : "govuk-radios__conditional")"
+					     id="GovernanceStructureDetailFileNotAddedError" aria-expanded="false">
+						<div class="govuk-form-group govuk-error-summary__list">
+							<a href="#GovernanceStructureDetailFileNotAddedError"
+							   class="@(Model.GovernanceStructureDetailsFileError ? "govuk-error-message" : "govuk-visually-hidden")">
+								You must upload a file
+							</a>
+						</div>
+					</div>
+					
+				</details>
+				<label for="file-upload" class="govuk-label">
+					Upload a file
+				</label>
+				<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="GovernanceStructureDetailsFiles" class="govuk-label" multiple/>
+				<br/>
+
+				<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {ApplicationId = Model.ApplicationId,Urn = Model.Urn, FilePrefixSection = FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName, FileNames = Model.GovernanceStructureDetailsFileNames}'/>
+				
+				</div>
+			</fieldset>
+		</div>
+
+		<input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
+	</form>
+</div>

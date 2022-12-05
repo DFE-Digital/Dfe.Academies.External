@@ -28,7 +28,8 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+		var mockFileUploadService = new Mock<IFileUploadService>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 		// act
 		var declarationStatus = applicationRetrievalService.CalculateApplicationDeclarationStatus(null);
@@ -50,7 +51,8 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+		var mockFileUploadService = new Mock<IFileUploadService>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationNoRoles();
 
@@ -74,7 +76,8 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+		var mockFileUploadService = new Mock<IFileUploadService>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildJoinAMatConversionApplicationWithContributorWithSchool(null);
 
@@ -98,7 +101,8 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+		var mockFileUploadService = new Mock<IFileUploadService>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildJoinAMatConversionApplicationWithContributorWithSchool(null);
 		var applicationSchool = conversionApplication.Schools.FirstOrDefault()!.DeclarationBodyAgree = true;
@@ -123,7 +127,8 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+		var mockFileUploadService = new Mock<IFileUploadService>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildMinimalFormAMatConversionApplicationNoContributors();
 
@@ -147,7 +152,8 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object);
+		var mockFileUploadService = new Mock<IFileUploadService>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildFormAMatConversionApplicationWithContributorWithSchool();
 
