@@ -1,4 +1,5 @@
 ﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -12,10 +13,12 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		//// MR:- VM props to show data
 		public List<ApplicationNewTrustGovernanceHeadingViewModel> ViewModel { get; set; } = new();
 
+		private readonly IFileUploadService _fileUploadService;
 		public ApplicationNewTrustGovernanceSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
-			IReferenceDataRetrievalService referenceDataRetrievalService) 
+			IReferenceDataRetrievalService referenceDataRetrievalService, IFileUploadService fileUploadService) 
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
+			_fileUploadService = fileUploadService;
 		}
 
 		///<inheritdoc/>
@@ -46,7 +49,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 				TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
 
 				ApplicationNewTrustGovernanceHeadingViewModel heading1 = new(ApplicationNewTrustGovernanceHeadingViewModel.Heading, // heading = 'Details'
-					"/Trust/FormAMat/ApplicationNewTrustGovernance")
+					"/Trust/FormAMat/ApplicationNewTrustGovernanceStructureDetails")
 				{
 					Status = !string.IsNullOrWhiteSpace(conversionApplication.FormTrustDetails.FormTrustReasonForming) ?
 						SchoolConversionComponentStatus.Complete
@@ -55,12 +58,14 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 				// TODO MR:- only upload doc, how to check?
 
+				var result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, conversionApplication.ApplicationId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
+				var files = result.Aggregate(string.Empty, (current, fileName) => current + (fileName + "\n"));
+				
 				heading1.Sections.Add(new(
 					ApplicationNewTrustGovernanceSectionViewModel.StructureDocument,
-					(!string.IsNullOrWhiteSpace(conversionApplication.FormTrustDetails.FormTrustReasonForming) ?
-						conversionApplication.FormTrustDetails.FormTrustReasonForming :
-						QuestionAndAnswerConstants.NoInfoAnswer))
-				);
+					result.Any() ?
+						files :
+						QuestionAndAnswerConstants.NoAnswer));
 
 				var vm = new List<ApplicationNewTrustGovernanceHeadingViewModel> { heading1 };
 
