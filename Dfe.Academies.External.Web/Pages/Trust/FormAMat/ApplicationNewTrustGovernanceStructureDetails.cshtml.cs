@@ -22,7 +22,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 		private readonly IFileUploadService _fileUploadService;
 		
-		public ApplicationNewTrustGovernanceStructureDetails(IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService, IFileUploadService fileUploadService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "applicationnewtrustsummary")
+		public ApplicationNewTrustGovernanceStructureDetails(IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService, IFileUploadService fileUploadService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "ApplicationNewTrustGovernanceSummary")
 		{
 			_fileUploadService = fileUploadService;
 		}
