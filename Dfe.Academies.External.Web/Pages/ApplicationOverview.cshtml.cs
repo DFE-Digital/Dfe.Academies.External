@@ -160,10 +160,14 @@ namespace Dfe.Academies.External.Web.Pages
 				}
 				else // JAM
 				{
-					// Also check UserHasSubmitApplicationRole - chair / non-chair !!
-					HeaderText = UserHasSubmitApplicationRole
-						? "Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application."
-						: "Your answers will be saved after each question. Once all sections are complete, the school's chair will be able to submit the application.";
+					if (ConversionStatus != Status.Completed)
+					{
+						// Also check UserHasSubmitApplicationRole - chair / non-chair !!
+						HeaderText = UserHasSubmitApplicationRole
+							? "Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application."
+							: "Your answers will be saved after each question. Once all sections are complete, the school's chair will be able to submit the application.";
+					}
+
 					TrustHeaderText = "The trust the school will join";
 					SchoolHeaderText = "The school applying to convert";
 					SchoolName = school?.SchoolName;
