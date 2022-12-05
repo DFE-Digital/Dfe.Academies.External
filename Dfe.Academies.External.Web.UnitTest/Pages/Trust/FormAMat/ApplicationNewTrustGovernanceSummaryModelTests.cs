@@ -29,13 +29,14 @@ internal sealed class ApplicationNewTrustGovernanceSummaryModelTests
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var mockFileUploadService = new Mock<IFileUploadService>();
 		int applicationId = Fixture.Create<int>();
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
 		var pageModel = SetupApplicationNewTrustGovernanceSummaryModel(mockConversionApplicationRetrievalService.Object,
-			mockReferenceDataRetrievalService.Object);
+			mockReferenceDataRetrievalService.Object, mockFileUploadService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -48,12 +49,13 @@ internal sealed class ApplicationNewTrustGovernanceSummaryModelTests
 	private static ApplicationNewTrustGovernanceSummaryModel SetupApplicationNewTrustGovernanceSummaryModel(
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
+		IFileUploadService mockFileUploadService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
 		return new ApplicationNewTrustGovernanceSummaryModel(mockConversionApplicationRetrievalService,
-			mockReferenceDataRetrievalService)
+			mockReferenceDataRetrievalService, mockFileUploadService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,
