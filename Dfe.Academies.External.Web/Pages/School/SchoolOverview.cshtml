@@ -19,12 +19,29 @@
 	</span>
 	
 	<div class="govuk-!-margin-6"></div>
+	@if (Model.ApplicationType == ApplicationTypes.JoinAMat)
+	{
 
-	<p class="govuk-body govuk-radios__conditional">You must complete each section.<br/>
-		You can save your progress as you go.
-	</p>
-
+		<p class="govuk-body govuk-radios__conditional">You must complete each section.<br/>
+			You can save your progress as you go.
+			</p>
+	}
+	else
+	{
+		<p class="govuk-body">Complete all sections.</p>
+	}
+	
 	<partial name="_SchoolComponentsStatusPartial" model="Model.SchoolComponents"/>
+	@if (Model.ApplicationType == ApplicationTypes.FormAMat)
+	{
+		<div class="govuk-warning-text">
+			<span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+			<strong class="govuk-warning-text__text">
+				<span class="govuk-warning-text__assistive">Warning</span>
+				The declaration must be completed by the chair of the school's governing body.
+				</strong>
+			</div>
+	}
     
 	@if (!Model.UserHasSubmitApplicationRole && Model.DeclarationStatus == Status.Completed)
 	{
