@@ -48,24 +48,26 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			{
 				TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
 
+				var result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, conversionApplication.ApplicationId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
+				var files = result.Aggregate(string.Empty, (current, fileName) => current + (fileName + "\n"));
+
+				
 				ApplicationNewTrustGovernanceHeadingViewModel heading1 = new(ApplicationNewTrustGovernanceHeadingViewModel.Heading, // heading = 'Details'
 					"/Trust/FormAMat/ApplicationNewTrustGovernanceStructureDetails")
 				{
-					Status = !string.IsNullOrWhiteSpace(conversionApplication.FormTrustDetails.FormTrustReasonForming) ?
+					Status = result.Any() ?
 						SchoolConversionComponentStatus.Complete
 						: SchoolConversionComponentStatus.NotStarted
 				};
 
 				// TODO MR:- only upload doc, how to check?
 
-				var result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, conversionApplication.ApplicationId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
-				var files = result.Aggregate(string.Empty, (current, fileName) => current + (fileName + "\n"));
-				
+
 				heading1.Sections.Add(new(
 					ApplicationNewTrustGovernanceSectionViewModel.StructureDocument,
 					result.Any() ?
 						files :
-						QuestionAndAnswerConstants.NoAnswer));
+						QuestionAndAnswerConstants.NoInfoAnswer));
 
 				var vm = new List<ApplicationNewTrustGovernanceHeadingViewModel> { heading1 };
 
