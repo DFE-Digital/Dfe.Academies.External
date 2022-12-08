@@ -128,7 +128,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", section, fileName);
+			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
+			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, applicationDetails.ApplicationId.ToString(), applicationDetails.ApplicationReference, section, fileName);
 			return RedirectToPage("ApplicationNewTrustGovernanceStructureDetails", new {AppId = appId});
 		}
 	}

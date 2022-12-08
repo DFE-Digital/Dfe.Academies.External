@@ -16,7 +16,8 @@ internal sealed class ConversionApplicationTests
 			ApplicationId = int.MaxValue,
 			ApplicationType = ApplicationTypes.FormAMat,
 			UserEmail = "mark.robinson@education.gov.uk",
-			ConversionStatus = 1
+			ConversionStatus = 1,
+			ApplicationReference = "A2B_2147483647" 
 		};
 
 		// act

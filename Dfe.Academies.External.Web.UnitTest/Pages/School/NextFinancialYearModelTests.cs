@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
@@ -33,6 +34,8 @@ internal sealed class NextFinancialYearModelTests
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
+		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(applicationId))
+			.ReturnsAsync(new ConversionApplication { ApplicationReference = $"A2B_{applicationId}" });
 		// act
 		var pageModel = SetupNextFinancialYearModel(mockFileUploadService.Object, mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,

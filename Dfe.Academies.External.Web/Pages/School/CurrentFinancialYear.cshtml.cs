@@ -118,8 +118,9 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 
 	public override async Task<ActionResult> OnGetAsync(int urn, int appId)
 	{
-		SchoolCFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", FileUploadConstants.SchoolCFYRevenueStatusFile);
-		SchoolCFYCapitalForwardFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", FileUploadConstants.SchoolCFYCapitalForwardFile);
+		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
+		SchoolCFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile);
+		SchoolCFYCapitalForwardFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.SchoolCFYCapitalForwardFile);
 
 		TempDataHelper.StoreSerialisedValue($"{appId}-SchoolCFYRevenueStatusFileNames", TempData, SchoolCFYRevenueStatusFileNames);
 		TempDataHelper.StoreSerialisedValue($"{appId}-SchoolCFYCapitalForwardFileNames", TempData, SchoolCFYCapitalForwardFileNames);
@@ -215,7 +216,8 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 	}
 	public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName)
 	{
-		await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", section, fileName);
+		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
+		await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, applicationDetails.ApplicationId.ToString(), applicationDetails.ApplicationReference, section, fileName);
 		return RedirectToPage("CurrentFinancialYear", new { Urn = urn, AppId = appId });
 	}
 

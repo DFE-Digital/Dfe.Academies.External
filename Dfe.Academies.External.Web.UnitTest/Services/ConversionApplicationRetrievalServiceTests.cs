@@ -18,6 +18,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 	// below hard coded because has to be same as Id in getApplicationResponse.json
 	private const int GetApplicationId = 25;
 	private const int GetSchoolUrn = 113537;
+	private const string GetApplicationReference = "A2B_25";
 
 	[Test]
 	public async Task GetPendingApplications___ApiReturns200___Success()
@@ -28,6 +29,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
       ""applicationId"": 1,
       ""applicationType"": ""FormAMat"",
       ""applicationStatus"": ""InProgress"",
+	  ""applicationReference"": ""A2B_1"",
       ""contributors"": [
         {
           ""contributorId"": 1,
@@ -44,6 +46,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
       ""applicationId"": 2,
       ""applicationType"": ""FormAMat"",
       ""applicationStatus"": ""InProgress"",
+	  ""applicationReference"": ""A2B_2"",
       ""contributors"": [
         {
           ""contributorId"": 1,
@@ -60,6 +63,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
       ""applicationId"": 3,
       ""applicationType"": ""FormAMat"",
       ""applicationStatus"": ""InProgress"",
+	  ""applicationReference"": ""A2B_3"",
       ""contributors"": [
         {
           ""contributorId"": 1,
@@ -76,6 +80,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
       ""applicationId"": 3,
       ""applicationType"": ""FormAMat"",
       ""applicationStatus"": ""Submitted"",
+      ""applicationReference"": ""A2B_3"",
       ""contributors"": [
         {
           ""contributorId"": 1,
@@ -114,6 +119,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
       ""applicationId"": 1,
       ""applicationType"": ""FormAMat"",
       ""applicationStatus"": ""InProgress"",
+	  ""applicationReference"": ""A2B_1"",
       ""contributors"": [
         {
           ""contributorId"": 1,
@@ -130,6 +136,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
       ""applicationId"": 2,
       ""applicationType"": ""FormAMat"",
       ""applicationStatus"": ""InProgress"",
+	  ""applicationReference"": ""A2B_2"",
       ""contributors"": [
         {
           ""contributorId"": 1,
@@ -146,6 +153,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
       ""applicationId"": 3,
       ""applicationType"": ""FormAMat"",
       ""applicationStatus"": ""Submitted"",
+	  ""applicationReference"": ""A2B_3"",
       ""contributors"": [
         {
           ""contributorId"": 1,
@@ -262,7 +270,8 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		// assert
 		Assert.That(application, Is.Not.Null);
 		Assert.That(application.ApplicationId, Is.EqualTo(GetApplicationId));
-		Assert.That(application.ApplicationTitle, Is.EqualTo("Join a multi-academy trust A2B_25"));
+		Assert.That(application.ApplicationReference, Is.EqualTo(GetApplicationReference));
+		Assert.That(application.ApplicationTitle, Is.EqualTo($"Join a multi-academy trust {GetApplicationReference}"));
 		Assert.That(application.ApplicationStatus, Is.EqualTo(status));
 
 		Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");

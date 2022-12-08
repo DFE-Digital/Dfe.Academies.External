@@ -124,10 +124,11 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 
 	public override async Task<ActionResult> OnGetAsync(int urn, int appId)
 	{
+		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
 		ForecastedRevenueFileNames = await _fileUploadService.GetFiles(
 			FileUploadConstants.TopLevelFolderName,
 			appId.ToString(), 
-			$"A2B_{appId}",
+			applicationDetails.ApplicationReference,
 			FileUploadConstants.NFYForecastedRevenueFilePrefixFieldName);
 		
 		TempDataHelper.StoreSerialisedValue($"{ApplicationId}-NFYforecastedRevenueFiles", TempData, ForecastedRevenueFileNames);
@@ -135,7 +136,7 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 		ForecastedCapitalFileNames = await _fileUploadService.GetFiles(
 			FileUploadConstants.TopLevelFolderName,
 			appId.ToString(), 
-			$"A2B_{appId}",
+			applicationDetails.ApplicationReference,
 			FileUploadConstants.NFYForecastedCapitalFilePrefixFieldName);
 		
 		TempDataHelper.StoreSerialisedValue($"{ApplicationId}-NFYforecastedCapitalFiles", TempData, ForecastedCapitalFileNames);
@@ -230,7 +231,8 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 
     public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName)
     {
-	    await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", section, fileName);
+	    var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
+	    await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, appId.ToString(), applicationDetails.ApplicationReference, section, fileName);
 	    return RedirectToPage("NextFinancialYear", new {Urn = urn, AppId = appId});
     }
     

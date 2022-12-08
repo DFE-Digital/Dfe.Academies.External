@@ -110,8 +110,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 				!string.IsNullOrWhiteSpace(selectedSchool.MainFeederSchools) ?
 					selectedSchool.MainFeederSchools : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
+			var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
 			
-			var fileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), $"A2B_{ApplicationId}", FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result;
+			var fileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result;
 			
 			
 			FISheading.Sections.Add(new(

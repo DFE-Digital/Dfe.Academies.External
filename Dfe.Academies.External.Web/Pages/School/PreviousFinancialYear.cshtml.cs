@@ -122,14 +122,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", section, fileName);
+			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
+			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, appId.ToString(), applicationDetails.ApplicationReference, section, fileName);
 			return RedirectToPage("PreviousFinancialYear", new { Urn = urn, AppId = appId });
 		}
 
 		public override async Task<ActionResult> OnGetAsync(int urn, int appId)
 		{
-			SchoolPFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", FileUploadConstants.SchoolPFYRevenueStatusFile);
-			SchoolPFYCapitalForwardStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", FileUploadConstants.SchoolPFYCapitalForwardStatusFile);
+			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
+			
+			SchoolPFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.SchoolPFYRevenueStatusFile);
+			SchoolPFYCapitalForwardStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.SchoolPFYCapitalForwardStatusFile);
 
 			TempDataHelper.StoreSerialisedValue($"{appId}-SchoolPFYRevenueStatusFileNames", TempData, SchoolPFYRevenueStatusFileNames);
 			TempDataHelper.StoreSerialisedValue($"{appId}-SchoolPFYCapitalForwardStatusFileNames", TempData, SchoolPFYCapitalForwardStatusFileNames);

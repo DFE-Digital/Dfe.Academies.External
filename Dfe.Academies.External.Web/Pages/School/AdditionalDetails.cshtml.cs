@@ -168,7 +168,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", section, fileName);
+			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
+			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, applicationDetails.ApplicationId.ToString(), applicationDetails.ApplicationReference, section, fileName);
 			return RedirectToPage("AdditionalDetails", new {Urn = urn, AppId = appId});
 		}
 
