@@ -34,9 +34,9 @@ public enum SchoolRoles
 
 public enum KeyPersonRole
 {
-	[Description("CEO")]
+	[Description("CEO / executive")]
 	CEO = 1,
-	[Description("The chair of the trust")]
+	[Description("Chair of trust")]
 	Chair = 2,
 	[Description("Financial director")]
 	FinancialDirector = 3,

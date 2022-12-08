@@ -1,0 +1,112 @@
+﻿@page
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Dfe.Academies.External.Web.Pages.Trust.FormAMat.ApplicationNewTrustKeyPersonModel
+@{
+    ViewData["Title"] = "Apply to become an academy - New key person";
+}
+
+@section BeforeMain
+    {
+    <a asp-page="ApplicationNewTrustGrowthSummary" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back</a>
+}
+    <form method="post" name="frmNewTrustPlansForGrowth" novalidate="">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="ApplicationId" />
+        <partial name="_HiddenFields" />
+
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">
+                <span class="govuk-caption-l">@Model.TrustName</span>
+                New key person
+            </h1>
+
+            <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+	            <fieldset class="govuk-fieldset">
+		            <div class="govuk-form-group">
+			            <label for="TrustKeyPersonName" class="govuk-label">Name</label>
+			            <input type="text" asp-for="TrustKeyPersonName" id="TrustKeyPersonName" class="govuk-input govuk-input--width-20" />
+		            </div>
+                    
+		            <div class="govuk-form-group">
+			            <fieldset class="govuk-fieldset">
+				            <label class="govuk-label">Position within the trust</label>
+                            <label class="govuk-hint">
+					            Tick all that apply
+				            </label>
+				            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+					            <div class="govuk-checkboxes__item">
+                                    <input asp-for="TrustKeyPersonMember" type="checkbox" class="govuk-checkboxes__input">
+                                    <label for='TrustKeyPersonMember' class="govuk-label govuk-checkboxes__label">
+							            Member
+						            </label>
+					            </div>
+					            <div class="govuk-checkboxes__item">
+						            <input asp-for="TrustKeyPersonTrustee" type="checkbox" class="govuk-checkboxes__input">
+						            <label for='TrustKeyPersonTrustee' class="govuk-label govuk-checkboxes__label">
+							            Trustee
+						            </label>
+					            </div>
+					            <div class="govuk-checkboxes__item">
+						            <input asp-for="TrustKeyPersonCeo" type="checkbox" class="govuk-checkboxes__input">
+						            <label for='TrustKeyPersonCeo' class="govuk-label govuk-checkboxes__label">
+							            CEO / executive
+						            </label>
+					            </div>
+					            <div class="govuk-checkboxes__item">
+						            <input asp-for="TrustKeyPersonChair" type="checkbox" class="govuk-checkboxes__input">
+						            <label for='TrustKeyPersonCeo' class="govuk-label govuk-checkboxes__label">
+							            Chair of trust
+						            </label>
+					            </div>
+					            <div class="govuk-checkboxes__item">
+						            <input asp-for="TrustKeyPersonFinancialDirector" type="checkbox" class="govuk-checkboxes__input">
+						            <label for='TrustKeyPersonFinancialDirector' class="govuk-label govuk-checkboxes__label">
+							            Financial director
+						            </label>
+					            </div>
+					            <div class="govuk-checkboxes__item">
+						            <input asp-for="TrustKeyPersonFinancialOther" type="checkbox" class="govuk-checkboxes__input">
+                                    <label for='TrustKeyPersonFinancialOther' class="govuk-label govuk-checkboxes__label">
+							            Other
+						            </label>
+					            </div>
+				            </div>
+			            </fieldset>
+		            </div> 
+                    
+		            <div class="govuk-form-group">
+			            <fieldset class="govuk-fieldset" role="group" aria-describedby="conversion-date-different-date-hint">
+				            <legend id="role-hint" class="govuk-fieldset__legend">
+					            Date of Birth
+				            </legend>
+				            <div id="conversion-date-different-date-hint" class="govuk-hint">
+					            For example, 31 3 1980
+				            </div>
+                            <a href="#OpeningDateNotEntered" class="@(Model.TrustKeyPersonDobError ? "govuk-error-message" : "govuk-visually-hidden")">
+					            You must provide a date
+				            </a>
+				            <govuk-date field-name="@Model.TrustKeyPersonDobDate"
+				                        field-data="@Model.TrustKeyPersonDob"
+				                        field-day="@Model.TrustKeyPersonDobDay"
+				                        field-month="@Model.TrustKeyPersonDobMonth"
+				                        field-year="@Model.TrustKeyPersonDobYear">
+				            </govuk-date>
+			            </fieldset>
+		            </div>
+                    
+		            <div class="govuk-form-group">
+                        <label for="TrustKeyPersonBiography" class="govuk-label">Provide a biography of them</label>
+			            @*<p class="govuk-caption-m">Include details of where the expertise, resources and staff will come from and how the schools will monitor improvement.</p>*@
+                        <textarea asp-for="TrustKeyPersonBiography" id="TrustKeyPersonBiography"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+		            </div>
+
+	            </fieldset>
+        </div>
+
+        <input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
+
+    </div>
+</form>
