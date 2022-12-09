@@ -59,7 +59,7 @@ public interface IConversionApplicationCreationService
 	/// <returns></returns>
 	Task SubmitApplication(int applicationId);
 
-	Task CreateKeyPerson(int applicationId, SchoolLoan loan);
-	Task UpdateKeyPerson(int applicationId, SchoolLoan loan);
+	Task CreateKeyPerson(int applicationId, NewTrustKeyPerson person);
+	Task UpdateKeyPerson(int applicationId, NewTrustKeyPerson person);
 	Task DeleteKeyPerson(int applicationId, int keyPersonId);
 }

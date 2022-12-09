@@ -51,7 +51,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		public bool TrustKeyPersonFinancialDirector { get; set; }
 
 		[BindProperty]
-		public bool TrustKeyPersonFinancialOther { get; set; }
+		public bool TrustKeyPersonOther { get; set; }
 
 
 		public bool TrustKeyPersonDobError
@@ -66,7 +66,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 												IReferenceDataRetrievalService referenceDataRetrievalService,
 												IConversionApplicationCreationService conversionApplicationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService,
-				"ApplicationNewTrustGrowthSummary")
+				"ApplicationNewTrustSummary")
 		{
 		}
 
@@ -92,8 +92,42 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 				TempDataHelper.GetSerialisedValue<ConversionApplication>(
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			var dictionaryMapper = PopulateUpdateDictionary();
-			await ConversionApplicationCreationService.PutApplicationFormAMatDetails(ApplicationId, dictionaryMapper);
+			var roles = new List<NewTrustKeyPersonRole>();
+
+			if (TrustKeyPersonCeo)
+			{
+				roles.Add(new NewTrustKeyPersonRole(KeyPersonRole.CEO, string.Empty));
+			}
+
+			if (TrustKeyPersonChair)
+			{
+				roles.Add(new NewTrustKeyPersonRole(KeyPersonRole.Chair, string.Empty));
+			}
+
+			if (TrustKeyPersonFinancialDirector)
+			{
+				roles.Add(new NewTrustKeyPersonRole(KeyPersonRole.FinancialDirector, "Time in role ToDo"));
+			}
+
+			if (TrustKeyPersonTrustee)
+			{
+				roles.Add(new NewTrustKeyPersonRole(KeyPersonRole.Trustee, string.Empty));
+			}
+
+			if (TrustKeyPersonMember)
+			{
+				roles.Add(new NewTrustKeyPersonRole(KeyPersonRole.Member, string.Empty));
+			}
+
+			if (TrustKeyPersonOther)
+			{
+				roles.Add(new NewTrustKeyPersonRole(KeyPersonRole.Other, string.Empty));
+			}
+
+			var newKeyPerson = new NewTrustKeyPerson(TrustKeyPersonName, TrustKeyPersonDobLocal,
+				TrustKeyPersonBiography, roles);
+
+			await ConversionApplicationCreationService.CreateKeyPerson(ApplicationId, newKeyPerson);
 
 			// update temp store for next step
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);

@@ -43,7 +43,9 @@ public enum KeyPersonRole
 	[Description("Trustee")]
 	Trustee = 4,
 	[Description("Other")]
-	Other = 5
+	Other = 5,
+	[Description("Member")]
+	Member = 6
 }
 
 public enum SelectOption
