@@ -12,7 +12,7 @@ namespace Dfe.Academies.External.Web.Pages.Base
 		[BindProperty]
 		public int Urn { get; set; }
 
-		public string SchoolName { get; private set; } = string.Empty;
+		public string SchoolName { get; set; } = string.Empty;
 
 		protected BaseSchoolSummaryPageModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService)

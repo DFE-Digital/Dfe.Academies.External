@@ -48,9 +48,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// Grab other values from API
 			var conversionApplication = await LoadAndSetApplicationDetails(appId);
 			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
-			
 			if (selectedSchool != null)
 			{
+				SchoolName = selectedSchool.SchoolName;
 				selectedSchool.SchoolApplicationComponents = await ConversionApplicationRetrievalService
 					.GetSchoolApplicationComponents(appId, urn);
 
