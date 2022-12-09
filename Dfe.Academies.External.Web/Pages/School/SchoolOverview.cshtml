@@ -13,26 +13,27 @@
 }
 
 <div class="govuk-grid-column-two-thirds">
-	<h1 class="govuk-heading-l">@Model.ApplicationType.GetDescription()</h1>
-	<span class="govuk-caption-l">
-		@Model.SchoolName
-	</span>
-	
 	<div class="govuk-!-margin-6"></div>
 	@if (Model.ApplicationType == ApplicationTypes.JoinAMat)
 	{
-
+		<h1 class="govuk-heading-l">@Model.ApplicationType.GetDescription()</h1>
+		<span class="govuk-caption-l">
+			@Model.SchoolName
+		</span>
 		<p class="govuk-body govuk-radios__conditional">You must complete each section.<br/>
 			You can save your progress as you go.
 			</p>
 	}
 	else
 	{
+		<span class="govuk-caption-l">Form a multi-academy trust</span>
+		<h1 class="govuk-heading-l">@Model.SchoolName</h1>
+		<br/>
 		<p class="govuk-body">Complete all sections.</p>
 	}
 	
 	<partial name="_SchoolComponentsStatusPartial" model="Model.SchoolComponents"/>
-	@if (Model.ApplicationType == ApplicationTypes.FormAMat)
+	@if (Model.ApplicationType == ApplicationTypes.FormAMat && Model.SchoolComponents.SchoolComponents.FirstOrDefault(x => string.Equals(x.Name,"declaration", StringComparison.InvariantCultureIgnoreCase))?.Status != Status.Completed)
 	{
 		<div class="govuk-warning-text">
 			<span class="govuk-warning-text__icon" aria-hidden="true">!</span>
@@ -54,6 +55,6 @@
 		</div>
 	}
 
-	<a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+	<a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return</a>
 </div>
 <input type="hidden" value="@Model.Urn"/>
