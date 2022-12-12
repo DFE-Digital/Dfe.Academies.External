@@ -15,4 +15,5 @@ module "azure_container_apps_hosting" {
   container_secret_environment_variables = local.container_secret_environment_variables
 
   enable_mssql_database = local.enable_mssql_database
+  enable_cdn_frontdoor  = local.enable_cdn_frontdoor
 }
