@@ -94,6 +94,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private void PopulateUiModel(SchoolApplyingToConvert selectedSchool, ConversionApplication? application)
 		{
 			ApplicationType = application.ApplicationType;
+			var userRole = application.Contributors.FirstOrDefault(x =>
+				x.EmailAddress.Equals(GetCurrentUserEmail(), StringComparison.InvariantCultureIgnoreCase))?.Role;
 			SchoolComponentsViewModel componentsVm = new()
 			{
 				URN = selectedSchool.URN,
@@ -104,7 +106,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 						uri: SetSchoolApplicationComponentUriFromName(c.Name))
 					{
 						Status = c.Status
-					}).ToList()
+					})
+					.Where(x => !(x.Name.Equals("declaration", StringComparison.InvariantCultureIgnoreCase) && userRole != SchoolRoles.ChairOfGovernors))
+					.ToList()
 
 				// TODO:- set statuses
 			};
