@@ -1,0 +1,33 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.RemoveSchoolSelectionModel
+@{
+	ViewData["Title"] = "Apply to become an academy - Remove a school";
+}
+
+@section BeforeMain
+{
+    <a asp-page="ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">
+		Back
+	</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+    
+	<h1 class="govuk-heading-l">
+		Which school do you want to remove?
+	</h1>
+
+	<p class="govuk-caption-m">All information about the school will be lost, and you will need to provide it again if you re-add it later.</p>
+
+	<form method="post" name="frmAddContributor" novalidate="">
+		@Html.AntiForgeryToken()
+		<input type="hidden" asp-for="ApplicationId"/>
+        
+        //TODO MR:- radio of schools, might be a problem with school name?
+
+		<partial name="_HiddenFields"/>
+		<div class="govuk-button-group">
+			<input type="submit" value="Remove school" class="govuk-button"/>
+		</div>
+	</form>
+</div>
