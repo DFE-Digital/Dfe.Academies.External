@@ -9,7 +9,7 @@ public class ConversionApplication
 	/// <summary>
 	/// e.g. 'A2B_xxx'
 	/// </summary>
-	public string ApplicationReference => $"A2B_{ApplicationId}";
+	public string ApplicationReference { get; set; }
 
 	public ApplicationTypes ApplicationType { get; set; }
 
