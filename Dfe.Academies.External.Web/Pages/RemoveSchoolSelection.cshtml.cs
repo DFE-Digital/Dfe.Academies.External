@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -11,14 +12,18 @@ namespace Dfe.Academies.External.Web.Pages
 		public int ApplicationId { get; set; }
 
 		[BindProperty]
+		[Required(ErrorMessage = "You must choose an option")]
 		public int SelectedUrn { get; set; }
 		
+		public Dictionary<int, string> ApplicationSchools { get; private set; }
+
 		private string NextStepPage { get; set; } = "/ApplicationRemoveSchool";
 
 		public RemoveSchoolSelectionModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 			IReferenceDataRetrievalService referenceDataRetrievalService) 
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
+			ApplicationSchools = new Dictionary<int, string>();
 		}
 
 		public async Task<ActionResult> OnGetAsync(int appId)
@@ -50,6 +55,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 			if (!RunUiValidation())
 			{
+				PopulateUiModel(draftConversionApplication); // otherwise lose app schools !
 				return Page();
 			}
 
@@ -90,10 +96,7 @@ namespace Dfe.Academies.External.Web.Pages
 			{
 				foreach (var school in conversionApplication.Schools)
 				{
-					// TODO MR:- pop a IList of schools with just below deets, or, an IDictionary
-
-					var x = school.URN;
-					var y = school.SchoolName;
+					ApplicationSchools.Add(school.URN, school.SchoolName);
 				}
 			}
 		}

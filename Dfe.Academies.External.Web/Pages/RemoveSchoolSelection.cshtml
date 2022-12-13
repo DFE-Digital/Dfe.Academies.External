@@ -23,9 +23,25 @@
 		@Html.AntiForgeryToken()
 		<input type="hidden" asp-for="ApplicationId"/>
         
-        //TODO MR:- radio of schools, might be a problem with school name?
+		<div class="govuk-form-group">
+			<div class="govuk-radios" data-module="govuk-radios">
+	            @foreach (var school in Model.ApplicationSchools)
+				{
+					<div class="govuk-radios__item">
+						<input type="radio"
+	                           asp-for="SelectedUrn"
+						       value="@school.Key"
+	                           id="RoleType@(school.Key)"
+						       class="govuk-radios__input"
+						       aria-expanded="False"/>
+						<label for="RoleType@(school.Key)" class="govuk-label govuk-radios__label">
+							@school.Value
+						</label>
+					</div>
+				}
+			</div>
+		</div>
 
-		<partial name="_HiddenFields"/>
 		<div class="govuk-button-group">
 			<input type="submit" value="Remove school" class="govuk-button"/>
 		</div>
