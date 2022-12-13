@@ -19,24 +19,15 @@
 		Land and buildings
 	</h1>
 
-	@*    <p id="summaryTableDescription" class="govuk-body">Application School Land and buildings Summary</p>*@
-	@*    <p id="component-not started" class="govuk-body">Start section</p>*@
-    @*    <p id="component-change" class="govuk-body">Change your answers</p>*@
 	@foreach (var question in Model.ViewModel)
 	{
         <table class="govuk-table" aria-describedby="summaryTableDescription">
-			<thead>
-				<tr>
-					<th scope="col"></th>
-					<th scope="col"></th>
-				</tr>
-			</thead>
 			<tbody class="govuk-table__body">
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell">
 						@if (question.Status == SchoolConversionComponentStatus.NotStarted)
 						{
-							<a asp-page="@question.URI" aria-describedby="component-not started" class="govuk-button govuk-button--secondary"
+							<a asp-page="@question.URI" aria-describedby="component-not-started" class="govuk-button govuk-button--secondary"
 							   asp-route-appId="@Model.ApplicationId"
 							   asp-route-urn="@Model.Urn">
 								Start section
@@ -65,4 +56,7 @@
     <a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
 </div>
 <input type="hidden" asp-for="Urn" />
-<partial name="_HiddenFields" />
+
+<p id="summaryTableDescription" class="govuk-body">Application School Land and buildings Summary</p>
+<p id="component-not-started" class="govuk-body">Start section</p>
+<p id="component-change" class="govuk-body">Change your answers</p>
