@@ -23,7 +23,7 @@
 						@foreach (var error in errors)
 						{
 							<li>
-								<a href="#@error.Key">@string.Join(",", error.Value ?? Array.Empty<string>())</a>
+                                <span class="govuk-error-message">@string.Join(",", error.Value ?? Array.Empty<string>())</span>
 							</li>
 						}
 					</ul>
