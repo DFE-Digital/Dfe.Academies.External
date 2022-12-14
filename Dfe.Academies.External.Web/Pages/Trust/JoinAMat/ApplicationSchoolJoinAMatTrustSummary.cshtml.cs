@@ -12,6 +12,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 	public class ApplicationSchoolJoinAMatTrustSummaryModel : BaseApplicationSummaryPageModel
 	{
 		private readonly IFileUploadService _fileUploadService;
+		private readonly ILogger _logger;
+
 		//// Below are props for UI display
 		public ApplicationTypes ApplicationType { get; private set; }
 
@@ -20,10 +22,12 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		public List<ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel> ViewModel { get; set; } = new();
 
 		public ApplicationSchoolJoinAMatTrustSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-			IReferenceDataRetrievalService referenceDataRetrievalService, IFileUploadService fileUploadService)
+			IReferenceDataRetrievalService referenceDataRetrievalService, IFileUploadService fileUploadService,
+			ILogger<ApplicationSchoolJoinAMatTrustSummaryModel> logger)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
 			_fileUploadService = fileUploadService;
+			_logger = logger;
 		}
 
 		///<inheritdoc/>
@@ -67,11 +71,21 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 						: SchoolConversionComponentStatus.NotStarted
 					};
 
-				var trustConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, conversionApplication.ApplicationId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName).Result;
+				List<string> trustConsentFileNames = new List<string>();
+				try
+				{
+					trustConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, conversionApplication.ApplicationId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName).Result;
+				}
+				catch (Exception ex)
+				{
+					_logger.LogError("ApplicationSchoolJoinAMatTrustSummaryModel::PopulateUiModel::Exception - {Message}", ex.Message);
+				}
+				
 				// sub questions 
 				// 2a) upload evidence that the trust consents to the school joining = ApplicationSchoolJoinAMatTrustSummarySectionViewModel.TrustConsentEvidenceDoc
 				headingChangeTrustDetails.Sections.Add(new(ApplicationSchoolJoinAMatTrustSummarySectionViewModel.TrustConsentEvidenceDoc,
-					!string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) ? string.Join("\n", trustConsentFileNames) : QuestionAndAnswerConstants.NoAnswer));
+					!string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) ? 
+					string.Join("\n", trustConsentFileNames) : QuestionAndAnswerConstants.NoAnswer));
 
 				// 2b) will there be any changes to the governance = ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToTrustGovernance
 				headingChangeTrustDetails.Sections.Add(new(

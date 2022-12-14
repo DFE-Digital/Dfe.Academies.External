@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Microsoft.Extensions.Logging;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.Trust.FormAMat;
 
@@ -31,12 +32,14 @@ internal sealed class ApplicationNewTrustGovernanceSummaryModelTests
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
 		int applicationId = Fixture.Create<int>();
+		var mockLogger = new Mock<ILogger<ApplicationNewTrustGovernanceSummaryModel>>();
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
 		var pageModel = SetupApplicationNewTrustGovernanceSummaryModel(mockConversionApplicationRetrievalService.Object,
-			mockReferenceDataRetrievalService.Object, mockFileUploadService.Object);
+			mockReferenceDataRetrievalService.Object, mockFileUploadService.Object,
+			mockLogger.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -50,12 +53,13 @@ internal sealed class ApplicationNewTrustGovernanceSummaryModelTests
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		IFileUploadService mockFileUploadService,
+		ILogger<ApplicationNewTrustGovernanceSummaryModel> mockLogger,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
 		return new ApplicationNewTrustGovernanceSummaryModel(mockConversionApplicationRetrievalService,
-			mockReferenceDataRetrievalService, mockFileUploadService)
+			mockReferenceDataRetrievalService, mockFileUploadService, mockLogger)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

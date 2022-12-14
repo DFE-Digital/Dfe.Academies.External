@@ -10,15 +10,19 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 {
     public class ApplicationNewTrustGovernanceSummaryModel : BaseTrustFamApplicationSummaryPageModel
 	{
+		private readonly ILogger<ApplicationNewTrustGovernanceSummaryModel> _logger;
+
 		//// MR:- VM props to show data
 		public List<ApplicationNewTrustGovernanceHeadingViewModel> ViewModel { get; set; } = new();
 
 		private readonly IFileUploadService _fileUploadService;
 		public ApplicationNewTrustGovernanceSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
-			IReferenceDataRetrievalService referenceDataRetrievalService, IFileUploadService fileUploadService) 
+			IReferenceDataRetrievalService referenceDataRetrievalService, IFileUploadService fileUploadService,
+			ILogger<ApplicationNewTrustGovernanceSummaryModel> logger) 
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
 			_fileUploadService = fileUploadService;
+			_logger = logger;
 		}
 
 		///<inheritdoc/>
@@ -47,11 +51,19 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			if (conversionApplication != null && conversionApplication.FormTrustDetails != null)
 			{
 				TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
+				List<string> result = new List<string>();
+				string files = string.Empty;
 
-				var result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, conversionApplication.ApplicationId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
-				var files = result.Aggregate(string.Empty, (current, fileName) => current + (fileName + "\n"));
-
-				
+				try
+				{
+					result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, conversionApplication.ApplicationId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
+					files = result.Aggregate(string.Empty, (current, fileName) => current + (fileName + "\n"));
+				}
+				catch (Exception ex)
+				{
+					_logger.LogError("ApplicationNewTrustGovernanceSummaryModel::PopulateUiModel::Exception - {Message}", ex.Message);
+				}
+								
 				ApplicationNewTrustGovernanceHeadingViewModel heading1 = new(ApplicationNewTrustGovernanceHeadingViewModel.Heading, // heading = 'Details'
 					"/Trust/FormAMat/ApplicationNewTrustGovernanceStructureDetails")
 				{
@@ -59,9 +71,6 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 						SchoolConversionComponentStatus.Complete
 						: SchoolConversionComponentStatus.NotStarted
 				};
-
-				// TODO MR:- only upload doc, how to check?
-
 
 				heading1.Sections.Add(new(
 					ApplicationNewTrustGovernanceSectionViewModel.StructureDocument,
