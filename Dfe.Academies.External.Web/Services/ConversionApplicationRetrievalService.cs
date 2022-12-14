@@ -186,8 +186,15 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
 	private Status CalculateGovernanceStructureSectionStatus(ConversionApplication application)
 	{
-		 var result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, application.ApplicationId.ToString(), application.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
-		 return result.Any() ? Status.Completed : Status.NotStarted;
+		try
+		{
+			var result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, application.ApplicationId.ToString(), application.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
+			return result.Any() ? Status.Completed : Status.NotStarted;
+		}
+		catch (Exception e)
+		{
+			return Status.NotStarted;
+		}
 	}
 
 	private Status CalculateSchoolImprovementStrategyStatus(NewTrust applicationFormTrustDetails)
