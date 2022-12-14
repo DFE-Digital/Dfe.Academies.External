@@ -8,6 +8,7 @@ using Moq;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using Dfe.Academies.External.Web.Pages.Trust.JoinAMat;
+using Microsoft.Extensions.Logging;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.Trust.JoinAMat;
 
@@ -29,12 +30,14 @@ internal sealed class ApplicationSchoolJoinAMatTrustSummaryModelTests
 		var mockFileUploadService = new Mock<IFileUploadService>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
+		var mockLogger = new Mock<ILogger<ApplicationSchoolJoinAMatTrustSummaryModel>>();
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
 		var pageModel = SetupApplicationSchoolJoinAMatTrustSummaryModel(mockConversionApplicationRetrievalService.Object,
-			mockReferenceDataRetrievalService.Object, mockFileUploadService.Object);
+			mockReferenceDataRetrievalService.Object, mockFileUploadService.Object,
+			mockLogger.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -48,12 +51,13 @@ internal sealed class ApplicationSchoolJoinAMatTrustSummaryModelTests
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		IFileUploadService fileUploadService,
+		ILogger<ApplicationSchoolJoinAMatTrustSummaryModel> mockLogger,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
 		return new ApplicationSchoolJoinAMatTrustSummaryModel(mockConversionApplicationRetrievalService,
-			mockReferenceDataRetrievalService, fileUploadService)
+			mockReferenceDataRetrievalService, fileUploadService, mockLogger)
 		{
 			PageContext = pageContext,
 			TempData = tempData,
