@@ -27,7 +27,7 @@
 					<td class="govuk-table__cell">
 						@if (question.Status == SchoolConversionComponentStatus.NotStarted)
 						{
-							<a asp-page="@question.URI" aria-describedby="component-not-started" class="govuk-button govuk-button--secondary"
+							<a asp-page="@question.URI" class="govuk-button govuk-button--secondary"
 							   asp-route-appId="@Model.ApplicationId"
 							   asp-route-urn="@Model.Urn">
 								Start section
@@ -35,7 +35,7 @@
 						}
 						else
 						{
-							<a asp-page="@question.URI" aria-describedby="component-change" class="govuk-link"
+							<a asp-page="@question.URI" class="govuk-link"
 							   asp-route-appId="@Model.ApplicationId"
 							   asp-route-urn="@Model.Urn">
 								Change your answers
@@ -57,6 +57,4 @@
 </div>
 <input type="hidden" asp-for="Urn" />
 
-<p id="summaryTableDescription" class="govuk-body">Application School Land and buildings Summary</p>
-<p id="component-not-started" class="govuk-body">Start section</p>
-<p id="component-change" class="govuk-body">Change your answers</p>
+@*<p id="summaryTableDescription" class="govuk-body">Application School Land and buildings Summary</p>*@
