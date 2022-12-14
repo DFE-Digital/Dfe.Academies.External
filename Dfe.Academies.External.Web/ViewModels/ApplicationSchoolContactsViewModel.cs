@@ -51,6 +51,7 @@ public sealed class ApplicationSchoolContactsViewModel
 
 	public string? MainContactOtherName { get; set; }
 
+	[EmailAddress(ErrorMessage = "Other contact email is not a valid e-mail address")]
 	public string? MainContactOtherEmail { get; set; }
 
 	public string? MainContactOtherTelephone { get; set; }
@@ -63,5 +64,7 @@ public sealed class ApplicationSchoolContactsViewModel
 	// TODO:- no validation on ticket for below?
 
 	public string? ApproverContactName { get; set; }
+
+	[EmailAddress(ErrorMessage = "Approver email is not a valid e-mail address")]
 	public string? ApproverContactEmail { get; set; }
 }
