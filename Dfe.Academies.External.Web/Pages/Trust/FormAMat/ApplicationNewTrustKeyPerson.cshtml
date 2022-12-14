@@ -1,6 +1,8 @@
 ﻿@page
 @using Dfe.Academies.External.Web.Enums
 @using Dfe.Academies.External.Web.Extensions
+@using Dfe.Academies.External.Web.TagHelpers
+@using Microsoft.AspNetCore.Mvc.ModelBinding
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.Trust.FormAMat.ApplicationNewTrustKeyPersonModel
 @{
@@ -24,17 +26,23 @@
 
             <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 	            <fieldset class="govuk-fieldset">
-		            <div class="govuk-form-group">
-			            <label for="TrustKeyPersonName" class="govuk-label">Name</label>
-			            <input type="text" asp-for="TrustKeyPersonName" id="TrustKeyPersonName" class="govuk-input govuk-input--width-20" />
+		            <div class="govuk-form-group">@*@(Model.IsPropertyInvalid("TrustKeyPersonName") ? "govuk-form-group--error" : "")">*@
+	                    <label for="TrustKeyPersonName" class="govuk-label">Name</label>
+                        <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("TrustKeyPersonName") ? "govuk-visually-hidden" : "")">
+                            <span class="govuk-visually-hidden">Error:</span> Please enter a name
+	                    </p>
+			            <input type="text" asp-for="TrustKeyPersonName" id="TrustKeyPersonName" class="govuk-input govuk-input--width-20" />@*@(Model.IsPropertyInvalid("TrustKeyPersonName") ? "govuk-input--error" : "")" />*@
 		            </div>
                     
 		            <div class="govuk-form-group">
 			            <fieldset class="govuk-fieldset">
 				            <label class="govuk-label">Position within the trust</label>
-                            <label class="govuk-hint">
+				            <label class="govuk-hint">
 					            Tick all that apply
 				            </label>
+				            <p id="role-input-error" class="govuk-error-message @(!Model.TrustKeyPersonRoleError ? "govuk-visually-hidden" : "")">
+                                <span class="govuk-visually-hidden">Error:</span> Please select at least one role
+				            </p>
 				            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
 					            <div class="govuk-checkboxes__item">
                                     <input asp-for="TrustKeyPersonMember" type="checkbox" class="govuk-checkboxes__input">
@@ -61,10 +69,21 @@
 						            </label>
 					            </div>
 					            <div class="govuk-checkboxes__item">
-						            <input asp-for="TrustKeyPersonFinancialDirector" type="checkbox" class="govuk-checkboxes__input">
-						            <label for='TrustKeyPersonFinancialDirector' class="govuk-label govuk-checkboxes__label">
-							            Financial director
-						            </label>
+                                    <input asp-for="TrustKeyPersonFinancialDirector" type="checkbox" class="govuk-checkboxes__input" data-aria-controls="conditional-financial-director">
+                                    <label for='TrustKeyPersonFinancialDirector' class="govuk-label govuk-checkboxes__label">
+	                                    Financial director
+                                    </label>
+                                 </div>
+                                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="conditional-financial-director">
+						            <div class="govuk-form-group">
+							            <label class="govuk-label" for="TrustKeyPersonTimeInRole">
+								            How much time do they initially expect to give to the role?
+							            </label>
+							            <p id="time-input-error" class="govuk-error-message @(!Model.TrustKeyPersonTimeInRoleNotEntered ? "govuk-visually-hidden" : "")">
+                                            <span class="govuk-visually-hidden">Error:</span> Please enter time that the financial director expects to give to the role
+							            </p>
+                                        <input type="text" asp-for="TrustKeyPersonTimeInRole" id="TrustKeyPersonTimeInRole" class="govuk-input govuk-input--width-20" name="TrustKeyPersonTimeInRole" spellcheck="true">
+						            </div>
 					            </div>
 					            <div class="govuk-checkboxes__item">
 						            <input asp-for="TrustKeyPersonOther" type="checkbox" class="govuk-checkboxes__input">
@@ -84,9 +103,12 @@
 				            <div id="conversion-date-different-date-hint" class="govuk-hint">
 					            For example, 31 3 1980
 				            </div>
-                            <a href="#OpeningDateNotEntered" class="@(Model.TrustKeyPersonDobError ? "govuk-error-message" : "govuk-visually-hidden")">
-					            You must provide a date
-				            </a>
+				            <p id="dob-input-error-1" class="govuk-error-message @(!Model.TrustKeyPersonDobNotEntered ? "govuk-visually-hidden" : "")">
+					            <span class="govuk-visually-hidden">Error:</span> Date is invalid
+				            </p>
+				            <p id="dob-input-error-2" class="govuk-error-message @(!Model.TrustKeyPersonDobNotError ? "govuk-visually-hidden" : "")">
+                                <span class="govuk-visually-hidden">Error:</span> Date of birth must be in the past
+				            </p>
 				            <govuk-date field-name="@Model.TrustKeyPersonDobDate"
 				                        field-data="@Model.TrustKeyPersonDob"
 				                        field-day="@Model.TrustKeyPersonDobDay"
@@ -97,8 +119,10 @@
 		            </div>
                     
 		            <div class="govuk-form-group">
-                        <label for="TrustKeyPersonBiography" class="govuk-label">Provide a biography of them</label>
-			            @*<p class="govuk-caption-m">Include details of where the expertise, resources and staff will come from and how the schools will monitor improvement.</p>*@
+			            <label for="TrustKeyPersonBiography" class="govuk-label">Provide a biography of them</label>
+                        <p id="biography-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("TrustKeyPersonBiography") ? "govuk-visually-hidden" : "")">
+                            <span class="govuk-visually-hidden">Error:</span> Please enter a biography
+			            </p>
                         <textarea asp-for="TrustKeyPersonBiography" id="TrustKeyPersonBiography"
                               class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
 		            </div>

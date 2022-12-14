@@ -4,6 +4,7 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 {
@@ -13,25 +14,27 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		public string TrustName { get; private set; } = string.Empty;
 
 		[BindProperty]
-		public string TrustKeyPersonDob { get; set; }
+		public string? TrustKeyPersonDob { get; set; }
 
 		[BindProperty] // MR:- don't know whether I need this
-		public string TrustKeyPersonDobDay { get; set; }
+		public string? TrustKeyPersonDobDay { get; set; }
 
 		[BindProperty] // MR:- don't know whether I need this
-		public string TrustKeyPersonDobMonth { get; set; }
+		public string? TrustKeyPersonDobMonth { get; set; }
 
 		[BindProperty] // MR:- don't know whether I need this
-		public string TrustKeyPersonDobYear { get; set; }
+		public string? TrustKeyPersonDobYear { get; set; }
 
 		[BindProperty]
-		[RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$", ErrorMessage = "You must input a valid name")]
-		[Required(ErrorMessage = "Name is required")]
+		[Required(ErrorMessage = "Please enter a name")]
 		public string TrustKeyPersonName { get; set; }
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide support details")]
+		[Required(ErrorMessage = "Please enter a biography")]
 		public string TrustKeyPersonBiography { get; set; } = string.Empty;
+
+		[BindProperty]
+		public string? TrustKeyPersonTimeInRole { get; set; } = string.Empty;
 
 		public DateTime TrustKeyPersonDobLocal { get; set; }
 
@@ -54,11 +57,35 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		public bool TrustKeyPersonOther { get; set; }
 
 
-		public bool TrustKeyPersonDobError
+		public bool TrustKeyPersonDobNotEntered
 		{
 			get
 			{
-				return !ModelState.IsValid && ModelState.Keys.Contains("TrustKeyPersonDobNotEntered");
+				return !ModelState.IsValid && ModelState.Keys.Contains("TrustKeyPersonDobLocalNotEntered");
+			}
+		}
+
+		public bool TrustKeyPersonDobNotError
+		{
+			get
+			{
+				return !ModelState.IsValid && ModelState.Keys.Contains("TrustKeyPersonDobLocalError");
+			}
+		}
+
+		public bool TrustKeyPersonRoleError
+		{
+			get
+			{
+				return !ModelState.IsValid && ModelState.Keys.Contains("TrustKeyPersonRoleError");
+			}
+		}
+
+		public bool TrustKeyPersonTimeInRoleNotEntered
+		{
+			get
+			{
+				return !ModelState.IsValid && ModelState.Keys.Contains("TrustKeyPersonTimeInRoleNotEntered");
 			}
 		}
 
@@ -106,7 +133,11 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 			if (TrustKeyPersonFinancialDirector)
 			{
-				roles.Add(new NewTrustKeyPersonRole(KeyPersonRole.FinancialDirector, "Time in role ToDo"));
+				roles.Add(new NewTrustKeyPersonRole(KeyPersonRole.FinancialDirector, TrustKeyPersonTimeInRole));
+			}
+			else
+			{
+				TrustKeyPersonTimeInRole = string.Empty;
 			}
 
 			if (TrustKeyPersonTrustee)
@@ -144,24 +175,30 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 		///<inheritdoc/>
 		public override bool RunUiValidation()
-		{
-			if (!ModelState.IsValid)
+		{	
+			if (!TrustKeyPersonFinancialDirector && !TrustKeyPersonCeo && !TrustKeyPersonChair && !TrustKeyPersonMember && !TrustKeyPersonOther && !TrustKeyPersonTrustee)
 			{
-				PopulateValidationMessages();
-				return false;
+				ModelState.AddModelError("TrustKeyPersonRoleError", "Please select at least one role");
 			}
 
 			if (TrustKeyPersonDobLocal == DateTime.MinValue)
 			{
-				ModelState.AddModelError("TrustKeyPersonDobLocalNotEntered", "You must input a valid date");
-				PopulateValidationMessages();
-				return false;
+				ModelState.AddModelError("TrustKeyPersonDobLocalNotEntered", "Date is invalid");
 			}
 
 			// date not less < today
-			if (TrustKeyPersonDobLocal <= DateTime.Now.Date)
+			if (TrustKeyPersonDobLocal >= DateTime.Now.Date)
 			{
-				ModelState.AddModelError("TrustKeyPersonDobLocalEntered", "Opening date must be in the future");
+				ModelState.AddModelError("TrustKeyPersonDobLocalError", "Date of birth must be in the past");
+			}
+
+			if (TrustKeyPersonFinancialDirector && string.IsNullOrEmpty(TrustKeyPersonTimeInRole))
+			{
+				ModelState.AddModelError("TrustKeyPersonTimeInRoleNotEntered", "Please enter time that the financial director expects to give to the role");
+			}
+
+			if (!ModelState.IsValid)
+			{
 				PopulateValidationMessages();
 				return false;
 			}
@@ -189,6 +226,11 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			TrustKeyPersonDobDay = openingDateDay;
 			TrustKeyPersonDobMonth = openingDateMonth;
 			TrustKeyPersonDobYear = openingDateYear;
+		}
+
+		public bool IsPropertyInvalid(string propertyKey)
+		{
+			return ModelState.GetFieldValidationState(propertyKey) == ModelValidationState.Invalid;
 		}
 	}
 }
