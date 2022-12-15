@@ -445,7 +445,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 		// TODO MR:- call dedicated API DELETE endpoint
 		string apiurl = $"{_httpClient.BaseAddress}application/school/delete";
-		//await _resilientRequestProvider.DeleteAsync<DeleteLoanCommand>(apiurl, deleteLoanCommand);
+		//await _resilientRequestProvider.DeleteAsync<DeleteSchoolCommand>(apiurl, deleteSchoolCommand);
 	}
 
 	private async Task<ConversionApplication?> GetApplication(int applicationId)
