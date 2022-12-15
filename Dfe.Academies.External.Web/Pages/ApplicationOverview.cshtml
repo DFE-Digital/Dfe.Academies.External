@@ -74,7 +74,7 @@
 					<td class="govuk-table__cell">
 						@if (Model.SchoolOrSchoolsApplyingToConvert.Any())
 	                    {
-	                        <a asp-page="school/Remove"
+		                    <a asp-page="RemoveSchoolSelection"
 	                           asp-route-appId="@Model.ApplicationId" class="govuk-button govuk-button--secondary">Remove a school</a>                                
 	                    }
 					</td>
@@ -120,7 +120,7 @@
 					else
 					{
 						<a asp-page="trust/formamat/ApplicationNewTrustName" asp-route-appId="@Model.ApplicationId"
-						   class="govuk-button govuk-button--secondary" data-module="govuk-button">Select new trust name</a>
+						   class="govuk-button govuk-button--secondary" data-module="govuk-button">Add the trust</a>
 					}
 				</td>
 			</tr>

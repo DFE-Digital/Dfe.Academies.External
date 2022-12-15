@@ -17,22 +17,17 @@
 	</span>
 	<h1 class="govuk-heading-l">@Model.TrustName</h1>
 	
+	<p class="govuk-body">Complete all sections.</p>
 	@if (Model.FormAMatTrustComponents.TrustComponents.Any())
     {
 	    <table class="govuk-table">
 		    <caption class="govuk-visually-hidden">Trust summary statuses</caption>
-		    <thead>
-		    <tr>
-			    <th scope="col"></th>
-			    <th scope="col"></th>
-		    </tr>
-		    </thead>
 		    <tbody class="govuk-table__body">
 		    @foreach (var component in Model.FormAMatTrustComponents.TrustComponents)
 		    {
 			    <tr class="govuk-table__row">
 				    <td class="govuk-table__cell">
-					    <a asp-page="@component.URI" aria-describedby="component-@(component.Name)-status" class="govuk-link"
+					    <a asp-page="@component.URI" class="govuk-link"
 					       asp-route-appId="@Model.ApplicationId">
 						    @component.Name
 					    </a>
@@ -48,9 +43,6 @@
 		    </tbody>
 	    </table>  
     }
-	
-	
+		
 	<a asp-page="../../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Return to your application</a>
 </div>
-
-<partial name="_HiddenFields" />

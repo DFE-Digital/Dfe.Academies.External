@@ -19,25 +19,18 @@
 		Declaration
 	</h1>
 	
-	@*    <p id="summaryTableDescription" class="govuk-body">Application School Declaration Summary</p>*@
 	@foreach (var heading in Model.ViewModel)
 	{
 		<h1 class="govuk-heading-m">
 			@heading.Title
 		</h1>
-        <table class="govuk-table" aria-describedby="summaryTableDescription">
-			<thead>
-				<tr>
-					<th scope="col"></th>
-					<th scope="col"></th>
-				</tr>
-			</thead>
+        <table class="govuk-table">
 			<tbody class="govuk-table__body">
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell">
 						@if (heading.Status == SchoolConversionComponentStatus.NotStarted)
 						{
-							<a asp-page="@heading.URI" aria-describedby="component-not started" class="govuk-button govuk-button--secondary"
+							<a asp-page="@heading.URI" class="govuk-button govuk-button--secondary"
 							   asp-route-appId="@Model.ApplicationId"
 							   asp-route-urn="@Model.Urn">
 								Start section
@@ -45,7 +38,7 @@
 						}
 						else
 						{
-							<a asp-page="@heading.URI" aria-describedby="component-change" class="govuk-link"
+							<a asp-page="@heading.URI" class="govuk-link"
 							   asp-route-appId="@Model.ApplicationId"
 							   asp-route-urn="@Model.Urn">
 								Change your answers
@@ -66,4 +59,3 @@
 	<a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
 </div>
 <input type="hidden" asp-for="Urn" />
-<partial name="_HiddenFields" />

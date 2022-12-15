@@ -1,5 +1,5 @@
 ﻿using AutoFixture;
-using Dfe.Academies.External.Web.Pages.Trust.FormAMat;
+using Dfe.Academies.External.Web.Pages;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,14 +7,13 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System.Threading.Tasks;
 using NUnit.Framework;
-using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
-namespace Dfe.Academies.External.Web.UnitTest.Pages.Trust.FormAMat;
+namespace Dfe.Academies.External.Web.UnitTest.Pages;
 
 [Parallelizable(ParallelScope.All)]
-internal sealed class ApplicationNewTrustGovernanceSummaryModelTests
+public class RemoveSchoolSelectionModelTests
 {
 	private static readonly Fixture Fixture = new();
 
@@ -30,16 +29,13 @@ internal sealed class ApplicationNewTrustGovernanceSummaryModelTests
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockFileUploadService = new Mock<IFileUploadService>();
 		int applicationId = Fixture.Create<int>();
-		var mockLogger = new Mock<ILogger<ApplicationNewTrustGovernanceSummaryModel>>();
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupApplicationNewTrustGovernanceSummaryModel(mockConversionApplicationRetrievalService.Object,
-			mockReferenceDataRetrievalService.Object, mockFileUploadService.Object,
-			mockLogger.Object);
+		var pageModel = SetupRemoveSchoolSelectionModel(mockConversionApplicationRetrievalService.Object,
+			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -49,17 +45,14 @@ internal sealed class ApplicationNewTrustGovernanceSummaryModelTests
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
-	private static ApplicationNewTrustGovernanceSummaryModel SetupApplicationNewTrustGovernanceSummaryModel(
+	private static RemoveSchoolSelectionModel SetupRemoveSchoolSelectionModel(
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
-		IFileUploadService mockFileUploadService,
-		ILogger<ApplicationNewTrustGovernanceSummaryModel> mockLogger,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new ApplicationNewTrustGovernanceSummaryModel(mockConversionApplicationRetrievalService,
-			mockReferenceDataRetrievalService, mockFileUploadService, mockLogger)
+		return new RemoveSchoolSelectionModel(mockConversionApplicationRetrievalService, mockReferenceDataRetrievalService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,
