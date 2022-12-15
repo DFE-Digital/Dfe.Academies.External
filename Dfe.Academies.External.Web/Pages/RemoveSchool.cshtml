@@ -1,4 +1,74 @@
 ﻿@page
 @model Dfe.Academies.External.Web.Pages.RemoveSchoolModel
 @{
+	ViewData["Title"] = "Apply to become an academy - Add a contributor";
 }
+
+@section BeforeMain
+{
+	<a asp-page="ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">
+		Back to about the conversion
+	</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+	@if (Model.ShowConfirmationBox)
+	{
+		<div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+			<div class="govuk-notification-banner__header">
+				<h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+					Success
+				</h2>
+			</div>
+			<div class="govuk-notification-banner__content">
+				<h3 class="govuk-notification-banner__heading">
+					Contributor added
+				</h3>
+			</div>
+		</div>
+	}
+
+	<h1 class="govuk-heading-l">
+		Are you sure you want to remove this school?
+	</h1>
+	<form method="post" name="frmRemoveSchool" novalidate="">
+		@Html.AntiForgeryToken()
+		<input type="hidden" asp-for="ApplicationId" />
+        
+		<h2 class="govuk-heading-m">
+            @Model.SchoolName
+		</h2>
+
+		<div class="govuk-form-group">
+            <span class="govuk-label">
+				URN
+			</span>
+            <span class="govuk-body">
+				@Model.Urn
+			</span>
+		</div>
+        
+		<div class="govuk-form-group">
+            <span class="govuk-label">
+				Registered office address
+			</span>
+            <span class="govuk-body">
+				@Model.SchoolRegisteredAddress
+			</span>
+		</div>
+        
+		<div class="govuk-warning-text">
+			<span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+			<strong class="govuk-warning-text__text">
+				<span class="govuk-warning-text__assistive">Warning</span>
+				You cannot undo this action.
+			</strong>
+		</div>
+        
+		<div class="govuk-button-group">
+            <input type="submit" value="Remove this school" class="govuk-button govuk-button--warning govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
+			<a asp-page="RemoveSchoolSelection"
+			   asp-route-appId="@Model.ApplicationId" class="govuk-button govuk-button--secondary">No, take me back</a> 
+		</div>
+	</form>
+</div>

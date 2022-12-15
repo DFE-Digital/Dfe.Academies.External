@@ -7,12 +7,18 @@ namespace Dfe.Academies.External.Web.Pages
 {
     public class RemoveSchoolModel : BaseSchoolPageEditModel
 	{
+		[BindProperty]
+		public bool ShowConfirmationBox { get; set; }
+
+		[BindProperty]
+		public string SchoolRegisteredAddress { get; set; } = string.Empty;
+
 		public RemoveSchoolModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 								IReferenceDataRetrievalService referenceDataRetrievalService, 
-								IConversionApplicationCreationService conversionApplicationCreationService, string nextStepPage) 
-			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, nextStepPage)
-		{
-		}
+								IConversionApplicationCreationService conversionApplicationCreationService) 
+			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService,
+				"ApplicationOverview") 
+		{}
 
 		/// <summary>
 		/// Override as not sending user to another page after submit, leaving them here with confirmation message !
@@ -26,15 +32,17 @@ namespace Dfe.Academies.External.Web.Pages
 			}
 
 			// TODO MR:- call APIPI
+			// await ConversionApplicationCreationService.RemoveSchoolFromApplication(ApplicationId, Urn);
 
-			// TODO MR:- set flag to display confirmation - same as add contriibutor !!
+			// MR:- set flag to display confirmation - same as add contributor !!
+			ShowConfirmationBox = true;
 
 			return Page();
 		}
 
 		public override bool RunUiValidation()
 		{
-			// TODO MR:- doesn't apply because just pressing submit button?
+			// MR:- doesn't apply because just pressing submit button?
 			if (!ModelState.IsValid)
 			{
 				PopulateValidationMessages();
@@ -56,10 +64,12 @@ namespace Dfe.Academies.External.Web.Pages
 			// does not apply on this page
 			return new();
 		}
-		
+
+		///<inheritdoc/>
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			// TODO MR:- retrieve school deets from referenceDataRetrievalService to display on screen??
+			//SchoolRegisteredAddress = ;
 		}
 	}
 }
