@@ -4,31 +4,21 @@ namespace Dfe.Academies.External.Web.Models;
 
 public class NewTrustKeyPerson
 {
-	public NewTrustKeyPerson(string firstName, string surname, KeyPersonRole role)
+	public NewTrustKeyPerson(string name, DateTime dateOfBirth, string biography, List<NewTrustKeyPersonRole> roles)
 	{
-		Role = role;
-		FirstName = firstName;
-		Surname = surname;
+		Name = name;
+		DateOfBirth = dateOfBirth;
+		Biography = biography;
+		Roles = roles;
 	}
 
 	public int ApplicationId { get; set; }
 
-	/// <summary>
-	/// Below replaces A2C-SIP bools
-	/// </summary>
-	public KeyPersonRole Role { get; set; }
+	public string Name { get; set; }
+	public List<NewTrustKeyPersonRole> Roles { get; }
 
-	/// <summary>
-	/// Taken from A2C-SIP - ApplicationKeyPersons object
-	/// </summary>
-	public string TimeInRole { get; set; } = string.Empty;
-
-	public string FirstName { get; set; }
-	public string Surname { get; set; }
-	public string ContactEmailAddress { get; set; }
-	
-	public DateTime? DateOfBirth { get; set; }
+	public DateTime DateOfBirth { get; set; }
 
 	// MR:- Biography - KeyPersonBiography within A2C-SIP - ApplicationKeyPersons object
-	public string Biography { get; set; } = string.Empty;
+	public string Biography { get; set; }
 }
