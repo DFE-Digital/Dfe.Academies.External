@@ -117,8 +117,7 @@ namespace Dfe.Academies.External.Web.Pages
 			SchoolNameForDisplay = selectedSchool.SchoolName;
 			var selectedSchoolFullDetails = await this.ReferenceDataRetrievalService.GetSchool(Urn);
 
-			var fullAddressString = selectedSchoolFullDetails.Address.Street; // TODO MR:- need to build a string !
-			SchoolRegisteredAddress = fullAddressString;
+			SchoolRegisteredAddress = selectedSchoolFullDetails.Address.FullAddress;
 		}
 	}
 }
