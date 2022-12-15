@@ -35,7 +35,7 @@ namespace Dfe.Academies.External.Web.Pages
 				return Page();
 			}
 
-			// TODO MR:- call APIPI
+			// TODO MR:- call API func
 			// await ConversionApplicationCreationService.RemoveSchoolFromApplication(ApplicationId, Urn);
 
 			// MR:- set flag to display confirmation - same as add contributor !!
