@@ -131,7 +131,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 				roles.Add(new NewTrustKeyPersonRole(KeyPersonRole.Chair, string.Empty));
 			}
 
-			if (TrustKeyPersonFinancialDirector)
+			if (TrustKeyPersonFinancialDirector && TrustKeyPersonTimeInRole != null)
 			{
 				roles.Add(new NewTrustKeyPersonRole(KeyPersonRole.FinancialDirector, TrustKeyPersonTimeInRole));
 			}

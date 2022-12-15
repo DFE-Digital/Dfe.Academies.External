@@ -27,8 +27,10 @@
             <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 	            <fieldset class="govuk-fieldset">
 		            <div class="govuk-form-group">@*@(Model.IsPropertyInvalid("TrustKeyPersonName") ? "govuk-form-group--error" : "")">*@
-	                    <label for="TrustKeyPersonName" class="govuk-label">Name</label>
-                        <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("TrustKeyPersonName") ? "govuk-visually-hidden" : "")">
+			            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                                <label for="TrustKeyPersonName" class="govuk-label">Name</label>
+			            </legend>
+			            <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("TrustKeyPersonName") ? "govuk-visually-hidden" : "")">
                             <span class="govuk-visually-hidden">Error:</span> Please enter a name
 	                    </p>
 			            <input type="text" asp-for="TrustKeyPersonName" id="TrustKeyPersonName" class="govuk-input govuk-input--width-20" />@*@(Model.IsPropertyInvalid("TrustKeyPersonName") ? "govuk-input--error" : "")" />*@
@@ -36,17 +38,19 @@
                     
 		            <div class="govuk-form-group">
 			            <fieldset class="govuk-fieldset">
-				            <label class="govuk-label">Position within the trust</label>
+				            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                                    <label class="govuk-label">Position within the trust</label>
+				            </legend>
 				            <label class="govuk-hint">
 					            Tick all that apply
 				            </label>
 				            <p id="role-input-error" class="govuk-error-message @(!Model.TrustKeyPersonRoleError ? "govuk-visually-hidden" : "")">
-                                <span class="govuk-visually-hidden">Error:</span> Please select at least one role
+					            <span class="govuk-visually-hidden">Error:</span> Please select at least one role
 				            </p>
 				            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
 					            <div class="govuk-checkboxes__item">
-                                    <input asp-for="TrustKeyPersonMember" type="checkbox" class="govuk-checkboxes__input">
-                                    <label for='TrustKeyPersonMember' class="govuk-label govuk-checkboxes__label">
+						            <input asp-for="TrustKeyPersonMember" type="checkbox" class="govuk-checkboxes__input">
+						            <label for='TrustKeyPersonMember' class="govuk-label govuk-checkboxes__label">
 							            Member
 						            </label>
 					            </div>
@@ -69,25 +73,25 @@
 						            </label>
 					            </div>
 					            <div class="govuk-checkboxes__item">
-                                    <input asp-for="TrustKeyPersonFinancialDirector" type="checkbox" class="govuk-checkboxes__input" data-aria-controls="conditional-financial-director">
-                                    <label for='TrustKeyPersonFinancialDirector' class="govuk-label govuk-checkboxes__label">
-	                                    Financial director
-                                    </label>
-                                 </div>
-                                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="conditional-financial-director">
+						            <input asp-for="TrustKeyPersonFinancialDirector" type="checkbox" class="govuk-checkboxes__input" data-aria-controls="conditional-financial-director">
+						            <label for='TrustKeyPersonFinancialDirector' class="govuk-label govuk-checkboxes__label">
+							            Financial director
+						            </label>
+					            </div>
+					            <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="conditional-financial-director">
 						            <div class="govuk-form-group">
 							            <label class="govuk-label" for="TrustKeyPersonTimeInRole">
 								            How much time do they initially expect to give to the role?
 							            </label>
 							            <p id="time-input-error" class="govuk-error-message @(!Model.TrustKeyPersonTimeInRoleNotEntered ? "govuk-visually-hidden" : "")">
-                                            <span class="govuk-visually-hidden">Error:</span> Please enter time that the financial director expects to give to the role
+								            <span class="govuk-visually-hidden">Error:</span> Please enter time that the financial director expects to give to the role
 							            </p>
-                                        <input type="text" asp-for="TrustKeyPersonTimeInRole" id="TrustKeyPersonTimeInRole" class="govuk-input govuk-input--width-20" name="TrustKeyPersonTimeInRole" spellcheck="true">
+							            <input type="text" asp-for="TrustKeyPersonTimeInRole" id="TrustKeyPersonTimeInRole" class="govuk-input govuk-input--width-20" name="TrustKeyPersonTimeInRole" spellcheck="true">
 						            </div>
 					            </div>
 					            <div class="govuk-checkboxes__item">
 						            <input asp-for="TrustKeyPersonOther" type="checkbox" class="govuk-checkboxes__input">
-                                    <label for='TrustKeyPersonOther' class="govuk-label govuk-checkboxes__label">
+						            <label for='TrustKeyPersonOther' class="govuk-label govuk-checkboxes__label">
 							            Other
 						            </label>
 					            </div>

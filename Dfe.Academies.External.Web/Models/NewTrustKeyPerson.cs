@@ -20,5 +20,5 @@ public class NewTrustKeyPerson
 	public DateTime DateOfBirth { get; set; }
 
 	// MR:- Biography - KeyPersonBiography within A2C-SIP - ApplicationKeyPersons object
-	public string Biography { get; set; } = string.Empty;
+	public string Biography { get; set; }
 }

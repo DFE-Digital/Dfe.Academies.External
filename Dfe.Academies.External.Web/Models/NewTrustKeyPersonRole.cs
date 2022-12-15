@@ -14,6 +14,6 @@ namespace Dfe.Academies.External.Web.Models
 		/// <summary>
 		/// Taken from A2C-SIP - ApplicationKeyPersons object
 		/// </summary>
-		public string TimeInRole { get; set; } = string.Empty;
+		public string TimeInRole { get; set; }
 	}
 }
