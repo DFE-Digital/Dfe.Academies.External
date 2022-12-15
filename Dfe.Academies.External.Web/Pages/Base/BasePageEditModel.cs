@@ -11,7 +11,7 @@ namespace Dfe.Academies.External.Web.Pages.Base;
 
 public abstract class BasePageEditModel : BasePageModel
 {
-	private readonly IReferenceDataRetrievalService _referenceDataRetrievalService;
+	public readonly IReferenceDataRetrievalService ReferenceDataRetrievalService;
 	public readonly IConversionApplicationRetrievalService ConversionApplicationRetrievalService;
 	public const string SchoolOverviewPath = "SchoolOverview";
 
@@ -19,7 +19,7 @@ public abstract class BasePageEditModel : BasePageModel
 								IReferenceDataRetrievalService referenceDataRetrievalService)
 	{
 		ConversionApplicationRetrievalService = conversionApplicationRetrievalService;
-		_referenceDataRetrievalService = referenceDataRetrievalService;
+		ReferenceDataRetrievalService = referenceDataRetrievalService;
 	}
 
 	public async Task<ConversionApplication?> LoadAndSetApplicationDetails(int applicationId)
