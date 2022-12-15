@@ -167,6 +167,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		}
 	}
 
+	///<inheritdoc/>
 	public async Task SetExistingTrustDetails(int applicationId, ExistingTrust existingTrust)
 	{
 		try
@@ -201,6 +202,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		}
 	}
 
+	///<inheritdoc/>
 	public async Task PutSchoolApplicationDetails(int applicationId, int schoolUrn, Dictionary<string, dynamic> schoolProperties)
 	{
 		var application = await GetApplication(applicationId);
@@ -225,6 +227,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PutAsync(apiurl, application);
 	}
 
+	///<inheritdoc/>
 	public async Task AddContributorToApplication(ConversionApplicationContributor contributor, int applicationId)
 	{
 		var application = await GetApplication(applicationId);
@@ -240,6 +243,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PutAsync(apiurl, application);
 	}
 
+	///<inheritdoc/>
 	public async Task RemoveContributorFromApplication(int contributorId, int applicationId)
 	{
 		var application = await GetApplication(applicationId);
@@ -259,6 +263,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PutAsync(apiurl, application);
 	}
 
+	///<inheritdoc/>
 	public async Task CreateLoan(int applicationId, int schoolId, SchoolLoan loan)
 	{
 		var createLoanCommand = new CreateLoanCommand
@@ -275,6 +280,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PutAsync(apiurl, createLoanCommand);
 	}
 
+	///<inheritdoc/>
 	public async Task UpdateLoan(int applicationId, int schoolId, SchoolLoan loan)
 	{
 		var updateLoanCommand = new UpdateLoanCommand
@@ -292,6 +298,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PostAsync<IActionResult, UpdateLoanCommand>(apiurl, updateLoanCommand);
 	}
 
+	///<inheritdoc/>
 	public async Task DeleteLoan(int applicationId, int schoolId, int loanId)
 	{
 		var deleteLoanCommand = new DeleteLoanCommand
@@ -302,6 +309,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.DeleteAsync<DeleteLoanCommand>(apiurl, deleteLoanCommand);
 	}
 
+	///<inheritdoc/>
 	public async Task CreateLease(int applicationId, int schoolId, SchoolLease lease)
 	{
 		var createLeaseCommand = new CreateLeaseCommand
@@ -320,6 +328,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PutAsync(apiurl, createLeaseCommand);
 	}
 
+	///<inheritdoc/>
 	public async Task UpdateLease(int applicationId, int schoolId, SchoolLease lease)
 	{
 		var updateLeaseCommand = new UpdateLeaseCommand
@@ -339,6 +348,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PostAsync<IActionResult, UpdateLeaseCommand>(apiurl, updateLeaseCommand);
 	}
 
+	///<inheritdoc/>
 	public async Task DeleteLease(int applicationId, int schoolId, int leaseId)
 	{
 		var deleteLeaseCommand = new DeleteLeaseCommand
@@ -406,6 +416,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PutAsync(apiurl, application.FormTrustDetails);
 	}
 
+	///<inheritdoc/>
 	public async Task SubmitApplication(int applicationId)
 	{
 		var application = await GetApplication(applicationId);
@@ -420,6 +431,21 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/submit?api-version=V1";
 		await _resilientRequestProvider.PostAsync<ConversionApplication, SubmitApplicationCommand>(apiurl, command);
+	}
+
+	///<inheritdoc/>
+	public async Task RemoveSchoolFromApplication(int applicationId, int schoolUrn)
+	{
+		var application = await GetApplication(applicationId);
+
+		if (application?.ApplicationId != applicationId)
+		{
+			throw new ArgumentException("Application not found");
+		}
+
+		// TODO MR:- call dedicated API DELETE endpoint
+		string apiurl = $"{_httpClient.BaseAddress}application/school/delete";
+		//await _resilientRequestProvider.DeleteAsync<DeleteLoanCommand>(apiurl, deleteLoanCommand);
 	}
 
 	private async Task<ConversionApplication?> GetApplication(int applicationId)

@@ -58,4 +58,6 @@ public interface IConversionApplicationCreationService
 	/// <param name="applicationId"></param>
 	/// <returns></returns>
 	Task SubmitApplication(int applicationId);
+
+	Task RemoveSchoolFromApplication(int applicationId, int schoolUrn);
 }
