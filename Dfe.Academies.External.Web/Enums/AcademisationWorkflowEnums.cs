@@ -34,16 +34,18 @@ public enum SchoolRoles
 
 public enum KeyPersonRole
 {
-	[Description("CEO")]
+	[Description("CEO / executive")]
 	CEO = 1,
-	[Description("The chair of the trust")]
+	[Description("Chair of trust")]
 	Chair = 2,
 	[Description("Financial director")]
 	FinancialDirector = 3,
 	[Description("Trustee")]
 	Trustee = 4,
 	[Description("Other")]
-	Other = 5
+	Other = 5,
+	[Description("Member")]
+	Member = 6
 }
 
 public enum SelectOption

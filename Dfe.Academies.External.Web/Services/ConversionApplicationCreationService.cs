@@ -1,5 +1,6 @@
 ﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.Pages.School;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Services;
@@ -420,6 +421,30 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/submit?api-version=V1";
 		await _resilientRequestProvider.PostAsync<ConversionApplication, SubmitApplicationCommand>(apiurl, command);
+	}
+
+	public async Task CreateKeyPerson(int applicationId, NewTrustKeyPerson person)
+	{
+		var createTrustKeyPersonCommand = new CreateTrustKeyPersonCommand
+		{
+			ApplicationId = applicationId,
+			Name = person.Name,
+			DateOfBirth = person.DateOfBirth,
+			Biography = person.Biography,
+			Roles = person.Roles
+		};
+		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/form-trust/key-person?api-version=V1";
+		await _resilientRequestProvider.PostAsync<IActionResult, CreateTrustKeyPersonCommand>(apiurl, createTrustKeyPersonCommand);
+	}
+
+	public Task UpdateKeyPerson(int applicationId, NewTrustKeyPerson person)
+	{
+		throw new NotImplementedException();
+	}
+
+	public Task DeleteKeyPerson(int applicationId, int keyPersonId)
+	{
+		throw new NotImplementedException();
 	}
 
 	private async Task<ConversionApplication?> GetApplication(int applicationId)
