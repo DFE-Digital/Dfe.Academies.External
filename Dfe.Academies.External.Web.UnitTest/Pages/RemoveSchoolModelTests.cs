@@ -60,7 +60,7 @@ internal sealed class RemoveSchoolModelTests
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
 		return new RemoveSchoolModel(mockConversionApplicationRetrievalService,
-			mockReferenceDataRetrievalService, mockConversionApplicationCreationService, "")
+			mockReferenceDataRetrievalService, mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,
 			TempData = tempData,
