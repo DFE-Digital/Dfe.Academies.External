@@ -352,9 +352,9 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	///<inheritdoc/>
 	public async Task SetAdditionalDetails(int applicationId, int schoolId, string trustBenefitDetails, string? ofstedInspectionDetails,
 		string? safeguardingDetails, string? localAuthorityReorganisationDetails, string? localAuthorityClosurePlanDetails,
-		string? dioceseName, string dioceseFolderIdentifier, bool partOfFederation, string? foundationTrustOrBodyName,
-		string foundationConsentFolderIdentifier, DateTimeOffset? exemptionEndDate, string mainFeederSchools,
-		string resolutionConsentFolderIdentifier, SchoolEqualitiesProtectedCharacteristics? protectedCharacteristics,
+		string? dioceseName, string? dioceseFolderIdentifier, bool partOfFederation, string? foundationTrustOrBodyName,
+		string? foundationConsentFolderIdentifier, DateTimeOffset? exemptionEndDate, string mainFeederSchools,
+		string? resolutionConsentFolderIdentifier, SchoolEqualitiesProtectedCharacteristics? protectedCharacteristics,
 		string? furtherInformation)
 	{
 		var setAdditionalDetailsCommand = new SetAdditionalDetailsCommand

@@ -242,6 +242,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 
 			SetBindedProperties();
+
+			var dioceseFolderIdentifier = (DioceseFileNames.Any() || DioceseFiles.Any())
+				? FileUploadConstants.DioceseFilePrefixFieldName
+				: null;
+
+			var foundationConsentFolderIdentifier = (FoundationConsentFileNames.Any() || FoundationConsentFiles.Any())
+				? FileUploadConstants.FoundationConsentFilePrefixFieldName
+				: null;
+
+			var resolutionConsentFolderIdentifier = (ResolutionConsentFileNames.Any() || ResolutionConsentFiles.Any())
+				? FileUploadConstants.ResolutionConsentfilePrefixFieldName
+				: null;
 			
 			await _conversionApplicationCreationService.SetAdditionalDetails(
 				ApplicationId,
@@ -252,13 +264,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 				LocalAuthorityReorganisationDetails,
 				LocalAuthorityClosurePlanDetails,
 				DioceseName,
-				FileUploadConstants.DioceseFilePrefixFieldName,
+				dioceseFolderIdentifier,
 				PartOfFederation == SelectOption.Yes,
 				FoundationTrustOrBodyName,
-				FileUploadConstants.FoundationConsentFilePrefixFieldName,
+				foundationConsentFolderIdentifier,
 				ExemptionEndDate,
 				MainFeederSchools,
-				FileUploadConstants.ResolutionConsentfilePrefixFieldName,
+				resolutionConsentFolderIdentifier,
 				DisproportionateProtectedCharacteristics,
 				FurtherInformationDetails);
 			
@@ -320,39 +332,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 				PopulateValidationMessages();
 				return false;
 			}
-			if (LinkedToDiocese == SelectOption.Yes &&
-			    (DioceseFiles == null || !DioceseFiles.Any()) &&
-			    (!DioceseFileNames.Any()))
-			{
-				ModelState.AddModelError("DioceseFileNotAddedError", "You must upload a file");
-				PopulateValidationMessages();
-				return false;
-			}
 			if (SupportedByFoundationTrustOrBody == SelectOption.Yes && string.IsNullOrWhiteSpace(FoundationTrustOrBodyName))
 			{
 				ModelState.AddModelError("FoundationTrustOrBodyNameNotAdded", "You must enter the name of the body");
 				PopulateValidationMessages();
 				return false;
 			}
-
-			if (SupportedByFoundationTrustOrBody == SelectOption.Yes &&
-			    (FoundationConsentFiles == null || !FoundationConsentFiles.Any()) &&
-			    (!FoundationConsentFileNames.Any()))
-			{
-				ModelState.AddModelError("FoundationConsentFileNotAddedError", "You must upload a file");
-				PopulateValidationMessages();
-				return false;
-			}
 			
-			if ((!ResolutionConsentFiles.Any()) &&
-			    (!ResolutionConsentFileNames.Any()))
-			{
-				ModelState.AddModelError("ResolutionConsentFileNotAddedError", "You must upload a file");
-				PopulateValidationMessages();
-				return false;
-			}
-			
-
 			if (ExemptionFromSACRE == SelectOption.Yes && (!ExemptionEndDate.HasValue ||
 			    ExemptionEndDate.Value == DateTimeOffset.MinValue))
 			{
