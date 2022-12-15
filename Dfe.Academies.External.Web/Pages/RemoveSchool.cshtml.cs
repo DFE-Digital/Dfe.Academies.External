@@ -12,7 +12,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public string? SchoolRegisteredAddress { get; set; }
 
-		public string SchoolNameForDisplay { get; set; }
+		public string SchoolNameForDisplay { get; set; } = string.Empty;
 
 		public RemoveSchoolModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 								IReferenceDataRetrievalService referenceDataRetrievalService, 
@@ -20,6 +20,39 @@ namespace Dfe.Academies.External.Web.Pages
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService,
 				"ApplicationOverview") 
 		{}
+
+		/// <summary>
+		/// had to override because we need to await PopulateUiModel()
+		/// </summary>
+		/// <param name="urn"></param>
+		/// <param name="appId"></param>
+		/// <returns></returns>
+		public override async Task<ActionResult> OnGetAsync(int urn, int appId)
+		{
+			// MR:- don't need try/catch anymore as we have exception middleware
+			LoadAndStoreCachedConversionApplication();
+
+			// check user access
+			var checkStatus = await CheckApplicationPermission(appId);
+
+			if (checkStatus is ForbidResult)
+			{
+				return RedirectToPage("../ApplicationAccessException");
+			}
+
+			ApplicationId = appId;
+			Urn = urn;
+
+			// Grab other values from API
+			var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+
+			if (selectedSchool != null)
+			{
+				await PopulateUiModelAsync(selectedSchool);
+			}
+
+			return Page();
+		}
 
 		/// <summary>
 		/// Override as not sending user to another page after submit, leaving them here with confirmation message !
@@ -76,10 +109,16 @@ namespace Dfe.Academies.External.Web.Pages
 		///<inheritdoc/>
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			SchoolNameForDisplay = selectedSchool.SchoolName;
+			throw new NotImplementedException();
+		}
 
-			// TODO MR:- retrieve school deets from referenceDataRetrievalService to display on screen??
-			SchoolRegisteredAddress = "the shed";
+		private async Task PopulateUiModelAsync(SchoolApplyingToConvert selectedSchool)
+		{
+			SchoolNameForDisplay = selectedSchool.SchoolName;
+			var selectedSchoolFullDetails = await this.ReferenceDataRetrievalService.GetSchool(Urn);
+
+			var fullAddressString = selectedSchoolFullDetails.Address.Street; // TODO MR:- need to build a string !
+			SchoolRegisteredAddress = fullAddressString;
 		}
 	}
 }
