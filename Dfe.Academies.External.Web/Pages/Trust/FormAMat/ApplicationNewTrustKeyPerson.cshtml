@@ -39,11 +39,11 @@
 		            <div class="govuk-form-group">
 			            <fieldset class="govuk-fieldset">
 				            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                                    <label class="govuk-label">Position within the trust</label>
+                                    <div class="govuk-label">Position within the trust</div>
 				            </legend>
-				            <label class="govuk-hint">
+				            <div class="govuk-hint">
 					            Tick all that apply
-				            </label>
+				            </div>
 				            <p id="role-input-error" class="govuk-error-message @(!Model.TrustKeyPersonRoleError ? "govuk-visually-hidden" : "")">
 					            <span class="govuk-visually-hidden">Error:</span> Please select at least one role
 				            </p>
@@ -68,7 +68,7 @@
 					            </div>
 					            <div class="govuk-checkboxes__item">
 						            <input asp-for="TrustKeyPersonChair" type="checkbox" class="govuk-checkboxes__input">
-						            <label for='TrustKeyPersonCeo' class="govuk-label govuk-checkboxes__label">
+                                        <label for='TrustKeyPersonChair' class="govuk-label govuk-checkboxes__label">
 							            Chair of trust
 						            </label>
 					            </div>
