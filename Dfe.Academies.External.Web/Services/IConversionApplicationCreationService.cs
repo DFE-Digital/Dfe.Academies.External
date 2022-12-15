@@ -33,13 +33,13 @@ public interface IConversionApplicationCreationService
 		string? localAuthorityReorganisationDetails,
 		string? localAuthorityClosurePlanDetails,
 		string? dioceseName,
-		string dioceseFolderIdentifier,
+		string? dioceseFolderIdentifier,
 		bool partOfFederation,
 		string? foundationTrustOrBodyName,
-		string foundationConsentFolderIdentifier, 
+		string? foundationConsentFolderIdentifier, 
 		DateTimeOffset? exemptionEndDate,
 		string mainFeederSchools,
-		string resolutionConsentFolderIdentifier,
+		string? resolutionConsentFolderIdentifier,
 		SchoolEqualitiesProtectedCharacteristics? protectedCharacteristics,
 		string? furtherInformation);
 

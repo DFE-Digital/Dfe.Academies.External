@@ -48,7 +48,7 @@ public class SetAdditionalDetailsCommand
 	public string MainFeederSchools { get; set; }
 	
 	[DataMember]
-	public string ResolutionConsentFolderIdentifier { get; set; }
+	public string? ResolutionConsentFolderIdentifier { get; set; }
 
 	[DataMember]
 	public SchoolEqualitiesProtectedCharacteristics? ProtectedCharacteristics { get; set; }
