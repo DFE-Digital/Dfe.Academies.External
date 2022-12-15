@@ -10,8 +10,9 @@ namespace Dfe.Academies.External.Web.Pages
 		[BindProperty]
 		public bool ShowConfirmationBox { get; set; }
 
-		[BindProperty]
-		public string SchoolRegisteredAddress { get; set; } = string.Empty;
+		public string? SchoolRegisteredAddress { get; set; }
+
+		public string SchoolNameForDisplay { get; set; }
 
 		public RemoveSchoolModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 								IReferenceDataRetrievalService referenceDataRetrievalService, 
@@ -26,6 +27,9 @@ namespace Dfe.Academies.External.Web.Pages
 		/// <returns></returns>
 		public override async Task<IActionResult> OnPostAsync()
 		{
+			//// grab draft application from temp= null
+			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+
 			if (!RunUiValidation())
 			{
 				return Page();
@@ -36,6 +40,10 @@ namespace Dfe.Academies.External.Web.Pages
 
 			// MR:- set flag to display confirmation - same as add contributor !!
 			ShowConfirmationBox = true;
+
+			// MR:- lose SchoolName on PostBack
+			var selectedSchool = draftConversionApplication.Schools.FirstOrDefault(school => school.URN == Urn);
+			SchoolNameForDisplay = selectedSchool?.SchoolName ?? string.Empty;
 
 			return Page();
 		}
@@ -68,8 +76,10 @@ namespace Dfe.Academies.External.Web.Pages
 		///<inheritdoc/>
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
+			SchoolNameForDisplay = selectedSchool.SchoolName;
+
 			// TODO MR:- retrieve school deets from referenceDataRetrievalService to display on screen??
-			//SchoolRegisteredAddress = ;
+			SchoolRegisteredAddress = "the shed";
 		}
 	}
 }
