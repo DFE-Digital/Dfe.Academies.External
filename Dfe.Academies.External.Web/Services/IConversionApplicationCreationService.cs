@@ -33,13 +33,13 @@ public interface IConversionApplicationCreationService
 		string? localAuthorityReorganisationDetails,
 		string? localAuthorityClosurePlanDetails,
 		string? dioceseName,
-		string dioceseFolderIdentifier,
+		string? dioceseFolderIdentifier,
 		bool partOfFederation,
 		string? foundationTrustOrBodyName,
-		string foundationConsentFolderIdentifier, 
+		string? foundationConsentFolderIdentifier, 
 		DateTimeOffset? exemptionEndDate,
 		string mainFeederSchools,
-		string resolutionConsentFolderIdentifier,
+		string? resolutionConsentFolderIdentifier,
 		SchoolEqualitiesProtectedCharacteristics? protectedCharacteristics,
 		string? furtherInformation);
 
@@ -58,6 +58,10 @@ public interface IConversionApplicationCreationService
 	/// <param name="applicationId"></param>
 	/// <returns></returns>
 	Task SubmitApplication(int applicationId);
+
+	Task CreateKeyPerson(int applicationId, NewTrustKeyPerson person);
+	Task UpdateKeyPerson(int applicationId, NewTrustKeyPerson person);
+	Task DeleteKeyPerson(int applicationId, int keyPersonId);
 
 	Task RemoveSchoolFromApplication(int applicationId, int schoolUrn);
 }
