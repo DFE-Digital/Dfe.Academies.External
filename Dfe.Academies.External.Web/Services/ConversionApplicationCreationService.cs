@@ -1,5 +1,6 @@
 ﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.Pages.School;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Services;
@@ -442,6 +443,12 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		{
 			throw new ArgumentException("Application not found");
 		}
+
+		var deleteSchoolCommand = new DeleteSchoolCommand
+		{
+			ApplicationId = applicationId,
+			Urn = schoolUrn
+		};
 
 		// https://academies-academisation-api-dev.azurewebsites.net/application/99/form-trust/school/99
 		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/form-trust/school/{schoolUrn}";
