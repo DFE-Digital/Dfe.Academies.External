@@ -1,0 +1,74 @@
+﻿@page
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Dfe.Academies.External.Web.Pages.Trust.FormAMat.ApplicationNewTrustKeyPersonSummaryModel
+@{
+    ViewData["Title"] = "Apply to become an academy - Trust key people summary";
+}
+
+@section BeforeMain
+    {
+    <a asp-page="ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back to trust overview</a>
+}
+
+    <div class="govuk-grid-column-full">
+        <span class="govuk-caption-l">
+            @Model.TrustName
+        </span>
+        <h1 class="govuk-heading-l">Key people</h1>
+
+        <p class="govuk-body">
+            Tell us about the people that will be in the key roles in the new trust to demonstrate that the trust has the relevant experience and qualifications to be successful.
+        </p>
+        <p class="govuk-body">
+            Key roles that should be covered are:
+        </p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>the CEO</li>
+            <li>the finance director</li>
+            <li>trust members</li>
+            <li>trustees</li>
+            <li>other key partner organisations and individuals the trust will work with</li>
+        </ul>
+        <p class="govuk-body">
+            Read the <a href="https://www.gov.uk/government/publications/academies-financial-handbook">Academies Financial Handbook</a>
+            to find out more about the people you need.
+        </p>
+
+        <h2 class="govuk-heading-m">Key people in the trust</h2>
+    @if (Model.NewTrustKeyPeople.Any())
+    {
+        <ul class="govuk-list">
+            @foreach (var keyPerson in Model.NewTrustKeyPeople)
+            {
+	            <li class="app-task-list__item">
+                    <h3 class="govuk-heading-s">
+                        @keyPerson.Name
+                        (@string.Join(", ", keyPerson.Roles.Select(x => x.Role.GetDescription())))
+                    </h3>
+                    <p>
+                        <strong>Date of birth: </strong>@(keyPerson.DateOfBirth.ToShortDateString())<br>
+                        <strong>Biography: </strong>@(keyPerson.Biography)
+                    </p>
+                    @*			    <div>
+            <a asp-action="TrustKeyPerson"
+            asp-controller="Trust"
+            asp-route-keyPersonId="@keyPerson.Id"
+            class="govuk-link govuk-link--no-visited-state">
+            Edit
+            </a>
+            </div>*@
+                </li>
+            }
+        </ul>
+    }
+    <a asp-page="ApplicationNewTrustKeyPerson" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Add a key person</a>
+
+
+
+    <div class="govuk-!-margin-6"></div>
+
+
+    <a asp-page="ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+</div>

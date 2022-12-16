@@ -93,7 +93,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 												IReferenceDataRetrievalService referenceDataRetrievalService,
 												IConversionApplicationCreationService conversionApplicationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService,
-				"ApplicationNewTrustSummary")
+				"ApplicationNewTrustKeyPeopleSummary")
 		{
 		}
 
