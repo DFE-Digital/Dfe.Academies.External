@@ -181,7 +181,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
 	private Status CalculateKeyPeopleSectionStatus(NewTrust applicationFormTrustDetails)
 	{
-		return Status.NotStarted;
+		return applicationFormTrustDetails.KeyPeople.Any() ? Status.Completed : Status.NotStarted;
 	}
 
 	private Status CalculateGovernanceStructureSectionStatus(ConversionApplication application)
