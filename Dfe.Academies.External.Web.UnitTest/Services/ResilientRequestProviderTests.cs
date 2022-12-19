@@ -26,9 +26,10 @@ internal sealed class ResilientRequestProviderTests
 			return Task.FromResult(response);
 		});
 
-		var factoryMock = new Mock<IHttpClientFactory>();
-		factoryMock.Setup(m => m.CreateClient(It.IsAny<string>()))
-			.Returns(() => new HttpClient(clientHandlerStub));
+		// MR:- don't need factory here !
+		//var factoryMock = new Mock<IHttpClientFactory>();
+		//factoryMock.Setup(m => m.CreateClient(It.IsAny<string>()))
+		//	.Returns(() => new HttpClient(clientHandlerStub));
 
 		var httpClient = new HttpClient(clientHandlerStub);
 
@@ -37,7 +38,7 @@ internal sealed class ResilientRequestProviderTests
 		var response = await resilientRequestProvider.DeleteAsync<string>("https://www.example.com/ConversionApplication/1/", expected);
 
 		// assert
-		Assert.AreEqual(response, true);
+		Assert.AreEqual(true, response);
 	}
 
 	// TODO:- Test resilientRequestProvider.GetAsync<>()
