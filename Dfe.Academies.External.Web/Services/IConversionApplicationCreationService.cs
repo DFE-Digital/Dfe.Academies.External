@@ -62,4 +62,6 @@ public interface IConversionApplicationCreationService
 	Task CreateKeyPerson(int applicationId, NewTrustKeyPerson person);
 	Task UpdateKeyPerson(int applicationId, NewTrustKeyPerson person);
 	Task DeleteKeyPerson(int applicationId, int keyPersonId);
+
+	Task RemoveSchoolFromApplication(int applicationId, int schoolUrn);
 }

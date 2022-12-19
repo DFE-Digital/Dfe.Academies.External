@@ -17,7 +17,7 @@ namespace Dfe.Academies.External.Web.Pages
 		
 		public Dictionary<int, string> ApplicationSchools { get; private set; }
 
-		private string NextStepPage { get; set; } = "/ApplicationRemoveSchool";
+		private string NextStepPage { get; set; } = "/RemoveSchool";
 
 		public RemoveSchoolSelectionModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 			IReferenceDataRetrievalService referenceDataRetrievalService) 
