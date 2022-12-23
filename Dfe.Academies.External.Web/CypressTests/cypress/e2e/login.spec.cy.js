@@ -38,12 +38,12 @@ describe('Login Tests', () => {
     A2BLogin.loginErrorVisibleWithWrongUsername()
   })
 
-  it('should NOT login into application WITH SQL INJECTION IN FIELDS / INVALID USERNAME WITH PASSWORD', () => {
+  it('should NOT login into application WITH SQL INJECTION IN FIELDS / INVALID USERNAME WITH NO PASSWORD', () => {
     A2BLogin.sqlInjectionAndInvalidUsername(login_username, login_password)
     A2BLogin.loginErrorVisibleWithSqlInjectionAttemptAndInvalidUsername()
 })
 
-it('should NOT login into application WITH CROSS-SITE SCRIPTING ATTEMPT / INVALID USERNAME WITH PASSWORD', () => {
+it('should NOT login into application WITH CROSS-SITE SCRIPTING ATTEMPT / INVALID USERNAME WITH NO PASSWORD', () => {
   A2BLogin.crossSiteScriptAndInvalidUsername(login_username, login_password)
   A2BLogin.loginErrorVisibleWithCrossSiteScriptAndInvalidUsername()
 })
