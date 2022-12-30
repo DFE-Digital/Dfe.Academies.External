@@ -94,5 +94,15 @@ export default class A2BLogin extends BasePage {
         cy.login(username, password)
     }
 
+    static createAccount()
+    {
+        cy.createAccount()
+    }
+
+    static forgotPassword()
+    {
+        cy.forgotPassword()
+    }
+
 
 }
