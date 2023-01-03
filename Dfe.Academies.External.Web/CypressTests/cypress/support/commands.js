@@ -1,3 +1,5 @@
+import DataGenerator from "../fixtures/data-generator"
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -170,4 +172,48 @@ Cypress.Commands.add('createAccountElementsVisible', () => {
     cy.get('.govuk-inset-text').contains('By continuing you accept the terms and conditions')
     cy.get('.govuk-button').contains('Continue')
     })
+    })
+
+    Cypress.Commands.add('createAccountFailsWithNoData', () => {
+        cy.origin('https://test-profile.signin.education.gov.uk/register', () => {
+            cy.contains('Continue').click()
+            cy.get('div[role="alert"]').should('be.visible')
+            cy.get('a[href="#firstName"]').contains('Please enter a valid first name')
+            cy.get('a[href="#lastName"]').contains('Please enter a valid last name')
+            cy.get('a[href="#email"]').contains('Enter an email address')
+
+            cy.get('#validation-firstName').contains('Please enter a valid first name')
+            cy.get('#validation-lastName').contains('Please enter a valid last name')
+        })
+    })
+
+Cypress.Commands.add('createAccountSuccessful', () => {
+    let generateData = new DataGenerator()
+    const sentArgs = { firstName: generateData.generateName(), lastName: generateData.generateName(), email: generateData.generateEmail() }
+    cy.origin('https://test-profile.signin.education.gov.uk/register',
+    {args: sentArgs},
+    ({ firstName, lastName, email }) => { 
+        cy.get('#firstName').type(firstName)
+        cy.get('#lastName').type(lastName)
+        cy.get('#email').type(email)
+        cy.contains('Continue').click()
+
+    })
+})
+
+Cypress.Commands.add('createAccountConfirmElementsVisible', () => {
+    cy.origin('https://test-profile.signin.education.gov.uk/register', () => {
+    cy.get('#notification-title').contains('Success')
+    cy.get('h3[class="govuk-notification-banner__heading"]').contains('Verification email sent')
+    cy.get('p[class="govuk-body"').contains('We have sent an account verification email to: ')
+    cy.get('h2[class="govuk-notification-banner__title"]').contains('Important')
+    cy.contains('Confirm your email address')
+    cy.contains('is a valid email address, we will have sent you an email containing a verification code. If you are experiencing problems please contact DfE Sign-in')
+    cy.get('.govuk-heading-xl').contains('Confirm your email address')
+    cy.get('p[class="govuk-body-l"]').contains('Enter your verification code to confirm your email address.')   
+    cy.get('label[for="code"]').contains('Verification code')
+    cy.get('#code').should('be.visible')
+    cy.get('button[type="submit"]').should('be.visible')
+
+})
 })
