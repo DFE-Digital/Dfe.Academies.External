@@ -96,7 +96,7 @@ Cypress.Commands.add('login', (username, password) => {
     username = 'dan.good@education.gov.uk'
     password = 'P1ngO*1984'
     cy.get('#username').type(username)
-    cy.get('#password').type(password)
+    cy.get('#password').type(password, { log: false})
     cy.contains('Sign in').click()
 })
 })
