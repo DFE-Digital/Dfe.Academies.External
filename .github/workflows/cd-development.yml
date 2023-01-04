@@ -30,7 +30,7 @@ jobs:
             VERSION=sha-${GITHUB_SHA}
             TAGS="$TAGS,${DOCKER_IMAGE}:${VERSION}"
           fi
-          echo "tags::${TAGS}" >> $GITHUB_OUTPUT
+          echo "tags=${TAGS}" >> $GITHUB_OUTPUT
           echo "deploy-version=${VERSION}" >> $GITHUB_OUTPUT
 
       - name: Push image
