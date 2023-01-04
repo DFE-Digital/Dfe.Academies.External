@@ -48,7 +48,7 @@ it('should NOT login into application WITH CROSS-SITE SCRIPTING ATTEMPT / INVALI
   A2BLogin.loginErrorVisibleWithCrossSiteScriptAndInvalidUsername()
 })
 
-  it.only('should login into application WITH CORRECT CREDENTIALS', () => {
+  it('should login into application WITH CORRECT CREDENTIALS', () => {
    A2BLogin.login(login_username, login_password)
    A2BYourApplications.yourApplicationsElementsVisible()
   })
