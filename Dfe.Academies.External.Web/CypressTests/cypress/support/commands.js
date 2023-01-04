@@ -217,3 +217,17 @@ Cypress.Commands.add('createAccountConfirmElementsVisible', () => {
 
 })
 })
+
+Cypress.Commands.add('yourApplicationsElementsVisible', () => {
+    cy.wait(2000)
+    cy.get('h1').contains('Your applications')
+    cy.get('h2').contains('Applications in progress')
+    cy.get('th:nth-child(1)').contains('Application')
+    cy.get('th:nth-child(2)').contains('School Name')
+    cy.get('th:nth-child(3)').contains('School Or Schools Applying To Convert')
+    cy.get('a[href="/what-are-you-applying-to-do"]').should('be.visible').contains('Start a new application')
+    cy.get('.govuk-grid-column-two-thirds > :nth-child(8)').contains('Past applications')
+    cy.get('[aria-describedby="completedApplicationsTableDescription"] > .govuk-table__head > .govuk-table__row > :nth-child(1)').contains('Application')
+    cy.get('[aria-describedby="completedApplicationsTableDescription"] > .govuk-table__head > .govuk-table__row > :nth-child(2)').contains('School Name')
+    cy.get('[aria-describedby="completedApplicationsTableDescription"] > .govuk-table__head > .govuk-table__row > :nth-child(3)').contains('School Or Schools Applying To Convert')
+})
