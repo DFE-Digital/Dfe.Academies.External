@@ -2,6 +2,7 @@ import { url, login_username, login_password } from '../../config'
 import CookieHeaderModal from '../page-objects/components/CookieHeaderModal'
 import A2BHome from '../page-objects/pages/A2BHome'
 import A2BLogin from '../page-objects/pages/A2BLogin'
+import A2BYourApplications from '../page-objects/pages/A2BYourApplications'
 
 describe('Login Tests', () => {
 
@@ -24,7 +25,6 @@ describe('Login Tests', () => {
 
   it('should NOT login into application WITH NO USERNAME OR PASSWORD', () => {
     A2BLogin.loginWithNoUsernameOrPassword(login_username, login_password)
-    
     A2BLogin.loginErrorVisibleWithNoPassword()
   })
 
@@ -48,8 +48,9 @@ it('should NOT login into application WITH CROSS-SITE SCRIPTING ATTEMPT / INVALI
   A2BLogin.loginErrorVisibleWithCrossSiteScriptAndInvalidUsername()
 })
 
-  it('should login into application WITH CORRECT CREDENTIALS', () => {
+  it.only('should login into application WITH CORRECT CREDENTIALS', () => {
    A2BLogin.login(login_username, login_password)
+   A2BYourApplications.yourApplicationsElementsVisible()
   })
 
 })
