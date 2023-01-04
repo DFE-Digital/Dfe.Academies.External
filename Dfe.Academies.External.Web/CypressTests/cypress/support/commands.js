@@ -32,7 +32,7 @@ Cypress.Commands.add('loginWithWrongUsername', (username, password) => {
     username = 'rachel.riley@msn.com'
     password = 'P1ng0*1984'
     cy.get('#username').type(username)
-    cy.get('#password').type(password)
+    cy.get('#password').type(password, { log: false})
     cy.contains('Sign in').click()
 })
 })
@@ -52,7 +52,7 @@ Cypress.Commands.add('loginWithNoUsername', (username, password) => {
     cy.origin('https://test-interactions.signin.education.gov.uk//7fbd2f4e-8296-4211-a7e4-a38df63d3ff5/usernamepassword', () => {
     username = ''
     password = 'P1ngO*1984'
-    cy.get('#password').type(password)
+    cy.get('#password').type(password, { log: false })
     cy.contains('Sign in').click()
 })
 })
