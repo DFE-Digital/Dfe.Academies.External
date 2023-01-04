@@ -4,4 +4,9 @@ export default class A2BYourApplications extends BasePage {
     {
         cy.yourApplicationsElementsVisible()
     }
+
+    static selectJAMNotStartedApplication()
+    {
+        cy.selectJAMNotStartedApplication()
+    }
 }
