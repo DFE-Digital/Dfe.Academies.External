@@ -9,11 +9,15 @@ namespace Dfe.Academies.External.Web.Models
 			Role = role;
 			TimeInRole = timeInRole;
 		}
+
+		public int Id { get; set; }
+
 		public KeyPersonRole Role { get; set; }
 
 		/// <summary>
 		/// Taken from A2C-SIP - ApplicationKeyPersons object
 		/// </summary>
 		public string TimeInRole { get; set; }
+
 	}
 }

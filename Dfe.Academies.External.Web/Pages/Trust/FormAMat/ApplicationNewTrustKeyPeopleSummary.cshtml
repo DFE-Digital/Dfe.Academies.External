@@ -51,14 +51,14 @@
                         <strong>Date of birth: </strong>@(keyPerson.DateOfBirth.ToShortDateString())<br>
                         <strong>Biography: </strong>@(keyPerson.Biography)
                     </p>
-                    @*			    <div>
-            <a asp-action="TrustKeyPerson"
-            asp-controller="Trust"
-            asp-route-keyPersonId="@keyPerson.Id"
+                    			    <div>
+	                                    <a asp-page="ApplicationNewTrustKeyPerson"
+	                                       asp-route-appId="@Model.ApplicationId"
+               asp-route-keyPersonId="@keyPerson.Id"
             class="govuk-link govuk-link--no-visited-state">
             Edit
             </a>
-            </div>*@
+            </div>
                 </li>
             }
         </ul>

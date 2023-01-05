@@ -437,9 +437,20 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PostAsync<IActionResult, CreateTrustKeyPersonCommand>(apiurl, createTrustKeyPersonCommand);
 	}
 
-	public Task UpdateKeyPerson(int applicationId, NewTrustKeyPerson person)
+	public async Task UpdateKeyPerson(int applicationId, NewTrustKeyPerson person)
 	{
-		throw new NotImplementedException();
+		var updateTrustKeyPersonCommand = new UpdateTrustKeyPersonCommand()
+		{
+			ApplicationId = applicationId,
+			KeyPersonId = person.Id,
+			Name = person.Name,
+			DateOfBirth = person.DateOfBirth,
+			Biography = person.Biography,
+			Roles = person.Roles
+		};
+
+		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/form-trust/key-person/{person.Id}?api-version=V1";
+		await _resilientRequestProvider.PutAsync(apiurl, updateTrustKeyPersonCommand);
 	}
 
 	public Task DeleteKeyPerson(int applicationId, int keyPersonId)
