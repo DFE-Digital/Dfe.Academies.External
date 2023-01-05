@@ -2,7 +2,7 @@ import { url, login_username, login_password } from '../../config'
 import CookieHeaderModal from '../page-objects/components/CookieHeaderModal'
 import A2BHome from '../page-objects/pages/A2BHome'
 import A2BLogin from '../page-objects/pages/A2BLogin'
-import A2BYourApplicationNotStarted from '../page-objects/pages/A2BYourApplicationNotStarted'
+import A2BYourApplication from '../page-objects/pages/A2BYourApplication'
 import A2BYourApplications from '../page-objects/pages/A2BYourApplications'
 
 describe('View Application Tests', () => {
@@ -18,6 +18,6 @@ describe('View Application Tests', () => {
         A2BLogin.login(login_username, login_password)
         A2BYourApplications.yourApplicationsElementsVisible()
         A2BYourApplications.selectJAMNotStartedApplication()
-        A2BYourApplicationNotStarted.yourApplicationNotStartedElementsVisible()
+        A2BYourApplication.yourApplicationNotStartedElementsVisible()
     })
 })
