@@ -168,6 +168,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		}
 	}
 
+	///<inheritdoc/>
 	public async Task SetExistingTrustDetails(int applicationId, ExistingTrust existingTrust)
 	{
 		try
@@ -202,6 +203,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		}
 	}
 
+	///<inheritdoc/>
 	public async Task PutSchoolApplicationDetails(int applicationId, int schoolUrn, Dictionary<string, dynamic> schoolProperties)
 	{
 		var application = await GetApplication(applicationId);
@@ -226,6 +228,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PutAsync(apiurl, application);
 	}
 
+	///<inheritdoc/>
 	public async Task AddContributorToApplication(ConversionApplicationContributor contributor, int applicationId)
 	{
 		var application = await GetApplication(applicationId);
@@ -241,6 +244,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PutAsync(apiurl, application);
 	}
 
+	///<inheritdoc/>
 	public async Task RemoveContributorFromApplication(int contributorId, int applicationId)
 	{
 		var application = await GetApplication(applicationId);
@@ -260,6 +264,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PutAsync(apiurl, application);
 	}
 
+	///<inheritdoc/>
 	public async Task CreateLoan(int applicationId, int schoolId, SchoolLoan loan)
 	{
 		var createLoanCommand = new CreateLoanCommand
@@ -276,6 +281,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PutAsync(apiurl, createLoanCommand);
 	}
 
+	///<inheritdoc/>
 	public async Task UpdateLoan(int applicationId, int schoolId, SchoolLoan loan)
 	{
 		var updateLoanCommand = new UpdateLoanCommand
@@ -293,6 +299,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PostAsync<IActionResult, UpdateLoanCommand>(apiurl, updateLoanCommand);
 	}
 
+	///<inheritdoc/>
 	public async Task DeleteLoan(int applicationId, int schoolId, int loanId)
 	{
 		var deleteLoanCommand = new DeleteLoanCommand
@@ -303,6 +310,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.DeleteAsync<DeleteLoanCommand>(apiurl, deleteLoanCommand);
 	}
 
+	///<inheritdoc/>
 	public async Task CreateLease(int applicationId, int schoolId, SchoolLease lease)
 	{
 		var createLeaseCommand = new CreateLeaseCommand
@@ -321,6 +329,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PutAsync(apiurl, createLeaseCommand);
 	}
 
+	///<inheritdoc/>
 	public async Task UpdateLease(int applicationId, int schoolId, SchoolLease lease)
 	{
 		var updateLeaseCommand = new UpdateLeaseCommand
@@ -340,6 +349,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PostAsync<IActionResult, UpdateLeaseCommand>(apiurl, updateLeaseCommand);
 	}
 
+	///<inheritdoc/>
 	public async Task DeleteLease(int applicationId, int schoolId, int leaseId)
 	{
 		var deleteLeaseCommand = new DeleteLeaseCommand
@@ -353,9 +363,9 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	///<inheritdoc/>
 	public async Task SetAdditionalDetails(int applicationId, int schoolId, string trustBenefitDetails, string? ofstedInspectionDetails,
 		string? safeguardingDetails, string? localAuthorityReorganisationDetails, string? localAuthorityClosurePlanDetails,
-		string? dioceseName, string dioceseFolderIdentifier, bool partOfFederation, string? foundationTrustOrBodyName,
-		string foundationConsentFolderIdentifier, DateTimeOffset? exemptionEndDate, string mainFeederSchools,
-		string resolutionConsentFolderIdentifier, SchoolEqualitiesProtectedCharacteristics? protectedCharacteristics,
+		string? dioceseName, string? dioceseFolderIdentifier, bool partOfFederation, string? foundationTrustOrBodyName,
+		string? foundationConsentFolderIdentifier, DateTimeOffset? exemptionEndDate, string mainFeederSchools,
+		string? resolutionConsentFolderIdentifier, SchoolEqualitiesProtectedCharacteristics? protectedCharacteristics,
 		string? furtherInformation)
 	{
 		var setAdditionalDetailsCommand = new SetAdditionalDetailsCommand
@@ -407,6 +417,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PutAsync(apiurl, application.FormTrustDetails);
 	}
 
+	///<inheritdoc/>
 	public async Task SubmitApplication(int applicationId)
 	{
 		var application = await GetApplication(applicationId);
@@ -456,6 +467,27 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	public Task DeleteKeyPerson(int applicationId, int keyPersonId)
 	{
 		throw new NotImplementedException();
+	}
+
+	///<inheritdoc/>
+	public async Task RemoveSchoolFromApplication(int applicationId, int schoolUrn)
+	{
+		var application = await GetApplication(applicationId);
+
+		if (application?.ApplicationId != applicationId)
+		{
+			throw new ArgumentException("Application not found");
+		}
+
+		var deleteSchoolCommand = new DeleteSchoolCommand
+		{
+			ApplicationId = applicationId,
+			Urn = schoolUrn
+		};
+
+		// https://academies-academisation-api-dev.azurewebsites.net/application/99/form-trust/school/99
+		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/form-trust/school/{schoolUrn}";
+		await _resilientRequestProvider.DeleteAsync<DeleteSchoolCommand>(apiurl, deleteSchoolCommand);
 	}
 
 	private async Task<ConversionApplication?> GetApplication(int applicationId)

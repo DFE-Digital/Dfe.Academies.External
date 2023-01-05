@@ -332,10 +332,19 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculateFurtherInformationSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
-		//This might only return InProgress if any of the file uploads are mandatory for the application but don't have to be uploaded immediately
-		var sectionStarted = !string.IsNullOrEmpty(selectedSchool.TrustBenefitDetails);
+		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) &&
+			!string.IsNullOrWhiteSpace(selectedSchool?.DioceseFolderIdentifier) &&
+		    !string.IsNullOrWhiteSpace(selectedSchool?.FoundationConsentFolderIdentifier) &&
+		    !string.IsNullOrWhiteSpace(selectedSchool?.ResolutionConsentFolderIdentifier))
+			return Status.Completed;
 		
-		return sectionStarted ? Status.Completed : Status.NotStarted;
+		else if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) ||
+				 !string.IsNullOrWhiteSpace(selectedSchool?.DioceseFolderIdentifier) ||
+		         !string.IsNullOrWhiteSpace(selectedSchool?.FoundationConsentFolderIdentifier) ||
+		         !string.IsNullOrWhiteSpace(selectedSchool?.ResolutionConsentFolderIdentifier))
+			return Status.InProgress;
+		
+		return Status.NotStarted;
 	}
 
 	/// <summary>
