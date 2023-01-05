@@ -3,7 +3,6 @@ import CookieHeaderModal from '../page-objects/components/CookieHeaderModal'
 import A2BHome from '../page-objects/pages/A2BHome'
 import A2BLogin from '../page-objects/pages/A2BLogin'
 import A2BCreateAnAccount from '../page-objects/pages/A2BCreateAnAccount'
-import DataGenerator from '../fixtures/data-generator'
 import A2BCreateAnAccountConfirm from '../page-objects/pages/A2BCreateAnAccountConfirm'
 
 describe('Create Account Tests', () => {
