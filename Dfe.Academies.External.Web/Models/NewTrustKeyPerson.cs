@@ -14,8 +14,10 @@ public class NewTrustKeyPerson
 
 	public int ApplicationId { get; set; }
 
+	public int Id { get; set; }
+
 	public string Name { get; set; }
-	public List<NewTrustKeyPersonRole> Roles { get; }
+	public List<NewTrustKeyPersonRole> Roles { get; set; }
 
 	public DateTime DateOfBirth { get; set; }
 
