@@ -1,4 +1,3 @@
-const { defineConfig } = require("cypress");
 
 /*const {
   username,
