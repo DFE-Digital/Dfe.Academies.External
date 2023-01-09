@@ -10,6 +10,8 @@ locals {
   container_secret_environment_variables  = var.container_secret_environment_variables
   enable_mssql_database                   = var.enable_mssql_database
   enable_cdn_frontdoor                    = var.enable_cdn_frontdoor
+  cdn_frontdoor_waf_mode                  = var.cdn_frontdoor_waf_mode
+  cdn_frontdoor_enable_rate_limiting      = var.cdn_frontdoor_enable_rate_limiting
   cdn_frontdoor_host_add_response_headers = var.cdn_frontdoor_host_add_response_headers
   key_vault_access_users                  = toset(var.key_vault_access_users)
   tfvars_filename                         = var.tfvars_filename
