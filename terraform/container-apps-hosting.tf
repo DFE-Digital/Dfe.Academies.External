@@ -14,9 +14,9 @@ module "azure_container_apps_hosting" {
   container_command                      = local.container_command
   container_secret_environment_variables = local.container_secret_environment_variables
 
-  enable_mssql_database                   = local.enable_mssql_database
-  enable_cdn_frontdoor                    = local.enable_cdn_frontdoor
-  cdn_frontdoor_waf_mode                  = local.cdn_frontdoor_waf_mode
-  cdn_frontdoor_enable_rate_limiting      = local.cdn_frontdoor_enable_rate_limiting
-  cdn_frontdoor_host_add_response_headers = local.cdn_frontdoor_host_add_response_headers
+  enable_mssql_database                       = local.enable_mssql_database
+  enable_cdn_frontdoor                        = local.enable_cdn_frontdoor
+  cdn_frontdoor_enable_rate_limiting          = local.cdn_frontdoor_enable_rate_limiting
+  cdn_frontdoor_host_add_response_headers     = local.cdn_frontdoor_host_add_response_headers
+  restrict_container_apps_to_cdn_inbound_only = local.restrict_container_apps_to_cdn_inbound_only
 }

@@ -69,12 +69,12 @@ variable "cdn_frontdoor_enable_rate_limiting" {
   type        = bool
 }
 
-variable "cdn_frontdoor_waf_mode" {
-  description = "CDN Front Door waf mode"
-  type        = string
-}
-
 variable "cdn_frontdoor_host_add_response_headers" {
   description = "List of response headers to add at the CDN Front Door `[{ \"Name\" = \"Strict-Transport-Security\", \"value\" = \"max-age=31536000\" }]`"
   type        = list(map(string))
+}
+
+variable "restrict_container_apps_to_cdn_inbound_only" {
+  description = "Restricts access to the Container Apps by creating a network security group that only allows 'AzureFrontDoor.Backend' inbound, and attaches it to the subnet of the container app environment."
+  type        = bool
 }
