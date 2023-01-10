@@ -219,7 +219,7 @@ Cypress.Commands.add('createAccountConfirmElementsVisible', () => {
 })
 
 Cypress.Commands.add('yourApplicationsElementsVisible', () => {
-    cy.wait(2000)
+    cy.wait(6000)
     cy.get('h1').contains('Your applications')
     cy.get('h2').contains('Applications in progress')
     cy.get('th:nth-child(1)').contains('Application')
@@ -232,13 +232,13 @@ Cypress.Commands.add('yourApplicationsElementsVisible', () => {
     cy.get('[aria-describedby="completedApplicationsTableDescription"] > .govuk-table__head > .govuk-table__row > :nth-child(3)').contains('School Or Schools Applying To Convert')
 })
 
-Cypress.Commands.add('selectJAMNotStartedApplication', () => {
+Cypress.Commands.add('selectJAMNotStartedApplicationButSchoolAdded', () => {
     cy.get('a[href="/application-overview?appId=193"]').contains('Join a multi-academy trust')
     cy.get(':nth-child(74) > :nth-child(3) > ul > li').contains('Norwich School')
     cy.get('a[href="/application-overview?appId=193"]').click()
 })
 
-Cypress.Commands.add('yourApplicationNotStartedElementsVisible', () => {
+Cypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', () => {
     cy.get('a[href="/your-applications"]').contains('Back to your applications')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')

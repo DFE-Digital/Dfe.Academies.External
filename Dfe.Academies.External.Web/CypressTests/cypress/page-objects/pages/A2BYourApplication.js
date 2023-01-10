@@ -1,8 +1,8 @@
 import BasePage from "../BasePage"
-export default class A2BYourApplicationNotStarted extends BasePage {
-    static yourApplicationNotStartedElementsVisible()
+export default class A2BYourApplication extends BasePage {
+    static yourApplicationNotStartedButSchoolAddedElementsVisible()
     {
-        cy.yourApplicationNotStartedElementsVisible()
+        cy.yourApplicationNotStartedButSchoolAddedElementsVisible()
     }
 
 

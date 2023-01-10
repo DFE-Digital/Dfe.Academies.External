@@ -5,8 +5,8 @@ export default class A2BYourApplications extends BasePage {
         cy.yourApplicationsElementsVisible()
     }
 
-    static selectJAMNotStartedApplication()
+    static selectJAMNotStartedApplicationButSchoolAdded()
     {
-        cy.selectJAMNotStartedApplication()
+        cy.selectJAMNotStartedApplicationButSchoolAdded()
     }
 }
