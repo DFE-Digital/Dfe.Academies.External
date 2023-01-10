@@ -29,10 +29,10 @@ describe('View Application Tests', () => {
         A2BHome.clickStartNow()
       })
 
-    it('should be able to view a Not Started Application', () => {
+    it('should be able to view a Not Started Application - (School Previously Added)', () => {
         A2BLogin.login(login_username, login_password)
         A2BYourApplications.yourApplicationsElementsVisible()
-        A2BYourApplications.selectJAMNotStartedApplication()
-        A2BYourApplication.yourApplicationNotStartedElementsVisible()
+        A2BYourApplications.selectJAMNotStartedApplicationButSchoolAdded()
+        A2BYourApplication.yourApplicationNotStartedButSchoolAddedElementsVisible()
     })
 })
