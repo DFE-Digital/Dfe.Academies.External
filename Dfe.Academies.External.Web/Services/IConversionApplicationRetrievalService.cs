@@ -1,5 +1,6 @@
 ﻿using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.ViewModels;
 
 namespace Dfe.Academies.External.Web.Services;
 public interface IConversionApplicationRetrievalService
@@ -30,7 +31,7 @@ public interface IConversionApplicationRetrievalService
 	/// </summary>
 	/// <param name="schoolId"></param>
 	/// <returns></returns>
-	Task<List<ConversionApplicationComponent>> GetSchoolApplicationComponents(int applicationId, int schoolId);
+	Task<List<ApplicationComponentViewModel>> GetSchoolApplicationComponents(int applicationId, int schoolId);
 
 	/// <summary>
 	/// Not sure whether this is needed for V1.5
@@ -77,20 +78,23 @@ public interface IConversionApplicationRetrievalService
 	/// <returns></returns>
 	Status CalculateApplicationDeclarationStatus(ConversionApplication? conversionApplication);
 
+	Status CalculateSchoolStatus(List<ApplicationComponentViewModel> schoolComponents);
+
 	/// <summary>
 	/// Calculate overall application status based on whether all sections have been completed
 	/// INCLUDING trust
 	/// </summary>
 	/// <param name="conversionApplication"></param>
 	/// <returns></returns>
-	Status CalculateApplicationStatus(ConversionApplication? conversionApplication);
+	Status CalculateApplicationStatus(ConversionApplication? conversionApplication,
+		IEnumerable<SchoolComponentsViewModel> schoolComponents);
 
 	/// <summary>
 	/// Return a list<viewmodel> to render FAM application progress on screen
 	/// </summary>
 	/// <param name="applicationId"></param>
 	/// <returns></returns>
-	Task<List<ConversionApplicationComponent>> GetFormAMatTrustComponents(int applicationId);
+	Task<List<ApplicationComponentViewModel>> GetFormAMatTrustComponents(int applicationId);
 
 	/// <summary>
 	/// Calculate FAM opening date section status
