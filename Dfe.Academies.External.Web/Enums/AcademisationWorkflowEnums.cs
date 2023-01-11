@@ -66,11 +66,8 @@ public enum SchoolEqualitiesProtectedCharacteristics
 
 public enum SchoolConversionComponentStatus
 {
-	Ignore = -1,
 	[Description("Not Started")]
-	NotStarted,
-	[Description("Incomplete")]
-	Incomplete = 1,
+	NotStarted = 1,
 	[Description("Complete")]
 	Complete
 }
