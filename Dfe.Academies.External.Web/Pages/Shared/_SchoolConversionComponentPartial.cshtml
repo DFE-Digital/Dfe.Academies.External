@@ -6,31 +6,34 @@
 	</td>
 	<td class="govuk-table__cell">
 		<dl>
-			<dd class="">
+			<dt class="">
 				<dl class="govuk-body-s">
 					<dt class="">
 						@Model.Answer
 					</dt>
+					<dd class=""></dd>
 				</dl>
-			</dd>
+			</dt>
+			<dd></dd>
 			@if (Model.SubQuestionAndAnswers.Any())
 			{
-				<dd class="">
+				<dt class="">
 					@foreach (var additionalInfo in Model.SubQuestionAndAnswers.ToList())
 					{
-                        @if (additionalInfo.QuestionAnswered)
-                        {
-	                        <dl class="govuk-body-s">
-                                <dt class="govuk-caption-m">
-	                                @additionalInfo.Name
-		                        </dt>
-		                        <dd data-field-name="@additionalInfo.Name">
-			                        @additionalInfo.Answer
-		                        </dd>
-	                        </dl>
-                        }
+						@if (additionalInfo.QuestionAnswered)
+						{
+							<dl class="govuk-body-s">
+								<dt class="govuk-caption-m">
+									@additionalInfo.Name
+								</dt>
+								<dd data-field-name="@additionalInfo.Name">
+									@additionalInfo.Answer
+								</dd>
+							</dl>
+						}
 					}
-				</dd>
+				</dt>
+				<dd></dd>
 			}
 		</dl>
 	</td>
