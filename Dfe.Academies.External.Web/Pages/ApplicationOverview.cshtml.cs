@@ -20,7 +20,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public string ApplicationReferenceNumber { get; private set; } = string.Empty;
 
-		public List<SchoolApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; private set; } = new();
+		public List<SchoolComponentsViewModel> SchoolOrSchoolsApplyingToConvert { get; private set; } = new();
 
 		/// <summary>
 		/// This is already set dependent on whether application type = join a mat / form a mat!
@@ -53,19 +53,9 @@ namespace Dfe.Academies.External.Web.Pages
 		public string SchoolHeaderText { get; private set; } = string.Empty;
 
 		/// <summary>
-		/// This will ONLY have a value IF ApplicationType = FormNewMat
-		/// </summary>
-		public string? SchoolName { get; private set; }
-
-		/// <summary>
 		/// UI text, set within here ONLY dependent on ApplicationType
 		/// </summary>
 		public string TrustHeaderText { get; private set; } = string.Empty;
-		
-		/// <summary>
-		/// this will ONLY have a value IF ApplicationType = FormNewMat
-		/// </summary>
-		public SchoolComponentsViewModel  SchoolComponents { get; private set; } = new();
 
 		/// <summary>
 		/// flag to set different UI text - contributors
@@ -102,23 +92,23 @@ namespace Dfe.Academies.External.Web.Pages
 			{
 				return Page();
 			}
-
-			var school = draftConversionApplication.Schools.FirstOrDefault();
-
-			if (school != null)
-			{
-				school.SchoolApplicationComponents =
-					await ConversionApplicationRetrievalService.GetSchoolApplicationComponents(appId, school.URN);
-			}
+			
+			// var school = draftConversionApplication.Schools.FirstOrDefault();
+			//
+			// if (school != null)
+			// {
+			// 	school.SchoolApplicationComponents =
+			// 		await ConversionApplicationRetrievalService.GetSchoolApplicationComponents(appId, school.URN);
+			// }
 
 			ApplicationId = appId;
 
-			PopulateUiModel(draftConversionApplication, school);
+			PopulateUiModel(draftConversionApplication);
 
 			return Page();
 		}
 
-		private void PopulateUiModel(ConversionApplication? conversionApplication, SchoolApplyingToConvert? school)
+		private void PopulateUiModel(ConversionApplication? conversionApplication)
 		{
 			// grab current user email
 			string email = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
@@ -142,12 +132,27 @@ namespace Dfe.Academies.External.Web.Pages
 				TrustConversionStatus = ConversionApplicationRetrievalService.CalculateTrustStatus(conversionApplication);
 				DeclarationStatus =
 					ConversionApplicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
-				ConversionStatus = ConversionApplicationRetrievalService.CalculateApplicationStatus(conversionApplication);
 
 				ApplicationType = conversionApplication.ApplicationType;
 				ApplicationReferenceNumber = conversionApplication.ApplicationReference;
 				ApplicationStatus = conversionApplication.ApplicationStatus;
-				SchoolOrSchoolsApplyingToConvert = conversionApplication.Schools;
+				SchoolOrSchoolsApplyingToConvert = new List<SchoolComponentsViewModel>();
+				
+				foreach (var school in conversionApplication.Schools)
+				{
+					var applicationComponents = ConversionApplicationRetrievalService.GetSchoolApplicationComponents(ApplicationId, school.URN)
+						.Result
+						.ToList();
+					
+					SchoolOrSchoolsApplyingToConvert.Add(new SchoolComponentsViewModel(
+						conversionApplication.ApplicationId,
+						school.URN,
+						school.SchoolName,
+						ConversionApplicationRetrievalService.CalculateSchoolStatus(applicationComponents),
+						applicationComponents));
+				}
+				
+				ConversionStatus = ConversionApplicationRetrievalService.CalculateApplicationStatus(conversionApplication, SchoolOrSchoolsApplyingToConvert);
 				NameOfTrustToJoin = conversionApplication.TrustName;
 
 				HasSchool = conversionApplication.HasSchool;
@@ -170,25 +175,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 					TrustHeaderText = "The trust the school will join";
 					SchoolHeaderText = "The school applying to convert";
-					SchoolName = school?.SchoolName;
-				}
-
-				// Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
-				if (school != null)
-				{
-					SchoolComponentsViewModel componentsVm = new()
-					{
-						URN = school.URN,
-						ApplicationId = conversionApplication.ApplicationId,
-						SchoolComponents = school.SchoolApplicationComponents.Select(c =>
-							new ApplicationComponentViewModel(name: c.Name,
-								uri: SetSchoolApplicationComponentUriFromName(c.Name))
-							{
-								Status = c.Status
-							}).ToList()
-					};
-
-					SchoolComponents = componentsVm;
+				//	SchoolName = school?.SchoolName;
 				}
 
 				//// submit button should NOT be available unless ConversionStatus == Completed &&&&&&& TrustConversionStatus = Completed !!

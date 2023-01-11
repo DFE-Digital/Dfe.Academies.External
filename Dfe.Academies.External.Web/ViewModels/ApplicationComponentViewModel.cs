@@ -4,10 +4,11 @@ namespace Dfe.Academies.External.Web.ViewModels;
 
 public sealed class ApplicationComponentViewModel
 {
-	public ApplicationComponentViewModel(string name, string uri)
+	public ApplicationComponentViewModel(string name, string uri, Status status)
 	{
 		Name = name;
 		URI = uri;
+		Status = status;
 	}
 
 	public string Name { get; set; }

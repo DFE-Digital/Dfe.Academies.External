@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.ViewModels;
 
 namespace Dfe.Academies.External.Web.Services;
 
@@ -109,7 +110,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	}
 
 	///<inheritdoc/>
-	public async Task<List<ConversionApplicationComponent>> GetSchoolApplicationComponents(int applicationId, int schoolId)
+	public async Task<List<ApplicationComponentViewModel>> GetSchoolApplicationComponents(int applicationId, int schoolId)
 	{
 		try
 		{
@@ -126,16 +127,16 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 				throw new ArgumentException("School not found");
 			}
 
-			List<ConversionApplicationComponent> conversionApplicationComponents = new()
+			List<ApplicationComponentViewModel> conversionApplicationComponents = new()
 			{
-			    new(name:"About the conversion") {Id = 1, SchoolId = schoolId, Status = CalculateAboutTheConversionSectionStatus(school)},
-				new(name:"Further information") {Id = 1, SchoolId = schoolId, Status = CalculateFurtherInformationSectionStatus(school)},
-				new(name:"Finances") {Id = 4, SchoolId = schoolId, Status = CalculateFinanceSectionStatus(school)},
-			    new(name:"Future pupil numbers") {Id = 3, SchoolId = schoolId, Status = CalculateFuturePupilNumbersSectionStatus(school)},
-				new(name:"Land and buildings") {Id = 7, SchoolId = schoolId, Status = CalculateLandAndBuildingsSectionStatus(school)},
-				new(name:"Consultation") {Id = 7, SchoolId = schoolId, Status = CalculateConsultationSectionStatus(school)},
-				new(name:"Pre-opening support grant") {Id = 7, SchoolId = schoolId, Status = CalculatePreOpeningSupportGrantSectionStatus(school)},
-				new(name:"Declaration") {Id = 7, SchoolId = schoolId, Status = CalculateDeclarationSectionStatus(school)}
+			    new("About the conversion", UriFormatter.SetSchoolApplicationComponentUriFromName("About the conversion"), CalculateAboutTheConversionSectionStatus(school)),
+				new("Further information", UriFormatter.SetSchoolApplicationComponentUriFromName("Further information"), CalculateFurtherInformationSectionStatus(school)),
+				new("Finances", UriFormatter.SetSchoolApplicationComponentUriFromName("Finances"), CalculateFinanceSectionStatus(school)),
+			    new("Future pupil numbers", UriFormatter.SetSchoolApplicationComponentUriFromName("Future pupil numbers"), CalculateFuturePupilNumbersSectionStatus(school)),
+				new("Land and buildings", UriFormatter.SetSchoolApplicationComponentUriFromName("Land and buildings"),CalculateLandAndBuildingsSectionStatus(school)),
+				new("Consultation", UriFormatter.SetSchoolApplicationComponentUriFromName("Consultation"),CalculateConsultationSectionStatus(school)),
+				new("Pre-opening support grant", UriFormatter.SetSchoolApplicationComponentUriFromName("Pre-opening support grant"),CalculatePreOpeningSupportGrantSectionStatus(school)),
+				new("Declaration", UriFormatter.SetSchoolApplicationComponentUriFromName("Declaration"),CalculateDeclarationSectionStatus(school))
 		    };
 
 			return conversionApplicationComponents;
@@ -143,11 +144,11 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		catch (Exception ex)
 		{
 			_logger.LogError("ConversionApplicationRetrievalService::GetSchoolApplicationComponents::Exception - {Message}", ex.Message);
-			return new List<ConversionApplicationComponent>();
+			return new List<ApplicationComponentViewModel>();
 		}
 	}
 	
-	public async Task<List<ConversionApplicationComponent>> GetFormAMatTrustComponents(int applicationId)
+	public async Task<List<ApplicationComponentViewModel>> GetFormAMatTrustComponents(int applicationId)
 	{
 		try
 		{
@@ -159,15 +160,15 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			}
 			
 
-			List<ConversionApplicationComponent> conversionApplicationComponents = new()
+			List<ApplicationComponentViewModel> conversionApplicationComponents = new()
 			{
-				new(name:"Name of the trust") {Id = 1, Status = CalculateNameOfTheTrustSectionStatus(application.FormTrustDetails)},
-				new(name:"Opening date") {Id = 2, Status = CalculateOpeningDateSectionStatus(application.FormTrustDetails)},
-				new(name:"Reasons for forming the trust") {Id = 3,Status = CalculateReasonsForFormingTrustSectionStatus(application.FormTrustDetails)},
-				new(name:"Plans for growth") {Id = 4, Status = CalculatePlansForGrowthSectionStatus(application.FormTrustDetails)},
-				new(name:"School improvement strategy") {Id = 5, Status = CalculateSchoolImprovementStrategyStatus(application.FormTrustDetails)},
-				new(name:"Governance structure") {Id = 6, Status = CalculateGovernanceStructureSectionStatus(application)},
-				new(name:"Key people") {Id = 7, Status = CalculateKeyPeopleSectionStatus(application.FormTrustDetails)}
+				new("Name of the trust", UriFormatter.SetSchoolApplicationComponentUriFromName("About the conversion"), CalculateNameOfTheTrustSectionStatus(application.FormTrustDetails)),
+				new("Opening date", UriFormatter.SetSchoolApplicationComponentUriFromName("Further information"), CalculateOpeningDateSectionStatus(application.FormTrustDetails)),
+				new("Reasons for forming the trust", UriFormatter.SetSchoolApplicationComponentUriFromName("Finances"), CalculateReasonsForFormingTrustSectionStatus(application.FormTrustDetails)),
+				new("Plans for growth", UriFormatter.SetSchoolApplicationComponentUriFromName("Future pupil numbers"), CalculatePlansForGrowthSectionStatus(application.FormTrustDetails)),
+				new("School improvement strategy", UriFormatter.SetSchoolApplicationComponentUriFromName("Land and buildings"),CalculateSchoolImprovementStrategyStatus(application.FormTrustDetails)),
+				new("Governance structure", UriFormatter.SetSchoolApplicationComponentUriFromName("Land and buildings"),CalculateGovernanceStructureSectionStatus(application)),
+				new("Key people", UriFormatter.SetSchoolApplicationComponentUriFromName("Land and buildings"),CalculateKeyPeopleSectionStatus(application.FormTrustDetails))
 			};
 
 			return conversionApplicationComponents;
@@ -175,7 +176,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		catch (Exception ex)
 		{
 			_logger.LogError("ConversionApplicationRetrievalService::GetSchoolApplicationComponents::Exception - {Message}", ex.Message);
-			return new List<ConversionApplicationComponent>();
+			return new List<ApplicationComponentViewModel>();
 		}
 	}
 
@@ -535,82 +536,26 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		return Status.NotStarted;
 	}
 
-	///<inheritdoc/>
-	public Status CalculateApplicationStatus(ConversionApplication? conversionApplication)
+	public Status CalculateSchoolStatus(List<ApplicationComponentViewModel> schoolComponents)
 	{
-		Status overallStatus = Status.NotStarted;
-		Status schoolConversionStatus = Status.NotStarted;
-		BitArray statuses = new BitArray(2);
+		if (schoolComponents.Any() && schoolComponents.All(c => c.Status == Status.Completed))
+			return Status.Completed;
+		if (schoolComponents.Any() && schoolComponents.All(c => c.Status == Status.NotStarted))
+			return Status.NotStarted;
+		return Status.InProgress;
+	}
+	
+	///<inheritdoc/>
+	public Status CalculateApplicationStatus(ConversionApplication? conversionApplication, IEnumerable<SchoolComponentsViewModel> schoolComponents)
+	{
+		var allSchoolStatuses = schoolComponents.Select(schoolComponent => CalculateSchoolStatus(schoolComponent.SchoolComponents)).ToList();
 
-		if (conversionApplication != null)
-		{
-			if (conversionApplication.ApplicationType == ApplicationTypes.JoinAMat)
-			{
-				var school = conversionApplication.Schools.FirstOrDefault();
+		var trustStatus = CalculateTrustStatus(conversionApplication);
 
-				if (school != null && school.SchoolApplicationComponents.Any())
-				{
-					if (school.SchoolApplicationComponents.All(comp => comp.Status == Status.NotStarted))
-					{
-						schoolConversionStatus = Status.NotStarted;
-					}
-					else
-					{
-						schoolConversionStatus = school.SchoolApplicationComponents.All(comp => comp.Status == Status.Completed) ?
-							Status.Completed : Status.InProgress;
-					}
-				}
-
-				// below could return InProgress or Completed or NotStarted
-				var trustStatus = CalculateTrustStatus(conversionApplication);
-				statuses.Set(0, schoolConversionStatus == Status.Completed); // ONLY set to false IF NOT completed
-				statuses.Set(1, trustStatus == Status.Completed);
-
-				// bitwise, trustStatus == completed == true
-				// bitwise, schoolConversionStatus == completed == true
-				// need 2 true's for overall = Completed
-
-				int trueCount = (from bool m in statuses
-					where m
-					select m).Count();
-
-				if (trueCount == 2)
-				{
-					overallStatus = Status.Completed;
-				}
-				else
-				{
-					// one of schoolConversionStatus OR trustStatus is NOT completed !!!
-					if (schoolConversionStatus == Status.Completed && trustStatus == Status.NotStarted)
-					{
-						overallStatus = Status.InProgress;
-					}
-					else if (trustStatus == Status.Completed && schoolConversionStatus == Status.NotStarted)
-					{
-						overallStatus = Status.InProgress;
-					}
-					else if (schoolConversionStatus == Status.Completed)
-					{
-						overallStatus = trustStatus;
-					}
-					else if (trustStatus == Status.Completed)
-					{
-						overallStatus = schoolConversionStatus;
-					}
-					else
-					{
-						// neither status are completed, one InProgress / one NotStarted for instance
-						overallStatus = schoolConversionStatus > trustStatus ? schoolConversionStatus : trustStatus;
-					}
-				}
-			}
-			else // FAM
-			{
-				// TODO: no idea what logic will be !!
-				overallStatus = Status.NotStarted;
-			}
-		}
-		
-		return overallStatus;
+		if (allSchoolStatuses.All(c => c == Status.Completed) && trustStatus == Status.Completed)
+			return Status.Completed;
+		if (allSchoolStatuses.All(c => c == Status.NotStarted) && trustStatus == Status.NotStarted)
+			return Status.NotStarted;
+		return Status.InProgress;
 	}
 }

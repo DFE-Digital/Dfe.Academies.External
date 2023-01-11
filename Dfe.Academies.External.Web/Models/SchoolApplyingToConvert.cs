@@ -100,9 +100,4 @@ public class SchoolApplyingToConvert
 
 		public bool? HasLoans { get; set; }
 		public bool? HasLeases { get; set; }
-
-		/// <summary>
-        /// TODO:- is below more a VM thing?
-        /// </summary>
-        public List<ConversionApplicationComponent> SchoolApplicationComponents { get; set; } = new();
 }

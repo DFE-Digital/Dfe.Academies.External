@@ -83,7 +83,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 			// MR:- need to check if application type =JoinAMat and application already has school remove existing school - add new one
 			// otherwise API validation will reject !! which is correct !!!
-			if (!application.Schools.Any())
+			if (application.Schools.All(c => c.URN != schoolUrn))
 			{
 				SchoolApplyingToConvert school = new(name, schoolUrn, null);
 				application.Schools.Add(school);

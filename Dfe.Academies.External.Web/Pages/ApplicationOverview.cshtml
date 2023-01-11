@@ -13,7 +13,7 @@
 	<a asp-page="YourApplications" class="govuk-back-link">Back to your applications</a>
 }
 
-<div class="govuk-grid-column-two-thirds">
+<div class="govuk-grid-column-full">
 	<p class="govuk-body">
 		Application reference:&nbsp;&nbsp;@Model.ApplicationReferenceNumber
 	</p>
@@ -58,11 +58,14 @@
 							   asp-route-appId="@Model.ApplicationId"
 							   asp-route-urn="@school.URN"
 							   class="govuk-link">
-								@school.SchoolName
+								@school.Name
 							</a>
 						</td>
-                            <td class="govuk-table__cell govuk-!-text-align-right">
-                            TODO:- calc overall school status 
+						<td class="govuk-table__cell govuk-!-text-align-right">
+						@{
+							var statusValue = (int)school.Status;
+						}
+						<status enumvalue=@statusValue></status>
 						</td>
 					</tr>
 				}
@@ -70,13 +73,8 @@
 					<td class="govuk-table__cell">
 						<a asp-page="school/ApplicationSelectSchool"
 						   asp-route-appId="@Model.ApplicationId" class="govuk-button govuk-button--secondary">Add a school</a>
-					</td>
-					<td class="govuk-table__cell">
-						@if (Model.SchoolOrSchoolsApplyingToConvert.Any())
-	                    {
-		                    <a asp-page="RemoveSchoolSelection"
-	                           asp-route-appId="@Model.ApplicationId" class="govuk-button govuk-button--secondary">Remove a school</a>                                
-	                    }
+						<a asp-page="RemoveSchoolSelection"
+						   asp-route-appId="@Model.ApplicationId" class="govuk-link govuk-link--text-colour">Remove a school</a>
 					</td>
 				</tr>
 			}
@@ -84,14 +82,14 @@
 			{
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell">
-						<span class="govuk-!-font-weight-bold govuk-!-padding-right-5">@Model.SchoolName</span>
+						<span class="govuk-!-font-weight-bold govuk-!-padding-right-5">@Model.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()?.Name</span>
 						<a asp-page="/school/ApplicationSelectSchool" aria-describedby="component-change" class="govuk-link"
 						   asp-route-appId="@Model.ApplicationId">
 							Change
 						</a>
 					</td>
 				</tr>
-				<partial name="_SchoolComponentsStatusPartial" model="Model.SchoolComponents"/>
+				<partial name="_SchoolComponentsStatusPartial" model="Model.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()"/>
 			}
 		}
 		</tbody>

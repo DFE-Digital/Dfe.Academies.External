@@ -7,37 +7,17 @@ using NUnit.Framework;
 using System.Net;
 using System.Threading.Tasks;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AutoFixture;
+using Dfe.Academies.External.Web.ViewModels;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services
 {
 	//// Submit button should NOT be available unless ConversionStatus == Completed &&&&&&& TrustConversionStatus = Completed !!
 	internal sealed class ConversionApplicationRetrievalServiceConversionStatusLogicTests
 	{
-		/// <summary>
-		/// conversionApplication == null
-		/// </summary>
-		/// <returns></returns>
-		[Test]
-		public async Task CalculateApplicationStatus___ConversionApplicationNullReturns___NotStarted()
-		{
-			// arrange
-			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
-			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
-			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-
-			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var mockFileUploadService = new Mock<IFileUploadService>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
-
-			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(null);
-
-			// assert
-			Assert.That(applicationStatus, Is.EqualTo(Status.NotStarted));
-		}
-
 		/// <summary>
 		/// conversionApplication.ApplicationType == ApplicationTypes.JoinAMat - without school
 		/// </summary>
@@ -53,11 +33,21 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 			var mockFileUploadService = new Mock<IFileUploadService>();
 			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
-
+			int applicationId = 25; // hard coded as per example JSON
+			int URN = 113537;
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationNoRoles();
+			var schoolViewModels = new List<SchoolComponentsViewModel>();
+			
+			foreach (var school in conversionApplication.Schools)
+			{
+				var schoolComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
+				schoolViewModels.Add(new SchoolComponentsViewModel(applicationId, URN,
+					school.SchoolName,
+					applicationRetrievalService.CalculateSchoolStatus(schoolComponents), schoolComponents));
+			}
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
+			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.NotStarted));
@@ -80,10 +70,25 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			var mockFileUploadService = new Mock<IFileUploadService>();
 			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
 
+			int applicationId = 25; // hard coded as per example JSON
+			int URN = 113537;
+			
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildJoinAMatConversionApplicationWithContributorWithSchool(null);
 
+			var schoolViewModels = new List<SchoolComponentsViewModel>();
+			
+			foreach (var school in conversionApplication.Schools)
+			{
+				var fixture = new Fixture();
+				var schoolComponents = new List<ApplicationComponentViewModel>(fixture
+					.Build<ApplicationComponentViewModel>().With(x => x.Status, Status.NotStarted).CreateMany());
+				schoolViewModels.Add(new SchoolComponentsViewModel(applicationId, URN,
+					school.SchoolName,
+					applicationRetrievalService.CalculateSchoolStatus(schoolComponents), schoolComponents));
+			}
+
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
+			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.NotStarted));
@@ -110,13 +115,14 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildJoinAMatConversionApplicationWithContributorWithSchool(applicationId);
 			var school = conversionApplication.Schools.FirstOrDefault();
-			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
+			var schoolComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
+			var schoolViewModel = new SchoolComponentsViewModel(applicationId, URN, school.SchoolName,
+				applicationRetrievalService.CalculateSchoolStatus(schoolComponents), schoolComponents);
 
 			// assert
-			Assert.That(applicationStatus, Is.EqualTo(Status.NotStarted));
+			Assert.That(schoolViewModel.Status, Is.EqualTo(Status.NotStarted));
 		}
 
 		/// <summary>
@@ -138,15 +144,18 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			int URN = 113537;
 
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildJoinAMatConversionApplicationWithContributorWithSchool(applicationId);
-			var school = conversionApplication.Schools.FirstOrDefault();
-			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
+			var schoolViewModels = new List<SchoolComponentsViewModel>();
+			foreach (var school in conversionApplication.Schools)
+			{
+				var schoolComponents = new List<ApplicationComponentViewModel>(new Fixture()
+					.Build<ApplicationComponentViewModel>().With(x => x.Status, Status.InProgress).CreateMany());
+				schoolViewModels.Add(new SchoolComponentsViewModel(applicationId, URN,
+					school.SchoolName,
+					applicationRetrievalService.CalculateSchoolStatus(schoolComponents), schoolComponents));
+			}
 
-			// set one SchoolApplicationComponents = InProgress. means schoolConversionStatus = InProgress
-			var firstComponent = school!.SchoolApplicationComponents.FirstOrDefault();
-			firstComponent!.Status = Status.InProgress;
-			
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
+			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
@@ -171,17 +180,18 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			int URN = 113537;
 
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildJoinAMatConversionApplicationWithContributorWithSchool(applicationId);
-			var school = conversionApplication.Schools.FirstOrDefault();
-			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
-
-			// set EVERY SchoolApplicationComponents = Completed. means schoolConversionStatus = Completed
-			foreach (var component in school!.SchoolApplicationComponents)
+			var schoolViewModels = new List<SchoolComponentsViewModel>();
+			foreach (var school in conversionApplication.Schools)
 			{
-				component!.Status = Status.Completed;
+				var schoolComponents = new List<ApplicationComponentViewModel>(new Fixture()
+					.Build<ApplicationComponentViewModel>().With(x => x.Status, Status.InProgress).CreateMany());
+				schoolViewModels.Add(new SchoolComponentsViewModel(applicationId, URN,
+					school.SchoolName,
+					applicationRetrievalService.CalculateSchoolStatus(schoolComponents), schoolComponents));
 			}
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
+			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
@@ -207,11 +217,18 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 
 			// set trust status = InProgress. TrustName = set
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithMinimalAndTrustChangesJoinTrustDetails(applicationId);
-			var school = conversionApplication.Schools.FirstOrDefault();
-			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
+			var schoolViewModels = new List<SchoolComponentsViewModel>();
+			foreach (var school in conversionApplication.Schools)
+			{
+				var schoolComponents = new List<ApplicationComponentViewModel>(new Fixture()
+					.Build<ApplicationComponentViewModel>().With(x => x.Status, Status.InProgress).CreateMany());
+				schoolViewModels.Add(new SchoolComponentsViewModel(applicationId, URN,
+					school.SchoolName,
+					applicationRetrievalService.CalculateSchoolStatus(schoolComponents), schoolComponents));
+			}
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
+			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
@@ -237,15 +254,17 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 
 			// set trust status = InProgress. TrustName = set
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithMinimalAndTrustChangesJoinTrustDetails(applicationId);
-			var school = conversionApplication.Schools.FirstOrDefault();
-			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
-
-			// set one SchoolApplicationComponents = InProgress. means schoolConversionStatus = InProgress
-			var firstComponent = school!.SchoolApplicationComponents.FirstOrDefault();
-			firstComponent!.Status = Status.InProgress;
+			var schoolViewModels = new List<SchoolComponentsViewModel>();
+			foreach (var school in conversionApplication.Schools)
+			{
+				var schoolComponents = await applicationRetrievalService.GetSchoolApplicationComponents(conversionApplication.ApplicationId, URN);
+				schoolViewModels.Add(new SchoolComponentsViewModel(applicationId, URN,
+					school.SchoolName,
+					Status.Completed, schoolComponents));
+			}
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
+			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
@@ -271,17 +290,17 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 
 			// set trust status = InProgress. TrustName = set
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithMinimalAndTrustChangesJoinTrustDetails(applicationId);
-			var school = conversionApplication.Schools.FirstOrDefault();
-			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
-
-			// set EVERY SchoolApplicationComponents = Completed. means schoolConversionStatus = Completed
-			foreach (var component in school!.SchoolApplicationComponents)
+			var schoolViewModels = new List<SchoolComponentsViewModel>();
+			foreach (var school in conversionApplication.Schools)
 			{
-				component.Status = Status.Completed;
+				var schoolComponents = await applicationRetrievalService.GetSchoolApplicationComponents(conversionApplication.ApplicationId, URN);
+				schoolViewModels.Add(new SchoolComponentsViewModel(applicationId, URN,
+					school.SchoolName,
+					Status.Completed, schoolComponents));
 			}
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
+			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
@@ -307,11 +326,17 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 
 			// set trust status = Completed. TrustName = set, 
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithCompleteJoinTrustDetails(applicationId);
-			var school = conversionApplication.Schools.FirstOrDefault();
-			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
+			var schoolViewModels = new List<SchoolComponentsViewModel>();
+			foreach (var school in conversionApplication.Schools)
+			{
+				var schoolComponents = await applicationRetrievalService.GetSchoolApplicationComponents(conversionApplication.ApplicationId, URN);
+				schoolViewModels.Add(new SchoolComponentsViewModel(applicationId, URN,
+					school.SchoolName,
+					applicationRetrievalService.CalculateSchoolStatus(schoolComponents), schoolComponents));
+			}
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
+			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
@@ -337,15 +362,17 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 
 			// set trust status = Completed. TrustName = set, 
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithCompleteJoinTrustDetails(applicationId);
-			var school = conversionApplication.Schools.FirstOrDefault();
-			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
-
-			// set one SchoolApplicationComponents = InProgress. means schoolConversionStatus = InProgress
-			var firstComponent = school!.SchoolApplicationComponents.FirstOrDefault();
-			firstComponent!.Status = Status.InProgress;
+			var schoolViewModels = new List<SchoolComponentsViewModel>();
+			foreach (var school in conversionApplication.Schools)
+			{
+				var schoolComponents = await applicationRetrievalService.GetSchoolApplicationComponents(conversionApplication.ApplicationId, URN);
+				schoolViewModels.Add(new SchoolComponentsViewModel(applicationId, URN,
+					school.SchoolName,
+					Status.InProgress, schoolComponents));
+			}
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
+			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
@@ -372,50 +399,16 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			// set trust status = Completed. TrustName = set, 
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithCompleteJoinTrustDetails(applicationId);
 			var school = conversionApplication.Schools.FirstOrDefault();
-			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
-
-			// set EVERY SchoolApplicationComponents = Completed. means schoolConversionStatus = Completed
-			foreach (var component in school!.SchoolApplicationComponents)
+			var schoolComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
+			foreach (ApplicationComponentViewModel schoolComponent in schoolComponents)
 			{
-				component.Status = Status.Completed;
+				schoolComponent.Status = Status.Completed;
 			}
-
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
-
+			var schoolViewModel = new SchoolComponentsViewModel(applicationId, URN, school.SchoolName,
+				applicationRetrievalService.CalculateSchoolStatus(schoolComponents), schoolComponents);
 			// assert
-			Assert.That(applicationStatus, Is.EqualTo(Status.Completed));
+			Assert.That(schoolViewModel.Status, Is.EqualTo(Status.Completed));
 		}
-
-		/// <summary>
-		/// conversionApplication.ApplicationType == ApplicationTypes.FormAMat - with school
-		/// </summary>
-		/// <returns></returns>
-		[Test]
-		public async Task CalculateApplicationStatus___ApplicationTypeFormAMatAndSchool___Returns___NotStarted()
-		{
-			// arrange
-			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
-			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
-			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var mockFileUploadService = new Mock<IFileUploadService>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
-
-			int applicationId = 25; // hard coded as per example JSON
-			int URN = 113537;
-
-			var conversionApplication = ConversionApplicationTestDataFactory.BuildFormAMatConversionApplicationWithContributorWithSchool();
-			var school = conversionApplication.Schools.FirstOrDefault();
-			school!.SchoolApplicationComponents = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
-
-			// act
-			var declarationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication);
-
-			// assert
-			Assert.That(declarationStatus, Is.EqualTo(Status.NotStarted));
-		}
-
-		// TODO:- other tests when the know the FormAMat logic
 	}
 }
