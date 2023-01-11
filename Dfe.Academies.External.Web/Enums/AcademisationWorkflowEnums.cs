@@ -69,7 +69,7 @@ public enum SchoolConversionComponentStatus
 	[Description("Not Started")]
 	NotStarted = 1,
 	[Description("Complete")]
-	Complete
+	Complete = 2
 }
 
 public enum MainConversionContact
