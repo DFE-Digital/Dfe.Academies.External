@@ -1,5 +1,6 @@
 ﻿@page
 @using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.ViewModels
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.FurtherInformationSummaryModel
 @{
@@ -8,9 +9,8 @@
 
 @section BeforeMain
 {
-	<a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back to application overview</a>
+	<partial name="Shared/_BackLink" model='new BackViewModel { ApplicationId = Model.ApplicationId, SchoolURN = Model.Urn, ApplicationType = Model.ApplicationType }'/>
 }
-
 <div class="govuk-grid-column-full">
 	<span class="govuk-caption-l">
 		@Model.SchoolName
@@ -56,6 +56,6 @@
 		<div class="govuk-!-margin-6"></div>
 	}
 
-	<a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+	<partial name="Shared/_BackButton" model='new BackViewModel { ApplicationId = Model.ApplicationId, SchoolURN = Model.Urn, ApplicationType = Model.ApplicationType }'/>
 </div>
 <input type="hidden" asp-for="Urn" />

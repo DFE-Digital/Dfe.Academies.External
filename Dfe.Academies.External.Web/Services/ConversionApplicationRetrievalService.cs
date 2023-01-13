@@ -334,17 +334,15 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	private Status CalculateFurtherInformationSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
 		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) &&
-			!string.IsNullOrWhiteSpace(selectedSchool?.DioceseFolderIdentifier) &&
-		    !string.IsNullOrWhiteSpace(selectedSchool?.FoundationConsentFolderIdentifier) &&
-		    !string.IsNullOrWhiteSpace(selectedSchool?.ResolutionConsentFolderIdentifier))
+			(selectedSchool.DioceseName == null || (!string.IsNullOrWhiteSpace(selectedSchool?.DioceseFolderIdentifier)) &&
+				(selectedSchool.FoundationTrustOrBodyName == null) || (!string.IsNullOrWhiteSpace(selectedSchool?.FoundationConsentFolderIdentifier))) &&
+				!string.IsNullOrWhiteSpace(selectedSchool?.ResolutionConsentFolderIdentifier))
 			return Status.Completed;
-		
-		else if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) ||
-				 !string.IsNullOrWhiteSpace(selectedSchool?.DioceseFolderIdentifier) ||
-		         !string.IsNullOrWhiteSpace(selectedSchool?.FoundationConsentFolderIdentifier) ||
-		         !string.IsNullOrWhiteSpace(selectedSchool?.ResolutionConsentFolderIdentifier))
+
+		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) ||
+		    !string.IsNullOrWhiteSpace(selectedSchool?.ResolutionConsentFolderIdentifier))
 			return Status.InProgress;
-		
+
 		return Status.NotStarted;
 	}
 
