@@ -55,48 +55,38 @@
 			<input type="text" asp-for="Name" id="Name" class="govuk-input govuk-input--width-20"/>
 		</div>
 
+		
 		<div class="govuk-form-group">
-			<fieldset class="govuk-fieldset">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s"></legend>
-				<h2 class="govuk-heading-m">What is their role?</h2>
-				<div class="govuk-form-group">
-					<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-						@foreach (var roleType in Model.RolesToDisplay)
-						{
-							<div class="@(Model.HideRadios ? "govuk-visually-hidden" : "govuk-radios__item")">
-								<input type="radio"
-								       asp-for="ContributorRole"
-								       value="@Convert.ToInt32(roleType)"
-								       id="RoleType@(roleType)"
-								       class="govuk-radios__input"
-								       data-aria-controls="conditional-role-@(roleType.ToString().ToLower())"
-								       checked="@(roleType.Equals(Model.ContributorRole))"
-								       aria-expanded="False"/>
-								<label for="RoleType@(roleType)" class="govuk-label govuk-radios__label">
-									@roleType.GetDescription()
-								</label>
-							</div>
-							@if (roleType == SchoolRoles.Other)
-							{
-								<div class="@(Model.OtherRoleError ? "govuk-form-group--error" : Model.HideRadios ? "" : "govuk-radios__conditional")
-                                            @(Model.ContributorRole != SchoolRoles.Other ? "govuk-radios__conditional--hidden" : "")"
-								     id="conditional-role-other" aria-expanded="false">
-									<div class="govuk-form-group govuk-error-summary__list">
-										<label for="conditional-role-other" class="@(Model.HideRadios ? "govuk-visually-hidden" : "govuk-label")">What is their role?</label>
-										<a href="#OtherRoleNotEntered" class="@(Model.OtherRoleError ? "govuk-error-message" : "govuk-visually-hidden")">
-											You must give their role
-										</a>
-										<input type="text" asp-for="OtherRoleNotListed" id="OtherRoleNotListed" class="govuk-input govuk-input--width-20" maxlength="100"/>
-									</div>
-								</div>
-							}
-						}
-					</div>
-				</div>
-			</fieldset>
-
-		</div>
-
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+              <h2 class="govuk-heading-m">
+                What is their role?
+              </h2>
+            </legend>
+	          <div class="govuk-radios" data-module="govuk-radios">
+              <div class="@(Model.HideRadios ? "govuk-visually-hidden" : "govuk-radios__item")">
+                <input class="govuk-radios__input" id="role" name="ContributorRole" type="radio" value="@Convert.ToInt32(SchoolRoles.ChairOfGovernors)" data-aria-controls="conditional-role">
+                <label class="govuk-label govuk-radios__label" for="role">
+                  Chair Of Governers
+                </label>
+              </div>
+	            <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="role-2" name="ContributorRole" type="radio" value="@Convert.ToInt32(SchoolRoles.Other)" data-aria-controls="conditional-role-2">
+                <label class="govuk-label govuk-radios__label" for="role-2">
+                  Something else
+                </label>
+              </div>
+              <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-role-2">
+                <div class="govuk-form-group">
+                  <label class="govuk-label" for="OtherRoleNotListed">
+                    What is their role?
+                  </label>
+                  <input class="govuk-input govuk-!-width-one-third" id="role-description" name="OtherRoleNotListed" type="text" spellcheck="true">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
 		<input type="submit" value="Send invite" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 	</form>
 
