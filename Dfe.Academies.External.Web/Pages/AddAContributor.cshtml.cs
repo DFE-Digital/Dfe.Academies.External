@@ -189,42 +189,42 @@ namespace Dfe.Academies.External.Web.Pages
 		
 		private void PopulateUiModel(ConversionApplication? application)
 		{
-			if (application != null)
-			{
-				// convert application?.Contributors -> list<ConversionApplicationContributorViewModel>
-				if (application.Contributors.Any())
-				{
-					var contributors = application.Contributors
-						.Select(e => new ConversionApplicationContributorViewModel(e.ContributorId,
-																									application.ApplicationId,
-																									e.FullName, 
-																									e.Role, 
-																									e.OtherRoleName,
-																									e.EmailAddress))
-						.ToList();
-
-					ExistingContributors = contributors;
-
-					// MR:- setup roles collection i.e. if we already have a 'ChairOfGovernors' within the contributors collection
-					// remove from UI so can't have 2 because that would break business rules
-					var roles = Enum.GetValues(typeof(SchoolRoles)).OfType<SchoolRoles>();
-
-					bool hasChair = application.Contributors.Any(x => x.Role == SchoolRoles.ChairOfGovernors);
-
-					if (hasChair)
-					{
-						RolesToDisplay = roles.Where(x=> x != SchoolRoles.ChairOfGovernors);
-						ContributorRole = SchoolRoles.Other;
-						HideRadios = true;
-					}
-					else
-					{
-						RolesToDisplay = roles;
-						HideRadios = false;
-					}
-				}
-			}
+			if (application == null)
+				return;
 			
+			if (!application.Contributors.Any())
+				return;
+			
+
+			var contributors = application.Contributors
+				.Select(e => new ConversionApplicationContributorViewModel(e.ContributorId,
+					application.ApplicationId,
+					e.FullName, 
+					e.Role, 
+					e.OtherRoleName,
+					e.EmailAddress))
+				.ToList();
+
+			ExistingContributors = contributors;
+
+			// MR:- setup roles collection i.e. if we already have a 'ChairOfGovernors' within the contributors collection
+			// remove from UI so can't have 2 because that would break business rules
+			var roles = Enum.GetValues(typeof(SchoolRoles)).OfType<SchoolRoles>();
+
+			bool hasChair = application.Contributors.Any(x => x.Role == SchoolRoles.ChairOfGovernors && application.ApplicationType != ApplicationTypes.FormAMat);
+
+			if (hasChair)
+			{
+				RolesToDisplay = roles.Where(x=> x != SchoolRoles.ChairOfGovernors);
+				ContributorRole = SchoolRoles.Other;
+				HideRadios = true;
+			}
+			else
+			{
+				RolesToDisplay = roles;
+				HideRadios = false;
+			}
+
 			// this form won't be used as an update. Only add, so hence, so no VM property binding
 		}
 
