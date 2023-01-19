@@ -1,15 +1,19 @@
 import { url, login_username, login_password } from '../../config'
+import Header from '../page-objects/components/Header'
 import CookieHeaderModal from '../page-objects/components/CookieHeaderModal'
 import A2BHome from '../page-objects/pages/A2BHome'
 import A2BLogin from '../page-objects/pages/A2BLogin'
 import A2BYourApplications from '../page-objects/pages/A2BYourApplications'
+import Footer from '../page-objects/components/Footer'
 
 describe('Login Tests', () => {
 
   beforeEach(function() {
     cy.visit(url)
-    A2BHome.govUkHeaderVisible()
-    A2BHome.applyToBecomeAnAcademyHeaderLinkVisible()
+
+    Header.govUkHeaderVisible()
+    Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
     A2BHome.h1ApplyToBecomeAnAcademyVisible()
     A2BHome.p3Visible()
     A2BHome.p4Visible()
@@ -23,7 +27,19 @@ describe('Login Tests', () => {
     A2BHome.p8Visible()
     A2BHome.contactYourRegionalDirectorLinkVisible()
     A2BHome.allInformationAndEvidenceYouWillNeedLinkVisible()
+
+    Footer.accessibilityStatementLinkVisible()
+    Footer.cookiesLinkVisible()
+    Footer.termsAndConditionsLinkVisible()
+    Footer.privacyLinkVisible()
+    Footer.oglLogoVisible()
+    Footer.allContentTextVisible()
+    Footer.openGovernmentLicence3LinkVisible()
+    Footer.crownCopyrightLinkVisible()
+
+
     CookieHeaderModal.clickAcceptAnalyticsCookies()
+
     A2BHome.StartNowVisible()
     A2BHome.clickStartNow()
   })
@@ -65,7 +81,21 @@ it('should NOT login into application WITH CROSS-SITE SCRIPTING ATTEMPT / INVALI
 
   it('should login into application WITH CORRECT CREDENTIALS', () => {
    A2BLogin.login(login_username, login_password)
+
+   Header.govUkHeaderVisible()
+   Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
    A2BYourApplications.yourApplicationsElementsVisible()
+
+   Footer.accessibilityStatementLinkVisible()
+   Footer.cookiesLinkVisible()
+   Footer.termsAndConditionsLinkVisible()
+   Footer.privacyLinkVisible()
+   Footer.oglLogoVisible()
+   Footer.allContentTextVisible()
+   Footer.openGovernmentLicence3LinkVisible()
+   Footer.crownCopyrightLinkVisible()
+
   })
 
 })

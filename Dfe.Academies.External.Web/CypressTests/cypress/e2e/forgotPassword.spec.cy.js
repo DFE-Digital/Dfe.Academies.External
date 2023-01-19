@@ -1,17 +1,20 @@
 import { url } from '../../config'
+import Header from '../page-objects/components/Header'
 import CookieHeaderModal from '../page-objects/components/CookieHeaderModal'
 import A2BHome from '../page-objects/pages/A2BHome'
 import A2BLogin from '../page-objects/pages/A2BLogin'
 import A2BForgottenYourPassword from '../page-objects/pages/A2BForgottenYourPassword'
 import A2BForgottenYourPasswordVerifyCode from '../page-objects/pages/A2BForgottenYourPasswordVerifyCode'
-
+import Footer from '../page-objects/components/Footer'
 
 describe('Forgotten Password Tests', () => {
 
   beforeEach(function() {
     cy.visit(url)
-    A2BHome.govUkHeaderVisible()
-    A2BHome.applyToBecomeAnAcademyHeaderLinkVisible()
+
+    Header.govUkHeaderVisible()
+    Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
     A2BHome.h1ApplyToBecomeAnAcademyVisible()
     A2BHome.p3Visible()
     A2BHome.p4Visible()
@@ -25,6 +28,16 @@ describe('Forgotten Password Tests', () => {
     A2BHome.p8Visible()
     A2BHome.contactYourRegionalDirectorLinkVisible()
     A2BHome.allInformationAndEvidenceYouWillNeedLinkVisible()
+
+    Footer.accessibilityStatementLinkVisible()
+    Footer.cookiesLinkVisible()
+    Footer.termsAndConditionsLinkVisible()
+    Footer.privacyLinkVisible()
+    Footer.oglLogoVisible()
+    Footer.allContentTextVisible()
+    Footer.openGovernmentLicence3LinkVisible()
+    Footer.crownCopyrightLinkVisible()
+
     CookieHeaderModal.clickAcceptAnalyticsCookies()
     A2BHome.StartNowVisible()
     A2BHome.clickStartNow()
@@ -32,21 +45,77 @@ describe('Forgotten Password Tests', () => {
 
   it('should validate Empty Email Submission On Forgot Password Page', () => {
     A2BLogin.forgotPassword()
+
+    Header.govUkHeaderVisible()
+    Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
     A2BForgottenYourPassword.forgotPasswordElementsVisible()
+
+    Footer.accessibilityStatementLinkVisible()
+    Footer.cookiesLinkVisible()
+    Footer.termsAndConditionsLinkVisible()
+    Footer.privacyLinkVisible()
+    Footer.oglLogoVisible()
+    Footer.allContentTextVisible()
+    Footer.openGovernmentLicence3LinkVisible()
+    Footer.crownCopyrightLinkVisible()
+
     A2BForgottenYourPassword.forgotPasswordEmptyEmailSubmitted()
    })
 
   it('should validate an Invalid Email Submission On Forgot Password Page', () => {
     A2BLogin.forgotPassword()
+
+    Header.govUkHeaderVisible()
+    Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
     A2BForgottenYourPassword.forgotPasswordElementsVisible()
+
+    Footer.accessibilityStatementLinkVisible()
+    Footer.cookiesLinkVisible()
+    Footer.termsAndConditionsLinkVisible()
+    Footer.privacyLinkVisible()
+    Footer.oglLogoVisible()
+    Footer.allContentTextVisible()
+    Footer.openGovernmentLicence3LinkVisible()
+    Footer.crownCopyrightLinkVisible()
+    
     A2BForgottenYourPassword.forgotPasswordInvalidEmailSubmitted()
     })
 
     it('should go to Forgotten Password Confirmation Page for an Apply to Become User', () => {
     A2BLogin.forgotPassword()
+
+    Header.govUkHeaderVisible()
+    Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
     A2BForgottenYourPassword.forgotPasswordElementsVisible()
+
+    Footer.accessibilityStatementLinkVisible()
+    Footer.cookiesLinkVisible()
+    Footer.termsAndConditionsLinkVisible()
+    Footer.privacyLinkVisible()
+    Footer.oglLogoVisible()
+    Footer.allContentTextVisible()
+    Footer.openGovernmentLicence3LinkVisible()
+    Footer.crownCopyrightLinkVisible()
+
     A2BForgottenYourPassword.forgotPasswordA2BUserEmailSubmitted()
+
+    Header.govUkHeaderVisible()
+    Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
     A2BForgottenYourPasswordVerifyCode.forgotPasswordVerifyCodeElementsVisible()
+
+    Footer.accessibilityStatementLinkVisible()
+    Footer.cookiesLinkVisible()
+    Footer.termsAndConditionsLinkVisible()
+    Footer.privacyLinkVisible()
+    Footer.oglLogoVisible()
+    Footer.allContentTextVisible()
+    Footer.openGovernmentLicence3LinkVisible()
+    Footer.crownCopyrightLinkVisible()
+
     })
 
 
