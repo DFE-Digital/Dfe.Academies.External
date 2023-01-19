@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Dynamic;
 using System.Security.Claims;
 using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -119,10 +121,14 @@ namespace Dfe.Academies.External.Web.Pages
 			string firstName = User.FindFirst(ClaimTypes.GivenName)?.Value ?? "";
 			string lastName = User.FindFirst(ClaimTypes.Surname)?.Value ?? "";
 			string invitingUserName = $"{firstName} {lastName}";
-
+			var schoolName = ApplicationSchoolName(draftConversionApplication);
+			var emailVariables = new EmailVariablesDto
+			{
+				ContributorName = Name!, InvitingUsername = invitingUserName, SchoolName = schoolName
+			};
+			
 			await _contributorEmailSenderService.SendInvitationToContributor(draftConversionApplication.ApplicationType, ContributorRole,
-				Name!, EmailAddress!, ApplicationSchoolName(draftConversionApplication),
-				invitingUserName);
+				EmailAddress!, emailVariables);
 
 			// update temp store for next step
 			draftConversionApplication.Contributors.Add(contributor);
