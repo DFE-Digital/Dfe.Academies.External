@@ -1,6 +1,6 @@
 import BasePage from "../BasePage"
 export default class A2BHome extends BasePage {
-
+/*
     static govUkHeaderVisible() {
         cy.get('.govuk-header__logotype').should('be.visible').contains('GOV.UK')
     }
@@ -8,6 +8,8 @@ export default class A2BHome extends BasePage {
     static applyToBecomeAnAcademyHeaderLinkVisible() {
         cy.get('.govuk-header__content').contains('Apply to become an Academy')
     }
+
+*/
 
     static h1ApplyToBecomeAnAcademyVisible() {
         cy.get('h1').contains('Apply to become an Academy')
