@@ -92,6 +92,13 @@ builder.Services.AddAuthentication(options =>
 
 			options.Events.OnRedirectToIdentityProvider = context =>
 			{
+				// check for a redirect uri override
+				string? redirectUri = configuration["SignIn:RedirectUri"];
+				if (!string.IsNullOrEmpty(redirectUri))
+				{
+					context.ProtocolMessage.RedirectUri = redirectUri;
+				}
+
 				context.ProtocolMessage.Prompt = "login";
 				return Task.CompletedTask;
 			};
