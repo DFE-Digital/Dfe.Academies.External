@@ -1,4 +1,5 @@
-export default class NavBar {
+import BasePage from "../BasePage"
+export default class CookieHeaderModal extends BasePage {
     static clickAcceptAnalyticsCookies() {
         cy.get('[value="accept"]').click()
     }
