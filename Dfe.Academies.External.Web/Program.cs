@@ -74,8 +74,7 @@ builder.Services.AddAuthentication(options =>
 		options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 		options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
 	})
-	// test to see if this resolves the correlation problem
-	.AddCookie(opt => opt.Cookie.SameSite = SameSiteMode.None)
+	.AddCookie()
 	.AddOpenIdConnect(options =>
 		{
 			options.ClientId = configuration["SignIn:OneloginOpenIdConnectClientId"];
@@ -194,6 +193,13 @@ else
 {
 	app.UseDeveloperExceptionPage();
 }
+
+// trying this to see if it resolves cookie problem
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+	MinimumSameSitePolicy = SameSiteMode.None,
+	Secure = CookieSecurePolicy.Always
+});
 
 // Combined with razor routing 404 display custom page NotFound
 app.UseStatusCodePagesWithReExecute("/error/{0}");
