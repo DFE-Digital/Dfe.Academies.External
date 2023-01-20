@@ -159,7 +159,7 @@ namespace Dfe.Academies.External.Web.Pages
 				
 				if (conversionApplication.ApplicationType == ApplicationTypes.FormAMat)
 				{
-					HeaderText = "All school and trust details must be given before this application can be submitted.";
+					HeaderText = ConversionStatus != Status.Completed ? "All school and trust details must be given before this application can be submitted." : "";
 					TrustHeaderText = "Give details of the trust";
 					SchoolHeaderText = "Give details of schools in the trust";
 				}
