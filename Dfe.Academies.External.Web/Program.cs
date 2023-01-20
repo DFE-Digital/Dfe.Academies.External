@@ -68,7 +68,8 @@ builder.Services.AddAuthentication(options =>
 		options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 		options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
 	})
-	.AddCookie()
+	// test to see if this resolves the correlation problem
+	.AddCookie(opt => opt.Cookie.SameSite = SameSiteMode.None)
 	.AddOpenIdConnect(options =>
 		{
 			options.ClientId = configuration["SignIn:OneloginOpenIdConnectClientId"];
@@ -100,6 +101,12 @@ builder.Services.AddAuthentication(options =>
 				}
 
 				context.ProtocolMessage.Prompt = "login";
+				return Task.CompletedTask;
+			};
+
+			options.Events.OnTokenResponseReceived = context =>
+			{
+
 				return Task.CompletedTask;
 			};
 		}
