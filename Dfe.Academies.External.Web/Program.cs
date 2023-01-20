@@ -103,12 +103,6 @@ builder.Services.AddAuthentication(options =>
 				context.ProtocolMessage.Prompt = "login";
 				return Task.CompletedTask;
 			};
-
-			options.Events.OnTokenResponseReceived = context =>
-			{
-
-				return Task.CompletedTask;
-			};
 		}
 	);
 
