@@ -16,7 +16,10 @@ module "azure_container_apps_hosting" {
 
   enable_mssql_database                       = local.enable_mssql_database
   enable_cdn_frontdoor                        = local.enable_cdn_frontdoor
+  enable_dns_zone                             = local.enable_dns_zone
+  dns_zone_domain_name                        = local.dns_zone_domain_name
   cdn_frontdoor_enable_rate_limiting          = local.cdn_frontdoor_enable_rate_limiting
   cdn_frontdoor_host_add_response_headers     = local.cdn_frontdoor_host_add_response_headers
+  cdn_frontdoor_custom_domains                = local.cdn_frontdoor_custom_domains
   restrict_container_apps_to_cdn_inbound_only = local.restrict_container_apps_to_cdn_inbound_only
 }

@@ -10,9 +10,12 @@ locals {
   container_secret_environment_variables      = var.container_secret_environment_variables
   enable_mssql_database                       = var.enable_mssql_database
   enable_cdn_frontdoor                        = var.enable_cdn_frontdoor
+  enable_dns_zone                             = var.enable_dns_zone
+  dns_zone_domain_name                        = var.dns_zone_domain_name
   restrict_container_apps_to_cdn_inbound_only = var.restrict_container_apps_to_cdn_inbound_only
   cdn_frontdoor_enable_rate_limiting          = var.cdn_frontdoor_enable_rate_limiting
   cdn_frontdoor_host_add_response_headers     = var.cdn_frontdoor_host_add_response_headers
+  cdn_frontdoor_custom_domains                = var.cdn_frontdoor_custom_domains
   key_vault_access_users                      = toset(var.key_vault_access_users)
   tfvars_filename                             = var.tfvars_filename
 }

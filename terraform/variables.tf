@@ -78,3 +78,18 @@ variable "restrict_container_apps_to_cdn_inbound_only" {
   description = "Restricts access to the Container Apps by creating a network security group that only allows 'AzureFrontDoor.Backend' inbound, and attaches it to the subnet of the container app environment."
   type        = bool
 }
+
+variable "enable_dns_zone" {
+  description = "Conditionally create a DNS zone"
+  type        = bool
+}
+
+variable "dns_zone_domain_name" {
+  description = "DNS zone domain name. If created, records will automatically be created to point to the CDN."
+  type        = string
+}
+
+variable "cdn_frontdoor_custom_domains" {
+  description = "Azure CDN Front Door custom domains. If they are within the DNS zone (optionally created), the Validation TXT records and ALIAS/CNAME records will be created"
+  type        = list(string)
+}
