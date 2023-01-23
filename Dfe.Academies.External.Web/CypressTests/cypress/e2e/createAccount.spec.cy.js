@@ -48,7 +48,7 @@ describe('Create Account Tests', () => {
 
     A2BCreateAnAccount.createAccountElementsVisible()
 
-    //A2BCreateAnAccount.createAccountFailsWithNoData()
+    A2BCreateAnAccount.createAccountFailsWithNoData()
   })
 
   it('should Create an Account Successfully', () => {
