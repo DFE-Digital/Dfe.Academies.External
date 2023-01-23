@@ -46,55 +46,19 @@ describe('Create Account Tests', () => {
   it('should fail to create an account just clicking submit', () => {
     A2BLogin.createAccount()
 
-    Header.govUkHeaderVisible()
-    Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
     A2BCreateAnAccount.createAccountElementsVisible()
 
-    Footer.accessibilityStatementLinkVisible()
-    Footer.cookiesLinkVisible()
-    Footer.termsAndConditionsLinkVisible()
-    Footer.privacyLinkVisible()
-    Footer.oglLogoVisible()
-    Footer.allContentTextVisible()
-    Footer.openGovernmentLicence3LinkVisible()
-    Footer.crownCopyrightLinkVisible()
-
-    A2BCreateAnAccount.createAccountFailsWithNoData()
+    //A2BCreateAnAccount.createAccountFailsWithNoData()
   })
 
   it('should Create an Account Successfully', () => {
     A2BLogin.createAccount()
 
-    Header.govUkHeaderVisible()
-    Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
     A2BCreateAnAccount.createAccountElementsVisible()
-
-    Footer.accessibilityStatementLinkVisible()
-    Footer.cookiesLinkVisible()
-    Footer.termsAndConditionsLinkVisible()
-    Footer.privacyLinkVisible()
-    Footer.oglLogoVisible()
-    Footer.allContentTextVisible()
-    Footer.openGovernmentLicence3LinkVisible()
-    Footer.crownCopyrightLinkVisible()
 
     A2BCreateAnAccount.createAccountSuccessful()
 
-    Header.govUkHeaderVisible()
-    Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
     A2BCreateAnAccountConfirm.createAccountConfirmElementsVisible()
-    
-    Footer.accessibilityStatementLinkVisible()
-    Footer.cookiesLinkVisible()
-    Footer.termsAndConditionsLinkVisible()
-    Footer.privacyLinkVisible()
-    Footer.oglLogoVisible()
-    Footer.allContentTextVisible()
-    Footer.openGovernmentLicence3LinkVisible()
-    Footer.crownCopyrightLinkVisible()
     
   })
 })

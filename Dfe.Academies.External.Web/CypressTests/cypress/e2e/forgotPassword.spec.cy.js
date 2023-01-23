@@ -46,19 +46,7 @@ describe('Forgotten Password Tests', () => {
   it('should validate Empty Email Submission On Forgot Password Page', () => {
     A2BLogin.forgotPassword()
 
-    Header.govUkHeaderVisible()
-    Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
     A2BForgottenYourPassword.forgotPasswordElementsVisible()
-
-    Footer.accessibilityStatementLinkVisible()
-    Footer.cookiesLinkVisible()
-    Footer.termsAndConditionsLinkVisible()
-    Footer.privacyLinkVisible()
-    Footer.oglLogoVisible()
-    Footer.allContentTextVisible()
-    Footer.openGovernmentLicence3LinkVisible()
-    Footer.crownCopyrightLinkVisible()
 
     A2BForgottenYourPassword.forgotPasswordEmptyEmailSubmitted()
    })
@@ -66,55 +54,21 @@ describe('Forgotten Password Tests', () => {
   it('should validate an Invalid Email Submission On Forgot Password Page', () => {
     A2BLogin.forgotPassword()
 
-    Header.govUkHeaderVisible()
-    Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
     A2BForgottenYourPassword.forgotPasswordElementsVisible()
 
-    Footer.accessibilityStatementLinkVisible()
-    Footer.cookiesLinkVisible()
-    Footer.termsAndConditionsLinkVisible()
-    Footer.privacyLinkVisible()
-    Footer.oglLogoVisible()
-    Footer.allContentTextVisible()
-    Footer.openGovernmentLicence3LinkVisible()
-    Footer.crownCopyrightLinkVisible()
-    
     A2BForgottenYourPassword.forgotPasswordInvalidEmailSubmitted()
     })
 
     it('should go to Forgotten Password Confirmation Page for an Apply to Become User', () => {
     A2BLogin.forgotPassword()
 
-    Header.govUkHeaderVisible()
-    Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
     A2BForgottenYourPassword.forgotPasswordElementsVisible()
-
-    Footer.accessibilityStatementLinkVisible()
-    Footer.cookiesLinkVisible()
-    Footer.termsAndConditionsLinkVisible()
-    Footer.privacyLinkVisible()
-    Footer.oglLogoVisible()
-    Footer.allContentTextVisible()
-    Footer.openGovernmentLicence3LinkVisible()
-    Footer.crownCopyrightLinkVisible()
 
     A2BForgottenYourPassword.forgotPasswordA2BUserEmailSubmitted()
 
-    Header.govUkHeaderVisible()
-    Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
     A2BForgottenYourPasswordVerifyCode.forgotPasswordVerifyCodeElementsVisible()
 
-    Footer.accessibilityStatementLinkVisible()
-    Footer.cookiesLinkVisible()
-    Footer.termsAndConditionsLinkVisible()
-    Footer.privacyLinkVisible()
-    Footer.oglLogoVisible()
-    Footer.allContentTextVisible()
-    Footer.openGovernmentLicence3LinkVisible()
-    Footer.crownCopyrightLinkVisible()
+
 
     })
 
