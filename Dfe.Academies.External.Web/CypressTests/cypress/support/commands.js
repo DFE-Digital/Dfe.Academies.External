@@ -164,7 +164,7 @@ Cypress.Commands.add('createAccountElementsVisible', () => {
     cy.get('#firstName').should('be.visible')
     cy.get('label[for="lastName"]').contains('Last name')
     cy.get('#lastName').should('be.visible')
-    cy.get('.govuk-grid-column-full').contains('Enter your email address')
+    cy.get('label[for="email"]').contains('Email address')
     cy.get('.govuk-grid-column-full').contains('Do not use a generic email')
     cy.get('label[for="email"]').contains('Email address')
     cy.get('p[class="govuk-hint govuk-!-margin-top-1"]').contains('You will receive an email to verify this address')
@@ -226,16 +226,36 @@ Cypress.Commands.add('yourApplicationsElementsVisible', () => {
     cy.get('th:nth-child(2)').contains('School Name')
     cy.get('th:nth-child(3)').contains('School Or Schools Applying To Convert')
     cy.get('a[href="/what-are-you-applying-to-do"]').should('be.visible').contains('Start a new application')
-    cy.get('.govuk-grid-column-two-thirds > :nth-child(8)').contains('Past applications')
+    cy.get('.govuk-grid-column-full > :nth-child(8)').contains('Past applications')
     cy.get('[aria-describedby="completedApplicationsTableDescription"] > .govuk-table__head > .govuk-table__row > :nth-child(1)').contains('Application')
     cy.get('[aria-describedby="completedApplicationsTableDescription"] > .govuk-table__head > .govuk-table__row > :nth-child(2)').contains('School Name')
     cy.get('[aria-describedby="completedApplicationsTableDescription"] > .govuk-table__head > .govuk-table__row > :nth-child(3)').contains('School Or Schools Applying To Convert')
 })
 
+Cypress.Commands.add('selectJAMNotStartedApplication', () => {
+    cy.get('a[href="/application-overview?appId=78"]').contains('Join a multi-academy trust')
+    cy.get('a[href="/application-overview?appId=78"]').click()
+})
+
 Cypress.Commands.add('selectJAMNotStartedApplicationButSchoolAdded', () => {
     cy.get('a[href="/application-overview?appId=193"]').contains('Join a multi-academy trust')
-    cy.get(':nth-child(74) > :nth-child(3) > ul > li').contains('Norwich School')
+    cy.get('ul').contains('Norwich School')
     cy.get('a[href="/application-overview?appId=193"]').click()
+})
+
+Cypress.Commands.add('yourApplicationNotStartedElementsVisible', () => {
+    cy.get('a[href="/your-applications"]').contains('Back to your applications')
+    cy.get('p').contains('Application reference:')
+    cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
+    cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
+    cy.get('h2').contains('The school applying to convert')
+
+    cy.get('a[href="/school/application-select-school?appId=78"]').should('be.visible').contains('Add a school')
+
+    cy.get('h2').eq(1).contains('The trust the school will join')
+    cy.get('a[href="/trust/join-amat/application-select-trust?appId=78"]').should('be.visible').contains('Add a trust')
+    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get('p').eq(3).contains('You will be able to invite other people to help you complete this form after you have added a school.')
 })
 
 Cypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', () => {
@@ -264,7 +284,14 @@ Cypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', (
     cy.get('tr[class="govuk-table__row"]').eq(8).contains('Not Started')
 
     cy.get('h2').eq(1).contains('The trust the school will join')
-    cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
+    //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
+    cy.get('span[class="govuk-!-font-weight-bold govuk-!-padding-right-5"]').contains('EAST ANGLIA SCHOOLS TRUST')
+    cy.get('a[href="/trust/join-amat/application-select-trust?appId=193"]').contains('Change')
+    cy.get('a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=193"]').contains('Trust details')
+    cy.get('[aria-describedby="trustTableDescription"]').contains('In Progress')
+
+
+
     cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
     cy.get('p').eq(3).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
