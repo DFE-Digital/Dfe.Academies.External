@@ -71,7 +71,7 @@
 				<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="GovernanceStructureDetailsFiles" class="govuk-label" multiple/>
 				<br/>
 
-				<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {ApplicationId = Model.ApplicationId,Urn = Model.Urn, FilePrefixSection = FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName, FileNames = Model.GovernanceStructureDetailsFileNames}'/>
+				<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {ApplicationId = Model.ApplicationId,Urn = Model.Urn, EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FilePrefixSection = FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName, FileNames = Model.GovernanceStructureDetailsFileNames}'/>
 				
 				</div>
 			</fieldset>

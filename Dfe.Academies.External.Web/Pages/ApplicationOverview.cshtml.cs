@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -155,7 +156,7 @@ namespace Dfe.Academies.External.Web.Pages
 				ConversionStatus = ConversionApplicationRetrievalService.CalculateApplicationStatus(conversionApplication, SchoolOrSchoolsApplyingToConvert);
 				NameOfTrustToJoin = conversionApplication.TrustName;
 
-				HasSchool = conversionApplication.HasSchool;
+				HasSchool = conversionApplication.Schools.Any();
 				
 				if (conversionApplication.ApplicationType == ApplicationTypes.FormAMat)
 				{

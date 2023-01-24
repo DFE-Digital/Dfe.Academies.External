@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.CustomValidators;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using Sentry.Protocol;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 {
@@ -29,6 +31,11 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		
 		public bool GovernanceStructureDetailsFileError => !ModelState.IsValid && ModelState.Keys.Contains("GovernanceStructureDetailFileNotAddedError");
 
+		[BindProperty]
+		public Guid EntityId { get; set; }
+	
+		[BindProperty]
+		public string ApplicationReference { get; set; }
 		public bool HasError
 		{
 			get
@@ -57,12 +64,14 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			if (applicationDetails?.ApplicationReference != null)
 			{
 				GovernanceStructureDetailsFileNames = await _fileUploadService.GetFiles(
-					FileUploadConstants.TopLevelFolderName, appId.ToString(), applicationDetails.ApplicationReference,
+					FileUploadConstants.TopLevelFolderName, applicationDetails.EntityId.ToString(), applicationDetails.ApplicationReference,
 					FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName);
 				TempDataHelper.StoreSerialisedValue($"{appId}-governanceStructureDetailsFiles", TempData,
 					GovernanceStructureDetailsFileNames);
 			}
 
+			EntityId = applicationDetails.EntityId;
+			ApplicationReference = applicationDetails.ApplicationReference;
 			return Page();
 		}
 		
@@ -81,7 +90,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 				foreach (var file in GovernanceStructureDetailsFiles)
 				{
 					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName,
-						ApplicationId.ToString(), applicationDetails.ApplicationReference,
+						applicationDetails.EntityId.ToString(), applicationDetails.ApplicationReference,
 						FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName, file);
 				}
 			}
@@ -126,10 +135,10 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			throw new NotImplementedException();
 		}
 
-		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, string section, string fileName)
+		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", section, fileName);
-			return RedirectToPage("ApplicationNewTrustGovernanceStructureDetails", new {AppId = appId});
+			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, section, fileName);
+			return RedirectToPage("ApplicationNewTrustGovernanceStructureDetails", new { Urn = urn, AppId = appId });
 		}
 	}
 }

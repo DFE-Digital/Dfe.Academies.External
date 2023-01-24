@@ -266,7 +266,7 @@
 					<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="DioceseFiles" class="govuk-label" multiple/>
 					<br/>
             		
-					<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {ApplicationId = Model.ApplicationId,Urn = Model.Urn, FilePrefixSection = FileUploadConstants.DioceseFilePrefixFieldName,FileNames = Model.DioceseFileNames}'/>
+					<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {ApplicationId = Model.ApplicationId,Urn = Model.Urn, EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FilePrefixSection = FileUploadConstants.DioceseFilePrefixFieldName,FileNames = Model.DioceseFileNames}'/>
 				</div>
 			}
 		}

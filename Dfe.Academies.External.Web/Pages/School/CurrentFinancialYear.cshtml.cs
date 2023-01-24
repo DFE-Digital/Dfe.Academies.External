@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.CustomValidators;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
@@ -68,6 +69,11 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 	[BindProperty]
 	public List<string> SchoolCFYCapitalForwardFileNames { get; set; }
 
+	[BindProperty]
+	public Guid EntityId { get; set; }
+	
+	[BindProperty]
+	public string ApplicationReference { get; set; }
 	public bool CFYFinancialEndDateError
 	{
 		get
@@ -118,13 +124,14 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 
 	public override async Task<ActionResult> OnGetAsync(int urn, int appId)
 	{
-		SchoolCFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", FileUploadConstants.SchoolCFYRevenueStatusFile);
-		SchoolCFYCapitalForwardFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", FileUploadConstants.SchoolCFYCapitalForwardFile);
+		var result = await base.OnGetAsync(urn, appId);
+		SchoolCFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile);
+		SchoolCFYCapitalForwardFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolCFYCapitalForwardFile);
 
 		TempDataHelper.StoreSerialisedValue($"{appId}-SchoolCFYRevenueStatusFileNames", TempData, SchoolCFYRevenueStatusFileNames);
 		TempDataHelper.StoreSerialisedValue($"{appId}-SchoolCFYCapitalForwardFileNames", TempData, SchoolCFYCapitalForwardFileNames);
 
-		return await base.OnGetAsync(urn, appId);
+		return result;
 	}
 
 	/// <summary>
@@ -167,12 +174,12 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 		
 		foreach (var file in SchoolCfyRevenueStatusFiles)
 		{
-			await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile, file);
+			await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile, file);
 		}
 
 		foreach (var file in SchoolCFYCapitalForwardFiles)
 		{
-			await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolCFYCapitalForwardFile, file);	
+			await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolCFYCapitalForwardFile, file);	
 		}
 
 		// update temp store for next step
@@ -215,7 +222,7 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 	}
 	public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName)
 	{
-		await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", section, fileName);
+		await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, section, fileName);
 		return RedirectToPage("CurrentFinancialYear", new { Urn = urn, AppId = appId });
 	}
 
@@ -255,6 +262,8 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 
 	public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
+		var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
+		
 		CFYEndDate = (selectedSchool.CurrentFinancialYear.FinancialYearEndDate.HasValue ?
 			selectedSchool.CurrentFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy")
 			: string.Empty);
@@ -274,6 +283,8 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 		}
 
 		CFYCapitalCarryForwardExplained = selectedSchool.CurrentFinancialYear.CapitalCarryForwardExplained;
+		EntityId = selectedSchool.EntityId;
+		ApplicationReference = applicationDetails.ApplicationReference;
 	}
 
 	private void RePopDatePickerModel(string cfyEndDateComponentDay, string cfyEndDateComponentMonth, string cfyEndDateComponentYear)

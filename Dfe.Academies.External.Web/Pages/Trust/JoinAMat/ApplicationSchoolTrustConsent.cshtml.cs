@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.CustomValidators;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
@@ -32,7 +33,12 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		[BindProperty] 
 		public List<string> TrustConsentFileNames { get; set; } = new();
 		public bool TrustConsentFileError => !ModelState.IsValid && ModelState.Keys.Contains("TrustConsentFileNotAddedError");
-
+		[BindProperty]
+		public Guid EntityId { get; set; }
+		
+		[BindProperty]
+		public string ApplicationReference { get; set; }
+		
 		public bool HasError
 		{
 			get
@@ -68,7 +74,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		}
 		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", section, fileName);
+			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, section, fileName);
 			return RedirectToPage("ApplicationSchoolTrustConsent", new {Urn = urn, AppId = appId});
 		}
 		
@@ -95,7 +101,9 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 				PopulateUiModel(selectedSchool);
 			}
 
-			TrustConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, appId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName);
+			EntityId = applicationDetails.EntityId;
+			ApplicationReference = applicationDetails.ApplicationReference;
+			TrustConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, applicationDetails.EntityId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName);
 			TempDataHelper.StoreSerialisedValue($"{appId}-trustConsentFiles", TempData, TrustConsentFileNames);
 			return Page();
 		}
@@ -113,7 +121,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 
 			foreach (var file in TrustConsentFiles)
 			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName, file);
+				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, applicationDetails.EntityId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName, file);
 			}
 			
 			var draftConversionApplication =

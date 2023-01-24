@@ -119,7 +119,7 @@
 	                                    </label>
 	                                    <br/>
 	                                    <input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="SchoolCfyRevenueStatusFiles" class="govuk-label" multiple />
-	                                    <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn, FileNames = Model.SchoolCFYRevenueStatusFileNames, FilePrefixSection = FileUploadConstants.SchoolCFYRevenueStatusFile}" />
+	                                    <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn, EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FileNames = Model.SchoolCFYRevenueStatusFileNames, FilePrefixSection = FileUploadConstants.SchoolCFYRevenueStatusFile}" />
 
                                     </div>
 	                            }
