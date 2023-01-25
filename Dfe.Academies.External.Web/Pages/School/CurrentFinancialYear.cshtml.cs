@@ -128,8 +128,8 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 		SchoolCFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile);
 		SchoolCFYCapitalForwardFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolCFYCapitalForwardFile);
 
-		TempDataHelper.StoreSerialisedValue($"{appId}-SchoolCFYRevenueStatusFileNames", TempData, SchoolCFYRevenueStatusFileNames);
-		TempDataHelper.StoreSerialisedValue($"{appId}-SchoolCFYCapitalForwardFileNames", TempData, SchoolCFYCapitalForwardFileNames);
+		TempDataHelper.StoreSerialisedValue($"{EntityId}-SchoolCFYRevenueStatusFileNames", TempData, SchoolCFYRevenueStatusFileNames);
+		TempDataHelper.StoreSerialisedValue($"{EntityId}-SchoolCFYCapitalForwardFileNames", TempData, SchoolCFYCapitalForwardFileNames);
 
 		return result;
 	}
@@ -150,14 +150,14 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 
 		CFYFinancialEndDateLocal = BuildDateTime(CFYEndDateComponentDay, CFYEndDateComponentMonth, CFYEndDateComponentYear);
 
-		SchoolCFYRevenueStatusFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{ApplicationId}-SchoolCFYRevenueStatusFileNames", TempData) ?? new List<string>();
-		SchoolCFYCapitalForwardFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{ApplicationId}-SchoolCFYCapitalForwardFileNames", TempData) ?? new List<string>();
+		SchoolCFYRevenueStatusFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{EntityId}-SchoolCFYRevenueStatusFileNames", TempData) ?? new List<string>();
+		SchoolCFYCapitalForwardFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{EntityId}-SchoolCFYCapitalForwardFileNames", TempData) ?? new List<string>();
 
 		if (!RunUiValidation())
 		{
 			// PL:- had to put these back into tempdata or existing file names are removed after not valid scenarios
-			TempDataHelper.StoreSerialisedValue($"{ApplicationId}-SchoolCFYRevenueStatusFileNames", TempData, SchoolCFYRevenueStatusFileNames);
-			TempDataHelper.StoreSerialisedValue($"{ApplicationId}-SchoolCFYCapitalForwardFileNames", TempData, SchoolCFYCapitalForwardFileNames);
+			TempDataHelper.StoreSerialisedValue($"{EntityId}-SchoolCFYRevenueStatusFileNames", TempData, SchoolCFYRevenueStatusFileNames);
+			TempDataHelper.StoreSerialisedValue($"{EntityId}-SchoolCFYCapitalForwardFileNames", TempData, SchoolCFYCapitalForwardFileNames);
 
 			// MR:- date input disappears without below !!
 			RePopDatePickerModel(CFYEndDateComponentDay, CFYEndDateComponentMonth, CFYEndDateComponentYear);
@@ -220,9 +220,9 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 
 		return true;
 	}
-	public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName)
+	public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
 	{
-		await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, section, fileName);
+		await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, entityId, applicationReference, section, fileName);
 		return RedirectToPage("CurrentFinancialYear", new { Urn = urn, AppId = appId });
 	}
 

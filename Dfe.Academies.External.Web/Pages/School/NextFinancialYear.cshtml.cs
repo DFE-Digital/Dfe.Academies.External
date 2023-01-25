@@ -74,7 +74,6 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 	[BindProperty]
 	public Guid EntityId { get; set; }
 	
-	[BindProperty]
 	public string ApplicationReference { get; set; }
 	
 	public bool NFYFinancialEndDateError
@@ -133,6 +132,8 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 	{
 
 		var result =  await base.OnGetAsync(urn, appId);
+		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
+		var selectedSchool = applicationDetails?.Schools.FirstOrDefault(x => x.URN == Urn);
 		
 		ForecastedRevenueFileNames = await _fileUploadService.GetFiles(
 			FileUploadConstants.TopLevelFolderName,
@@ -140,17 +141,17 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 			ApplicationReference,
 			FileUploadConstants.NFYForecastedRevenueFilePrefixFieldName);
 		
-		TempDataHelper.StoreSerialisedValue($"{ApplicationId}-NFYforecastedRevenueFiles", TempData, ForecastedRevenueFileNames);
+		TempDataHelper.StoreSerialisedValue($"{EntityId}-NFYforecastedRevenueFiles", TempData, ForecastedRevenueFileNames);
 		
 		ForecastedCapitalFileNames = await _fileUploadService.GetFiles(
 			FileUploadConstants.TopLevelFolderName,
 			EntityId.ToString(), 
 			ApplicationReference,
 			FileUploadConstants.NFYForecastedCapitalFilePrefixFieldName);
-		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
-		ApplicationReference = applicationDetails.ApplicationReference;
 		
-		TempDataHelper.StoreSerialisedValue($"{ApplicationId}-NFYforecastedCapitalFiles", TempData, ForecastedCapitalFileNames);
+		ApplicationReference = applicationDetails?.ApplicationReference;
+		
+		TempDataHelper.StoreSerialisedValue($"{EntityId}-NFYforecastedCapitalFiles", TempData, ForecastedCapitalFileNames);
 		return result;
 	}
 
@@ -168,8 +169,8 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 
 	    NFYFinancialEndDateLocal = BuildDateTime(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
 
-	    ForecastedRevenueFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{ApplicationId}-NFYforecastedRevenueFiles", TempData) ?? new List<string>();
-	    ForecastedCapitalFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{ApplicationId}-NFYforecastedCapitalFiles", TempData) ?? new List<string>();
+	    ForecastedRevenueFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{selectedSchool.EntityId}-NFYforecastedRevenueFiles", TempData) ?? new List<string>();
+	    ForecastedCapitalFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{selectedSchool.EntityId}-NFYforecastedCapitalFiles", TempData) ?? new List<string>();
 	    
 	    if (!RunUiValidation())
 	    {
@@ -239,9 +240,9 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 	    return true;
     }
 
-    public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, Guid entityId, string applicationReference, string section, string fileName)
+    public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
     {
-	    await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, entityId.ToString(), applicationReference, section, fileName);
+	    await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, entityId, applicationReference, section, fileName);
 	    return RedirectToPage("NextFinancialYear", new {Urn = urn, AppId = appId});
     }
     

@@ -128,9 +128,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			_fileUploadService = fileUploadService;
 		}
 
-		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName)
+		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, section, fileName);
+			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, entityId, applicationReference, section, fileName);
 			return RedirectToPage("PreviousFinancialYear", new { Urn = urn, AppId = appId });
 		}
 
@@ -143,7 +143,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			TempDataHelper.StoreSerialisedValue($"{appId}-SchoolPFYCapitalForwardStatusFileNames", TempData, SchoolPFYCapitalForwardStatusFileNames);
 
 			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
-			ApplicationReference = applicationDetails.ApplicationReference;
+			ApplicationReference = applicationDetails?.ApplicationReference;
 			
 			return await base.OnGetAsync(urn, appId);
 		}
@@ -158,16 +158,16 @@ namespace Dfe.Academies.External.Web.Pages.School
 			string PFYEndDateComponentMonth = pfyEndDateComponents.FirstOrDefault(x => x.Key == "month").Value;
 			string PFYEndDateComponentYear = pfyEndDateComponents.FirstOrDefault(x => x.Key == "year").Value;
 
-			SchoolPFYRevenueStatusFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{ApplicationId}-SchoolPFYRevenueStatusFileNames", TempData) ?? new List<string>();
-			SchoolPFYCapitalForwardStatusFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{ApplicationId}-SchoolPFYCapitalForwardStatusFileNames", TempData) ?? new List<string>();
+			SchoolPFYRevenueStatusFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{EntityId}-SchoolPFYRevenueStatusFileNames", TempData) ?? new List<string>();
+			SchoolPFYCapitalForwardStatusFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{EntityId}-SchoolPFYCapitalForwardStatusFileNames", TempData) ?? new List<string>();
 
 			PFYFinancialEndDateLocal = BuildDateTime(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
 
 			if (!RunUiValidation())
 			{
 				// PL:- had to put these back into tempdata or existing file names are removed after not valid scenarios
-				TempDataHelper.StoreSerialisedValue($"{ApplicationId}-SchoolPFYRevenueStatusFileNames", TempData, SchoolPFYRevenueStatusFileNames);
-				TempDataHelper.StoreSerialisedValue($"{ApplicationId}-SchoolPFYCapitalForwardStatusFileNames", TempData, SchoolPFYCapitalForwardStatusFileNames);
+				TempDataHelper.StoreSerialisedValue($"{EntityId}-SchoolPFYRevenueStatusFileNames", TempData, SchoolPFYRevenueStatusFileNames);
+				TempDataHelper.StoreSerialisedValue($"{EntityId}-SchoolPFYCapitalForwardStatusFileNames", TempData, SchoolPFYCapitalForwardStatusFileNames);
 				// MR:- date input disappears without below !!
 				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
 				return Page();

@@ -66,7 +66,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 				GovernanceStructureDetailsFileNames = await _fileUploadService.GetFiles(
 					FileUploadConstants.TopLevelFolderName, applicationDetails.EntityId.ToString(), applicationDetails.ApplicationReference,
 					FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName);
-				TempDataHelper.StoreSerialisedValue($"{appId}-governanceStructureDetailsFiles", TempData,
+				TempDataHelper.StoreSerialisedValue($"{EntityId}-governanceStructureDetailsFiles", TempData,
 					GovernanceStructureDetailsFileNames);
 			}
 
@@ -78,8 +78,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		public override async Task<IActionResult> OnPostAsync()
 		{
 			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(ApplicationId);
-
-			GovernanceStructureDetailsFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{ApplicationId}-governanceStructureDetailsFiles", TempData) ?? new List<string>();
+			var selectedSchool = applicationDetails?.Schools.FirstOrDefault(x => x.URN == Urn);
+			GovernanceStructureDetailsFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{selectedSchool.EntityId}-governanceStructureDetailsFiles", TempData) ?? new List<string>();
 
 			if (!RunUiValidation()) 
 			{
@@ -135,9 +135,9 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			throw new NotImplementedException();
 		}
 
-		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName)
+		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, section, fileName);
+			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, entityId, applicationReference, section, fileName);
 			return RedirectToPage("ApplicationNewTrustGovernanceStructureDetails", new { Urn = urn, AppId = appId });
 		}
 	}

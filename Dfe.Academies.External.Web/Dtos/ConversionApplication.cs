@@ -17,7 +17,7 @@ public class ConversionApplication
 
 	public string? UserEmail { get; set; }
 	
-	public Guid EntityId { get; }
+	public Guid EntityId { get; set; }
 
 	/// <summary>
 	/// In format:- "Form a new single academy trust A2B_2"

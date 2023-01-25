@@ -72,9 +72,9 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 
 			return true;
 		}
-		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string section, string fileName)
+		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, section, fileName);
+			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, entityId, applicationReference, section, fileName);
 			return RedirectToPage("ApplicationSchoolTrustConsent", new {Urn = urn, AppId = appId});
 		}
 		

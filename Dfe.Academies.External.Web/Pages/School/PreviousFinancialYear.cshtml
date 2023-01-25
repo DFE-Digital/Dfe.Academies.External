@@ -176,7 +176,7 @@
 	                                    </label>
 	                                    <br/>
                                         <input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="SchoolPFYCapitalForwardStatusFiles" class="govuk-label" multiple />
-                                        <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn, FileNames = Model.SchoolPFYCapitalForwardStatusFileNames, FilePrefixSection = FileUploadConstants.SchoolPFYCapitalForwardStatusFile}" />
+	                                    <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn,EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FileNames = Model.SchoolPFYCapitalForwardStatusFileNames, FilePrefixSection = FileUploadConstants.SchoolPFYCapitalForwardStatusFile}" />
 
 					                </div>
 								}

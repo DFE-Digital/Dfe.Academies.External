@@ -186,10 +186,10 @@
 		                                    Upload a file
 	                                    </label>
 	                                    <br/>
-                                        <input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="SchoolCFYCapitalForwardFiles" class="govuk-label" multiple />
-                                        <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn, FileNames = Model.SchoolCFYCapitalForwardFileNames, FilePrefixSection = FileUploadConstants.SchoolCFYCapitalForwardFile}" />
+	                                    <input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="SchoolCFYCapitalForwardFiles" class="govuk-label" multiple />
+	                                    <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn, EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FileNames = Model.SchoolCFYCapitalForwardFileNames, FilePrefixSection = FileUploadConstants.SchoolCFYCapitalForwardFile}" />
 
-					                </div>
+                                    </div>
 								}
 			                }
 		                </div>

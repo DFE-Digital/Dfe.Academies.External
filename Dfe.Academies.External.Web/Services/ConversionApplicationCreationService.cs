@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Commands;
+﻿using AutoMapper.Internal;
+using Dfe.Academies.External.Web.Commands;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
@@ -224,7 +225,9 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		//Populate all school fields with the values in the dictionary
 		foreach (var property in schoolProperties)
 		{
-			school.GetType().GetProperty(property.Key)?.SetValue(school, property.Value);
+			var prop = school.GetType().GetProperty(property.Key);
+			if(prop.CanBeSet())
+				prop?.SetValue(school, property.Value);
 		}
 		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 		await _resilientRequestProvider.PutAsync(apiurl, application);

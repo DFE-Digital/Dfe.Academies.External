@@ -100,5 +100,5 @@ public class SchoolApplyingToConvert
 
 		public bool? HasLoans { get; set; }
 		public bool? HasLeases { get; set; }
-		public Guid EntityId { get; }
+		public Guid EntityId { get; set; }
 }

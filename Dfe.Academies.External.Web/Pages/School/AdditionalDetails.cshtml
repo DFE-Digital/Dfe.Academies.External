@@ -25,7 +25,9 @@
 <form method="post" name="frmAdditionalDetails" novalidate="" enctype="multipart/form-data">
 @Html.AntiForgeryToken()
 <input type="hidden" asp-for="Urn"/>
-<input type="hidden" asp-for="ApplicationId"/>		
+<input type="hidden" asp-for="ApplicationId"/>	
+<input type="hidden" asp-for="EntityId"/>
+<input type="hidden" asp-for="ApplicationReference"/>	
 <partial name="_HiddenFields"/>
 		
 <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
@@ -358,6 +360,8 @@
 					<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {
 														ApplicationId = Model.ApplicationId,
 														Urn = Model.Urn, 
+														EntityId = Model.EntityId,
+														ApplicationReference = Model.ApplicationReference, 
 														FilePrefixSection = FileUploadConstants.FoundationConsentFilePrefixFieldName,
 														FileNames = Model.FoundationConsentFileNames
 														}'/>
@@ -436,33 +440,35 @@
 </div>
 			
 <div class="govuk-form-group">
-	<div class="@(Model.ResolutionConsentFileError ? "govuk-form-group--error" : "govuk-radios__conditional")"
-	     id="ResolutionConsentFileNotAddedError" aria-expanded="false">
-		<div class="govuk-form-group govuk-error-summary__list">
-			<a href="#ResolutionConsentFileNotAddedError" 
-			   class="@(Model.ResolutionConsentFileError ? "govuk-error-message" : "govuk-visually-hidden")">
-				You must upload a file
-			</a>
-		</div>
-	</div>
 				
 	<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 		The school's Governing Body must have passed a resolution to apply to convert to academy status.
 		Upload a copy of the school's consent to converting and joining the trust.
 	</legend>
-		<span id="Upload-resolutionConsentFiles-hint" class="govuk-hint">
-    		This is normally in the form of the minutes from the Governing Body meeting at which the resolution to convert was passed
-    	</span>
-	<label for="Upload-resolutionConsentFiles" class="govuk-label">
-		Upload a file
-	</label>
-	<br/>
-	<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="@Model.ResolutionConsentFiles" class="govuk-label" multiple/>
-	<br/>
-
+	<span id="Upload-resolutionConsentFiles-hint" class="govuk-hint">
+		This is normally in the form of the minutes from the Governing Body meeting at which the resolution to convert was passed
+	</span>
+	
+	<div class="govuk-form-group">
+				
+		<label class="govuk-label" for="file-upload-resolutionConsentFiles">
+			Upload a file
+		</label>
+		<br/>
+		<p id="file-upload-resolutionConsentFiles-error"  class="govuk-error-message @(!Model.ResolutionConsentFileSizeError ? "govuk-visually-hidden" : "")">
+			<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+		</p>
+		<input type="file" 
+		       class="govuk-label"
+		       aria-describedby="file-upload-resolutionConsentFiles-error"
+		       multiple
+		       asp-for="@Model.ResolutionConsentFiles" />
+	</div>
 	<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {
 	ApplicationId = Model.ApplicationId,
 	Urn = Model.Urn, 
+	EntityId = Model.EntityId,
+	ApplicationReference = Model.ApplicationReference, 
 	FilePrefixSection = FileUploadConstants.ResolutionConsentfilePrefixFieldName,
 	FileNames = Model.ResolutionConsentFileNames
 }'/>

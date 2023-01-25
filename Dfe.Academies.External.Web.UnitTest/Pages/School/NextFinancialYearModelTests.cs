@@ -32,7 +32,8 @@ internal sealed class NextFinancialYearModelTests
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
-
+		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(applicationId))
+			.ReturnsAsync(conversionApplication);
 		// act
 		var pageModel = SetupNextFinancialYearModel(mockFileUploadService.Object, mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
@@ -46,11 +47,6 @@ internal sealed class NextFinancialYearModelTests
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
-	// TODO :- OnPostAsync___ModelIsValid___Invalid
-	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
-
-	// TODO :- OnPostAsync___ModelIsValid___Valid
-	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static NextFinancialYearModel SetupNextFinancialYearModel(
 		IFileUploadService mockFileUploadService,

@@ -17,7 +17,8 @@ internal static class ConversionApplicationTestDataFactory
 			UserEmail = Fixture.Create<string>(),
 			ApplicationId = int.MaxValue,
 			ApplicationType = ApplicationTypes.FormAMat,
-			ApplicationStatus = ApplicationStatus.InProgress
+			ApplicationStatus = ApplicationStatus.InProgress,
+			ApplicationReference = $"A2B_{int.MaxValue}"
 		};
 	}
 
@@ -29,6 +30,7 @@ internal static class ConversionApplicationTestDataFactory
 			ApplicationId = int.MaxValue,
 			ApplicationType = ApplicationTypes.FormAMat,
 			ApplicationStatus = ApplicationStatus.InProgress,
+			ApplicationReference = $"A2B_{int.MaxValue}",
 			Contributors = new()
 			{
 				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
@@ -44,6 +46,7 @@ internal static class ConversionApplicationTestDataFactory
 			ApplicationId = int.MaxValue,
 			ApplicationType = ApplicationTypes.FormAMat,
 			ApplicationStatus = ApplicationStatus.InProgress,
+			ApplicationReference = $"A2B_{int.MaxValue}",
 			Contributors = new()
 			{
 				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
@@ -62,7 +65,8 @@ internal static class ConversionApplicationTestDataFactory
 			UserEmail = Fixture.Create<string>(),
 			ApplicationId = int.MaxValue,
 			ApplicationType = ApplicationTypes.JoinAMat,
-			ApplicationStatus = ApplicationStatus.InProgress
+			ApplicationStatus = ApplicationStatus.InProgress,
+			ApplicationReference = $"A2B_{int.MaxValue}"
 		};
 	}
 
@@ -74,6 +78,7 @@ internal static class ConversionApplicationTestDataFactory
 			ApplicationId = int.MaxValue,
 			ApplicationType = ApplicationTypes.JoinAMat,
 			ApplicationStatus = ApplicationStatus.InProgress,
+			ApplicationReference = $"A2B_{int.MaxValue}",
 			Contributors = new()
 			{
 				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
@@ -89,6 +94,7 @@ internal static class ConversionApplicationTestDataFactory
 			ApplicationId = applicationId.HasValue ? applicationId.Value : int.MaxValue,
 			ApplicationType = ApplicationTypes.JoinAMat,
 			ApplicationStatus = ApplicationStatus.InProgress,
+			ApplicationReference = $"A2B_{int.MaxValue}",
 			Contributors = new()
 			{
 				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
@@ -108,6 +114,7 @@ internal static class ConversionApplicationTestDataFactory
 			ApplicationId = int.MaxValue,
 			ApplicationType = ApplicationTypes.JoinAMat,
 			ApplicationStatus = ApplicationStatus.InProgress,
+			ApplicationReference = $"A2B_{int.MaxValue}",
 			Contributors = new()
 			{
 				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(), SchoolRoles.ChairOfGovernors, null)
@@ -123,6 +130,7 @@ internal static class ConversionApplicationTestDataFactory
 			ApplicationId = int.MaxValue,
 			ApplicationType = ApplicationTypes.JoinAMat,
 			ApplicationStatus = ApplicationStatus.InProgress,
+			ApplicationReference = $"A2B_{int.MaxValue}",
 			Contributors = new()
 			{
 				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
@@ -139,6 +147,7 @@ internal static class ConversionApplicationTestDataFactory
 			ApplicationId = applicationId.HasValue ? applicationId.Value : int.MaxValue,
 			ApplicationType = ApplicationTypes.JoinAMat,
 			ApplicationStatus = ApplicationStatus.InProgress,
+			ApplicationReference = $"A2B_{int.MaxValue}",
 			Contributors = new()
 			{
 				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
@@ -163,6 +172,7 @@ internal static class ConversionApplicationTestDataFactory
 			ApplicationId = int.MaxValue,
 			ApplicationType = ApplicationTypes.JoinAMat,
 			ApplicationStatus = ApplicationStatus.InProgress,
+			ApplicationReference = $"A2B_{int.MaxValue}",
 			Contributors = new()
 			{
 				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
@@ -186,6 +196,7 @@ internal static class ConversionApplicationTestDataFactory
 			ApplicationId = applicationId.HasValue ? applicationId.Value : int.MaxValue,
 			ApplicationType = ApplicationTypes.JoinAMat,
 			ApplicationStatus = ApplicationStatus.InProgress,
+			ApplicationReference = $"A2B_{int.MaxValue}",
 			Contributors = new()
 			{
 				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
