@@ -144,7 +144,7 @@ builder.Services.AddSingleton<IAadAuthorisationHelper, AadAuthorisationHelper>()
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddTransient<IAsyncNotificationClient, NotificationClient>(x => new NotificationClient(builder.Configuration["emailnotifications:key"]));
-builder.Services.Configure<NotifyTemplateSettings>(builder.Configuration.GetSection("govuk-notify-templates"));
+builder.Services.Configure<NotifyTemplateSettings>(builder.Configuration.GetSection("govuk-notify"));
 builder.Services.AddSingleton<IContributorTemplate, FormAMatChairContributor>(x => new FormAMatChairContributor(x.GetRequiredService<IOptions<NotifyTemplateSettings>>()));
 builder.Services.AddSingleton<IContributorTemplate, FormAMatNonChairContributor>(x => new FormAMatNonChairContributor(x.GetRequiredService<IOptions<NotifyTemplateSettings>>()));
 builder.Services.AddSingleton<IContributorTemplate, JoinAMatChairContributor>(x => new JoinAMatChairContributor(x.GetRequiredService<IOptions<NotifyTemplateSettings>>()));
