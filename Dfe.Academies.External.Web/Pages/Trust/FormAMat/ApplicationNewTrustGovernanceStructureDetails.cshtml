@@ -21,6 +21,8 @@
 	<form method="post" name="frmNewTrustGovernanceStructureDetails" novalidate="" enctype="multipart/form-data">
 		@Html.AntiForgeryToken()
 		<input type="hidden" asp-for="ApplicationId"/>
+		<input type="hidden" asp-for="EntityId"/>
+        <input type="hidden" asp-for="ApplicationReference"/>	
 		<partial name="_HiddenFields"/>
 
 		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
@@ -65,10 +67,21 @@
 					</div>
 					
 				</details>
-				<label for="file-upload" class="govuk-label">
-					Upload a file
-				</label>
-				<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="GovernanceStructureDetailsFiles" class="govuk-label" multiple/>
+					<label for="file-upload" class="govuk-label">
+						Upload a file
+					</label>
+					<p id="file-upload-governanceStructureDetailsFileSize-error" class="govuk-error-message @(!Model.GovernanceStructureDetailsFileSizeError ? "govuk-visually-hidden" : "")">
+						<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+					</p>
+					
+                                                            
+					<input type="file"
+					       accept=".doc,.docx,.pptx,.pdf"
+					       class="govuk-label"
+					       aria-describedby="file-upload-governanceStructureDetailsFileSize-error"
+					       multiple
+					       asp-for="@Model.GovernanceStructureDetailsFiles" />
+					
 				<br/>
 
 				<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {ApplicationId = Model.ApplicationId,Urn = Model.Urn, EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FilePrefixSection = FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName, FileNames = Model.GovernanceStructureDetailsFileNames}'/>

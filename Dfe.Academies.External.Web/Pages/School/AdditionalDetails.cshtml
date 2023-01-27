@@ -30,7 +30,6 @@
 <input type="hidden" asp-for="ApplicationReference"/>	
 <partial name="_HiddenFields"/>
 		
-<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 <fieldset class="govuk-fieldset">
 <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 	<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
@@ -244,31 +243,36 @@
 					</div>
 					<label for="dioceseOption-yes" class="govuk-label">Name of diocese</label>
 					<textarea asp-for="DioceseName" id="DioceseName" class="govuk-textarea" cols="5" rows="1" maxlength="200"></textarea>
-            					
-					<div class="@(Model.DioceseFileError ? "govuk-form-group--error" : "govuk-radios__conditional")"
-					     id="DioceseFileNotAddedError" aria-expanded="false">
-						<div class="govuk-form-group govuk-error-summary__list">
-							<a href="#DioceseFileNotAddedError" 
-							   class="@(Model.DioceseFileError ? "govuk-error-message" : "govuk-visually-hidden")">
-								You must upload a file
-							</a>
-						</div>
-					</div>
-							
+					
 					<label for="Upload-diocese" class="govuk-label">
 						Upload a letter from the diocese giving permission for the school to convert.
 						<br/>
 						<br/>
-						Upload a file
+						</label>
+						<div class="govuk-form-group @(Model.DioceseFileSizeError || Model.DioceseFileGenericError ? "govuk-form-group--error" : "")">
+						<label class="govuk-label"> Upload a file</label>
 						<span class="govuk-hint govuk-body govuk-!-margin-bottom-5">
 							The application cannot be submitted without this. You can carry on the application and come back to this later.
 						</span>
-					</label>
-					<br/>
-					<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="DioceseFiles" class="govuk-label" multiple/>
-					<br/>
-            		
+					
+					<p id="file-upload-dioceseFiles-error"  class="govuk-error-message @(!Model.DioceseFileSizeError ? "govuk-visually-hidden" : "")">
+						<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+					</p>
+					
+					<p id="file-upload-dioceseFiles-genericError" class="govuk-error-message @(!Model.DioceseFileGenericError ? "govuk-visually-hidden" : "")">
+						<span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
+					</p>
+
+							<input id="dioceseFileUpload"
+							       type="file"
+							       accept=".doc,.docx,.pptx,.pdf"
+							       class="govuk-label"
+							       aria-describedby="file-upload-dioceseFiles-error"
+							       multiple
+							       asp-for="@Model.DioceseFiles" />
+							</div>
 					<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {ApplicationId = Model.ApplicationId,Urn = Model.Urn, EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FilePrefixSection = FileUploadConstants.DioceseFilePrefixFieldName,FileNames = Model.DioceseFileNames}'/>
+
 				</div>
 			}
 		}
@@ -337,7 +341,7 @@
 					<label for="supportedByFoundationTrustOrBodyOption-yes" class="govuk-label">Name of this body</label>
 					<textarea asp-for="FoundationTrustOrBodyName" id="FoundationTrustOrBodyName" class="govuk-textarea" cols="10" rows="1" maxlength="200"></textarea>
 										
-					<div class="@(Model.FoundationConsentFileError ? "govuk-form-group--error" : "govuk-radios__conditional")"
+					<div class=" @(Model.FoundationConsentFileError ? "govuk-form-group--error" : "govuk-radios__conditional")"
 					     id="FoundationConsentFileNotAddedError" aria-expanded="false">
 						<div class="govuk-form-group govuk-error-summary__list">
 							<a href="#FoundationConsentFileNotAddedError" 
@@ -354,9 +358,18 @@
 						Upload a file
 					</label>
 					<br/>
-					<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="FoundationConsentFiles" class="govuk-label" multiple/>
-					<br/>
-            			
+					<p id="file-upload-foundationConsentFiles-error"  class="govuk-error-message @(!Model.FoundationConsentFileSizeError ? "govuk-visually-hidden" : "")">
+						<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+					</p>
+					
+					<input id="foundationConsentFileUpload" 
+						   type="file" 
+					       accept=".doc,.docx,.pptx,.pdf"
+					       class="govuk-label"
+					       aria-describedby="file-upload-foundationConsentFiles-error"
+					       multiple
+					       asp-for="@Model.FoundationConsentFiles" />
+					
 					<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {
 														ApplicationId = Model.ApplicationId,
 														Urn = Model.Urn, 
@@ -458,7 +471,9 @@
 		<p id="file-upload-resolutionConsentFiles-error"  class="govuk-error-message @(!Model.ResolutionConsentFileSizeError ? "govuk-visually-hidden" : "")">
 			<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
 		</p>
-		<input type="file" 
+		<input id="resolutionConsentFileUpload"
+			   type="file" 
+			   accept=".doc,.docx,.pptx,.pdf"
 		       class="govuk-label"
 		       aria-describedby="file-upload-resolutionConsentFiles-error"
 		       multiple
@@ -572,7 +587,7 @@
 </div>
 			
 </fieldset>
-</div>
+
 <br/>
 <input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 </form>

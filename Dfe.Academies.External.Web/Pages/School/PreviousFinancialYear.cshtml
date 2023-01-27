@@ -24,6 +24,8 @@
 		@Html.AntiForgeryToken()
 		<input type="hidden" asp-for="Urn"/>
 		<input type="hidden" asp-for="ApplicationId"/>		
+		<input type="hidden" asp-for="EntityId"/>
+        <input type="hidden" asp-for="ApplicationReference"/>	
 		<partial name="_HiddenFields"/>    
         
 		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
@@ -107,8 +109,16 @@
 	                                    <label for="Upload-recovery-plan" class="govuk-label">
 		                                    Upload a file
 	                                    </label>
-	                                    <br/>
-                                        <input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="SchoolPFYRevenueStatusFiles" class="govuk-label" multiple />
+                                    <p id="file-upload-schoolPFYRevenueFileSize-error" class="govuk-error-message @(!Model.SchoolPFYRevenueFileSizeError ? "govuk-visually-hidden" : "")">
+		                                    <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+	                                    </p>
+                                        
+	                                    <input type="file"
+	                                           accept=".doc,.docx,.pptx,.pdf"
+	                                           class="govuk-label"
+	                                           aria-describedby="file-upload-schoolPFYRevenueFileSize-error"
+	                                           multiple
+	                                           asp-for="@Model.SchoolPFYRevenueStatusFiles" />
                                         <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn,EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FileNames = Model.SchoolPFYRevenueStatusFileNames, FilePrefixSection = FileUploadConstants.SchoolPFYRevenueStatusFile}" />
                                     </div>
 	                            }
@@ -174,8 +184,18 @@
 	                                    <label for="Upload-recovery-plan" class="govuk-label">
 		                                    Upload a file
 	                                    </label>
-	                                    <br/>
-                                        <input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="SchoolPFYCapitalForwardStatusFiles" class="govuk-label" multiple />
+	                                    <p id="file-upload-schoolPFYCapitalFileSize-error" class="govuk-error-message @(!Model.SchoolPFYCapitalFileSizeError ? "govuk-visually-hidden" : "")">
+		                                    <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+	                                    </p>
+                                        
+	                                    <input type="file"
+	                                           accept=".doc,.docx,.pptx,.pdf"
+	                                           class="govuk-label"
+	                                           aria-describedby="file-upload-schoolPFYCapitalFileSize-error"
+	                                           multiple
+	                                           asp-for="@Model.SchoolPFYCapitalForwardStatusFiles" />
+	                                    
+	                                    
 	                                    <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn,EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FileNames = Model.SchoolPFYCapitalForwardStatusFileNames, FilePrefixSection = FileUploadConstants.SchoolPFYCapitalForwardStatusFile}" />
 
 					                </div>

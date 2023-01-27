@@ -2,6 +2,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
+using Dfe.Academies.External.Web.Exceptions;
 using Dfe.Academies.External.Web.Helpers;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
@@ -80,7 +81,7 @@ public class FileUploadService : IFileUploadService
 			var response = await _httpClient.SendAsync(request);
 
 			if (!response.IsSuccessStatusCode)
-				throw new Exception($"The file upload service failed with a status of {response.ReasonPhrase}");
+				throw new FileUploadException($"The file upload service failed with a status of {response.ReasonPhrase}");
 
 			var receiveStream = await response.Content.ReadAsStreamAsync();
 			using var readStream = new StreamReader(receiveStream, Encoding.UTF8);

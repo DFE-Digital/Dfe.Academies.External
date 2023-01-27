@@ -39,6 +39,9 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		[BindProperty]
 		public string ApplicationReference { get; set; }
 		
+		public bool TrustConsentFileSizeError => !ModelState.IsValid && ModelState.Keys.Contains("TrustConsentFileSizeError");
+
+		
 		public bool HasError
 		{
 			get
@@ -69,7 +72,12 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 				PopulateValidationMessages();
 				return false;
 			}
-
+			foreach (var file in TrustConsentFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+			{
+				ModelState.AddModelError("TrustConsentFileSizeError", $"File: {file.FileName} is too large");
+				PopulateValidationMessages();
+				return false;
+			}
 			return true;
 		}
 		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
@@ -91,7 +99,9 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 			Urn = urn;
 
 			// Grab other values from API
-			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
+			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(ApplicationId);
+			EntityId = applicationDetails.EntityId;
+			ApplicationReference = applicationDetails.ApplicationReference;
 			SelectedTrustName = applicationDetails.JoinTrustDetails?.TrustName ?? string.Empty;
 			
 			var selectedSchool = applicationDetails?.Schools.FirstOrDefault(x => x.URN == urn);
@@ -103,8 +113,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 
 			EntityId = applicationDetails.EntityId;
 			ApplicationReference = applicationDetails.ApplicationReference;
-			TrustConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, applicationDetails.EntityId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName);
-			TempDataHelper.StoreSerialisedValue($"{appId}-trustConsentFiles", TempData, TrustConsentFileNames);
+			TrustConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName);
+			TempDataHelper.StoreSerialisedValue($"{EntityId}-trustConsentFiles", TempData, TrustConsentFileNames);
 			return Page();
 		}
 
@@ -112,7 +122,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		{
 			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(ApplicationId);
 			
-			TrustConsentFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{ApplicationId}-trustConsentFiles", TempData) ?? new List<string>();
+			TrustConsentFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{EntityId}-trustConsentFiles", TempData) ?? new List<string>();
 			
 			if (!RunUiValidation())
 			{

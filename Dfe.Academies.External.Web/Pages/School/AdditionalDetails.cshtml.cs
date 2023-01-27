@@ -3,6 +3,7 @@ using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Exceptions;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -142,7 +143,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 					OfstedInspectedDetailsError,
 					ExemptionEndDateNotEntered,
 					DioceseNameError,
-					DioceseFileError,
+					DioceseFileNotAddedError,
 					SafeguardingInvestigationsError, 
 					LocalAuthorityReorganisationDetailsError, 
 					LocalAuthorityClosurePlanDetailsError,
@@ -163,9 +164,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public bool LocalAuthorityClosurePlanDetailsError => !ModelState.IsValid && ModelState.Keys.Contains("localAuthorityClosurePlanDetailsNotAdded");
 		public bool SupportedByFoundationTrustOrBodyError => !ModelState.IsValid && ModelState.Keys.Contains("FoundationTrustOrBodyNameNotAdded");
 		public bool FoundationConsentFileError => !ModelState.IsValid && ModelState.Keys.Contains("FoundationConsentFileNotAddedError");
+		public bool FoundationConsentFileSizeError => !ModelState.IsValid && ModelState.Keys.Contains("FoundationConsentFileSizeError");
 		public bool ResolutionConsentFileSizeError => !ModelState.IsValid && ModelState.Keys.Contains("ResolutionConsentFileSizeError");
-		public bool DioceseFileError => !ModelState.IsValid && ModelState.Keys.Contains("DioceseFileNotAddedError");
 		
+		public bool DioceseFileNotAddedError => !ModelState.IsValid && ModelState.Keys.Contains("DioceseFileNotAddedError");
+		public bool DioceseFileSizeError => !ModelState.IsValid && ModelState.Keys.Contains("DioceseFileSizeError");
+		public bool DioceseFileGenericError => !ModelState.IsValid && ModelState.Keys.Contains("dioceseFileUpload");
 		public bool ExemptionFromSACREError => !ModelState.IsValid && ModelState.Keys.Contains("exemptionFromSACREEndDateNotAdded");
 		public bool EqualityAssessmentError => !ModelState.IsValid && ModelState.Keys.Contains("equalitiesImpactAssessmentOptionNoOptionSelected");
 		public bool FurtherInformationError => !ModelState.IsValid && ModelState.Keys.Contains("furtherInformationDetailsNotAdded");
@@ -231,21 +235,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 				TempDataHelper.GetSerialisedValue<ConversionApplication>(
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			foreach (var file in DioceseFiles)
+			if (!(await UploadFiles()))
 			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.DioceseFilePrefixFieldName, file);
+				RePopDatePickerModel(ExemptionEndDateComponentDay, ExemptionEndDateComponentMonth, ExemptionEndDateComponentYear);
+				return Page();
 			}
-
-			foreach (var file in FoundationConsentFiles)
-			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName, file);
-			}
-
-			foreach (var file in ResolutionConsentFiles)
-			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName, file);
-			}
-
+			
 			SetBindedProperties();
 
 			var dioceseFolderIdentifier = (DioceseFileNames.Any() || DioceseFiles.Any())
@@ -373,16 +368,33 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return false;
 			}
 
-			foreach (var file in ResolutionConsentFiles)
+			foreach (var file in ResolutionConsentFiles.Where(file => file.Length >= 5 * 1024 * 1024))
 			{
-				if (file.Length >= 5 * 1024 * 1024)
+				ModelState.AddModelError("ResolutionConsentFileSizeError", $"File: {file.FileName} is too large");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			if (FoundationConsentFiles != null)
+			{
+				foreach (var file in FoundationConsentFiles.Where(file => file.Length >= 5 * 1024 * 1024))
 				{
-					ModelState.AddModelError("ResolutionConsentFileSizeError", $"File: {file.FileName} is too large");
+					ModelState.AddModelError("FoundationConsentFileSizeError", $"File: {file.FileName} is too large");
 					PopulateValidationMessages();
 					return false;
 				}
 			}
-			
+
+			if (DioceseFiles != null)
+			{
+				foreach (var file in DioceseFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+				{
+					ModelState.AddModelError("DioceseFileSizeError", $"File: {file.FileName} is too large");
+					PopulateValidationMessages();
+					return false;
+				}
+			}
+
 			if (!ModelState.IsValid)
 			{
 				PopulateValidationMessages();
@@ -456,6 +468,56 @@ namespace Dfe.Academies.External.Web.Pages.School
 			ExemptionEndDateDay = exemptionEndDateDay;
 			ExemptionEndDateMonth = exemptionEndDateMonth;
 			ExemptionEndDateYear = exemptionEndDateYear;
+		}
+
+		private async Task<bool> UploadFiles()
+		{
+			try
+			{
+				foreach (var file in DioceseFiles)
+				{
+					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+						ApplicationReference, FileUploadConstants.DioceseFilePrefixFieldName, file);
+				}
+			}
+			catch (FileUploadException)
+			{
+				ModelState.AddModelError("dioceseFileUpload", "The selected file could not be uploaded – try again");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			try
+			{
+				foreach (var file in FoundationConsentFiles)
+				{
+					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+						ApplicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName, file);
+				}
+			}
+			catch (FileUploadException)
+			{
+				ModelState.AddModelError("foundationConsentFileUpload", "The selected file could not be uploaded – try again");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			try
+			{
+				foreach (var file in ResolutionConsentFiles)
+				{
+					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+						ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName, file);
+				}
+			}
+			catch (FileUploadException)
+			{
+				ModelState.AddModelError("resolutionConsentFileUpload", "The selected file could not be uploaded – try again");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			return true;
 		}
 	}
 }

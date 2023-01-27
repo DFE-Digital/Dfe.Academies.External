@@ -30,6 +30,8 @@
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="Urn" />
         <input type="hidden" asp-for="ApplicationId" />
+        <input type="hidden" asp-for="EntityId"/>
+        <input type="hidden" asp-for="ApplicationReference"/>	
         <partial name="_HiddenFields" />
         
         <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
@@ -110,8 +112,17 @@
                                                 
                                                 Upload a file
                                             </span>
-	                                        <input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="@Model.ForecastedRevenueFiles" class="govuk-label" multiple/>
-				                            <br/>
+	                                    <p id="file-upload-forecastedRevenueFileSize-error" class="govuk-error-message @(!Model.ForecastedRevenueFileSizeError ? "govuk-visually-hidden" : "")">
+		                                    <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+	                                    </p>
+
+	                                    <input id="" 
+		                                       type="file"
+	                                           accept=".doc,.docx,.pptx,.pdf"
+	                                           class="govuk-label"
+	                                           aria-describedby="file-upload-forecastedRevenueFileSize-error"
+	                                           multiple
+	                                           asp-for="@Model.ForecastedRevenueFiles" />
 	                                        <partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {ApplicationId = Model.ApplicationId,Urn = Model.Urn, EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FilePrefixSection = FileUploadConstants.NFYForecastedRevenueFilePrefixFieldName,FileNames = Model.ForecastedRevenueFileNames}'/>
                                     </div>
                                 }
@@ -173,8 +184,18 @@
                                             codes.
 											Upload a file
                                             </span>
-	                                        <input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="ForecastedCapitalFiles" class="govuk-label" multiple/>
-				                            <br/>
+	                                    <p id="file-upload-forecastedCapitalFileSize-error" class="govuk-error-message @(!Model.ForecastedRevenueFileSizeError ? "govuk-visually-hidden" : "")">
+		                                    <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+	                                    </p>
+                                        
+	                                    <input type="file"
+	                                           accept=".doc,.docx,.pptx,.pdf"
+	                                           class="govuk-label"
+	                                           aria-describedby="file-upload-forecastedCapitalFileSize-error"
+	                                           multiple
+	                                           asp-for="@Model.ForecastedCapitalFiles" />
+	                                    
+	                                    
 											<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {ApplicationId = Model.ApplicationId,Urn = Model.Urn, EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FilePrefixSection = FileUploadConstants.NFYForecastedCapitalFilePrefixFieldName,FileNames = Model.ForecastedCapitalFileNames}'/>
                                     </div>
                                 }

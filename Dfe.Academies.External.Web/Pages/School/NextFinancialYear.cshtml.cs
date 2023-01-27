@@ -113,6 +113,9 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 		}
 	}
 
+	public bool ForecastedRevenueFileSizeError => !ModelState.IsValid && ModelState.Keys.Contains("ForecastedRevenueFileSizeError");
+	public bool ForecastedCapitalFileSizeError => !ModelState.IsValid && ModelState.Keys.Contains("ForecastedCapitalFileSizeError");
+	
 	public DateTime NFYFinancialEndDateLocal { get; set; }
 
 	
@@ -131,9 +134,21 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 	public override async Task<ActionResult> OnGetAsync(int urn, int appId)
 	{
 
-		var result =  await base.OnGetAsync(urn, appId);
+		LoadAndStoreCachedConversionApplication();
+		
+		ApplicationId = appId;
+		Urn = urn;
+
+		// Grab other values from API
 		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
-		var selectedSchool = applicationDetails?.Schools.FirstOrDefault(x => x.URN == Urn);
+		var selectedSchool = applicationDetails?.Schools.FirstOrDefault(x => x.URN == urn);
+
+		if (selectedSchool != null)
+		{
+			EntityId = selectedSchool.EntityId;
+			PopulateUiModel(selectedSchool);
+		}
+		ApplicationReference = applicationDetails?.ApplicationReference;
 		
 		ForecastedRevenueFileNames = await _fileUploadService.GetFiles(
 			FileUploadConstants.TopLevelFolderName,
@@ -149,10 +164,8 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 			ApplicationReference,
 			FileUploadConstants.NFYForecastedCapitalFilePrefixFieldName);
 		
-		ApplicationReference = applicationDetails?.ApplicationReference;
-		
 		TempDataHelper.StoreSerialisedValue($"{EntityId}-NFYforecastedCapitalFiles", TempData, ForecastedCapitalFileNames);
-		return result;
+		return Page();
 	}
 
 	public override async Task<IActionResult> OnPostAsync()
@@ -237,6 +250,20 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 		    return false;
 	    }
 
+	    foreach (var file in ForecastedRevenueFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+	    {
+		    ModelState.AddModelError("ForecastedRevenueFileSizeError", $"File: {file.FileName} is too large");
+		    PopulateValidationMessages();
+		    return false;
+	    }
+	    
+	    foreach (var file in ForecastedCapitalFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+	    {
+		   ModelState.AddModelError("ForecastedCapitalFileSizeError", $"File: {file.FileName} is too large");
+		   PopulateValidationMessages();
+		   return false;
+	    }
+	    
 	    return true;
     }
 

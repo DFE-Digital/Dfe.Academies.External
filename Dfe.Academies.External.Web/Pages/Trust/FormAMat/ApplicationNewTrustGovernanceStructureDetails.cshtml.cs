@@ -30,6 +30,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		}
 		
 		public bool GovernanceStructureDetailsFileError => !ModelState.IsValid && ModelState.Keys.Contains("GovernanceStructureDetailFileNotAddedError");
+		public bool GovernanceStructureDetailsFileSizeError => !ModelState.IsValid && ModelState.Keys.Contains("GovernanceStructureDetailsFileSizeError");
 
 		[BindProperty]
 		public Guid EntityId { get; set; }
@@ -59,12 +60,14 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			ApplicationId = appId;
 
 			// Grab other values from API
-			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
+			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(ApplicationId);
+			EntityId = applicationDetails.EntityId;
+			ApplicationReference = applicationDetails.ApplicationReference;
 			TrustName = applicationDetails?.TrustName ?? string.Empty;
 			if (applicationDetails?.ApplicationReference != null)
 			{
 				GovernanceStructureDetailsFileNames = await _fileUploadService.GetFiles(
-					FileUploadConstants.TopLevelFolderName, applicationDetails.EntityId.ToString(), applicationDetails.ApplicationReference,
+					FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference,
 					FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName);
 				TempDataHelper.StoreSerialisedValue($"{EntityId}-governanceStructureDetailsFiles", TempData,
 					GovernanceStructureDetailsFileNames);
@@ -78,8 +81,10 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		public override async Task<IActionResult> OnPostAsync()
 		{
 			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(ApplicationId);
-			var selectedSchool = applicationDetails?.Schools.FirstOrDefault(x => x.URN == Urn);
-			GovernanceStructureDetailsFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{selectedSchool.EntityId}-governanceStructureDetailsFiles", TempData) ?? new List<string>();
+			EntityId = applicationDetails.EntityId;
+			ApplicationReference = applicationDetails.ApplicationReference;
+			
+			GovernanceStructureDetailsFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{EntityId}-governanceStructureDetailsFiles", TempData) ?? new List<string>();
 
 			if (!RunUiValidation()) 
 			{
@@ -90,7 +95,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 				foreach (var file in GovernanceStructureDetailsFiles)
 				{
 					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName,
-						applicationDetails.EntityId.ToString(), applicationDetails.ApplicationReference,
+						EntityId.ToString(), ApplicationReference,
 						FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName, file);
 				}
 			}
@@ -123,6 +128,13 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			    (!GovernanceStructureDetailsFileNames.Any()))
 			{
 				ModelState.AddModelError("GovernanceStructureDetailFileNotAddedError", "You must upload a file");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			foreach (var file in GovernanceStructureDetailsFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+			{
+				ModelState.AddModelError("GovernanceStructureDetailsFileSizeError", $"File: {file.FileName} is too large");
 				PopulateValidationMessages();
 				return false;
 			}

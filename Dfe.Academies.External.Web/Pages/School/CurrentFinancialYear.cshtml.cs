@@ -3,6 +3,7 @@ using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Exceptions;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -97,7 +98,13 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 			return !ModelState.IsValid && ModelState.Keys.Contains("PFYCapitalCarryForwardExplainedNotEntered");
 		}
 	}
+	
+	public bool SchoolCFYRevenueFileSizeError =>  ModelState.ContainsKey(nameof(SchoolCFYRevenueFileSizeError));
 
+	public bool SchoolCFYRevenueFileGenericError => ModelState.ContainsKey(nameof(SchoolCFYRevenueFileGenericError));
+	public bool SchoolCFYCapitalFileGenericError => ModelState.ContainsKey(nameof(SchoolCFYCapitalFileGenericError));
+	public bool SchoolCFYCapitalFileSizeError => ModelState.ContainsKey(nameof(SchoolCFYCapitalFileSizeError));
+	
 	public bool HasError
 	{
 		get
@@ -124,14 +131,29 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 
 	public override async Task<ActionResult> OnGetAsync(int urn, int appId)
 	{
-		var result = await base.OnGetAsync(urn, appId);
+		LoadAndStoreCachedConversionApplication();
+		
+		ApplicationId = appId;
+		Urn = urn;
+
+		// Grab other values from API
+		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
+		var selectedSchool = applicationDetails?.Schools.FirstOrDefault(x => x.URN == urn);
+
+		if (selectedSchool != null)
+		{
+			EntityId = selectedSchool.EntityId;
+			PopulateUiModel(selectedSchool);
+		}
+
+		ApplicationReference = applicationDetails.ApplicationReference;
 		SchoolCFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile);
 		SchoolCFYCapitalForwardFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolCFYCapitalForwardFile);
 
 		TempDataHelper.StoreSerialisedValue($"{EntityId}-SchoolCFYRevenueStatusFileNames", TempData, SchoolCFYRevenueStatusFileNames);
 		TempDataHelper.StoreSerialisedValue($"{EntityId}-SchoolCFYCapitalForwardFileNames", TempData, SchoolCFYCapitalForwardFileNames);
 
-		return result;
+		return Page();
 	}
 
 	/// <summary>
@@ -171,23 +193,55 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 
 		var dictionaryMapper = PopulateUpdateDictionary();
 		await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
+
+		if (!(await UploadFiles()))
+		{
+			RePopDatePickerModel(CFYEndDateComponentDay, CFYEndDateComponentMonth, CFYEndDateComponentYear);
+			return Page();
+		}
 		
-		foreach (var file in SchoolCfyRevenueStatusFiles)
-		{
-			await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile, file);
-		}
-
-		foreach (var file in SchoolCFYCapitalForwardFiles)
-		{
-			await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolCFYCapitalForwardFile, file);	
-		}
-
+		
 		// update temp store for next step
 		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
 		return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
 	}
 
+	private async Task<bool> UploadFiles()
+	{
+		try
+		{
+			foreach (var file in SchoolCfyRevenueStatusFiles)
+			{
+				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+					ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile,
+					file);
+			}
+		}
+		catch (FileUploadException)
+		{
+			ModelState.AddModelError(nameof(SchoolCFYRevenueFileGenericError), "The selected file could not be uploaded – try again");
+			PopulateValidationMessages();
+			return false;
+		}
+
+		try
+		{
+			foreach (var file in SchoolCFYCapitalForwardFiles)
+			{
+				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+					ApplicationReference, FileUploadConstants.SchoolCFYCapitalForwardFile, file);
+			}
+		}
+		catch (FileUploadException)
+		{
+			ModelState.AddModelError(nameof(SchoolCFYCapitalFileGenericError), "The selected file could not be uploaded – try again");
+			PopulateValidationMessages();
+			return false;
+		}
+
+		return true;
+	}
 	///<inheritdoc/>
 	public override bool RunUiValidation()
 	{
@@ -216,6 +270,26 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 			ModelState.AddModelError("PFYCapitalCarryForwardExplainedNotEntered", "You must provide details or upload a file");
 			PopulateValidationMessages();
 			return false;
+		}
+		
+		if (SchoolCfyRevenueStatusFiles != null)
+		{
+			foreach (var file in SchoolCfyRevenueStatusFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+			{
+				ModelState.AddModelError(nameof(SchoolCFYRevenueFileSizeError), $"File: {file.FileName} is too large");
+				PopulateValidationMessages();
+				return false;
+			}
+		}
+
+		if (SchoolCFYCapitalForwardFiles != null)
+		{
+			foreach (var file in SchoolCFYCapitalForwardFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+			{
+				ModelState.AddModelError(nameof(SchoolCFYCapitalFileSizeError), $"File: {file.FileName} is too large");
+				PopulateValidationMessages();
+				return false;
+			}
 		}
 
 		return true;
@@ -283,8 +357,7 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 		}
 
 		CFYCapitalCarryForwardExplained = selectedSchool.CurrentFinancialYear.CapitalCarryForwardExplained;
-		EntityId = selectedSchool.EntityId;
-		ApplicationReference = applicationDetails.ApplicationReference;
+
 	}
 
 	private void RePopDatePickerModel(string cfyEndDateComponentDay, string cfyEndDateComponentMonth, string cfyEndDateComponentYear)

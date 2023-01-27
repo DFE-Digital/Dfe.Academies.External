@@ -45,7 +45,7 @@ public abstract class BasePageModel : PageModel
 				// MR:- add friendly message for validation summary
 				if (!this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey(modelStateError.Key))
 				{
-					this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add(modelStateError.Key, modelStateError.Value);
+					this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add($"#{modelStateError.Key}", modelStateError.Value);
 				}
 			}
 		}

@@ -116,6 +116,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 		}
 
+		public bool SchoolPFYRevenueFileSizeError => !ModelState.IsValid && ModelState.Keys.Contains("SchoolPFYRevenueFileSizeError");
+		public bool SchoolPFYCapitalFileSizeError => !ModelState.IsValid && ModelState.Keys.Contains("SchoolPFYCapitalFileSizeError");
+
 		public DateTime PFYFinancialEndDateLocal { get; set; }
 
 		public PreviousFinancialYearModel(IFileUploadService fileUploadService,
@@ -136,16 +139,28 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public override async Task<ActionResult> OnGetAsync(int urn, int appId)
 		{
+			LoadAndStoreCachedConversionApplication();
+		
+			ApplicationId = appId;
+			Urn = urn;
+
+			// Grab other values from API
+			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
+			var selectedSchool = applicationDetails?.Schools.FirstOrDefault(x => x.URN == urn);
+
+			if (selectedSchool != null)
+			{
+				EntityId = selectedSchool.EntityId;
+				PopulateUiModel(selectedSchool);
+			}
+			ApplicationReference = applicationDetails?.ApplicationReference;
 			SchoolPFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolPFYRevenueStatusFile);
 			SchoolPFYCapitalForwardStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolPFYCapitalForwardStatusFile);
 
 			TempDataHelper.StoreSerialisedValue($"{appId}-SchoolPFYRevenueStatusFileNames", TempData, SchoolPFYRevenueStatusFileNames);
 			TempDataHelper.StoreSerialisedValue($"{appId}-SchoolPFYCapitalForwardStatusFileNames", TempData, SchoolPFYCapitalForwardStatusFileNames);
 
-			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
-			ApplicationReference = applicationDetails?.ApplicationReference;
-			
-			return await base.OnGetAsync(urn, appId);
+			return Page();
 		}
 
 		public override async Task<IActionResult> OnPostAsync()
@@ -227,6 +242,26 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return false;
 			}
 
+			if (SchoolPFYRevenueStatusFiles != null)
+			{
+				foreach (var file in SchoolPFYRevenueStatusFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+				{
+					ModelState.AddModelError("SchoolPFYRevenueFileSizeError", $"File: {file.FileName} is too large");
+					PopulateValidationMessages();
+					return false;
+				}
+			}
+
+			if (SchoolPFYCapitalForwardStatusFiles != null)
+			{
+				foreach (var file in SchoolPFYCapitalForwardStatusFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+				{
+					ModelState.AddModelError("SchoolPFYCapitalFileSizeError", $"File: {file.FileName} is too large");
+					PopulateValidationMessages();
+					return false;
+				}
+			}
+			
 			return true;
 		}
 
