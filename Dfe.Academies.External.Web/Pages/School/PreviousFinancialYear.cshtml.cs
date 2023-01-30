@@ -3,6 +3,7 @@ using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Exceptions;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -119,6 +120,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public bool SchoolPFYRevenueFileSizeError => !ModelState.IsValid && ModelState.Keys.Contains("SchoolPFYRevenueFileSizeError");
 		public bool SchoolPFYCapitalFileSizeError => !ModelState.IsValid && ModelState.Keys.Contains("SchoolPFYCapitalFileSizeError");
 
+		public bool SchoolPFYRevenueFileGenericError => !ModelState.IsValid && ModelState.ContainsKey(nameof(SchoolPFYRevenueFileGenericError));
+		public bool SchoolPFYCapitalFileGenericError => !ModelState.IsValid && ModelState.ContainsKey(nameof(SchoolPFYCapitalFileGenericError));
+		
 		public DateTime PFYFinancialEndDateLocal { get; set; }
 
 		public PreviousFinancialYearModel(IFileUploadService fileUploadService,
@@ -162,6 +166,42 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			return Page();
 		}
+		
+		private async Task<bool> UploadFiles()
+		{
+			try
+			{
+				foreach (var file in SchoolPFYRevenueStatusFiles)
+				{
+					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+						ApplicationReference, FileUploadConstants.SchoolPFYRevenueStatusFile,
+						file);
+				}
+			}
+			catch (FileUploadException)
+			{
+				ModelState.AddModelError(nameof(SchoolPFYRevenueFileGenericError), "The selected file could not be uploaded – try again");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			try
+			{
+				foreach (var file in SchoolPFYCapitalForwardStatusFiles)
+				{
+					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+						ApplicationReference, FileUploadConstants.SchoolPFYCapitalForwardStatusFile, file);
+				}
+			}
+			catch (FileUploadException)
+			{
+				ModelState.AddModelError(nameof(SchoolPFYCapitalFileGenericError), "The selected file could not be uploaded – try again");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			return true;
+		}
 
 		public override async Task<IActionResult> OnPostAsync()
 		{
@@ -193,16 +233,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 				TempDataHelper.GetSerialisedValue<ConversionApplication>(
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			foreach (var file in SchoolPFYRevenueStatusFiles)
+			
+			if (!(await UploadFiles()))
 			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolPFYRevenueStatusFile, file);
+				RePopDatePickerModel(PFYEndDateComponentDay, PFYEndDateComponentMonth, PFYEndDateComponentYear);
+				return Page();
 			}
-
-			foreach (var file in SchoolPFYCapitalForwardStatusFiles)
-			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), draftConversionApplication.ApplicationReference, FileUploadConstants.SchoolPFYCapitalForwardStatusFile, file);	
-			}
-
+			
 			var dictionaryMapper = PopulateUpdateDictionary();
 			await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 
@@ -246,7 +283,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				foreach (var file in SchoolPFYRevenueStatusFiles.Where(file => file.Length >= 5 * 1024 * 1024))
 				{
-					ModelState.AddModelError("SchoolPFYRevenueFileSizeError", $"File: {file.FileName} is too large");
+					ModelState.AddModelError(nameof(SchoolPFYRevenueFileSizeError), $"File: {file.FileName} is too large");
 					PopulateValidationMessages();
 					return false;
 				}
@@ -256,7 +293,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				foreach (var file in SchoolPFYCapitalForwardStatusFiles.Where(file => file.Length >= 5 * 1024 * 1024))
 				{
-					ModelState.AddModelError("SchoolPFYCapitalFileSizeError", $"File: {file.FileName} is too large");
+					ModelState.AddModelError(nameof(SchoolPFYCapitalFileSizeError), $"File: {file.FileName} is too large");
 					PopulateValidationMessages();
 					return false;
 				}

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sentry.Protocol;
 using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Exceptions;
 
 namespace Dfe.Academies.External.Web.Pages.School;
 public class NextFinancialYearModel : BaseSchoolPageEditModel
@@ -115,7 +116,9 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 
 	public bool ForecastedRevenueFileSizeError => !ModelState.IsValid && ModelState.Keys.Contains("ForecastedRevenueFileSizeError");
 	public bool ForecastedCapitalFileSizeError => !ModelState.IsValid && ModelState.Keys.Contains("ForecastedCapitalFileSizeError");
-	
+
+	public bool SchoolCapitalFileGenericError => !ModelState.IsValid && ModelState.ContainsKey(nameof(SchoolCapitalFileGenericError));
+	public bool SchoolRevenueFileGenericError => !ModelState.IsValid && ModelState.ContainsKey(nameof(SchoolRevenueFileGenericError));
 	public DateTime NFYFinancialEndDateLocal { get; set; }
 
 	
@@ -138,17 +141,17 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 		
 		ApplicationId = appId;
 		Urn = urn;
-
+		
 		// Grab other values from API
 		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
 		var selectedSchool = applicationDetails?.Schools.FirstOrDefault(x => x.URN == urn);
-
+		ApplicationType = applicationDetails.ApplicationType;
 		if (selectedSchool != null)
 		{
 			EntityId = selectedSchool.EntityId;
 			PopulateUiModel(selectedSchool);
 		}
-		ApplicationReference = applicationDetails?.ApplicationReference;
+		ApplicationReference = applicationDetails.ApplicationReference;
 		
 		ForecastedRevenueFileNames = await _fileUploadService.GetFiles(
 			FileUploadConstants.TopLevelFolderName,
@@ -166,6 +169,42 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 		
 		TempDataHelper.StoreSerialisedValue($"{EntityId}-NFYforecastedCapitalFiles", TempData, ForecastedCapitalFileNames);
 		return Page();
+	}
+	
+	private async Task<bool> UploadFiles()
+	{
+		try
+		{
+			foreach (var file in ForecastedRevenueFiles)
+			{
+				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+					ApplicationReference, FileUploadConstants.NFYForecastedRevenueFilePrefixFieldName,
+					file);
+			}
+		}
+		catch (FileUploadException)
+		{
+			ModelState.AddModelError(nameof(ForecastedRevenueFileSizeError), "The selected file could not be uploaded – try again");
+			PopulateValidationMessages();
+			return false;
+		}
+
+		try
+		{
+			foreach (var file in ForecastedCapitalFiles)
+			{
+				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+					ApplicationReference, FileUploadConstants.NFYForecastedCapitalFilePrefixFieldName, file);
+			}
+		}
+		catch (FileUploadException)
+		{
+			ModelState.AddModelError(nameof(ForecastedCapitalFileSizeError), "The selected file could not be uploaded – try again");
+			PopulateValidationMessages();
+			return false;
+		}
+
+		return true;
 	}
 
 	public override async Task<IActionResult> OnPostAsync()
@@ -197,18 +236,10 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 			TempDataHelper.GetSerialisedValue<ConversionApplication>(
 				TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-		foreach (var file in ForecastedRevenueFiles)
+		if (!(await UploadFiles()))
 		{
-			await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
-				applicationDetails.ApplicationReference, FileUploadConstants.NFYForecastedRevenueFilePrefixFieldName,
-				file);
-		}
-
-		foreach (var file in ForecastedCapitalFiles)
-		{
-			await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
-				applicationDetails.ApplicationReference, FileUploadConstants.NFYForecastedCapitalFilePrefixFieldName,
-				file);
+			RePopDatePickerModel(NFYEndDateComponentDay, NFYEndDateComponentMonth, NFYEndDateComponentYear);
+			return Page();
 		}
 		
 		var dictionaryMapper = PopulateUpdateDictionary();

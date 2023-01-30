@@ -12,7 +12,7 @@
 
 @section BeforeMain
 {
-	<a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back to application overview</a>
+	<a asp-page="FinancesReview" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">Back</a>
 }
 
 <div class="govuk-grid-column-two-thirds">
@@ -27,8 +27,7 @@
 		<input type="hidden" asp-for="EntityId"/>
         <input type="hidden" asp-for="ApplicationReference"/>	
 		<partial name="_HiddenFields"/>    
-        
-		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+		
 			<fieldset class="govuk-fieldset">
 				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
@@ -103,23 +102,27 @@
 	                                    <span class="govuk-hint">
 		                                    We prefer schools to set out their income and expenditure using the
 		                                    <a href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"
-												target="_blank" class="govuk-link" rel="noopener">consistent financial reporting</a>
+		                                       target="_blank" class="govuk-link" rel="noopener">consistent financial reporting</a>
 		                                    codes.
 	                                    </span>
-	                                    <label for="Upload-recovery-plan" class="govuk-label">
-		                                    Upload a file
-	                                    </label>
-                                    <p id="file-upload-schoolPFYRevenueFileSize-error" class="govuk-error-message @(!Model.SchoolPFYRevenueFileSizeError ? "govuk-visually-hidden" : "")">
-		                                    <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
-	                                    </p>
-                                        
-	                                    <input type="file"
-	                                           accept=".doc,.docx,.pptx,.pdf"
-	                                           class="govuk-label"
-	                                           aria-describedby="file-upload-schoolPFYRevenueFileSize-error"
-	                                           multiple
-	                                           asp-for="@Model.SchoolPFYRevenueStatusFiles" />
-                                        <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn,EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FileNames = Model.SchoolPFYRevenueStatusFileNames, FilePrefixSection = FileUploadConstants.SchoolPFYRevenueStatusFile}" />
+	                                    <div class="govuk-form-group @(Model.SchoolPFYRevenueFileSizeError || Model.SchoolPFYRevenueFileGenericError ? "govuk-form-group--error" : "")">
+		                                    <label class="govuk-label"> Upload a file</label>
+	                                    
+		                                    <p id="file-upload-schoolPFYRevenueFileSize-error" class="govuk-error-message @(!Model.SchoolPFYRevenueFileSizeError ? "govuk-visually-hidden" : "")">
+			                                    <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+		                                    </p>
+		                                    <p id="file-upload-schoolPFYRevenueFile-genericError" class="govuk-error-message @(!Model.SchoolPFYRevenueFileGenericError ? "govuk-visually-hidden" : "")">
+			                                    <span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
+		                                    </p>
+		                                    <input id="schoolPfyRevenueFileUpload"
+			                                       type="file"
+		                                           accept=".doc,.docx,.pptx,.pdf"
+		                                           class="govuk-label"
+		                                           aria-describedby="file-upload-schoolPFYRevenueFileSize-error"
+		                                           multiple
+		                                           asp-for="@Model.SchoolPFYRevenueStatusFiles" />
+	                                    </div>
+	                                    <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn,EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FileNames = Model.SchoolPFYRevenueStatusFileNames, FilePrefixSection = FileUploadConstants.SchoolPFYRevenueStatusFile}" />
                                     </div>
 	                            }
 	                        }
@@ -175,26 +178,29 @@
                                         <p class="govuk-label">
 							                You can upload the school’s recovery plan.
 						                </p>
-						                <span class="govuk-hint">
-							                We prefer schools to set out their income and expenditure using the
-							                <a href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"
-												target="_blank" class="govuk-link" rel="noopener">consistent financial reporting</a>
-							                codes.
-						                </span>
-	                                    <label for="Upload-recovery-plan" class="govuk-label">
-		                                    Upload a file
-	                                    </label>
-	                                    <p id="file-upload-schoolPFYCapitalFileSize-error" class="govuk-error-message @(!Model.SchoolPFYCapitalFileSizeError ? "govuk-visually-hidden" : "")">
-		                                    <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
-	                                    </p>
-                                        
-	                                    <input type="file"
-	                                           accept=".doc,.docx,.pptx,.pdf"
-	                                           class="govuk-label"
-	                                           aria-describedby="file-upload-schoolPFYCapitalFileSize-error"
-	                                           multiple
-	                                           asp-for="@Model.SchoolPFYCapitalForwardStatusFiles" />
-	                                    
+	                                    <span class="govuk-hint">
+		                                    We prefer schools to set out their income and expenditure using the
+		                                    <a href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"
+		                                       target="_blank" class="govuk-link" rel="noopener">consistent financial reporting</a>
+		                                    codes.
+	                                    </span>
+	                                    <div class="govuk-form-group @(Model.SchoolPFYCapitalFileSizeError || Model.SchoolPFYCapitalFileGenericError ? "govuk-form-group--error" : "")">
+		                                    <label class="govuk-label"> Upload a file</label>
+          
+		                                    <p id="file-upload-schoolPFYCapitalFileSize-error" class="govuk-error-message @(!Model.SchoolPFYCapitalFileSizeError ? "govuk-visually-hidden" : "")">
+			                                    <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+		                                    </p>
+		                                    <p id="file-upload-schoolPFYCapitalFile-genericError" class="govuk-error-message @(!Model.SchoolPFYCapitalFileGenericError ? "govuk-visually-hidden" : "")">
+			                                    <span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
+		                                    </p>
+		                                    <input id="schoolPfyCapitalFileUpload"
+			                                       type="file"
+		                                           accept=".doc,.docx,.pptx,.pdf"
+		                                           class="govuk-label"
+		                                           aria-describedby="file-upload-schoolPFYCapitalFileSize-error"
+		                                           multiple
+		                                           asp-for="@Model.SchoolPFYCapitalForwardStatusFiles" />
+	                                    </div>
 	                                    
 	                                    <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn,EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FileNames = Model.SchoolPFYCapitalForwardStatusFileNames, FilePrefixSection = FileUploadConstants.SchoolPFYCapitalForwardStatusFile}" />
 
@@ -205,8 +211,7 @@
 	                </fieldset>
                 </div>
 			</fieldset>
-        </div>
-        <br />
+		<br />
 
         <input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
 	</form>

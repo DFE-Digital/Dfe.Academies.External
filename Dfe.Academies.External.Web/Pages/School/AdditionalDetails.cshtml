@@ -351,34 +351,33 @@
 						</div>
 					</div>
 							
-					<label for="Upload-foundationBodyTrust" class="govuk-label">
-						Please upload their letter of consent
-						<br/>
-						<br/>
-						Upload a file
-					</label>
+				<label for="Upload-foundationBodyTrust" class="govuk-label">
+					Please upload their letter of consent
 					<br/>
-					<p id="file-upload-foundationConsentFiles-error"  class="govuk-error-message @(!Model.FoundationConsentFileSizeError ? "govuk-visually-hidden" : "")">
-						<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
-					</p>
-					
-					<input id="foundationConsentFileUpload" 
-						   type="file" 
-					       accept=".doc,.docx,.pptx,.pdf"
-					       class="govuk-label"
-					       aria-describedby="file-upload-foundationConsentFiles-error"
-					       multiple
-					       asp-for="@Model.FoundationConsentFiles" />
-					
-					<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {
-														ApplicationId = Model.ApplicationId,
-														Urn = Model.Urn, 
-														EntityId = Model.EntityId,
-														ApplicationReference = Model.ApplicationReference, 
-														FilePrefixSection = FileUploadConstants.FoundationConsentFilePrefixFieldName,
-														FileNames = Model.FoundationConsentFileNames
-														}'/>
-				</div>
+					<br/>
+				</label>
+					<div class="govuk-form-group @(Model.FoundationConsentFileSizeError || Model.FoundationConsentFileGenericError ? "govuk-form-group--error" : "")">
+			
+						<label class="govuk-label"> Upload a file</label>
+						<br/>
+						<p id="file-upload-foundationConsentFiles-error" class="govuk-error-message @(!Model.FoundationConsentFileSizeError ? "govuk-visually-hidden" : "")">
+							<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+						</p>
+						<p id="file-upload-foundationConsentFiles-genericError" class="govuk-error-message @(!Model.FoundationConsentFileGenericError ? "govuk-visually-hidden" : "")">
+							<span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
+						</p>
+
+
+						<input id="foundationConsentFileUpload"
+						       type="file"
+						       accept=".doc,.docx,.pptx,.pdf"
+						       class="govuk-label"
+						       aria-describedby="file-upload-foundationConsentFiles-error"
+						       multiple
+						       asp-for="@Model.FoundationConsentFiles"/>
+					</div>
+			<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel { ApplicationId = Model.ApplicationId, Urn = Model.Urn, EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FilePrefixSection = FileUploadConstants.FoundationConsentFilePrefixFieldName, FileNames = Model.FoundationConsentFileNames }'/>
+		</div>
 			}
 		}
 	</fieldset>
@@ -463,7 +462,8 @@
 	</span>
 	
 	<div class="govuk-form-group">
-				
+									<div class="govuk-form-group @(Model.ResolutionConsentFileSizeError || Model.ResolutionConsentFileGenericError ? "govuk-form-group--error" : "")">
+										
 		<label class="govuk-label" for="file-upload-resolutionConsentFiles">
 			Upload a file
 		</label>
@@ -471,13 +471,18 @@
 		<p id="file-upload-resolutionConsentFiles-error"  class="govuk-error-message @(!Model.ResolutionConsentFileSizeError ? "govuk-visually-hidden" : "")">
 			<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
 		</p>
+		<p id="file-upload-resolutionConsentFilesGeneric-Error" class="govuk-error-message @(!Model.ResolutionConsentFileGenericError ? "govuk-visually-hidden" : "")">
+			<span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
+		</p>
+		
 		<input id="resolutionConsentFileUpload"
-			   type="file" 
-			   accept=".doc,.docx,.pptx,.pdf"
+		       type="file" 
+		       accept=".doc,.docx,.pptx,.pdf"
 		       class="govuk-label"
 		       aria-describedby="file-upload-resolutionConsentFiles-error"
 		       multiple
 		       asp-for="@Model.ResolutionConsentFiles" />
+		</div>
 	</div>
 	<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {
 	ApplicationId = Model.ApplicationId,

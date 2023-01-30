@@ -145,7 +145,7 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 			EntityId = selectedSchool.EntityId;
 			PopulateUiModel(selectedSchool);
 		}
-
+		ApplicationType = applicationDetails.ApplicationType;
 		ApplicationReference = applicationDetails.ApplicationReference;
 		SchoolCFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile);
 		SchoolCFYCapitalForwardFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolCFYCapitalForwardFile);

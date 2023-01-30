@@ -169,7 +169,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		
 		public bool DioceseFileNotAddedError => !ModelState.IsValid && ModelState.Keys.Contains("DioceseFileNotAddedError");
 		public bool DioceseFileSizeError => !ModelState.IsValid && ModelState.Keys.Contains("DioceseFileSizeError");
-		public bool DioceseFileGenericError => !ModelState.IsValid && ModelState.Keys.Contains("dioceseFileUpload");
+		public bool DioceseFileGenericError => !ModelState.IsValid && ModelState.ContainsKey(nameof(DioceseFileGenericError));
+		public bool FoundationConsentFileGenericError => !ModelState.IsValid && ModelState.ContainsKey(nameof(FoundationConsentFileGenericError));
+		public bool ResolutionConsentFileGenericError => !ModelState.IsValid && ModelState.ContainsKey(nameof(ResolutionConsentFileGenericError));
 		public bool ExemptionFromSACREError => !ModelState.IsValid && ModelState.Keys.Contains("exemptionFromSACREEndDateNotAdded");
 		public bool EqualityAssessmentError => !ModelState.IsValid && ModelState.Keys.Contains("equalitiesImpactAssessmentOptionNoOptionSelected");
 		public bool FurtherInformationError => !ModelState.IsValid && ModelState.Keys.Contains("furtherInformationDetailsNotAdded");
@@ -370,7 +372,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			foreach (var file in ResolutionConsentFiles.Where(file => file.Length >= 5 * 1024 * 1024))
 			{
-				ModelState.AddModelError("ResolutionConsentFileSizeError", $"File: {file.FileName} is too large");
+				ModelState.AddModelError(nameof(ResolutionConsentFileSizeError), $"File: {file.FileName} is too large");
 				PopulateValidationMessages();
 				return false;
 			}
@@ -379,7 +381,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				foreach (var file in FoundationConsentFiles.Where(file => file.Length >= 5 * 1024 * 1024))
 				{
-					ModelState.AddModelError("FoundationConsentFileSizeError", $"File: {file.FileName} is too large");
+					ModelState.AddModelError(nameof(FoundationConsentFileSizeError), $"File: {file.FileName} is too large");
 					PopulateValidationMessages();
 					return false;
 				}
@@ -389,7 +391,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				foreach (var file in DioceseFiles.Where(file => file.Length >= 5 * 1024 * 1024))
 				{
-					ModelState.AddModelError("DioceseFileSizeError", $"File: {file.FileName} is too large");
+					ModelState.AddModelError(nameof(DioceseFileSizeError), $"File: {file.FileName} is too large");
 					PopulateValidationMessages();
 					return false;
 				}
@@ -482,7 +484,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 			catch (FileUploadException)
 			{
-				ModelState.AddModelError("dioceseFileUpload", "The selected file could not be uploaded – try again");
+				
+				ModelState.AddModelError(nameof(DioceseFileGenericError), "The selected file could not be uploaded – try again");
 				PopulateValidationMessages();
 				return false;
 			}
@@ -497,7 +500,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 			catch (FileUploadException)
 			{
-				ModelState.AddModelError("foundationConsentFileUpload", "The selected file could not be uploaded – try again");
+				ModelState.AddModelError(nameof(FoundationConsentFileGenericError), "The selected file could not be uploaded – try again");
 				PopulateValidationMessages();
 				return false;
 			}
@@ -512,7 +515,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 			catch (FileUploadException)
 			{
-				ModelState.AddModelError("resolutionConsentFileUpload", "The selected file could not be uploaded – try again");
+				ModelState.AddModelError(nameof(ResolutionConsentFileGenericError), "The selected file could not be uploaded – try again");
 				PopulateValidationMessages();
 				return false;
 			}

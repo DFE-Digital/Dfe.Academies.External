@@ -45,19 +45,25 @@
 		<label class="govuk-label">This can be either a letter of consent from the trust, or the minutes of their board meeting.
 			<br/>
 			<br/>
-			Upload a file
 		</label>
-		<p id="file-upload-trustConsentFileSize-error" class="govuk-error-message @(!Model.TrustConsentFileSizeError ? "govuk-visually-hidden" : "")">
-			<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
-		</p>
-		<input type="file"
-		       accept=".doc,.docx,.pptx,.pdf"
-			   class="govuk-label"
-		       aria-describedby="file-upload-trustConsentFileSize-error"
-		       multiple
-		       asp-for="@Model.TrustConsentFiles" />
-		<br/>
-
+		<div class="govuk-form-group @(Model.TrustConsentFileSizeError || Model.TrustConsentFileGenericError ? "govuk-form-group--error" : "")">
+			<label class="govuk-label"> Upload a file</label>
+			<p id="file-upload-trustConsentFileSize-error" class="govuk-error-message @(!Model.TrustConsentFileSizeError ? "govuk-visually-hidden" : "")">
+				<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+			</p>
+			<p id="file-upload-trustConsentFile-genericError" class="govuk-error-message @(!Model.TrustConsentFileGenericError ? "govuk-visually-hidden" : "")">
+				<span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
+			</p>
+			<input id="trustConsentFileUpload"
+				   type="file"
+			       accept=".doc,.docx,.pptx,.pdf"
+			       class="govuk-label"
+			       aria-describedby="file-upload-trustConsentFileSize-error"
+			       multiple
+			       asp-for="@Model.TrustConsentFiles" />
+			<br/>
+		</div>
+		
 		<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel { ApplicationId = Model.ApplicationId, Urn = Model.Urn, EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FilePrefixSection = FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName, FileNames = Model.TrustConsentFileNames }'/>
 
 		<br/>

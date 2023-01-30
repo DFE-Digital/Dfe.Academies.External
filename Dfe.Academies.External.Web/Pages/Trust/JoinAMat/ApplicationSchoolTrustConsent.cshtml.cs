@@ -2,6 +2,7 @@
 using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Exceptions;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -39,7 +40,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		[BindProperty]
 		public string ApplicationReference { get; set; }
 		
-		public bool TrustConsentFileSizeError => !ModelState.IsValid && ModelState.Keys.Contains("TrustConsentFileSizeError");
+		public bool TrustConsentFileSizeError => !ModelState.IsValid && ModelState.ContainsKey(nameof(TrustConsentFileSizeError));
+		public bool TrustConsentFileGenericError => !ModelState.IsValid && ModelState.ContainsKey(nameof(TrustConsentFileGenericError));
 
 		
 		public bool HasError
@@ -74,7 +76,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 			}
 			foreach (var file in TrustConsentFiles.Where(file => file.Length >= 5 * 1024 * 1024))
 			{
-				ModelState.AddModelError("TrustConsentFileSizeError", $"File: {file.FileName} is too large");
+				ModelState.AddModelError(nameof(TrustConsentFileSizeError), $"File: {file.FileName} is too large");
 				PopulateValidationMessages();
 				return false;
 			}
@@ -129,9 +131,10 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 				return Page();
 			}
 
-			foreach (var file in TrustConsentFiles)
+
+			if (!(await UploadFiles()))
 			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, applicationDetails.EntityId.ToString(), applicationDetails.ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName, file);
+				return Page();
 			}
 			
 			var draftConversionApplication =
@@ -144,6 +147,26 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 			return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
 		}
 
+		private async Task<bool> UploadFiles()
+		{
+			try
+			{
+				foreach (var file in TrustConsentFiles)
+				{
+					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName,
+						EntityId.ToString(), ApplicationReference,
+						FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName, file);
+				}
+			}
+			catch (FileUploadException)
+			{
+				ModelState.AddModelError(nameof(TrustConsentFileGenericError), "The selected file could not be uploaded – try again");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			return true;
+		}
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 		}

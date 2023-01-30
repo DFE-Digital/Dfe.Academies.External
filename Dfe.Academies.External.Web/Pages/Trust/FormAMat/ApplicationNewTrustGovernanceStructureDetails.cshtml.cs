@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Exceptions;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -30,7 +31,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		}
 		
 		public bool GovernanceStructureDetailsFileError => !ModelState.IsValid && ModelState.Keys.Contains("GovernanceStructureDetailFileNotAddedError");
-		public bool GovernanceStructureDetailsFileSizeError => !ModelState.IsValid && ModelState.Keys.Contains("GovernanceStructureDetailsFileSizeError");
+		public bool GovernanceStructureDetailsFileSizeError => !ModelState.IsValid && ModelState.ContainsKey(nameof(GovernanceStructureDetailsFileSizeError));
+		public bool GovernanceStructureDetailsFileGenericError => !ModelState.IsValid && ModelState.ContainsKey(nameof(GovernanceStructureDetailsFileGenericError));
 
 		[BindProperty]
 		public Guid EntityId { get; set; }
@@ -92,11 +94,9 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			}
 			if (applicationDetails?.ApplicationReference != null)
 			{
-				foreach (var file in GovernanceStructureDetailsFiles)
+				if (!(await UploadFiles()))
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName,
-						EntityId.ToString(), ApplicationReference,
-						FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName, file);
+					return Page();
 				}
 			}
 
@@ -110,6 +110,27 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			return RedirectToPage(NextStepPage, new { appId = ApplicationId});
 		}
 
+		private async Task<bool> UploadFiles()
+		{
+			try
+			{
+				foreach (var file in GovernanceStructureDetailsFiles)
+				{
+					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName,
+						EntityId.ToString(), ApplicationReference,
+						FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName, file);
+				}
+			}
+			catch (FileUploadException)
+			{
+				ModelState.AddModelError(nameof(GovernanceStructureDetailsFileGenericError), "The selected file could not be uploaded – try again");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			return true;
+		}
+		
 		public override void PopulateUiModel(ConversionApplication? conversionApplication)
 		{
 			throw new NotImplementedException();
@@ -134,7 +155,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 			foreach (var file in GovernanceStructureDetailsFiles.Where(file => file.Length >= 5 * 1024 * 1024))
 			{
-				ModelState.AddModelError("GovernanceStructureDetailsFileSizeError", $"File: {file.FileName} is too large");
+				ModelState.AddModelError(nameof(GovernanceStructureDetailsFileSizeError), $"File: {file.FileName} is too large");
 				PopulateValidationMessages();
 				return false;
 			}
