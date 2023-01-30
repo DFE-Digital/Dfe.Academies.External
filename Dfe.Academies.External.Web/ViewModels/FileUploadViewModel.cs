@@ -6,4 +6,6 @@ public class FileUploadViewModel
 	public string FilePrefixSection { get; set; }
 	public int ApplicationId { get; set; }
 	public int Urn { get; set; }
+	public Guid EntityId { get; set; }
+	public string ApplicationReference { get; set; }
 }

@@ -24,7 +24,7 @@ else
 					<p class="govuk-label">@fileName</p>
 				</td>
 				<td class="govuk-table__cell govuk-!-text-align-right">
-					<a class="govuk-link" aria-describedby="component-change" asp-page-handler="RemoveFile" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-section=@Model.FilePrefixSection asp-route-fileName="@fileName">
+					<a class="govuk-link" aria-describedby="component-change" asp-page-handler="RemoveFile" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-entityId="@Model.EntityId" asp-route-applicationReference="@Model.ApplicationReference"  asp-route-section=@Model.FilePrefixSection asp-route-fileName="@fileName">
 						Remove
 					</a>
 				</td>
