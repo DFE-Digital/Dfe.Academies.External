@@ -67,5 +67,5 @@ jobs:
             az containerapp update \
               --name ${{ secrets.TEST_ACA_CONTAINERAPP_NAME }} \
               --resource-group ${{ secrets.TEST_ACA_RESOURCE_GROUP }} \
-              --image ${{ secrets.TEST_ACR_URL }}/a2bext-app:${{ steps.set-test-release-version.outputs.version }} \
+              --image ${{ secrets.TEST_ACR_URL }}/a2bext-app:${{ needs.set-test-release-version.outputs.version }} \
               --output none
