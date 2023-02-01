@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -44,7 +45,7 @@ public abstract class BasePageModel : PageModel
 				// MR:- add friendly message for validation summary
 				if (!this.ValidationErrorMessagesViewModel.ValidationErrorMessages.ContainsKey(modelStateError.Key))
 				{
-					this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add(modelStateError.Key, modelStateError.Value);
+					this.ValidationErrorMessagesViewModel.ValidationErrorMessages.Add($"#{modelStateError.Key}", modelStateError.Value);
 				}
 			}
 		}

@@ -1,7 +1,10 @@
 ﻿using System.Globalization;
+using Dfe.Academies.External.Web.AutoMapper;
 using Dfe.Academies.External.Web.Extensions;
+using Dfe.Academies.External.Web.Factories;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Middleware;
+using Dfe.Academies.External.Web.Models.EmailTemplates;
 using Dfe.Academies.External.Web.Routing;
 using Dfe.Academies.External.Web.Services;
 using GovUk.Frontend.AspNetCore;
@@ -10,6 +13,9 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.Extensions.Options;
+using Notify.Client;
+using Notify.Interfaces;
 using Polly;
 using Polly.Extensions.Http;
 
@@ -92,6 +98,13 @@ builder.Services.AddAuthentication(options =>
 
 			options.Events.OnRedirectToIdentityProvider = context =>
 			{
+				// check for a redirect uri override
+				string? redirectUri = configuration["SignIn:RedirectUri"];
+				if (!string.IsNullOrEmpty(redirectUri))
+				{
+					context.ProtocolMessage.RedirectUri = redirectUri;
+				}
+
 				context.ProtocolMessage.Prompt = "login";
 				return Task.CompletedTask;
 			};
@@ -118,6 +131,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 {
 	options.CheckConsentNeeded = context => true;
 	options.MinimumSameSitePolicy = SameSiteMode.None;
+	options.Secure = CookieSecurePolicy.Always;
 });
 builder.Services.AddSession(options =>
 	{
@@ -129,6 +143,14 @@ builder.Services.AddSession(options =>
 );
 builder.Services.AddSingleton<IAadAuthorisationHelper, AadAuthorisationHelper>();
 
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+builder.Services.AddTransient<IAsyncNotificationClient, NotificationClient>(x => new NotificationClient(builder.Configuration["emailnotifications:key"]));
+builder.Services.Configure<NotifyTemplateSettings>(builder.Configuration.GetSection("govuk-notify"));
+builder.Services.AddSingleton<IContributorTemplate, FormAMatChairContributor>(x => new FormAMatChairContributor(x.GetRequiredService<IOptions<NotifyTemplateSettings>>()));
+builder.Services.AddSingleton<IContributorTemplate, FormAMatNonChairContributor>(x => new FormAMatNonChairContributor(x.GetRequiredService<IOptions<NotifyTemplateSettings>>()));
+builder.Services.AddSingleton<IContributorTemplate, JoinAMatChairContributor>(x => new JoinAMatChairContributor(x.GetRequiredService<IOptions<NotifyTemplateSettings>>()));
+builder.Services.AddSingleton<IContributorTemplate, JoinAMatNonChairContributor>(x => new JoinAMatNonChairContributor(x.GetRequiredService<IOptions<NotifyTemplateSettings>>()));
+builder.Services.AddSingleton<IContributorNotifyTemplateFactory, ContributorNotifyTemplateFactory>();
 builder.Services.AddHttpClient<IFileUploadService, FileUploadService>(client =>
 	{
 		client.BaseAddress = new Uri(configuration["Sharepoint:ApiUrl"]);
@@ -172,6 +194,9 @@ else
 {
 	app.UseDeveloperExceptionPage();
 }
+
+// trying this to see if it resolves cookie problem
+app.UseCookiePolicy();
 
 // Combined with razor routing 404 display custom page NotFound
 app.UseStatusCodePagesWithReExecute("/error/{0}");

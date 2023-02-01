@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -155,11 +156,11 @@ namespace Dfe.Academies.External.Web.Pages
 				ConversionStatus = ConversionApplicationRetrievalService.CalculateApplicationStatus(conversionApplication, SchoolOrSchoolsApplyingToConvert);
 				NameOfTrustToJoin = conversionApplication.TrustName;
 
-				HasSchool = conversionApplication.HasSchool;
+				HasSchool = conversionApplication.Schools.Any();
 				
 				if (conversionApplication.ApplicationType == ApplicationTypes.FormAMat)
 				{
-					HeaderText = "All school and trust details must be given before this application can be submitted.";
+					HeaderText = ConversionStatus != Status.Completed ? "All school and trust details must be given before this application can be submitted." : "";
 					TrustHeaderText = "Give details of the trust";
 					SchoolHeaderText = "Give details of schools in the trust";
 				}

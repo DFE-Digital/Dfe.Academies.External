@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
@@ -189,7 +190,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	{
 		try
 		{
-			var result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, application.ApplicationId.ToString(), application.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
+			var result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, application.EntityId.ToString(), application.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
 			return result.Any() ? Status.Completed : Status.NotStarted;
 		}
 		catch (Exception e)
@@ -334,17 +335,15 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	private Status CalculateFurtherInformationSectionStatus(SchoolApplyingToConvert? selectedSchool)
 	{
 		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) &&
-			!string.IsNullOrWhiteSpace(selectedSchool?.DioceseFolderIdentifier) &&
-		    !string.IsNullOrWhiteSpace(selectedSchool?.FoundationConsentFolderIdentifier) &&
+		    ((selectedSchool?.DioceseName == null) == (string.IsNullOrWhiteSpace(selectedSchool?.DioceseFolderIdentifier)) &&
+		     (selectedSchool?.FoundationTrustOrBodyName == null) == (string.IsNullOrWhiteSpace(selectedSchool?.FoundationConsentFolderIdentifier))) &&
 		    !string.IsNullOrWhiteSpace(selectedSchool?.ResolutionConsentFolderIdentifier))
 			return Status.Completed;
-		
-		else if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) ||
-				 !string.IsNullOrWhiteSpace(selectedSchool?.DioceseFolderIdentifier) ||
-		         !string.IsNullOrWhiteSpace(selectedSchool?.FoundationConsentFolderIdentifier) ||
-		         !string.IsNullOrWhiteSpace(selectedSchool?.ResolutionConsentFolderIdentifier))
+
+		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) ||
+		    !string.IsNullOrWhiteSpace(selectedSchool?.ResolutionConsentFolderIdentifier))
 			return Status.InProgress;
-		
+
 		return Status.NotStarted;
 	}
 

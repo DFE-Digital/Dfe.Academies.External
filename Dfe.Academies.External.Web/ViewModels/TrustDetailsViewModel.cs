@@ -5,10 +5,11 @@
 /// </summary>
 public class TrustDetailsViewModel
 {
-	public TrustDetailsViewModel(string trustName, int ukprn, string street, string town, string fullUkPostcode)
+	public TrustDetailsViewModel(string trustName, string trustReference, int ukprn, string street, string town, string fullUkPostcode)
 	{
 		Ukprn = ukprn;
 		TrustName = trustName;
+		TrustReference = trustReference;
 		Street = street;
 		Town = town;
 		FullUkPostcode = fullUkPostcode;
@@ -20,6 +21,8 @@ public class TrustDetailsViewModel
 	public int Ukprn { get; set; }
 
 	public string TrustName { get; set; }
+
+	public string TrustReference { get; set; }
 
 	// registered address
 	public string Street { get; set; }

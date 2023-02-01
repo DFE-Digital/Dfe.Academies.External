@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
 using System.Text.Json;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
+using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
@@ -14,6 +16,9 @@ public abstract class BasePageEditModel : BasePageModel
 	public readonly IReferenceDataRetrievalService ReferenceDataRetrievalService;
 	public readonly IConversionApplicationRetrievalService ConversionApplicationRetrievalService;
 	public const string SchoolOverviewPath = "SchoolOverview";
+	
+	[BindProperty]
+	public ApplicationTypes ApplicationType { get; set; }
 
 	protected BasePageEditModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 								IReferenceDataRetrievalService referenceDataRetrievalService)
@@ -37,9 +42,9 @@ public abstract class BasePageEditModel : BasePageModel
 	public async Task<SchoolApplyingToConvert?> LoadAndSetSchoolDetails(int applicationId, int urn)
 	{
 		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(applicationId);
-
 		if (applicationDetails != null)
 		{
+			ApplicationType = applicationDetails.ApplicationType;
 			return applicationDetails.Schools.FirstOrDefault(s => s.URN == urn);
 		}
 		else

@@ -34,4 +34,5 @@ public interface IReferenceDataRetrievalService
 	/// <param name="ukPrn"></param>
 	/// <returns></returns>
 	Task<List<TrustSummaryDto>> GetTrustByUkPrn(string ukPrn);
+	Task<TrustFullDetailsDto> GetTrustFullDetailsByUkPrn(string ukPrn);
 }
