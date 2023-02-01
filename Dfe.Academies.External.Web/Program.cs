@@ -131,6 +131,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 {
 	options.CheckConsentNeeded = context => true;
 	options.MinimumSameSitePolicy = SameSiteMode.None;
+	options.Secure = CookieSecurePolicy.Always;
 });
 builder.Services.AddSession(options =>
 	{
@@ -195,11 +196,7 @@ else
 }
 
 // trying this to see if it resolves cookie problem
-app.UseCookiePolicy(new CookiePolicyOptions
-{
-	MinimumSameSitePolicy = SameSiteMode.None,
-	Secure = CookieSecurePolicy.Always
-});
+app.UseCookiePolicy();
 
 // Combined with razor routing 404 display custom page NotFound
 app.UseStatusCodePagesWithReExecute("/error/{0}");

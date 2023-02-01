@@ -135,7 +135,7 @@ internal static class ConversionApplicationTestDataFactory
 			{
 				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
 			},
-			JoinTrustDetails = new ExistingTrust(int.MaxValue, Fixture.Create<string>(), Fixture.Create<int>())
+			JoinTrustDetails = new ExistingTrust(int.MaxValue, Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<int>())
 		};
 	}
 
@@ -154,6 +154,7 @@ internal static class ConversionApplicationTestDataFactory
 			},
 			JoinTrustDetails = new ExistingTrust(applicationId.HasValue ? applicationId.Value : int.MaxValue,
 				Fixture.Create<string>(),
+				 Fixture.Create<string>(),
 				Fixture.Create<int>(),
 				TrustChange.No,
 				null),
@@ -179,6 +180,7 @@ internal static class ConversionApplicationTestDataFactory
 			},
 			JoinTrustDetails = new ExistingTrust(int.MaxValue, 
 				Fixture.Create<string>(),
+				Fixture.Create<string>(),
 				Fixture.Create<int>(),
 				ChangesToTrust: null,
 				ChangesToTrustExplained:null,
@@ -202,6 +204,7 @@ internal static class ConversionApplicationTestDataFactory
 				new ConversionApplicationContributor(Fixture.Create<string>(), Fixture.Create<string>(), Fixture.Create<string>(),SchoolRoles.Other, Fixture.Create<string>())
 			},
 			JoinTrustDetails = new ExistingTrust(applicationId.HasValue ? applicationId.Value : int.MaxValue,
+				Fixture.Create<string>(),
 				Fixture.Create<string>(),
 				Fixture.Create<int>(),
 				ChangesToTrust: TrustChange.No,

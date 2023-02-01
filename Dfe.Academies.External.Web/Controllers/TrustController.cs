@@ -66,16 +66,14 @@ namespace Dfe.Academies.External.Web.Controllers
 					.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
 				int ukprn = Convert.ToInt32(trustSplit[^1]);
-				var trusts = await ReferenceDataRetrievalService.GetTrustByUkPrn(ukprn.ToString());
+				var trust = await ReferenceDataRetrievalService.GetTrustFullDetailsByUkPrn(ukprn.ToString());
 
-				// MR:- search returns list<> so need to do below:-
-				var trust = trusts.FirstOrDefault();
-
-				var vm = new TrustDetailsViewModel(trustName: trust.GroupName,
+				var vm = new TrustDetailsViewModel(trustName: trust.giasData.groupName,
 					ukprn: ukprn,
-					street: trust.TrustAddress.Street,
-					town: trust.TrustAddress.Town,
-					fullUkPostcode: trust.TrustAddress.Postcode);
+					trustReference : trust.giasData.groupId,
+					street: trust.giasData.groupContactAddress.street,
+					town: trust.giasData.groupContactAddress.town,
+					fullUkPostcode: trust.giasData.groupContactAddress.postcode);
 
 				return PartialView("_TrustDetails", vm);
 			}

@@ -17,6 +17,9 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		[ConfirmTrue(ErrorMessage = "You must confirm that this is the correct trust")]
 		public bool CorrectTrustConfirmation { get; set; }
 
+		[BindProperty]
+		public string TrustReference { get; set; }
+
 		public string SelectedTrustName
 		{
 			get
@@ -73,7 +76,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 				TempDataHelper.GetSerialisedValue<ConversionApplication>(
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			await ConversionApplicationCreationService.AddTrustToApplication(draftConversionApplication.ApplicationId, SelectedUkPrn, SelectedTrustName);
+			await ConversionApplicationCreationService.AddTrustToApplication(draftConversionApplication.ApplicationId, SelectedUkPrn, SelectedTrustName, TrustReference);
 
 			// update temp store for next step - application overview
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
