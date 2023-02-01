@@ -124,7 +124,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	}
 
 	///<inheritdoc/>
-	public async Task AddTrustToApplication(int applicationId, int trustUkPrn, string name)
+	public async Task AddTrustToApplication(int applicationId, int trustUkPrn, string name, string trustReference)
 	{
 		try
 		{
@@ -150,7 +150,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			ExistingTrust trust;
 			if (application.JoinTrustDetails != null)
 			{
-				trust = new ExistingTrust(applicationId, name, trustUkPrn,
+				trust = new ExistingTrust(applicationId, name, trustReference, trustUkPrn,
 					application.JoinTrustDetails.ChangesToTrust,
 					application.JoinTrustDetails.ChangesToTrustExplained,
 					application.JoinTrustDetails.ChangesToLaGovernance,
@@ -158,7 +158,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			}
 			else
 			{
-				trust = new ExistingTrust(applicationId, name, trustUkPrn);
+				trust = new ExistingTrust(applicationId, name, trustReference, trustUkPrn);
 			}
 			
 			// MR:- no response from Academies API - Just an OK

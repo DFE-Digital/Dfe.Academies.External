@@ -50,10 +50,10 @@ internal sealed class TrustControllerTests
 	public async Task ReturnTrustDetailsPartialViewPopulated___ValidTrust___ReturnsPartialView()
 	{
 		// arrange
-		string selectedTrust = "ALCESTER GRAMMAR SCHOOL (10058464)"; // selected value will be in the format 'WISE OWL TRUST (10059766)'
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getTrustResponse.json";
+		string selectedTrust = "WISE OWL TRUST (10059766)"; // selected value will be in the format 'WISE OWL TRUST (10059766)'
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getTrustFullDetailsResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
-		int ukprn = 10058464;
+		int ukprn = 10059766;
 
 		var mockLogger = new Mock<ILogger<TrustController>>();
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
@@ -71,13 +71,14 @@ internal sealed class TrustControllerTests
 		Assert.That(result.Model, Is.Not.Null);
 		TrustDetailsViewModel vm = (TrustDetailsViewModel)result.Model!;
 		Assert.That(vm.Ukprn, Is.EqualTo(ukprn));
-		Assert.That(vm.TrustName, Is.EqualTo("ALCESTER GRAMMAR SCHOOL"));
-		Assert.That(vm.Street, Is.EqualTo(null));
+		Assert.That(vm.TrustName, Is.EqualTo("WISE OWL TRUST"));
+		Assert.That(vm.TrustReference, Is.EqualTo("TR02511"));
+		Assert.That(vm.Street, Is.EqualTo("Trust House C/O Seymour Road Academy Seymour Road South"));
 		Assert.That(vm.Locality, Is.EqualTo(null));
 		Assert.That(vm.Address3, Is.EqualTo(null));
-		Assert.That(vm.Town, Is.EqualTo("Alcester"));
+		Assert.That(vm.Town, Is.EqualTo("Manchester"));
 		Assert.That(vm.CountyDescription, Is.EqualTo(null));
-		Assert.That(vm.FullUkPostcode, Is.EqualTo("B49 5ED"));
+		Assert.That(vm.FullUkPostcode, Is.EqualTo("M11 4PR"));
 
 	}
 

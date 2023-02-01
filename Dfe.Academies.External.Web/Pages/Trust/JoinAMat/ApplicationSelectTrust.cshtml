@@ -19,7 +19,8 @@
 
 		<form method="post" id="search-form" novalidate>
 			@Html.AntiForgeryToken()
-			<input type="hidden" id="applicationId" asp-for="ApplicationId"/>
+                <input type="hidden" id="applicationId" asp-for="ApplicationId" />
+                <input type="hidden" id="trustReference" asp-for="TrustReference" />
 			<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 
 				<h2 class="govuk-heading-m">Trust details</h2>

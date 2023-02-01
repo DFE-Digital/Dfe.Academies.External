@@ -5,6 +5,7 @@ namespace Dfe.Academies.External.Web.Dtos;
 public record ExistingTrust(
 	int ApplicationId,
 	string TrustName,
+	string TrustReference,
 	int ukprn,
 	TrustChange? ChangesToTrust = null,
 	string? ChangesToTrustExplained = null,
