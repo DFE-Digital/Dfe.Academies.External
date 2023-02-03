@@ -75,6 +75,7 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 	[BindProperty]
 	public Guid EntityId { get; set; }
 	
+	[BindProperty]
 	public string ApplicationReference { get; set; }
 	
 	public bool NFYFinancialEndDateError
@@ -184,7 +185,7 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 		}
 		catch (FileUploadException)
 		{
-			ModelState.AddModelError(nameof(ForecastedRevenueFileSizeError), "The selected file could not be uploaded – try again");
+			ModelState.AddModelError(nameof(SchoolRevenueFileGenericError), "The selected file could not be uploaded – try again");
 			PopulateValidationMessages();
 			return false;
 		}
@@ -199,7 +200,7 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 		}
 		catch (FileUploadException)
 		{
-			ModelState.AddModelError(nameof(ForecastedCapitalFileSizeError), "The selected file could not be uploaded – try again");
+			ModelState.AddModelError(nameof(SchoolCapitalFileGenericError), "The selected file could not be uploaded – try again");
 			PopulateValidationMessages();
 			return false;
 		}
