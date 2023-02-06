@@ -42,8 +42,7 @@
 								       id="selectoption@(selectOption)"
 								       class="govuk-radios__input"
 								       data-aria-controls="selectoption-@(selectOption.ToString().ToLower())"
-								       checked="@(selectOption.Equals(ViewData.Model.FinanceOngoingInvestigations))"
-								       aria-expanded="False"/>
+								       checked="@(selectOption.Equals(ViewData.Model.FinanceOngoingInvestigations))"/>
 								<label for="selectoption@(selectOption)" class="govuk-label govuk-radios__label">
 									@selectOption.GetDescription()
 								</label>
@@ -52,10 +51,10 @@
 							{
 								<div class="@(Model.FinancialInvestigationsExplainError ? "govuk-form-group--error" : "govuk-radios__conditional")
 	                                            @(selectOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
-								     id="selectoption-yes" aria-expanded="false">
+								     id="selectoption-yes">
 									<div class="govuk-form-group govuk-error-summary__list">
-										<label for="selectoption-yes" class="govuk-label">Provide a brief summary of the investigation</label>
-										<a href="#FinancialInvestigationsExplainNotEntered" class="@(Model.FinancialInvestigationsExplainError ? "govuk-error-message" : "govuk-visually-hidden")">
+										<label for="FinancialInvestigationsExplain" class="govuk-label">Provide a brief summary of the investigation</label>
+										<a href="#FinancialInvestigationsExplain" class="@(Model.FinancialInvestigationsExplainError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must provide details of the investigation
 										</a>
 										<textarea asp-for="FinancialInvestigationsExplain" id="FinancialInvestigationsExplain"
