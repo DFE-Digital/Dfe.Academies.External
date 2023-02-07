@@ -30,9 +30,9 @@
 				        <legend id="role-hint" class="govuk-fieldset__legend govuk-!-font-weight-bold">
 					        Will there be changes to the governance of the trust due to the school joining?
 				        </legend>
-				        <label for="TrustChange" class="govuk-caption-l">
+				        <p class="govuk-caption-l">
 					        For example, changes to the trustees or their roles
-				        </label>
+				        </p>
 				        <div class="govuk-!-margin-6"></div>
 				        <div class="govuk-form-group">
 					        @foreach (var trustChange in Enum.GetValues(typeof(TrustChange)).OfType<TrustChange>())
@@ -41,11 +41,10 @@
 							        <input type="radio"
 							               asp-for="TrustChange"
 							               value="@Convert.ToInt32(trustChange)"
-							               id="revenueRevenueType@(trustChange)"
+							               id="revenueType@(trustChange)"
 							               class="govuk-radios__input"
 							               data-aria-controls="trustChange-@(trustChange.ToString().ToLower())"
-							               checked="@(trustChange.Equals(Model.TrustChange))"
-							               aria-expanded="False"/>
+							               checked="@(trustChange.Equals(Model.TrustChange))"/>
 							        <label for="revenueType@(trustChange)" class="govuk-label govuk-radios__label">
 								        @trustChange.GetDescription()
 							        </label>
@@ -56,11 +55,11 @@
 							        <div class="@(Model.TrustChangeExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
 										@(Model.TrustChange != TrustChange.Yes ? "govuk-radios__conditional--hidden" : "")"
 							             id="trustChange-yes" aria-expanded="false">
-								        <a href="#TrustChangeExplainedNotEntered"
+								        <a href="#PFYRevenueStatusExplained"
 								           class="@(Model.TrustChangeExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 									        You must enter the details of the changes to the trust
 								        </a>
-										<label for="TrustChangeExplained" class="govuk-label">What are the changes?</label>
+										<label for="PFYRevenueStatusExplained" class="govuk-label">What are the changes?</label>
 								        <textarea asp-for="TrustChangeExplained" id="PFYRevenueStatusExplained"
                                       class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
 							        </div>

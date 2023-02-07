@@ -22,44 +22,41 @@
         <partial name="_HiddenFields" />
         
         <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
-	        <fieldset class="govuk-fieldset">
-		        <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+	        <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 			        <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 		        </div>
 		        
 		        <div class="govuk-form-group">
-			        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Term of the finance lease agreement</legend>
+			        <label for="LeaseTerm" class="govuk-fieldset__legend govuk-fieldset__legend--s">Term of the finance lease agreement</label>
 			        <textarea asp-for="LeaseTerm" id="LeaseTerm" class="govuk-textarea" cols="40" rows="5" maxlength="400"></textarea>
 			        
-			        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Repayment value</legend>
+			        <label for="RepaymentAmount" class="govuk-fieldset__legend govuk-fieldset__legend--s">Repayment value</label>
 			        <div class="govuk-form-group">
 				        <input type="number" asp-for="RepaymentAmount" id="RepaymentAmount" class="govuk-input govuk-input--width-20"/>
 			        </div>
 			        
-			        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Interest rate chargeable</legend>
+			        <label for="InterestRate" class="govuk-fieldset__legend govuk-fieldset__legend--s">Interest rate chargeable</label>
 			        <div class="govuk-form-group">
 				        <input type="decimal" asp-for="InterestRate" id="InterestRate" class="govuk-input govuk-input--width-20"/>
 			        </div>
 			        
-			        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Value of the payments made to date</legend>
+			        <label for="PaymentsToDate" class="govuk-fieldset__legend govuk-fieldset__legend--s">Value of the payments made to date</label>
 			        <div class="govuk-form-group">
 				        <input type="text" asp-for="PaymentsToDate" id="PaymentsToDate" class="govuk-input govuk-input--width-20"/>
 			        </div>
 			        
-			        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">What was the finance lease for?</legend>
+			        <label for="Purpose" class="govuk-fieldset__legend govuk-fieldset__legend--s">What was the finance lease for?</label>
 			        <div class="govuk-form-group">
 				        <input type="text" asp-for="Purpose" id="Purpose" class="govuk-input govuk-input--width-20"/>
 			        </div>
 			        
-			        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Value of the assets at the start of the finance lease agreement</legend>
+			        <label for="ValueOfAssets" class="govuk-fieldset__legend govuk-fieldset__legend--s">Value of the assets at the start of the finance lease agreement</label>
 			        <textarea asp-for="ValueOfAssets" id="ValueOfAssets" class="govuk-textarea" cols="40" rows="5" maxlength="400"></textarea>
 			        
-			        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Who is responsible for the insurance, repair and maintenance of the assets covered?</legend>
+			        <label for="ResponsibleForAssets" class="govuk-fieldset__legend govuk-fieldset__legend--s">Who is responsible for the insurance, repair and maintenance of the assets covered?</label>
 			        <textarea asp-for="ResponsibleForAssets" id="ResponsibleForAssets" class="govuk-textarea" cols="40" rows="5" maxlength="400"></textarea>
-		        </div>                
-		        
-	        </fieldset>
-		</div>
+		        </div>
+        </div>
 		<br />
         
 		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
