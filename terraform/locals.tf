@@ -8,7 +8,6 @@ locals {
   image_name                                  = var.image_name
   container_command                           = var.container_command
   container_secret_environment_variables      = var.container_secret_environment_variables
-  enable_mssql_database                       = var.enable_mssql_database
   enable_cdn_frontdoor                        = var.enable_cdn_frontdoor
   enable_dns_zone                             = var.enable_dns_zone
   dns_zone_domain_name                        = var.dns_zone_domain_name
@@ -18,4 +17,6 @@ locals {
   cdn_frontdoor_custom_domains                = var.cdn_frontdoor_custom_domains
   key_vault_access_users                      = toset(var.key_vault_access_users)
   tfvars_filename                             = var.tfvars_filename
+  enable_monitoring                           = var.enable_monitoring
+  monitor_email_receivers                     = var.monitor_email_receivers
 }

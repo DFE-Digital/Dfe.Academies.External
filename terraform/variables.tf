@@ -54,11 +54,6 @@ variable "container_secret_environment_variables" {
   sensitive   = true
 }
 
-variable "enable_mssql_database" {
-  description = "Set to true to create an Azure SQL server/database, with aprivate endpoint within the virtual network"
-  type        = bool
-}
-
 variable "enable_cdn_frontdoor" {
   description = "Enable Azure CDN Front Door. This will use the Container Apps endpoint as the origin."
   type        = bool
@@ -91,5 +86,15 @@ variable "dns_zone_domain_name" {
 
 variable "cdn_frontdoor_custom_domains" {
   description = "Azure CDN Front Door custom domains. If they are within the DNS zone (optionally created), the Validation TXT records and ALIAS/CNAME records will be created"
+  type        = list(string)
+}
+
+variable "enable_monitoring" {
+  description = "Create an App Insights instance and notification group for the Container App"
+  type        = bool
+}
+
+variable "monitor_email_receivers" {
+  description = "A list of email addresses that should be notified by monitoring alerts"
   type        = list(string)
 }
