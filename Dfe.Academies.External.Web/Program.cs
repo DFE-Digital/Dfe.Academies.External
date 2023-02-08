@@ -180,6 +180,18 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 	options.SupportedUICultures = supportedCultures;
 });
 
+
+builder.Services.AddApplicationInsightsTelemetry();
+var aiOptions = new Microsoft.ApplicationInsights.AspNetCore.Extensions.ApplicationInsightsServiceOptions();
+
+// Disables adaptive sampling.
+aiOptions.EnableAdaptiveSampling = false;
+
+// Disables QuickPulse (Live Metrics stream).
+aiOptions.EnableQuickPulseMetricStream = false;
+aiOptions.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
+builder.Services.AddApplicationInsightsTelemetry(aiOptions);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
