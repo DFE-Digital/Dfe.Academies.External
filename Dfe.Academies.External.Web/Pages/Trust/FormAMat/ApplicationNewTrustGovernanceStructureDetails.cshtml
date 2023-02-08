@@ -42,7 +42,7 @@
 					trust structures
 				</div>
 				
-				<label for="trust-structure" class="govuk-label">Upload an A4 diagram of the proposed governance structure of the trust</label>
+				<p class="govuk-label">Upload an A4 diagram of the proposed governance structure of the trust</p>
 					<details class="govuk-details" data-module="govuk-details">
 						<summary class="govuk-details__summary">
 							<span class="govuk-details__summary-text">
@@ -58,7 +58,7 @@
 						<div class="@(Model.GovernanceStructureDetailsFileError ? "govuk-form-group--error" : "govuk-radios__conditional")"
 						     id="GovernanceStructureDetailFileNotAddedError" aria-expanded="false">
 							<div class="govuk-form-group govuk-error-summary__list">
-								<a href="#GovernanceStructureDetailFileNotAddedError"
+								<a href="#governanceDetailsFileUpload"
 								   class="@(Model.GovernanceStructureDetailsFileError ? "govuk-error-message" : "govuk-visually-hidden")">
 									You must upload a file
 								</a>
@@ -67,18 +67,17 @@
 					
 					</details>
 					<div class="govuk-form-group @(Model.GovernanceStructureDetailsFileSizeError || Model.GovernanceStructureDetailsFileGenericError ? "govuk-form-group--error" : "")">
-						<label class="govuk-label"> Upload a file</label>
-						<p id="file-upload-governanceStructureDetailsFileSize-error" class="govuk-error-message @(!Model.GovernanceStructureDetailsFileSizeError ? "govuk-visually-hidden" : "")">
+						<label for="governanceDetailsFileUpload" class="govuk-label"> Upload a file</label>
+						<p class="govuk-error-message @(!Model.GovernanceStructureDetailsFileSizeError ? "govuk-visually-hidden" : "")">
 							<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
 						</p>
-						<p id="file-upload-governanceStructureDetailsGeneric-error" class="govuk-error-message @(!Model.GovernanceStructureDetailsFileGenericError ? "govuk-visually-hidden" : "")">
+						<p class="govuk-error-message @(!Model.GovernanceStructureDetailsFileGenericError ? "govuk-visually-hidden" : "")">
 							<span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
 						</p>
 						<input id="governanceDetailsFileUpload"
 							   type="file"
 						       accept=".doc,.docx,.pptx,.pdf"
 						       class="govuk-label"
-						       aria-describedby="file-upload-governanceStructureDetailsFileSize-error"
 						       multiple
 						       asp-for="@Model.GovernanceStructureDetailsFiles"/>
 					</div>

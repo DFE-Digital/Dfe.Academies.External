@@ -44,14 +44,14 @@
 				</div>
                 
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="pfy-end-date-hint" role="group">
+                    <fieldset class="govuk-fieldset" role="group">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 							End of current financial year 
 						</legend>
 					    <div id="pfy-end-date-hint" class="govuk-hint">
 						    For example, 01 09 2022
 					    </div>
-                            <a href="#PFYFinancialEndDateNotEntered" class="@(Model.CFYFinancialEndDateError ? "govuk-error-message" : "govuk-visually-hidden")">
+                            <a href="#govuk-date" class="@(Model.CFYFinancialEndDateError ? "govuk-error-message" : "govuk-visually-hidden")">
 						    You must select financial year end date
 					    </a>
 					    <govuk-date field-name="@Model.CFYEndDateFormInputName"
@@ -64,10 +64,10 @@
 				</div>
 
 				<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-					<fieldset class="govuk-fieldset" role="group" aria-describedby="">
-						<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+					<fieldset class="govuk-fieldset" role="group">
+						<label for="Revenue" class="govuk-fieldset__legend govuk-fieldset__legend--s">
 							Forecasted revenue carry forward at end of the current financial year (31 March)
-						</legend>
+						</label>
 						<div class="govuk-form-group">
 							<input type="number" asp-for="Revenue" id="Revenue" class="govuk-input govuk-input--width-20"/>
 						</div>
@@ -79,11 +79,10 @@
 			                        <input type="radio"
 			                               asp-for="CFYRevenueStatus"
 			                               value="@Convert.ToInt32(revenueType)"
-			                               id="revenueRevenueType@(revenueType)"
+			                               id="revenueType@(revenueType)"
 			                               class="govuk-radios__input"
 											data-aria-controls="revenueType-@(revenueType.ToString().ToLower())"
-											checked="@(revenueType.Equals(Model.CFYRevenueStatus))"
-			                               aria-expanded="False" />
+											checked="@(revenueType.Equals(Model.CFYRevenueStatus))"/>
 	                                <label for="revenueType@(revenueType)" class="govuk-label govuk-radios__label">
 				                        @revenueType.GetDescription()
 			                        </label>
@@ -93,18 +92,18 @@
 	                            {
                                     <div class="@(Model.CFYRevenueStatusExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
 				                                @(revenueType == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
-												id="revenueType-deficit" aria-expanded="false">
-	                                    <a href="#PFYRevenueStatusExplainedNotEntered"
+												id="revenueType-deficit">
+	                                    <a href="#schoolCfyRevenueFileUpload"
 												class="@(Model.CFYRevenueStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 	                                            You must enter the reason for the revenue deficit or upload a file
 	                                        </a>
-		                                    <label for="revenueType-deficit" class="govuk-label">
+		                                    <label for="CFYRevenueCarryForwardExplained" class="govuk-label">
 			                                    Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.
 		                                    </label>
 		                                    <span class="govuk-hint">
 			                                    Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority 
 		                                    </span>
-	                                        <textarea asp-for="CFYRevenueStatusExplained" id="PFYRevenueStatusExplained"
+	                                        <textarea id="CFYRevenueCarryForwardExplained" asp-for="CFYRevenueStatusExplained"
 	                                          class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
                                             <p class="govuk-label">
 									            You can upload the school’s recovery plan.
@@ -117,7 +116,7 @@
 	                                    </span>
 	                                    <div class="govuk-form-group @(Model.SchoolCFYRevenueFileSizeError || Model.SchoolCFYRevenueFileGenericError ? "govuk-form-group--error" : "")">
 
-		                                    <label for="Upload-SchoolCFYRevenueStatusFile" class="govuk-label">
+		                                    <label for="schoolCfyRevenueFileUpload" class="govuk-label">
 			                                    Upload a file
 		                                    </label>
 		                                    <br/>
@@ -131,7 +130,6 @@
 		                                           type="file"
 		                                           accept=".doc,.docx,.pptx,.pdf"
 		                                           class="govuk-label"
-		                                           aria-describedby="file-upload-schoolCFYRevenueFileSize-error"
 		                                           multiple
 		                                           asp-for="@Model.SchoolCfyRevenueStatusFiles"/>
 	                                    </div>
@@ -147,9 +145,9 @@
 
                 <div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
 	                <fieldset class="govuk-fieldset">
-		                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+		                <label for="CapitalCarryForward" class="govuk-fieldset__legend govuk-fieldset__legend--s">
 			                Forecasted capital carry forward at end of the current financial year (31 March)
-		                </legend>
+		                </label>
 		                <div class="govuk-form-group">
                             <input type="number" asp-for="CapitalCarryForward" id="CapitalCarryForward" class="govuk-input govuk-input--width-20" />
 		                </div>                        
@@ -161,12 +159,11 @@
 					                <input type="radio"
 	                                       asp-for="CFYCapitalCarryForwardStatus"
 					                       value="@Convert.ToInt32(capitalCarryForwardStatus)"
-					                       id="capitalRevenueType@(capitalCarryForwardStatus)"
+					                       id="capitalType@(capitalCarryForwardStatus)"
 					                       class="govuk-radios__input"
 	                                       data-aria-controls="capitalCarryForwardStatus-@(capitalCarryForwardStatus.ToString().ToLower())"
-	                                       checked="@(capitalCarryForwardStatus.Equals(Model.CFYCapitalCarryForwardStatus))"
-					                       aria-expanded="False"/>
-					                <label for="revenueType@(capitalCarryForwardStatus)" class="govuk-label govuk-radios__label">
+	                                       checked="@(capitalCarryForwardStatus.Equals(Model.CFYCapitalCarryForwardStatus))"/>
+					                <label for="capitalType@(capitalCarryForwardStatus)" class="govuk-label govuk-radios__label">
 						                @capitalCarryForwardStatus.GetDescription()
 					                </label>
 				                </div>
@@ -175,19 +172,19 @@
 				                {
                                     <div class="@(Model.CFYCapitalCarryForwardStatusExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
 					                                @(capitalCarryForwardStatus == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
-										id="capitalCarryForwardStatus-deficit" aria-expanded="false">
+										id="capitalCarryForwardStatus-deficit">
 
-                                        <a href="#PFYCapitalCarryForwardStatusExplainedNotEntered"
+                                        <a href="#CFYCapitalCarryForwardExplained"
 											class="@(Model.CFYCapitalCarryForwardStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 							                You must enter the reason for the capital carry forward deficit or upload a file
 						                </a>
-                                        <label for="capitalCarryForwardStatus-deficit" class="govuk-label">
+                                        <label for="CFYCapitalCarryForwardExplained" class="govuk-label">
 							                Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.
 						                </label>
 						                <span class="govuk-hint">
 							                Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority 
 						                </span>
-						                <textarea asp-for="CFYCapitalCarryForwardExplained" id="PFYCapitalCarryForwardExplained"
+						                <textarea asp-for="CFYCapitalCarryForwardExplained" id="CFYCapitalCarryForwardExplained"
 						                          class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
                                         <p class="govuk-label">
 							                You can upload the school’s recovery plan.
@@ -200,7 +197,7 @@
 	                                    </span>
 	                                    <div class="govuk-form-group @(Model.SchoolCFYCapitalFileSizeError || Model.SchoolCFYCapitalFileGenericError ? "govuk-form-group--error" : "")">
                                         						
-		                                    <label for="Upload-SchoolCFYCapitalForwardFile" class="govuk-label">
+		                                    <label for="schoolCfyCapitalFileUpload" class="govuk-label">
 			                                    Upload a file
 		                                    </label>
 		                                    <p id="file-upload-schoolCFYCapitalFileSize-error" class="govuk-error-message @(!Model.SchoolCFYCapitalFileSizeError ? "govuk-visually-hidden" : "")">
@@ -214,7 +211,6 @@
 		                                           type="file"
 		                                           accept=".doc,.docx,.pptx,.pdf"
 		                                           class="govuk-label"
-		                                           aria-describedby="file-upload-schoolCFYCapitalFileSize-error"
 		                                           multiple
 		                                           asp-for="@Model.SchoolCFYCapitalForwardFiles" />
 	                                    

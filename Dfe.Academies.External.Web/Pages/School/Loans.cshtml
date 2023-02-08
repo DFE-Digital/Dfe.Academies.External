@@ -30,7 +30,7 @@
     				</div>
                 
     				<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-    					<fieldset class="govuk-fieldset" role="group" aria-describedby="works-planned-date-hint">
+    					<fieldset class="govuk-fieldset" role="group">
 							<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 								Are there any existing loans?
 							</legend>
@@ -43,8 +43,7 @@
     								       id="anyLoansOption@(anyLoansOption)"
     								       class="govuk-radios__input"
 								           data-aria-controls="anyLoansOption-@(anyLoansOption.ToString().ToLower())"
-								           checked="@(anyLoansOption.Equals(ViewData.Model.AnyLoans))"
-								           aria-expanded="False"/>
+								           checked="@(anyLoansOption.Equals(ViewData.Model.AnyLoans))"/>
     								<label for="anyLoansOption@(anyLoansOption)" class="govuk-label govuk-radios__label">
     									@anyLoansOption.GetDescription()
     								</label>
@@ -53,7 +52,7 @@
     							{
 								    <div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional") 
 	                                                @(anyLoansOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
-								         id="anyLoansOption-yes" aria-expanded="false">
+								         id="anyLoansOption-yes">
 									    @for (int i = 0; i < Model.LoanViewModels.Count; i++)
 									    {
 										    <dl class="govuk-summary-list__row">
@@ -61,13 +60,13 @@
 											    <dd class="govuk-summary-list__value">
 												    <p class="govuk-label">Provider: <strong>@Model.LoanViewModels[i].Provider</strong></p>
 													<p class="govuk-label">Amount: <strong>£@Model.LoanViewModels[i].TotalAmount</strong></p>
-												    <a asp-page="/school/LoanDetails" aria-describedby="component-change" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LoanViewModels[i].Id" asp-route-isEdit="true" asp-route-isDraft="@Model.LoanViewModels[i].IsDraft">
+												    <a asp-page="/school/LoanDetails" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LoanViewModels[i].Id" asp-route-isEdit="true" asp-route-isDraft="@Model.LoanViewModels[i].IsDraft">
 												       Change answers
 													</a>
 											    </dd>
 										    </dl>
 									    }
-										    <a asp-page="/school/LoanDetails" aria-describedby="component-change" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LoanViewModels.Count" asp-route-isEdit="false" asp-route-isDraft="true">
+										    <a asp-page="/school/LoanDetails" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LoanViewModels.Count" asp-route-isEdit="false" asp-route-isDraft="true">
 											    Add new loan
 											</a>
 									</div>

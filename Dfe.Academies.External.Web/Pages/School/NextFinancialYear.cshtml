@@ -48,7 +48,7 @@
 					<div id="pfy-end-date-hint" class="govuk-hint">
 						For example, 01 09 2022
 					</div>
-					<a href="#NFYFinancialEndDateNotEntered" class="@(Model.NFYFinancialEndDateError ? "govuk-error-message" : "govuk-visually-hidden")">
+					<a href="#govuk-date" class="@(Model.NFYFinancialEndDateError ? "govuk-error-message" : "govuk-visually-hidden")">
 						You must select financial year end date
 					</a>
 					<govuk-date field-name="@Model.NFYEndDateFormInputName"
@@ -61,9 +61,9 @@
 			</div>
 			<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
 				<fieldset class="govuk-fieldset" role="group" aria-describedby="">
-					<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+					<label for="Revenue" class="govuk-fieldset__legend govuk-fieldset__legend--s">
 						Forecasted revenue carry forward at end of the next financial year (31 March)
-					</legend>
+					</label>
 					<div class="govuk-form-group">
 						<input type="number" asp-for="Revenue" id="Revenue" class="govuk-input govuk-input--width-20"/>
 					</div>
@@ -89,11 +89,11 @@
 								<div class="@(Model.NFYRevenueStatusFileExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
 				                                @(revenueType == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
 								     id="revenueType-deficit" aria-expanded="false">
-									<a href="#NFYRevenueStatusExplainedNotEntered"
+									<a href="#NFYRevenueStatusExplained"
 									   class="@(Model.NFYRevenueStatusFileExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 										You must enter the reason for the revenue deficit or upload a recovery plan
 									</a>
-									<label for="revenueType-deficit" class="govuk-label">
+									<label for="NFYRevenueStatusExplained" class="govuk-label">
 										Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.
 									</label>
 									<span class="govuk-hint">
@@ -113,18 +113,17 @@
 										codes.
 									</span>
 									<div class="govuk-form-group @(Model.ForecastedRevenueFileSizeError || Model.SchoolRevenueFileGenericError ? "govuk-form-group--error" : "")">
-										<label class="govuk-label"> Upload a file</label>
+										<label for="schoolNfyRevenueFileUpload" class="govuk-label"> Upload a file</label>
 										<p id="file-upload-forecastedRevenueFileSize-error" class="govuk-error-message @(!Model.ForecastedRevenueFileSizeError ? "govuk-visually-hidden" : "")">
 											<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
 										</p>
 										<p id="file-upload-forecastedRevenueFile-genericError" class="govuk-error-message @(!Model.SchoolRevenueFileGenericError ? "govuk-visually-hidden" : "")">
 											<span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
 										</p>
-										<input id="schoolNfyCapitalFileUpload"
+										<input id="schoolNfyRevenueFileUpload"
 										       type="file"
 										       accept=".doc,.docx,.pptx,.pdf"
 										       class="govuk-label"
-										       aria-describedby="file-upload-forecastedRevenueFileSize-error"
 										       multiple
 										       asp-for="@Model.ForecastedRevenueFiles"/>
 									</div>
@@ -138,9 +137,9 @@
 
 			<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
 				<fieldset class="govuk-fieldset">
-					<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+					<label for="CapitalCarryForward" class="govuk-fieldset__legend govuk-fieldset__legend--s">
 						Forecasted capital carry forward at end of the next financial year (31 March)
-					</legend>
+					</label>
 					<div class="govuk-form-group">
 						<input type="number" asp-for="CapitalCarryForward" id="CapitalCarryForward" class="govuk-input govuk-input--width-20"/>
 					</div>
@@ -167,11 +166,11 @@
 								<div class="@(Model.NFYCapitalCarryForwardStatusFileExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
 					                                @(capitalCarryForwardStatus == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
 								     id="capitalCarryForwardStatus-deficit" aria-expanded="false">
-									<a href="#NFYCapitalCarryForwardStatusExplainedNotEntered"
+									<a href="#PFYCapitalCarryForwardExplained"
 									   class="@(Model.NFYCapitalCarryForwardStatusFileExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 										You must enter the reason for the capital carry forward deficit
 									</a>
-									<label for="capitalCarryForwardStatus-deficit" class="govuk-label">
+									<label for="PFYCapitalCarryForwardExplained" class="govuk-label">
 										Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.
 									</label>
 									<span class="govuk-hint">
@@ -191,7 +190,7 @@
 										codes.
 									</span>
 									<div class="govuk-form-group @(Model.ForecastedCapitalFileSizeError || Model.SchoolCapitalFileGenericError ? "govuk-form-group--error" : "")">
-										<label class="govuk-label"> Upload a file</label>
+										<label for="schoolNfyCapitalFileUpload" class="govuk-label"> Upload a file</label>
 										<p id="file-upload-forecastedCapitalFileSize-error" class="govuk-error-message @(!Model.ForecastedCapitalFileSizeError ? "govuk-visually-hidden" : "")">
 											<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
 										</p>
