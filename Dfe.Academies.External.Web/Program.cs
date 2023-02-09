@@ -26,16 +26,6 @@ using Polly.Extensions.Http;
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
-// Add sentry to the container.
-builder.WebHost.UseSentry();
-
-//// builder.Services.UseSerilog();
-//builder.Host.UseSerilog((ctx, lc) => lc
-//	.MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-//	.Enrich.FromLogContext()
-//	.WriteTo.Console(new RenderedCompactJsonFormatter())
-//	.WriteTo.Sentry());
-
 //https://github.com/gunndabad/govuk-frontend-aspnetcore  
 builder.Services.AddGovUkFrontend();
 
@@ -223,7 +213,6 @@ app.UseRouting();
 // Enable automatic tracing integration.
 // If running with .NET 5 or below, make sure to put this middleware
 // right after `UseRouting()`.
-app.UseSentryTracing();
 
 //app.UseSerilogRequestLogging();
 
