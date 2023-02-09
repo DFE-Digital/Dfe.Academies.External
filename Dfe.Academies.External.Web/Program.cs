@@ -121,6 +121,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 {
 	options.CheckConsentNeeded = context => true;
 	options.MinimumSameSitePolicy = SameSiteMode.None;
+	options.Secure = CookieSecurePolicy.Always;
 });
 builder.Services.AddSession(options =>
 	{
