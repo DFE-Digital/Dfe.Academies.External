@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Azure.Storage.Blobs;
 using Dfe.Academies.External.Web.AutoMapper;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Factories;
@@ -10,6 +11,7 @@ using Dfe.Academies.External.Web.Services;
 using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -181,7 +183,14 @@ aiOptions.EnableAdaptiveSampling = false;
 aiOptions.EnableQuickPulseMetricStream = false;
 aiOptions.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
 builder.Services.AddApplicationInsightsTelemetry(aiOptions);
+var localDevelopment = builder.Configuration.GetValue<bool>("local_development");
+if (!localDevelopment)
+{
+	var blobConnectionString = builder.Configuration["ConnectionStrings:BlobStorage"];
 
+	builder.Services.AddDataProtection()
+		.PersistKeysToAzureBlobStorage(new Uri(blobConnectionString));
+}
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
