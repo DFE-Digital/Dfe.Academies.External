@@ -81,7 +81,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new WhatAreYouApplyingToDoModel()
+		return new WhatAreYouApplyingToDoModel(null)
 		{
 			PageContext = pageContext,
 			TempData = tempData,
