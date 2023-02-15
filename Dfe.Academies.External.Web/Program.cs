@@ -186,10 +186,13 @@ builder.Services.AddApplicationInsightsTelemetry(aiOptions);
 var localDevelopment = builder.Configuration.GetValue<bool>("local_development");
 if (!localDevelopment)
 {
-	var blobConnectionString = builder.Configuration["ConnectionStrings:BlobStorage"];
+	string blobName = "keys.xml";
+	BlobContainerClient container = new BlobContainerClient(new Uri(builder.Configuration["ConnectionStrings:BlobStorage"]));
+
+	BlobClient blobClient = container.GetBlobClient(blobName);
 
 	builder.Services.AddDataProtection()
-		.PersistKeysToAzureBlobStorage(new Uri(blobConnectionString));
+		.PersistKeysToAzureBlobStorage(blobClient);
 }
 var app = builder.Build();
 
