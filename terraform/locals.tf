@@ -19,4 +19,8 @@ locals {
   tfvars_filename                             = var.tfvars_filename
   enable_monitoring                           = var.enable_monitoring
   monitor_email_receivers                     = var.monitor_email_receivers
+  monitor_enable_slack_webhook                = var.monitor_enable_slack_webhook
+  monitor_slack_webhook_receiver              = var.monitor_slack_webhook_receiver
+  monitor_slack_channel                       = var.monitor_slack_channel
+  enable_container_app_blob_storage           = var.enable_container_app_blob_storage
 }

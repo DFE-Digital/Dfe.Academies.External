@@ -1,5 +1,5 @@
 module "azure_container_apps_hosting" {
-  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v0.13.2"
+  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=storage-sessions"
 
   environment    = local.environment
   project_name   = local.project_name
@@ -21,6 +21,12 @@ module "azure_container_apps_hosting" {
   cdn_frontdoor_host_add_response_headers     = local.cdn_frontdoor_host_add_response_headers
   cdn_frontdoor_custom_domains                = local.cdn_frontdoor_custom_domains
   restrict_container_apps_to_cdn_inbound_only = local.restrict_container_apps_to_cdn_inbound_only
-  enable_monitoring                           = local.enable_monitoring
-  monitor_email_receivers                     = local.monitor_email_receivers
+
+  enable_monitoring              = local.enable_monitoring
+  monitor_email_receivers        = local.monitor_email_receivers
+  monitor_enable_slack_webhook   = local.monitor_enable_slack_webhook
+  monitor_slack_webhook_receiver = local.monitor_slack_webhook_receiver
+  monitor_slack_channel          = local.monitor_slack_channel
+
+  enable_container_app_blob_storage = local.enable_container_app_blob_storage
 }

@@ -98,3 +98,23 @@ variable "monitor_email_receivers" {
   description = "A list of email addresses that should be notified by monitoring alerts"
   type        = list(string)
 }
+
+variable "monitor_enable_slack_webhook" {
+  description = "Enable slack webhooks to send monitoring notifications to a channel"
+  type        = bool
+}
+
+variable "monitor_slack_webhook_receiver" {
+  description = "A Slack App webhook URL"
+  type        = string
+}
+
+variable "monitor_slack_channel" {
+  description = "Slack channel name/id to send messages to"
+  type        = string
+}
+
+variable "enable_container_app_blob_storage" {
+  description = "Create an Azure Storage Account and Storage Container to be accessed by the Container App"
+  type        = bool
+}
