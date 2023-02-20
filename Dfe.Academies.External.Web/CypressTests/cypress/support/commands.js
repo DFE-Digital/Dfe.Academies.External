@@ -233,8 +233,8 @@ Cypress.Commands.add('yourApplicationsElementsVisible', () => {
 })
 
 Cypress.Commands.add('selectJAMNotStartedApplication', () => {
-    cy.get('a[href="/application-overview?appId=78"]').contains('Join a multi-academy trust')
-    cy.get('a[href="/application-overview?appId=78"]').click()
+    cy.get('a[href="/application-overview?appId=10015"]').contains('Join a multi-academy trust')
+    cy.get('a[href="/application-overview?appId=10015"]').click()
 })
 
 Cypress.Commands.add('selectJAMNotStartedApplicationButSchoolAdded', () => {
