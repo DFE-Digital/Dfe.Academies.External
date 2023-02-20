@@ -250,10 +250,10 @@ Cypress.Commands.add('yourApplicationNotStartedElementsVisible', () => {
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
 
-    cy.get('a[href="/school/application-select-school?appId=78"]').should('be.visible').contains('Add a school')
+    cy.get('a[href="/school/application-select-school?appId=10015"]').should('be.visible').contains('Add a school')
 
     cy.get('h2').eq(1).contains('The trust the school will join')
-    cy.get('a[href="/trust/join-amat/application-select-trust?appId=78"]').should('be.visible').contains('Add a trust')
+    cy.get('a[href="/trust/join-amat/application-select-trust?appId=10015"]').should('be.visible').contains('Add a trust')
     cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
     cy.get('p').eq(3).contains('You will be able to invite other people to help you complete this form after you have added a school.')
 })
