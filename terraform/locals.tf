@@ -13,10 +13,16 @@ locals {
   dns_zone_domain_name                        = var.dns_zone_domain_name
   restrict_container_apps_to_cdn_inbound_only = var.restrict_container_apps_to_cdn_inbound_only
   cdn_frontdoor_enable_rate_limiting          = var.cdn_frontdoor_enable_rate_limiting
+  cdn_frontdoor_rate_limiting_threshold       = var.cdn_frontdoor_rate_limiting_threshold
   cdn_frontdoor_host_add_response_headers     = var.cdn_frontdoor_host_add_response_headers
   cdn_frontdoor_custom_domains                = var.cdn_frontdoor_custom_domains
+  cdn_frontdoor_host_redirects                = var.cdn_frontdoor_host_redirects
   key_vault_access_users                      = toset(var.key_vault_access_users)
   tfvars_filename                             = var.tfvars_filename
   enable_monitoring                           = var.enable_monitoring
   monitor_email_receivers                     = var.monitor_email_receivers
+  monitor_enable_slack_webhook                = var.monitor_enable_slack_webhook
+  monitor_slack_webhook_receiver              = var.monitor_slack_webhook_receiver
+  monitor_slack_channel                       = var.monitor_slack_channel
+  enable_container_app_blob_storage           = var.enable_container_app_blob_storage
 }

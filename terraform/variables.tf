@@ -64,6 +64,11 @@ variable "cdn_frontdoor_enable_rate_limiting" {
   type        = bool
 }
 
+variable "cdn_frontdoor_rate_limiting_threshold" {
+  description = "Maximum number of concurrent requests per minute threshold before rate limiting is applied"
+  type        = number
+}
+
 variable "cdn_frontdoor_host_add_response_headers" {
   description = "List of response headers to add at the CDN Front Door `[{ \"Name\" = \"Strict-Transport-Security\", \"value\" = \"max-age=31536000\" }]`"
   type        = list(map(string))
@@ -89,6 +94,11 @@ variable "cdn_frontdoor_custom_domains" {
   type        = list(string)
 }
 
+variable "cdn_frontdoor_host_redirects" {
+  description = "CDN FrontDoor host redirects `[{ \"from\" = \"example.com\", \"to\" = \"www.example.com\" }]`"
+  type        = list(map(string))
+}
+
 variable "enable_monitoring" {
   description = "Create an App Insights instance and notification group for the Container App"
   type        = bool
@@ -97,4 +107,24 @@ variable "enable_monitoring" {
 variable "monitor_email_receivers" {
   description = "A list of email addresses that should be notified by monitoring alerts"
   type        = list(string)
+}
+
+variable "monitor_enable_slack_webhook" {
+  description = "Enable slack webhooks to send monitoring notifications to a channel"
+  type        = bool
+}
+
+variable "monitor_slack_webhook_receiver" {
+  description = "A Slack App webhook URL"
+  type        = string
+}
+
+variable "monitor_slack_channel" {
+  description = "Slack channel name/id to send messages to"
+  type        = string
+}
+
+variable "enable_container_app_blob_storage" {
+  description = "Create an Azure Storage Account and Storage Container to be accessed by the Container App"
+  type        = bool
 }
