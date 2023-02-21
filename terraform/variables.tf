@@ -64,6 +64,11 @@ variable "cdn_frontdoor_enable_rate_limiting" {
   type        = bool
 }
 
+variable "cdn_frontdoor_rate_limiting_threshold" {
+  description = "Maximum number of concurrent requests per minute threshold before rate limiting is applied"
+  type        = number
+}
+
 variable "cdn_frontdoor_host_add_response_headers" {
   description = "List of response headers to add at the CDN Front Door `[{ \"Name\" = \"Strict-Transport-Security\", \"value\" = \"max-age=31536000\" }]`"
   type        = list(map(string))
@@ -87,6 +92,11 @@ variable "dns_zone_domain_name" {
 variable "cdn_frontdoor_custom_domains" {
   description = "Azure CDN Front Door custom domains. If they are within the DNS zone (optionally created), the Validation TXT records and ALIAS/CNAME records will be created"
   type        = list(string)
+}
+
+variable "cdn_frontdoor_host_redirects" {
+  description = "CDN FrontDoor host redirects `[{ \"from\" = \"example.com\", \"to\" = \"www.example.com\" }]`"
+  type        = list(map(string))
 }
 
 variable "enable_monitoring" {
