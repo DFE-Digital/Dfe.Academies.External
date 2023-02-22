@@ -31,7 +31,7 @@ public class CookiesController : Controller
 
 		TempData["cookiePreferenceSaved"] = true;
 		TempData["returnUrl"] = returnUrl;
-		return Redirect(redirectPath);
+		return LocalRedirect(redirectPath);
 	}
 
 	private void SetConsentCookie(string value)
