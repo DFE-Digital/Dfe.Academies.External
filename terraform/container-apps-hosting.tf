@@ -1,5 +1,5 @@
 module "azure_container_apps_hosting" {
-  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v0.14.0"
+  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v0.14.2"
 
   environment    = local.environment
   project_name   = local.project_name
@@ -31,4 +31,7 @@ module "azure_container_apps_hosting" {
   monitor_slack_channel          = local.monitor_slack_channel
 
   enable_container_app_blob_storage = local.enable_container_app_blob_storage
+
+  existing_network_watcher_name                = local.existing_network_watcher_name
+  existing_network_watcher_resource_group_name = local.existing_network_watcher_resource_group_name
 }
