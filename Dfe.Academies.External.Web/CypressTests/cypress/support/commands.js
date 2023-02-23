@@ -295,3 +295,72 @@ Cypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', (
     cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
     cy.get('p').eq(3).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
+
+Cypress.Commands.add('selectStartANewApplication', () => {
+    cy.get('a[href="/what-are-you-applying-to-do"]').click()
+})
+
+Cypress.Commands.add('whatAreYouApplyingToDoElementsVisible', () => {
+    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('h1').contains('What are you applying to do?')
+    cy.get('legend').contains('When a school becomes an academy, it must either join an existing trust or form a new one.')
+    cy.get('input[type="radio"]').eq(0).should('exist')
+    cy.get('label[for="ApplicationTypeJoinAMat"]').contains('Join a multi-academy trust')
+    cy.get('input[type="radio"]').eq(1).should('exist')
+    cy.get('label[for="ApplicationTypeFormAMat"]').contains('Form a new multi-academy trust')
+    cy.get('.govuk-inset-text').should('be.visible').contains("If your school is unable to either join an existing trust or form one with other schools, you should contact your Regional Director")
+    cy.get('.govuk-link').should('be.visible').contains('your Regional Director')
+    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
+})
+
+Cypress.Commands.add('selectJAMRadioButton', () => {
+    cy.get('input[type="radio"]').eq(0).click()
+})
+
+Cypress.Commands.add('verifyJAMRadioButtonChecked', () => {
+    cy.get('input[type="radio"]').eq(0).should('be.checked')
+})
+
+Cypress.Commands.add('selectFAMRadioButton', () => {
+    cy.get('input[type="radio"]').eq(1).click()
+})
+
+Cypress.Commands.add('verifyFAMRadioButtonChecked', () => {
+    cy.get('input[type="radio"]').eq(1).should('be.checked')
+})
+
+Cypress.Commands.add('selectApplyingToDoSaveAndContinue', () => {
+ cy.get('input[type="submit"]').click()   
+})
+
+Cypress.Commands.add('whatIsYourRoleElementsVisible', () => {
+    
+    cy.get('h1').contains('What is your role?')
+    cy.get('p').contains('Anyone from the school can contribute to this form, but only the chair of governors can complete the declaration section or submit it.')
+    cy.get('input[type="radio"]').eq(0).should('exist')
+    cy.get('label[for="RoleTypeChairOfGovernors"]').contains('The chair of the school\'s governors')
+    cy.get('input[type="radio"]').eq(1).should('exist')
+    cy.get('label[for="RoleTypeOther"]').contains('Something else')
+    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
+})
+
+
+Cypress.Commands.add('selectChairOfGovernorsRadioButton', () => {
+    cy.get('input[type="radio"]').eq(0).click()
+})
+
+Cypress.Commands.add('verifyChairOfGovernorsRadioButtonChecked', () => {
+    cy.get('input[type="radio"]').should('be.checked')
+})
+
+Cypress.Commands.add('selectSomethingElseRadioButton', () => {
+
+})
+
+Cypress.Commands.add('verifySomethingElseRadioButtonChecked', () => {
+
+})
+
+Cypress.Commands.add('selectWhatIsYourRoleSaveAndContinue', () => {
+
+})
