@@ -131,7 +131,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			List<ApplicationComponentViewModel> conversionApplicationComponents = new()
 			{
 			    new("About the conversion", UriFormatter.SetSchoolApplicationComponentUriFromName("About the conversion"), CalculateAboutTheConversionSectionStatus(school)),
-				new("Further information", UriFormatter.SetSchoolApplicationComponentUriFromName("Further information"), CalculateFurtherInformationSectionStatus(school)),
+				new("Further information", UriFormatter.SetSchoolApplicationComponentUriFromName("Further information"), CalculateFurtherInformationSectionStatus(school, application.ApplicationReference)),
 				new("Finances", UriFormatter.SetSchoolApplicationComponentUriFromName("Finances"), CalculateFinanceSectionStatus(school)),
 			    new("Future pupil numbers", UriFormatter.SetSchoolApplicationComponentUriFromName("Future pupil numbers"), CalculateFuturePupilNumbersSectionStatus(school)),
 				new("Land and buildings", UriFormatter.SetSchoolApplicationComponentUriFromName("Land and buildings"),CalculateLandAndBuildingsSectionStatus(school)),
@@ -332,16 +332,19 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// </summary>
 	/// <param name="selectedSchool"></param>
 	/// <returns></returns>
-	private Status CalculateFurtherInformationSectionStatus(SchoolApplyingToConvert? selectedSchool)
+	private Status CalculateFurtherInformationSectionStatus(SchoolApplyingToConvert? selectedSchool, string applicationReference)
 	{
+		var dioceseFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.DioceseFilePrefixFieldName).Result;
+		var foundationConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName).Result;
+		var resolutionConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result;
 		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) &&
-		    ((selectedSchool?.DioceseName == null) == (string.IsNullOrWhiteSpace(selectedSchool?.DioceseFolderIdentifier)) &&
-		     (selectedSchool?.FoundationTrustOrBodyName == null) == (string.IsNullOrWhiteSpace(selectedSchool?.FoundationConsentFolderIdentifier))) &&
-		    !string.IsNullOrWhiteSpace(selectedSchool?.ResolutionConsentFolderIdentifier))
+		    ((selectedSchool?.DioceseName == null) == (!dioceseFileNames.Any()) &&
+		     (selectedSchool?.FoundationTrustOrBodyName == null) == (!foundationConsentFileNames.Any())) &&
+		    !resolutionConsentFileNames.Any())
 			return Status.Completed;
 
 		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) ||
-		    !string.IsNullOrWhiteSpace(selectedSchool?.ResolutionConsentFolderIdentifier))
+		    !resolutionConsentFileNames.Any())
 			return Status.InProgress;
 
 		return Status.NotStarted;
