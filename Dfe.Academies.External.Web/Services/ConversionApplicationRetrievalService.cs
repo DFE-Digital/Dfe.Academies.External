@@ -334,17 +334,17 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculateFurtherInformationSectionStatus(SchoolApplyingToConvert? selectedSchool, string applicationReference)
 	{
-		var dioceseFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.DioceseFilePrefixFieldName).Result;
-		var foundationConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName).Result;
-		var resolutionConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result;
+		var dioceseFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.DioceseFilePrefixFieldName).Result ?? new();
+		var foundationConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName).Result ?? new();
+		var resolutionConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result ?? new();
 		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) &&
 		    ((selectedSchool?.DioceseName == null) == (!dioceseFileNames.Any()) &&
 		     (selectedSchool?.FoundationTrustOrBodyName == null) == (!foundationConsentFileNames.Any())) &&
-		    !resolutionConsentFileNames.Any())
+		    resolutionConsentFileNames.Any())
 			return Status.Completed;
 
 		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) ||
-		    !resolutionConsentFileNames.Any())
+		    resolutionConsentFileNames.Any())
 			return Status.InProgress;
 
 		return Status.NotStarted;
