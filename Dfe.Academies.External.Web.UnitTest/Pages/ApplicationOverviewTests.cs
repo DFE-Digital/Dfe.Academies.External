@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using NUnit.Framework;
 
@@ -27,6 +28,7 @@ internal sealed class ApplicationOverviewTests
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConfigurationService = new Mock<IConfiguration>();
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
@@ -34,7 +36,7 @@ internal sealed class ApplicationOverviewTests
 		// act
 		var pageModel = SetupApplicationOverviewModel(mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object,
-			mockConversionApplicationCreationService.Object);
+			mockConversionApplicationCreationService.Object, mockConfigurationService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -51,11 +53,12 @@ internal sealed class ApplicationOverviewTests
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		IConversionApplicationCreationService mockConversionApplicationCreationService,
+		IConfiguration configuration,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new ApplicationOverviewModel(mockConversionApplicationRetrievalService, mockReferenceDataRetrievalService, mockConversionApplicationCreationService)
+		return new ApplicationOverviewModel(mockConversionApplicationRetrievalService, mockReferenceDataRetrievalService, mockConversionApplicationCreationService, configuration)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

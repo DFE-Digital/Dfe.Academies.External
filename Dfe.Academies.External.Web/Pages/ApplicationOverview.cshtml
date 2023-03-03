@@ -193,9 +193,18 @@
 			@Html.AntiForgeryToken()
 			<input type="hidden" asp-for="ApplicationId"/>
 
-			@if (Model.UserHasSubmitApplicationRole && Model.ConversionStatus == Status.Completed && Model.ApplicationStatus == ApplicationStatus.InProgress)
+			@if (Model.UserHasSubmitApplicationRole 
+			     && Model.ConversionStatus == Status.Completed 
+			     && Model.ApplicationStatus == ApplicationStatus.InProgress)
 		    {
-			    <input type="submit" value="Submit application" class="govuk-button govuk-!-margin-top-6" />
+			    if (Model.ApplicationType == ApplicationTypes.FormAMat && !Model.FamApplicationsEnabled) {
+                    // no submit button if FAM applications not enabled
+			    }
+			    else
+			    {
+				    <input type="submit" value="Submit application" class="govuk-button govuk-!-margin-top-6" />
+			    }
+			    
 		    }
             @* <input type="submit" value="Cancel application" class="govuk-button govuk-!-margin-top-6" />*@
 

@@ -10,27 +10,12 @@ namespace Dfe.Academies.External.Web.Pages;
 
 public class WhatAreYouApplyingToDoModel : BasePageModel
 {
-	private readonly IConfiguration _configuration;
 	private const string NextStepPage = "/WhatIsYourRole";
 
 	[BindProperty]
 	[RequiredEnum(ErrorMessage = "Select an application type")]
 	public ApplicationTypes ApplicationType { get; set; }
 
-	public bool FamApplicationsEnabled
-	{
-		get
-		{
-			bool famApplicationsEnabled = _configuration.GetValue<bool>("features:fam_applications");
-
-			return famApplicationsEnabled;
-		}
-	}
-
-	public WhatAreYouApplyingToDoModel(IConfiguration configuration)
-	{
-		_configuration = configuration;
-	}
 	public async Task OnGetAsync()
 	{
 		// like on load - if navigating backwards from NextStepPage - will need to set model value from somewhere!

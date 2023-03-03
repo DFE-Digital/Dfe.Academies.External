@@ -6,12 +6,14 @@ using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Dfe.Academies.External.Web.Pages
 {
 	public class ApplicationOverviewModel : BasePageEditModel
 	{
 		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
+		private readonly IConfiguration _configuration;
 
 		[BindProperty]
 		public int ApplicationId { get; set; }
@@ -68,12 +70,24 @@ namespace Dfe.Academies.External.Web.Pages
 		/// </summary>
 		public string HeaderText { get; private set; } = string.Empty;
 
+		public bool FamApplicationsEnabled
+		{
+			get
+			{
+				bool famApplicationsEnabled = _configuration.GetValue<bool>("features:fam_applications");
+
+				return famApplicationsEnabled;
+			}
+		}
+
 		public ApplicationOverviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 										IReferenceDataRetrievalService referenceDataRetrievalService,
-										IConversionApplicationCreationService conversionApplicationCreationService
+										IConversionApplicationCreationService conversionApplicationCreationService,
+										IConfiguration configuration
 		) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
 			_conversionApplicationCreationService = conversionApplicationCreationService;
+			_configuration = configuration;
 		}
 
 		public async Task<ActionResult> OnGetAsync(int appId)

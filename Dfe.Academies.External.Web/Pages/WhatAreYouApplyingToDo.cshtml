@@ -25,10 +25,6 @@
 					    <div class="govuk-radios--conditional">
 						    @foreach (var applicationType in Enum.GetValues(typeof(ApplicationTypes)).OfType<ApplicationTypes>())
 						    {
-							    if (applicationType == ApplicationTypes.FormAMat && !@Model.FamApplicationsEnabled)
-							    {
-								    continue;
-							    }
 							    <div class="govuk-radios__item">
 								    <input type="radio"
 								           asp-for="ApplicationType"
