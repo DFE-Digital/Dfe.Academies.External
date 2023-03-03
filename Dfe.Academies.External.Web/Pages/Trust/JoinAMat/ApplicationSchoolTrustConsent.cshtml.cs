@@ -84,7 +84,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		}
 		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, entityId, applicationReference, section, fileName);
+			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelApplicationFolderName, entityId, applicationReference, section, fileName);
 			return RedirectToPage("ApplicationSchoolTrustConsent", new {Urn = urn, AppId = appId});
 		}
 		
@@ -115,7 +115,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 
 			EntityId = applicationDetails.EntityId;
 			ApplicationReference = applicationDetails.ApplicationReference;
-			TrustConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName);
+			TrustConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelApplicationFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName);
 			TempDataHelper.StoreSerialisedValue($"{EntityId}-trustConsentFiles", TempData, TrustConsentFileNames);
 			return Page();
 		}
@@ -153,7 +153,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 			{
 				foreach (var file in TrustConsentFiles)
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName,
+					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelApplicationFolderName,
 						EntityId.ToString(), ApplicationReference,
 						FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName, file);
 				}

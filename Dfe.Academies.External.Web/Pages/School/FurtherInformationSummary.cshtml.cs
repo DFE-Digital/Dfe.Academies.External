@@ -122,7 +122,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 					selectedSchool.MainFeederSchools : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			
-			var fileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result;
+			var fileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result;
 			
 			
 			FISheading.Sections.Add(new(

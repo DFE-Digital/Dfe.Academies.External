@@ -181,7 +181,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, entityId, applicationReference, section, fileName);
+			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelSchoolFolderName, entityId, applicationReference, section, fileName);
 			return RedirectToPage("AdditionalDetails", new { Urn = urn, AppId = appId });
 		}
 		public override async Task<ActionResult> OnGetAsync(int urn, int appId)
@@ -201,11 +201,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 			}
 			ApplicationReference = applicationDetails.ApplicationReference;
 			OfstedInspected = !string.IsNullOrWhiteSpace(OfstedInspectionDetails) ? SelectOption.Yes : SelectOption.No;
-			DioceseFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.DioceseFilePrefixFieldName);
+			DioceseFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.DioceseFilePrefixFieldName);
 			TempDataHelper.StoreSerialisedValue($"{EntityId}-dioceseFiles", TempData, DioceseFileNames);
-			FoundationConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName);
+			FoundationConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName);
 			TempDataHelper.StoreSerialisedValue($"{EntityId}-foundationConsentFiles", TempData, FoundationConsentFileNames);
-			ResolutionConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName);
+			ResolutionConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName);
 			TempDataHelper.StoreSerialisedValue($"{EntityId}-resolutionConsentFiles", TempData, ResolutionConsentFileNames);
 			return Page();
 		}
@@ -478,7 +478,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				foreach (var file in DioceseFiles)
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
 						ApplicationReference, FileUploadConstants.DioceseFilePrefixFieldName, file);
 				}
 			}
@@ -494,7 +494,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				foreach (var file in FoundationConsentFiles)
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
 						ApplicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName, file);
 				}
 			}
@@ -509,7 +509,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				foreach (var file in ResolutionConsentFiles)
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
 						ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName, file);
 				}
 			}

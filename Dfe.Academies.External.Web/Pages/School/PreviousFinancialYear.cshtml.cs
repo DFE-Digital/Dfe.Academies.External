@@ -135,7 +135,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, entityId, applicationReference, section, fileName);
+			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelSchoolFolderName, entityId, applicationReference, section, fileName);
 			return RedirectToPage("PreviousFinancialYear", new { Urn = urn, AppId = appId });
 		}
 
@@ -156,8 +156,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 				PopulateUiModel(selectedSchool);
 			}
 			ApplicationReference = applicationDetails?.ApplicationReference;
-			SchoolPFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolPFYRevenueStatusFile);
-			SchoolPFYCapitalForwardStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolPFYCapitalForwardStatusFile);
+			SchoolPFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolPFYRevenueStatusFile);
+			SchoolPFYCapitalForwardStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolPFYCapitalForwardStatusFile);
 
 			TempDataHelper.StoreSerialisedValue($"{appId}-SchoolPFYRevenueStatusFileNames", TempData, SchoolPFYRevenueStatusFileNames);
 			TempDataHelper.StoreSerialisedValue($"{appId}-SchoolPFYCapitalForwardStatusFileNames", TempData, SchoolPFYCapitalForwardStatusFileNames);
@@ -171,7 +171,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				foreach (var file in SchoolPFYRevenueStatusFiles)
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
 						ApplicationReference, FileUploadConstants.SchoolPFYRevenueStatusFile,
 						file);
 				}
@@ -187,7 +187,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				foreach (var file in SchoolPFYCapitalForwardStatusFiles)
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
 						ApplicationReference, FileUploadConstants.SchoolPFYCapitalForwardStatusFile, file);
 				}
 			}

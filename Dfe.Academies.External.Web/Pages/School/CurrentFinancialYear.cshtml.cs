@@ -147,8 +147,8 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 		}
 		ApplicationType = applicationDetails.ApplicationType;
 		ApplicationReference = applicationDetails.ApplicationReference;
-		SchoolCFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile);
-		SchoolCFYCapitalForwardFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolCFYCapitalForwardFile);
+		SchoolCFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile);
+		SchoolCFYCapitalForwardFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolCFYCapitalForwardFile);
 
 		TempDataHelper.StoreSerialisedValue($"{EntityId}-SchoolCFYRevenueStatusFileNames", TempData, SchoolCFYRevenueStatusFileNames);
 		TempDataHelper.StoreSerialisedValue($"{EntityId}-SchoolCFYCapitalForwardFileNames", TempData, SchoolCFYCapitalForwardFileNames);
@@ -213,7 +213,7 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 		{
 			foreach (var file in SchoolCfyRevenueStatusFiles)
 			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
 					ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile,
 					file);
 			}
@@ -229,7 +229,7 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 		{
 			foreach (var file in SchoolCFYCapitalForwardFiles)
 			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
 					ApplicationReference, FileUploadConstants.SchoolCFYCapitalForwardFile, file);
 			}
 		}
@@ -296,7 +296,7 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 	}
 	public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
 	{
-		await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, entityId, applicationReference, section, fileName);
+		await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelSchoolFolderName, entityId, applicationReference, section, fileName);
 		return RedirectToPage("CurrentFinancialYear", new { Urn = urn, AppId = appId });
 	}
 
