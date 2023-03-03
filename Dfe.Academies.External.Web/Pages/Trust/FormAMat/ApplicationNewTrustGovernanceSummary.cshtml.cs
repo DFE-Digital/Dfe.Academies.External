@@ -57,7 +57,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 				try
 				{
-					result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, conversionApplication.EntityId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
+					result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelApplicationFolderName, conversionApplication.EntityId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
 					files = result.Aggregate(string.Empty, (current, fileName) => current + (fileName + "\n"));
 				}
 				catch (Exception ex)

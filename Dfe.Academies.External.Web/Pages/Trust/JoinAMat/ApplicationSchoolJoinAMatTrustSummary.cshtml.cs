@@ -75,7 +75,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 				List<string> trustConsentFileNames = new List<string>();
 				try
 				{
-					trustConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, conversionApplication.EntityId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName).Result;
+					trustConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelApplicationFolderName, conversionApplication.EntityId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName).Result;
 				}
 				catch (Exception ex)
 				{

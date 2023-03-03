@@ -153,7 +153,7 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 		ApplicationReference = applicationDetails.ApplicationReference;
 		
 		ForecastedRevenueFileNames = await _fileUploadService.GetFiles(
-			FileUploadConstants.TopLevelFolderName,
+			FileUploadConstants.TopLevelSchoolFolderName,
 			EntityId.ToString(), 
 			ApplicationReference,
 			FileUploadConstants.NFYForecastedRevenueFilePrefixFieldName);
@@ -161,7 +161,7 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 		TempDataHelper.StoreSerialisedValue($"{EntityId}-NFYforecastedRevenueFiles", TempData, ForecastedRevenueFileNames);
 		
 		ForecastedCapitalFileNames = await _fileUploadService.GetFiles(
-			FileUploadConstants.TopLevelFolderName,
+			FileUploadConstants.TopLevelSchoolFolderName,
 			EntityId.ToString(), 
 			ApplicationReference,
 			FileUploadConstants.NFYForecastedCapitalFilePrefixFieldName);
@@ -176,7 +176,7 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 		{
 			foreach (var file in ForecastedRevenueFiles)
 			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
 					ApplicationReference, FileUploadConstants.NFYForecastedRevenueFilePrefixFieldName,
 					file);
 			}
@@ -192,7 +192,7 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 		{
 			foreach (var file in ForecastedCapitalFiles)
 			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName, EntityId.ToString(),
+				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
 					ApplicationReference, FileUploadConstants.NFYForecastedCapitalFilePrefixFieldName, file);
 			}
 		}
@@ -299,7 +299,7 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 
     public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
     {
-	    await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, entityId, applicationReference, section, fileName);
+	    await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelSchoolFolderName, entityId, applicationReference, section, fileName);
 	    return RedirectToPage("NextFinancialYear", new {Urn = urn, AppId = appId});
     }
     

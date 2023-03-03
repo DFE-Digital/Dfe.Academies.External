@@ -190,7 +190,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	{
 		try
 		{
-			var result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, application.EntityId.ToString(), application.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
+			var result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelApplicationFolderName, application.EntityId.ToString(), application.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
 			return result.Any() ? Status.Completed : Status.NotStarted;
 		}
 		catch (Exception e)
