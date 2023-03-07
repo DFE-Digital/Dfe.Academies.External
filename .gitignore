@@ -382,3 +382,4 @@ backend.vars
 
 ## Homebrew
 Brewfile.lock.json
+/Dfe.Academies.External.Web/wwwroot/lib/bootstrap/dist/scss
