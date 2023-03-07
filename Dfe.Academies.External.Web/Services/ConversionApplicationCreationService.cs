@@ -84,24 +84,24 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
 			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
-			// MR:- need to check if application type =JoinAMat and application already has school remove existing school - add new one
-			// otherwise API validation will reject !! which is correct !!!
-			if (application.Schools.All(c => c.URN != schoolUrn))
+			// PL:- if is form a mat we can add as many schools as we want just check that we aren't adding the same school twice
+			// if is join a mat then we add only if it is the first one
+			if ((application.ApplicationType == ApplicationTypes.FormAMat && application.Schools.All(c => c.URN != schoolUrn)) ||
+			    (application.ApplicationType == ApplicationTypes.JoinAMat && !application.Schools.Any()))
 			{
 				SchoolApplyingToConvert school = new(name, schoolUrn, null);
 				application.Schools.Add(school);
 			}
-			else
+
+			//PL:- if it is join a mat we only add one school and from then it is changes to the existing school to maintain the attached data
+			if (application.ApplicationType == ApplicationTypes.JoinAMat)
 			{
-				if (application.ApplicationType == ApplicationTypes.JoinAMat)
+				var existingSchool = application.Schools.FirstOrDefault();
+				if (existingSchool != null)
 				{
-					var existingSchool = application.Schools.FirstOrDefault();
-					if (existingSchool != null)
-					{
-						// MR:- can't do remove because then we will bin all the associated data !!
-						existingSchool.URN = schoolUrn;
-						existingSchool.SchoolName = name;
-					}
+					// MR:- can't do remove because then we will bin all the associated data !!
+					existingSchool.URN = schoolUrn;
+					existingSchool.SchoolName = name;
 				}
 			}
 
@@ -160,7 +160,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			{
 				trust = new ExistingTrust(applicationId, name, trustReference, trustUkPrn);
 			}
-			
+
 			// MR:- no response from Academies API - Just an OK
 			await _resilientRequestProvider.PutAsync(apiurl, trust);
 		}
@@ -210,7 +210,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	public async Task PutSchoolApplicationDetails(int applicationId, int schoolUrn, Dictionary<string, dynamic> schoolProperties)
 	{
 		var application = await GetApplication(applicationId);
-			
+
 		if (application?.ApplicationId != applicationId)
 		{
 			throw new ArgumentException("Application not found");
@@ -221,12 +221,12 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		{
 			throw new ArgumentException("School not found");
 		}
-		
+
 		//Populate all school fields with the values in the dictionary
 		foreach (var property in schoolProperties)
 		{
 			var prop = school.GetType().GetProperty(property.Key);
-			if(prop.CanBeSet())
+			if (prop.CanBeSet())
 				prop?.SetValue(school, property.Value);
 		}
 		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
@@ -309,7 +309,9 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	{
 		var deleteLoanCommand = new DeleteLoanCommand
 		{
-			ApplicationId = applicationId, SchoolId = schoolId, LoanId = loanId
+			ApplicationId = applicationId,
+			SchoolId = schoolId,
+			LoanId = loanId
 		};
 		string apiurl = $"{_httpClient.BaseAddress}school/loan/delete";
 		await _resilientRequestProvider.DeleteAsync<DeleteLoanCommand>(apiurl, deleteLoanCommand);
@@ -359,7 +361,9 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	{
 		var deleteLeaseCommand = new DeleteLeaseCommand
 		{
-			ApplicationId = applicationId, SchoolId = schoolId, LeaseId = leaseId
+			ApplicationId = applicationId,
+			SchoolId = schoolId,
+			LeaseId = leaseId
 		};
 		string apiurl = $"{_httpClient.BaseAddress}school/lease/delete";
 		await _resilientRequestProvider.DeleteAsync<DeleteLeaseCommand>(apiurl, deleteLeaseCommand);
