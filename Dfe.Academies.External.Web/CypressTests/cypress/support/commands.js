@@ -1,5 +1,11 @@
-import DataGenerator from "../fixtures/data-generator"
+import 'cypress-file-upload'
 
+import DataGenerator from "../fixtures/data-generator"
+import {AddTrustToApplication} from "../payloads/AddTrustToApplication"
+import { AddSchoolToApplication } from "../payloads/AddSchoolToApplication";
+
+let apiKey = 'anVIWGLFFqkhYCbBvmoIyOHVRJSZgRjQ' //Cypress.env('apiKey');
+let globalApplicationId = 10015;
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -219,7 +225,7 @@ Cypress.Commands.add('createAccountConfirmElementsVisible', () => {
 })
 
 Cypress.Commands.add('yourApplicationsElementsVisible', () => {
-    cy.wait(6000)
+    cy.wait(3000)
     cy.get('h1').contains('Your applications')
     cy.get('h2').contains('Applications in progress')
     cy.get('th:nth-child(1)').contains('Application')
@@ -233,14 +239,14 @@ Cypress.Commands.add('yourApplicationsElementsVisible', () => {
 })
 
 Cypress.Commands.add('selectJAMNotStartedApplication', () => {
-    cy.get('a[href="/application-overview?appId=10015"]').contains('Join a multi-academy trust')
-    cy.get('a[href="/application-overview?appId=10015"]').click()
+    cy.get('a[href="/application-overview?appId=80"]').contains('Join a multi-academy trust')
+    cy.get('a[href="/application-overview?appId=80"]').click()
 })
 
 Cypress.Commands.add('selectJAMNotStartedApplicationButSchoolAdded', () => {
-    cy.get('a[href="/application-overview?appId=193"]').contains('Join a multi-academy trust')
-    cy.get('ul').contains('Norwich School')
-    cy.get('a[href="/application-overview?appId=193"]').click()
+    cy.get('a[href="/application-overview?appId=10015"]').contains('Join a multi-academy trust')
+    cy.get('ul').contains('Plymstock School')
+    cy.get('a[href="/application-overview?appId=10015"]').click()
 })
 
 Cypress.Commands.add('yourApplicationNotStartedElementsVisible', () => {
@@ -250,10 +256,10 @@ Cypress.Commands.add('yourApplicationNotStartedElementsVisible', () => {
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
 
-    cy.get('a[href="/school/application-select-school?appId=10015"]').should('be.visible').contains('Add a school')
+    cy.get('a[href="/school/application-select-school?appId=80"]').should('be.visible').contains('Add a school')
 
     cy.get('h2').eq(1).contains('The trust the school will join')
-    cy.get('a[href="/trust/join-amat/application-select-trust?appId=10015"]').should('be.visible').contains('Add a trust')
+    cy.get('a[href="/trust/join-amat/application-select-trust?appId=80"]').should('be.visible').contains('Add a trust')
     cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
     cy.get('p').eq(3).contains('You will be able to invite other people to help you complete this form after you have added a school.')
 })
@@ -264,8 +270,8 @@ Cypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', (
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
-    cy.get('table[aria-describedby="schoolTableDescription"]').contains('Norwich School')
-    cy.get('a[href="/school/application-select-school?appId=193"]').contains('Change')
+    cy.get('table[aria-describedby="schoolTableDescription"]').contains('Plymstock School')
+    cy.get('a[href="/school/application-select-school?appId=10015"]').contains('Change')
     cy.get('div[class="govuk-grid-row"]').eq(1).contains('About the conversion')
     cy.get('.govuk-grid-column-one-third').eq(0).contains('Not Started')
     cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
@@ -285,9 +291,9 @@ Cypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', (
 
     cy.get('h2').eq(1).contains('The trust the school will join')
     //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
-    cy.get('span[class="govuk-!-font-weight-bold govuk-!-padding-right-5"]').contains('EAST ANGLIA SCHOOLS TRUST')
-    cy.get('a[href="/trust/join-amat/application-select-trust?appId=193"]').contains('Change')
-    cy.get('a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=193"]').contains('Trust details')
+    cy.get('span[class="govuk-!-font-weight-bold govuk-!-padding-right-5"]').contains('PLYMOUTH CAST')
+    cy.get('a[href="/trust/join-amat/application-select-trust?appId=10015"]').contains('Change')
+    cy.get('a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=10015"]').contains('Trust details')
     cy.get('[aria-describedby="trustTableDescription"]').contains('In Progress')
 
 
@@ -350,7 +356,7 @@ Cypress.Commands.add('selectChairOfGovernorsRadioButton', () => {
 })
 
 Cypress.Commands.add('verifyChairOfGovernorsRadioButtonChecked', () => {
-    cy.get('input[type="radio"]').should('be.checked')
+    cy.get('input[type="radio"]').eq(0).should('be.checked')
 })
 
 Cypress.Commands.add('selectSomethingElseRadioButton', () => {
@@ -362,5 +368,98 @@ Cypress.Commands.add('verifySomethingElseRadioButtonChecked', () => {
 })
 
 Cypress.Commands.add('selectWhatIsYourRoleSaveAndContinue', () => {
+    
+})
+
+Cypress.Commands.add('selectAddASchool', () => {
 
 })
+/*
+Cypress.Commands.add('selectAddATrust', () => {
+cy.get('.govuk-body').eq(0).then(($applicationId)=> {
+    const applicationId = $applicationId.text().split('_').pop().replace(/\s/g, '')
+    cy.log(`Application ID = ${applicationId}`)
+    globalApplicationId = applicationId
+    cy.log(`Global Application ID = ${globalApplicationId}`)
+    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${applicationId}"]`).click()
+})
+})
+*/
+
+Cypress.Commands.add('whichTrustIsSchoolJoiningElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back to application overview')
+    cy.get('.govuk-heading-m').contains('Trust details')
+    cy.get('h2').eq(1).contains('Which trust is the school joining?')
+    cy.get('label').contains('Enter the name of the trust, its Companies House number, or its group Id')
+    cy.get('#SearchQueryInput').should('exist')
+    cy.get('#btnAdd').should('be.visible').contains('Save and continue')
+})
+
+Cypress.Commands.add('selectTempSecondHalfCreateNewJAMApplication', () => {
+    cy.get('a[href="/application-overview?appId=10015"]').contains('Join a multi-academy trust')
+    cy.get('a[href="/application-overview?appId=10015"]').click()
+})
+
+Cypress.Commands.add('enterTrustNameSelectAndSubmit', () => {
+//-------------------------------------------------------------------------------------
+    // IF ALL ELSE FAILS PERHAPS LETS JUST FORCE A BACKEND API CALL
+//------------------------------------------------------------------------------------
+
+cy.request({
+                method: 'PUT',
+                url: 'https://s184d01-acacdnendpoint-ata0dwfremepeff8.z01.azurefd.net/application/10015/join-trust',
+                headers: 
+                {
+                  'x-api-key' : apiKey
+                },
+                body:
+                AddTrustToApplication
+            }).then((response) => {
+                expect(response).to.have.property('status', 200)
+  
+            })
+})
+
+Cypress.Commands.add('enterSchoolNameSelectAndSubmit', () => {
+    cy.request({
+        method: 'PUT',
+        url: 'https://s184d01-acacdnendpoint-ata0dwfremepeff8.z01.azurefd.net/application/10015',
+        headers: 
+        {
+          'x-api-key' : apiKey
+        },
+        body:
+        AddSchoolToApplication
+    }).then((response) => {
+        expect(response).to.have.property('status', 200)
+
+    })
+})
+
+Cypress.Commands.add('selectTrustDetails', () => {
+    cy.get('a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=10015"]').contains('Trust details')
+    cy.get('a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=10015"]').click()
+})
+
+
+Cypress.Commands.add('selectChangeSchool', () => {
+    cy.get('a[href="/school/application-select-school?appId=10015"]').click()
+})
+
+Cypress.Commands.add('changeSchoolName', () => {
+    cy.get('.autocomplete__wrapper > #SearchQueryInput').click()
+    cy.get('.autocomplete__wrapper > #SearchQueryInput').type('Plym')
+    cy.get('#SearchQueryInput__option--9').click()
+    cy.get('#ConfirmSelection').click()
+    cy.get('#btnAdd').click()
+})
+
+Cypress.Commands.add('whatIsTheNameOfTheSchoolElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back to application overview')
+    cy.get('h2').eq(0).contains('School details')
+    cy.get('h2').eq(1).contains('What is the name of the school?')
+    cy.get('label').contains('Enter the name of the school, or its 6 digit unique reference number (URN)')
+    cy.get('#SearchQueryInput').should('exist')
+    cy.get('#btnAdd').should('be.visible').contains('Save and continue')
+})
+
