@@ -98,6 +98,24 @@ describe('View Application Tests', () => {
         cy.wait(2000)
         A2BWhichTrustIsSchoolJoining.selectTrustName()
         cy.wait(1000)
+
+      // CLICK ADD A SCHOOL
+      A2BYourApplication.selectAddASchool()
+
+      // CHECK THE ELEMENTS OF THE ADD A SCHOOL PAGE DISPLAY CORRECTLY
+      Header.govUkHeaderVisible()
+      Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+      A2BWhatIsTheNameOfTheSchool.whatIsTheNameOfTheSchoolElementsVisible()
+
+      Footer.accessibilityStatementLinkVisible()
+      Footer.cookiesLinkVisible()
+      Footer.termsAndConditionsLinkVisible()
+      Footer.privacyLinkVisible()
+      Footer.oglLogoVisible()
+      Footer.allContentTextVisible()
+      Footer.openGovernmentLicence3LinkVisible()
+      Footer.crownCopyrightLinkVisible()
        
 
        cy.reload() // reload page and check for correct page attributes
