@@ -1,6 +1,6 @@
 import BasePage from "../BasePage"
 export default class A2BHome extends BasePage {
-/*
+/*  NOW CALLING THESE FROM NEW HEADER COMPONENT 
     static govUkHeaderVisible() {
         cy.get('.govuk-header__logotype').should('be.visible').contains('GOV.UK')
     }
