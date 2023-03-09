@@ -426,7 +426,7 @@ Cypress.Commands.add('selectChangeSchool', () => {
     cy.get('a[href="/school/application-select-school?appId=10015"]').click()
 })
 
-Cypress.Commands.add('changeSchoolName', () => {
+Cypress.Commands.add('selectSchoolName', () => {
     cy.get('.autocomplete__wrapper > #SearchQueryInput').click()
     cy.get('.autocomplete__wrapper > #SearchQueryInput').type('Plym')
     cy.get('#SearchQueryInput__option--9').click()
@@ -447,7 +447,7 @@ Cypress.Commands.add('selectChangeTrust', () => {
     cy.get('a[href="/trust/join-amat/application-select-trust?appId=10015"]').click()
 })
 
-Cypress.Commands.add('changeTrustName', () => {
+Cypress.Commands.add('selectTrustName', () => {
     cy.get('.autocomplete__wrapper > #SearchQueryInput').click()
     cy.get('.autocomplete__wrapper > #SearchQueryInput').type('Plym')
     cy.get('#SearchQueryInput__option--4').click()
