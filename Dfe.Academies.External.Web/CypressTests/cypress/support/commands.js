@@ -378,8 +378,15 @@ Cypress.Commands.add('selectWhatIsYourRoleSaveAndContinue', () => {
     
 })
 
-Cypress.Commands.add('selectAddASchool', () => {
 
+Cypress.Commands.add('selectAddASchool', () => {
+cy.get('.govuk-body').eq(0).then(($applicationId)=> {
+    const applicationId = $applicationId.text().split('_').pop().replace(/\s/g, '')
+    cy.log(`Application ID = ${applicationId}`)
+    globalApplicationId = applicationId
+    cy.log(`Global Application ID = ${globalApplicationId}`)
+    cy.get(`a[href="/school/application-select-school?appId=${applicationId}"]`).click()
+    })
 })
 /*
 Cypress.Commands.add('selectAddATrust', () => {
