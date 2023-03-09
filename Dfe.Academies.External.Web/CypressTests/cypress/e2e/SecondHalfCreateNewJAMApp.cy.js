@@ -79,7 +79,7 @@ describe('View Application Tests', () => {
         Footer.crownCopyrightLinkVisible()
 
         // Click Add a Trust
-      // A2BYourApplication.selectAddATrust()
+        A2BYourApplication.selectAddATrust()
 
       // Header.govUkHeaderVisible()
 //       Header.applyToBecomeAnAcademyHeaderLinkVisible()
