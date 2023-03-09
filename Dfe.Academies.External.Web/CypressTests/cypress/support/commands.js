@@ -414,41 +414,7 @@ Cypress.Commands.add('selectTempSecondHalfCreateNewJAMApplication', () => {
     cy.get('a[href="/application-overview?appId=10015"]').click()
 })
 
-Cypress.Commands.add('enterTrustNameSelectAndSubmit', () => {
-//-------------------------------------------------------------------------------------
-    // IF ALL ELSE FAILS PERHAPS LETS JUST FORCE A BACKEND API CALL
-//------------------------------------------------------------------------------------
 
-cy.request({
-                method: 'PUT',
-                url: 'https://s184d01-acacdnendpoint-ata0dwfremepeff8.z01.azurefd.net/application/10015/join-trust',
-                headers: 
-                {
-                  'x-api-key' : apiKey
-                },
-                body:
-                AddTrustToApplication
-            }).then((response) => {
-                expect(response).to.have.property('status', 200)
-  
-            })
-})
-
-Cypress.Commands.add('enterSchoolNameSelectAndSubmit', () => {
-    cy.request({
-        method: 'PUT',
-        url: 'https://s184d01-acacdnendpoint-ata0dwfremepeff8.z01.azurefd.net/application/10015',
-        headers: 
-        {
-          'x-api-key' : apiKey
-        },
-        body:
-        AddSchoolToApplication
-    }).then((response) => {
-        expect(response).to.have.property('status', 200)
-
-    })
-})
 
 Cypress.Commands.add('selectTrustDetails', () => {
     cy.get('a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=10015"]').contains('Trust details')
