@@ -463,3 +463,14 @@ Cypress.Commands.add('whatIsTheNameOfTheSchoolElementsVisible', () => {
     cy.get('#btnAdd').should('be.visible').contains('Save and continue')
 })
 
+Cypress.Commands.add('selectChangeTrust', () => {
+    cy.get('a[href="/trust/join-amat/application-select-trust?appId=10015"]').click()
+})
+
+Cypress.Commands.add('changeTrustName', () => {
+    cy.get('.autocomplete__wrapper > #SearchQueryInput').click()
+    cy.get('.autocomplete__wrapper > #SearchQueryInput').type('Plym')
+    cy.get('#SearchQueryInput__option--4').click()
+    cy.get('#ConfirmSelection').click()
+    cy.get('#btnAdd').click()
+})
