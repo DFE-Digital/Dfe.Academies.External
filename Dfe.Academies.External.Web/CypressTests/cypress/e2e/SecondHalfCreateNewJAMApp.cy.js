@@ -67,7 +67,7 @@ describe('View Application Tests', () => {
         Header.govUkHeaderVisible()
         Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
-        //A2BYourApplication.yourApplicationNotStartedElementsVisible()
+        A2BYourApplication.yourApplicationNotStartedElementsVisible()
    
         Footer.accessibilityStatementLinkVisible()
         Footer.cookiesLinkVisible()
