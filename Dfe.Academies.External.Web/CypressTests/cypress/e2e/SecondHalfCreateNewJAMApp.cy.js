@@ -81,19 +81,19 @@ describe('View Application Tests', () => {
         // Click Add a Trust
         A2BYourApplication.selectAddATrust()
 
-      // Header.govUkHeaderVisible()
-//       Header.applyToBecomeAnAcademyHeaderLinkVisible()
+        Header.govUkHeaderVisible()
+        Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
-       //A2BWhichTrustIsSchoolJoining.whichTrustIsSchoolJoiningElementsVisible()
+        A2BWhichTrustIsSchoolJoining.whichTrustIsSchoolJoiningElementsVisible()
 
-       //Footer.accessibilityStatementLinkVisible()
-       //Footer.cookiesLinkVisible()
-       //Footer.termsAndConditionsLinkVisible()
-       //Footer.privacyLinkVisible()
-       //Footer.oglLogoVisible()
-       //Footer.allContentTextVisible()
-       //Footer.openGovernmentLicence3LinkVisible()
-       //Footer.crownCopyrightLinkVisible()
+        Footer.accessibilityStatementLinkVisible()
+        Footer.cookiesLinkVisible()
+        Footer.termsAndConditionsLinkVisible()
+        Footer.privacyLinkVisible()
+        Footer.oglLogoVisible()
+        Footer.allContentTextVisible()
+        Footer.openGovernmentLicence3LinkVisible()
+        Footer.crownCopyrightLinkVisible()
 
        A2BWhichTrustIsSchoolJoining.enterTrustNameSelectAndSubmit()
        A2BWhatIsTheNameOfTheSchool.enterSchoolNameSelectAndSubmit()
