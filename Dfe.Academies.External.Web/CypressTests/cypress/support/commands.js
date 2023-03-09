@@ -388,7 +388,7 @@ cy.get('.govuk-body').eq(0).then(($applicationId)=> {
     cy.get(`a[href="/school/application-select-school?appId=${applicationId}"]`).click()
     })
 })
-/*
+
 Cypress.Commands.add('selectAddATrust', () => {
 cy.get('.govuk-body').eq(0).then(($applicationId)=> {
     const applicationId = $applicationId.text().split('_').pop().replace(/\s/g, '')
@@ -398,7 +398,7 @@ cy.get('.govuk-body').eq(0).then(($applicationId)=> {
     cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${applicationId}"]`).click()
 })
 })
-*/
+
 
 Cypress.Commands.add('whichTrustIsSchoolJoiningElementsVisible', () => {
     cy.get('.govuk-back-link').contains('Back to application overview')
