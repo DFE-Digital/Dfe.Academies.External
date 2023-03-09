@@ -16,9 +16,9 @@ export default class A2BYourApplication extends BasePage {
         cy.selectAddATrust()
     }
 
-    static yourApplicationNotStartedSelectAddASchool()
+    static selectAddASchool()
     {
-        cy.yourApplicationNotStartedSelectAddASchool()
+        cy.SelectAddASchool()
     }
 
     static selectTrustDetails() {
