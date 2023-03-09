@@ -14,6 +14,8 @@ module "azure_container_apps_hosting" {
   container_command                      = local.container_command
   container_secret_environment_variables = local.container_secret_environment_variables
 
+  enable_event_hub = local.enable_event_hub
+
   enable_cdn_frontdoor                        = local.enable_cdn_frontdoor
   enable_dns_zone                             = local.enable_dns_zone
   dns_zone_domain_name                        = local.dns_zone_domain_name
