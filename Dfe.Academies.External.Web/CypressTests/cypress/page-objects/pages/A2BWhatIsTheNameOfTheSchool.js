@@ -5,10 +5,6 @@ static whatIsTheNameOfTheSchoolElementsVisible() {
     cy.whatIsTheNameOfTheSchoolElementsVisible()
 }
 
-static enterSchoolNameSelectAndSubmit() {
-cy.enterSchoolNameSelectAndSubmit()
-}
-
 static changeSchoolName() {
     cy.changeSchoolName()
 }
