@@ -94,7 +94,10 @@ describe('View Application Tests', () => {
         Footer.allContentTextVisible()
         Footer.openGovernmentLicence3LinkVisible()
         Footer.crownCopyrightLinkVisible()
-
+        
+        cy.wait(2000)
+        A2BWhichTrustIsSchoolJoining.selectTrustName()
+        cy.wait(1000)
        
 
        cy.reload() // reload page and check for correct page attributes
