@@ -107,6 +107,16 @@ Cypress.Commands.add('login', (username, password) => {
 })
 })
 
+Cypress.Commands.add('loginToUnauthApplication', (username, password) => {
+    //cy.get('#form-signin').should('be.visible')
+  
+    username = 'dan.good@education.gov.uk'
+    password = 'P1ngO*1984'
+    cy.get('#username').type(username)
+    cy.get('#password').type(password, { log: false})
+    cy.contains('Sign in').click()
+})
+
 Cypress.Commands.add('createAccount', () => {
     cy.origin('https://test-interactions.signin.education.gov.uk//7fbd2f4e-8296-4211-a7e4-a38df63d3ff5/usernamepassword', () => {
     cy.contains('Create account').click()
