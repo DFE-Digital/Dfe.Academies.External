@@ -29,6 +29,10 @@ export default class A2BYourApplication extends BasePage {
         cy.selectChangeSchool()
     }
 
+    static selectChangeTrust() {
+        cy.selectChangeTrust()
+    }
+
 
 
 
