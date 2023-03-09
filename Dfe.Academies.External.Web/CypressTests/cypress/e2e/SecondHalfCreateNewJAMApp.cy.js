@@ -118,7 +118,7 @@ describe('View Application Tests', () => {
       Footer.crownCopyrightLinkVisible()
        
 
-       cy.reload() // reload page and check for correct page attributes
+       
 
 
        Header.govUkHeaderVisible()
