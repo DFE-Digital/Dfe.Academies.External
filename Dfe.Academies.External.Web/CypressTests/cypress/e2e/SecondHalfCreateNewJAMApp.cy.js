@@ -117,7 +117,9 @@ describe('View Application Tests', () => {
       Footer.openGovernmentLicence3LinkVisible()
       Footer.crownCopyrightLinkVisible()
        
-
+      cy.wait(2000)
+      A2BWhatIsTheNameOfTheSchool.selectSchoolName()
+      cy.wait(1000)
        
 
 
