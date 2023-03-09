@@ -1,10 +1,7 @@
 import 'cypress-file-upload'
 
 import DataGenerator from "../fixtures/data-generator"
-import {AddTrustToApplication} from "../payloads/AddTrustToApplication"
-import { AddSchoolToApplication } from "../payloads/AddSchoolToApplication";
 
-let apiKey = 'anVIWGLFFqkhYCbBvmoIyOHVRJSZgRjQ' //Cypress.env('apiKey');
 let globalApplicationId = 10015;
 // ***********************************************
 // This example commands.js shows you how to
