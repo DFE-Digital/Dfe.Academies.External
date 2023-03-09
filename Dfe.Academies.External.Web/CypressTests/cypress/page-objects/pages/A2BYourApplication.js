@@ -18,7 +18,7 @@ export default class A2BYourApplication extends BasePage {
 
     static selectAddASchool()
     {
-        cy.SelectAddASchool()
+        cy.selectAddASchool()
     }
 
     static selectTrustDetails() {
