@@ -15,6 +15,7 @@ public interface IFileUploadService
 	Task<List<string>> GetFiles(string entityName, string recordId, string recordName, string fieldName);
 	Task<string> UploadFile(string entity, string recordId, string recordName, string fieldName, IFormFile file);
 	Task DeleteFile(string entityName, string recordId, string recordName, string fieldName, string fileName);
+	Task FixApplyingSchool(string appReference, string schoolEntityId);
 }
 
 public class FileUploadService : IFileUploadService
@@ -30,6 +31,12 @@ public class FileUploadService : IFileUploadService
 			_aadAuthorisationHelper = aadAuthorisationHelper;
 		}
 
+		public async Task FixApplyingSchool(string appReference, string schoolEntityId)
+		{
+			var url = $"{_httpClient.BaseAddress}/utils/fix-applying-school?appReference={appReference}&applyingSchoolId={schoolEntityId}";
+			using var request = new HttpRequestMessage(HttpMethod.Put, url);
+			await DoHttpRequest(request);
+		}
 		public async Task<List<string>> GetFiles(string entityName, string recordId, string recordName, string fieldName)
 		{
 			var url = $"?entityName={entityName}&recordName={recordName}&recordId={recordId}&fieldName={fieldName}";
@@ -81,7 +88,7 @@ public class FileUploadService : IFileUploadService
 			var response = await _httpClient.SendAsync(request);
 
 			if (!response.IsSuccessStatusCode)
-				throw new FileUploadException($"The file upload service failed with a status of {response.ReasonPhrase}");
+				throw new FileUploadException($"The file service failed with a status of {response.ReasonPhrase}");
 
 			var receiveStream = await response.Content.ReadAsStreamAsync();
 			using var readStream = new StreamReader(receiveStream, Encoding.UTF8);
