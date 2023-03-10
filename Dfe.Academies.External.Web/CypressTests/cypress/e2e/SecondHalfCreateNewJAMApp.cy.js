@@ -9,7 +9,7 @@ import Footer from '../page-objects/components/Footer'
 import A2BWhichTrustIsSchoolJoining from '../page-objects/pages/A2BWhichTrustIsSchoolJoining'
 import A2BWhatIsTheNameOfTheSchool from '../page-objects/pages/A2BWhatIsTheNameOfTheSchool'
 
-describe('View Application Tests', () => {
+describe('Second Half Create New JAM App', () => {
 
     beforeEach(function() {
         cy.visit(url)
