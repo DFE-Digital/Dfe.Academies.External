@@ -469,3 +469,48 @@ Cypress.Commands.add('youDontHavePermissionsElementsVisible', () => {
      cy.get('a[href="mailto:regionalservices.rg@education.gov.uk"]').contains('regionalservices.rg@education.gov.uk')
     })
  })
+
+ Cypress.Commands.add('JAMTrustDetailsSummaryElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back to application overview')
+    cy.get('.govuk-caption-l').contains('Join a multi-academy trust')
+    cy.get('.govuk-heading-l').contains('PLYMOUTH CAST')
+    cy.get('.govuk-heading-m').eq(0).contains('The trust the school is joining')
+    cy.get('.govuk-body').contains('The name of the trust')
+    cy.get('a[href="/trust/join-amat/application-select-trust?appId=87&urn=0"]').contains('Change your answers')
+    cy.get('.govuk-heading-m').eq(1).contains('Details')
+    cy.get('p').eq(3).contains('Upload evidence that the trust consents to the school joining')
+    cy.get('p').eq(5).contains('Will there be any changes to the governance of the trust due to the school joining?')
+    cy.get('p').eq(7).contains('Will there be any changes at a local level due to this school joining?')
+    cy.get('p').eq(8).contains('Not Entered')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
+    cy.get('a[class="govuk-button"]').should('be.visible').contains('Save and return to your application')
+})
+
+Cypress.Commands.add('JAMTrustDetailsSummarySelectStartSection', () => {
+    cy.get('a[class="govuk-button govuk-button--secondary"]').click()
+})
+
+Cypress.Commands.add('JAMTrustConsentElementsVisible', () => {
+    cy.get('a[class="govuk-back-link"]').contains('Back to trust summary')
+    cy.get('.govuk-caption-l').contains('PLYMOUTH CAST (step 1 of 3)')
+    cy.get('.govuk-heading-l').contains('Trust consent')
+    cy.get('legend').eq(0).contains('Upload evidence that the trust consents to the school joining')
+    cy.get('.govuk-label').eq(0).contains('This can be either a letter of consent from the trust, or the minutes of their board meeting.')
+    cy.get('.govuk-label').eq(1).contains('Upload a file')
+    cy.get('#trustConsentFileUpload').should('be.visible')
+    cy.get('legend').eq(1).contains('Uploaded files')
+    cy.get('hr').eq(0).should('be.visible')
+    cy.get('p').eq(3).contains('No file uploaded')
+    cy.get('hr').eq(1).should('be.visible')
+    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
+
+})
+
+Cypress.Commands.add('JAMTrustConsentFileUpload', () => {
+  const filepath = '../fixtures/nine-hundredk.docx'
+  cy.get('#trustConsentFileUpload').attachFile(filepath)
+})
+
+Cypress.Commands.add('JAMTrustConsentSubmit', () => {
+    cy.get('input[type="submit"]').click()
+})
