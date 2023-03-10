@@ -33,7 +33,7 @@ public class FileUploadService : IFileUploadService
 
 		public async Task FixApplyingSchool(string appReference, string schoolEntityId)
 		{
-			var url = $"/utils/fix-applying-school?appReference={appReference}&applyingSchoolId={schoolEntityId}";
+			var url = $"{_httpClient.BaseAddress}/utils/fix-applying-school?appReference={appReference}&applyingSchoolId={schoolEntityId}";
 			using var request = new HttpRequestMessage(HttpMethod.Put, url);
 			await DoHttpRequest(request);
 		}
