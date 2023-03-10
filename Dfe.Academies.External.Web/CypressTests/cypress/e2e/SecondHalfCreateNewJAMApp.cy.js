@@ -137,11 +137,5 @@ describe('Second Half Create New JAM App', () => {
        Footer.openGovernmentLicence3LinkVisible()
        Footer.crownCopyrightLinkVisible()
 
-       // PROCEED TO TRUST DETAILS SECTION
-       A2BYourApplication.selectTrustDetails()
-
-       // CHECK TRUST DETAILS SUMMARY PAGE
-       
-
     })
 })
