@@ -295,6 +295,36 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		}
 	}
 
+	public async Task<List<ApplicationSchoolSharepointServiceModel>> GetAllApplications()
+	{
+		try
+		{
+			// baseaddress has a backslash at the end to be a valid URI !!!
+			// https://academies-academisation-api-dev.azurewebsites.net/application/99
+			// endpoint will return 404 if id NOT found !
+			string apiurl = $"{_httpClient.BaseAddress}application/all?api-version=V1";
+
+			JsonSerializerOptions options = new JsonSerializerOptions
+			{
+				PropertyNameCaseInsensitive = true,
+				Converters = {
+					new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+				},
+				PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+			};
+
+			// Get data from Academisation API
+			var sharepointServiceModels = await _resilientRequestProvider.GetAsync<List<ApplicationSchoolSharepointServiceModel>>(apiurl, options);
+
+			return sharepointServiceModels;
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError("ConversionApplicationRetrievalService::GetAllApplications::Exception - {Message}", ex.Message);
+			return new ();
+		}
+	}
+
 	/// <summary>
 	/// About the conversion = 4 sections - so could return 'In Progress' or Completed or NotStarted
 	/// Same logic in here as summary page. Should we re-factor?

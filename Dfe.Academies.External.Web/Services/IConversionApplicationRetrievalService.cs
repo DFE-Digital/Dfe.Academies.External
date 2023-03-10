@@ -48,6 +48,8 @@ public interface IConversionApplicationRetrievalService
 	/// <returns></returns>
 	Task<ConversionApplication?> GetApplication(int applicationId);
 
+	Task<List<ApplicationSchoolSharepointServiceModel>> GetAllApplications();
+
 	/// <summary>
 	/// Calculate whether all trust sections of application have been filled in.
 	/// Could return InProgress or Completed or NotStarted because inner method will return that
