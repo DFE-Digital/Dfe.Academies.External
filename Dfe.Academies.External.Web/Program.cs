@@ -202,6 +202,14 @@ builder.Services.AddQuartz(q => { q.UseMicrosoftDependencyInjectionJobFactory();
 builder.Services.AddQuartzHostedService(opt => { opt.WaitForJobsToComplete = true; });
 var app = builder.Build();
 
+// added content security policy, manual for now but should probably look at this package in the future NWebsec.AspNetCore.Middleware
+app.Use(async (context, next) =>
+{
+	context.Response.Headers.Add("Content-Security-Policy", "default-src 'self' wss://localhost:44352/Dfe.Academies.External.Web/; script-src 'self' 'sha256-qL+CKdDo+s+wbAVlMRNaKTthlML5CHI7jaNN8xIHquM=' 'sha256-oJB7VN5D3FsVWp4IBkMG5wPNDs4/Yf73/2mCN7Va9ao=' 'sha256-mmu7ufJkx6yK/dAWH2qN/k0kRhIj7O1GP53WoweDgVw=' 'sha256-YXeAP6J7c5mHporqs1+yXBn3qwau95EZrnniBY+4bpQ=' 'sha256-l1eTVSK8DTnK8+yloud7wZUqFrI0atVo6VlC6PJvYaQ=' https://www.googletagmanager.com/gtm.js; style-src 'self'; font-src 'self'; img-src 'self'; frame-src 'self'");
+
+	await next();
+});
+
 var schedulerFactory = app.Services.GetRequiredService<ISchedulerFactory>();
 var scheduler = await schedulerFactory.GetScheduler();
 
