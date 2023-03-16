@@ -48,7 +48,7 @@
                         (@string.Join(", ", keyPerson.Roles.Select(x => x.Role.GetDescription())))
                     </h3>
                     <p>
-                        <strong>Date of birth: </strong>@(keyPerson.DateOfBirth.ToShortDateString())<br>
+                        <strong>Date of birth: </strong>@(keyPerson.DateOfBirth.ToString("dd/MM/yyyy"))<br>
                         <strong>Biography: </strong>@(keyPerson.Biography)
                     </p>
                     			    <div>

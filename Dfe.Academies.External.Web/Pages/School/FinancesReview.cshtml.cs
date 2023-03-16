@@ -5,6 +5,8 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
+using Newtonsoft.Json.Linq;
+
 namespace Dfe.Academies.External.Web.Pages.School
 {
     public class FinancesReviewModel : BaseSchoolSummaryPageModel
@@ -53,7 +55,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// PFYEndDate
 			PFYheading.Sections.Add(new(FinancesReviewSectionViewModel.PFYEndDate,
 				previousFinancialYear.FinancialYearEndDate.HasValue ?
-					previousFinancialYear.FinancialYearEndDate.Value.ToShortDateString() : QuestionAndAnswerConstants.NoInfoAnswer)
+					previousFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy") : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			//PFYRevenue
 			PFYheading.Sections.Add(new(FinancesReviewSectionViewModel.PFYRevenue,
@@ -117,7 +119,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    
 		    CFYheading.Sections.Add(new(FinancesReviewSectionViewModel.CFYEndDate,
 			    currentFinancialYear.FinancialYearEndDate.HasValue ?
-				    currentFinancialYear.FinancialYearEndDate.Value.ToShortDateString() : QuestionAndAnswerConstants.NoInfoAnswer)
+				    currentFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy") : QuestionAndAnswerConstants.NoInfoAnswer)
 		    );
 
 		    CFYheading.Sections.Add(new(FinancesReviewSectionViewModel.CFYRevenue,
@@ -143,7 +145,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		    CFYheading.Sections.Add(new(FinancesReviewSectionViewModel.CFYCapitalCarryForward,
 			    currentFinancialYear.CapitalCarryForward.HasValue ?
-				    currentFinancialYear.CapitalCarryForward.Value.ToString() : QuestionAndAnswerConstants.NoInfoAnswer)
+				    currentFinancialYear.CapitalCarryForward.Value.ToString("dd/MM/yyyy") : QuestionAndAnswerConstants.NoInfoAnswer)
 		    );
 
 		    CFYheading.Sections.Add(new(
@@ -178,7 +180,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// NFYEndDate
 			NFYheading.Sections.Add(new(FinancesReviewSectionViewModel.NFYEndDate,
 				nextFinancialYear.FinancialYearEndDate.HasValue ?
-					nextFinancialYear.FinancialYearEndDate.Value.ToShortDateString() : QuestionAndAnswerConstants.NoInfoAnswer)
+					nextFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy") : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			//NFYRevenue
 			NFYheading.Sections.Add(new(FinancesReviewSectionViewModel.NFYRevenue,
