@@ -60,7 +60,7 @@
 											    <dd class="govuk-summary-list__value">
 												    <p class="govuk-label">Purpose: <strong>@Model.LeaseViewModels[i].Purpose</strong></p>
 												    <p class="govuk-label">Amount: <strong>£@Model.LeaseViewModels[i].RepaymentAmount</strong></p>
-												    <a asp-page="/school/LeaseDetails" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LeaseViewModels[i].Id" asp-route-isEdit="true" asp-route-isDraft="@Model.LeaseViewModels[i].IsDraft">
+												    <a asp-page="/school/LeaseDetails" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LeaseViewModels[i].Id" asp-route-isEdit="true">
 												       Change answers
 													</a>
 											    </dd>
