@@ -10,6 +10,7 @@ using Dfe.Academies.External.Web.Models.EmailTemplates;
 using Dfe.Academies.External.Web.Routing;
 using Dfe.Academies.External.Web.Services;
 using GovUk.Frontend.AspNetCore;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.DataProtection;
@@ -22,6 +23,7 @@ using Notify.Interfaces;
 using Polly;
 using Polly.Extensions.Http;
 using Quartz;
+using Serilog;
 
 //using Serilog;
 //using Serilog.Events;
@@ -169,22 +171,28 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 	};
 	options.DefaultRequestCulture = new RequestCulture("en-GB");
 	// By default the below will be set to whatever the server culture is.
-    options.SupportedCultures = supportedCultures;
+	options.SupportedCultures = supportedCultures;
 	// Supported cultures is a list of cultures that your web app will be able to run under. By default this is set to a the culture of the machine. 
 	options.SupportedUICultures = supportedCultures;
 });
 
 
-builder.Services.AddApplicationInsightsTelemetry();
-var aiOptions = new Microsoft.ApplicationInsights.AspNetCore.Extensions.ApplicationInsightsServiceOptions();
+builder.Services.AddApplicationInsightsTelemetry(builder.Configuration);
+//var aiOptions = new Microsoft.ApplicationInsights.AspNetCore.Extensions.ApplicationInsightsServiceOptions();
 
-// Disables adaptive sampling.
-aiOptions.EnableAdaptiveSampling = false;
+//// Disables adaptive sampling.
+//aiOptions.EnableAdaptiveSampling = false;
 
-// Disables QuickPulse (Live Metrics stream).
-aiOptions.EnableQuickPulseMetricStream = false;
-aiOptions.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
-builder.Services.AddApplicationInsightsTelemetry(aiOptions);
+//// Disables QuickPulse (Live Metrics stream).
+//aiOptions.EnableQuickPulseMetricStream = false;
+//aiOptions.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
+//builder.Services.AddApplicationInsightsTelemetry(aiOptions);
+
+builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfiguration
+				.WriteTo.ApplicationInsights(
+			services.GetRequiredService<TelemetryConfiguration>(),
+			TelemetryConverter.Traces));
+
 var localDevelopment = builder.Configuration.GetValue<bool>("local_development");
 if (!localDevelopment)
 {
@@ -202,20 +210,6 @@ builder.Services.AddQuartz(q => { q.UseMicrosoftDependencyInjectionJobFactory();
 builder.Services.AddQuartzHostedService(opt => { opt.WaitForJobsToComplete = true; });
 var app = builder.Build();
 
-// added content security policy, manual for now but should probably look at this package in the future NWebsec.AspNetCore.Middleware
-app.Use(async (context, next) =>
-{
-	if (!context.Response.Headers.ContainsKey("Content-Security-Policy"))
-	{
-		context.Response.Headers.Add("Content-Security-Policy", "default-src 'self' wss://localhost:44352/Dfe.Academies.External.Web/; script-src 'self' 'sha256-qL+CKdDo+s+wbAVlMRNaKTthlML5CHI7jaNN8xIHquM=' 'sha256-oJB7VN5D3FsVWp4IBkMG5wPNDs4/Yf73/2mCN7Va9ao=' 'sha256-mmu7ufJkx6yK/dAWH2qN/k0kRhIj7O1GP53WoweDgVw=' 'sha256-YXeAP6J7c5mHporqs1+yXBn3qwau95EZrnniBY+4bpQ=' 'sha256-l1eTVSK8DTnK8+yloud7wZUqFrI0atVo6VlC6PJvYaQ=' https://www.googletagmanager.com/gtm.js; style-src 'self'; font-src 'self'; img-src 'self'; frame-src 'self'");
-	}
-	if (!context.Response.Headers.ContainsKey("Feature-Policy"))
-	{
-		context.Response.Headers.Add("Feature-Policy", "accelerometer 'none'; camera 'none'; microphone 'none';");
-	}
-	await next();
-});
-
 var schedulerFactory = app.Services.GetRequiredService<ISchedulerFactory>();
 var scheduler = await schedulerFactory.GetScheduler();
 
@@ -230,7 +224,7 @@ var trigger = TriggerBuilder.Create()
 
 
 await scheduler.ScheduleJob(job, trigger);
-	
+
 // Configure the HTTP request pipeline.
 
 if (!app.Environment.IsDevelopment())
