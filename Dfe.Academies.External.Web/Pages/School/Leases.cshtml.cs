@@ -52,17 +52,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (!RunUiValidation()) return Page();
 
+			//clear leases if no and set hasLeases
 			if (AnyLeases == SelectOption.No)
 			{
 				foreach (var leaseViewModel in LeaseViewModels)
 				{
 					await ConversionApplicationCreationService.DeleteLease(ApplicationId, selectedSchool.id, leaseViewModel.Id);
 				}
-			}
-
-			// if user has selected no then update the school and set hasLoans
-			if (!LeaseViewModels.Any() && AnyLeases == SelectOption.No)
-			{	
+				
 				var dictionaryMapper = PopulateUpdateDictionary();
 				await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 			}

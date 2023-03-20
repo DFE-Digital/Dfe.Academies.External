@@ -79,7 +79,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			// clear loans if no
+			// clear loans if no and set hasLoans
 			if (AnyLoans == SelectOption.No)
 			{
 				foreach (var loanViewModel in LoanViewModels)
@@ -87,11 +87,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 					await ConversionApplicationCreationService.DeleteLoan(ApplicationId, selectedSchool.id, loanViewModel.Id);
 
 				}
-			}
-
-			// if user has selected no then update the school and set hasLoans
-			if (!LoanViewModels.Any() && AnyLoans == SelectOption.No)
-			{
+				
 				var dictionaryMapper = PopulateUpdateDictionary();
 				await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 			}
