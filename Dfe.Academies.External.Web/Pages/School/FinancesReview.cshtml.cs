@@ -145,7 +145,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		    CFYheading.Sections.Add(new(FinancesReviewSectionViewModel.CFYCapitalCarryForward,
 			    currentFinancialYear.CapitalCarryForward.HasValue ?
-				    currentFinancialYear.CapitalCarryForward.Value.ToString("dd/MM/yyyy") : QuestionAndAnswerConstants.NoInfoAnswer)
+				    currentFinancialYear.CapitalCarryForward.Value.ToString() : QuestionAndAnswerConstants.NoInfoAnswer)
 		    );
 
 		    CFYheading.Sections.Add(new(
