@@ -529,3 +529,18 @@ Cypress.Commands.add('changesToTheTrustElementsVisible', () => {
     cy.get('.govuk-label').eq(3).contains('Unknown at this point')
     cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
 })
+
+Cypress.Commands.add('changesToTheTrustClickYes', () => {
+    cy.get('#revenueTypeYes').click()
+})
+
+Cypress.Commands.add('enterChangesToTheTrust', () => {
+    cy.get('#PFYRevenueStatusExplained').click()
+    cy.get('#PFYRevenueStatusExplained').type('What are the changes? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ull')
+
+})
+
+
+Cypress.Commands.add('changesToTheTrustSubmit', () => {
+    cy.get('input[type="submit"]').click()
+})
