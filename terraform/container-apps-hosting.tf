@@ -16,9 +16,12 @@ module "azure_container_apps_hosting" {
 
   enable_event_hub = local.enable_event_hub
 
+  enable_dns_zone      = local.enable_dns_zone
+  dns_zone_domain_name = local.dns_zone_domain_name
+  dns_ns_records       = local.dns_ns_records
+  dns_txt_records      = local.dns_txt_records
+
   enable_cdn_frontdoor                        = local.enable_cdn_frontdoor
-  enable_dns_zone                             = local.enable_dns_zone
-  dns_zone_domain_name                        = local.dns_zone_domain_name
   cdn_frontdoor_enable_rate_limiting          = local.cdn_frontdoor_enable_rate_limiting
   cdn_frontdoor_rate_limiting_threshold       = local.cdn_frontdoor_rate_limiting_threshold
   cdn_frontdoor_host_add_response_headers     = local.cdn_frontdoor_host_add_response_headers
