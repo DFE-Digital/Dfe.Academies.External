@@ -22,7 +22,7 @@ public class FixSharepointFoldersJob : IJob
 		foreach (var applicationSchoolSharepointServiceModel in sharepointApplicationServiceModels)
 		{
 			_logger.LogInformation($"Application sharepoint model: {applicationSchoolSharepointServiceModel.ApplicationReference}");
-			foreach (var schoolSharepointServiceModel in applicationSchoolSharepointServiceModel.SchoolSharepointServiceModels)
+			foreach (var schoolSharepointServiceModel in applicationSchoolSharepointServiceModel.SchoolSharepointServiceModels.Where(x => x.EntityId != Guid.Empty))
 			{
 				_logger.LogInformation($"Fixing folder structure for application: {applicationSchoolSharepointServiceModel.ApplicationReference} with school: {schoolSharepointServiceModel.Name} :: ${schoolSharepointServiceModel.EntityId}");
 				try
@@ -31,7 +31,7 @@ public class FixSharepointFoldersJob : IJob
 				}
 				catch (FileUploadException ex)
 				{
-					_logger.LogError($"Could not fix folder structure for application: {applicationSchoolSharepointServiceModel.ApplicationReference} with school: {schoolSharepointServiceModel.Name} :: ${schoolSharepointServiceModel.EntityId}");
+					_logger.LogCritical(ex, $"Could not fix folder structure for application: {applicationSchoolSharepointServiceModel.ApplicationReference} with school: {schoolSharepointServiceModel.Name} :: ${schoolSharepointServiceModel.EntityId}");
 					_logger.LogDebug($"{ex.StackTrace}");
 				}
 			}
