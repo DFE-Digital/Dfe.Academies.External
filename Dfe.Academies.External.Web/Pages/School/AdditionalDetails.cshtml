@@ -108,22 +108,6 @@
 					@safeguardingOption.GetDescription()
 				</label>
 			</div>
-			@if (safeguardingOption == SelectOption.Yes)
-			{
-				<div class="@(Model.SafeguardingInvestigationsError ? "govuk-form-group--error" : "govuk-radios__conditional")
-																	@(safeguardingOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
-				     id="safeguardingOption-yes">
-					<div class="govuk-form-group govuk-error-summary__list">
-						<a href="#SafeguardingDetails" 
-						   class="@(Model.SafeguardingInvestigationsError ? "govuk-error-message" : "govuk-visually-hidden")">
-							You must provide details
-						</a>
-						<label for="SafeguardingDetails" class="govuk-label">Details of the investigation</label>
-						<textarea asp-for="SafeguardingDetails" id="SafeguardingDetails" 
-                                													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
-					</div>
-				</div>
-			}
 		}
 	</fieldset>
 </div>

@@ -32,9 +32,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public SelectOption SafeguardingInvestigations { get; set; }
 		
 		[BindProperty]
-		public string? SafeguardingDetails { get; set; }
-		
-		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
 		public SelectOption LocalAuthorityReorganisation { get; set; }
 		
@@ -262,7 +259,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				selectedSchool.id,
 				TrustBenefitDetails,
 				OfstedInspectionDetails,
-				SafeguardingDetails,
+				SafeguardingInvestigations == SelectOption.Yes,
 				LocalAuthorityReorganisationDetails,
 				LocalAuthorityClosurePlanDetails,
 				DioceseName,
@@ -306,12 +303,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			if (OfstedInspected == SelectOption.Yes && string.IsNullOrWhiteSpace(OfstedInspectionDetails))
 			{
 				ModelState.AddModelError("OfstedInspectionDetailsNotAdded", "You must enter Ofsted inspection details");
-				PopulateValidationMessages();
-				return false;
-			}
-			if (SafeguardingInvestigations == SelectOption.Yes && string.IsNullOrWhiteSpace(SafeguardingDetails))
-			{
-				ModelState.AddModelError("SafeguardingDetailsNotAdded", "You must enter safeguarding investigation details");
 				PopulateValidationMessages();
 				return false;
 			}
@@ -430,7 +421,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			OfstedInspected = selectedSchool.OfstedInspectionDetails == null
 				? SelectOption.No
 				: SelectOption.Yes;
-			SafeguardingDetails = selectedSchool.SafeguardingDetails;
+			SafeguardingInvestigations = selectedSchool.Safeguarding ? SelectOption.Yes : SelectOption.No;
 			LocalAuthorityReorganisation = selectedSchool.LocalAuthorityReorganisationDetails == null
 				? SelectOption.No
 				: SelectOption.Yes;
