@@ -86,9 +86,10 @@ public class FileUploadService : IFileUploadService
 			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
 			var response = await _httpClient.SendAsync(request);
-
+			var content = await response.Content.ReadAsStringAsync();
+			
 			if (!response.IsSuccessStatusCode)
-				throw new FileUploadException($"The file service failed with a status of {response.ReasonPhrase}");
+				throw new FileUploadException($"The file service failed with a status of {response.ReasonPhrase} {content}");
 
 			var receiveStream = await response.Content.ReadAsStreamAsync();
 			using var readStream = new StreamReader(receiveStream, Encoding.UTF8);
