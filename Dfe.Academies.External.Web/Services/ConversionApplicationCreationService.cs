@@ -371,7 +371,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 	///<inheritdoc/>
 	public async Task SetAdditionalDetails(int applicationId, int schoolId, string trustBenefitDetails, string? ofstedInspectionDetails,
-		string? safeguardingDetails, string? localAuthorityReorganisationDetails, string? localAuthorityClosurePlanDetails,
+		bool safeguarding, string? localAuthorityReorganisationDetails, string? localAuthorityClosurePlanDetails,
 		string? dioceseName, string? dioceseFolderIdentifier, bool partOfFederation, string? foundationTrustOrBodyName,
 		string? foundationConsentFolderIdentifier, DateTimeOffset? exemptionEndDate, string mainFeederSchools,
 		string? resolutionConsentFolderIdentifier, SchoolEqualitiesProtectedCharacteristics? protectedCharacteristics,
@@ -383,7 +383,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			SchoolId = schoolId,
 			TrustBenefitDetails = trustBenefitDetails,
 			OfstedInspectionDetails = ofstedInspectionDetails,
-			SafeguardingDetails = safeguardingDetails,
+			Safeguarding = safeguarding,
 			LocalAuthorityReorganisationDetails = localAuthorityReorganisationDetails,
 			LocalAuthorityClosurePlanDetails = localAuthorityClosurePlanDetails,
 			DioceseName = dioceseName,
