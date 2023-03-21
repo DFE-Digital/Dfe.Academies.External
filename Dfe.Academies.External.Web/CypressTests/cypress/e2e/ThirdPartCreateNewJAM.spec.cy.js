@@ -124,6 +124,54 @@ describe('Third Part Create New JAM App - Complete Trust Details', () => {
        // ATTEMPT TO SUBMIT TRUST CONSENT FORM
        A2BJAMTrustConsent.JAMTrustConsentSubmit()
 
+       // VERIFY THE CHANGES TO THE TRUST PAGE DISPLAYS CORRECTLY
+       Header.govUkHeaderVisible()
+       Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+       A2BChangesToTheTrust.changesToTheTrustElementsVisible()
+
+       Footer.accessibilityStatementLinkVisible()
+       Footer.cookiesLinkVisible()
+       Footer.termsAndConditionsLinkVisible()
+       Footer.privacyLinkVisible()
+       Footer.oglLogoVisible()
+       Footer.allContentTextVisible()
+       Footer.openGovernmentLicence3LinkVisible()
+       Footer.crownCopyrightLinkVisible()
+
+
+       // CLICK YES TO CHANGES TO THE TRUST, ENTER REASONS WHY, AND CLICK ON THE SUBMIT BUTTON
+       A2BChangesToTheTrust.changesToTheTrustClickYes()
+
+       A2BChangesToTheTrust.enterChangesToTheTrust()
+
+       A2BChangesToTheTrust.changesToTheTrustSubmit()
+
+       // CHECK ELEMENTS VISIBLE ON LOCAL GOVERNANCE ARRANGEMENTS PAGE
+       Header.govUkHeaderVisible()
+       Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+       A2BLocalGovernanceArrangements.localGovernanceArrangementsElementsVisible()
+
+
+       Footer.accessibilityStatementLinkVisible()
+       Footer.cookiesLinkVisible()
+       Footer.termsAndConditionsLinkVisible()
+       Footer.privacyLinkVisible()
+       Footer.oglLogoVisible()
+       Footer.allContentTextVisible()
+       Footer.openGovernmentLicence3LinkVisible()
+       Footer.crownCopyrightLinkVisible()
+
+
+       // CLICK YES
+       A2BLocalGovernanceArrangements.localGovernanceArrangementsClickYes()
+
+       // ENTER REASONS
+       A2BLocalGovernanceArrangements.enterlocalGovernanceArrangementsChanges()
+
+       // SUBMIT LOCAL GOVERNACE ARRANGEMENTS FORM
+       A2BLocalGovernanceArrangements.localGovernanceArrangementsSubmit()
     })
       
 })
