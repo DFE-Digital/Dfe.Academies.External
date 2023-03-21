@@ -12,6 +12,8 @@ locals {
   enable_event_hub                             = var.enable_event_hub
   enable_dns_zone                              = var.enable_dns_zone
   dns_zone_domain_name                         = var.dns_zone_domain_name
+  dns_ns_records                               = var.dns_ns_records
+  dns_txt_records                              = var.dns_txt_records
   restrict_container_apps_to_cdn_inbound_only  = var.restrict_container_apps_to_cdn_inbound_only
   cdn_frontdoor_enable_rate_limiting           = var.cdn_frontdoor_enable_rate_limiting
   cdn_frontdoor_rate_limiting_threshold        = var.cdn_frontdoor_rate_limiting_threshold
