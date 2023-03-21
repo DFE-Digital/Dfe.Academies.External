@@ -558,3 +558,16 @@ Cypress.Commands.add('localGovernanceArrangementsElementsVisible', () => {
     cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
 
 })
+
+Cypress.Commands.add('localGovernanceArrangementsClickYes', () => {
+    cy.get('#changesToLaGovernanceYes').click()
+})
+
+Cypress.Commands.add('enterlocalGovernanceArrangementsChanges', () => {
+    cy.get('#ChangesToLaGovernanceExplained').click()
+    cy.get('#ChangesToLaGovernanceExplained').type('What are the changes and how do they fit into the current lines of accountability in the trust? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et d')
+})
+
+Cypress.Commands.add('localGovernanceArrangementsSubmit', () => {
+    cy.get('input[type="submit"]').click()
+})
