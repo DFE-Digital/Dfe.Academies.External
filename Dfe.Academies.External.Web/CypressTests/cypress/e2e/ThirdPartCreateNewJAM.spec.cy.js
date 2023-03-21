@@ -8,6 +8,9 @@ import A2BYourApplications from '../page-objects/pages/A2BYourApplications'
 import Footer from '../page-objects/components/Footer'
 import A2BJAMTrustDetailsSummary from '../page-objects/pages/A2BJAMTrustDetailsSummary'
 import A2BJAMTrustConsent from '../page-objects/pages/A2BJAMTrustConsent'
+import A2BChangesToTheTrust from '../page-objects/pages/A2BChangesToTheTrust'
+import A2BLocalGovernanceArrangements from '../page-objects/pages/A2BLocalGovernanceArrangements'
+
 
 describe('Third Part Create New JAM App - Complete Trust Details', () => {
 
