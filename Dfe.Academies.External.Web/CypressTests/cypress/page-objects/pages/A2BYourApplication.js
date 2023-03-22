@@ -11,6 +11,11 @@ export default class A2BYourApplication extends BasePage {
         cy.yourApplicationNotStartedButSchoolAddedElementsVisible()
     }
 
+    static yourApplicationNotStartedButTrustSectionCompleteElementsVisible()
+    {
+        cy.yourApplicationNotStartedButTrustSectionCompleteElementsVisible()
+    }
+
     static selectAddATrust()
     {
         cy.selectAddATrust()
