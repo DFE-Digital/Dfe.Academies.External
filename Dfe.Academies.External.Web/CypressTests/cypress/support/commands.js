@@ -450,11 +450,8 @@ Cypress.Commands.add('selectChangeTrust', () => {
 Cypress.Commands.add('selectTrustName', () => {
     cy.get('.autocomplete__wrapper > #SearchQueryInput').click()
     cy.get('.autocomplete__wrapper > #SearchQueryInput').type('Plym')
-    cy.wait(1000)
     cy.get('#SearchQueryInput__option--4').click()
-    cy.wait(2000)
     cy.get('#ConfirmSelection').click()
-    cy.wait(1000)
     cy.get('#btnAdd').click()
 })
 
