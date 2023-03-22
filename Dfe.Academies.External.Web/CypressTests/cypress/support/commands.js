@@ -257,18 +257,25 @@ Cypress.Commands.add('selectJAMNotStartedApplicationButSchoolAdded', () => {
 })
 
 Cypress.Commands.add('yourApplicationNotStartedElementsVisible', () => {
+    cy.get('.govuk-body').eq(0).then(($applicationId)=> {
+        const applicationId = $applicationId.text().split('_').pop().replace(/\s/g, '')
+        cy.log(`Application ID = ${applicationId}`)
+        globalApplicationId = applicationId
+        cy.log(`Global Application ID = ${globalApplicationId}`)
+    
     cy.get('a[href="/your-applications"]').contains('Back to your applications')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
 
-    cy.get('a[href="/school/application-select-school?appId=80"]').should('be.visible').contains('Add a school')
+    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).should('be.visible').contains('Add a school')
 
     cy.get('h2').eq(1).contains('The trust the school will join')
-    cy.get('a[href="/trust/join-amat/application-select-trust?appId=80"]').should('be.visible').contains('Add a trust')
+    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).should('be.visible').contains('Add a trust')
     cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
     cy.get('p').eq(3).contains('You will be able to invite other people to help you complete this form after you have added a school.')
+})
 })
 
 Cypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', () => {
