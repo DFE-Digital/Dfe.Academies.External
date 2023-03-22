@@ -56,7 +56,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
-				academisationCreationService, "SchoolConversionKeyDetails")
+				academisationCreationService, "ApplicationConversionTargetDate")
 		{}
 
 		/// <summary>
