@@ -383,7 +383,7 @@ Cypress.Commands.add('verifySomethingElseRadioButtonChecked', () => {
 })
 
 Cypress.Commands.add('selectWhatIsYourRoleSaveAndContinue', () => {
-    
+    cy.get('input[type="submit"]').click()
 })
 
 
