@@ -278,14 +278,14 @@ Cypress.Commands.add('yourApplicationNotStartedElementsVisible', () => {
 })
 })
 
-Cypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', () => {
+ypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', () => {
     cy.get('a[href="/your-applications"]').contains('Back to your applications')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
     cy.get('table[aria-describedby="schoolTableDescription"]').contains('Plymstock School')
-    cy.get('a[href="/school/application-select-school?appId=10015"]').contains('Change')
+    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
     cy.get('div[class="govuk-grid-row"]').eq(1).contains('About the conversion')
     cy.get('.govuk-grid-column-one-third').eq(0).contains('Not Started')
     cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
@@ -306,8 +306,8 @@ Cypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', (
     cy.get('h2').eq(1).contains('The trust the school will join')
     //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
     cy.get('span[class="govuk-!-font-weight-bold govuk-!-padding-right-5"]').contains('PLYMOUTH CAST')
-    cy.get('a[href="/trust/join-amat/application-select-trust?appId=10015"]').contains('Change')
-    cy.get('a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=10015"]').contains('Trust details')
+    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
+    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
     cy.get('[aria-describedby="trustTableDescription"]').contains('In Progress')
 
 
@@ -315,6 +315,7 @@ Cypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', (
     cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
     cy.get('p').eq(3).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
+
 
 Cypress.Commands.add('selectStartANewApplication', () => {
     cy.get('a[href="/what-are-you-applying-to-do"]').click()
