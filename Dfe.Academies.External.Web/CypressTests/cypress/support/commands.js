@@ -481,7 +481,7 @@ Cypress.Commands.add('youDontHavePermissionsElementsVisible', () => {
     cy.get('.govuk-heading-l').contains('PLYMOUTH CAST')
     cy.get('.govuk-heading-m').eq(0).contains('The trust the school is joining')
     cy.get('.govuk-body').contains('The name of the trust')
-    cy.get('a[href="/trust/join-amat/application-select-trust?appId=87&urn=0"]').contains('Change your answers')
+    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}&urn=0"]`).contains('Change your answers')
     cy.get('.govuk-heading-m').eq(1).contains('Details')
     cy.get('p').eq(3).contains('Upload evidence that the trust consents to the school joining')
     cy.get('p').eq(5).contains('Will there be any changes to the governance of the trust due to the school joining?')
