@@ -425,8 +425,8 @@ Cypress.Commands.add('selectTempSecondHalfCreateNewJAMApplication', () => {
 
 
 Cypress.Commands.add('selectTrustDetails', () => {
-    cy.get('a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=10015"]').contains('Trust details')
-    cy.get('a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=10015"]').click()
+    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
+    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).click()
 })
 
 
