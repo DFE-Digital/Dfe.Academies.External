@@ -77,7 +77,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			FISheading.Sections.Add(new(
 				FurtherInformationSectionViewModel.SafeguardingInvestigations,
 				sectionStarted ?
-					(!string.IsNullOrWhiteSpace(selectedSchool.SafeguardingDetails) ? "Yes" : "No") : QuestionAndAnswerConstants.NoInfoAnswer)
+					(selectedSchool.Safeguarding ? "Yes" : "No") : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			
 			FISheading.Sections.Add(new(
