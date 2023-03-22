@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -74,7 +75,7 @@ internal sealed class WhatIsYourRoleModelTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new WhatIsYourRoleModel(mockAcademisationCreationService)
+		return new WhatIsYourRoleModel(mockAcademisationCreationService, new Mock<ILogger<WhatIsYourRoleModel>>().Object)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

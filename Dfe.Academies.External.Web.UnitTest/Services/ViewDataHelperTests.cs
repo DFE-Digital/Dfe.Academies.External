@@ -98,7 +98,7 @@ internal sealed class ViewDataHelperTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new WhatIsYourRoleModel(mockAcademisationCreationService)
+		return new WhatIsYourRoleModel(mockAcademisationCreationService, null)
 		{
 			PageContext = pageContext,
 			TempData = tempData,
