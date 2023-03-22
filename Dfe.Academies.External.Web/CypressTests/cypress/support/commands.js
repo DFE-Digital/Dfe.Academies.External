@@ -452,7 +452,7 @@ Cypress.Commands.add('whatIsTheNameOfTheSchoolElementsVisible', () => {
 })
 
 Cypress.Commands.add('selectChangeTrust', () => {
-    cy.get('a[href="/trust/join-amat/application-select-trust?appId=10015"]').click()
+    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).click()
 })
 
 Cypress.Commands.add('selectTrustName', () => {
