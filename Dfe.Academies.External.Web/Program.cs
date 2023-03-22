@@ -205,25 +205,26 @@ if (!localDevelopment)
 		.PersistKeysToAzureBlobStorage(blobClient);
 }
 
-
-builder.Services.AddQuartz(q => { q.UseMicrosoftDependencyInjectionJobFactory(); });
-builder.Services.AddQuartzHostedService(opt => { opt.WaitForJobsToComplete = true; });
 var app = builder.Build();
 
-var schedulerFactory = app.Services.GetRequiredService<ISchedulerFactory>();
-var scheduler = await schedulerFactory.GetScheduler();
+if (!localDevelopment)
+{
+	builder.Services.AddQuartz(q => { q.UseMicrosoftDependencyInjectionJobFactory(); });
+	builder.Services.AddQuartzHostedService(opt => { opt.WaitForJobsToComplete = true; });
 
-var job = JobBuilder.Create<FixSharepointFoldersJob>()
-	.WithIdentity("fix-sharepoint")
-	.Build();
+	var schedulerFactory = app.Services.GetRequiredService<ISchedulerFactory>();
+	var scheduler = await schedulerFactory.GetScheduler();
 
-var trigger = TriggerBuilder.Create()
-	.WithIdentity("fix-sharepoint")
-	.StartNow()
-	.Build();
+	var job = JobBuilder.Create<FixSharepointFoldersJob>()
+		.WithIdentity("fix-sharepoint")
+		.Build();
 
-
-await scheduler.ScheduleJob(job, trigger);
+	var trigger = TriggerBuilder.Create()
+		.WithIdentity("fix-sharepoint")
+		.StartNow()
+		.Build();
+	await scheduler.ScheduleJob(job, trigger);
+}
 
 // Configure the HTTP request pipeline.
 
