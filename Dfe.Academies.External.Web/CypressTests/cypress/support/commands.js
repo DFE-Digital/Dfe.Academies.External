@@ -431,7 +431,7 @@ Cypress.Commands.add('selectTrustDetails', () => {
 
 
 Cypress.Commands.add('selectChangeSchool', () => {
-    cy.get('a[href="/school/application-select-school?appId=10015"]').click()
+    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).click()
 })
 
 Cypress.Commands.add('selectSchoolName', () => {
