@@ -6,6 +6,13 @@ import A2BLogin from '../page-objects/pages/A2BLogin'
 import A2BYourApplications from '../page-objects/pages/A2BYourApplications'
 import A2BWhatAreYouApplyingToDo from '../page-objects/pages/A2BWhatAreYouApplyingToDo'
 import A2BWhatIsYourRole from '../page-objects/pages/A2BWhatIsYourRole'
+import A2BWhatIsTheNameOfTheSchool from '../page-objects/pages/A2BWhatIsTheNameOfTheSchool'
+import A2BWhichTrustIsSchoolJoining from '../page-objects/pages/A2BWhichTrustIsSchoolJoining'
+import A2BJAMTrustDetailsSummary from '../page-objects/pages/A2BJAMTrustDetailsSummary'
+import A2BJAMTrustConsent from '../page-objects/pages/A2BJAMTrustConsent'
+import A2BChangesToTheTrust from '../page-objects/pages/A2BChangesToTheTrust'
+import A2BLocalGovernanceArrangements from '../page-objects/pages/A2BLocalGovernanceArrangements'
+import A2BYourApplication from '../page-objects/pages/A2BYourApplication'
 import Footer from '../page-objects/components/Footer'
 
 describe('View Application Tests', () => {
@@ -98,6 +105,195 @@ describe('View Application Tests', () => {
 
         A2BWhatIsYourRole.selectChairOfGovernorsRadioButton()
         A2BWhatIsYourRole.verifyChairOfGovernorsRadioButtonChecked()
+
+        A2BWhatIsYourRole.selectWhatIsYourRoleSaveAndContinue()
+
+        // VERIFY JAM YOUR APPLICATION OVERVIEW PAGE DISPLAYS CORRECTLY
+        Header.govUkHeaderVisible()
+        Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+        A2BYourApplication.yourApplicationNotStartedElementsVisible()
+   
+        Footer.accessibilityStatementLinkVisible()
+        Footer.cookiesLinkVisible()
+        Footer.termsAndConditionsLinkVisible()
+        Footer.privacyLinkVisible()
+        Footer.oglLogoVisible()
+        Footer.allContentTextVisible()
+        Footer.openGovernmentLicence3LinkVisible()
+        Footer.crownCopyrightLinkVisible()
+
+        //Click Add a Trust
+        A2BYourApplication.selectAddATrust()
+
+       Header.govUkHeaderVisible()
+       Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+       A2BWhichTrustIsSchoolJoining.whichTrustIsSchoolJoiningElementsVisible()
+
+       Footer.accessibilityStatementLinkVisible()
+       Footer.cookiesLinkVisible()
+       Footer.termsAndConditionsLinkVisible()
+       Footer.privacyLinkVisible()
+       Footer.oglLogoVisible()
+       Footer.allContentTextVisible()
+       Footer.openGovernmentLicence3LinkVisible()
+       Footer.crownCopyrightLinkVisible()
+
+       cy.wait(2000)
+
+       A2BWhichTrustIsSchoolJoining.selectTrustName()
+       cy.wait(1000)
+
+
+      // CLICK ADD A SCHOOL
+      A2BYourApplication.selectAddASchool()
+
+      // CHECK THE ELEMENTS OF THE ADD A SCHOOL PAGE DISPLAY CORRECTLY
+      Header.govUkHeaderVisible()
+      Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+      A2BWhatIsTheNameOfTheSchool.whatIsTheNameOfTheSchoolElementsVisible()
+
+      Footer.accessibilityStatementLinkVisible()
+      Footer.cookiesLinkVisible()
+      Footer.termsAndConditionsLinkVisible()
+      Footer.privacyLinkVisible()
+      Footer.oglLogoVisible()
+      Footer.allContentTextVisible()
+      Footer.openGovernmentLicence3LinkVisible()
+      Footer.crownCopyrightLinkVisible()
+
+      cy.wait(2000)
+
+      A2BWhatIsTheNameOfTheSchool.selectSchoolName()
+       cy.wait(1000)
+
+      // OK SO TRUST AND SCHOOL HAVE BEEN ADDED LETS CHECK THE JAM APPLICATION OVERVIEW PAGE
+
+      Header.govUkHeaderVisible()
+      Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+      A2BYourApplication.yourApplicationNotStartedButSchoolAddedElementsVisible()
+
+      Footer.accessibilityStatementLinkVisible()
+      Footer.cookiesLinkVisible()
+      Footer.termsAndConditionsLinkVisible()
+      Footer.privacyLinkVisible()
+      Footer.oglLogoVisible()
+      Footer.allContentTextVisible()
+      Footer.openGovernmentLicence3LinkVisible()
+      Footer.crownCopyrightLinkVisible()
+// PROCEED TO TRUST DETAILS SUMMARY PAGE!!!!
+        // -----------------------------------------
+        // PROCEED TO TRUST DETAILS SECTION
+        A2BYourApplication.selectTrustDetails()
+
+       // CHECK TRUST DETAILS SUMMARY PAGE
+       Header.govUkHeaderVisible()
+       Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+       A2BJAMTrustDetailsSummary.JAMTrustDetailsSummaryElementsVisible()
+
+       Footer.accessibilityStatementLinkVisible()
+       Footer.cookiesLinkVisible()
+       Footer.termsAndConditionsLinkVisible()
+       Footer.privacyLinkVisible()
+       Footer.oglLogoVisible()
+       Footer.allContentTextVisible()
+       Footer.openGovernmentLicence3LinkVisible()
+       Footer.crownCopyrightLinkVisible()
+
+       // CLICK ON START SECTION
+       A2BJAMTrustDetailsSummary.JAMTrustDetailsSummarySelectStartSection()
+
+       // CHECK ELEMENTS VISIBLE ON JAM TRUST CONSENT PAGE
+       Header.govUkHeaderVisible()
+       Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+       A2BJAMTrustConsent.JAMTrustConsentElementsVisible()
+
+       Footer.accessibilityStatementLinkVisible()
+       Footer.cookiesLinkVisible()
+       Footer.termsAndConditionsLinkVisible()
+       Footer.privacyLinkVisible()
+       Footer.oglLogoVisible()
+       Footer.allContentTextVisible()
+       Footer.openGovernmentLicence3LinkVisible()
+       Footer.crownCopyrightLinkVisible()
+
+       // ATTEMPT TO UPLOAD A FILE
+       A2BJAMTrustConsent.JAMTrustConsentFileUpload()
+
+       // ATTEMPT TO SUBMIT TRUST CONSENT FORM
+       A2BJAMTrustConsent.JAMTrustConsentSubmit()
+
+       // VERIFY THE CHANGES TO THE TRUST PAGE DISPLAYS CORRECTLY
+       Header.govUkHeaderVisible()
+       Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+       A2BChangesToTheTrust.changesToTheTrustElementsVisible()
+
+       Footer.accessibilityStatementLinkVisible()
+       Footer.cookiesLinkVisible()
+       Footer.termsAndConditionsLinkVisible()
+       Footer.privacyLinkVisible()
+       Footer.oglLogoVisible()
+       Footer.allContentTextVisible()
+       Footer.openGovernmentLicence3LinkVisible()
+       Footer.crownCopyrightLinkVisible()
+
+
+       // CLICK YES TO CHANGES TO THE TRUST, ENTER REASONS WHY, AND CLICK ON THE SUBMIT BUTTON
+       A2BChangesToTheTrust.changesToTheTrustClickYes()
+
+       A2BChangesToTheTrust.enterChangesToTheTrust()
+
+       A2BChangesToTheTrust.changesToTheTrustSubmit()
+
+       // CHECK ELEMENTS VISIBLE ON LOCAL GOVERNANCE ARRANGEMENTS PAGE
+       Header.govUkHeaderVisible()
+       Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+       A2BLocalGovernanceArrangements.localGovernanceArrangementsElementsVisible()
+
+
+       Footer.accessibilityStatementLinkVisible()
+       Footer.cookiesLinkVisible()
+       Footer.termsAndConditionsLinkVisible()
+       Footer.privacyLinkVisible()
+       Footer.oglLogoVisible()
+       Footer.allContentTextVisible()
+       Footer.openGovernmentLicence3LinkVisible()
+       Footer.crownCopyrightLinkVisible()
+
+
+       // CLICK YES
+       A2BLocalGovernanceArrangements.localGovernanceArrangementsClickYes()
+
+       // ENTER REASONS
+       A2BLocalGovernanceArrangements.enterlocalGovernanceArrangementsChanges()
+
+       // SUBMIT LOCAL GOVERNACE ARRANGEMENTS FORM
+       A2BLocalGovernanceArrangements.localGovernanceArrangementsSubmit()
+
+      // SUBMIT TRUST DETAILS SUMMARY SECTION
+      A2BJAMTrustDetailsSummary.JAMTrustDetailsSummarySaveAndReturnToApp()
+
+      // CHECK YOUR APPLICATION PAGE DISPLAYS CORRECTLY AND TRUST SECTION IS MARKED AS COMPLETE
+      Header.govUkHeaderVisible()
+      Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+      A2BYourApplication.yourApplicationNotStartedButTrustSectionCompleteElementsVisible()
+
+      Footer.accessibilityStatementLinkVisible()
+      Footer.cookiesLinkVisible()
+      Footer.termsAndConditionsLinkVisible()
+      Footer.privacyLinkVisible()
+      Footer.oglLogoVisible()
+      Footer.allContentTextVisible()
+      Footer.openGovernmentLicence3LinkVisible()
+      Footer.crownCopyrightLinkVisible()
 
     })
 })
