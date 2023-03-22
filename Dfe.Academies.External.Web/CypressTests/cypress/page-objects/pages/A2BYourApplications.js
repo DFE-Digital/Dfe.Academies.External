@@ -9,4 +9,9 @@ export default class A2BYourApplications extends BasePage {
     {
         cy.selectJAMNotStartedApplicationButSchoolAdded()
     }
+
+    static selectStartANewApplication()
+    {
+        cy.selectStartANewApplication()
+    }
 }
