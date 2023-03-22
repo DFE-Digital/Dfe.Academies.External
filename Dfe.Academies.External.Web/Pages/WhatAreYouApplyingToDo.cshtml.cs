@@ -11,11 +11,16 @@ namespace Dfe.Academies.External.Web.Pages;
 public class WhatAreYouApplyingToDoModel : BasePageModel
 {
 	private const string NextStepPage = "/WhatIsYourRole";
+	private readonly ILogger<WhatAreYouApplyingToDoModel> logger;
 
 	[BindProperty]
 	[RequiredEnum(ErrorMessage = "Select an application type")]
 	public ApplicationTypes ApplicationType { get; set; }
 
+	public WhatAreYouApplyingToDoModel(ILogger<WhatAreYouApplyingToDoModel> logger)
+	{
+		this.logger = logger;
+	}
 	public async Task OnGetAsync()
 	{
 		// like on load - if navigating backwards from NextStepPage - will need to set model value from somewhere!
@@ -43,9 +48,10 @@ public class WhatAreYouApplyingToDoModel : BasePageModel
 
 		// MR:- plop draftApplication somewhere so WhatIsYourRole page can pick this up.
 		// WhatIsYourRole page will carry on updating it and commit the API / DB !
-		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+		// logger added to find issue with form a mat bug
+		TempDataHelper.StoreSerialisedValueAndLog(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication, this.logger);
 
-		return RedirectToPage(NextStepPage, new {Type = (int)ApplicationType});
+		return RedirectToPage(NextStepPage, new { Type = (int)ApplicationType });
 	}
 
 	public override void PopulateValidationMessages()
