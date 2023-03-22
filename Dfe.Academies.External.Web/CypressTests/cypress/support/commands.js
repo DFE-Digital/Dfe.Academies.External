@@ -568,3 +568,45 @@ Cypress.Commands.add('enterlocalGovernanceArrangementsChanges', () => {
 Cypress.Commands.add('localGovernanceArrangementsSubmit', () => {
     cy.get('input[type="submit"]').click()
 })
+
+Cypress.Commands.add('JAMTrustDetailsSummarySaveAndReturnToApp', () => {
+    cy.get(`a[href="/application-overview?appId=${globalApplicationId}"]`).eq(1).click()
+})
+
+Cypress.Commands.add('yourApplicationNotStartedButTrustSectionCompleteElementsVisible', () => {
+    cy.get('a[href="/your-applications"]').contains('Back to your applications')
+    cy.get('p').contains('Application reference:')
+    cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
+    cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
+    cy.get('h2').contains('The school applying to convert')
+    cy.get('table[aria-describedby="schoolTableDescription"]').contains('Plymstock School')
+    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
+    cy.get('div[class="govuk-grid-row"]').eq(1).contains('About the conversion')
+    cy.get('.govuk-grid-column-one-third').eq(0).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('.govuk-grid-column-one-third').eq(1).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(3).contains('Finances')
+    cy.get('.govuk-grid-column-one-third').eq(2).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(4).contains('Future pupil numbers')
+    cy.get('.govuk-grid-column-one-third').eq(3).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(5).contains('Land and buildings')
+    cy.get('.govuk-grid-column-one-third').eq(4).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(6).contains('Consultation')
+    cy.get('.govuk-grid-column-one-third').eq(5).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(7).contains('Pre-opening support grant')
+    cy.get('.govuk-grid-column-one-third').eq(6).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(8).contains('Declaration')
+    cy.get('.govuk-grid-column-one-third').eq(7).contains('Not Started')
+
+    cy.get('h2').eq(1).contains('The trust the school will join')
+    //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
+    cy.get('span[class="govuk-!-font-weight-bold govuk-!-padding-right-5"]').contains('PLYMOUTH CAST')
+    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
+    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
+    cy.get('[aria-describedby="trustTableDescription"]').contains('Completed')
+
+
+
+    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get('p').eq(3).contains('You can invite other people to help you complete this form or see who has already been invited.')
+})
