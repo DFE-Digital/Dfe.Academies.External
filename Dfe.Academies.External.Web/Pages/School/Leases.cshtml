@@ -48,29 +48,39 @@
     									@anyLeasesOption.GetDescription()
     								</label>
     							</div>
-    							@if (anyLeasesOption == SelectOption.Yes)
-    							{
+							    @if (anyLeasesOption == SelectOption.Yes)
+							    {
 								    <div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional") 
 	                                                @(anyLeasesOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
-								         id="anyLeasesOption-yes" aria-expanded="false">
-									    @for (int i = 0; i < Model.LeaseViewModels.Count; i++)
+								         id="anyLeasesOption-yes">
+									    @foreach (var lease in Model.LeaseViewModels)
 									    {
-										    <dl class="govuk-summary-list__row">
-											    <dt hidden="hidden"></dt>
-											    <dd class="govuk-summary-list__value">
-												    <p class="govuk-label">Purpose: <strong>@Model.LeaseViewModels[i].Purpose</strong></p>
-												    <p class="govuk-label">Amount: <strong>£@Model.LeaseViewModels[i].RepaymentAmount</strong></p>
-												    <a asp-page="/school/LeaseDetails" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LeaseViewModels[i].Id" asp-route-isEdit="true">
-												       Change answers
-													</a>
-											    </dd>
-										    </dl>
+										    <div class="govuk-grid-row">
+											    <div class="govuk-grid-column-one-third">
+												    <p class="govuk-label">Purpose: <strong>@lease.Purpose</strong></p>
+												    <div class="govuk-grid-row">
+													    <div class="govuk-grid-column-full">
+														    <p class="govuk-label">Amount: <strong>£@(lease.RepaymentAmount)</strong></p>
+													    </div>
+													    <div class="govuk-grid-column-full">
+														    <a asp-page="/school/LeaseDetails" class="govuk-link govuk-body" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@lease.Id" asp-route-isEdit="true" asp-route-isDraft="true">
+															    Change answers
+														    </a>
+													    </div>
+												    </div>
+												    <hr/>
+											    </div>
+										    </div>
 									    }
-										    <a asp-page="/school/LeaseDetails" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LeaseViewModels.Count" asp-route-isEdit="false" asp-route-isDraft="true">
-											    Add new lease
-											</a>
-									</div>
-    							}
+									    <div class="govuk-grid-row">
+										    <div class="govuk-grid-column-full">
+											    <a asp-page="/school/LeaseDetails" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LeaseViewModels.Count" asp-route-isEdit="false" asp-route-isDraft="true">
+												    Add new lease
+											    </a>
+										    </div>
+									    </div>
+								    </div>
+							    }
     						}
     					</fieldset>
     				</div>

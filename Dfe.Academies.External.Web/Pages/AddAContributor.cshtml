@@ -38,7 +38,7 @@
 
 	<p class="govuk-body-m">You can invite people to help you complete your application by providing their email address, name and role.</p>
 
-	<p class="govuk-body-m">They must have a DfE Signin account</p>
+	<p class="govuk-body-m">They must have a DfE Sign-in account</p>
 
 	<form method="post" name="frmAddContributor" novalidate="">
 		@Html.AntiForgeryToken()
@@ -67,7 +67,7 @@
               <div class="@(Model.HideRadios ? "govuk-visually-hidden" : "govuk-radios__item")">
                 <input class="govuk-radios__input" id="role" name="ContributorRole" type="radio" value="@Convert.ToInt32(SchoolRoles.ChairOfGovernors)" data-aria-controls="conditional-role">
                 <label class="govuk-label govuk-radios__label" for="role">
-                  Chair Of Governers
+                  Chair Of governers
                 </label>
               </div>
 	            <div class="govuk-radios__item">

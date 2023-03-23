@@ -67,7 +67,7 @@
 				       id="ofstedInspectedOption@(ofstedInspectedOption)"
 				       class="govuk-radios__input"
 				       data-aria-controls="ofstedInspectedOption-@(ofstedInspectedOption.ToString().ToLower())"
-				       checked="@(ofstedInspectedOption.Equals(ViewData.Model.OfstedInspected))"/>
+				       checked="@(ofstedInspectedOption.Equals(Model.OfstedInspected))"/>
 				<label for="ofstedInspectedOption@(ofstedInspectedOption)" class="govuk-label govuk-radios__label">
 					@ofstedInspectedOption.GetDescription()
 				</label>

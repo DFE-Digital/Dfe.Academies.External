@@ -197,7 +197,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				PopulateUiModel(selectedSchool);
 			}
 			ApplicationReference = applicationDetails.ApplicationReference;
-			OfstedInspected = !string.IsNullOrWhiteSpace(OfstedInspectionDetails) ? SelectOption.Yes : SelectOption.No;
+			
 			DioceseFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.DioceseFilePrefixFieldName);
 			TempDataHelper.StoreSerialisedValue($"{EntityId}-dioceseFiles", TempData, DioceseFileNames);
 			FoundationConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName);
