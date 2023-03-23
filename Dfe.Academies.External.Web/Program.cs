@@ -205,13 +205,13 @@ if (!localDevelopment)
 		.PersistKeysToAzureBlobStorage(blobClient);
 }
 
+builder.Services.AddQuartz(q => { q.UseMicrosoftDependencyInjectionJobFactory(); });
+builder.Services.AddQuartzHostedService(opt => { opt.WaitForJobsToComplete = true; });
+
 var app = builder.Build();
 
 if (!localDevelopment)
 {
-	builder.Services.AddQuartz(q => { q.UseMicrosoftDependencyInjectionJobFactory(); });
-	builder.Services.AddQuartzHostedService(opt => { opt.WaitForJobsToComplete = true; });
-
 	var schedulerFactory = app.Services.GetRequiredService<ISchedulerFactory>();
 	var scheduler = await schedulerFactory.GetScheduler();
 
