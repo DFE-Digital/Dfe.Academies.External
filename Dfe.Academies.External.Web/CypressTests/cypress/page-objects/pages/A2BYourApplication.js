@@ -38,6 +38,10 @@ export default class A2BYourApplication extends BasePage {
         cy.selectChangeTrust()
     }
 
+    static selectAboutTheConversion() {
+        cy.selectAboutTheConversion()
+    }
+
 
 
 
