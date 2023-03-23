@@ -618,3 +618,90 @@ Cypress.Commands.add('yourApplicationNotStartedButTrustSectionCompleteElementsVi
     cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
     cy.get('p').eq(3).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
+
+Cypress.Commands.add('selectAboutTheConversion', () => {
+    cy.contains('About the conversion').click()
+})
+
+Cypress.Commands.add('aboutTheConversionNotStartedElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back to application overview')
+
+    cy.get('.govuk-caption-l').contains('Plymstock School')
+    cy.get('.govuk-heading-l').contains('About the conversion')
+    cy.get('.govuk-heading-m').eq(0).contains('Contact details')
+
+    cy.get('.govuk-body').eq(0).contains('Name of headteacher')
+    cy.get('.govuk-body').eq(1).contains('You have not added any information')
+    cy.get('hr').eq(0).should('be.visible')
+
+    cy.get('.govuk-body').eq(2).contains('Headteacher\'s email address')
+    cy.get('.govuk-body').eq(3).contains('You have not added any information')
+    cy.get('hr').eq(1).should('be.visible')
+
+    cy.get('.govuk-body').eq(4).contains('Headteacher\'s telephone number')
+    cy.get('.govuk-body').eq(5).contains('You have not added any information')
+    cy.get('hr').eq(2).should('be.visible')
+
+    cy.get('.govuk-body').eq(6).contains('Name of the chair of the governing body')
+    cy.get('.govuk-body').eq(7).contains('You have not added any information')
+    cy.get('hr').eq(3).should('be.visible')
+
+    cy.get('.govuk-body').eq(8).contains('Chair\'s email address')
+    cy.get('.govuk-body').eq(9).contains('You have not added any information')
+    cy.get('hr').eq(4).should('be.visible')
+
+    cy.get('.govuk-body').eq(10).contains('Chair\'s telephone number')
+    cy.get('.govuk-body').eq(11).contains('You have not added any information')
+    cy.get('hr').eq(5).should('be.visible')
+
+    cy.get('.govuk-body').eq(12).contains('Who is the main contact for the conversion')
+    cy.get('.govuk-body').eq(13).contains('You have not added any information')
+    cy.get('hr').eq(6).should('be.visible')
+
+    cy.get('.govuk-body').eq(14).contains('Approver\'s full name')
+    cy.get('.govuk-body').eq(15).contains('You have not added any information')
+    cy.get('hr').eq(7).should('be.visible')
+
+    cy.get('.govuk-body').eq(16).contains('Approver\'s email address')
+    cy.get('.govuk-body').eq(17).contains('You have not added any information')
+    cy.get('hr').eq(8).should('be.visible')
+
+    cy.get('a[aria-describedby="component-not started"]').eq(0).should('be.visible').contains('Start section')
+
+   // cy.get('hr').eq(9).should('be.visible')
+
+    cy.get('.govuk-heading-m').eq(1).contains('Date for conversion')
+    cy.get('.govuk-body').eq(18).contains('Do you want the conversion to happen on a particular date?')
+    cy.get('.govuk-body').eq(19).contains('You have not added any information')
+
+    cy.get('hr').eq(9).should('be.visible')
+
+    cy.get('a[aria-describedby="component-not started"]').eq(1).should('be.visible').contains('Start section')
+
+    // HR PART OF START SECTION COMPONENT SECTION
+
+    cy.get('.govuk-heading-m').eq(2).contains('Reasons for joining')
+    cy.get('.govuk-body').eq(20).contains('Why does the school want to join this trust in particular?')
+    cy.get('.govuk-body').eq(21).contains('You have not added any information')
+
+    cy.get('hr').eq(10).should('be.visible')
+
+    cy.get('a[aria-describedby="component-not started"]').eq(2).should('be.visible').contains('Start section')
+
+    // HR PART OF START SECTION COMPONENT SECTION
+
+    cy.get('.govuk-heading-m').eq(3).contains('Changing the name of the school')
+    cy.get('.govuk-body').eq(22).contains('Is the school planning to change its name when it becomes an academy?')
+    cy.get('.govuk-body').eq(23).contains('You have not added any information')
+
+    cy.get('hr').eq(11).should('be.visible')
+
+    cy.get('a[aria-describedby="component-not started"]').eq(3).should('be.visible').contains('Start section')
+
+    // HR PART OF START SECTION COMPONENT SECTION
+
+    cy.get('.govuk-button').should('be.visible').contains('Back to application overview')
+
+
+
+})
