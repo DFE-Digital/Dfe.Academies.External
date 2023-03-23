@@ -244,7 +244,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				subQuestionAndAnswers.AddRange(new List<SchoolQuestionAndAnswerViewModel>
 				{
-					new FinancesReviewSectionViewModel($"Loan {i+1}", ""),
+					new FinancesReviewSectionViewModel($"Loan {i+1}", " "),
 					new FinancesReviewSectionViewModel("Total amount", $"£{selectedSchool.Loans.ElementAt(i).Amount}"),
 					new FinancesReviewSectionViewModel("Purpose of loan", $"{selectedSchool.Loans.ElementAt(i).Purpose}"),
 					new FinancesReviewSectionViewModel("Loan provider", $"{selectedSchool.Loans.ElementAt(i).Provider}"),
@@ -279,7 +279,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				subQuestionAndAnswers.AddRange(new List<SchoolQuestionAndAnswerViewModel>
 				{
-					new FinancesReviewSectionViewModel($"Lease {i+1}", ""),
+					new FinancesReviewSectionViewModel($"Lease {i+1}", " "),
 					new FinancesReviewSectionViewModel("Details of the term of the finance lease agreement", $"{selectedSchool.Leases.ElementAt(i).LeaseTerm}"),
 					new FinancesReviewSectionViewModel("Confirmation of the repayment value", $"{selectedSchool.Leases.ElementAt(i).RepaymentAmount}"),
 					new FinancesReviewSectionViewModel("Confirmation of the interest rate chargeable", $"{selectedSchool.Leases.ElementAt(i).InterestRate}"),

@@ -53,22 +53,32 @@
 								    <div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional") 
 	                                                @(anyLoansOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 								         id="anyLoansOption-yes">
-									    @for (int i = 0; i < Model.LoanViewModels.Count; i++)
+									    @foreach (var loan in Model.LoanViewModels)
 									    {
-										    <dl class="govuk-summary-list__row">
-											    <dt hidden="hidden"></dt>
-											    <dd class="govuk-summary-list__value">
-												    <p class="govuk-label">Provider: <strong>@Model.LoanViewModels[i].Provider</strong></p>
-													<p class="govuk-label">Amount: <strong>£@Model.LoanViewModels[i].TotalAmount</strong></p>
-												    <a asp-page="/school/LoanDetails" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LoanViewModels[i].Id" asp-route-isEdit="true">
-												       Change answers
-													</a>
-											    </dd>
-										    </dl>
+										    <div class="govuk-grid-row">
+											    <div class="govuk-grid-column-one-third">
+												    <p class="govuk-label">Provider: <strong>@loan.Provider</strong></p>
+												    <div class="govuk-grid-row">
+													    <div class="govuk-grid-column-full">
+														    <p class="govuk-label">Amount: <strong>£@(loan.TotalAmount)</strong></p>
+													    </div>
+													    <div class="govuk-grid-column-full">
+														    <a asp-page="/school/LoanDetails" class="govuk-link govuk-body" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@loan.Id" asp-route-isEdit="true">
+															    Change answers
+														    </a>
+													    </div>
+												    </div>
+												    <hr/>
+											    </div>
+										    </div>
 									    }
-										    <a asp-page="/school/LoanDetails" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LoanViewModels.Count" asp-route-isEdit="false" asp-route-isDraft="true">
-											    Add new loan
-											</a>
+									    <div class="govuk-grid-row">
+										    <div class="govuk-grid-column-full">
+											    <a asp-page="/school/LoanDetails" class="govuk-link govuk-body" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LoanViewModels.Count" asp-route-isEdit="false" asp-route-isDraft="true">
+												    Add new loan
+											    </a>
+										    </div>
+									    </div>
 									</div>
     							}
     						}

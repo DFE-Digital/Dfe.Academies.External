@@ -15,9 +15,8 @@
 			<p class="govuk-body"><b>@additionalInfo.Name</b></p>
 		</div>
 		<div class="govuk-grid-column-one-third">
-			<p class="govuk-body"> @(!string.IsNullOrWhiteSpace(@additionalInfo.Answer) ? @additionalInfo.Answer : "You have not added any information")</p>
+			<p class="govuk-body"> @(!string.IsNullOrEmpty(@additionalInfo.Answer) ? @additionalInfo.Answer : "You have not added any information")</p>
 		</div>
 	</div>
 	<hr/>
 }
-<hr/>
