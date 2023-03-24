@@ -702,6 +702,6 @@ Cypress.Commands.add('aboutTheConversionNotStartedElementsVisible', () => {
 
     cy.get('.govuk-button').should('be.visible').contains('Back to application overview')
 
-
+    
 
 })
