@@ -7,6 +7,7 @@ import A2BYourApplication from '../page-objects/pages/A2BYourApplication'
 import A2BYourApplications from '../page-objects/pages/A2BYourApplications'
 import A2BAboutTheConversion from '../page-objects/pages/A2BAboutTheConversion'
 import Footer from '../page-objects/components/Footer'
+import A2BMainContacts from '../page-objects/pages/A2BMainContacts'
 
 describe('Complete School Overview Section', () => {
 
