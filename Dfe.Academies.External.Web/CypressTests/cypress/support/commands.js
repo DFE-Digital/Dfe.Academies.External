@@ -702,6 +702,88 @@ Cypress.Commands.add('aboutTheConversionNotStartedElementsVisible', () => {
 
     cy.get('.govuk-button').should('be.visible').contains('Back to application overview')
 
-    
 
+
+})
+
+Cypress.Commands.add('selectContactDetailsStartSection', () => {
+    cy.get('a[aria-describedby="component-not started"]').eq(0).click()
+})
+
+Cypress.Commands.add('mainContactsNotStartedElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+    cy.get('.govuk-caption-l').contains('Conversion key details')
+    cy.get('.govuk-heading-l').contains('Main contacts')
+    
+    cy.get('.govuk-label').eq(0).contains('Name of headteacher')
+    cy.get('#ContactHeadName').should('be.enabled')
+    
+    cy.get('.govuk-label').eq(1).contains('Headteacher\'s email address')
+    cy.get('.govuk-hint').eq(0).contains('We will only use this to contact you regarding your application')
+    cy.get('#ContactHeadEmail').should('be.enabled')
+
+    cy.get('.govuk-label').eq(2).contains('Headteacher\'s telephone number')
+    cy.get('#ContactHeadTel').should('be.enabled')
+
+    cy.get('.govuk-label').eq(3).contains('Name of the chair of the governing body')
+    cy.get('#ContactChairName').should('be.enabled')
+
+    cy.get('.govuk-label').eq(4).contains('Chair\'s email address')
+    cy.get('.govuk-hint').eq(1).contains('We will only use this to contact you regarding your application')
+    cy.get('#ContactChairEmail').should('be.enabled')
+
+    cy.get('.govuk-label').eq(5).contains('Chair\'s telephone number')
+    cy.get('#ContactChairTel')
+
+    cy.get('span[class="govuk-fieldset__legend govuk-fieldset__legend--s"]').contains('Who is the main contact for the conversion?')
+    
+    cy.get('#ContactTypeHeadTeacher').should('not.be.checked')
+    cy.get('label[for="ContactTypeHeadTeacher"]').contains('The headteacher')
+
+    cy.get('#ContactTypeChairOfGoverningBody').should('not.be.checked')
+    cy.get('label[for="ContactTypeChairOfGoverningBody"]').contains('The chair of the governing body')
+
+    cy.get('#ContactTypeOther').should('not.be.checked')
+    cy.get('label[for="ContactTypeOther"]').contains('Someone else')
+
+    cy.get('.govuk-fieldset__heading').contains('When your schools converts, we need to create a new DfE sign-in account for the academy. Please provide the most suitable contact to manage the new academies account.')
+
+    cy.get('.govuk-hint').eq(3).contains('For more details on the approvers role and responsibilities please see')
+    cy.get('a[href="https://help.signin.education.gov.uk/contact/approver"]').contains('the approver guide')
+
+    cy.get('label[for="ApproverContactName"]').contains('Full Name')
+    cy.get('#ApproverContactName').should('be.enabled')
+
+    cy.get('label[for="ApproverContactEmail"]').contains('Email address')
+    cy.get('.govuk-hint').eq(4).contains('We will only use this to contact you regarding your application')
+    cy.get('#ApproverContactEmail').should('be.enabled')
+
+    cy.get('input[type="submit"]').should('be.visible').contains('Save and return to overview')
+})
+
+Cypress.Commands.add('fillHeadTeacherDetails', () => {
+    cy.get('#ContactHeadName').type('Paul Lockwood')
+    cy.get('#ContactHeadEmail').type('paul.lockwood@education.gov.uk')
+    cy.get('#ContactHeadTel').type('01752 404930')
+})
+
+
+Cypress.Commands.add('fillChairDetails', () => {
+    cy.get('#ContactChairName').type('Dan Good')
+    cy.get('#ContactChairEmail').type('dan.good@education.gov.uk')
+    cy.get('#ContactChairTel').type('01752 404000')
+})
+
+Cypress.Commands.add('selectMainContactAsChair', () => {
+    cy.get('#ContactTypeChairOfGoverningBody').click()
+    cy.get('#ContactTypeChairOfGoverningBody').should('be.checked')
+})
+
+Cypress.Commands.add('fillApproverDetails', () => {
+    cy.get('#ApproverContactName').type('Nicky Price')
+    cy.get('#ApproverContactEmail').type('nicky.price@aol.com')
+})
+
+Cypress.Commands.add('submitMainContactsForm', () => {
+    cy.get('input[type="submit"]').click()
 })
