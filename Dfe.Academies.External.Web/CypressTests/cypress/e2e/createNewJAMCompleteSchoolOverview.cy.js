@@ -96,7 +96,24 @@ describe('Complete School Overview Section', () => {
         Footer.openGovernmentLicence3LinkVisible()
         Footer.crownCopyrightLinkVisible()
 
-        
+        // OK now we want to click on Start section for main contacts
+        A2BAboutTheConversion.selectContactDetailsStartSection()
+
+        // OK so now we need to check ContactDetails / Main Contacts page displays correctly
+        Header.govUkHeaderVisible()
+        Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+        A2BMainContacts.mainContactsNotStartedElementsVisible()
+
+        Footer.accessibilityStatementLinkVisible()
+        Footer.cookiesLinkVisible()
+        Footer.termsAndConditionsLinkVisible()
+        Footer.privacyLinkVisible()
+        Footer.oglLogoVisible()
+        Footer.allContentTextVisible()
+        Footer.openGovernmentLicence3LinkVisible()
+        Footer.crownCopyrightLinkVisible()
+
     })
 
 })
