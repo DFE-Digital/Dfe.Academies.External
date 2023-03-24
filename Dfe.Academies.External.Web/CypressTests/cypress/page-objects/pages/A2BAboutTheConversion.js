@@ -5,6 +5,11 @@ export default class A2BAboutTheConversion extends BasePage {
     {
         cy.aboutTheConversionNotStartedElementsVisible()
     }
+
+    static selectContactDetailsStartSection()
+    {
+        cy.selectContactDetailsStartSection()
+    }
     
 
 
