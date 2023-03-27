@@ -8,6 +8,9 @@ import A2BYourApplications from '../page-objects/pages/A2BYourApplications'
 import A2BAboutTheConversion from '../page-objects/pages/A2BAboutTheConversion'
 import Footer from '../page-objects/components/Footer'
 import A2BMainContacts from '../page-objects/pages/A2BMainContacts'
+import A2BConversionTargetDate from '../page-objects/pages/A2BConversionTargetDate'
+import A2BReasonsForJoining from '../page-objects/pages/A2BReasonsForJoining'
+import A2BChangingTheNameOfTheSchool from '../page-objects/pages/A2BChangingTheNameOfTheSchool'
 
 describe('Complete School Overview Section', () => {
 
