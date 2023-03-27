@@ -200,6 +200,24 @@ describe('Complete School Overview Section', () => {
         Footer.allContentTextVisible()
         Footer.openGovernmentLicence3LinkVisible()
         Footer.crownCopyrightLinkVisible()
+
+        // COMPLETE CHANGING THE NAME OF THE SCHOOL PAGE AND SUBMIT
+        A2BChangingTheNameOfTheSchool.submitChangingTheNameOfTheSchool()
+
+        // NOW CHECK ABOUT THE CONVERSION PAGE DISPLAYS CORRECTLY WITH ALL DATA
+        Header.govUkHeaderVisible()
+        Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+        A2BAboutTheConversion.aboutTheConversionCompleteElementsVisible()
+
+        Footer.accessibilityStatementLinkVisible()
+        Footer.cookiesLinkVisible()
+        Footer.termsAndConditionsLinkVisible()
+        Footer.privacyLinkVisible()
+        Footer.oglLogoVisible()
+        Footer.allContentTextVisible()
+        Footer.openGovernmentLicence3LinkVisible()
+        Footer.crownCopyrightLinkVisible()
     })
 
 
