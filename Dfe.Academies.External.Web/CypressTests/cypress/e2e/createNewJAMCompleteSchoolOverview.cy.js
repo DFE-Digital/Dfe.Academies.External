@@ -126,6 +126,21 @@ describe('Complete School Overview Section', () => {
 
         // SUBMIT MAINCONTACTS FORM
         A2BMainContacts.submitMainContactsForm()
+
+        // A2B ABOUT THE CONVERSION ELEMENTS VISIBLE WITH MAIN CONTACTS SECTION COMPLETE
+        Header.govUkHeaderVisible()
+        Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+        A2BAboutTheConversion.aboutTheConversionMainContactsCompleteElementsVisible()
+
+        Footer.accessibilityStatementLinkVisible()
+        Footer.cookiesLinkVisible()
+        Footer.termsAndConditionsLinkVisible()
+        Footer.privacyLinkVisible()
+        Footer.oglLogoVisible()
+        Footer.allContentTextVisible()
+        Footer.openGovernmentLicence3LinkVisible()
+        Footer.crownCopyrightLinkVisible()
     })
 
 
