@@ -26,22 +26,30 @@ export default class A2BYourApplication extends BasePage {
         cy.selectAddASchool()
     }
 
-    static selectTrustDetails() {
+    static selectTrustDetails() 
+    {
         cy.selectTrustDetails()
     }
 
-    static selectChangeSchool() {
+    static selectChangeSchool() 
+    {
         cy.selectChangeSchool()
     }
 
-    static selectChangeTrust() {
+    static selectChangeTrust() 
+    {
         cy.selectChangeTrust()
     }
 
-    static selectAboutTheConversion() {
+    static selectAboutTheConversion() 
+    {
         cy.selectAboutTheConversion()
     }
 
+    static yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible() 
+    {
+        cy.yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible()
+    }
 
 
 
