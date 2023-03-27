@@ -117,6 +117,17 @@ describe('Complete School Overview Section', () => {
         Footer.openGovernmentLicence3LinkVisible()
         Footer.crownCopyrightLinkVisible()
 
+
+        // OK - LET'S POPULATE THE MAIN CONTACTS FORM
+        A2BMainContacts.fillHeadTeacherDetails()
+        A2BMainContacts.fillChairDetails()
+        A2BMainContacts.selectMainContactAsChair()
+        A2BMainContacts.fillApproverDetails()
+
+        // SUBMIT MAINCONTACTS FORM
+        A2BMainContacts.submitMainContactsForm()
     })
+
+
 
 })
