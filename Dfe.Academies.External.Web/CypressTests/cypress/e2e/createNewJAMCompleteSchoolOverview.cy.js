@@ -180,6 +180,26 @@ describe('Complete School Overview Section', () => {
         Footer.allContentTextVisible()
         Footer.openGovernmentLicence3LinkVisible()
         Footer.crownCopyrightLinkVisible()
+
+        // COMPLETE REASONS FOR JOINING PAGE AND SUBMIT
+        A2BReasonsForJoining.reasonsForJoiningInput()
+
+        A2BReasonsForJoining.submitReasonsForJoining()
+
+        // CHECK CHANGING THE NAME OF THE SCHOOL DISPLAYS CORRECTLY
+        Header.govUkHeaderVisible()
+        Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+        A2BChangingTheNameOfTheSchool.changingTheNameOfTheSchoolElementsVisible()
+
+        Footer.accessibilityStatementLinkVisible()
+        Footer.cookiesLinkVisible()
+        Footer.termsAndConditionsLinkVisible()
+        Footer.privacyLinkVisible()
+        Footer.oglLogoVisible()
+        Footer.allContentTextVisible()
+        Footer.openGovernmentLicence3LinkVisible()
+        Footer.crownCopyrightLinkVisible()
     })
 
 
