@@ -218,6 +218,14 @@ describe('Complete School Overview Section', () => {
         Footer.allContentTextVisible()
         Footer.openGovernmentLicence3LinkVisible()
         Footer.crownCopyrightLinkVisible()
+
+        // NOW SAVE COMPLETED ABOUT THE CONVERSION SUMMARY PAGE
+        A2BAboutTheConversion.submitAboutTheConversion()
+
+        // NOW CHECK THE JAM APPLICATION OVERVIEW PAGE DISPLAYS CORRECTLY WITH
+        // ABOUT THE CONVERSION SECTION MARKED AS COMPLETED
+        A2BYourApplication.yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible()
+        
     })
 
 
