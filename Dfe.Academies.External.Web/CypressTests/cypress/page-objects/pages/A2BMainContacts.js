@@ -6,4 +6,29 @@ export default class A2BMainContacts extends BasePage {
         cy.mainContactsNotStartedElementsVisible()
     }
     
+    static fillHeadTeacherDetails() 
+    {
+        cy.fillHeadTeacherDetails()
+    }
+
+    static fillChairDetails()
+    {
+        cy.fillChairDetails()
+    }
+
+    static selectMainContactAsChair()
+    {
+        cy.selectMainContactAsChair()
+    }
+
+    static fillApproverDetails()
+    {
+        cy.fillApproverDetails()
+    }
+
+    static submitMainContactsForm()
+    {
+        cy.submitMainContactsForm()
+    }
+
 }
