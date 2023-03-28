@@ -418,8 +418,8 @@ Cypress.Commands.add('whichTrustIsSchoolJoiningElementsVisible', () => {
 })
 
 Cypress.Commands.add('selectTempSecondHalfCreateNewJAMApplication', () => {
-    cy.get('a[href="/application-overview?appId=10015"]').contains('Join a multi-academy trust')
-    cy.get('a[href="/application-overview?appId=10015"]').click()
+    cy.get(`a[href="/application-overview?appId=${globalApplicationId}"]`).contains('Join a multi-academy trust')
+    cy.get(`a[href="/application-overview?appId=${globalApplicationId}"]`).click()
 })
 
 
