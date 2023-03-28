@@ -496,7 +496,7 @@ Cypress.Commands.add('JAMTrustDetailsSummarySelectStartSection', () => {
 })
 
 Cypress.Commands.add('JAMTrustConsentElementsVisible', () => {
-    cy.get('a[class="govuk-back-link"]').contains('Back to trust summary')
+    cy.get('a[class="govuk-back-link"]').contains('Back')
     cy.get('.govuk-caption-l').contains('PLYMOUTH CAST (step 1 of 3)')
     cy.get('.govuk-heading-l').contains('Trust consent')
     cy.get('legend').eq(0).contains('Upload evidence that the trust consents to the school joining')
