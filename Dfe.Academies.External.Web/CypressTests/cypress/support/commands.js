@@ -1346,3 +1346,125 @@ Cypress.Commands.add('uploadSchoolLetterOfConsent', () => {
 Cypress.Commands.add('submitAdditionalDetailsDetails', () => {
     cy.get('input[type="submit"]').click()
 })
+
+Cypress.Commands.add('additionalDetailsSummaryCompleteElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+
+    cy.get('.govuk-caption-l').contains('Plymstock School')
+    cy.get('.govuk-heading-l').contains('Further information')
+
+    cy.get('.govuk-heading-m').contains('Additional details')
+
+    cy.get('.govuk-link').should('be.visible').contains('Change your answers')
+
+    cy.get('hr').eq(0).should('be.visible')
+
+    cy.get('b').eq(0).contains('What will the school bring to the trust they are joining?')
+    cy.get('p').eq(2).contains('What will the school bring to the trust they are joining? Describe the contribution they will make Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ')
+
+    cy.get('hr').eq(1).should('be.visible')
+
+    cy.get('b').eq(1).contains('Have Ofsted recently inspected the school but not published the report yet?')
+    cy.get('p').eq(4).contains('No')
+
+    cy.get('hr').eq(2).should('be.visible')
+
+    cy.get('b').eq(2).contains('Are there any safeguarding investigations ongoing at the school?')
+    cy.get('p').eq(6).contains('No')
+
+    cy.get('hr').eq(3).should('be.visible')
+
+    cy.get('b').eq(3).contains('Is the school part of a local authority reorganisation?')
+    cy.get('p').eq(8).contains('No')
+
+    cy.get('hr').eq(4).should('be.visible')
+
+    cy.get('b').eq(4).contains('Is the school part of any local authority closure plans?')
+    cy.get('p').eq(10).contains('No')
+
+    cy.get('hr').eq(5).should('be.visible')
+
+    cy.get('b').eq(5).contains('Is your school linked to a diocese?')
+    cy.get('p').eq(12).contains('Yes')
+
+    cy.get('hr').eq(6).should('be.visible')
+
+    cy.get('b').eq(6).contains('Is the school part of a federation?')
+    cy.get('p').eq(14).contains('No')
+
+    cy.get('hr').eq(7).should('be.visible')
+
+    cy.get('b').eq(7).contains('Is the school supported by a foundation, trust or other body (e.g. parish council) that appoints foundation governors?')
+    cy.get('p').eq(16).contains('Yes')
+
+    cy.get('hr').eq(8).should('be.visible')
+
+    cy.get('b').eq(8).contains('Does the school currently have an exemption from providing broadly Christian collective worship issued by the local Standing Committee on Religious Education (SACRE)?')
+    cy.get('p').eq(18).contains('No')
+
+    cy.get('hr').eq(9).should('be.visible')
+
+    cy.get('b').eq(9).contains('Provide a list of your main feeder schools')
+    cy.get('p').eq(20).contains('Please provide a list of your main feeder schools We recognise you may have many feeder schools, therefore please just detail the top 5 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do ')
+
+    cy.get('hr').eq(10).should('be.visible')
+
+    cy.get('b').eq(10).contains('The school\'s Governing Body must have passed a resolution to apply to convert to academy status. Upload a copy of the school\'s consent to converting and joining the trust.')
+    cy.get('p').eq(22).contains('fiftyk.pdf')
+
+    cy.get('hr').eq(11).should('be.visible')
+
+    cy.get('b').eq(11).contains('Has an equalities impact assessment been carried out and considered by the governing body?')
+    cy.get('p').eq(24).contains('No')
+
+    cy.get('hr').eq(12).should('be.visible')
+
+    cy.get('b').eq(12).contains('Do you want to add any further information?')
+    cy.get('p').eq(26).contains('No')
+
+    cy.get('hr').eq(13).should('be.visible')
+
+    cy.get('.govuk-button').should('be.visible').contains('Back to application overview')
+})
+
+Cypress.Commands.add('submitAdditionalDetailsSummary', () => {
+    cy.get('.govuk-button').click()
+})
+
+Cypress.Commands.add('yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible', () => {
+    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('p').contains('Application reference:')
+    cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
+    cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, the school\'s chair will be able to submit the application.')
+    cy.get('h2').contains('The school applying to convert')
+    cy.get('table[aria-describedby="schoolTableDescription"]').contains('Plymstock School')
+    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
+    cy.get('div[class="govuk-grid-row"]').eq(1).contains('About the conversion')
+    cy.get('.govuk-grid-column-one-third').eq(0).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('.govuk-grid-column-one-third').eq(1).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(3).contains('Finances')
+    cy.get('.govuk-grid-column-one-third').eq(2).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(4).contains('Future pupil numbers')
+    cy.get('.govuk-grid-column-one-third').eq(3).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(5).contains('Land and buildings')
+    cy.get('.govuk-grid-column-one-third').eq(4).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(6).contains('Consultation')
+    cy.get('.govuk-grid-column-one-third').eq(5).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(7).contains('Pre-opening support grant')
+    cy.get('.govuk-grid-column-one-third').eq(6).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(8).contains('Declaration')
+    cy.get('.govuk-grid-column-one-third').eq(7).contains('Not Started')
+
+    cy.get('h2').eq(1).contains('The trust the school will join')
+    //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
+    cy.get('span[class="govuk-!-font-weight-bold govuk-!-padding-right-5"]').contains('PLYMOUTH CAST')
+    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
+    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
+    cy.get('[aria-describedby="trustTableDescription"]').contains('Completed')
+
+
+
+    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get('p').eq(3).contains('You can invite other people to help you complete this form or see who has already been invited.')
+})
