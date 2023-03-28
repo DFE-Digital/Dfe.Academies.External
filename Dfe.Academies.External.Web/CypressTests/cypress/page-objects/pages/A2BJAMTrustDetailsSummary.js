@@ -1,12 +1,19 @@
 import BasePage from "../BasePage"
 export default class A2BJAMTrustDetailsSummary extends BasePage {
     
-static JAMTrustDetailsSummaryElementsVisible() {
+static JAMTrustDetailsSummaryElementsVisible() 
+{
     cy.JAMTrustDetailsSummaryElementsVisible()
 }
 
-static JAMTrustDetailsSummarySelectStartSection() {
+static JAMTrustDetailsSummarySelectStartSection() 
+{
     cy.JAMTrustDetailsSummarySelectStartSection()
+}
+
+static JAMTrustDetailsSummarySaveAndReturnToApp() 
+{
+    cy.JAMTrustDetailsSummarySaveAndReturnToApp()
 }
 
 }
