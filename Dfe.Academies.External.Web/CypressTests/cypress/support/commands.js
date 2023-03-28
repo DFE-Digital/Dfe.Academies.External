@@ -551,7 +551,7 @@ Cypress.Commands.add('changesToTheTrustSubmit', () => {
 })
 
 Cypress.Commands.add('localGovernanceArrangementsElementsVisible', () => {
-    cy.get('a[class="govuk-back-link"]').contains('Back to trust summary')
+    cy.get('a[class="govuk-back-link"]').contains('Back')
     cy.get('.govuk-caption-l').eq(0).contains('PLYMOUTH CAST (step 3 of 3)')
     cy.get('.govuk-heading-l').contains('Local governance arrangements')
     cy.get('legend').eq(0).contains('Will there be any changes at a local level due to this school joining?')
