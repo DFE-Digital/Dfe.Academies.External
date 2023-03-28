@@ -30,4 +30,5 @@ locals {
   enable_container_app_blob_storage            = var.enable_container_app_blob_storage
   existing_network_watcher_name                = var.existing_network_watcher_name
   existing_network_watcher_resource_group_name = var.existing_network_watcher_resource_group_name
+  enable_redis_cache                           = var.enable_redis_cache
 }
