@@ -163,3 +163,8 @@ variable "existing_network_watcher_resource_group_name" {
   description = "Existing network watcher resource group."
   type        = string
 }
+
+variable "enable_redis_cache" {
+  description = "Set to true to create an Azure Redis Cache, with a private endpoint within the virtual network"
+  type        = bool
+}
