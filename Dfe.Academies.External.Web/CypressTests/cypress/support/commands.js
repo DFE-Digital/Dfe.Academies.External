@@ -1265,3 +1265,32 @@ Cypress.Commands.add('additionalDetailsDetailsNotStartedElementsVisible', () => 
 
 
 })
+
+Cypress.Commands.add('fillSchoolContribution', () => {
+    cy.get('#TrustBenefitDetails').type('What will the school bring to the trust they are joining? Describe the contribution they will make Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ')
+})
+
+Cypress.Commands.add('selectYesIsSchoolLinkedToDiocese', () => {
+    cy.get('#dioceseOptionYes').click()
+})
+
+Cypress.Commands.add('dioceseSectionElementsVisible', () => {
+    cy.get('#dioceseOptionYes').should('be.checked')
+    cy.get('label[for="dioceseOptionYes"]').contains('Yes')
+    
+    // TEST DIOCESE YES SECTION IS VISIBLE
+    cy.get('#dioceseOption-yes').should('be.visible')
+
+    cy.get('label[for="DioceseName"]').contains('Name of diocese')
+
+    cy.get('#DioceseName').should('be.visible').should('be.enabled')
+    cy.get('#dioceseOption-yes > :nth-child(4)').contains('Upload a letter from the diocese giving permission for the school to convert.')
+    cy.get('label[for="dioceseFileUpload"]').contains('Upload a file')
+    cy.get(':nth-child(5) > .govuk-hint').contains('The application cannot be submitted without this. You can carry on the application and come back to this later.')
+    cy.get('#dioceseOption-yes > .govuk-fieldset__legend').contains('Uploaded files')
+    cy.get('hr').eq(0).should('be.visible')
+    cy.get('.govuk-label').contains('No file uploaded')
+    cy.get('hr').eq(1).should('be.visible')
+    cy.get('#dioceseOptionNo').should('not.be.checked')
+    cy.get('label[for="dioceseOptionNo"]').contains('No')
+})
