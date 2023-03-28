@@ -2,7 +2,7 @@ import 'cypress-file-upload'
 
 import DataGenerator from "../fixtures/data-generator"
 
-let globalApplicationId = 10015;
+let globalApplicationId = 10041;
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
