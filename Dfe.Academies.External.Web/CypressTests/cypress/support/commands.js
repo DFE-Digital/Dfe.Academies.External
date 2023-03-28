@@ -668,7 +668,7 @@ Cypress.Commands.add('aboutTheConversionNotStartedElementsVisible', () => {
 
     cy.get('a[aria-describedby="component-not started"]').eq(0).should('be.visible').contains('Start section')
 
-   // cy.get('hr').eq(9).should('be.visible')
+  // HR PART OF START SECTION COMPONENT SECTION
 
     cy.get('.govuk-heading-m').eq(1).contains('Date for conversion')
     cy.get('.govuk-body').eq(18).contains('Do you want the conversion to happen on a particular date?')
