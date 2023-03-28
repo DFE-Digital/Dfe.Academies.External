@@ -278,7 +278,7 @@ Cypress.Commands.add('yourApplicationNotStartedElementsVisible', () => {
 })
 })
 
-ypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', () => {
+Cypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', () => {
     cy.get('a[href="/your-applications"]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
