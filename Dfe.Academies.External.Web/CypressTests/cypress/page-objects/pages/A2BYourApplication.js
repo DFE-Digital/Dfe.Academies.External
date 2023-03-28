@@ -51,6 +51,19 @@ export default class A2BYourApplication extends BasePage {
         cy.yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible()
     }
 
+    static selectFurtherInformation()
+    {
+        cy.selectFurtherInformation()
+    }
 
+    static yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible()
+    {
+        cy.yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible()
+    }
+
+    static selectFinances()
+    {
+        cy.selectFinances()
+    }
 
 }
