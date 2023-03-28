@@ -476,7 +476,7 @@ Cypress.Commands.add('youDontHavePermissionsElementsVisible', () => {
  })
 
  Cypress.Commands.add('JAMTrustDetailsSummaryElementsVisible', () => {
-    cy.get('.govuk-back-link').contains('Back to application overview')
+    cy.get('.govuk-back-link').contains('Back')
     cy.get('.govuk-caption-l').contains('Join a multi-academy trust')
     cy.get('.govuk-heading-l').contains('PLYMOUTH CAST')
     cy.get('.govuk-heading-m').eq(0).contains('The trust the school is joining')
