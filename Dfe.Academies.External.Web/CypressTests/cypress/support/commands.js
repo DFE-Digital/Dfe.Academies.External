@@ -263,7 +263,7 @@ Cypress.Commands.add('yourApplicationNotStartedElementsVisible', () => {
         globalApplicationId = applicationId
         cy.log(`Global Application ID = ${globalApplicationId}`)
     
-    cy.get('a[href="/your-applications"]').contains('Back to your applications')
+    cy.get('a[href="/your-applications"]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, the school\'s chair will be able to submit the application.')
@@ -279,7 +279,7 @@ Cypress.Commands.add('yourApplicationNotStartedElementsVisible', () => {
 })
 
 ypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', () => {
-    cy.get('a[href="/your-applications"]').contains('Back to your applications')
+    cy.get('a[href="/your-applications"]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, the school\'s chair will be able to submit the application.')
@@ -582,7 +582,7 @@ Cypress.Commands.add('JAMTrustDetailsSummarySaveAndReturnToApp', () => {
 })
 
 Cypress.Commands.add('yourApplicationNotStartedButTrustSectionCompleteElementsVisible', () => {
-    cy.get('a[href="/your-applications"]').contains('Back to your applications')
+    cy.get('a[href="/your-applications"]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, the school\'s chair will be able to submit the application.')
