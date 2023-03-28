@@ -24,6 +24,7 @@ using Polly;
 using Polly.Extensions.Http;
 using Quartz;
 using Serilog;
+using StackExchange.Redis;
 
 //using Serilog;
 //using Serilog.Events;
@@ -129,6 +130,15 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 	options.MinimumSameSitePolicy = SameSiteMode.None;
 	options.Secure = CookieSecurePolicy.Always;
 });
+
+// Configure Redis Based Distributed Session
+var redisConfigurationOptions = ConfigurationOptions.Parse(builder.Configuration["ConnectionStrings:RedisCache"]);
+
+builder.Services.AddStackExchangeRedisCache(redisCacheConfig =>
+{
+	redisCacheConfig.ConfigurationOptions = redisConfigurationOptions;
+});
+
 builder.Services.AddSession(options =>
 	{
 		options.Cookie.HttpOnly = true;
