@@ -1468,3 +1468,156 @@ Cypress.Commands.add('yourApplicationTrustSectionAboutConversionFurtherInformati
     cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
     cy.get('p').eq(3).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
+
+Cypress.Commands.add('yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible', () => {
+    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('p').contains('Application reference:')
+    cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
+    cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, the school\'s chair will be able to submit the application.')
+    cy.get('h2').contains('The school applying to convert')
+    cy.get('table[aria-describedby="schoolTableDescription"]').contains('Plymstock School')
+    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
+    cy.get('div[class="govuk-grid-row"]').eq(1).contains('About the conversion')
+    cy.get('.govuk-grid-column-one-third').eq(0).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('.govuk-grid-column-one-third').eq(1).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(3).contains('Finances')
+    cy.get('.govuk-grid-column-one-third').eq(2).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(4).contains('Future pupil numbers')
+    cy.get('.govuk-grid-column-one-third').eq(3).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(5).contains('Land and buildings')
+    cy.get('.govuk-grid-column-one-third').eq(4).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(6).contains('Consultation')
+    cy.get('.govuk-grid-column-one-third').eq(5).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(7).contains('Pre-opening support grant')
+    cy.get('.govuk-grid-column-one-third').eq(6).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(8).contains('Declaration')
+    cy.get('.govuk-grid-column-one-third').eq(7).contains('Not Started')
+
+    cy.get('h2').eq(1).contains('The trust the school will join')
+    //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
+    cy.get('span[class="govuk-!-font-weight-bold govuk-!-padding-right-5"]').contains('PLYMOUTH CAST')
+    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
+    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
+    cy.get('[aria-describedby="trustTableDescription"]').contains('Completed')
+
+
+
+    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get('p').eq(3).contains('You can invite other people to help you complete this form or see who has already been invited.')
+})
+
+Cypress.Commands.add('selectFinances', () => {
+    cy.contains('Finances').click()
+})
+
+Cypress.Commands.add('financeSummaryNotStartedElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+    cy.get('.govuk-caption-l').contains('Plymstock School')
+    cy.get('.govuk-heading-l').contains('Finances')
+
+    cy.get('.govuk-heading-m').eq(0).contains('Previous financial year')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(0).should('be.visible').contains('Start section')
+   
+    cy.get('hr').eq(0).should('be.visible')
+    
+    cy.get('b').eq(0).contains('End of previous financial year end date?')
+    cy.get('.govuk-body').eq(1).contains('You have not added any information')
+    cy.get('hr').eq(1).should('be.visible')
+
+    cy.get('b').eq(1).contains('Revenue carry forward at end of the previous financial year (31 March)')
+    cy.get('.govuk-body').eq(3).contains('You have not added any information')
+    cy.get('hr').eq(2).should('be.visible')
+
+    cy.get('b').eq(2).contains('Surplus or Deficit?')
+    cy.get('.govuk-body').eq(5).contains('You have not added any information')
+    cy.get('hr').eq(3).should('be.visible')
+
+    cy.get('b').eq(3).contains('Capital carry forward at end of the previous financial year (31 March)')
+    cy.get('.govuk-body').eq(7).contains('You have not added any information')
+    cy.get('hr').eq(4).should('be.visible')
+
+    cy.get('b').eq(4).contains('Surplus or Deficit')
+    cy.get('.govuk-body').eq(9).contains('You have not added any information')
+    cy.get('hr').eq(5).should('be.visible')
+
+    cy.get('.govuk-heading-m').eq(1).contains('Current financial year')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(1).should('be.visible').contains('Start section')
+
+    cy.get('hr').eq(6).should('be.visible')
+
+    cy.get('b').eq(5).contains('End of current financial year end date?')
+    cy.get('.govuk-body').eq(11).contains('You have not added any information')
+    cy.get('hr').eq(7).should('be.visible')
+
+    cy.get('b').eq(6).contains('Revenue carry forward at end of the current financial year (31 March)')
+    cy.get('.govuk-body').eq(13).contains('You have not added any information')
+    cy.get('hr').eq(8).should('be.visible')
+
+    cy.get('b').eq(7).contains('Surplus or Deficit?')
+    cy.get('.govuk-body').eq(15).contains('You have not added any information')
+    cy.get('hr').eq(9).should('be.visible')
+
+    cy.get('b').eq(8).contains('Capital carry forward at end of the current financial year (31 March)')
+    cy.get('.govuk-body').eq(17).contains('You have not added any information')
+    cy.get('hr').eq(10).should('be.visible')
+
+    cy.get('b').eq(9).contains('Surplus or Deficit')
+    cy.get('.govuk-body').eq(19).contains('You have not added any information')
+    cy.get('hr').eq(11).should('be.visible')
+
+    cy.get('.govuk-heading-m').eq(2).contains('Next financial year')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(2).should('be.visible').contains('Start section')
+
+    cy.get('hr').eq(12).should('be.visible')
+
+    cy.get('b').eq(10).contains('End of next financial year end date?')
+    cy.get('.govuk-body').eq(21).contains('You have not added any information')
+    cy.get('hr').eq(13).should('be.visible')
+
+    cy.get('b').eq(11).contains('Revenue carry forward at end of the next financial year (31 March)')
+    cy.get('.govuk-body').eq(23).contains('You have not added any information')
+    cy.get('hr').eq(14).should('be.visible')
+
+    cy.get('b').eq(12).contains('Surplus or Deficit?')
+    cy.get('.govuk-body').eq(25).contains('You have not added any information')
+    cy.get('hr').eq(15).should('be.visible')
+
+    cy.get('b').eq(13).contains('Capital carry forward at end of the next financial year (31 March)')
+    cy.get('.govuk-body').eq(27).contains('You have not added any information')
+    cy.get('hr').eq(16).should('be.visible')
+
+    cy.get('b').eq(14).contains('Surplus or Deficit')
+    cy.get('.govuk-body').eq(29).contains('You have not added any information')
+    cy.get('hr').eq(17).should('be.visible')
+
+    cy.get('.govuk-heading-m').eq(3).contains('Loans')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
+
+    cy.get('hr').eq(18).should('be.visible')
+
+    cy.get('b').eq(15).contains('Are there any existing loans?')
+    cy.get('.govuk-body').eq(31).contains('You have not added any information')
+    cy.get('hr').eq(19).should('be.visible')
+
+    cy.get('.govuk-heading-m').eq(4).contains('Leases')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
+
+    cy.get('hr').eq(20).should('be.visible')
+
+    cy.get('b').eq(16).contains('Are there any existing leases?')
+    cy.get('.govuk-body').eq(33).contains('You have not added any information')
+    cy.get('hr').eq(21).should('be.visible')
+
+    cy.get('.govuk-heading-m').eq(5).contains('Financial investigations')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
+
+    cy.get('hr').eq(22).should('be.visible')
+
+    cy.get('b').eq(17).contains('Finance ongoing investigations?')
+    cy.get('.govuk-body').eq(35).contains('You have not added any information')
+    cy.get('hr').eq(23).should('be.visible')
+
+    cy.get('.govuk-button').should('be.visible').contains('Back to application overview')
+
+})
