@@ -14,4 +14,9 @@ export default class A2BYourApplications extends BasePage {
     {
         cy.selectStartANewApplication()
     }
+
+    static selectStartANewApplication()
+    {
+        cy.selectStartANewApplication()
+    }
 }
