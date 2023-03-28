@@ -624,7 +624,7 @@ Cypress.Commands.add('selectAboutTheConversion', () => {
 })
 
 Cypress.Commands.add('aboutTheConversionNotStartedElementsVisible', () => {
-    cy.get('.govuk-back-link').contains('Back to application overview')
+    cy.get('.govuk-back-link').contains('Back')
 
     cy.get('.govuk-caption-l').contains('Plymstock School')
     cy.get('.govuk-heading-l').contains('About the conversion')
