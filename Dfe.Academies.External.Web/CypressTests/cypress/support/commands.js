@@ -1294,3 +1294,16 @@ Cypress.Commands.add('dioceseSectionElementsVisible', () => {
     cy.get('#dioceseOptionNo').should('not.be.checked')
     cy.get('label[for="dioceseOptionNo"]').contains('No')
 })
+
+Cypress.Commands.add('inputDioceseName', () => {
+    cy.get('#DioceseName').type('Mr Diocese')
+})
+
+Cypress.Commands.add('dioceseFileUpload', () => {
+  const filepath = '../fixtures/fifty-k.docx'
+  cy.get('#dioceseFileUpload').attachFile(filepath)
+})
+
+Cypress.Commands.add('selectYesSchoolSupportedByTrustOrFoundation', () => {
+    cy.get('#supportedByFoundationTrustOrBodyOptionYes').click()
+})
