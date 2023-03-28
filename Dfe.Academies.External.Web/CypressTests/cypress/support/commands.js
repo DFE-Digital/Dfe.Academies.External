@@ -1307,3 +1307,29 @@ Cypress.Commands.add('dioceseFileUpload', () => {
 Cypress.Commands.add('selectYesSchoolSupportedByTrustOrFoundation', () => {
     cy.get('#supportedByFoundationTrustOrBodyOptionYes').click()
 })
+
+Cypress.Commands.add('schoolSupportedByElementsVisible', () => {
+    cy.get('#supportedByFoundationTrustOrBodyOptionYes').should('be.checked')
+    cy.get('label[for="supportedByFoundationTrustOrBodyOptionYes"]').contains('Yes')
+    cy.get('label[for="FoundationTrustOrBodyName"]').contains('Name of this body')
+    cy.get('#FoundationTrustOrBodyName').should('be.visible').should('be.enabled')
+    cy.get('#supportedByFoundationTrustOrBodyOption-yes > :nth-child(5)').contains('Please upload their letter of consent')
+    cy.get(':nth-child(6) > label.govuk-label').contains('Upload a file')
+    cy.get('#supportedByFoundationTrustOrBodyOption-yes > .govuk-fieldset__legend').contains('Uploaded files')
+    cy.get('hr').eq(3).should('be.visible')
+    cy.get('#supportedByFoundationTrustOrBodyOption-yes > :nth-child(9)').contains('No file uploaded')
+    cy.get('hr').eq(4).should('be.visible')
+    cy.get('#supportedByFoundationTrustOrBodyOptionNo').should('not.be.checked')
+    cy.get('label[for="supportedByFoundationTrustOrBodyOptionNo"]').contains('No')
+
+
+})
+
+Cypress.Commands.add('inputBodyName', () => {
+    cy.get('#FoundationTrustOrBodyName').type('Mr Body')
+})
+
+Cypress.Commands.add('uploadSchoolSupportedByTrustOrBody', () => {
+    const filepath = '../fixtures/fifty-k.pptx'
+    cy.get('#foundationConsentFileUpload').attachFile(filepath)
+})
