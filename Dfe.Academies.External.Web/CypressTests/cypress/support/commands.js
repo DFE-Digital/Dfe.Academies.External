@@ -1333,3 +1333,16 @@ Cypress.Commands.add('uploadSchoolSupportedByTrustOrBody', () => {
     const filepath = '../fixtures/fifty-k.pptx'
     cy.get('#foundationConsentFileUpload').attachFile(filepath)
 })
+
+Cypress.Commands.add('inputListOfFeederSchools', () => {
+    cy.get('#MainFeederSchools').type('Please provide a list of your main feeder schools We recognise you may have many feeder schools, therefore please just detail the top 5 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do ')
+})
+
+Cypress.Commands.add('uploadSchoolLetterOfConsent', () => {
+    const filepath = '../fixtures/fiftyk.pdf'
+    cy.get('#resolutionConsentFileUpload').attachFile(filepath)
+})
+
+Cypress.Commands.add('submitAdditionalDetailsDetails', () => {
+    cy.get('input[type="submit"]').click()
+})
