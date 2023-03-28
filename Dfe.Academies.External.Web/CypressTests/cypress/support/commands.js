@@ -443,7 +443,7 @@ Cypress.Commands.add('selectSchoolName', () => {
 })
 
 Cypress.Commands.add('whatIsTheNameOfTheSchoolElementsVisible', () => {
-    cy.get('.govuk-back-link').contains('Back to application overview')
+    cy.get('.govuk-back-link').contains('Back')
     cy.get('h2').eq(0).contains('School details')
     cy.get('h2').eq(1).contains('What is the name of the school?')
     cy.get('label').contains('Enter the name of the school, or its 6 digit unique reference number (URN)')
