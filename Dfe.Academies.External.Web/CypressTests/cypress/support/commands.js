@@ -409,7 +409,7 @@ cy.get('.govuk-body').eq(0).then(($applicationId)=> {
 
 
 Cypress.Commands.add('whichTrustIsSchoolJoiningElementsVisible', () => {
-    cy.get('.govuk-back-link').contains('Back to application overview')
+    cy.get('.govuk-back-link').contains('Back')
     cy.get('.govuk-heading-m').contains('Trust details')
     cy.get('h2').eq(1).contains('Which trust is the school joining?')
     cy.get('label').contains('Enter the name of the trust, its Companies House number, or its group Id')
