@@ -22,6 +22,7 @@ module "azure_container_apps_hosting" {
   dns_zone_domain_name = local.dns_zone_domain_name
   dns_ns_records       = local.dns_ns_records
   dns_txt_records      = local.dns_txt_records
+  dns_a_records        = local.dns_a_records
 
   enable_cdn_frontdoor                        = local.enable_cdn_frontdoor
   cdn_frontdoor_enable_rate_limiting          = local.cdn_frontdoor_enable_rate_limiting
