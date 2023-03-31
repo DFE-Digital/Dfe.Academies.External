@@ -12,6 +12,7 @@ namespace Dfe.Academies.External.Web.Pages
 	public class ApplicationOverviewModel : BasePageEditModel
 	{
 		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
+		private readonly ILogger<ApplicationOverviewModel> logger;
 
 		[BindProperty]
 		public int ApplicationId { get; set; }
@@ -70,10 +71,12 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public ApplicationOverviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 										IReferenceDataRetrievalService referenceDataRetrievalService,
-										IConversionApplicationCreationService conversionApplicationCreationService
+										IConversionApplicationCreationService conversionApplicationCreationService,
+										ILogger<ApplicationOverviewModel> logger
 		) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
 			_conversionApplicationCreationService = conversionApplicationCreationService;
+			this.logger = logger;
 		}
 
 		public async Task<ActionResult> OnGetAsync(int appId)
@@ -114,11 +117,16 @@ namespace Dfe.Academies.External.Web.Pages
 			// grab current user email
 			string email = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
 
+			this.logger.LogInformation($"Populating application overview for user | Email: { email }");
+
 			// look up user in contributors collection to find their role !!!
 			if (!string.IsNullOrWhiteSpace(email))
 			{
 				var currentUser =
 					conversionApplication.Contributors.FirstOrDefault(x => x.EmailAddress == email);
+
+				this.logger.LogInformation($"User found, Id: { currentUser?.ContributorId } | Name: {currentUser?.FullName} | Email: {email}");
+				this.logger.LogInformation($"User role: {currentUser?.Role } | Email: {email}");
 
 				// set users role
 				if (currentUser is { Role: SchoolRoles.ChairOfGovernors })
@@ -126,6 +134,8 @@ namespace Dfe.Academies.External.Web.Pages
 					UserHasSubmitApplicationRole = true;
 				}
 			}
+
+			this.logger.LogInformation($"Can user submit | UserHasSubmitApplicationRole: {UserHasSubmitApplicationRole}");
 
 			if (conversionApplication != null)
 			{
