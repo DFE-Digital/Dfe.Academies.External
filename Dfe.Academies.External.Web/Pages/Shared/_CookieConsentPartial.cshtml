@@ -1,8 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Http.Features
 
 @{
-	var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
-	var showBanner = !(consentFeature?.CanTrack ?? false) && Context.Session.GetInt32("cookiesRejected") != 1;
+    var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
+    
+    var showBanner = !(consentFeature?.CanTrack ?? false) && Context.Session.GetInt32("cookiesRejected") != 1;
+    var location = new Uri($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}{Context.Request.QueryString}");
+    var url = location.AbsoluteUri;
 }
 @if (showBanner)
 {
@@ -30,7 +33,7 @@
 						Reject analytics cookies
 					</button>
 				</form>
-				<a class="govuk-link" asp-page="Cookies">View cookies</a>
+                <a class="govuk-link" asp-page="Cookies" asp-route-returnUrl="@url">View cookies</a>
 			</div>
 		</div>
 	</div>
