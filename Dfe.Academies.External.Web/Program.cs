@@ -42,7 +42,7 @@ builder.Services
 		options.Conventions
 			.AuthorizeFolder("/", "AcademiesExternalPolicy")
 			.AllowAnonymousToPage("/Index")
-			.AllowAnonymousToPage("/Accessibility")
+			.AllowAnonymousToPage("/Accessibility-Statement")
 			.AllowAnonymousToPage("/Cookies")
 			.AllowAnonymousToPage("/Terms")
 			.AllowAnonymousToPage("/Privacy")
