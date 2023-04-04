@@ -1687,3 +1687,21 @@ Cypress.Commands.add('selectRevenueCarryForwardSurplus', () => {
 Cypress.Commands.add('verifyRevenueCarryForwardSurplusSelected', () => {
     cy.get('#revenueRevenueTypeSurplus').should('be.checked')
 })
+
+Cypress.Commands.add('inputPreviousFinancialYrCapitalCarryForward', () => {
+    cy.get('#CapitalCarryForward').clear()
+    cy.get('#CapitalCarryForward').type('4998.98')
+
+})
+
+Cypress.Commands.add('selectCapitalCarryForwardSurplus', () => {
+    cy.get('#capitalRevenueTypeSurplus').click()
+})
+
+Cypress.Commands.add('verifyCapitalCarryForwardSurplusSelected', () => {
+    cy.get('#capitalRevenueTypeSurplus').should('be.checked')
+})
+
+Cypress.Commands.add('submitPreviousFinancialYr', () => {
+    cy.get('input[type="submit"]').click()
+})
