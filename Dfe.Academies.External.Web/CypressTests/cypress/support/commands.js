@@ -1920,3 +1920,16 @@ Cypress.Commands.add('nextFinancialYrElementsVisible', () => {
     cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
     
 })
+
+Cypress.Commands.add('inputNextFinancialYrDate', () => {
+    cy.get('#sip_nfyenddate-day').type('31')
+    cy.get('#sip_nfyenddate-month').type('03')
+    cy.get('#sip_nfyenddate-year').type('2024')
+
+})
+
+Cypress.Commands.add('inputNextFinancialYrRevenueCarryForward', () => {
+    cy.get('#Revenue').clear()
+    cy.get('#Revenue').type('199999.99')
+    
+})
