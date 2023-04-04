@@ -1705,3 +1705,8 @@ Cypress.Commands.add('verifyCapitalCarryForwardSurplusSelected', () => {
 Cypress.Commands.add('submitPreviousFinancialYr', () => {
     cy.get('input[type="submit"]').click()
 })
+
+Cypress.Commands.add('selectCurrentFinancialYrStartSection', () => {
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(1).click()
+
+})
