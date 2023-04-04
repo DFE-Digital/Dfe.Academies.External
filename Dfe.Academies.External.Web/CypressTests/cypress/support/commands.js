@@ -1592,7 +1592,7 @@ Cypress.Commands.add('financeSummaryNotStartedElementsVisible', () => {
     cy.get('hr').eq(17).should('be.visible')
 
     cy.get('.govuk-heading-m').eq(3).contains('Loans')
-    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(3).should('be.visible').contains('Start section')
 
     cy.get('hr').eq(18).should('be.visible')
 
@@ -1601,7 +1601,7 @@ Cypress.Commands.add('financeSummaryNotStartedElementsVisible', () => {
     cy.get('hr').eq(19).should('be.visible')
 
     cy.get('.govuk-heading-m').eq(4).contains('Leases')
-    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(4).should('be.visible').contains('Start section')
 
     cy.get('hr').eq(20).should('be.visible')
 
@@ -1610,7 +1610,7 @@ Cypress.Commands.add('financeSummaryNotStartedElementsVisible', () => {
     cy.get('hr').eq(21).should('be.visible')
 
     cy.get('.govuk-heading-m').eq(5).contains('Financial investigations')
-    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(5).should('be.visible').contains('Start section')
 
     cy.get('hr').eq(22).should('be.visible')
 
