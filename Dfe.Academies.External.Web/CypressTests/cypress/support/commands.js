@@ -2023,3 +2023,27 @@ Cypress.Commands.add('leasesSummaryElementsVisible', () => {
 
     cy.get('input[type="submit"]').should('be.visible').contains('Continue')
 })
+
+Cypress.Commands.add('selectFinancialInvestigationsStartSection', () => {
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(5).click()
+
+})
+
+Cypress.Commands.add('financialInvestigationsElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+
+    cy.get('.govuk-caption-l').contains('Finances (Step 6 of 6)')
+    cy.get('.govuk-heading-l').contains('Financial investigations')
+
+    cy.get('legend').contains('Are there any financial investigations ongoing at the school?')
+
+    cy.get('#selectoptionYes').should('not.be.checked')
+    cy.get('label[for="selectoptionYes"]').contains('Yes')
+
+    cy.get('#selectoptionNo').should('be.checked')
+    cy.get('label[for="selectoptionNo"]').contains('No')
+
+    cy.get('input[type="submit"]')
+
+
+})
