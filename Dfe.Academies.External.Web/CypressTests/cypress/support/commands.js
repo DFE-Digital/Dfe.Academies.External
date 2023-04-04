@@ -1710,3 +1710,49 @@ Cypress.Commands.add('selectCurrentFinancialYrStartSection', () => {
     cy.get('a[class="govuk-button govuk-button--secondary"]').eq(1).click()
 
 })
+
+Cypress.Commands.add('currentFinancialYrElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+    cy.get('.govuk-caption-l').contains('Finances (Step 2 of 6)')
+    cy.get('.govuk-heading-l').contains('Current financial year')
+
+    cy.get('p').eq(1).contains('Converting schools should normally be in surplus or have a balanced budget')
+
+    cy.get('p').eq(2).contains('We may let the school carry forward a deficit, but only if they have a plan to balance their budget in a reasonable time and provide a forecast showing how they\'ll do this in 2 to 3 years')
+
+
+    cy.get('legend').contains('End of current financial year')
+    cy.get('#pfy-end-date-hint').contains('For example, 01 09 2022')
+
+    cy.get('label[for="sip_cfyenddate-day"]').contains('Day')
+    cy.get('#sip_cfyenddate-day').should('be.visible').should('be.enabled')
+
+    cy.get('label[for="sip_cfyenddate-month"]').contains('Month')
+    cy.get('#sip_cfyenddate-month').should('be.visible').should('be.enabled')
+
+    cy.get('label[for="sip_cfyenddate-year"]').contains('Year')
+    cy.get('#sip_cfyenddate-year').should('be.visible').should('be.enabled')
+
+    cy.get('label[for="Revenue"]').contains('Forecasted revenue carry forward at end of the current financial year (31 March)')
+
+    cy.get('#Revenue').should('be.visible').should('be.enabled')
+
+    cy.get('#revenueTypeSurplus').should('not.be.checked')
+    cy.get('label[for="revenueTypeSurplus"]').contains('Surplus')
+
+    cy.get('#revenueTypeDeficit').should('not.be.checked')
+    cy.get('label[for="revenueTypeDeficit"]').contains('Deficit')
+
+    cy.get('label[for="CapitalCarryForward"]').contains('Forecasted capital carry forward at end of the current financial year (31 March)')
+
+    cy.get('#CapitalCarryForward').should('be.visible').should('be.enabled')
+
+    cy.get('#capitalTypeSurplus').should('not.be.checked')
+    cy.get('label[for="capitalTypeSurplus"]').contains('Surplus')
+
+    cy.get('#capitalTypeDeficit').should('not.be.checked')
+    cy.get('label[for="capitalTypeDeficit"]').contains('Deficit')
+
+    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
+    
+})
