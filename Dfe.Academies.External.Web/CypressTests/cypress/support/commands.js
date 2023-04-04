@@ -1974,3 +1974,8 @@ Cypress.Commands.add('inputNextFinancialYrCapitalCarryForward', () => {
 Cypress.Commands.add('inputReasonsForNextCapitalCarryForwardDeficit', () => {
     cy.get('#PFYCapitalCarryForwardExplained').type('D) plain the reason for the deficit, how the school plan to deal with it, and the recovery plan. Provide details of the financial forecast and/or the deficit recovery plan agreed with the local author')
 })
+
+Cypress.Commands.add('uploadFileForNextCapitalCarryForwardDeficit', () => {
+    const filepath = '../fixtures/fiftyk.pdf'
+    cy.get('#schoolNfyCapitalFileUpload').attachFile(filepath)
+})
