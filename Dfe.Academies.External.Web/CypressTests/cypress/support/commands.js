@@ -1795,3 +1795,28 @@ Cypress.Commands.add('verifyCurrentRevenueCarryForwardDeficitSelectedSectionDisp
     cy.get('hr').eq(1).should('be.visible')
 
 })
+
+Cypress.Commands.add('inputReasonsForCurrentRevenueCarryForwardDeficit', () => {
+    cy.get('label[for="CFYRevenueCarryForwardExplained"]').type('A) plain the reason for the deficit, how the school plan to deal with it, and the recovery plan. Provide details of the financial forecast and/or the deficit recovery plan agreed with the local author')
+})
+
+Cypress.Commands.add('uploadFileForCurrentRevenueCarryForwardDeficit', () => {
+    const filepath = '../fixtures/fifty-k.docx'
+    cy.get('#schoolCfyRevenueFileUpload').attachFile(filepath)
+})
+
+Cypress.Commands.add('inputCurrentFinancialYrCapitalCarryForward', () => {
+    cy.get('#CapitalCarryForward').clear()
+    cy.get('#CapitalCarryForward').type('99998.98')
+
+})
+
+Cypress.Commands.add('selectCurrentCapitalCarryForwardDeficit', () => {
+    cy.get('#capitalTypeDeficit').click()
+
+})
+
+Cypress.Commands.add('selectNextCapitalCarryForwardDeficit', () => {
+    cy.get('#capitalRevenueTypeDeficit').click()
+
+})
