@@ -2001,3 +2001,25 @@ Cypress.Commands.add('loansSummaryElementsVisible', () => {
 
     cy.get('input[type="submit"]').should('be.visible').contains('Continue')
 })
+
+Cypress.Commands.add('selectLeasesStartSection', () => {
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(4).click()
+
+})
+
+Cypress.Commands.add('leasesSummaryElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+
+    cy.get('.govuk-caption-l').contains('Finances (Step 5 of 6)')
+    cy.get('.govuk-heading-l').contains('Leases')
+
+    cy.get('legend').contains('Are there any existing leases?')
+
+    cy.get('#anyLeasesOptionYes').should('not.be.checked')
+    cy.get('label[for="anyLeasesOptionYes"]').contains('Yes')
+
+    cy.get('#anyLeasesOptionNo').should('be.checked')
+    cy.get('label[for="anyLeasesOptionNo"]').contains('No')
+
+    cy.get('input[type="submit"]').should('be.visible').contains('Continue')
+})
