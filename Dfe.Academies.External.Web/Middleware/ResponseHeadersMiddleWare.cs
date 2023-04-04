@@ -41,7 +41,11 @@ public class ResponseHeadersMiddleWare
 
 		if (!existingHeaders.ContainsKey("content-security-policy"))
 		{
-			context.Response.Headers.Add("Content-Security-Policy", "default-src 'self' wss://localhost:44365/Dfe.Academies.External.Web/; script-src 'self' 'sha256-qL+CKdDo+s+wbAVlMRNaKTthlML5CHI7jaNN8xIHquM=' 'sha256-oJB7VN5D3FsVWp4IBkMG5wPNDs4/Yf73/2mCN7Va9ao=' 'sha256-mmu7ufJkx6yK/dAWH2qN/k0kRhIj7O1GP53WoweDgVw=' 'sha256-YXeAP6J7c5mHporqs1+yXBn3qwau95EZrnniBY+4bpQ=' 'sha256-l1eTVSK8DTnK8+yloud7wZUqFrI0atVo6VlC6PJvYaQ=' https://www.googletagmanager.com/gtm.js; style-src 'self'; font-src 'self'; img-src 'self'; frame-src 'self'");
+			context.Response.Headers.Add("Content-Security-Policy",
+								"default-src 'self' wss://localhost:*/Dfe.Academies.External.Web/ https://*.googletagmanager.com https://*.google-analytics.com; script-src 'self' 'sha256-LHTGDmGnrrtBnrviPC+0Sc6el2hGrPujSjJl3B81Lvo=' " +
+								"'sha256-jJfA84P4xvsR/YhgGzPGn+Sw4d7VPM0rrUSO0aLTtSg=' 'sha256-qL+CKdDo+s+wbAVlMRNaKTthlML5CHI7jaNN8xIHquM=' 'sha256-oJB7VN5D3FsVWp4IBkMG5wPNDs4/Yf73/2mCN7Va9ao=' 'sha256-6x4FIEiqKU09GOAGmv5gVZEPZVcSUFU57EtSyGNGx+Q=' " +
+								"'sha256-mmu7ufJkx6yK/dAWH2qN/k0kRhIj7O1GP53WoweDgVw=' 'sha256-YXeAP6J7c5mHporqs1+yXBn3qwau95EZrnniBY+4bpQ=' 'sha256-l1eTVSK8DTnK8+yloud7wZUqFrI0atVo6VlC6PJvYaQ=' 'sha256-myRMm1zk0MLebXhThu2DVAX2iwTUw2qg/irdeoTdniA=' " +
+								"https://*.googletagmanager.com https://*.google-analytics.com; style-src 'self'; font-src 'self'; img-src 'self' https://www.googletagmanager.com; frame-src 'self'");
 		}
 
 		if (!existingHeaders.ContainsKey("permissions-policy"))

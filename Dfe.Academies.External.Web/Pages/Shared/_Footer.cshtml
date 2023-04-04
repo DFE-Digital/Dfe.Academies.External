@@ -1,4 +1,8 @@
-﻿<footer class="govuk-footer print-hide" role="contentinfo">
+﻿@{
+    var location = new Uri($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}{Context.Request.QueryString}");
+    var url = location.AbsoluteUri;
+}
+<footer class="govuk-footer print-hide" role="contentinfo">
 	<div class="govuk-width-container ">
 		<div class="govuk-footer__meta">
 			<div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
@@ -8,7 +12,7 @@
 						<a asp-page="/Accessibility" class="govuk-footer__link">Accessibility statement</a>
 					</li>
 					<li class="govuk-footer__inline-list-item">
-						<a asp-page="/Cookies" class="govuk-footer__link">Cookie policy</a>
+                        <a asp-page="/Cookies" asp-route-returnUrl="@url" class="govuk-footer__link">Cookie policy</a>
 					</li>
 					<li class="govuk-footer__inline-list-item">
 						<a asp-page="/Terms" class="govuk-footer__link">Terms and Conditions</a>
