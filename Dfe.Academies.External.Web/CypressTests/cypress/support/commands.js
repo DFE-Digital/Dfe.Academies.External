@@ -1955,3 +1955,22 @@ Cypress.Commands.add('verifyNextRevenueCarryForwardDeficitSelectedSectionDisplay
     cy.get('hr').eq(1).should('be.visible')
 
 })
+
+Cypress.Commands.add('inputReasonsForNextRevenueCarryForwardDeficit', () => {
+    cy.get('#NFYRevenueStatusExplained').type('C) plain the reason for the deficit, how the school plan to deal with it, and the recovery plan. Provide details of the financial forecast and/or the deficit recovery plan agreed with the local author')
+})
+
+Cypress.Commands.add('uploadFileForNextRevenueCarryForwardDeficit', () => {
+    const filepath = '../fixtures/fiftyk.pdf'
+    cy.get('#schoolNfyRevenueFileUpload').attachFile(filepath)
+})
+
+Cypress.Commands.add('inputNextFinancialYrCapitalCarryForward', () => {
+    cy.get('#CapitalCarryForward').clear()
+    cy.get('#CapitalCarryForward').type('199998.98')
+    
+})
+
+Cypress.Commands.add('inputReasonsForNextCapitalCarryForwardDeficit', () => {
+    cy.get('#PFYCapitalCarryForwardExplained').type('D) plain the reason for the deficit, how the school plan to deal with it, and the recovery plan. Provide details of the financial forecast and/or the deficit recovery plan agreed with the local author')
+})
