@@ -18,7 +18,7 @@ internal sealed class CookiesModelTests
 		var pageModel = SetupCookiesModel();
 
 		// act
-		pageModel.OnGet();
+		pageModel.OnGet("\\");
 
 		// assert
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
