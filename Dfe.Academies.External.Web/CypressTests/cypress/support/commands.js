@@ -1621,3 +1621,8 @@ Cypress.Commands.add('financeSummaryNotStartedElementsVisible', () => {
     cy.get('.govuk-button').should('be.visible').contains('Back to application overview')
 
 })
+
+Cypress.Commands.add('selectPreviousFinancialYrStartSection', () => {
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(0).click()
+
+})
