@@ -1775,4 +1775,23 @@ cy.get('#revenueTypeDeficit').click()
 })
 
 Cypress.Commands.add('verifyCurrentRevenueCarryForwardDeficitSelectedSectionDisplays', () => {
-cy.get('#revenueTypeDeficit').should('be.checked')
+    cy.get('#revenueTypeDeficit').should('be.checked')
+    
+    cy.get('label[for="CFYRevenueCarryForwardExplained"]').contains('Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.')
+    cy.get('.govuk-hint').eq(1).contains('Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority')
+    cy.get('#CFYRevenueCarryForwardExplained').should('be.visible').should('be.enabled')
+
+    cy.get('.govuk-label').eq(6).contains('You can upload the school\’s recovery plan.')
+
+    cy.get('.govuk-hint').eq(2).contains('We prefer schools to set out their income and expenditure using the consistent financial reporting codes.')
+    cy.get('a[href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"]').contains('consistent financial reporting')
+    
+    cy.get('label[for="schoolCfyRevenueFileUpload"]').contains('Upload a file')
+
+    cy.get('legend').eq(1).contains('Uploaded files')
+    
+    cy.get('hr').eq(0).should('be.visible')
+    cy.get('.govuk-label').eq(9).contains('No file uploaded')
+    cy.get('hr').eq(1).should('be.visible')
+
+})
