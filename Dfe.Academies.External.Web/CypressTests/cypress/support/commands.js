@@ -1862,3 +1862,21 @@ Cypress.Commands.add('verifyNextCapitalCarryForwardDeficitSelectedSectionDisplay
     cy.get('.govuk-label').eq(16).contains('No file uploaded')
     cy.get('hr').eq(3).should('be.visible')
 })
+
+Cypress.Commands.add('inputReasonsForCurrentCapitalCarryForwardDeficit', () => {
+    cy.get('label[for="CFYCapitalCarryForwardExplained"]').type('B) plain the reason for the deficit, how the school plan to deal with it, and the recovery plan. Provide details of the financial forecast and/or the deficit recovery plan agreed with the local author')
+})
+
+Cypress.Commands.add('uploadFileForCurrentCapitalCarryForwardDeficit', () => {
+    const filepath = '../fixtures/fiftyk.pdf'
+    cy.get('#schoolCfyCapitalFileUpload').attachFile(filepath)
+})
+
+Cypress.Commands.add('submitCurrentFinancialYr', () => {
+    cy.get('input[type="submit"]').click()
+})
+
+Cypress.Commands.add('selectNextFinancialYrStartSection', () => {
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(2).click()
+
+})
