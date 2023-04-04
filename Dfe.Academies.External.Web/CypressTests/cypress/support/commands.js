@@ -1756,3 +1756,23 @@ Cypress.Commands.add('currentFinancialYrElementsVisible', () => {
     cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
     
 })
+
+Cypress.Commands.add('inputCurrentFinancialYrDate', () => {
+cy.get('#sip_cfyenddate-day').type('31')
+cy.get('#sip_cfyenddate-month').type('03')
+cy.get('#sip_cfyenddate-year').type('2023')
+
+})
+
+Cypress.Commands.add('inputCurrentFinancialYrRevenueCarryForward', () => {
+cy.get('#Revenue').clear()
+cy.get('#Revenue').type('99999.99')
+
+})
+
+Cypress.Commands.add('selectRevenueCarryForwardDeficit', () => {
+cy.get('#revenueTypeDeficit').click()
+})
+
+Cypress.Commands.add('verifyCurrentRevenueCarryForwardDeficitSelectedSectionDisplays', () => {
+cy.get('#revenueTypeDeficit').should('be.checked')
