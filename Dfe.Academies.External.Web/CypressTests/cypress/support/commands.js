@@ -1666,3 +1666,24 @@ Cypress.Commands.add('previousFinancialYrElementsVisible', () => {
     cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
     
 })
+
+Cypress.Commands.add('inputPreviousFinancialYrDate', () => {
+    cy.get('#sip_pfyenddate-day').type('31')
+    cy.get('#sip_pfyenddate-month').type('03')
+    cy.get('#sip_pfyenddate-year').type('2022')
+
+})
+
+Cypress.Commands.add('inputPreviousFinancialYrRevenueCarryForward', () => {
+    cy.get('#Revenue').clear()
+    cy.get('#Revenue').type('4999.99')
+
+})
+
+Cypress.Commands.add('selectRevenueCarryForwardSurplus', () => {
+    cy.get('#revenueRevenueTypeSurplus').click()
+})
+
+Cypress.Commands.add('verifyRevenueCarryForwardSurplusSelected', () => {
+    cy.get('#revenueRevenueTypeSurplus').should('be.checked')
+})
