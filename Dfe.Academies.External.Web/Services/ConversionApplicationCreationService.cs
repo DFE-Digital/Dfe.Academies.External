@@ -440,7 +440,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		var command = new SubmitApplicationCommand(applicationId);
 
 		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/submit?api-version=V1";
-		// expected object is not used, so deserialization to a generic object is sufficient
+		// expected object is not used, so deserialization to generic object is sufficient
 		await _resilientRequestProvider.PostAsync<Object, SubmitApplicationCommand>(apiurl, command);
 	}
 
