@@ -440,7 +440,8 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		var command = new SubmitApplicationCommand(applicationId);
 
 		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/submit?api-version=V1";
-		await _resilientRequestProvider.PostAsync<ConversionApplication, SubmitApplicationCommand>(apiurl, command);
+		// expected object is not used, so deserialization to generic object is sufficient
+		await _resilientRequestProvider.PostAsync<Object, SubmitApplicationCommand>(apiurl, command);
 	}
 
 	public async Task CreateKeyPerson(int applicationId, NewTrustKeyPerson person)
