@@ -12,7 +12,7 @@ namespace Dfe.Academies.External.Web.Pages
 			
 		}
 
-		public async Task<IActionResult> OnPostAsync(CookieConsent cookies, string redirectPath, string returnUrl)
+		public async Task<IActionResult> OnPostAsync(CookieConsent cookies, string redirectPath, string returnPath)
 		{
 			switch (cookies)
 			{
@@ -33,7 +33,7 @@ namespace Dfe.Academies.External.Web.Pages
 			}
 
 			TempData["cookiePreferenceSaved"] = true;
-			TempData["returnUrl"] = returnUrl;
+			TempData["returnPath"] = returnPath;
 			return Redirect(redirectPath);
 		}
 

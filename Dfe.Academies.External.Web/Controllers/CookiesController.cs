@@ -8,7 +8,7 @@ public class CookiesController : Controller
 	[AllowAnonymous]
 	[HttpPost]
 	[Route(nameof(SetConsent))]
-	public IActionResult SetConsent(CookiesConsent cookies, string redirectPath, string returnUrl)
+	public IActionResult SetConsent(CookiesConsent cookies, string redirectPath)
 	{
 		switch (cookies)
 		{
@@ -30,7 +30,7 @@ public class CookiesController : Controller
 		}
 
 		TempData["cookiePreferenceSaved"] = true;
-		TempData["returnUrl"] = returnUrl;
+		TempData["redirectPath"] = redirectPath;
 		return LocalRedirect(redirectPath);
 	}
 

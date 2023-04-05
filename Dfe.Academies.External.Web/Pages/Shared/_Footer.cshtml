@@ -1,6 +1,5 @@
 ﻿@{
-    var location = new Uri($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}{Context.Request.QueryString}");
-    var url = location.AbsoluteUri;
+    var returnPath = Context.Request.Path;
 }
 <footer class="govuk-footer print-hide" role="contentinfo">
 	<div class="govuk-width-container ">
@@ -12,7 +11,7 @@
 						<a asp-page="/Accessibility-Statement" class="govuk-footer__link">Accessibility statement</a>
 					</li>
 					<li class="govuk-footer__inline-list-item">
-                        <a asp-page="/Cookies" asp-route-returnUrl="@url" class="govuk-footer__link">Cookie policy</a>
+                        <a asp-page="/Cookies" asp-route-returnPath="@returnPath" class="govuk-footer__link">Cookie policy</a>
 					</li>
 					<li class="govuk-footer__inline-list-item">
 						<a asp-page="/Terms" class="govuk-footer__link">Terms and Conditions</a>
