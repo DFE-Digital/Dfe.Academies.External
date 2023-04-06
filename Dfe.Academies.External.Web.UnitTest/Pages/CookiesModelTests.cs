@@ -1,9 +1,13 @@
-﻿using Dfe.Academies.External.Web.Pages;
+﻿using Castle.Core.Logging;
+using Dfe.Academies.External.Web.Pages;
+using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages;
@@ -28,7 +32,7 @@ internal sealed class CookiesModelTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new CookiesModel
+		return new CookiesModel(new Mock<ILogger<CookiesModel>>().Object)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

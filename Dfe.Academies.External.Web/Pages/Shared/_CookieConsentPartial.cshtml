@@ -4,8 +4,7 @@
     var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
 
     var showBanner = !(consentFeature?.CanTrack ?? false) && Context.Session.GetInt32("cookiesRejected") != 1;
-    var location = new Uri($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}{Context.Request.QueryString}");
-    var url = location.AbsoluteUri;
+    var returnPath = Context.Request.Path;
 }
 @if (showBanner)
 {
@@ -30,12 +29,12 @@
                         Reject analytics cookies
                     </button>
                 </form>
-                <a class="govuk-link" asp-page="Cookies" asp-route-returnUrl="@url">View cookies</a>
+                <a class="govuk-link" asp-page="Cookies" asp-route-returnPath="@returnPath">View cookies</a>
             </div>
         </div>
     </div>
 }
-@if ((bool)(TempData["cookiePreferenceSaved"] ?? false) && !showBanner && !url.Contains("cookies"))
+@if ((bool)(TempData["cookiePreferenceSaved"] ?? false) && !showBanner && !returnPath.Value.Contains("cookies"))
 {
     <form asp-controller="Cookies" asp-action="HideCookieMessage">
         <input type="hidden" name="redirectPath" value="@Context.Request.Path">
@@ -46,7 +45,7 @@
                     <div class="govuk-grid-row">
                         <div class="govuk-grid-column-two-thirds">
                         <div class="govuk-cookie-banner__content">
-                                <p class="govuk-body">You’ve accepted analytics cookies. You can <a class="govuk-link" asp-page="Cookies" asp-route-returnUrl="@url">change your cookie settings</a> at any time.</p>
+                                <p class="govuk-body">You’ve accepted analytics cookies. You can <a class="govuk-link" asp-page="Cookies" asp-route-returnPath="@returnPath">change your cookie settings</a> at any time.</p>
                         </div>
                     </div>
                 </div>
@@ -55,7 +54,7 @@
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
                         <div class="govuk-cookie-banner__content">
-                                <p class="govuk-body">You’ve rejected analytics cookies. You can <a class="govuk-link" asp-page="Cookies" asp-route-returnUrl="@url">change your cookie settings</a> at any time.</p>
+                                <p class="govuk-body">You’ve rejected analytics cookies. You can <a class="govuk-link" asp-page="Cookies" asp-route-returnPath="@returnPath">change your cookie settings</a> at any time.</p>
                         </div>
                     </div>
                 </div>

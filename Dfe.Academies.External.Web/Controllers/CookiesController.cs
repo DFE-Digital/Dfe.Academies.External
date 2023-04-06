@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Dfe.Academies.External.Web.Pages;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Controllers;
@@ -8,7 +10,7 @@ public class CookiesController : Controller
 	[AllowAnonymous]
 	[HttpPost]
 	[Route(nameof(SetConsent))]
-	public IActionResult SetConsent(CookiesConsent cookies, string redirectPath, string returnUrl)
+	public IActionResult SetConsent(CookiesConsent cookies, string redirectPath)
 	{
 		switch (cookies)
 		{
@@ -21,16 +23,18 @@ public class CookiesController : Controller
 				SetConsentCookie("no");
 				Response.Cookies.Delete("_ga");
 				Response.Cookies.Delete("_gid");
-				var gaCookie = Request.Cookies.Keys.FirstOrDefault(key => key.StartsWith("_gat"));
-				if (!string.IsNullOrEmpty(gaCookie))
-				{
-					Response.Cookies.Delete(gaCookie);
-				}
+				var gatCookie = Request.Cookies.Keys.FirstOrDefault(key => key.StartsWith("_gat_"));
+				if (!string.IsNullOrEmpty(gatCookie))
+					Response.Cookies.Delete(gatCookie);
+
+				var gaCookie = Request.Cookies.FirstOrDefault(cookie => cookie.Key.StartsWith("_ga_"));
+				if (gaCookie.Key != null)
+					Response.Cookies.Delete(gaCookie.Key, new CookieOptions { Domain = Request.GetUri().Host, Path = "/" });
 				break;
 		}
 
 		TempData["cookiePreferenceSaved"] = true;
-		TempData["returnUrl"] = returnUrl;
+		TempData["redirectPath"] = redirectPath;
 		return LocalRedirect(redirectPath);
 	}
 
