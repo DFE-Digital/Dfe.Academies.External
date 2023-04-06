@@ -48,7 +48,8 @@ builder.Services
 			.AllowAnonymousToPage("/Privacy")
 			.AllowAnonymousToPage("/Error")
 			.AllowAnonymousToPage("/NotFound")
-			.AllowAnonymousToPage("/WhatYouWillNeed");
+			.AllowAnonymousToPage("/WhatYouWillNeed")
+			.AllowAnonymousToPage("/Help");
 		options.Conventions.AddPageRoute("/notfound", "/error/404");
 		options.Conventions.AddPageRoute("/notfound", "/error/{code:int}");
 	})
