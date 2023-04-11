@@ -170,6 +170,16 @@ variable "enable_container_app_blob_storage" {
   type        = bool
 }
 
+variable "container_app_blob_storage_ipv4_allow_list" {
+  description = "A list of public IPv4 address to grant access to the Blob Storage Account"
+  type        = list(string)
+}
+
+variable "container_app_blob_storage_public_access_enabled" {
+  description = "Should the Azure Storage Account have Public visibility?"
+  type        = bool
+}
+
 variable "existing_network_watcher_name" {
   description = "Use an existing network watcher to add flow logs."
   type        = string

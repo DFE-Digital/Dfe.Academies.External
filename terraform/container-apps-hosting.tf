@@ -39,7 +39,9 @@ module "azure_container_apps_hosting" {
   monitor_slack_webhook_receiver = local.monitor_slack_webhook_receiver
   monitor_slack_channel          = local.monitor_slack_channel
 
-  enable_container_app_blob_storage = local.enable_container_app_blob_storage
+  enable_container_app_blob_storage                = local.enable_container_app_blob_storage
+  container_app_blob_storage_ipv4_allow_list       = local.container_app_blob_storage_ipv4_allow_list
+  container_app_blob_storage_public_access_enabled = local.container_app_blob_storage_public_access_enabled
 
   existing_network_watcher_name                = local.existing_network_watcher_name
   existing_network_watcher_resource_group_name = local.existing_network_watcher_resource_group_name
