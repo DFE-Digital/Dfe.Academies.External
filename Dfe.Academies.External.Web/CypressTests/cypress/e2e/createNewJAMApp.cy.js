@@ -553,5 +553,207 @@ describe('View Application Tests', () => {
       Footer.allContentTextVisible()
       Footer.openGovernmentLicence3LinkVisible()
       Footer.crownCopyrightLinkVisible()
+// SELECT FINANCES SECTION *******
+
+      // SELECT FINANCES LINK
+      A2BYourApplication.selectFinances()
+
+      // CHECK FINANCE SUMMARY PAGE DISPLAYS CORRECTLY
+      Header.govUkHeaderVisible()
+      Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+      A2BFinanceSummary.financeSummaryNotStartedElementsVisible()
+
+      Footer.accessibilityStatementLinkVisible()
+      Footer.cookiesLinkVisible()
+      Footer.termsAndConditionsLinkVisible()
+      Footer.privacyLinkVisible()
+      Footer.oglLogoVisible()
+      Footer.allContentTextVisible()
+      Footer.openGovernmentLicence3LinkVisible()
+      Footer.crownCopyrightLinkVisible()
+
+      
+      // SELECT PREVIOUS FINANCIAL YR START SECTION
+      A2BFinanceSummary.selectPreviousFinancialYrStartSection()
+
+      // CHECK PREVIOUS FINANCIAL YR PAGE DISPLAYS CORRECTLY
+      
+      Header.govUkHeaderVisible()
+      Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+      A2BPreviousFinancialYear.previousFinancialYrElementsVisible()
+
+      Footer.accessibilityStatementLinkVisible()
+      Footer.cookiesLinkVisible()
+      Footer.termsAndConditionsLinkVisible()
+      Footer.privacyLinkVisible()
+      Footer.oglLogoVisible()
+      Footer.allContentTextVisible()
+      Footer.openGovernmentLicence3LinkVisible()
+      Footer.crownCopyrightLinkVisible()
+
+     // FILL OUT PREVIOUS FINANCIAL YR DETAILS
+     A2BPreviousFinancialYear.inputPreviousFinancialYrDate()
+
+     A2BPreviousFinancialYear.inputPreviousFinancialYrRevenueCarryForward()
+     A2BPreviousFinancialYear.selectRevenueCarryForwardSurplus()
+     A2BPreviousFinancialYear.verifyRevenueCarryForwardSurplusSelected()
+
+
+     A2BPreviousFinancialYear.inputPreviousFinancialYrCapitalCarryForward()
+     A2BPreviousFinancialYear.selectCapitalCarryForwardSurplus()
+     A2BPreviousFinancialYear.verifyCapitalCarryForwardSurplusSelected
+
+     // SUBMIT PREVIOUS FINANCIAL YR
+     A2BPreviousFinancialYear.submitPreviousFinancialYr()
+
+
+
+
+      // CHECK CURRENT FINANCIAL YR SECTION CORRECTLY
+      A2BCurrentFinancialYear.currentFinancialYrElementsVisible()
+
+
+      // FILL OUT CURRENT FINANCIAL YR DETAILS
+     A2BCurrentFinancialYear.inputCurrentFinancialYrDate()
+
+     A2BCurrentFinancialYear.inputCurrentFinancialYrRevenueCarryForward()
+     A2BCurrentFinancialYear.selectRevenueCarryForwardDeficit()
+     A2BCurrentFinancialYear.verifyCurrentRevenueCarryForwardDeficitSelectedSectionDisplays()
+
+     A2BCurrentFinancialYear.inputReasonsForCurrentRevenueCarryForwardDeficit()
+     A2BCurrentFinancialYear.uploadFileForCurrentRevenueCarryForwardDeficit()
+
+
+     A2BCurrentFinancialYear.inputCurrentFinancialYrCapitalCarryForward()
+     A2BCurrentFinancialYear.selectCurrentCapitalCarryForwardDeficit()
+     A2BCurrentFinancialYear.verifyCurrentCapitalCarryForwardDeficitSelectedSectionDisplays()
+
+     A2BCurrentFinancialYear.inputReasonsForCurrentCapitalCarryForwardDeficit()
+     A2BCurrentFinancialYear.uploadFileForCurrentCapitalCarryForwardDeficit()
+
+     // SUBMIT CURRENT FINANCIAL YR
+     A2BCurrentFinancialYear.submitCurrentFinancialYr()
+
+
+
+     // CHECK NEXT FINANCIAL YR SECTION CORRECTLY
+     A2BNextFinancialYear.nextFinancialYrElementsVisible()
+
+
+     // FILL OUT NEXT FINANCIAL YR DETAILS
+     A2BNextFinancialYear.inputNextFinancialYrDate()
+
+     A2BNextFinancialYear.inputNextFinancialYrRevenueCarryForward()
+     A2BNextFinancialYear.selectRevenueCarryForwardDeficit()
+     A2BNextFinancialYear.verifyNextRevenueCarryForwardDeficitSelectedSectionDisplays()
+
+     A2BNextFinancialYear.inputReasonsForNextRevenueCarryForwardDeficit()
+     A2BNextFinancialYear.uploadFileForNextRevenueCarryForwardDeficit()
+
+
+     A2BNextFinancialYear.inputNextFinancialYrCapitalCarryForward()
+     A2BNextFinancialYear.selectNextCapitalCarryForwardDeficit()
+     A2BNextFinancialYear.verifyNextCapitalCarryForwardDeficitSelectedSectionDisplays()
+
+     A2BNextFinancialYear.inputReasonsForNextCapitalCarryForwardDeficit()
+     A2BNextFinancialYear.uploadFileForNextCapitalCarryForwardDeficit()
+
+     // SUBMIT NEXT FINANCIAL YR
+     A2BNextFinancialYear.submitNextFinancialYr()
+
+
+
+
+
+      // CHECK LOANS SUMMARY PAGE DISPLAYS CORRECTLY
+      Header.govUkHeaderVisible()
+      Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+      A2BLoansSummary.loansSummaryElementsVisible()
+
+      Footer.accessibilityStatementLinkVisible()
+      Footer.cookiesLinkVisible()
+      Footer.termsAndConditionsLinkVisible()
+      Footer.privacyLinkVisible()
+      Footer.oglLogoVisible()
+      Footer.allContentTextVisible()
+      Footer.openGovernmentLicence3LinkVisible()
+      Footer.crownCopyrightLinkVisible()
+     
+      //SUBMIT LOANS
+     A2BLoansSummary.submitLoansSummary()
+
+       // CHECK LEASES SUMMARY PAGE DISPLAYS CORRECTLY
+       Header.govUkHeaderVisible()
+       Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+       A2BLeasesSummary.leasesSummaryElementsVisible()
+
+       Footer.accessibilityStatementLinkVisible()
+       Footer.cookiesLinkVisible()
+       Footer.termsAndConditionsLinkVisible()
+       Footer.privacyLinkVisible()
+       Footer.oglLogoVisible()
+       Footer.allContentTextVisible()
+       Footer.openGovernmentLicence3LinkVisible()
+       Footer.crownCopyrightLinkVisible()
+      
+
+ 
+       // SUBMIT LEASES
+       A2BLeasesSummary.submitLeasesSummary()
+
+       // CHECK FINANCIAL INVESTIGATIONS PAGE DISPLAYS CORRECTLY
+       Header.govUkHeaderVisible()
+       Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+       A2BFinancialInvestigations.financialInvestigationsElementsVisible()
+
+       Footer.accessibilityStatementLinkVisible()
+       Footer.cookiesLinkVisible()
+       Footer.termsAndConditionsLinkVisible()
+       Footer.privacyLinkVisible()
+       Footer.oglLogoVisible()
+       Footer.allContentTextVisible()
+       Footer.openGovernmentLicence3LinkVisible()
+       Footer.crownCopyrightLinkVisible()
+
+       // SUBMIT FINANCIAL INVESTIGATIONS
+       A2BFinancialInvestigations.submitFinancialInvestigations()
+
+       // CHECK COMPLETED FINANCE SUMMARY PAGE
+       Header.govUkHeaderVisible()
+       Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+       A2BFinanceSummary.financeSummaryCompleteElementsVisible()
+
+       Footer.accessibilityStatementLinkVisible()
+       Footer.cookiesLinkVisible()
+       Footer.termsAndConditionsLinkVisible()
+       Footer.privacyLinkVisible()
+       Footer.oglLogoVisible()
+       Footer.allContentTextVisible()
+       Footer.openGovernmentLicence3LinkVisible()
+       Footer.crownCopyrightLinkVisible()
+
+       // SUBMIT FINANCE SUMMARY PAGE
+       A2BFinanceSummary.submitFinanceSummary()
+
+       // CHECK FINANCE MARKED COMPLETE ON JAM APP OVERVIEW PAGE
+       Header.govUkHeaderVisible()
+       Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+       A2BYourApplication.financeCompleteElementsVisible()
+
+       Footer.accessibilityStatementLinkVisible()
+       Footer.cookiesLinkVisible()
+       Footer.termsAndConditionsLinkVisible()
+       Footer.privacyLinkVisible()
+       Footer.oglLogoVisible()
+       Footer.allContentTextVisible()
+       Footer.openGovernmentLicence3LinkVisible()
+       Footer.crownCopyrightLinkVisible()
     })
 })
