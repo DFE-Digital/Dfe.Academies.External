@@ -66,4 +66,66 @@ export default class A2BYourApplication extends BasePage {
         cy.selectFinances()
     }
 
+    static financeCompleteElementsVisible()
+    {
+        cy.financeCompleteElementsVisible()
+    }
+
+    static selectFuturePupilNumbers()
+    {
+        cy.selectFuturePupilNumbers()
+    }
+
+    static futurePupilNumbersCompleteElementsVisible()
+    {
+        cy.futurePupilNumbersCompleteElementsVisible()
+    }
+
+    static selectLandAndBuildings()
+    {
+        cy.selectLandAndBuildings()
+    }
+
+    static landAndBuildingsCompleteElementsVisible()
+    {
+        cy.landAndBuildingsCompleteElementsVisible()
+    }
+
+    static selectConsultation()
+    {
+        cy.selectConsultation()
+    }
+
+    static consultationCompleteElementsVisible()
+    {
+        cy.consultationCompleteElementsVisible()
+    }
+
+    static selectPreopeningSupportGrant()
+    {
+        cy.selectPreopeningSupportGrant()
+    }
+
+    static preopeningSupportGrantCompleteElementsVisible()
+    {
+        cy.preopeningSupportGrantCompleteElementsVisible()
+    }
+
+    static selectDeclaration()
+    {
+        cy.selectDeclaration()
+    }
+
+    static declarationCompleteElementsVisible()
+    {
+        cy.declarationCompleteElementsVisible()
+    }
+
+    static submitApplication()
+    {
+        cy.submitApplication()
+    }
+
+
+
 }
