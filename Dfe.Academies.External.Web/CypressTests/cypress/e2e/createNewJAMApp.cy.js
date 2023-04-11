@@ -755,5 +755,66 @@ describe('View Application Tests', () => {
        Footer.allContentTextVisible()
        Footer.openGovernmentLicence3LinkVisible()
        Footer.crownCopyrightLinkVisible()
+// SELECT FUTURE PUPILS SECTION
+    A2BYourApplication.selectFuturePupilNumbers()
+
+    // ADDITIONAL DETAILS SUMMARY PAGE CHECK ELEMENTS
+    Header.govUkHeaderVisible()
+    Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+    A2BFuturePupilNumbersSummary.futurePupilNumbersSummaryElementsVisible()
+
+    Footer.accessibilityStatementLinkVisible()
+    Footer.cookiesLinkVisible()
+    Footer.termsAndConditionsLinkVisible()
+    Footer.privacyLinkVisible()
+    Footer.oglLogoVisible()
+    Footer.allContentTextVisible()
+    Footer.openGovernmentLicence3LinkVisible()
+    Footer.crownCopyrightLinkVisible()
+
+    // CLICK START SECTION
+    A2BFuturePupilNumbersSummary.selectFuturePupilNumbersStartSection()
+
+    Header.govUkHeaderVisible()
+    Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+    A2BFuturePupilNumbersDetails.futurePupilNumbersDetailsElementsVisible()
+
+    Footer.accessibilityStatementLinkVisible()
+    Footer.cookiesLinkVisible()
+    Footer.termsAndConditionsLinkVisible()
+    Footer.privacyLinkVisible()
+    Footer.oglLogoVisible()
+    Footer.allContentTextVisible()
+    Footer.openGovernmentLicence3LinkVisible()
+    Footer.crownCopyrightLinkVisible()
+
+    // FILL OUT FUTURE PUPIL NUMBERS DETAILS
+    A2BFuturePupilNumbersDetails.fillFuturePupilNumbersDetails()
+
+    // SUBMIT FUTURE PUPIL NUMBERS DETAILS
+    A2BFuturePupilNumbersDetails.submitFuturePupilNumbersDetails()
+
+    // CHECK COMPLETED FUTURE PUPIL NUMBERS SUMMARY DISPLAYS CORRECTLY
+    Header.govUkHeaderVisible()
+    Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+    A2BFuturePupilNumbersSummary.futurePupilNumbersSummaryCompleteElementsVisible()
+
+    Footer.accessibilityStatementLinkVisible()
+    Footer.cookiesLinkVisible()
+    Footer.termsAndConditionsLinkVisible()
+    Footer.privacyLinkVisible()
+    Footer.oglLogoVisible()
+    Footer.allContentTextVisible()
+    Footer.openGovernmentLicence3LinkVisible()
+    Footer.crownCopyrightLinkVisible()
+
+    // SUBMIT FUTURE PUPIL NUMBERS SUMMARY
+    A2BFuturePupilNumbersSummary.submitFuturePupilNumbersSummary()
+
+    // VERIFY JAM APP OVERVIEW PAGE DISPLAYS CORRECTLY WITH COMPLETED FUTURE PUPIL NUMBERS SUMMARY
+    A2BYourApplication.futurePupilNumbersCompleteElementsVisible()
     })
 })
