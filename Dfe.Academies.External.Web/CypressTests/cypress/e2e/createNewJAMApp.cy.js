@@ -473,5 +473,85 @@ describe('View Application Tests', () => {
       // NOW CHECK THE JAM APPLICATION OVERVIEW PAGE DISPLAYS CORRECTLY WITH
       // ABOUT THE CONVERSION SECTION MARKED AS COMPLETED
       A2BYourApplication.yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible()
+// SELECT FURTHER INFORMATION SECTION
+      A2BYourApplication.selectFurtherInformation()
+
+      // ADDITIONAL DETAILS SUMMARY PAGE CHECK ELEMENTS
+      A2BAdditionalDetailsSummaryPage.additionalDetailsSummaryNotStartedElementsVisible()
+
+      // SELECT START SECTION ON ADDITIONAL DETAILS SUMMARY PAGE
+      A2BAdditionalDetailsSummaryPage.selectAdditionalDetailsStartSection()
+
+      // CHECK ELEMENTS ON ADDITIONAL DETAILS DETAILS PAGE
+      A2BAdditionalDetailsDetails.additionalDetailsDetailsNotStartedElementsVisible()
+
+      // FILL SCHOOL CONTRIBUTION
+      A2BAdditionalDetailsDetails.fillSchoolContribution()
+
+      //DIOCESE STUFF
+      A2BAdditionalDetailsDetails.selectYesIsSchoolLinkedToDiocese()
+
+      // CHECK DIOCESE SECTION ELEMENTS DISPLAY CORRECTLY
+      A2BAdditionalDetailsDetails.dioceseSectionElementsVisible()
+
+      // INPUT DIOCESE NAME
+      A2BAdditionalDetailsDetails.inputDioceseName()
+
+      // UPLOAD DIOCESE LETTER
+      A2BAdditionalDetailsDetails.dioceseFileUpload()
+
+      // SELECT YES ON IS SCHOOL SUPPORTED BY FOUNDATION
+      A2BAdditionalDetailsDetails.selectYesSchoolSupportedByTrustOrFoundation()
+
+      // CHECK SCHOOL SUPPORTED BY TRUST OR FOUNDATION DISPLAYS CORRECTLY
+      A2BAdditionalDetailsDetails.schoolSupportedByElementsVisible()
+
+      // INPUT NAME OF BODY
+      A2BAdditionalDetailsDetails.inputBodyName()
+
+      // UPLOAD FOUNDATION TRUST OR BODY CONSENT
+      A2BAdditionalDetailsDetails.uploadSchoolSupportedByTrustOrBody()
+
+      // INPUT LIST OF FEEDER SCHOOLS
+      A2BAdditionalDetailsDetails.inputListOfFeederSchools()
+
+      // UPLOAD SCHOOL LETTER OF CONSENT
+      A2BAdditionalDetailsDetails.uploadSchoolLetterOfConsent()
+
+      // SUBMIT ADDITIONAL DETAILS DETAILS PAGE
+      A2BAdditionalDetailsDetails.submitAdditionalDetailsDetails()
+
+      // CHECK COMPLETED ADDITIONAL DETAILS SUMMARY PAGE DISPLAYS CORRECTLY
+      Header.govUkHeaderVisible()
+      Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+      A2BAdditionalDetailsSummaryPage.additionalDetailsSummaryCompleteElementsVisible()
+
+      Footer.accessibilityStatementLinkVisible()
+      Footer.cookiesLinkVisible()
+      Footer.termsAndConditionsLinkVisible()
+      Footer.privacyLinkVisible()
+      Footer.oglLogoVisible()
+      Footer.allContentTextVisible()
+      Footer.openGovernmentLicence3LinkVisible()
+      Footer.crownCopyrightLinkVisible()
+
+      // SUBMIT ADDITIONAL DETAIL SUMMARY PAGE
+      A2BAdditionalDetailsSummaryPage.submitAdditionalDetailsSummary()
+
+      // CHECK JAM APPLICATION OVERVIEW PAGE DISPLAYS CORRECTLY WITH FURTHER INFORMATION SECTION MARKED AS COMPLETE
+      Header.govUkHeaderVisible()
+      Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+      A2BYourApplication.yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible()
+
+      Footer.accessibilityStatementLinkVisible()
+      Footer.cookiesLinkVisible()
+      Footer.termsAndConditionsLinkVisible()
+      Footer.privacyLinkVisible()
+      Footer.oglLogoVisible()
+      Footer.allContentTextVisible()
+      Footer.openGovernmentLicence3LinkVisible()
+      Footer.crownCopyrightLinkVisible()
     })
 })
