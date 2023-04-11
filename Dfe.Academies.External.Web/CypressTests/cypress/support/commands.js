@@ -2493,3 +2493,51 @@ cy.get('#SchoolBuildLandOwnerExplained').type('As far as you\'re aware, who owns
 Cypress.Commands.add('submitLandAndBuildingsDetails', () => {
     cy.get('input[type="submit"]').click()
 })
+Cypress.Commands.add('landAndBuildingsSummaryCompleteElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+
+    cy.get('.govuk-caption-l').contains('Plymstock School')
+
+    cy.get('.govuk-heading-l').contains('Land and buildings')
+
+    cy.get('.govuk-link').contains('Change your answers')
+
+    cy.get('hr').eq(0).should('be.visible')
+
+    cy.get('b').eq(0).contains('As far as you\'re aware, who owns or holds the school\'s buildings and land?')
+    cy.get('p').eq(2).contains('As far as you\'re aware, who owns or holds the school\'s buildings and land?')
+
+    cy.get('hr').eq(1).should('be.visible')
+
+    cy.get('b').eq(1).contains('Are there any current or planned building works?')
+    cy.get('p').eq(4).contains('No')
+
+    cy.get('hr').eq(2).should('be.visible')
+
+    cy.get('b').eq(2).contains('Are there any shared facilities on site?')
+    cy.get('p').eq(6).contains('No')
+
+    cy.get('hr').eq(3).should('be.visible')
+
+    cy.get('b').eq(3).contains('Has the school had any grants from Sport England, the Big Lottery Fund, or the Football Federation?')
+    cy.get('p').eq(8).contains('No')
+
+    cy.get('hr').eq(4).should('be.visible')
+
+    cy.get('b').eq(4).contains('Is the school part of a Private Finance Initiative (PFI) scheme?')
+    cy.get('p').eq(10).contains('No')
+
+    cy.get('hr').eq(5).should('be.visible')
+
+    cy.get('b').eq(5).contains('Is the school part of the Priority School Building Programme?')
+    cy.get('p').eq(12).contains('No')
+
+    cy.get('hr').eq(6).should('be.visible')
+
+    cy.get('b').eq(6).contains('Is the school part of the Building Schools for the Future Programme?')
+    cy.get('p').eq(14).contains('No')
+})
+
+Cypress.Commands.add('submitLandAndBuildingsSummary', () => {
+cy.get('.govuk-button').click()
+})
