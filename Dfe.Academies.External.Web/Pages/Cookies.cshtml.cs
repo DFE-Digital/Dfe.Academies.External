@@ -8,10 +8,12 @@ namespace Dfe.Academies.External.Web.Pages
 {
 	public class CookiesModel : PageModel
 	{
+		private readonly string cookieDomain;
 		private readonly ILogger<CookiesModel> logger;
 
-		public CookiesModel(ILogger<CookiesModel> logger)
+		public CookiesModel(ILogger<CookiesModel> logger, IConfiguration configuration)
 		{
+			this.cookieDomain = configuration["Google:CookieDomain"];
 			this.logger = logger;
 		}
 		public void OnGet(string returnUrl)
@@ -35,15 +37,15 @@ namespace Dfe.Academies.External.Web.Pages
 				case CookieConsent.Reject:
 					HttpContext.Session.SetInt32("cookiesRejected", 1);
 					SetConsentCookie("no");
-					Response.Cookies.Delete("_ga");
-					Response.Cookies.Delete("_gid");
+					Response.Cookies.Delete("_ga", new CookieOptions { Domain = this.cookieDomain, Path = "/" });
+					Response.Cookies.Delete("_gid", new CookieOptions { Domain = this.cookieDomain, Path = "/" });
 					var gatCookie = Request.Cookies.Keys.FirstOrDefault(key => key.StartsWith("_gat_"));
 					if (!string.IsNullOrEmpty(gatCookie))
-						Response.Cookies.Delete(gatCookie);
+						Response.Cookies.Delete(gatCookie, new CookieOptions { Domain = this.cookieDomain, Path = "/" });
 
 					var gaCookie = Request.Cookies.FirstOrDefault(cookie => cookie.Key.StartsWith("_ga_"));
 					if (gaCookie.Key != null)
-						Response.Cookies.Delete(gaCookie.Key, new CookieOptions { Domain = Request.GetUri().Host, Path = "/" });
+						Response.Cookies.Delete(gaCookie.Key, new CookieOptions { Domain = this.cookieDomain, Path = "/" });
 					break;
 					// No default because if we get a value out of range then we can just ignore it
 			}
