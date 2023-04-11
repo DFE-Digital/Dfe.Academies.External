@@ -2249,3 +2249,33 @@ Cypress.Commands.add('futurePupilNumbersSummaryElementsVisible', () => {
 
     cy.get('.govuk-button').should('be.visible').contains('Save and return to your application')
 })
+Cypress.Commands.add('selectFuturePupilNumbersStartSection', () => {
+    cy.get('a[class="govuk-button govuk-button--secondary"]').click()
+})
+
+Cypress.Commands.add('futurePupilNumbersDetailsElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+
+    cy.get('.govuk-caption-l').contains('Plymstock School')
+
+    cy.get('.govuk-heading-l').contains('Future pupil numbers')
+
+    cy.get('label[for="ProjectedPupilNumbersYear1"]').contains('Projected pupil numbers on roll in the year the academy opens (year 1)')
+    cy.get('#ProjectedPupilNumbersYear1').should('be.enabled')
+
+    cy.get('label[for="ProjectedPupilNumbersYear2"]').contains('Projected pupil numbers on roll in the following year after the academy has opened (year 2)')
+    cy.get('#ProjectedPupilNumbersYear2').should('be.enabled')
+
+    cy.get('label[for="ProjectedPupilNumbersYear3"]').contains('Projected pupil numbers on roll in the following year (year 3)')
+    cy.get('#ProjectedPupilNumbersYear3').should('be.enabled')
+
+    cy.get('label[for="SchoolCapacityAssumptions"]').contains('What do you base these projected numbers on?')
+    cy.get('#SchoolCapacityAssumptions').should('be.enabled')
+
+    cy.get('label[for="SchoolCapacityPublishedAdmissionsNumber"]').contains('What is the school\'s published admissions number (PAN)?')
+    cy.get('#SchoolCapacityPublishedAdmissionsNumber').should('be.enabled')
+
+    cy.get('input[type="submit"]').should('be.visible').contains('Save and return to overview')
+
+
+})
