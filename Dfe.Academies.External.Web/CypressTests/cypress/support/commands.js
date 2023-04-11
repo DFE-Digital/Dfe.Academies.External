@@ -2030,6 +2030,10 @@ Cypress.Commands.add('leasesSummaryElementsVisible', () => {
     cy.get('input[type="submit"]').should('be.visible').contains('Continue')
 })
 
+Cypress.Commands.add('submitLeasesSummary', () => {
+    cy.get('input[type="submit"]').click()
+})
+
 Cypress.Commands.add('selectFinancialInvestigationsStartSection', () => {
     cy.get('a[class="govuk-button govuk-button--secondary"]').eq(5).click()
 
