@@ -941,5 +941,69 @@ A2BConsultationSummary.submitConsultationSummary()
 
 // VERIFY JAM APP OVERVIEW PAGE DISPLAYS CORRECTLY WITH COMPLETED FUTURE PUPIL NUMBERS SUMMARY
 A2BYourApplication.consultationCompleteElementsVisible()
+  // SELECT PRE-OPENING SUPPORT GRANT SECTION
+  A2BYourApplication.selectPreopeningSupportGrant()
+
+  // PRE-OPENING SUPPORT GRANT CHECK ELEMENTS
+  Header.govUkHeaderVisible()
+  Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+  A2BPreOpeningSupportGrantSummary.preopeningSupportGrantSummaryElementsVisible()
+
+  Footer.accessibilityStatementLinkVisible()
+  Footer.cookiesLinkVisible()
+  Footer.termsAndConditionsLinkVisible()
+  Footer.privacyLinkVisible()
+  Footer.oglLogoVisible()
+  Footer.allContentTextVisible()
+  Footer.openGovernmentLicence3LinkVisible()
+  Footer.crownCopyrightLinkVisible()
+
+  // CLICK START SECTION
+  A2BPreOpeningSupportGrantSummary.selectPreopeningSupportGrantStartSection()
+
+  Header.govUkHeaderVisible()
+  Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+  A2BPreopeningSupportGrantDetails.preopeningSupportGrantDetailsElementsVisible()
+
+  Footer.accessibilityStatementLinkVisible()
+  Footer.cookiesLinkVisible()
+  Footer.termsAndConditionsLinkVisible()
+  Footer.privacyLinkVisible()
+  Footer.oglLogoVisible()
+  Footer.allContentTextVisible()
+  Footer.openGovernmentLicence3LinkVisible()
+  Footer.crownCopyrightLinkVisible()
+
+  // FILL OUT FUTURE PUPIL NUMBERS DETAILS
+  A2BPreopeningSupportGrantDetails.selectToTheSchoolPreopeningSupportGrantDetails()
+
+  // VERIFY TO THE SCHOOL SECTION DISPLAYS CORRECTLY
+  A2BPreopeningSupportGrantDetails.verifyToTheSchoolPreopeningSupportGrantDetailsSectionDisplays()
+
+  // SUBMIT CONSULTATION DETAILS
+  A2BPreopeningSupportGrantDetails.submitPreopeningSupportGrantDetails()
+
+  // CHECK COMPLETED CONSULTATION SUMMARY DISPLAYS CORRECTLY
+  Header.govUkHeaderVisible()
+  Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+  A2BPreOpeningSupportGrantSummary.preopeningSupportGrantSummaryCompleteElementsVisible()
+
+  Footer.accessibilityStatementLinkVisible()
+  Footer.cookiesLinkVisible()
+  Footer.termsAndConditionsLinkVisible()
+  Footer.privacyLinkVisible()
+  Footer.oglLogoVisible()
+  Footer.allContentTextVisible()
+  Footer.openGovernmentLicence3LinkVisible()
+  Footer.crownCopyrightLinkVisible()
+
+  // SUBMIT CONSULTATION SUMMARY
+  A2BPreOpeningSupportGrantSummary.submitPreopeningSupportGrantSummary()
+
+  // VERIFY JAM APP OVERVIEW PAGE DISPLAYS CORRECTLY WITH COMPLETED FUTURE PUPIL NUMBERS SUMMARY
+  A2BYourApplication.preopeningSupportGrantCompleteElementsVisible()
     })
 })
