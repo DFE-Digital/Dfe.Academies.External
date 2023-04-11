@@ -880,5 +880,66 @@ A2BLandAndBuildingsSummary.submitLandAndBuildingsSummary()
 
 // VERIFY JAM APP OVERVIEW PAGE DISPLAYS CORRECTLY WITH COMPLETED FUTURE PUPIL NUMBERS SUMMARY
 A2BYourApplication.landAndBuildingsCompleteElementsVisible()
+// SELECT CONSULTATION SECTION
+A2BYourApplication.selectConsultation()
+
+// ADDITIONAL DETAILS SUMMARY PAGE CHECK ELEMENTS
+Header.govUkHeaderVisible()
+Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+A2BConsultationSummary.consultationSummaryElementsVisible()
+
+Footer.accessibilityStatementLinkVisible()
+Footer.cookiesLinkVisible()
+Footer.termsAndConditionsLinkVisible()
+Footer.privacyLinkVisible()
+Footer.oglLogoVisible()
+Footer.allContentTextVisible()
+Footer.openGovernmentLicence3LinkVisible()
+Footer.crownCopyrightLinkVisible()
+
+// CLICK START SECTION
+A2BConsultationSummary.selectConsultationStartSection()
+
+Header.govUkHeaderVisible()
+Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+A2BConsultationDetails.consultationDetailsElementsVisible()
+
+Footer.accessibilityStatementLinkVisible()
+Footer.cookiesLinkVisible()
+Footer.termsAndConditionsLinkVisible()
+Footer.privacyLinkVisible()
+Footer.oglLogoVisible()
+Footer.allContentTextVisible()
+Footer.openGovernmentLicence3LinkVisible()
+Footer.crownCopyrightLinkVisible()
+
+// FILL OUT FUTURE PUPIL NUMBERS DETAILS
+A2BConsultationDetails.fillConsultationDetails()
+
+// SUBMIT CONSULTATION DETAILS
+A2BConsultationDetails.submitConsultationDetails()
+
+// CHECK COMPLETED CONSULTATION SUMMARY DISPLAYS CORRECTLY
+Header.govUkHeaderVisible()
+Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+A2BConsultationSummary.consultationSummaryCompleteElementsVisible()
+
+Footer.accessibilityStatementLinkVisible()
+Footer.cookiesLinkVisible()
+Footer.termsAndConditionsLinkVisible()
+Footer.privacyLinkVisible()
+Footer.oglLogoVisible()
+Footer.allContentTextVisible()
+Footer.openGovernmentLicence3LinkVisible()
+Footer.crownCopyrightLinkVisible()
+
+// SUBMIT CONSULTATION SUMMARY
+A2BConsultationSummary.submitConsultationSummary()
+
+// VERIFY JAM APP OVERVIEW PAGE DISPLAYS CORRECTLY WITH COMPLETED FUTURE PUPIL NUMBERS SUMMARY
+A2BYourApplication.consultationCompleteElementsVisible()
     })
 })
