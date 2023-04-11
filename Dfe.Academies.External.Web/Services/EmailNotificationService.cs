@@ -1,6 +1,7 @@
 ﻿using Dfe.Academies.External.Web.Middleware;
 using Dfe.Academies.External.Web.Models.Notifications;
 using Notify.Client;
+using Notify.Interfaces;
 using Notify.Models.Responses;
 
 namespace Dfe.Academies.External.Web.Services;
@@ -10,16 +11,17 @@ namespace Dfe.Academies.External.Web.Services;
 /// </summary>
 public class EmailNotificationService : IEmailNotificationService
 {
-	private readonly NotificationClient _notificationClient;
+	private readonly IAsyncNotificationClient _notificationClient;
 	private readonly ILogger<BespokeExceptionHandlingMiddleware> _logger;
 
 	public EmailNotificationService(IConfiguration configuration,
+		IAsyncNotificationClient notificationClient,
 		ILogger<BespokeExceptionHandlingMiddleware> logger)
 	{
 		// grab api key from "emailnotifications":"key"
 		string apiKey = configuration["emailnotifications:key"];
 
-		_notificationClient = new NotificationClient(apiKey);
+		_notificationClient = notificationClient;
 		_logger = logger;
 
 		// MR:- alternative create client method spin up using HttpClient
@@ -28,9 +30,9 @@ public class EmailNotificationService : IEmailNotificationService
 		//var client = new NotificationClient(httpClientWithProxy, apiKey);
 	}
 
-	public Task SendAsync(MessageDto message)
+	public async Task SendAsync(MessageDto message)
 	{
-		EmailNotificationResponse response = _notificationClient.SendEmail(message.EmailAddress, 
+		EmailNotificationResponse response = await _notificationClient.SendEmailAsync(message.EmailAddress, 
 			message.TemplateId, message.Personalisation, 
 			message.Reference, message.EmailReplyToId);
 
@@ -41,8 +43,6 @@ public class EmailNotificationService : IEmailNotificationService
 		//}
 
 		// TODO:- log response?
-		_logger.LogInformation($"Email successfully Sent to:- {message.EmailAddress}");
-		
-		return Task.CompletedTask;
+		_logger.LogInformation($"Email successfully Sent to:- {message.EmailAddress}");	
     }
 }
