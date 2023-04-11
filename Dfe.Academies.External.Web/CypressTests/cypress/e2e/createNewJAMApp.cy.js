@@ -816,5 +816,69 @@ describe('View Application Tests', () => {
 
     // VERIFY JAM APP OVERVIEW PAGE DISPLAYS CORRECTLY WITH COMPLETED FUTURE PUPIL NUMBERS SUMMARY
     A2BYourApplication.futurePupilNumbersCompleteElementsVisible()
+// SELECT LAND AND BUILDINGS SECTION
+A2BYourApplication.selectLandAndBuildings()
+
+// ADDITIONAL DETAILS SUMMARY PAGE CHECK ELEMENTS
+Header.govUkHeaderVisible()
+Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+A2BLandAndBuildingsSummary.landAndBuildingsSummaryElementsVisible()
+
+Footer.accessibilityStatementLinkVisible()
+Footer.cookiesLinkVisible()
+Footer.termsAndConditionsLinkVisible()
+Footer.privacyLinkVisible()
+Footer.oglLogoVisible()
+Footer.allContentTextVisible()
+Footer.openGovernmentLicence3LinkVisible()
+Footer.crownCopyrightLinkVisible()
+
+// CLICK START SECTION
+A2BLandAndBuildingsSummary.selectLandAndBuildingsStartSection()
+
+// CHECK LAND AND BUILDINGS DETAILS DISPLAY CORRECTLY
+
+Header.govUkHeaderVisible()
+Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+A2BLandAndBuildingsDetails.landAndBuildingsDetailsElementsVisible()
+
+Footer.accessibilityStatementLinkVisible()
+Footer.cookiesLinkVisible()
+Footer.termsAndConditionsLinkVisible()
+Footer.privacyLinkVisible()
+Footer.oglLogoVisible()
+Footer.allContentTextVisible()
+Footer.openGovernmentLicence3LinkVisible()
+Footer.crownCopyrightLinkVisible()
+
+
+// FILL OUT LAND AND BUILDINGS DETAILS
+A2BLandAndBuildingsDetails.fillLandAndBuildingsDetails()
+
+// SUBMIT LAND AND BUILDINGS DETAILS
+A2BLandAndBuildingsDetails.submitLandAndBuildingsDetails()
+
+// CHECK COMPLETED FUTURE PUPIL NUMBERS SUMMARY DISPLAYS CORRECTLY
+Header.govUkHeaderVisible()
+Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+A2BLandAndBuildingsSummary.landAndBuildingsSummaryCompleteElementsVisible()
+
+Footer.accessibilityStatementLinkVisible()
+Footer.cookiesLinkVisible()
+Footer.termsAndConditionsLinkVisible()
+Footer.privacyLinkVisible()
+Footer.oglLogoVisible()
+Footer.allContentTextVisible()
+Footer.openGovernmentLicence3LinkVisible()
+Footer.crownCopyrightLinkVisible()
+
+// SUBMIT LAND AND BUILDINGS SUMMARY
+A2BLandAndBuildingsSummary.submitLandAndBuildingsSummary()
+
+// VERIFY JAM APP OVERVIEW PAGE DISPLAYS CORRECTLY WITH COMPLETED FUTURE PUPIL NUMBERS SUMMARY
+A2BYourApplication.landAndBuildingsCompleteElementsVisible()
     })
 })
