@@ -2486,3 +2486,10 @@ Cypress.Commands.add('landAndBuildingsDetailsElementsVisible', () => {
     cy.get('input[type="submit"]').should('be.visible').contains('Save and return to overview')
 
 })
+Cypress.Commands.add('fillLandAndBuildingsDetails', () => {
+cy.get('#SchoolBuildLandOwnerExplained').type('As far as you\'re aware, who owns or holds the school\'s buildings and land?')
+})
+
+Cypress.Commands.add('submitLandAndBuildingsDetails', () => {
+    cy.get('input[type="submit"]').click()
+})
