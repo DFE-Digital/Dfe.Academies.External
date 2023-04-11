@@ -1,4 +1,5 @@
-﻿using Castle.Core.Logging;
+﻿using Castle.Core.Configuration;
+using Castle.Core.Logging;
 using Dfe.Academies.External.Web.Pages;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
@@ -32,7 +33,7 @@ internal sealed class CookiesModelTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new CookiesModel(new Mock<ILogger<CookiesModel>>().Object)
+		return new CookiesModel(new Mock<ILogger<CookiesModel>>().Object, new Mock<Microsoft.Extensions.Configuration.IConfiguration>().Object)
 		{
 			PageContext = pageContext,
 			TempData = tempData,
