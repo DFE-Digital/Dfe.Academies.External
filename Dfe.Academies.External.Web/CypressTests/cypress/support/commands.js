@@ -2005,6 +2005,9 @@ Cypress.Commands.add('loansSummaryElementsVisible', () => {
     cy.get('input[type="submit"]').should('be.visible').contains('Continue')
 })
 
+Cypress.Commands.add('submitLoansSummary', () => {
+    cy.get('input[type="submit"]').click()
+})
 Cypress.Commands.add('selectLeasesStartSection', () => {
     cy.get('a[class="govuk-button govuk-button--secondary"]').eq(4).click()
 
