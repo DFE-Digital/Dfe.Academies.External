@@ -1005,5 +1005,75 @@ A2BYourApplication.consultationCompleteElementsVisible()
 
   // VERIFY JAM APP OVERVIEW PAGE DISPLAYS CORRECTLY WITH COMPLETED FUTURE PUPIL NUMBERS SUMMARY
   A2BYourApplication.preopeningSupportGrantCompleteElementsVisible()
+// SELECT PRE-OPENING SUPPORT GRANT SECTION
+ A2BYourApplication.selectDeclaration()
+
+ // PRE-OPENING SUPPORT GRANT CHECK ELEMENTS
+ Header.govUkHeaderVisible()
+ Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+ A2BDeclarationSummary.declarationSummaryElementsVisible()
+
+ Footer.accessibilityStatementLinkVisible()
+ Footer.cookiesLinkVisible()
+ Footer.termsAndConditionsLinkVisible()
+ Footer.privacyLinkVisible()
+ Footer.oglLogoVisible()
+ Footer.allContentTextVisible()
+ Footer.openGovernmentLicence3LinkVisible()
+ Footer.crownCopyrightLinkVisible()
+
+ // CLICK START SECTION
+ A2BDeclarationSummary.declarationStartSection()
+
+ Header.govUkHeaderVisible()
+ Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+ A2BDeclaration.declarationElementsVisible()
+
+ Footer.accessibilityStatementLinkVisible()
+ Footer.cookiesLinkVisible()
+ Footer.termsAndConditionsLinkVisible()
+ Footer.privacyLinkVisible()
+ Footer.oglLogoVisible()
+ Footer.allContentTextVisible()
+ Footer.openGovernmentLicence3LinkVisible()
+ Footer.crownCopyrightLinkVisible()
+
+ // FILL OUT DECLARATION DETAILS
+ A2BDeclaration.selectAgreements()
+
+ // CHECK AGREEMENTS SELECTED CORRECTLY
+ A2BDeclaration.verifyAgreementsSelected()
+
+ A2BDeclaration.submitDeclaration()
+
+
+ // CHECK COMPLETED DECLARATION SUMMARY DISPLAYS CORRECTLY
+ Header.govUkHeaderVisible()
+ Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+ A2BDeclarationSummary.declarationSummaryCompleteElementsVisible()
+
+ Footer.accessibilityStatementLinkVisible()
+ Footer.cookiesLinkVisible()
+ Footer.termsAndConditionsLinkVisible()
+ Footer.privacyLinkVisible()
+ Footer.oglLogoVisible()
+ Footer.allContentTextVisible()
+ Footer.openGovernmentLicence3LinkVisible()
+ Footer.crownCopyrightLinkVisible()
+
+ // SUBMIT DECLARATION SUMMARY
+A2BDeclarationSummary.submitDeclarationSummary()
+
+ // VERIFY JAM APP OVERVIEW PAGE DISPLAYS CORRECTLY WITH COMPLETED FUTURE PUPIL NUMBERS SUMMARY
+ A2BYourApplication.declarationCompleteElementsVisible()
+
+ // SUBMIT APPLICATION
+ A2BYourApplication.submitApplication()
+
+ // SUCCESS PAGE DISPLAYS CORRECTLY
+ A2BSuccessfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible()
     })
 })
