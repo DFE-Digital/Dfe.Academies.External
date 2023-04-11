@@ -512,7 +512,7 @@ Cypress.Commands.add('JAMTrustConsentElementsVisible', () => {
 })
 
 Cypress.Commands.add('JAMTrustConsentFileUpload', () => {
-  const filepath = '../fixtures/nine-hundredk.docx'
+  const filepath = '../fixtures/fifty-k.docx'
   cy.get('#trustConsentFileUpload').attachFile(filepath)
 })
 
@@ -585,7 +585,7 @@ Cypress.Commands.add('yourApplicationNotStartedButTrustSectionCompleteElementsVi
     cy.get('a[href="/your-applications"]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
-    cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, the school\'s chair will be able to submit the application.')
+    cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
     cy.get('table[aria-describedby="schoolTableDescription"]').contains('Plymstock School')
     cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
@@ -1020,7 +1020,7 @@ Cypress.Commands.add('yourApplicationTrustSectionAndAboutConversionCompleteEleme
     cy.get('a[href="/your-applications"]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
-    cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, the school\'s chair will be able to submit the application.')
+    cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
     cy.get('table[aria-describedby="schoolTableDescription"]').contains('Plymstock School')
     cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
@@ -1435,7 +1435,7 @@ Cypress.Commands.add('yourApplicationTrustSectionAboutConversionFurtherInformati
     cy.get('a[href="/your-applications"]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
-    cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, the school\'s chair will be able to submit the application.')
+    cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
     cy.get('table[aria-describedby="schoolTableDescription"]').contains('Plymstock School')
     cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
@@ -1473,7 +1473,7 @@ Cypress.Commands.add('yourApplicationTrustSectionAboutConversionFurtherInformati
     cy.get('a[href="/your-applications"]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
-    cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, the school\'s chair will be able to submit the application.')
+    cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
     cy.get('table[aria-describedby="schoolTableDescription"]').contains('Plymstock School')
     cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
@@ -1980,6 +1980,9 @@ Cypress.Commands.add('uploadFileForNextCapitalCarryForwardDeficit', () => {
     cy.get('#schoolNfyCapitalFileUpload').attachFile(filepath)
 })
 
+Cypress.Commands.add('submitNextFinancialYr', () => {
+    cy.get('input[type="submit"]').click()
+})
 Cypress.Commands.add('selectLoansStartSection', () => {
     cy.get('a[class="govuk-button govuk-button--secondary"]').eq(3).click()
 
