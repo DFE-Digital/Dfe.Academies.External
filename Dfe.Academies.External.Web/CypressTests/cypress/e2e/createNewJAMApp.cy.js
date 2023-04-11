@@ -329,5 +329,149 @@ describe('View Application Tests', () => {
       Footer.openGovernmentLicence3LinkVisible()
       Footer.crownCopyrightLinkVisible()
 
+// ADDING BEGINNING OF FILLING OUT JAM SCHOOL OVERVIEW SECTION
+      //  OK - Let's Start By Clicking On About the Conversion Section
+      A2BYourApplication.selectAboutTheConversion()
+
+      // OK we're Now on About the Conversion Page - Let's check all elements display correctly
+      Header.govUkHeaderVisible()
+      Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+      A2BAboutTheConversion.aboutTheConversionNotStartedElementsVisible()
+
+      Footer.accessibilityStatementLinkVisible()
+      Footer.cookiesLinkVisible()
+      Footer.termsAndConditionsLinkVisible()
+      Footer.privacyLinkVisible()
+      Footer.oglLogoVisible()
+      Footer.allContentTextVisible()
+      Footer.openGovernmentLicence3LinkVisible()
+      Footer.crownCopyrightLinkVisible()
+
+      // OK now we want to click on Start section for main contacts
+      A2BAboutTheConversion.selectContactDetailsStartSection()
+
+      // OK so now we need to check ContactDetails / Main Contacts page displays correctly
+      Header.govUkHeaderVisible()
+      Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+      A2BMainContacts.mainContactsNotStartedElementsVisible()
+
+      Footer.accessibilityStatementLinkVisible()
+      Footer.cookiesLinkVisible()
+      Footer.termsAndConditionsLinkVisible()
+      Footer.privacyLinkVisible()
+      Footer.oglLogoVisible()
+      Footer.allContentTextVisible()
+      Footer.openGovernmentLicence3LinkVisible()
+      Footer.crownCopyrightLinkVisible()
+
+      // OK - LET'S POPULATE THE MAIN CONTACTS FORM
+      A2BMainContacts.fillHeadTeacherDetails()
+      A2BMainContacts.fillChairDetails()
+      A2BMainContacts.selectMainContactAsChair()
+      A2BMainContacts.fillApproverDetails()
+
+      // SUBMIT MAINCONTACTS FORM
+      A2BMainContacts.submitMainContactsForm()
+
+      // A2B ABOUT THE CONVERSION ELEMENTS VISIBLE WITH MAIN CONTACTS SECTION COMPLETE
+      Header.govUkHeaderVisible()
+      Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+      A2BAboutTheConversion.aboutTheConversionMainContactsCompleteElementsVisible()
+
+      Footer.accessibilityStatementLinkVisible()
+      Footer.cookiesLinkVisible()
+      Footer.termsAndConditionsLinkVisible()
+      Footer.privacyLinkVisible()
+      Footer.oglLogoVisible()
+      Footer.allContentTextVisible()
+      Footer.openGovernmentLicence3LinkVisible()
+      Footer.crownCopyrightLinkVisible()
+
+      // OK SO MAIN CONTACTS COMPLETE AND INFO CORRECT ON ABOUT THE CONVERSION
+      // OK now we want to click on Start section for main contacts
+      A2BAboutTheConversion.selectDateForConversionStartSection()
+
+      // OK - NOW WE'RE ON THE DATE OF CONVERSION PAGE WE NEED TO CHECK PAGE ELEMENTS
+      // DISPLAY CORRECTLY
+      Header.govUkHeaderVisible()
+      Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+      A2BConversionTargetDate.conversionTargetDateElementsVisible()
+
+      Footer.accessibilityStatementLinkVisible()
+      Footer.cookiesLinkVisible()
+      Footer.termsAndConditionsLinkVisible()
+      Footer.privacyLinkVisible()
+      Footer.oglLogoVisible()
+      Footer.allContentTextVisible()
+      Footer.openGovernmentLicence3LinkVisible()
+      Footer.crownCopyrightLinkVisible()
+
+      // COMPLETE DATE CONVERSION PAGE AND SUBMIT
+      A2BConversionTargetDate.conversionTargetDateSubmit()
+
+
+      // CHECK REASONS FOR JOINING PAGE DISPLAYS CORRECTLY
+      Header.govUkHeaderVisible()
+      Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+      A2BReasonsForJoining.reasonsForJoiningElementsVisible()
+
+      Footer.accessibilityStatementLinkVisible()
+      Footer.cookiesLinkVisible()
+      Footer.termsAndConditionsLinkVisible()
+      Footer.privacyLinkVisible()
+      Footer.oglLogoVisible()
+      Footer.allContentTextVisible()
+      Footer.openGovernmentLicence3LinkVisible()
+      Footer.crownCopyrightLinkVisible()
+
+      // COMPLETE REASONS FOR JOINING PAGE AND SUBMIT
+      A2BReasonsForJoining.reasonsForJoiningInput()
+
+      A2BReasonsForJoining.submitReasonsForJoining()
+
+      // CHECK CHANGING THE NAME OF THE SCHOOL DISPLAYS CORRECTLY
+      Header.govUkHeaderVisible()
+      Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+      A2BChangingTheNameOfTheSchool.changingTheNameOfTheSchoolElementsVisible()
+
+      Footer.accessibilityStatementLinkVisible()
+      Footer.cookiesLinkVisible()
+      Footer.termsAndConditionsLinkVisible()
+      Footer.privacyLinkVisible()
+      Footer.oglLogoVisible()
+      Footer.allContentTextVisible()
+      Footer.openGovernmentLicence3LinkVisible()
+      Footer.crownCopyrightLinkVisible()
+
+      // COMPLETE CHANGING THE NAME OF THE SCHOOL PAGE AND SUBMIT
+      A2BChangingTheNameOfTheSchool.submitChangingTheNameOfTheSchool()
+
+      // NOW CHECK ABOUT THE CONVERSION PAGE DISPLAYS CORRECTLY WITH ALL DATA
+      Header.govUkHeaderVisible()
+      Header.applyToBecomeAnAcademyHeaderLinkVisible()
+
+      A2BAboutTheConversion.aboutTheConversionCompleteElementsVisible()
+
+      Footer.accessibilityStatementLinkVisible()
+      Footer.cookiesLinkVisible()
+      Footer.termsAndConditionsLinkVisible()
+      Footer.privacyLinkVisible()
+      Footer.oglLogoVisible()
+      Footer.allContentTextVisible()
+      Footer.openGovernmentLicence3LinkVisible()
+      Footer.crownCopyrightLinkVisible()
+
+      // NOW SAVE COMPLETED ABOUT THE CONVERSION SUMMARY PAGE
+      A2BAboutTheConversion.submitAboutTheConversion()
+
+      // NOW CHECK THE JAM APPLICATION OVERVIEW PAGE DISPLAYS CORRECTLY WITH
+      // ABOUT THE CONVERSION SECTION MARKED AS COMPLETED
+      A2BYourApplication.yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible()
     })
 })
