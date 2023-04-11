@@ -13,6 +13,40 @@ import A2BJAMTrustConsent from '../page-objects/pages/A2BJAMTrustConsent'
 import A2BChangesToTheTrust from '../page-objects/pages/A2BChangesToTheTrust'
 import A2BLocalGovernanceArrangements from '../page-objects/pages/A2BLocalGovernanceArrangements'
 import A2BYourApplication from '../page-objects/pages/A2BYourApplication'
+import A2BAboutTheConversion from '../page-objects/pages/A2BAboutTheConversion'
+import A2BMainContacts from '../page-objects/pages/A2BMainContacts'
+import A2BConversionTargetDate from '../page-objects/pages/A2BConversionTargetDate'
+import A2BReasonsForJoining from '../page-objects/pages/A2BReasonsForJoining'
+import A2BChangingTheNameOfTheSchool from '../page-objects/pages/A2BChangingTheNameOfTheSchool'
+
+import A2BAdditionalDetailsSummaryPage from '../page-objects/pages/A2BAdditionalDetailsSummaryPage'
+import A2BAdditionalDetailsDetails from '../page-objects/pages/A2BAdditionalDetailsDetails'
+
+import A2BFinanceSummary from '../page-objects/pages/A2BFinanceSummary'
+import A2BPreviousFinancialYear from '../page-objects/pages/A2BPreviousFinancialYear'
+import A2BCurrentFinancialYear from '../page-objects/pages/A2BCurrentFinancialYear'
+import A2BNextFinancialYear from '../page-objects/pages/A2BNextFinancialYear'
+
+import A2BLoansSummary from '../page-objects/pages/A2BLoansSummary'
+import A2BLeasesSummary from '../page-objects/pages/A2BLeasesSummary'
+import A2BFinancialInvestigations from '../page-objects/pages/A2BFinancialInvestigations'
+
+import A2BFuturePupilNumbersSummary from '../page-objects/pages/A2BFuturePupilNumbersSummary'
+import A2BFuturePupilNumbersDetails from '../page-objects/pages/A2BFuturePupilNumbersDetails'
+
+import A2BLandAndBuildingsSummary from '../page-objects/pages/A2BLandAndBuildingsSummary'
+import A2BLandAndBuildingsDetails from '../page-objects/pages/A2BLandAndBuildingsDetails'
+
+import A2BConsultationSummary from '../page-objects/pages/A2BConsultationSummary'
+import A2BConsultationDetails from '../page-objects/pages/A2BConsultationDetails'
+
+import A2BPreOpeningSupportGrantSummary from '../page-objects/pages/A2BPre-openingSupportGrantSummary'
+import A2BPreopeningSupportGrantDetails from '../page-objects/pages/A2BPre-openingSupportGrantDetails'
+
+import A2BDeclarationSummary from '../page-objects/pages/A2BDeclarationSummary'
+import A2BDeclaration from '../page-objects/pages/A2BDeclaration'
+
+import A2BSuccessfulApplicationSubmitted from '../page-objects/pages/A2BSuccessfulApplicationSubmitted'
 import Footer from '../page-objects/components/Footer'
 
 describe('View Application Tests', () => {
