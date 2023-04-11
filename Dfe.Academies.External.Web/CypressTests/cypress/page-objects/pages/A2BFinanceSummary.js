@@ -41,4 +41,9 @@ static financeSummaryCompleteElementsVisible()
     cy.financeSummaryCompleteElementsVisible()
 }
 
+static submitFinanceSummary()
+{
+    cy.submitFinanceSummary()
+}
+
 }
