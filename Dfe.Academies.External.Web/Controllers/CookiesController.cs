@@ -7,6 +7,13 @@ namespace Dfe.Academies.External.Web.Controllers;
 
 public class CookiesController : Controller
 {
+	private readonly string cookieDomain;
+
+	public CookiesController(IConfiguration configuration)
+	{
+		this.cookieDomain = configuration["Google:CookieDomain"];
+	}
+
 	[AllowAnonymous]
 	[HttpPost]
 	[Route(nameof(SetConsent))]
@@ -21,15 +28,15 @@ public class CookiesController : Controller
 			case CookiesConsent.Reject:
 				HttpContext.Session.SetInt32("cookiesRejected", 1);
 				SetConsentCookie("no");
-				Response.Cookies.Delete("_ga");
-				Response.Cookies.Delete("_gid");
+				Response.Cookies.Delete("_ga", new CookieOptions { Domain = this.cookieDomain, Path = "/" });
+				Response.Cookies.Delete("_gid", new CookieOptions { Domain = this.cookieDomain, Path = "/" });
 				var gatCookie = Request.Cookies.Keys.FirstOrDefault(key => key.StartsWith("_gat_"));
 				if (!string.IsNullOrEmpty(gatCookie))
-					Response.Cookies.Delete(gatCookie);
+					Response.Cookies.Delete(gatCookie, new CookieOptions { Domain = this.cookieDomain, Path = "/" });
 
 				var gaCookie = Request.Cookies.FirstOrDefault(cookie => cookie.Key.StartsWith("_ga_"));
 				if (gaCookie.Key != null)
-					Response.Cookies.Delete(gaCookie.Key, new CookieOptions { Domain = Request.GetUri().Host, Path = "/" });
+					Response.Cookies.Delete(gaCookie.Key, new CookieOptions { Domain = this.cookieDomain, Path = "/" });
 				break;
 		}
 
