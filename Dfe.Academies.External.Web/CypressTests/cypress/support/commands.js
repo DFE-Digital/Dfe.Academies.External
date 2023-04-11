@@ -2057,3 +2057,6 @@ Cypress.Commands.add('financialInvestigationsElementsVisible', () => {
 
 
 })
+Cypress.Commands.add('submitFinancialInvestigations', () => {
+    cy.get('input[type="submit"]').click()
+})
