@@ -2212,3 +2212,40 @@ Cypress.Commands.add('financeCompleteElementsVisible', () => {
     cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
     cy.get('p').eq(3).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
+Cypress.Commands.add('selectFuturePupilNumbers', () => {
+    cy.contains('Future pupil numbers').click()
+})
+
+Cypress.Commands.add('futurePupilNumbersSummaryElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+
+    cy.get('.govuk-caption-l').contains('Plymstock School')
+
+    cy.get('.govuk-heading-l').contains('Future pupil numbers')
+
+    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
+
+    cy.get('hr').eq(0).should('be.visible')
+    cy.get('b').eq(0).contains('Projected pupil numbers on roll in the year the academy opens (year 1)')
+    cy.get('p').eq(2).contains('You have not added any information')
+
+    cy.get('hr').eq(1).should('be.visible')
+    cy.get('b').eq(1).contains('Projected pupil numbers on roll in the following year after the academy has opened (year 2)')
+    cy.get('p').eq(4).contains('You have not added any information')
+
+    cy.get('hr').eq(2).should('be.visible')
+    cy.get('b').eq(2).contains('Projected pupil numbers on roll in the following year (year 3)')
+    cy.get('p').eq(6).contains('You have not added any information')
+
+    cy.get('hr').eq(3).should('be.visible')
+    cy.get('b').eq(3).contains('What do you base these projected numbers on?')
+    cy.get('p').eq(8).contains('You have not added any information')
+
+    cy.get('hr').eq(4).should('be.visible')
+    cy.get('b').eq(4).contains('What is the school\'s published admissions number (PAN)?')
+    cy.get('p').eq(10).contains('You have not added any information')
+
+    cy.get('hr').eq(5)
+
+    cy.get('.govuk-button').should('be.visible').contains('Save and return to your application')
+})
