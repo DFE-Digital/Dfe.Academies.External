@@ -13,6 +13,7 @@ public class EmailNotificationService : IEmailNotificationService
 {
 	private readonly IAsyncNotificationClient _notificationClient;
 	private readonly ILogger<BespokeExceptionHandlingMiddleware> _logger;
+	private readonly bool TestMode;
 
 	public EmailNotificationService(IConfiguration configuration,
 		IAsyncNotificationClient notificationClient,
@@ -20,6 +21,7 @@ public class EmailNotificationService : IEmailNotificationService
 	{
 		// grab api key from "emailnotifications":"key"
 		string apiKey = configuration["emailnotifications:key"];
+		this.TestMode = Boolean.Parse(configuration["emailnotifications:testmode"]);
 
 		_notificationClient = notificationClient;
 		_logger = logger;
@@ -32,17 +34,15 @@ public class EmailNotificationService : IEmailNotificationService
 
 	public async Task SendAsync(MessageDto message)
 	{
+		if (this.TestMode && !message.EmailAddress.ToLower().EndsWith("@education.gov.uk")) {
+			// if in test mode only send emails to accounts that end with @education.gov.uk
+			return;
+		}
+
 		EmailNotificationResponse response = await _notificationClient.SendEmailAsync(message.EmailAddress, 
 			message.TemplateId, message.Personalisation, 
 			message.Reference, message.EmailReplyToId);
 
-		// TODO:- handle response - 400 / 429 / 403 / 500
-		//switch (response)
-		//{
-			
-		//}
-
-		// TODO:- log response?
 		_logger.LogInformation($"Email successfully Sent to:- {message.EmailAddress}");	
     }
 }
