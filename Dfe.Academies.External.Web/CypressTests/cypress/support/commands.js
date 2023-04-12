@@ -2598,5 +2598,405 @@ Cypress.Commands.add('consultationSummaryElementsVisible', () => {
     cy.get('hr').eq(1).should('be.visible')
 
     cy.get('.govuk-button').should('be.visible').contains('Back to application overview')
+})
 
+Cypress.Commands.add('selectConsultationStartSection', () => {
+    cy.get('a[class="govuk-button govuk-button--secondary"]').click()
+})
+
+Cypress.Commands.add('consultationDetailsElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+
+    cy.get('.govuk-caption-l').contains('Plymstock School')
+
+    cy.get('.govuk-heading-l').contains('Consultation')
+
+    cy.get('.govuk-body').eq(0).contains('Schools must consult any stakeholders relevant to the conversion')
+
+    cy.get('#role-hint').contains('Has the governing body consulted the relevant stakeholders?')
+
+    cy.get('#consultationStakeholdersOptionYes').should('not.be.checked')
+    cy.get('label[for="consultationStakeholdersOptionYes"]').contains('Yes')
+
+    cy.get('#consultationStakeholdersOptionNo').should('be.checked')
+    cy.get('label[for="consultationStakeholdersOptionNo"]').contains('No')
+
+    cy.get('label[for="SchoolConsultationStakeholdersConsult"]').contains('When does the governing body plan to consult?')
+    cy.get('#SchoolConsultationStakeholdersConsult').should('be.enabled')
+
+    cy.get('input[type="submit"]').should('be.visible').contains('Save and return to overview')
+
+
+})
+
+Cypress.Commands.add('fillConsultationDetails', () => {
+    cy.get('#SchoolConsultationStakeholdersConsult').type('When does the governing body plan to consult?')
+})
+
+Cypress.Commands.add('submitConsultationDetails', () => {
+cy.get('input[type="submit"]').click()
+})
+
+Cypress.Commands.add('consultationSummaryCompleteElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+
+    cy.get('.govuk-caption-l').contains('Plymstock School')
+
+    cy.get('.govuk-heading-l').contains('Consultation')
+
+    cy.get('.govuk-link').contains('Change your answers')
+
+    cy.get('hr').eq(0).should('be.visible')
+    cy.get('b').eq(0).contains('Has the governing body consulted the relevant stakeholders?')
+    cy.get('p').eq(2).contains('No')
+    cy.get('hr').eq(1).should('be.visible')
+
+    cy.get('.govuk-button').should('be.visible').contains('Back to application overview')
+})
+
+Cypress.Commands.add('submitConsultationSummary', () => {
+    cy.get('.govuk-button').click()
+})
+
+Cypress.Commands.add('consultationCompleteElementsVisible', () => {
+    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('p').contains('Application reference:')
+    cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
+    cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
+    cy.get('h2').contains('The school applying to convert')
+    cy.get('table[aria-describedby="schoolTableDescription"]').contains('Plymstock School')
+    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
+    cy.get('div[class="govuk-grid-row"]').eq(1).contains('About the conversion')
+    cy.get('.govuk-grid-column-one-third').eq(0).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('.govuk-grid-column-one-third').eq(1).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(3).contains('Finances')
+    cy.get('.govuk-grid-column-one-third').eq(2).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(4).contains('Future pupil numbers')
+    cy.get('.govuk-grid-column-one-third').eq(3).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(5).contains('Land and buildings')
+    cy.get('.govuk-grid-column-one-third').eq(4).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(6).contains('Consultation')
+    cy.get('.govuk-grid-column-one-third').eq(5).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(7).contains('Pre-opening support grant')
+    cy.get('.govuk-grid-column-one-third').eq(6).contains('Not Started')
+    cy.get('div[class="govuk-grid-row"]').eq(8).contains('Declaration')
+    cy.get('.govuk-grid-column-one-third').eq(7).contains('Not Started')
+
+    cy.get('h2').eq(1).contains('The trust the school will join')
+    //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
+    cy.get('span[class="govuk-!-font-weight-bold govuk-!-padding-right-5"]').contains('PLYMOUTH CAST')
+    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
+    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
+    cy.get('[aria-describedby="trustTableDescription"]').contains('Completed')
+
+
+
+    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get('p').eq(3).contains('You can invite other people to help you complete this form or see who has already been invited.')
+})
+
+Cypress.Commands.add('selectPreopeningSupportGrant', () => {
+    cy.contains('Pre-opening support grant').click()
+})
+
+Cypress.Commands.add('preopeningSupportGrantSummaryElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+
+    cy.get('.govuk-caption-l').contains('Plymstock School')
+
+    cy.get('.govuk-heading-l').contains('Pre-opening support grant')
+
+    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
+
+    cy.get('hr').eq(0).should('be.visible')
+
+    cy.get('b').eq(0).contains('Do you want these funds paid to the school or the trust the school is joining?')
+    cy.get('p').eq(2).contains('You have not added any information')
+
+    cy.get('hr').eq(1).should('be.visible')
+
+    cy.get('.govuk-button').should('be.visible').contains('Back to application overview')
+
+})
+
+Cypress.Commands.add('selectPreopeningSupportGrantStartSection', () => {
+    cy.contains('Start section').click()
+})
+
+Cypress.Commands.add('preopeningSupportGrantDetailsElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+
+    cy.get('.govuk-heading-l').contains('Academy pre-opening support grant')
+
+    cy.get('.govuk-body').eq(0).contains('If your application is successful you will be issued with an academy order. Once issued, the Department for Education will pay the pre-opening support grant into a nominated bank account.')
+
+
+    cy.get('legend').contains('Do you want these funds paid to the school or the trust the school is joining?')
+
+    cy.get('#pay-toSchool').should('not.be.checked')
+    cy.get('label[for="pay-toSchool"]').contains('To the school')
+
+    cy.get('#pay-toTrust').should('not.be.checked')
+    cy.get('label[for="pay-toTrust"]').contains('To the trust')
+
+    cy.get('input[type="submit"]').should('be.visible').contains('Save and return to overview')
+
+})
+
+Cypress.Commands.add('selectToTheSchoolPreopeningSupportGrantDetails', () => {
+    cy.get('#pay-toSchool').click()
+})
+
+Cypress.Commands.add('verifyToTheSchoolPreopeningSupportGrantDetailsSectionDisplays', () => {
+    cy.get('#pay-toSchool').should('be.checked')
+    cy.get('.govuk-body').eq(1).should('be.visible').contains('Go to provide information about your banking payments to DfE to add the school’s bank details.')
+    cy.get('#funds-paid-to-school-hint').should('be.visible').contains('Your application can be submitted without completing this action now, however please provide your bank details either before or shortly after submission of your application.')
+})
+
+Cypress.Commands.add('submitPreopeningSupportGrantDetails', () => {
+    cy.get('input[type="submit"]').click()
+})
+
+Cypress.Commands.add('preopeningSupportGrantSummaryCompleteElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+
+    cy.get('.govuk-caption-l').contains('Plymstock School')
+
+    cy.get('.govuk-heading-l').contains('Pre-opening support grant')
+
+    cy.get('.govuk-link').contains('Change your answers')
+
+    cy.get('hr').eq(0).should('be.visible')
+
+    cy.get('b').eq(0).contains('Do you want these funds paid to the school or the trust the school is joining?')
+    cy.get('p').eq(2).contains('To the school')
+
+    cy.get('hr').eq(1).should('be.visible')
+
+    cy.get('.govuk-button').should('be.visible').contains('Back')
+
+})
+
+Cypress.Commands.add('submitPreopeningSupportGrantSummary', () => {
+    cy.get('.govuk-button').click()
+})
+
+Cypress.Commands.add('preopeningSupportGrantCompleteElementsVisible', () => {
+    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('p').contains('Application reference:')
+    cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
+    cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
+    cy.get('h2').contains('The school applying to convert')
+    cy.get('table[aria-describedby="schoolTableDescription"]').contains('Plymstock School')
+    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
+    cy.get('div[class="govuk-grid-row"]').eq(1).contains('About the conversion')
+    cy.get('.govuk-grid-column-one-third').eq(0).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('.govuk-grid-column-one-third').eq(1).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(3).contains('Finances')
+    cy.get('.govuk-grid-column-one-third').eq(2).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(4).contains('Future pupil numbers')
+    cy.get('.govuk-grid-column-one-third').eq(3).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(5).contains('Land and buildings')
+    cy.get('.govuk-grid-column-one-third').eq(4).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(6).contains('Consultation')
+    cy.get('.govuk-grid-column-one-third').eq(5).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(7).contains('Pre-opening support grant')
+    cy.get('.govuk-grid-column-one-third').eq(6).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(8).contains('Declaration')
+    cy.get('.govuk-grid-column-one-third').eq(7).contains('Not Started')
+
+    cy.get('h2').eq(1).contains('The trust the school will join')
+    //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
+    cy.get('span[class="govuk-!-font-weight-bold govuk-!-padding-right-5"]').contains('PLYMOUTH CAST')
+    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
+    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
+    cy.get('[aria-describedby="trustTableDescription"]').contains('Completed')
+
+
+
+    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get('p').eq(3).contains('You can invite other people to help you complete this form or see who has already been invited.')
+})
+
+Cypress.Commands.add('selectDeclaration', () => {
+    cy.contains('Declaration').click()
+})
+
+Cypress.Commands.add('declarationSummaryElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+
+    cy.get('.govuk-caption-l').contains('Plymstock School')
+
+    cy.get('.govuk-heading-l').contains('Declaration')
+
+    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
+
+    cy.get('hr').eq(0).should('be.visible')
+
+    cy.get('b').eq(0).contains('I agree with all of these statements, and believe that the facts stated in this application are true')
+    cy.get('p').eq(2).contains('You have not added any information')
+
+    cy.get('hr').eq(1).should('be.visible')
+
+    cy.get('.govuk-button').should('be.visible').contains('Back to application overview')
+
+})
+
+Cypress.Commands.add('declarationStartSection', () => {
+    cy.contains('Start section').click()
+})
+
+Cypress.Commands.add('declarationElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+
+    cy.get('.govuk-caption-l').contains('Plymstock School')
+
+    cy.get('.govuk-heading-l').contains('Declaration')
+
+    cy.get('.govuk-inset-text').contains('This section must be completed by the chair of the school\'s governing body. You can invite the chair to contribute if this is not you.')
+
+    cy.get('p').eq(2).contains('As the chair of the governing body of the applying school, I confirm that the governing body agrees with these statements:')
+
+    cy.get('li').eq(0).contains('The governing body has passed a resolution that the school should become an academy.')
+    cy.get('li').eq(1).contains('The school will complete a consultation with relevant stakeholders (such as parents, staff, the local communities and others), and consider their equality needs before they sign the funding agreement.')
+    cy.get('li').eq(2).contains('The school agrees to the terms set out in the academy pre-opening support grant certificate.')
+    cy.get('li').eq(3).contains('The school agrees to provide any further information that the Department for Education needs to assess this application.')
+    cy.get('li').eq(4).contains('That if any information in this application is false or misleading, this application may be rejected or the academy order may be revoked if it has already been awarded.')
+
+    cy.get('.govuk-fieldset__heading').contains('I confirm that:')
+
+    cy.get('#SchoolDeclarationTeacherChair').should('not.be.checked')
+    cy.get('label[for="SchoolDeclarationTeacherChair"]').contains('I am the chair of governors of the applying school')
+
+    cy.get('#SchoolDeclarationBodyAgree').should('not.be.checked')
+    cy.get('label[for="SchoolDeclarationBodyAgree"]').contains('The information in this application is true to the best of my knowledge')
+
+    cy.get('input[type="submit"]').should('be.visible').contains('Save and return')
+})
+
+Cypress.Commands.add('selectAgreements', () => {
+    cy.get('#SchoolDeclarationTeacherChair').click()
+    cy.get('#SchoolDeclarationBodyAgree').click()
+})
+
+Cypress.Commands.add('verifyAgreementsSelected', () => {
+    cy.get('#SchoolDeclarationTeacherChair').should('be.checked')
+    cy.get('#SchoolDeclarationBodyAgree').should('be.checked')
+})
+
+Cypress.Commands.add('submitDeclaration', () => {
+    cy.get('input[type="submit"]').click()
+})
+
+Cypress.Commands.add('declarationSummaryCompleteElementsVisible', () => {
+    cy.get('.govuk-back-link').contains('Back')
+
+    cy.get('.govuk-caption-l').contains('Plymstock School')
+
+    cy.get('.govuk-heading-l').contains('Declaration')
+
+    cy.get('.govuk-link').contains('Change your answers')
+
+    cy.get('hr').eq(0).should('be.visible')
+
+    cy.get('b').eq(0).contains('I agree with all of these statements, and believe that the facts stated in this application are true')
+    cy.get('p').eq(2).contains('Yes')
+
+    cy.get('hr').eq(1).should('be.visible')
+
+    cy.get('.govuk-button').should('be.visible').contains('Back to application overview')
+
+})
+
+Cypress.Commands.add('submitDeclarationSummary', () => {
+    cy.get('.govuk-button').click()
+})
+
+Cypress.Commands.add('declarationCompleteElementsVisible', () => {
+    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('p').contains('Application reference:')
+    cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
+    cy.get('h2').contains('The school applying to convert')
+    cy.get('table[aria-describedby="schoolTableDescription"]').contains('Plymstock School')
+    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
+    cy.get('div[class="govuk-grid-row"]').eq(1).contains('About the conversion')
+    cy.get('.govuk-grid-column-one-third').eq(0).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('.govuk-grid-column-one-third').eq(1).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(3).contains('Finances')
+    cy.get('.govuk-grid-column-one-third').eq(2).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(4).contains('Future pupil numbers')
+    cy.get('.govuk-grid-column-one-third').eq(3).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(5).contains('Land and buildings')
+    cy.get('.govuk-grid-column-one-third').eq(4).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(6).contains('Consultation')
+    cy.get('.govuk-grid-column-one-third').eq(5).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(7).contains('Pre-opening support grant')
+    cy.get('.govuk-grid-column-one-third').eq(6).contains('Completed')
+    cy.get('div[class="govuk-grid-row"]').eq(8).contains('Declaration')
+    cy.get('.govuk-grid-column-one-third').eq(7).contains('Completed')
+
+    cy.get('h2').eq(1).contains('The trust the school will join')
+    //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
+    cy.get('span[class="govuk-!-font-weight-bold govuk-!-padding-right-5"]').contains('PLYMOUTH CAST')
+    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
+    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
+    cy.get('[aria-describedby="trustTableDescription"]').contains('Completed')
+
+    // CHECK FOR SUBMIT APPLICATION BUTTON
+    cy.contains('Submit application').should('be.visible').contains('Submit application')
+
+    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get('p').eq(3).contains('You can invite other people to help you complete this form or see who has already been invited.')
+})
+
+
+Cypress.Commands.add('submitApplication', () => {
+    cy.get('input[type="submit"]').click()
+})
+
+Cypress.Commands.add('applicationSubmittedSuccessfullyElementsVisible', () => {
+    cy.get('.govuk-panel__title').contains('Your application has been submitted')
+
+    cy.get('.govuk-panel__body').contains('Your reference number is')
+
+    cy.get('strong').contains(`A2B_${globalApplicationId}`)
+
+    cy.get('.govuk-heading-m').eq(0).contains('Completed application')
+
+    cy.get('.govuk-heading-m').eq(1).contains('What happens next')
+
+    cy.get('.govuk-body-m').eq(0).contains('It takes us 2 to 6 weeks to assess your application and grant your academy order, if you\'re successful.')
+
+    cy.get('.govuk-body-m').eq(1).contains('Your project lead will contact you if they need to check anything.')
+
+    cy.get('.govuk-body-m').eq(2).contains('These are the main steps in the conversion process:')
+
+    cy.get('.sip-application-status--row-content').eq(0).contains('Application submission')
+
+    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(1).contains('Regional schools commissioner makes a decision with advice from the Headteacher Board')
+    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(2).contains('Academy order is issued')
+    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(3).contains('School’s solicitor submits a land questionnaire, including site plan')
+
+    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(4).contains('School’s solicitor submits draft funding agreement (and memorandum and articles of association for new trusts)')
+    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(5).contains('School’s solicitor confirms that the commercial transfer agreement (CTA) and land arrangements are agreed')
+    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(6).contains('School signs and submits the funding agreement')
+    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(7).contains('School’s solicitor confirms TUPE and stakeholder consultation are complete')
+    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(8).contains('School submits the academy bank details to ESFA')
+
+    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(9).contains('Academy Opens')
+
+    cy.get('p').eq(4).contains('If have any queries about the progress of your application, please contact the Department for Education.')
+
+    cy.get('p').eq(5).contains('If you have any questions or comments about this service, e-mail regionalservices.rg@education.gov.uk')
+
+    cy.get('p').eq(6).contains('As we continue to develop this service we would value your feedback on your experience. Please complete our short survey. The survey takes around 10 minutes to complete')
+
+    cy.get('h2').eq(1).contains('If your application is successful')
+
+    cy.contains('Prepare for conversion').should('be.visible')
+
+    cy.get('hr').should('be.visible')
 })
