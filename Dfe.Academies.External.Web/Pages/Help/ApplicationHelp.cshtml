@@ -26,12 +26,18 @@
 
                     <div class="govuk-form-group">
                         <label for="HelpSummary" class="govuk-label govuk-!-font-weight-bold">What do you need help with?</label>
+                        <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("HelpSummary") ? "govuk-visually-hidden" : "")">
+                            <span class="govuk-visually-hidden">Error:</span> You must give details
+                        </p>
                         <textarea asp-for="HelpSummary" id="HelpSummary"
                               class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
                     </div>
                     <div class="govuk-form-group">
                         <label for="EmailAddress" class="govuk-label govuk-!-font-weight-bold">What is your email address?</label>
                         <p class="govuk-caption-m">We will use this to contact you about the problem. Make sure you enter it correctly.</p>
+                        <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("EmailAddress") ? "govuk-visually-hidden" : "")">
+                            <span class="govuk-visually-hidden">Error:</span> You must give an email address
+                        </p>
                         <input type="email" asp-for="EmailAddress" id="EmailAddress" class="govuk-input govuk-input--width-20" />
                     </div>
                 </fieldset>
