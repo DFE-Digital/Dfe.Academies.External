@@ -158,6 +158,8 @@ builder.Services.AddSingleton<IContributorTemplate, FormAMatNonChairContributor>
 builder.Services.AddSingleton<IContributorTemplate, JoinAMatChairContributor>(x => new JoinAMatChairContributor(x.GetRequiredService<IOptions<NotifyTemplateSettings>>()));
 builder.Services.AddSingleton<IContributorTemplate, JoinAMatNonChairContributor>(x => new JoinAMatNonChairContributor(x.GetRequiredService<IOptions<NotifyTemplateSettings>>()));
 builder.Services.AddSingleton<IContributorNotifyTemplateFactory, ContributorNotifyTemplateFactory>();
+builder.Services.AddSingleton<IEmailNotificationService, EmailNotificationService>();
+
 builder.Services.AddHttpClient<IFileUploadService, FileUploadService>(client =>
 	{
 		client.BaseAddress = new Uri(configuration["Sharepoint:ApiUrl"]);

@@ -1,0 +1,48 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.Help.ApplicationHelpModel
+@{
+    ViewData["Title"] = "Apply to become an academy - Help with your application";
+}
+
+@section BeforeMain
+    {
+    <a asp-page="Help" class="govuk-back-link">Back</a>
+}
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+            Help with your application
+        </h1>
+
+        <form method="post" name="frmHelpWithYourApplication" novalidate="">
+            @Html.AntiForgeryToken()
+            <partial name="_HiddenFields" />
+
+            <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+                <fieldset class="govuk-fieldset">
+                    <legend></legend>
+                    <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+                        <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel" />
+                    </div>
+
+                    <div class="govuk-form-group">
+                        <label for="HelpSummary" class="govuk-label govuk-!-font-weight-bold">What do you need help with?</label>
+                        <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("HelpSummary") ? "govuk-visually-hidden" : "")">
+                            <span class="govuk-visually-hidden">Error:</span> You must give details
+                        </p>
+                        <textarea asp-for="HelpSummary" id="HelpSummary"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
+                    </div>
+                    <div class="govuk-form-group">
+                        <label for="EmailAddress" class="govuk-label govuk-!-font-weight-bold">What is your email address?</label>
+                        <p class="govuk-caption-m">We will use this to contact you about the problem. Make sure you enter it correctly.</p>
+                        <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("EmailAddress") ? "govuk-visually-hidden" : "")">
+                            <span class="govuk-visually-hidden">Error:</span> You must give an email address
+                        </p>
+                        <input type="email" asp-for="EmailAddress" id="EmailAddress" class="govuk-input govuk-input--width-20" />
+                    </div>
+                </fieldset>
+            </div>
+
+            <input type="submit" value="Submit details" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
+        </form>
+    </div>

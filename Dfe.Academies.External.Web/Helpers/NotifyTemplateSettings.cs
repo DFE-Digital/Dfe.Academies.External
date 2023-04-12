@@ -6,5 +6,6 @@
 		public string JamNonChairTemplateId { get; set; }
 		public string FamChairTemplateId { get; set; }
 		public string FamNonChairTemplateId { get; set; }
+		public string HelpWithAnApplicationTemplateId { get; set; }
 	}
 }
