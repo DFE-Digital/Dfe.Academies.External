@@ -6,6 +6,7 @@ public enum HelpTypes
 {
 	[Description("I want to report a problem with this form")]
 	ProblemWithForm = 0,
+	
 	[Description("I need help with an application")]
 	HelpWithApplication = 1,
 
