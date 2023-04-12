@@ -1,5 +1,5 @@
 module "azure_container_apps_hosting" {
-  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v0.16.0"
+  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v0.17.1"
 
   environment    = local.environment
   project_name   = local.project_name
@@ -30,6 +30,7 @@ module "azure_container_apps_hosting" {
   cdn_frontdoor_host_add_response_headers     = local.cdn_frontdoor_host_add_response_headers
   cdn_frontdoor_custom_domains                = local.cdn_frontdoor_custom_domains
   cdn_frontdoor_host_redirects                = local.cdn_frontdoor_host_redirects
+  cdn_frontdoor_origin_fqdn_override          = local.cdn_frontdoor_origin_fqdn_override
   restrict_container_apps_to_cdn_inbound_only = local.restrict_container_apps_to_cdn_inbound_only
 
   enable_monitoring              = local.enable_monitoring
@@ -38,7 +39,9 @@ module "azure_container_apps_hosting" {
   monitor_slack_webhook_receiver = local.monitor_slack_webhook_receiver
   monitor_slack_channel          = local.monitor_slack_channel
 
-  enable_container_app_blob_storage = local.enable_container_app_blob_storage
+  enable_container_app_blob_storage                = local.enable_container_app_blob_storage
+  container_app_blob_storage_ipv4_allow_list       = local.container_app_blob_storage_ipv4_allow_list
+  container_app_blob_storage_public_access_enabled = local.container_app_blob_storage_public_access_enabled
 
   existing_network_watcher_name                = local.existing_network_watcher_name
   existing_network_watcher_resource_group_name = local.existing_network_watcher_resource_group_name
