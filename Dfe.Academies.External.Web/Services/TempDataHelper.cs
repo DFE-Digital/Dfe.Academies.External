@@ -29,9 +29,32 @@ public static class TempDataHelper
 		}
 	}
 
+	public static T? GetSerialisedValueAndLog<T>(string key, ITempDataDictionary tempData, ILogger logger)
+	{
+		tempData.TryGetValue(key, out object? val);
+		if (tempData.ContainsKey(key) && val != null)
+		{
+			var data = JsonSerializer.Deserialize<T>(tempData[key]?.ToString() ?? string.Empty) ?? default(T);
+			logger.LogInformation($"Data retrieved from tempData, data: {JsonSerializer.Serialize(data)}");
+			return data;
+		}
+		else
+		{
+			return default;
+		}
+	}
+
 	public static void StoreSerialisedValue(string key, ITempDataDictionary tempData, object data)
 	{
 		tempData[key] = JsonSerializer.Serialize(data);
+		tempData.Keep(key);
+	}
+
+	public static void StoreSerialisedValueAndLog(string key, ITempDataDictionary tempData, object data, ILogger logger)
+	{
+		var jsonData = JsonSerializer.Serialize(data);
+		tempData[key] = jsonData;
+		logger.LogInformation($"Storing data in tempData, data: {jsonData}");
 		tempData.Keep(key);
 	}
 

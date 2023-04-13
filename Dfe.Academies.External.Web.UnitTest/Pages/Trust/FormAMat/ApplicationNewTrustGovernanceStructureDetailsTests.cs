@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoFixture;
 using Dfe.Academies.External.Web.Pages.Trust.FormAMat;
 using Dfe.Academies.External.Web.Services;
@@ -30,11 +31,15 @@ internal sealed class ApplicationNewTrustGovernanceStructureDetailsTests
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
-		var mockFileUploadService = new Mock<FileUploadService>();
+		var mockFileUploadService = new Mock<IFileUploadService>();
 		int applicationId = Fixture.Create<int>();
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
-
+		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(applicationId))
+			.ReturnsAsync(conversionApplication);
+		mockFileUploadService
+			.Setup(x => x.GetFiles(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+			.ReturnsAsync(new List<string>());
 		// act
 		var pageModel = setupApplicationNewTrustGovernanceStructureDetails(mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object,

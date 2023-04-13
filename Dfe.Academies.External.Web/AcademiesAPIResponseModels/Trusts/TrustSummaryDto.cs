@@ -26,6 +26,8 @@ public record TrustSummaryDto
 
 	public string GroupName { get; set; }
 
+	public string GroupId { get; set; }
+
 	public string CompaniesHouseNumber { get; set; }
 
 	public AddressResponse TrustAddress { get; set; }

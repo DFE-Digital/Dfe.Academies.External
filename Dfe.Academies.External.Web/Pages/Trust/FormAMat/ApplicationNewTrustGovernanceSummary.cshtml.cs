@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -56,7 +57,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 				try
 				{
-					result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, conversionApplication.ApplicationId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
+					result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelApplicationFolderName, conversionApplication.EntityId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
 					files = result.Aggregate(string.Empty, (current, fileName) => current + (fileName + "\n"));
 				}
 				catch (Exception ex)

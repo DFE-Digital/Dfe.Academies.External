@@ -1,34 +1,36 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
-using Dfe.Academies.External.Web.ViewModels;
+using Dfe.Academies.External.Web.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class LeaseDetails : BasePageEditModel
 	{
+		private readonly IConversionApplicationCreationService academisationCreationService;
+
 		[BindProperty]
-		public int  Id { get; set; }
+		public int Id { get; set; }
 		[BindProperty]
 		public int ApplicationId { get; set; }
 
 		[BindProperty]
 		public int Urn { get; set; }
-		
+
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
 		public string LeaseTerm { get; set; }
-		
+
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
 		public decimal RepaymentAmount { get; set; }
-		
+
 		[BindProperty]
 		[Range(0, 200000000000000, ErrorMessage = "Interest rate must be greater than 0")]
 		[Required(ErrorMessage = "You must provide details")]
 		public decimal InterestRate { get; set; }
-		
+
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
 		public decimal PaymentsToDate { get; set; }
@@ -45,9 +47,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		public bool IsEdit { get; set; }
-		
-		[BindProperty]
-		public bool IsDraft { get; set; }
 
 		public async Task<IActionResult> OnGet(int appId, int urn, int id, bool isEdit, bool isDraft)
 		{
@@ -65,18 +64,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 			Urn = urn;
 			IsEdit = isEdit;
 			Id = id;
-			IsDraft = isDraft;
-			
+
 			//If clicked changed answers then load the lease from tempdata and populate the fields
 			if (IsEdit)
 			{
-				var leaseModels = TempDataLoadBySchool<List<LeaseViewModel>>(Urn);
-				
-				var selectedlease = leaseModels?.FirstOrDefault(lease => lease.IsDraft == IsDraft && Id == lease.Id);
-				
+				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+
+				var selectedlease = selectedSchool?.Leases?.FirstOrDefault(lease => Id == lease.LeaseId);
+
 				if (selectedlease != null)
 				{
-					Id = selectedlease.Id;
+					Id = selectedlease.LeaseId;
 					LeaseTerm = selectedlease.LeaseTerm;
 					RepaymentAmount = selectedlease.RepaymentAmount;
 					InterestRate = selectedlease.InterestRate;
@@ -104,54 +102,35 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			var selectedLoan = new LeaseViewModel
-			{
-				Id = Id,
-				LeaseTerm = LeaseTerm,
-				RepaymentAmount = RepaymentAmount,
-				InterestRate = InterestRate,
-				PaymentsToDate = PaymentsToDate,
-				Purpose = Purpose,
-				ValueOfAssets = ValueOfAssets,
-				ResponsibleForAssets = ResponsibleForAssets
-			};
-			
-			var leaseViewModels = TempDataLoadBySchool<List<LeaseViewModel>>(Urn) ?? new List<LeaseViewModel>();
-			
-			//If we're editing the loan then overwrite the correct loan in the list of loans with the current binded values
+			var selectedSchool = await LoadAndSetSchoolDetails(ApplicationId, Urn);
+
+			var lease = new SchoolLease(Id,
+								LeaseTerm,
+								RepaymentAmount,
+								InterestRate,
+								PaymentsToDate,
+								Purpose,
+								ValueOfAssets,
+								ResponsibleForAssets);
+
 			if (IsEdit)
 			{
-				var leaseViewModel = leaseViewModels.FirstOrDefault(loan => IsDraft == loan.IsDraft && Id == loan.Id);
-				
-				if (leaseViewModel != null)
-				{
-					leaseViewModel.Id = Id;
-					leaseViewModel.IsDraft = IsDraft;
-					leaseViewModel.LeaseTerm = LeaseTerm;
-					leaseViewModel.RepaymentAmount = RepaymentAmount;
-					leaseViewModel.InterestRate = InterestRate;
-					leaseViewModel.PaymentsToDate = PaymentsToDate;
-					leaseViewModel.Purpose = Purpose;
-					leaseViewModel.ValueOfAssets = ValueOfAssets;
-					leaseViewModel.ResponsibleForAssets = ResponsibleForAssets;
-				}
+				await this.academisationCreationService.UpdateLease(ApplicationId, selectedSchool.id, lease);
 			}
 			else
 			{
-				//Otherwise it's a new loan, so add it to the list of loans
-				selectedLoan.IsDraft = true;
-				selectedLoan.Id = leaseViewModels.Count;
-				leaseViewModels.Add(selectedLoan);
+				await this.academisationCreationService.CreateLease(ApplicationId, selectedSchool.id, lease);
 			}
-			TempDataSetBySchool<List<LeaseViewModel>>(Urn, leaseViewModels);
-			return RedirectToPage("Leases",new {urn = Urn, appId = ApplicationId});
+
+			return RedirectToPage("Leases", new { urn = Urn, appId = ApplicationId });
 		}
 
 		///<inheritdoc/>
-		public LeaseDetails(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
-																	IReferenceDataRetrievalService referenceDataRetrievalService) 
+		public LeaseDetails(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+																	IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService academisationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
+			this.academisationCreationService = academisationCreationService;
 		}
 
 		///<inheritdoc/>

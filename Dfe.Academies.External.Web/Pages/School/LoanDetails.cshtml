@@ -6,12 +6,12 @@
 }
 @section BeforeMain
 {
-	<a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back to application overview</a>
+	<a asp-page="Loans" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">Back</a>
 }
 
 <div class="govuk-grid-column-two-thirds">
 	<h1 class="govuk-heading-l">
-		<span class="govuk-caption-l">Finances (Step 5 of 6)</span>
+		<span class="govuk-caption-l">Finances (Step 4 of 6)</span>
 		Loan Details
 	</h1>
     <form method="post" name="frmLoanDetails" novalidate="">

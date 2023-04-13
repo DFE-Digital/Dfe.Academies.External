@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Castle.Core.Logging;
 using Dfe.Academies.External.Web.Pages;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -55,7 +57,7 @@ internal sealed class ApplicationOverviewTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new ApplicationOverviewModel(mockConversionApplicationRetrievalService, mockReferenceDataRetrievalService, mockConversionApplicationCreationService)
+		return new ApplicationOverviewModel(mockConversionApplicationRetrievalService, mockReferenceDataRetrievalService, mockConversionApplicationCreationService, new Mock<ILogger<ApplicationOverviewModel>>().Object)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.CustomValidators;
+using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Exceptions;
 using Dfe.Academies.External.Web.Helpers;
-using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,14 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		}
 		
 		public bool GovernanceStructureDetailsFileError => !ModelState.IsValid && ModelState.Keys.Contains("GovernanceStructureDetailFileNotAddedError");
+		public bool GovernanceStructureDetailsFileSizeError => !ModelState.IsValid && ModelState.ContainsKey(nameof(GovernanceStructureDetailsFileSizeError));
+		public bool GovernanceStructureDetailsFileGenericError => !ModelState.IsValid && ModelState.ContainsKey(nameof(GovernanceStructureDetailsFileGenericError));
 
+		[BindProperty]
+		public Guid EntityId { get; set; }
+	
+		[BindProperty]
+		public string ApplicationReference { get; set; }
 		public bool HasError
 		{
 			get
@@ -52,25 +60,31 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			ApplicationId = appId;
 
 			// Grab other values from API
-			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
+			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(ApplicationId);
+			EntityId = applicationDetails.EntityId;
+			ApplicationReference = applicationDetails.ApplicationReference;
 			TrustName = applicationDetails?.TrustName ?? string.Empty;
 			if (applicationDetails?.ApplicationReference != null)
 			{
 				GovernanceStructureDetailsFileNames = await _fileUploadService.GetFiles(
-					FileUploadConstants.TopLevelFolderName, appId.ToString(), applicationDetails.ApplicationReference,
+					FileUploadConstants.TopLevelApplicationFolderName, EntityId.ToString(), ApplicationReference,
 					FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName);
-				TempDataHelper.StoreSerialisedValue($"{appId}-governanceStructureDetailsFiles", TempData,
+				TempDataHelper.StoreSerialisedValue($"{EntityId}-governanceStructureDetailsFiles", TempData,
 					GovernanceStructureDetailsFileNames);
 			}
 
+			EntityId = applicationDetails.EntityId;
+			ApplicationReference = applicationDetails.ApplicationReference;
 			return Page();
 		}
 		
 		public override async Task<IActionResult> OnPostAsync()
 		{
 			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(ApplicationId);
-
-			GovernanceStructureDetailsFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{ApplicationId}-governanceStructureDetailsFiles", TempData) ?? new List<string>();
+			EntityId = applicationDetails.EntityId;
+			ApplicationReference = applicationDetails.ApplicationReference;
+			
+			GovernanceStructureDetailsFileNames = TempDataHelper.GetSerialisedValue<List<string>>($"{EntityId}-governanceStructureDetailsFiles", TempData) ?? new List<string>();
 
 			if (!RunUiValidation()) 
 			{
@@ -78,11 +92,9 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			}
 			if (applicationDetails?.ApplicationReference != null)
 			{
-				foreach (var file in GovernanceStructureDetailsFiles)
+				if (!(await UploadFiles()))
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelFolderName,
-						ApplicationId.ToString(), applicationDetails.ApplicationReference,
-						FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName, file);
+					return Page();
 				}
 			}
 
@@ -96,6 +108,27 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			return RedirectToPage(NextStepPage, new { appId = ApplicationId});
 		}
 
+		private async Task<bool> UploadFiles()
+		{
+			try
+			{
+				foreach (var file in GovernanceStructureDetailsFiles)
+				{
+					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelApplicationFolderName,
+						EntityId.ToString(), ApplicationReference,
+						FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName, file);
+				}
+			}
+			catch (FileUploadException)
+			{
+				ModelState.AddModelError(nameof(GovernanceStructureDetailsFileGenericError), "The selected file could not be uploaded – try again");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			return true;
+		}
+		
 		public override void PopulateUiModel(ConversionApplication? conversionApplication)
 		{
 			throw new NotImplementedException();
@@ -118,6 +151,13 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 				return false;
 			}
 
+			foreach (var file in GovernanceStructureDetailsFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+			{
+				ModelState.AddModelError(nameof(GovernanceStructureDetailsFileSizeError), $"File: {file.FileName} is too large");
+				PopulateValidationMessages();
+				return false;
+			}
+
 			return true;
 		}
 
@@ -126,10 +166,10 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			throw new NotImplementedException();
 		}
 
-		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, string section, string fileName)
+		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelFolderName, appId.ToString(), $"A2B_{appId}", section, fileName);
-			return RedirectToPage("ApplicationNewTrustGovernanceStructureDetails", new {AppId = appId});
+			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelApplicationFolderName, entityId, applicationReference, section, fileName);
+			return RedirectToPage("ApplicationNewTrustGovernanceStructureDetails", new { Urn = urn, AppId = appId });
 		}
 	}
 }

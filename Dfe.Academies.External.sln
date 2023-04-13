@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfe.Academies.External.Web", "Dfe.Academies.External.Web\Dfe.Academies.External.Web.csproj", "{2C23CD74-7800-4C59-AE53-65B42F1ED926}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dfe.Academies.External.Web.UnitTest", "Dfe.Academies.External.Web.UnitTest\Dfe.Academies.External.Web.UnitTest.csproj", "{4F6A5D74-28CF-4D05-B0BF-B5F869DDED66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfe.Academies.External.Web.UnitTest", "Dfe.Academies.External.Web.UnitTest\Dfe.Academies.External.Web.UnitTest.csproj", "{4F6A5D74-28CF-4D05-B0BF-B5F869DDED66}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DEBF73E9-6537-4824-9BCF-0638CECEF7DA}"
 	ProjectSection(SolutionItems) = preProject

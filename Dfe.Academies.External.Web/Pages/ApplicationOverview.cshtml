@@ -5,169 +5,180 @@
 @using Dfe.Academies.External.Web.Enums
 @model Dfe.Academies.External.Web.Pages.ApplicationOverviewModel
 @{
-    ViewData["Title"] = "Apply to become an academy - Overview";
+	ViewData["Title"] = "Apply to become an academy - Overview";
 }
 
 @section BeforeMain
 {
-	<a asp-page="YourApplications" class="govuk-back-link">Back to your applications</a>
+	<a asp-page="YourApplications" class="govuk-back-link">Back</a>
 }
 
-<div class="govuk-grid-column-two-thirds">
+<div class="govuk-grid-column-full">
 	<p class="govuk-body">
 		Application reference:&nbsp;&nbsp;@Model.ApplicationReferenceNumber
 	</p>
-	
+
 	<h1 class="govuk-heading-l">@Model.ApplicationType.GetDescription()</h1>
 
-    <p class="govuk-body govuk-radios__conditional">
-        @Model.HeaderText
-    </p>
-    
+	<p class="govuk-body govuk-radios__conditional">
+		@Model.HeaderText
+	</p>
+
 	<div class="govuk-!-margin-6"></div>
 
 	<h2 class="govuk-heading-m">@Model.SchoolHeaderText</h2>
-    @*<p id="schoolTableDescription" class="govuk-body">Application School Details</p>*@
-    <table class="govuk-table" aria-describedby="schoolTableDescription">
-		<thead>
-		<tr>
-			<th scope="col"></th>
-			<th scope="col"></th>
-		</tr>
-		</thead>
-		<tbody class="govuk-table__body">
-		@*If no school selected - render button instead*@
-		@if (!Model.SchoolOrSchoolsApplyingToConvert.Any() && Model.ApplicationType == ApplicationTypes.JoinAMat)
+
+	@if (!Model.SchoolOrSchoolsApplyingToConvert.Any() && Model.ApplicationType == ApplicationTypes.JoinAMat)
+	{
+		<div class="govuk-grid-row">
+			<div class="govuk-grid-column-one-third">
+				<a asp-page="school/ApplicationSelectSchool" asp-route-appId="@Model.ApplicationId"
+				   class="govuk-button govuk-button--secondary">
+					Add a school
+				</a>
+			</div>
+		</div>
+	}
+	else
+	{
+		@if (Model.ApplicationType == ApplicationTypes.FormAMat)
 		{
-			<tr class="govuk-table__row">
-				<td class="govuk-table__cell">
-					<a asp-page="school/ApplicationSelectSchool" asp-route-appId="@Model.ApplicationId"
-                       class="govuk-button govuk-button--secondary">Add a school</a>
-				</td>
-			</tr>
-		}
-		else
-		{
-			@if (Model.ApplicationType == ApplicationTypes.FormAMat)
+			foreach (var school in Model.SchoolOrSchoolsApplyingToConvert)
 			{
-				foreach (var school in Model.SchoolOrSchoolsApplyingToConvert)
-				{
-					<tr class="govuk-table__row">
-						<td class="govuk-table__cell">
-							<a asp-page="school/SchoolOverview"
-							   asp-route-appId="@Model.ApplicationId"
-							   asp-route-urn="@school.URN"
-							   class="govuk-link">
-								@school.SchoolName
-							</a>
-						</td>
-                            <td class="govuk-table__cell govuk-!-text-align-right">
-                            TODO:- calc overall school status 
-						</td>
-					</tr>
-				}
-				<tr class="govuk-table__row">
-					<td class="govuk-table__cell">
-						<a asp-page="school/ApplicationSelectSchool"
-						   asp-route-appId="@Model.ApplicationId" class="govuk-button govuk-button--secondary">Add a school</a>
-					</td>
-					<td class="govuk-table__cell">
-						@if (Model.SchoolOrSchoolsApplyingToConvert.Any())
-	                    {
-		                    <a asp-page="RemoveSchoolSelection"
-	                           asp-route-appId="@Model.ApplicationId" class="govuk-button govuk-button--secondary">Remove a school</a>                                
-	                    }
-					</td>
-				</tr>
-			}
-			else
-			{
-				<tr class="govuk-table__row">
-					<td class="govuk-table__cell">
-						<span class="govuk-!-font-weight-bold govuk-!-padding-right-5">@Model.SchoolName</span>
-						<a asp-page="/school/ApplicationSelectSchool" aria-describedby="component-change" class="govuk-link"
-						   asp-route-appId="@Model.ApplicationId">
-							Change
+				<div class="govuk-grid-row">
+					<div class="govuk-grid-column-one-third">
+						<a asp-page="school/SchoolOverview"
+						   asp-route-appId="@Model.ApplicationId"
+						   asp-route-urn="@school.URN"
+						   class="govuk-link govuk-body">
+							@school.Name
 						</a>
-					</td>
-				</tr>
-				<partial name="_SchoolComponentsStatusPartial" model="Model.SchoolComponents"/>
+					</div>
+					<div class="govuk-grid-column-two-thirds">
+						@{
+							var statusValue = (int)school.Status;
+						}
+						<status enumvalue=@statusValue></status>
+					</div>
+				</div>
+				<hr/>
 			}
-		}
-		</tbody>
-	</table>
-    
-	<h2 class="govuk-heading-m">@Model.TrustHeaderText</h2>
-    
-    @*<p id="trustTableDescription" class="govuk-body">Application Trust Details</p>*@
-    <table class="govuk-table" aria-describedby="trustTableDescription">
-		<thead>
-		<tr>
-			<th scope="col"></th>
-			<th scope="col"></th>
-		</tr>
-		</thead>
-		<tbody class="govuk-table__body">
-		@if (string.IsNullOrWhiteSpace(Model.NameOfTrustToJoin))
-		{
-			<tr class="govuk-table__row">
-				<td class="govuk-table__cell" colspan="2">
-					@if (Model.ApplicationType == ApplicationTypes.JoinAMat)
-					{
-						<a asp-page="trust/joinamat/ApplicationSelectTrust" asp-route-appId="@Model.ApplicationId"
-						   class="govuk-button govuk-button--secondary" data-module="govuk-button">Add a trust</a>
-					}
-					else
-					{
-						<a asp-page="trust/formamat/ApplicationNewTrustName" asp-route-appId="@Model.ApplicationId"
-						   class="govuk-button govuk-button--secondary" data-module="govuk-button">Add the trust</a>
-					}
-				</td>
-			</tr>
+			<div class="govuk-grid-row">
+				<div class="govuk-grid-column-one-quarter">
+					<a asp-page="school/ApplicationSelectSchool"
+					   asp-route-appId="@Model.ApplicationId" class="govuk-button govuk-button--secondary">
+						Add a school
+					</a>
+				</div>
+				<div class="govuk-grid-column-three-quarters">
+					<a asp-page="RemoveSchoolSelection"
+					   asp-route-appId="@Model.ApplicationId" class="govuk-link govuk-body govuk-link--text-colour">
+						Remove a school
+					</a>
+				</div>
+			</div>
 		}
 		else
 		{
-			<tr class="govuk-table__row">
-				<td class="govuk-table__cell" colspan="2">
-					<span class="govuk-!-font-weight-bold govuk-!-padding-right-5">@Model.NameOfTrustToJoin</span>
-					@if (Model.ApplicationType == ApplicationTypes.JoinAMat)
-					{
-						<a asp-page="trust/joinamat/ApplicationSelectTrust" asp-route-appId="@Model.ApplicationId"
-						   class="govuk-link">Change</a>
-					}
-					else
-					{
-						<a asp-page="trust/formamat/ApplicationNewTrustName" asp-route-appId="@Model.ApplicationId"
-						   class="govuk-link">Change</a>
-					}
-				</td>
-			</tr>
-			<tr class="govuk-table__row">
-				<td class="govuk-table__cell">
-					@if (Model.ApplicationType == ApplicationTypes.JoinAMat)
-					{
-						<a asp-page="trust/joinamat/ApplicationSchoolJoinAMatTrustSummary" asp-route-appId="@Model.ApplicationId"
-						   class="govuk-link">Trust details</a>
-					}
-					else
-					{
-						<a asp-page="trust/formamat/ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId"
-						   class="govuk-link">Trust details</a>
-					}
-				</td>
-				<td class="govuk-table__cell govuk-!-text-align-right">
-					@{
-						var trustConversionStatusValue = (int)Model.TrustConversionStatus;
-					}
-					<status enumvalue=@trustConversionStatusValue></status>
-				</td>
-			</tr>
+			<div class="govuk-grid-row">
+				<div class="govuk-grid-column-one-quarter">
+					<p class="govuk-body govuk-!-font-weight-bold govuk-!-padding-right-5">@Model.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()?.Name</p>
+				</div>
+				<div class="govuk-grid-column-three-quarters">
+					<a asp-page="/school/ApplicationSelectSchool" class="govuk-link govuk-body"
+					   asp-route-appId="@Model.ApplicationId">
+						Change
+					</a>
+				</div>
+			</div>
+			
+			<div class="govuk-grid-row">
+				<div class="govuk-grid-column-full">
+					<partial name="_SchoolComponentsStatusPartial" model="Model.SchoolOrSchoolsApplyingToConvert.FirstOrDefault()"/>
+				</div>
+			</div>
 		}
-		</tbody>
-	</table>       
-    
+	}
+
+
+	<h2 class="govuk-heading-m">@Model.TrustHeaderText</h2>
+
+
+	@if (string.IsNullOrWhiteSpace(Model.NameOfTrustToJoin))
+	{
+		<div class="govuk-grid-row">
+			<div class="govuk-grid-column-one-quarter">
+				@if (Model.ApplicationType == ApplicationTypes.JoinAMat)
+				{
+					<a asp-page="trust/joinamat/ApplicationSelectTrust" asp-route-appId="@Model.ApplicationId"
+					   class="govuk-button govuk-button--secondary" data-module="govuk-button">
+						Add a trust
+					</a>
+				}
+				else
+				{
+					<a asp-page="trust/formamat/ApplicationNewTrustName" asp-route-appId="@Model.ApplicationId"
+					   class="govuk-button govuk-button--secondary" data-module="govuk-button">
+						Add the trust
+					</a>
+				}
+			</div>
+		</div>
+	}
+	else
+	{
+		<div class="govuk-grid-row">
+			<div class="govuk-grid-column-one-quarter">
+				<h3 class="govuk-body govuk-!-font-weight-bold govuk-!-padding-right-5">@Model.NameOfTrustToJoin</h3>
+			</div>
+			<div class="govuk-grid-column-three-quarters">
+							@if (Model.ApplicationType == ApplicationTypes.JoinAMat)
+            				{
+            					<a asp-page="trust/joinamat/ApplicationSelectTrust" asp-route-appId="@Model.ApplicationId"
+            					   class="govuk-link govuk-body">
+            						Change
+            					</a>
+            				}
+							else
+							{
+								<a asp-page="trust/formamat/ApplicationNewTrustName" asp-route-appId="@Model.ApplicationId"
+								   class="govuk-link govuk-body">
+									Change
+								</a>
+							}
+			</div>
+		</div>
+		<hr/>
+		<div class="govuk-grid-row">
+			<div class="govuk-grid-column-two-thirds">
+				@if (Model.ApplicationType == ApplicationTypes.JoinAMat)
+				{
+					<a asp-page="trust/joinamat/ApplicationSchoolJoinAMatTrustSummary" asp-route-appId="@Model.ApplicationId"
+					   class="govuk-link govuk-body">
+						Trust details
+					</a>
+				}
+				else
+				{
+					<a asp-page="trust/formamat/ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId"
+					   class="govuk-link govuk-body">
+						Trust details
+					</a>
+				}
+			</div>
+			<div class="govuk-grid-column-one-third">
+				@{
+					var trustConversionStatusValue = (int)Model.TrustConversionStatus;
+				}
+				<status enumvalue=@trustConversionStatusValue></status>
+			</div>
+		</div>
+		<hr/>
+	}
+
+
 	<div class="govuk-!-margin-6"></div>
-    
+
 	@if (!Model.UserHasSubmitApplicationRole && Model.DeclarationStatus == Status.Completed)
 	{
 		<div class="govuk-warning-text">
@@ -180,29 +191,29 @@
 	}
 
 	<h2 class="govuk-heading-l">Contributors</h2>
-    
+
 	@if (Model.HasSchool)
 	{
-        <p class="govuk-body">You can <a asp-page="AddAContributor" asp-route-appId="@Model.ApplicationId" class="govuk-link">invite other people to help you complete this form</a> or see who has already been invited.</p>
-    }
-    else
-    {
-	    <p class="govuk-body">You will be able to invite other people to help you complete this form after you have added a school.</p>
-    }
-    
-    <div class="govuk-button-group">
-	    <form method="post" name="frmApplicationOverview" novalidate="">
+		<p class="govuk-body">You can <a asp-page="AddAContributor" asp-route-appId="@Model.ApplicationId" class="govuk-link">invite other people to help you complete this form</a> or see who has already been invited.</p>
+	}
+	else
+	{
+		<p class="govuk-body">You will be able to invite other people to help you complete this form after you have added a school.</p>
+	}
+
+	<div class="govuk-button-group">
+		<form method="post" name="frmApplicationOverview" novalidate="">
 			@Html.AntiForgeryToken()
 			<input type="hidden" asp-for="ApplicationId"/>
 
 			@if (Model.UserHasSubmitApplicationRole && Model.ConversionStatus == Status.Completed && Model.ApplicationStatus == ApplicationStatus.InProgress)
-		    {
-			    <input type="submit" value="Submit application" class="govuk-button govuk-!-margin-top-6" />
-		    }
-            @* <input type="submit" value="Cancel application" class="govuk-button govuk-!-margin-top-6" />*@
+			{
+				<input type="submit" value="Submit application" class="govuk-button govuk-!-margin-top-6"/>
+			}
+			@* <input type="submit" value="Cancel application" class="govuk-button govuk-!-margin-top-6" />*@
 
-	    </form>
-    </div>
+		</form>
+	</div>
 </div>
 
 @*<div class="govuk-grid-column-one-third">

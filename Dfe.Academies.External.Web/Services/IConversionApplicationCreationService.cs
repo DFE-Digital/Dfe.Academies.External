@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
@@ -9,7 +10,7 @@ public interface IConversionApplicationCreationService
 
 	Task AddSchoolToApplication(int applicationId, int schoolUrn, string name);
 
-	Task AddTrustToApplication(int applicationId, int trustUkPrn, string name);
+	Task AddTrustToApplication(int applicationId, int trustUkPrn, string name, string trustReference);
 	Task SetExistingTrustDetails(int applicationId, ExistingTrust existingTrust);
 
 	Task PutSchoolApplicationDetails(int applicationId, int schoolUrn, Dictionary<string, dynamic> schoolProperties);
@@ -29,7 +30,7 @@ public interface IConversionApplicationCreationService
 		int schoolId,
 		string trustBenefitDetails, 
 		string? ofstedInspectionDetails, 
-		string? safeguardingDetails, 
+		bool safeguarding, 
 		string? localAuthorityReorganisationDetails,
 		string? localAuthorityClosurePlanDetails,
 		string? dioceseName,

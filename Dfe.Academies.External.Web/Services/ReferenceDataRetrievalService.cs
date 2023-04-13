@@ -132,6 +132,24 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		}
 	}
 
+	public async Task<TrustFullDetailsDto> GetTrustFullDetailsByUkPrn(string ukPrn)
+	{
+		try
+		{
+			string apiUrl = $"{_httpClient.BaseAddress}/trust/{ukPrn}?api-version=V1";
+
+
+			var result = await _resilientRequestProvider.GetAsync<TrustFullDetailsDto>(apiUrl);
+
+			return result;
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError("ReferenceDataRetrievalService::GetTrustFullDetailsByUkPrn::Exception - {Message}", ex.Message);
+			throw;
+		}
+	}
+
 	//// Public method, so can write unit tests !!!!
 	public string BuildTrustSearchRequestUri(TrustSearch trustSearch)
 	{

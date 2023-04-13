@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Models;
+﻿using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
@@ -100,7 +101,7 @@ internal sealed class TempDataHelperTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new WhatIsYourRoleModel(mockAcademisationCreationService)
+		return new WhatIsYourRoleModel(mockAcademisationCreationService, null)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

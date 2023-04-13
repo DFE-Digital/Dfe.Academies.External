@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -51,8 +52,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			if (selectedSchool != null)
 			{
 				SchoolName = selectedSchool.SchoolName;
-				selectedSchool.SchoolApplicationComponents = await ConversionApplicationRetrievalService
-					.GetSchoolApplicationComponents(appId, urn);
 
 				PopulateUiModel(selectedSchool, conversionApplication);
 			}
@@ -99,13 +98,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				URN = selectedSchool.URN,
 				ApplicationId = application.ApplicationId,
 				// Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
-				SchoolComponents = selectedSchool.SchoolApplicationComponents.Select(c =>
-					new ApplicationComponentViewModel(name: c.Name,
-						uri: SetSchoolApplicationComponentUriFromName(c.Name))
-					{
-						Status = c.Status
-					})
-					.ToList()
+				SchoolComponents = ConversionApplicationRetrievalService.GetSchoolApplicationComponents(ApplicationId, Urn).Result.ToList()
 
 				// TODO:- set statuses
 			};

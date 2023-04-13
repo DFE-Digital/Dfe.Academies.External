@@ -54,17 +54,143 @@ variable "container_secret_environment_variables" {
   sensitive   = true
 }
 
-variable "enable_mssql_database" {
-  description = "Set to true to create an Azure SQL server/database, with aprivate endpoint within the virtual network"
+variable "enable_event_hub" {
+  description = "Send Azure Container App logs to an Event Hub sink"
   type        = bool
 }
 
 variable "enable_cdn_frontdoor" {
-  description = "Enable Azure CDN FrontDoor. This will use the Container Apps endpoint as the origin."
+  description = "Enable Azure CDN Front Door. This will use the Container Apps endpoint as the origin."
   type        = bool
 }
 
+variable "cdn_frontdoor_enable_rate_limiting" {
+  description = "Enable CDN Front Door Rate Limiting. This will create a WAF policy, and CDN security policy. For pricing reasons, there will only be one WAF policy created."
+  type        = bool
+}
+
+variable "cdn_frontdoor_rate_limiting_threshold" {
+  description = "Maximum number of concurrent requests per minute threshold before rate limiting is applied"
+  type        = number
+}
+
 variable "cdn_frontdoor_host_add_response_headers" {
-  description = "List of response headers to add at the CDN Front Door `[{ \"name\" = \"Strict-Transport-Security\", \"value\" = \"max-age=31536000\" }]`"
+  description = "List of response headers to add at the CDN Front Door `[{ \"Name\" = \"Strict-Transport-Security\", \"value\" = \"max-age=31536000\" }]`"
   type        = list(map(string))
+}
+
+variable "restrict_container_apps_to_cdn_inbound_only" {
+  description = "Restricts access to the Container Apps by creating a network security group that only allows 'AzureFrontDoor.Backend' inbound, and attaches it to the subnet of the container app environment."
+  type        = bool
+}
+
+variable "enable_dns_zone" {
+  description = "Conditionally create a DNS zone"
+  type        = bool
+}
+
+variable "dns_zone_domain_name" {
+  description = "DNS zone domain name. If created, records will automatically be created to point to the CDN."
+  type        = string
+}
+
+variable "dns_a_records" {
+  description = "DNS A records to add to the DNS Zone"
+  type = map(
+    object({
+      ttl : optional(number, 300),
+      records : list(string)
+    })
+  )
+}
+
+variable "dns_ns_records" {
+  description = "DNS NS records to add to the DNS Zone"
+  type = map(
+    object({
+      ttl : optional(number, 300),
+      records : list(string)
+    })
+  )
+}
+
+variable "dns_txt_records" {
+  description = "DNS TXT records to add to the DNS Zone"
+  type = map(
+    object({
+      ttl : optional(number, 300),
+      records : list(string)
+    })
+  )
+}
+
+variable "cdn_frontdoor_custom_domains" {
+  description = "Azure CDN Front Door custom domains. If they are within the DNS zone (optionally created), the Validation TXT records and ALIAS/CNAME records will be created"
+  type        = list(string)
+}
+
+variable "cdn_frontdoor_host_redirects" {
+  description = "CDN FrontDoor host redirects `[{ \"from\" = \"example.com\", \"to\" = \"www.example.com\" }]`"
+  type        = list(map(string))
+}
+
+variable "cdn_frontdoor_origin_fqdn_override" {
+  description = "Manually specify the hostname that the CDN Front Door should target. Defaults to the Container App FQDN"
+  type        = string
+  default     = ""
+}
+
+variable "enable_monitoring" {
+  description = "Create an App Insights instance and notification group for the Container App"
+  type        = bool
+}
+
+variable "monitor_email_receivers" {
+  description = "A list of email addresses that should be notified by monitoring alerts"
+  type        = list(string)
+}
+
+variable "monitor_enable_slack_webhook" {
+  description = "Enable slack webhooks to send monitoring notifications to a channel"
+  type        = bool
+}
+
+variable "monitor_slack_webhook_receiver" {
+  description = "A Slack App webhook URL"
+  type        = string
+}
+
+variable "monitor_slack_channel" {
+  description = "Slack channel name/id to send messages to"
+  type        = string
+}
+
+variable "enable_container_app_blob_storage" {
+  description = "Create an Azure Storage Account and Storage Container to be accessed by the Container App"
+  type        = bool
+}
+
+variable "container_app_blob_storage_ipv4_allow_list" {
+  description = "A list of public IPv4 address to grant access to the Blob Storage Account"
+  type        = list(string)
+}
+
+variable "container_app_blob_storage_public_access_enabled" {
+  description = "Should the Azure Storage Account have Public visibility?"
+  type        = bool
+}
+
+variable "existing_network_watcher_name" {
+  description = "Use an existing network watcher to add flow logs."
+  type        = string
+}
+
+variable "existing_network_watcher_resource_group_name" {
+  description = "Existing network watcher resource group."
+  type        = string
+}
+
+variable "enable_redis_cache" {
+  description = "Set to true to create an Azure Redis Cache, with a private endpoint within the virtual network"
+  type        = bool
 }

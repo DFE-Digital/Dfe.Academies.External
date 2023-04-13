@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
@@ -74,7 +75,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 				List<string> trustConsentFileNames = new List<string>();
 				try
 				{
-					trustConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, conversionApplication.ApplicationId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName).Result;
+					trustConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelApplicationFolderName, conversionApplication.EntityId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName).Result;
 				}
 				catch (Exception ex)
 				{

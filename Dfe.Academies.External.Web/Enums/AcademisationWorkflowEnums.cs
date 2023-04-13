@@ -5,9 +5,9 @@ namespace Dfe.Academies.External.Web.Enums;
 public enum ApplicationTypes
 {
 	[Description("Join a multi-academy trust")]
-	JoinAMat,
+	JoinAMat = 0,
 	[Description("Form a new multi-academy trust")]
-	FormAMat
+	FormAMat = 1
 	//[Description("Form new single academy trust")]
 	//FormASat
 }
@@ -66,13 +66,10 @@ public enum SchoolEqualitiesProtectedCharacteristics
 
 public enum SchoolConversionComponentStatus
 {
-	Ignore = -1,
 	[Description("Not Started")]
-	NotStarted,
-	[Description("Incomplete")]
-	Incomplete = 1,
+	NotStarted = 1,
 	[Description("Complete")]
-	Complete
+	Complete = 2
 }
 
 public enum MainConversionContact

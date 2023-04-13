@@ -1,14 +1,17 @@
-﻿<footer class="govuk-footer print-hide" role="contentinfo">
+﻿@{
+    var returnPath = Context.Request.Path;
+}
+<footer class="govuk-footer print-hide" role="contentinfo">
 	<div class="govuk-width-container ">
 		<div class="govuk-footer__meta">
 			<div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
 				<h2 class="govuk-visually-hidden">Support links</h2>
 				<ul class="govuk-footer__inline-list">
 					<li class="govuk-footer__inline-list-item">
-						<a asp-page="/Accessibility" class="govuk-footer__link">Accessibility statement</a>
+						<a asp-page="/Accessibility-Statement" class="govuk-footer__link">Accessibility statement</a>
 					</li>
 					<li class="govuk-footer__inline-list-item">
-						<a asp-page="/Cookies" class="govuk-footer__link">Cookie policy</a>
+                        <a asp-page="/Cookies" asp-route-returnPath="@returnPath" class="govuk-footer__link">Cookie policy</a>
 					</li>
 					<li class="govuk-footer__inline-list-item">
 						<a asp-page="/Terms" class="govuk-footer__link">Terms and Conditions</a>

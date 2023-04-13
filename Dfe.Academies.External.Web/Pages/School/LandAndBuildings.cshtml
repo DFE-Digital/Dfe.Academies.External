@@ -10,7 +10,7 @@
 
 @section BeforeMain
 {
-	<a asp-page="LandAndBuildingsSummary" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">Back to land and buildings summary</a>
+	<a asp-page="LandAndBuildingsSummary" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">Back</a>
 }
 
 <div class="govuk-grid-column-two-thirds">
@@ -69,7 +69,7 @@
 										   class="@(Model.SchoolBuildLandWorksPlannedError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must provide details of the works
 										</a>
-										<label for="buildingWorksOption-yes" class="govuk-label">Provide details of the works, how they’ll be funded and whether the funding will be affected by the conversion</label>
+										<label for="SchoolBuildLandWorksPlannedExplained" class="govuk-label">Provide details of the works, how they’ll be funded and whether the funding will be affected by the conversion</label>
 										<textarea asp-for="SchoolBuildLandWorksPlannedExplained" id="SchoolBuildLandWorksPlannedExplained" 
 													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
 										<div class="govuk-!-margin-6"></div>
@@ -126,7 +126,7 @@
 										   class="@(Model.SchoolBuildLandSharedFacilitiesExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must provide list of these facilities
 										</a>
-										<label for="sharedFacilitiesOption-yes" class="govuk-label">List these facilities and the school’s plan for them after converting</label>
+										<label for="SchoolBuildLandSharedFacilitiesExplained" class="govuk-label">List these facilities and the school’s plan for them after converting</label>
 										<textarea asp-for="SchoolBuildLandSharedFacilitiesExplained" id="SchoolBuildLandWorksPlannedExplained" 
 													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
 									</div>
@@ -166,7 +166,7 @@
 											class="@(Model.SchoolBuildLandGrantsBodiesError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must provide list of these facilities
 										</a>
-										<label for="landGrantsOption-yes" class="govuk-label">Which bodies awarded the grants and what facilities did they fund?</label>
+										<label for="SchoolBuildLandGrantsBodies" class="govuk-label">Which bodies awarded the grants and what facilities did they fund?</label>
 										<textarea asp-for="SchoolBuildLandGrantsBodies" id="SchoolBuildLandGrantsBodies"
 										  class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
 									</div>

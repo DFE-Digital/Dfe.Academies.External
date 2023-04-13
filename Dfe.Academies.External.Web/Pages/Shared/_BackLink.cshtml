@@ -1,0 +1,17 @@
+﻿@using Dfe.Academies.External.Web.Enums
+@model Dfe.Academies.External.Web.ViewModels.BackViewModel
+
+
+	@if (Model.ApplicationType == ApplicationTypes.JoinAMat)
+	{
+		<a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back</a>
+	}
+	else
+	{
+		<a asp-page="../school/SchoolOverview"
+		   asp-route-appId="@Model.ApplicationId"
+		   asp-route-urn="@Model.SchoolURN"
+		   class="govuk-back-link">
+			Back
+		</a>
+	}

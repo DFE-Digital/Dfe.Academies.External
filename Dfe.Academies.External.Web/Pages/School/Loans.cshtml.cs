@@ -1,4 +1,5 @@
 ﻿using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -15,8 +16,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			IConversionApplicationCreationService academisationCreationService) :
 			base(conversionApplicationRetrievalService, referenceDataRetrievalService,
 				academisationCreationService, "Leases")
-		{}
-		
+		{ }
+
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
 		public SelectOption? AnyLoans { get; set; }
@@ -61,7 +62,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// Grab other values from API
 			if (selectedSchool != null)
 			{
-				MergeCachedAndDatabaseLoans(selectedSchool);
+				LoadLoansFromDatabase(selectedSchool);
 				PopulateUiModel(selectedSchool);
 			}
 
@@ -71,50 +72,26 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public override async Task<IActionResult> OnPostAsync()
 		{
 			var selectedSchool = await LoadAndSetSchoolDetails(ApplicationId, Urn);
-			MergeCachedAndDatabaseLoans(selectedSchool);
+			LoadLoansFromDatabase(selectedSchool);
 
 			if (!RunUiValidation())
 			{
 				return Page();
 			}
-			
-			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			foreach (var loanViewModel in LoanViewModels)
+			// clear loans if no and set hasLoans
+			if (AnyLoans == SelectOption.No)
 			{
-				if (AnyLoans == SelectOption.No && !loanViewModel.IsDraft)
+				foreach (var loanViewModel in LoanViewModels)
 				{
 					await ConversionApplicationCreationService.DeleteLoan(ApplicationId, selectedSchool.id, loanViewModel.Id);
-					continue;
+
 				}
-
-				var loan = new SchoolLoan(
-					loanViewModel.Id,
-					loanViewModel.TotalAmount, 
-					loanViewModel.Purpose,
-					loanViewModel.Provider, 
-					loanViewModel.InterestRate,
-					loanViewModel.RepaymentSchedule);
-
-				if (loanViewModel.IsDraft)
-					await ConversionApplicationCreationService.CreateLoan(ApplicationId, selectedSchool.id, loan);
-				else
-				{
-					await ConversionApplicationCreationService.UpdateLoan(ApplicationId, selectedSchool.id, loan);
-				}
-			}
-
-			// if user has selected no then update the school and set hasLoans
-			if (!LoanViewModels.Any() && AnyLoans == SelectOption.No)
-			{
+				
 				var dictionaryMapper = PopulateUpdateDictionary();
 				await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 			}
 
-			// update temp store for next step - application overview
-			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-			TempData[$"{Urn.ToString()}-{typeof(List<LoanViewModel>)}"] = null;
-			
 			return RedirectToPage(NextStepPage, new { urn = Urn, appId = ApplicationId });
 		}
 
@@ -127,7 +104,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				LoanViewModels.Add(new LoanViewModel
 				{
-					IsDraft = false,
 					Id = loan.LoanId,
 					InterestRate = loan.InterestRate,
 					Provider = loan.Provider,
@@ -137,44 +113,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				});
 			});
 		}
-
-		private void MergeCachedAndDatabaseLoans(SchoolApplyingToConvert selectedSchool)
-		{
-			LoadLoansFromDatabase(selectedSchool);
-			
-			//Try to merge with what is saved in the cache
-			//Use the ID on the loan view model
-			var tempDataLoanViewModels = TempDataLoadBySchool<List<LoanViewModel>>(Urn) ?? new List<LoanViewModel>();
-			if (tempDataLoanViewModels.Any())
-			{
-				//override hasLoans value if we have some temp loans 
-				HasLoans = true;
-			}
-
-			tempDataLoanViewModels.ForEach(x =>
-			{
-				var loan = LoanViewModels.Find(y => y.Id == x.Id && !x.IsDraft);
-				
-				//Overwrite the loan from the database with the one stored in the cache if they have matching IDs
-				//and the one in the cache isn't a draft because it's an integer so there's a chance of collisions
-				if (loan != null)
-				{
-					loan.IsDraft = false;
-					loan.Id = x.Id;
-					loan.Provider = x.Provider;
-					loan.Purpose = x.Purpose;
-					loan.InterestRate = x.InterestRate;
-					loan.RepaymentSchedule = x.RepaymentSchedule;
-					loan.TotalAmount = x.TotalAmount;
-				}
-				else
-				{
-					LoanViewModels.Add(x);
-				}
-			});
-			TempDataSetBySchool<List<LoanViewModel>>(Urn, LoanViewModels);
-		}
-
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
@@ -204,7 +142,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
-			return new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.HasLoans), AnyLoans == SelectOption.Yes} };
+			return new Dictionary<string, dynamic> { { nameof(SchoolApplyingToConvert.HasLoans), AnyLoans == SelectOption.Yes } };
 		}
 
 		///<inheritdoc/>

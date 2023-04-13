@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -11,6 +12,7 @@ namespace Dfe.Academies.External.Web.Pages
 	public class ApplicationOverviewModel : BasePageEditModel
 	{
 		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
+		private readonly ILogger<ApplicationOverviewModel> logger;
 
 		[BindProperty]
 		public int ApplicationId { get; set; }
@@ -20,7 +22,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public string ApplicationReferenceNumber { get; private set; } = string.Empty;
 
-		public List<SchoolApplyingToConvert> SchoolOrSchoolsApplyingToConvert { get; private set; } = new();
+		public List<SchoolComponentsViewModel> SchoolOrSchoolsApplyingToConvert { get; private set; } = new();
 
 		/// <summary>
 		/// This is already set dependent on whether application type = join a mat / form a mat!
@@ -53,19 +55,9 @@ namespace Dfe.Academies.External.Web.Pages
 		public string SchoolHeaderText { get; private set; } = string.Empty;
 
 		/// <summary>
-		/// This will ONLY have a value IF ApplicationType = FormNewMat
-		/// </summary>
-		public string? SchoolName { get; private set; }
-
-		/// <summary>
 		/// UI text, set within here ONLY dependent on ApplicationType
 		/// </summary>
 		public string TrustHeaderText { get; private set; } = string.Empty;
-		
-		/// <summary>
-		/// this will ONLY have a value IF ApplicationType = FormNewMat
-		/// </summary>
-		public SchoolComponentsViewModel  SchoolComponents { get; private set; } = new();
 
 		/// <summary>
 		/// flag to set different UI text - contributors
@@ -79,10 +71,12 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public ApplicationOverviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 										IReferenceDataRetrievalService referenceDataRetrievalService,
-										IConversionApplicationCreationService conversionApplicationCreationService
+										IConversionApplicationCreationService conversionApplicationCreationService,
+										ILogger<ApplicationOverviewModel> logger
 		) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
 			_conversionApplicationCreationService = conversionApplicationCreationService;
+			this.logger = logger;
 		}
 
 		public async Task<ActionResult> OnGetAsync(int appId)
@@ -102,32 +96,43 @@ namespace Dfe.Academies.External.Web.Pages
 			{
 				return Page();
 			}
-
-			var school = draftConversionApplication.Schools.FirstOrDefault();
-
-			if (school != null)
-			{
-				school.SchoolApplicationComponents =
-					await ConversionApplicationRetrievalService.GetSchoolApplicationComponents(appId, school.URN);
-			}
+			
+			// var school = draftConversionApplication.Schools.FirstOrDefault();
+			//
+			// if (school != null)
+			// {
+			// 	school.SchoolApplicationComponents =
+			// 		await ConversionApplicationRetrievalService.GetSchoolApplicationComponents(appId, school.URN);
+			// }
 
 			ApplicationId = appId;
 
-			PopulateUiModel(draftConversionApplication, school);
+			PopulateUiModel(draftConversionApplication);
 
 			return Page();
 		}
 
-		private void PopulateUiModel(ConversionApplication? conversionApplication, SchoolApplyingToConvert? school)
+		private void PopulateUiModel(ConversionApplication? conversionApplication)
 		{
 			// grab current user email
 			string email = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
 
+			this.logger.LogInformation($"Populating application overview for user | Email: { email }");
+
 			// look up user in contributors collection to find their role !!!
 			if (!string.IsNullOrWhiteSpace(email))
 			{
+				foreach (var contributor in conversionApplication.Contributors)
+				{
+					this.logger.LogInformation($"Contrubutor email: {contributor.EmailAddress} | role: {contributor.Role}");
+				}
+
+				// possible fix for not finding right user
 				var currentUser =
-					conversionApplication.Contributors.FirstOrDefault(x => x.EmailAddress == email);
+					conversionApplication.Contributors.FirstOrDefault(x => x.EmailAddress.ToLower() == email.ToLower());
+
+				this.logger.LogInformation($"User found, Id: { currentUser?.ContributorId } | Name: {currentUser?.FullName} | Email: {email}");
+				this.logger.LogInformation($"User role: {currentUser?.Role } | Email: {email}");
 
 				// set users role
 				if (currentUser is { Role: SchoolRoles.ChairOfGovernors })
@@ -136,25 +141,42 @@ namespace Dfe.Academies.External.Web.Pages
 				}
 			}
 
+			this.logger.LogInformation($"Can user submit | UserHasSubmitApplicationRole: {UserHasSubmitApplicationRole}");
+
 			if (conversionApplication != null)
 			{
 				// 3 statuses required by UI !!!!
 				TrustConversionStatus = ConversionApplicationRetrievalService.CalculateTrustStatus(conversionApplication);
 				DeclarationStatus =
 					ConversionApplicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
-				ConversionStatus = ConversionApplicationRetrievalService.CalculateApplicationStatus(conversionApplication);
 
 				ApplicationType = conversionApplication.ApplicationType;
 				ApplicationReferenceNumber = conversionApplication.ApplicationReference;
 				ApplicationStatus = conversionApplication.ApplicationStatus;
-				SchoolOrSchoolsApplyingToConvert = conversionApplication.Schools;
+				SchoolOrSchoolsApplyingToConvert = new List<SchoolComponentsViewModel>();
+				
+				foreach (var school in conversionApplication.Schools)
+				{
+					var applicationComponents = ConversionApplicationRetrievalService.GetSchoolApplicationComponents(ApplicationId, school.URN)
+						.Result
+						.ToList();
+					
+					SchoolOrSchoolsApplyingToConvert.Add(new SchoolComponentsViewModel(
+						conversionApplication.ApplicationId,
+						school.URN,
+						school.SchoolName,
+						ConversionApplicationRetrievalService.CalculateSchoolStatus(applicationComponents),
+						applicationComponents));
+				}
+				
+				ConversionStatus = ConversionApplicationRetrievalService.CalculateApplicationStatus(conversionApplication, SchoolOrSchoolsApplyingToConvert);
 				NameOfTrustToJoin = conversionApplication.TrustName;
 
-				HasSchool = conversionApplication.HasSchool;
+				HasSchool = conversionApplication.Schools.Any();
 				
 				if (conversionApplication.ApplicationType == ApplicationTypes.FormAMat)
 				{
-					HeaderText = "All school and trust details must be given before this application can be submitted.";
+					HeaderText = ConversionStatus != Status.Completed ? "All school and trust details must be given before this application can be submitted." : "";
 					TrustHeaderText = "Give details of the trust";
 					SchoolHeaderText = "Give details of schools in the trust";
 				}
@@ -170,25 +192,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 					TrustHeaderText = "The trust the school will join";
 					SchoolHeaderText = "The school applying to convert";
-					SchoolName = school?.SchoolName;
-				}
-
-				// Convert from List<ConversionApplicationComponent> -> List<ViewModels.ApplicationComponentViewModel>
-				if (school != null)
-				{
-					SchoolComponentsViewModel componentsVm = new()
-					{
-						URN = school.URN,
-						ApplicationId = conversionApplication.ApplicationId,
-						SchoolComponents = school.SchoolApplicationComponents.Select(c =>
-							new ApplicationComponentViewModel(name: c.Name,
-								uri: SetSchoolApplicationComponentUriFromName(c.Name))
-							{
-								Status = c.Status
-							}).ToList()
-					};
-
-					SchoolComponents = componentsVm;
+				//	SchoolName = school?.SchoolName;
 				}
 
 				//// submit button should NOT be available unless ConversionStatus == Completed &&&&&&& TrustConversionStatus = Completed !!

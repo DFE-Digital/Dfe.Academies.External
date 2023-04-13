@@ -21,9 +21,10 @@
 	<form method="post" name="frmNewTrustGovernanceStructureDetails" novalidate="" enctype="multipart/form-data">
 		@Html.AntiForgeryToken()
 		<input type="hidden" asp-for="ApplicationId"/>
+		<input type="hidden" asp-for="EntityId"/>
+        <input type="hidden" asp-for="ApplicationReference"/>	
 		<partial name="_HiddenFields"/>
-
-		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+		
 			<fieldset class="govuk-fieldset">
 				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
@@ -41,41 +42,51 @@
 					trust structures
 				</div>
 				
-				<label for="trust-structure" class="govuk-label">Upload an A4 diagram of the proposed governance structure of the trust</label>
-				<details class="govuk-details" data-module="govuk-details">
-					<summary class="govuk-details__summary">
-						<span class="govuk-details__summary-text">
-							Describing the trust structure
-						</span>
-					</summary>
-					<div class="govuk-details__text">
-						Tell us how the trust will be structured. Show the lines of accountability
-						between the trust and the academies. Use text to explain how the trust
-						will hold each academy to account.
-					</div>
-					
-					<div class="@(Model.GovernanceStructureDetailsFileError ? "govuk-form-group--error" : "govuk-radios__conditional")"
-					     id="GovernanceStructureDetailFileNotAddedError" aria-expanded="false">
-						<div class="govuk-form-group govuk-error-summary__list">
-							<a href="#GovernanceStructureDetailFileNotAddedError"
-							   class="@(Model.GovernanceStructureDetailsFileError ? "govuk-error-message" : "govuk-visually-hidden")">
-								You must upload a file
-							</a>
+				<p class="govuk-label">Upload an A4 diagram of the proposed governance structure of the trust</p>
+					<details class="govuk-details" data-module="govuk-details">
+						<summary class="govuk-details__summary">
+							<span class="govuk-details__summary-text">
+								Describing the trust structure
+							</span>
+						</summary>
+						<div class="govuk-details__text">
+							Tell us how the trust will be structured. Show the lines of accountability
+							between the trust and the academies. Use text to explain how the trust
+							will hold each academy to account.
 						</div>
-					</div>
 					
-				</details>
-				<label for="file-upload" class="govuk-label">
-					Upload a file
-				</label>
-				<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="GovernanceStructureDetailsFiles" class="govuk-label" multiple/>
+						<div class="@(Model.GovernanceStructureDetailsFileError ? "govuk-form-group--error" : "govuk-radios__conditional")"
+						     id="GovernanceStructureDetailFileNotAddedError" aria-expanded="false">
+							<div class="govuk-form-group govuk-error-summary__list">
+								<a href="#governanceDetailsFileUpload"
+								   class="@(Model.GovernanceStructureDetailsFileError ? "govuk-error-message" : "govuk-visually-hidden")">
+									You must upload a file
+								</a>
+							</div>
+						</div>
+					
+					</details>
+					<div class="govuk-form-group @(Model.GovernanceStructureDetailsFileSizeError || Model.GovernanceStructureDetailsFileGenericError ? "govuk-form-group--error" : "")">
+						<label for="governanceDetailsFileUpload" class="govuk-label"> Upload a file</label>
+						<p class="govuk-error-message @(!Model.GovernanceStructureDetailsFileSizeError ? "govuk-visually-hidden" : "")">
+							<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+						</p>
+						<p class="govuk-error-message @(!Model.GovernanceStructureDetailsFileGenericError ? "govuk-visually-hidden" : "")">
+							<span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
+						</p>
+						<input id="governanceDetailsFileUpload"
+							   type="file"
+						       accept=".doc,.docx,.pptx,.pdf"
+						       class="govuk-label"
+						       multiple
+						       asp-for="@Model.GovernanceStructureDetailsFiles"/>
+					</div>
 				<br/>
 
-				<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {ApplicationId = Model.ApplicationId,Urn = Model.Urn, FilePrefixSection = FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName, FileNames = Model.GovernanceStructureDetailsFileNames}'/>
+				<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel {ApplicationId = Model.ApplicationId,Urn = Model.Urn, EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FilePrefixSection = FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName, FileNames = Model.GovernanceStructureDetailsFileNames}'/>
 				
 				</div>
 			</fieldset>
-		</div>
 
 		<input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 	</form>

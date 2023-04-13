@@ -1,4 +1,5 @@
 ﻿using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -13,11 +14,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public Leases(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService) :
-			base(conversionApplicationRetrievalService, 
+			base(conversionApplicationRetrievalService,
 				referenceDataRetrievalService, academisationCreationService, "FinancialInvestigations")
 		{
 		}
-		
+
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
 		public SelectOption? AnyLeases { get; set; }
@@ -47,52 +48,25 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public override async Task<IActionResult> OnPostAsync()
 		{
 			var selectedSchool = await LoadAndSetSchoolDetails(ApplicationId, Urn);
-			MergeCachedAndDatabaseEntities(selectedSchool);
+			LoadLeasesFromDatabase(selectedSchool);
 
 			if (!RunUiValidation()) return Page();
 
-			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
-			
-			foreach (var leaseViewModel in LeaseViewModels)
+			//clear leases if no and set hasLeases
+			if (AnyLeases == SelectOption.No)
 			{
-				if (AnyLeases == SelectOption.No && !leaseViewModel.IsDraft)
+				foreach (var leaseViewModel in LeaseViewModels)
 				{
 					await ConversionApplicationCreationService.DeleteLease(ApplicationId, selectedSchool.id, leaseViewModel.Id);
-					continue;
 				}
-
-				var lease = new SchoolLease(leaseViewModel.Id,
-					leaseViewModel.LeaseTerm,
-					leaseViewModel.RepaymentAmount,
-					leaseViewModel.InterestRate,
-					leaseViewModel.PaymentsToDate,
-					leaseViewModel.Purpose,
-					leaseViewModel.ValueOfAssets,
-					leaseViewModel.ResponsibleForAssets);
-
-
-				if (leaseViewModel.IsDraft)
-					await ConversionApplicationCreationService.CreateLease(ApplicationId, selectedSchool.id, lease);
-				else
-				{
-					await ConversionApplicationCreationService.UpdateLease(ApplicationId, selectedSchool.id, lease);
-				}
-			}
-
-			// if user has selected no then update the school and set hasLoans
-			if (!LeaseViewModels.Any() && AnyLeases == SelectOption.No)
-			{
+				
 				var dictionaryMapper = PopulateUpdateDictionary();
 				await ConversionApplicationCreationService.PutSchoolApplicationDetails(ApplicationId, Urn, dictionaryMapper);
 			}
 
-			// update temp store for next step - application overview
-			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
-			TempData[$"{Urn.ToString()}-{typeof(List<LeaseViewModel>)}"] = null;
-			
 			return RedirectToPage(NextStepPage, new { urn = Urn, appId = ApplicationId });
 		}
-		
+
 		public override async Task<ActionResult> OnGetAsync(int urn, int appId)
 		{
 			LoadAndStoreCachedConversionApplication();
@@ -112,7 +86,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// Grab other values from API
 			if (selectedSchool != null)
 			{
-				MergeCachedAndDatabaseEntities(selectedSchool);
+				LoadLeasesFromDatabase(selectedSchool);
 				PopulateUiModel(selectedSchool);
 			}
 
@@ -128,7 +102,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				LeaseViewModels.Add(new LeaseViewModel
 				{
-					IsDraft = false,
 					Id = lease.LeaseId,
 					LeaseTerm = lease.LeaseTerm,
 					RepaymentAmount = lease.RepaymentAmount,
@@ -137,50 +110,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 					Purpose = lease.Purpose,
 					ValueOfAssets = lease.ValueOfAssets,
 					ResponsibleForAssets = lease.ResponsibleForAssets
-					
+
 				});
 			});
-		}
-
-		private void MergeCachedAndDatabaseEntities(SchoolApplyingToConvert selectedSchool)
-		{
-			LoadLeasesFromDatabase(selectedSchool);
-			
-			//Try to merge with what is saved in the cache
-			//Use the ID on the lease view model
-			var tempDataViewModels = TempDataLoadBySchool<List<LeaseViewModel>>(Urn) ?? new List<LeaseViewModel>();
-
-			if (tempDataViewModels.Any())
-			{
-				//override hasLeases value if we have some temp leases 
-				HasLeases = true;
-			}
-
-			tempDataViewModels.ForEach(x =>
-			{
-				var lease = LeaseViewModels.Find(y => y.Id == x.Id && !x.IsDraft);
-				
-				//Overwrite the lease from the database with the one stored in the cache if they have matching IDs
-				//and the one in the cache isn't a draft because it's an integer so there's a chance of collisions
-				if (lease != null)
-				{
-					lease.IsDraft = false;
-					lease.Id = x.Id;
-					lease.LeaseTerm = x.LeaseTerm;
-					lease.RepaymentAmount = x.RepaymentAmount;
-					lease.InterestRate = x.InterestRate;
-					lease.PaymentsToDate = x.PaymentsToDate;
-					lease.Purpose = x.Purpose;
-					lease.ValueOfAssets = x.ValueOfAssets;
-					lease.ResponsibleForAssets = x.ResponsibleForAssets;
-				}
-				else
-				{
-					LeaseViewModels.Add(x);
-				}
-			});
-			TempDataSetBySchool<List<LeaseViewModel>>(Urn, LeaseViewModels);
-
 		}
 
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
