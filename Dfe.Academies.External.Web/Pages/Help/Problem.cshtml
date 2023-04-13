@@ -14,60 +14,71 @@
         <form method="post" name="frmHelpWithYourApplication" novalidate="">
             @Html.AntiForgeryToken()
             <partial name="_HiddenFields" />
-            <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        <h1 class="govuk-fieldset__heading">
+            <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+                <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel" />
+            </div>
+
+            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="2000">
+                <div class="@(Model.IsPropertyInvalid("ProblemSummary") ? "govuk-form-group--error" : "govuk-form-group")">
+                    <h1 class="govuk-label-wrapper">
+                        <label class="govuk-label govuk-label--l" for="with-hint">
                             What problem did you notice with the form?
+                        </label>
+                    </h1>
+                    <div id="ProblemSummary-hint" class="govuk-hint">
+                        If you can, tell us which page you were on and what you were trying to do when you noticed the issue.
+                    </div>
+                    <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("ProblemSummary") ? "govuk-visually-hidden" : "")">
+                        <span class="govuk-visually-hidden">Error:</span> You must give details
+                    </p>
+                    <textarea asp-for="ProblemSummary" id="ProblemSummary"
+                          class="govuk-textarea govuk-js-character-count" cols="40" rows="5" maxlength="2000" aria-describedby="ProblemSummary-info ProblemSummary-hint"></textarea>
+                </div>
+                <div id="ProblemSummary-info" class="govuk-hint govuk-character-count__message">
+                    You can enter up to 2000 characters
+                </div>
+            </div>
+            <div class="@(Model.IsPropertyInvalid("DoYouWantToBeContacted") ? "govuk-form-group--error" : "govuk-form-group")">
+                <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <h1 class="govuk-fieldset__heading">
+                            Would you like to be contacted about the problem?
                         </h1>
                     </legend>
-                    <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
-                        <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel" />
-                    </div>
-                    <div class="@(Model.IsPropertyInvalid("ProblemSummary") ? "govuk-form-group--error" : "govuk-form-group")">
-                        <p class="govuk-caption-m">If you can, tell us which page you were on and what you were trying to do when you noticed the issue.</p>
-                        <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("ProblemSummary") ? "govuk-visually-hidden" : "")">
-                            <span class="govuk-visually-hidden">Error:</span> You must give details
-                        </p>
-                        <textarea asp-for="ProblemSummary" id="ProblemSummary"
-                              class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
-                    </div>
-                    <div class="@(Model.IsPropertyInvalid("DoYouWantToBeContacted") ? "govuk-form-group--error" : "govuk-form-group")">
-                    <div class="govuk-radios" data-module="govuk-radios">
-                @foreach (var contactedOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
-                {
-                    <div class="govuk-radios__item">
-                        <input type="radio"
-                           asp-for="DoYouWantToBeContacted"
-                           value="@Convert.ToInt32(contactedOption)"
-                           id="contactedOption@(contactedOption)"
-                           class="govuk-radios__input"
-                           data-aria-controls="contactedOption-@(contactedOption.ToString().ToLower())"
-                           checked="@(contactedOption.Equals(ViewData.Model.DoYouWantToBeContacted))"
-                           aria-expanded="False" />
-                        <label for="contactedOption@(contactedOption)" class="govuk-label govuk-radios__label">
-                            @contactedOption.GetDescription()
-                        </label>
-                    </div>
-                    @if (contactedOption == SelectOption.Yes)
+                    <div class="govuk-radios" data-module="govuk-radios" id="DoYouWantToBeContacted">
+                    @foreach (var contactedOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                     {
-                        <div class="govuk-radios__conditional @(contactedOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")" id="contactedOption-yes" aria-expanded="false">
-                                    <div class="@(Model.IsPropertyInvalid("ContactdByEmailError") ? "govuk-form-group--error" : "govuk-form-group")">
-                                <label for="EmailAddress" class="govuk-label govuk-!-font-weight-bold">What is your email address?</label>
-                                <p class="govuk-caption-m">What email address would you like to be contacted through?</p>
-                                    <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("ContactdByEmailError") ? "govuk-visually-hidden" : "")">
-                                    <span class="govuk-visually-hidden">Error:</span> You must give an email address
-                                </p>
-                                <input type="email" asp-for="EmailAddress" id="EmailAddress" class="govuk-input govuk-input--width-20" />
-                            </div>
+                        <div class="govuk-radios__item">
+                            <input type="radio"
+                               asp-for="DoYouWantToBeContacted"
+                               value="@Convert.ToInt32(contactedOption)"
+                               id="contactedOption@(contactedOption)"
+                               class="govuk-radios__input"
+                               data-aria-controls="contactedOption-@(contactedOption.ToString().ToLower())"
+                               checked="@(contactedOption.Equals(ViewData.Model.DoYouWantToBeContacted))"
+                               aria-expanded="False" />
+                            <label for="contactedOption@(contactedOption)" class="govuk-label govuk-radios__label">
+                                @contactedOption.GetDescription()
+                            </label>
                         </div>
+                        @if (contactedOption == SelectOption.Yes)
+                        {
+                            <div class="govuk-radios__conditional @(contactedOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")" id="contactedOption-yes" aria-expanded="false">
+                                <div class="@(Model.IsPropertyInvalid("ContactdByEmailError") ? "govuk-form-group--error" : "govuk-form-group")">
+                                    <label class="govuk-label">
+                                        What email address would you like to be contacted through?
+                                    </label>
+                                    <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("ContactdByEmailError") ? "govuk-visually-hidden" : "")">
+                                        <span class="govuk-visually-hidden">Error:</span> You must give an email address
+                                    </p>
+                                    <input type="email" asp-for="EmailAddress" id="EmailAddress" class="govuk-input govuk-input--width-20" />
+                                </div>
+                            </div>
+                        }
                     }
-                }
-                </div>
                 </div>
             </fieldset>
         </div>
-
         <input type="submit" value="Submit details" class="govuk-button govuk-!-margin-top-4 govuk-!-margin-bottom-8" />
     </form>
 </div>
