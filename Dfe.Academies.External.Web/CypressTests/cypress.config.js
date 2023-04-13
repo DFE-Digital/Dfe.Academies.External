@@ -8,9 +8,9 @@ const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
   e2e: {
-    url: 'https://s184t01-a2bextcdnendpoint-ezfhhdbpembpanh5.z01.azurefd.net',
-    login_username: 'dan.good@education.gov.uk',
-    login_password: 'P1ngO*1984',
+    url: Cypress.env('url'),
+    login_username: Cypress.env('username'),
+    login_password: Cypress.env('password'),
     experimentalOriginDependencies: true,
     setupNodeEvents(on, config) {
       // implement node event listeners here
