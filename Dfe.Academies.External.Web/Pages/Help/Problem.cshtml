@@ -18,7 +18,7 @@
                 <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel" />
             </div>
 
-            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="2000">
+            <div class="govuk-character-count">
                 <div class="@(Model.IsPropertyInvalid("ProblemSummary") ? "govuk-form-group--error" : "govuk-form-group")">
                     <h1 class="govuk-label-wrapper">
                         <label class="govuk-label govuk-label--l" for="with-hint">
@@ -32,7 +32,7 @@
                         <span class="govuk-visually-hidden">Error:</span> You must give details
                     </p>
                     <textarea asp-for="ProblemSummary" id="ProblemSummary"
-                          class="govuk-textarea govuk-js-character-count" cols="40" rows="5" maxlength="2000" aria-describedby="ProblemSummary-info ProblemSummary-hint"></textarea>
+                          class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
                 </div>
                 <div id="ProblemSummary-info" class="govuk-hint govuk-character-count__message">
                     You can enter up to 2000 characters
