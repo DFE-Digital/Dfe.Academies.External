@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Specialized;
+using System.ComponentModel.DataAnnotations;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -13,23 +15,23 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		// MR:- VM props to capture data
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide reason for forming details")]
 		public string ReasonForming { get; set; } = string.Empty;
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide vision details")]
 		public string ReasonVision { get; set; } = string.Empty;
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide geographical details")]
 		public string GeoAreas { get; set; } = string.Empty;
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide freedom details")]
 		public string Freedom { get; set; } = string.Empty;
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide teaching improvement details")]
 		public string ImproveTeaching { get; set; } = string.Empty;
 
 		public ApplicationNewTrustReasonsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 

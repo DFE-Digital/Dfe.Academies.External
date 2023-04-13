@@ -9,13 +9,15 @@
 
 @section BeforeMain
 {
-	<a asp-page="ApplicationSchoolJoinAMatTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back to trust summary</a>
+	<a asp-page="ApplicationSchoolJoinAMatTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back</a>
 }
 
 <form method="post" name="frmTrustConsent" novalidate="" enctype="multipart/form-data">
 	@Html.AntiForgeryToken()
 	<input type="hidden" asp-for="Urn"/>
 	<input type="hidden" asp-for="ApplicationId"/>
+	<input type="hidden" asp-for="EntityId"/>
+    <input type="hidden" asp-for="ApplicationReference"/>	
 	<partial name="_HiddenFields"/>
 	<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 		<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
@@ -43,13 +45,26 @@
 		<label class="govuk-label">This can be either a letter of consent from the trust, or the minutes of their board meeting.
 			<br/>
 			<br/>
-			Upload a file
 		</label>
-		<input type="file" accept=".doc,.docx,.pptx,.pdf" asp-for="TrustConsentFiles" class="govuk-label" multiple/>
-
-		<br/>
-
-		<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel { ApplicationId = Model.ApplicationId, Urn = Model.Urn, FilePrefixSection = FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName, FileNames = Model.TrustConsentFileNames }'/>
+		<div class="govuk-form-group @(Model.TrustConsentFileSizeError || Model.TrustConsentFileGenericError ? "govuk-form-group--error" : "")">
+			<label class="govuk-label"> Upload a file</label>
+			<p id="file-upload-trustConsentFileSize-error" class="govuk-error-message @(!Model.TrustConsentFileSizeError ? "govuk-visually-hidden" : "")">
+				<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+			</p>
+			<p id="file-upload-trustConsentFile-genericError" class="govuk-error-message @(!Model.TrustConsentFileGenericError ? "govuk-visually-hidden" : "")">
+				<span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
+			</p>
+			<input id="trustConsentFileUpload"
+				   type="file"
+			       accept=".doc,.docx,.pptx,.pdf"
+			       class="govuk-label"
+			       aria-describedby="file-upload-trustConsentFileSize-error"
+			       multiple
+			       asp-for="@Model.TrustConsentFiles" />
+			<br/>
+		</div>
+		
+		<partial name="Shared/_FileUploadPartial" model='new FileUploadViewModel { ApplicationId = Model.ApplicationId, Urn = Model.Urn, EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FilePrefixSection = FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName, FileNames = Model.TrustConsentFileNames }'/>
 
 		<br/>
         

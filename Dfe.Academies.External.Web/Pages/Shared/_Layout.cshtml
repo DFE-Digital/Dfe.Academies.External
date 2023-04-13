@@ -22,7 +22,7 @@
 				j.async = true;
 				j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
 				f.parentNode.insertBefore(j, f);
-			})(window, document, 'script', 'dataLayer', '@_configuration.GetSection("AppSettings")["GoogleTagManagerId"]');
+			})(window, document, 'script', 'dataLayer', '@_configuration["Google:TagManagerId"]');
 		</script>
 		<!-- End Google Tag Manager -->
 	}
@@ -44,7 +44,7 @@
 {
 	<!-- Google Tag Manager (noscript) -->
 	<noscript>
-		<iframe src="https://www.googletagmanager.com/ns.html?id=@_configuration.GetSection("AppSettings")["GoogleTagManagerId"]"
+		<iframe src="https://www.googletagmanager.com/ns.html?id=@_configuration["Google:TagManagerId"]"
 		        height="0" width="0" style="display:none;visibility:hidden">
 		</iframe>
 	</noscript>
@@ -59,17 +59,20 @@
 
 
 <div class="container body-content">
+	@if (User.Identity.IsAuthenticated)
+		{
 	<div class=" govuk-width-container govuk-phase-banner print-hide">
 		<p class="govuk-phase-banner__content">
 			<strong class="govuk-tag govuk-phase-banner__content__tag ">
 				beta
 			</strong>
 			<span class="govuk-phase-banner__text">
-				This is a new service – your
-				<a class="govuk-link" href="https://dferesearch.fra1.qualtrics.com/jfe/form/SV_4PKkazZ7STV751b">feedback</a> will help us to improve it.
+				<a class="govuk-link" asp-page="/Help/HowCanWeHelp" target  = "_blank">Get help or give feedback on this service (Opens in a new tab)</a>
 			</span>
 		</p>
 	</div>
+		}
+
 	<div class="govuk-width-container">
         @await RenderSectionAsync("BeforeMain", required: false)
         <main class="govuk-main-wrapper " id="main-content" role="main">
@@ -88,31 +91,32 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 </environment>
 <environment exclude="Development">
-	<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.4.1.min.js"
+	@*<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.4.1.min.js"
 	        asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
 	        asp-fallback-test="window.jQuery"
 	        crossorigin="anonymous"
 	        integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh">
-        </script>
-
+        </script>*@
+	<script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-</environment>
+    </environment>
+    <script src="~/assets/application-39beab6507cd50944edb58ab76ca9a393e09d467cba25003fbd3104c8a02514b.js"></script>
 @*    <script src="~/js/all.js"></script>*@
     <script>
-        //window.GOVUKFrontend.initAll();
+        window.GOVUKFrontend.initAll();
         @if (canTrack)
         {
 	        <text>
             window.addEventListener('load', function () {
-                idlechecks('@_configuration.GetSection("AppSettings")["GoogleAnalyticsKey"]',
-                @_configuration.GetSection("AppSettings")["SessionidleSecondsMax"]);
+                idlechecks('@_configuration["Google:AnalyticsKey"]',
+                @_configuration["SessionidleSecondsMax:Value"]);
             }, false);
             </text>
         }
 
     </script>
     @await RenderSectionAsync("scripts", required: false)
-<script src="~/assets/application-39beab6507cd50944edb58ab76ca9a393e09d467cba25003fbd3104c8a02514b.js"></script>
+
 <script src="~/assets/accessible-autocomplete.min.js"></script>
 <link rel="stylesheet" href="~/assets/component_guide/application-03e500f7e50f4bb8a952a029fffb091c8da3f5b9a6460086bf5d1d3464734232.css"/>
 </body>

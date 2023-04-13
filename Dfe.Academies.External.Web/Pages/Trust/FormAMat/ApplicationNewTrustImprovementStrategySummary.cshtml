@@ -8,7 +8,7 @@
 
 @section BeforeMain
 {
-	<a asp-page="ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back to trust overview</a>
+	<a asp-page="ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back</a>
 }
 
 <div class="govuk-grid-column-full">
@@ -17,42 +17,32 @@
 	</span>
     <h1 class="govuk-heading-l">School improvement strategy</h1>
 
-	@foreach (var heading in Model.ViewModel)
-	{
-		<h1 class="govuk-heading-m">
-			@heading.Title
-		</h1>
-		<table class="govuk-table">
-			<tbody class="govuk-table__body">
-			<tr class="govuk-table__row">
-				<td class="govuk-table__cell">
-					@if (heading.Status == SchoolConversionComponentStatus.NotStarted)
-					{
-						<a asp-page="@heading.URI" class="govuk-button govuk-button--secondary"
-						   asp-route-appId="@Model.ApplicationId">
-							Start section
-						</a>
-					}
-					else
-					{
-						<a asp-page="@heading.URI" class="govuk-link"
-						   asp-route-appId="@Model.ApplicationId">
-							Change your answers
-						</a>
-					}
-				</td>
-				<td class="govuk-table__cell"></td>
-			</tr>
-			@foreach (var conversionComponent in heading.Sections)
-			{
-				<partial name="_SchoolConversionComponentPartial" model="@conversionComponent"/>
-			}
-
-			</tbody>
-		</table>
-
-		<div class="govuk-!-margin-6"></div>
-	}
+		@foreach (var question in Model.ViewModel)
+    	{
+    		<div class="govuk-grid-row">
+    			<div class="govuk-grid-column-full">
+    				@if (question.Status == SchoolConversionComponentStatus.NotStarted)
+    				{
+    					<a asp-page="@question.URI" class="govuk-button govuk-button--secondary"
+    					   asp-route-appId="@Model.ApplicationId">
+    						Start section
+    					</a>
+    				}
+    				else
+    				{
+    					<a asp-page="@question.URI" class="govuk-link"
+    					   asp-route-appId="@Model.ApplicationId">
+    						Change your answers
+    					</a>
+    				}
+    			</div>
+    		</div>
+    		<hr/>
+    		@foreach (var conversionComponent in question.Sections)
+    		{
+    			<partial name="_SchoolConversionComponentPartial" model="@conversionComponent"/>
+    		}
+    	}
 
 	<a asp-page="ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
 </div>

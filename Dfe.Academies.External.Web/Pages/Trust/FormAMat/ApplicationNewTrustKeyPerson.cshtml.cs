@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -10,6 +12,11 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 {
 	public class ApplicationNewTrustKeyPersonModel : BaseTrustFamApplicationPageEditModel
 	{
+		[BindProperty(SupportsGet = true)]
+		public int KeyPersonId { get; set; }
+
+		public bool IsEdit { get { return KeyPersonId > 0; } }
+
 		public string TrustKeyPersonDobDate = "sip_formtrustkeypersondate";
 		public string TrustName { get; private set; } = string.Empty;
 
@@ -93,7 +100,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 												IReferenceDataRetrievalService referenceDataRetrievalService,
 												IConversionApplicationCreationService conversionApplicationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService,
-				"ApplicationNewTrustSummary")
+				"ApplicationNewTrustKeyPeopleSummary")
 		{
 		}
 
@@ -120,9 +127,12 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
 			var roles = new List<NewTrustKeyPersonRole>();
+			var keyPerson = draftConversionApplication.FormTrustDetails?.KeyPeople.SingleOrDefault(x => x.Id == KeyPersonId);
 
+			//only add in the role if it is not in current list when editing
 			if (TrustKeyPersonCeo)
 			{
+
 				roles.Add(new NewTrustKeyPersonRole(KeyPersonRole.CEO, string.Empty));
 			}
 
@@ -155,10 +165,36 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 				roles.Add(new NewTrustKeyPersonRole(KeyPersonRole.Other, string.Empty));
 			}
 
-			var newKeyPerson = new NewTrustKeyPerson(TrustKeyPersonName, TrustKeyPersonDobLocal,
-				TrustKeyPersonBiography, roles);
+			if (IsEdit && keyPerson != null)
+			{
+				// set Id of role if already exists in list
+				foreach (var role in roles)
+				{
+					var existingRole = keyPerson.Roles.SingleOrDefault(x => x.Role == role.Role);
 
-			await ConversionApplicationCreationService.CreateKeyPerson(ApplicationId, newKeyPerson);
+					if (existingRole != null)
+					{
+						role.Id = existingRole.Id;
+					}
+				}
+
+				keyPerson.Name = TrustKeyPersonName;
+				keyPerson.Biography = TrustKeyPersonBiography;
+				keyPerson.DateOfBirth = TrustKeyPersonDobLocal;
+				keyPerson.Roles = roles;
+
+				await ConversionApplicationCreationService.UpdateKeyPerson(ApplicationId, keyPerson);
+			}
+			else
+			{
+				var newKeyPerson = new NewTrustKeyPerson(TrustKeyPersonName, TrustKeyPersonDobLocal,
+					TrustKeyPersonBiography, roles);
+
+				await ConversionApplicationCreationService.CreateKeyPerson(ApplicationId, newKeyPerson);
+
+			}
+
+
 
 			// update temp store for next step
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
@@ -175,7 +211,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 		///<inheritdoc/>
 		public override bool RunUiValidation()
-		{	
+		{
 			if (!TrustKeyPersonFinancialDirector && !TrustKeyPersonCeo && !TrustKeyPersonChair && !TrustKeyPersonMember && !TrustKeyPersonOther && !TrustKeyPersonTrustee)
 			{
 				ModelState.AddModelError("TrustKeyPersonRoleError", "Please select at least one role");
@@ -218,14 +254,42 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			if (conversionApplication != null && conversionApplication.FormTrustDetails != null)
 			{
 				TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
+				if (IsEdit)
+				{
+
+					var keyPerson = conversionApplication.FormTrustDetails.KeyPeople.SingleOrDefault(x => x.Id == KeyPersonId);
+
+					if (keyPerson != null)
+					{
+						TrustKeyPersonName = keyPerson.Name;
+						TrustKeyPersonBiography = keyPerson.Biography;
+						RePopDatePickerModel(keyPerson.DateOfBirth.Day.ToString(), keyPerson.DateOfBirth.Month.ToString(), keyPerson.DateOfBirth.Year.ToString());
+						if (keyPerson.Roles.Any())
+						{
+							TrustKeyPersonCeo = keyPerson.Roles.Any(x => x.Role == KeyPersonRole.CEO);
+							TrustKeyPersonChair = keyPerson.Roles.Any(x => x.Role == KeyPersonRole.Chair);
+							if (keyPerson.Roles.Any(x => x.Role == KeyPersonRole.FinancialDirector))
+							{
+								var role = keyPerson.Roles.Single(x => x.Role == KeyPersonRole.FinancialDirector);
+								TrustKeyPersonFinancialDirector = true;
+								TrustKeyPersonTimeInRole = role.TimeInRole;
+							}
+
+							TrustKeyPersonTrustee = keyPerson.Roles.Any(x => x.Role == KeyPersonRole.Trustee);
+							TrustKeyPersonMember = keyPerson.Roles.Any(x => x.Role == KeyPersonRole.Member);
+							TrustKeyPersonOther = keyPerson.Roles.Any(x => x.Role == KeyPersonRole.Other);
+						}
+
+					}
+				}
 			}
 		}
 
-		private void RePopDatePickerModel(string openingDateDay, string openingDateMonth, string openingDateYear)
+		private void RePopDatePickerModel(string newTrustKeyPersonDobDay, string newTrustKeyPersonDoMonth, string newTrustKeyPersonDoYear)
 		{
-			TrustKeyPersonDobDay = openingDateDay;
-			TrustKeyPersonDobMonth = openingDateMonth;
-			TrustKeyPersonDobYear = openingDateYear;
+			TrustKeyPersonDobDay = newTrustKeyPersonDobDay;
+			TrustKeyPersonDobMonth = newTrustKeyPersonDoMonth;
+			TrustKeyPersonDobYear = newTrustKeyPersonDoYear;
 		}
 
 		public bool IsPropertyInvalid(string propertyKey)

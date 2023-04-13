@@ -1,9 +1,11 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -12,6 +14,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private readonly IFileUploadService _fileUploadService;
 	    public List<FurtherInformationSummaryViewModel> ViewModel { get; set; } = new();
 
+	    [BindProperty]
+	    public Guid EntityId { get; set; }
+	
+	    [BindProperty]
+	    public string ApplicationReference { get; set; }
+
+	    
 	    public FurtherInformationSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		    IReferenceDataRetrievalService referenceDataRetrievalService, IFileUploadService fileUploadService)
 		    : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
@@ -41,7 +50,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		
 	    private FurtherInformationSummaryViewModel PopulateFurtherInformation(SchoolApplyingToConvert selectedSchool)
 	    {
-
+		    var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
+		    EntityId = selectedSchool.EntityId;
+		    ApplicationReference = applicationDetails.ApplicationReference;
 		    var sectionStarted = !string.IsNullOrEmpty(selectedSchool.TrustBenefitDetails);
 			// Heading
 			FurtherInformationSummaryViewModel FISheading = new(FurtherInformationSummaryViewModel.AdditionalDetailsHeading,
@@ -66,7 +77,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			FISheading.Sections.Add(new(
 				FurtherInformationSectionViewModel.SafeguardingInvestigations,
 				sectionStarted ?
-					(!string.IsNullOrWhiteSpace(selectedSchool.SafeguardingDetails) ? "Yes" : "No") : QuestionAndAnswerConstants.NoInfoAnswer)
+					(selectedSchool.Safeguarding ? "Yes" : "No") : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			
 			FISheading.Sections.Add(new(
@@ -111,7 +122,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 					selectedSchool.MainFeederSchools : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			
-			var fileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelFolderName, ApplicationId.ToString(), $"A2B_{ApplicationId}", FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result;
+			var fileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result;
 			
 			
 			FISheading.Sections.Add(new(

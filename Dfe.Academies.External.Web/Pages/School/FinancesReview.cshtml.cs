@@ -1,9 +1,12 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
+using Newtonsoft.Json.Linq;
+
 namespace Dfe.Academies.External.Web.Pages.School
 {
     public class FinancesReviewModel : BaseSchoolSummaryPageModel
@@ -52,7 +55,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// PFYEndDate
 			PFYheading.Sections.Add(new(FinancesReviewSectionViewModel.PFYEndDate,
 				previousFinancialYear.FinancialYearEndDate.HasValue ?
-					previousFinancialYear.FinancialYearEndDate.Value.ToShortDateString() : QuestionAndAnswerConstants.NoInfoAnswer)
+					previousFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy") : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			//PFYRevenue
 			PFYheading.Sections.Add(new(FinancesReviewSectionViewModel.PFYRevenue,
@@ -116,7 +119,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		    
 		    CFYheading.Sections.Add(new(FinancesReviewSectionViewModel.CFYEndDate,
 			    currentFinancialYear.FinancialYearEndDate.HasValue ?
-				    currentFinancialYear.FinancialYearEndDate.Value.ToShortDateString() : QuestionAndAnswerConstants.NoInfoAnswer)
+				    currentFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy") : QuestionAndAnswerConstants.NoInfoAnswer)
 		    );
 
 		    CFYheading.Sections.Add(new(FinancesReviewSectionViewModel.CFYRevenue,
@@ -177,7 +180,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// NFYEndDate
 			NFYheading.Sections.Add(new(FinancesReviewSectionViewModel.NFYEndDate,
 				nextFinancialYear.FinancialYearEndDate.HasValue ?
-					nextFinancialYear.FinancialYearEndDate.Value.ToShortDateString() : QuestionAndAnswerConstants.NoInfoAnswer)
+					nextFinancialYear.FinancialYearEndDate.Value.ToString("dd/MM/yyyy") : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			//NFYRevenue
 			NFYheading.Sections.Add(new(FinancesReviewSectionViewModel.NFYRevenue,
@@ -241,7 +244,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				subQuestionAndAnswers.AddRange(new List<SchoolQuestionAndAnswerViewModel>
 				{
-					new FinancesReviewSectionViewModel($"Loan {i+1}", ""),
+					new FinancesReviewSectionViewModel($"Loan {i+1}", " "),
 					new FinancesReviewSectionViewModel("Total amount", $"£{selectedSchool.Loans.ElementAt(i).Amount}"),
 					new FinancesReviewSectionViewModel("Purpose of loan", $"{selectedSchool.Loans.ElementAt(i).Purpose}"),
 					new FinancesReviewSectionViewModel("Loan provider", $"{selectedSchool.Loans.ElementAt(i).Provider}"),
@@ -276,7 +279,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				subQuestionAndAnswers.AddRange(new List<SchoolQuestionAndAnswerViewModel>
 				{
-					new FinancesReviewSectionViewModel($"Lease {i+1}", ""),
+					new FinancesReviewSectionViewModel($"Lease {i+1}", " "),
 					new FinancesReviewSectionViewModel("Details of the term of the finance lease agreement", $"{selectedSchool.Leases.ElementAt(i).LeaseTerm}"),
 					new FinancesReviewSectionViewModel("Confirmation of the repayment value", $"{selectedSchool.Leases.ElementAt(i).RepaymentAmount}"),
 					new FinancesReviewSectionViewModel("Confirmation of the interest rate chargeable", $"{selectedSchool.Leases.ElementAt(i).InterestRate}"),

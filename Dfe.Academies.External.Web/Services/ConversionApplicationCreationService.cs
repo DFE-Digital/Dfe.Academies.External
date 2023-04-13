@@ -1,4 +1,7 @@
-﻿using Dfe.Academies.External.Web.Enums;
+﻿using AutoMapper.Internal;
+using Dfe.Academies.External.Web.Commands;
+using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.School;
 using Microsoft.AspNetCore.Mvc;
@@ -81,24 +84,24 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
 			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
-			// MR:- need to check if application type =JoinAMat and application already has school remove existing school - add new one
-			// otherwise API validation will reject !! which is correct !!!
-			if (!application.Schools.Any())
+			// PL:- if is form a mat we can add as many schools as we want just check that we aren't adding the same school twice
+			// if is join a mat then we add only if it is the first one
+			if ((application.ApplicationType == ApplicationTypes.FormAMat && application.Schools.All(c => c.URN != schoolUrn)) ||
+			    (application.ApplicationType == ApplicationTypes.JoinAMat && !application.Schools.Any()))
 			{
 				SchoolApplyingToConvert school = new(name, schoolUrn, null);
 				application.Schools.Add(school);
 			}
-			else
+
+			//PL:- if it is join a mat we only add one school and from then it is changes to the existing school to maintain the attached data
+			if (application.ApplicationType == ApplicationTypes.JoinAMat)
 			{
-				if (application.ApplicationType == ApplicationTypes.JoinAMat)
+				var existingSchool = application.Schools.FirstOrDefault();
+				if (existingSchool != null)
 				{
-					var existingSchool = application.Schools.FirstOrDefault();
-					if (existingSchool != null)
-					{
-						// MR:- can't do remove because then we will bin all the associated data !!
-						existingSchool.URN = schoolUrn;
-						existingSchool.SchoolName = name;
-					}
+					// MR:- can't do remove because then we will bin all the associated data !!
+					existingSchool.URN = schoolUrn;
+					existingSchool.SchoolName = name;
 				}
 			}
 
@@ -121,7 +124,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	}
 
 	///<inheritdoc/>
-	public async Task AddTrustToApplication(int applicationId, int trustUkPrn, string name)
+	public async Task AddTrustToApplication(int applicationId, int trustUkPrn, string name, string trustReference)
 	{
 		try
 		{
@@ -147,7 +150,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			ExistingTrust trust;
 			if (application.JoinTrustDetails != null)
 			{
-				trust = new ExistingTrust(applicationId, name, trustUkPrn,
+				trust = new ExistingTrust(applicationId, name, trustReference, trustUkPrn,
 					application.JoinTrustDetails.ChangesToTrust,
 					application.JoinTrustDetails.ChangesToTrustExplained,
 					application.JoinTrustDetails.ChangesToLaGovernance,
@@ -155,9 +158,9 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			}
 			else
 			{
-				trust = new ExistingTrust(applicationId, name, trustUkPrn);
+				trust = new ExistingTrust(applicationId, name, trustReference, trustUkPrn);
 			}
-			
+
 			// MR:- no response from Academies API - Just an OK
 			await _resilientRequestProvider.PutAsync(apiurl, trust);
 		}
@@ -207,7 +210,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	public async Task PutSchoolApplicationDetails(int applicationId, int schoolUrn, Dictionary<string, dynamic> schoolProperties)
 	{
 		var application = await GetApplication(applicationId);
-			
+
 		if (application?.ApplicationId != applicationId)
 		{
 			throw new ArgumentException("Application not found");
@@ -218,11 +221,13 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		{
 			throw new ArgumentException("School not found");
 		}
-		
+
 		//Populate all school fields with the values in the dictionary
 		foreach (var property in schoolProperties)
 		{
-			school.GetType().GetProperty(property.Key)?.SetValue(school, property.Value);
+			var prop = school.GetType().GetProperty(property.Key);
+			if (prop.CanBeSet())
+				prop?.SetValue(school, property.Value);
 		}
 		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
 		await _resilientRequestProvider.PutAsync(apiurl, application);
@@ -304,7 +309,9 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	{
 		var deleteLoanCommand = new DeleteLoanCommand
 		{
-			ApplicationId = applicationId, SchoolId = schoolId, LoanId = loanId
+			ApplicationId = applicationId,
+			SchoolId = schoolId,
+			LoanId = loanId
 		};
 		string apiurl = $"{_httpClient.BaseAddress}school/loan/delete";
 		await _resilientRequestProvider.DeleteAsync<DeleteLoanCommand>(apiurl, deleteLoanCommand);
@@ -354,7 +361,9 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	{
 		var deleteLeaseCommand = new DeleteLeaseCommand
 		{
-			ApplicationId = applicationId, SchoolId = schoolId, LeaseId = leaseId
+			ApplicationId = applicationId,
+			SchoolId = schoolId,
+			LeaseId = leaseId
 		};
 		string apiurl = $"{_httpClient.BaseAddress}school/lease/delete";
 		await _resilientRequestProvider.DeleteAsync<DeleteLeaseCommand>(apiurl, deleteLeaseCommand);
@@ -362,7 +371,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 	///<inheritdoc/>
 	public async Task SetAdditionalDetails(int applicationId, int schoolId, string trustBenefitDetails, string? ofstedInspectionDetails,
-		string? safeguardingDetails, string? localAuthorityReorganisationDetails, string? localAuthorityClosurePlanDetails,
+		bool safeguarding, string? localAuthorityReorganisationDetails, string? localAuthorityClosurePlanDetails,
 		string? dioceseName, string? dioceseFolderIdentifier, bool partOfFederation, string? foundationTrustOrBodyName,
 		string? foundationConsentFolderIdentifier, DateTimeOffset? exemptionEndDate, string mainFeederSchools,
 		string? resolutionConsentFolderIdentifier, SchoolEqualitiesProtectedCharacteristics? protectedCharacteristics,
@@ -374,7 +383,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			SchoolId = schoolId,
 			TrustBenefitDetails = trustBenefitDetails,
 			OfstedInspectionDetails = ofstedInspectionDetails,
-			SafeguardingDetails = safeguardingDetails,
+			Safeguarding = safeguarding,
 			LocalAuthorityReorganisationDetails = localAuthorityReorganisationDetails,
 			LocalAuthorityClosurePlanDetails = localAuthorityClosurePlanDetails,
 			DioceseName = dioceseName,
@@ -431,7 +440,8 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		var command = new SubmitApplicationCommand(applicationId);
 
 		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/submit?api-version=V1";
-		await _resilientRequestProvider.PostAsync<ConversionApplication, SubmitApplicationCommand>(apiurl, command);
+		// expected object is not used, so deserialization to generic object is sufficient
+		await _resilientRequestProvider.PostAsync<Object, SubmitApplicationCommand>(apiurl, command);
 	}
 
 	public async Task CreateKeyPerson(int applicationId, NewTrustKeyPerson person)
@@ -448,9 +458,20 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.PostAsync<IActionResult, CreateTrustKeyPersonCommand>(apiurl, createTrustKeyPersonCommand);
 	}
 
-	public Task UpdateKeyPerson(int applicationId, NewTrustKeyPerson person)
+	public async Task UpdateKeyPerson(int applicationId, NewTrustKeyPerson person)
 	{
-		throw new NotImplementedException();
+		var updateTrustKeyPersonCommand = new UpdateTrustKeyPersonCommand()
+		{
+			ApplicationId = applicationId,
+			KeyPersonId = person.Id,
+			Name = person.Name,
+			DateOfBirth = person.DateOfBirth,
+			Biography = person.Biography,
+			Roles = person.Roles
+		};
+
+		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/form-trust/key-person/{person.Id}?api-version=V1";
+		await _resilientRequestProvider.PutAsync(apiurl, updateTrustKeyPersonCommand);
 	}
 
 	public Task DeleteKeyPerson(int applicationId, int keyPersonId)

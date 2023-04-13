@@ -1,17 +1,30 @@
 ﻿using System.Globalization;
+using Azure.Storage.Blobs;
+using Dfe.Academies.External.Web.AutoMapper;
 using Dfe.Academies.External.Web.Extensions;
+using Dfe.Academies.External.Web.Factories;
 using Dfe.Academies.External.Web.Helpers;
+using Dfe.Academies.External.Web.Jobs;
 using Dfe.Academies.External.Web.Middleware;
+using Dfe.Academies.External.Web.Models.EmailTemplates;
 using Dfe.Academies.External.Web.Routing;
 using Dfe.Academies.External.Web.Services;
 using GovUk.Frontend.AspNetCore;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.Extensions.Options;
+using Notify.Client;
+using Notify.Interfaces;
 using Polly;
 using Polly.Extensions.Http;
+using Quartz;
+using Serilog;
+using StackExchange.Redis;
 
 //using Serilog;
 //using Serilog.Events;
@@ -19,16 +32,6 @@ using Polly.Extensions.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
-
-// Add sentry to the container.
-builder.WebHost.UseSentry();
-
-//// builder.Services.UseSerilog();
-//builder.Host.UseSerilog((ctx, lc) => lc
-//	.MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-//	.Enrich.FromLogContext()
-//	.WriteTo.Console(new RenderedCompactJsonFormatter())
-//	.WriteTo.Sentry());
 
 //https://github.com/gunndabad/govuk-frontend-aspnetcore  
 builder.Services.AddGovUkFrontend();
@@ -39,13 +42,14 @@ builder.Services
 		options.Conventions
 			.AuthorizeFolder("/", "AcademiesExternalPolicy")
 			.AllowAnonymousToPage("/Index")
-			.AllowAnonymousToPage("/Accessibility")
+			.AllowAnonymousToPage("/Accessibility-Statement")
 			.AllowAnonymousToPage("/Cookies")
 			.AllowAnonymousToPage("/Terms")
 			.AllowAnonymousToPage("/Privacy")
 			.AllowAnonymousToPage("/Error")
 			.AllowAnonymousToPage("/NotFound")
-			.AllowAnonymousToPage("/WhatYouWillNeed");
+			.AllowAnonymousToPage("/WhatYouWillNeed")
+			.AllowAnonymousToPage("/Help");
 		options.Conventions.AddPageRoute("/notfound", "/error/404");
 		options.Conventions.AddPageRoute("/notfound", "/error/{code:int}");
 	})
@@ -92,6 +96,13 @@ builder.Services.AddAuthentication(options =>
 
 			options.Events.OnRedirectToIdentityProvider = context =>
 			{
+				// check for a redirect uri override
+				string? redirectUri = configuration["SignIn:RedirectUri"];
+				if (!string.IsNullOrEmpty(redirectUri))
+				{
+					context.ProtocolMessage.RedirectUri = redirectUri;
+				}
+
 				context.ProtocolMessage.Prompt = "login";
 				return Task.CompletedTask;
 			};
@@ -118,7 +129,17 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 {
 	options.CheckConsentNeeded = context => true;
 	options.MinimumSameSitePolicy = SameSiteMode.None;
+	options.Secure = CookieSecurePolicy.Always;
 });
+
+// Configure Redis Based Distributed Session
+var redisConfigurationOptions = ConfigurationOptions.Parse(builder.Configuration["ConnectionStrings:RedisCache"]);
+
+builder.Services.AddStackExchangeRedisCache(redisCacheConfig =>
+{
+	redisCacheConfig.ConfigurationOptions = redisConfigurationOptions;
+});
+
 builder.Services.AddSession(options =>
 	{
 		options.Cookie.HttpOnly = true;
@@ -128,6 +149,16 @@ builder.Services.AddSession(options =>
 	}
 );
 builder.Services.AddSingleton<IAadAuthorisationHelper, AadAuthorisationHelper>();
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+builder.Services.AddTransient<IAsyncNotificationClient, NotificationClient>(x => new NotificationClient(builder.Configuration["emailnotifications:key"]));
+builder.Services.Configure<NotifyTemplateSettings>(builder.Configuration.GetSection("govuk-notify"));
+builder.Services.AddSingleton<IContributorTemplate, FormAMatChairContributor>(x => new FormAMatChairContributor(x.GetRequiredService<IOptions<NotifyTemplateSettings>>()));
+builder.Services.AddSingleton<IContributorTemplate, FormAMatNonChairContributor>(x => new FormAMatNonChairContributor(x.GetRequiredService<IOptions<NotifyTemplateSettings>>()));
+builder.Services.AddSingleton<IContributorTemplate, JoinAMatChairContributor>(x => new JoinAMatChairContributor(x.GetRequiredService<IOptions<NotifyTemplateSettings>>()));
+builder.Services.AddSingleton<IContributorTemplate, JoinAMatNonChairContributor>(x => new JoinAMatNonChairContributor(x.GetRequiredService<IOptions<NotifyTemplateSettings>>()));
+builder.Services.AddSingleton<IContributorNotifyTemplateFactory, ContributorNotifyTemplateFactory>();
+builder.Services.AddSingleton<IEmailNotificationService, EmailNotificationService>();
 
 builder.Services.AddHttpClient<IFileUploadService, FileUploadService>(client =>
 	{
@@ -153,12 +184,60 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 	};
 	options.DefaultRequestCulture = new RequestCulture("en-GB");
 	// By default the below will be set to whatever the server culture is.
-    options.SupportedCultures = supportedCultures;
+	options.SupportedCultures = supportedCultures;
 	// Supported cultures is a list of cultures that your web app will be able to run under. By default this is set to a the culture of the machine. 
 	options.SupportedUICultures = supportedCultures;
 });
 
+
+builder.Services.AddApplicationInsightsTelemetry(builder.Configuration);
+//var aiOptions = new Microsoft.ApplicationInsights.AspNetCore.Extensions.ApplicationInsightsServiceOptions();
+
+//// Disables adaptive sampling.
+//aiOptions.EnableAdaptiveSampling = false;
+
+//// Disables QuickPulse (Live Metrics stream).
+//aiOptions.EnableQuickPulseMetricStream = false;
+//aiOptions.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
+//builder.Services.AddApplicationInsightsTelemetry(aiOptions);
+
+builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfiguration
+				.WriteTo.ApplicationInsights(
+			services.GetRequiredService<TelemetryConfiguration>(),
+			TelemetryConverter.Traces));
+
+var localDevelopment = builder.Configuration.GetValue<bool>("local_development");
+if (!localDevelopment)
+{
+	string blobName = "keys.xml";
+	BlobContainerClient container = new BlobContainerClient(new Uri(builder.Configuration["ConnectionStrings:BlobStorage"]));
+
+	BlobClient blobClient = container.GetBlobClient(blobName);
+
+	builder.Services.AddDataProtection()
+		.PersistKeysToAzureBlobStorage(blobClient);
+}
+
+builder.Services.AddQuartz(q => { q.UseMicrosoftDependencyInjectionJobFactory(); });
+builder.Services.AddQuartzHostedService(opt => { opt.WaitForJobsToComplete = true; });
+
 var app = builder.Build();
+
+if (!localDevelopment)
+{
+	var schedulerFactory = app.Services.GetRequiredService<ISchedulerFactory>();
+	var scheduler = await schedulerFactory.GetScheduler();
+
+	var job = JobBuilder.Create<FixSharepointFoldersJob>()
+		.WithIdentity("fix-sharepoint")
+		.Build();
+
+	var trigger = TriggerBuilder.Create()
+		.WithIdentity("fix-sharepoint")
+		.StartNow()
+		.Build();
+	await scheduler.ScheduleJob(job, trigger);
+}
 
 // Configure the HTTP request pipeline.
 
@@ -172,6 +251,9 @@ else
 {
 	app.UseDeveloperExceptionPage();
 }
+
+// trying this to see if it resolves cookie problem
+app.UseCookiePolicy();
 
 // Combined with razor routing 404 display custom page NotFound
 app.UseStatusCodePagesWithReExecute("/error/{0}");
@@ -187,7 +269,6 @@ app.UseRouting();
 // Enable automatic tracing integration.
 // If running with .NET 5 or below, make sure to put this middleware
 // right after `UseRouting()`.
-app.UseSentryTracing();
 
 //app.UseSerilogRequestLogging();
 

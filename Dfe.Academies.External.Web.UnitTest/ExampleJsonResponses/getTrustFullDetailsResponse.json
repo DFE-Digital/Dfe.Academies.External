@@ -1,0 +1,891 @@
+{
+	"ifdData": {
+		"trustOpenDate": "09/01/2012",
+		"leadRSCRegion": "Lancashire and West Yorkshire",
+		"trustContactPhoneNumber": null,
+		"performanceAndRiskDateOfMeeting": null,
+		"prioritisedAreaOfReview": "No",
+		"currentSingleListGrouping": null,
+		"dateOfGroupingDecision": "16/01/2019",
+		"dateEnteredOntoSingleList": null,
+		"trustReviewWriteup": null,
+		"dateOfTrustReviewMeeting": null,
+		"followupLetterSent": null,
+		"dateActionPlannedFor": null,
+		"wipSummaryGoesToMinister": null,
+		"externalGovernanceReviewDate": null,
+		"efficiencyICFPreviewCompleted": null,
+		"efficiencyICFPreviewOther": null,
+		"linkToWorkplaceForEfficiencyICFReview": null,
+		"numberInTrust": "0",
+		"trustType": "MAT",
+		"trustAddress": {
+			"street": null,
+			"locality": "Newton Heath",
+			"additionalLine": "Briscoe Lane Academy Briscoe Lane",
+			"town": "Manchester",
+			"county": null,
+			"postcode": "M40 2TB"
+		}
+	},
+	"giasData": {
+		"groupId": "TR02511",
+		"groupName": "WISE OWL TRUST",
+		"groupType": "Multi-academy trust",
+		"companiesHouseNumber": "08053288",
+		"groupContactAddress": {
+			"street": "Trust House C/O Seymour Road Academy Seymour Road South",
+			"locality": "Clayton",
+			"additionalLine": null,
+			"town": "Manchester",
+			"county": "Not recorded",
+			"postcode": "M11 4PR"
+		},
+		"ukprn": "10059766"
+	},
+	"establishments": [
+		{
+			"urn": "138653",
+			"localAuthorityCode": "352",
+			"localAuthorityName": "Manchester",
+			"establishmentNumber": "2040",
+			"establishmentName": "Briscoe Lane Academy",
+			"establishmentType": {
+				"name": "Academy converter",
+				"code": "34"
+			},
+			"establishmentTypeGroup": {
+				"name": "Academies",
+				"code": "10"
+			},
+			"establishmentStatus": {
+				"name": "Open",
+				"code": "1"
+			},
+			"reasonEstablishmentOpened": {
+				"name": "Academy Converter",
+				"code": "10"
+			},
+			"openDate": "01-09-2012",
+			"reasonEstablishmentClosed": {
+				"name": null,
+				"code": "99"
+			},
+			"closeDate": null,
+			"phaseOfEducation": {
+				"name": "Primary",
+				"code": "2"
+			},
+			"statutoryLowAge": "3",
+			"statutoryHighAge": "11",
+			"boarders": {
+				"name": "No boarders",
+				"code": "1"
+			},
+			"nurseryProvision": "Has Nursery Classes",
+			"officialSixthForm": {
+				"name": "Does not have a sixth form",
+				"code": "2"
+			},
+			"gender": {
+				"name": "Mixed",
+				"code": "3"
+			},
+			"religiousCharacter": {
+				"name": "Does not apply",
+				"code": "00"
+			},
+			"religiousEthos": "Does not apply",
+			"diocese": {
+				"name": "Not applicable",
+				"code": "0000"
+			},
+			"admissionsPolicy": {
+				"name": "Not applicable",
+				"code": "0"
+			},
+			"schoolCapacity": "315",
+			"specialClasses": {
+				"name": "No Special Classes",
+				"code": "2"
+			},
+			"census": {
+				"censusDate": "20-01-2022",
+				"numberOfPupils": "642",
+				"numberOfBoys": "311",
+				"numberOfGirls": "331",
+				"percentageSen": null,
+				"percentageFsm": "61.40",
+				"percentageEnglishNotFirstLanguage": null,
+				"perceantageEnglishFirstLanguage": null,
+				"percentageFirstLanguageUnclassified": null,
+				"numberEligableForFSM": null,
+				"numberEligableForFSM6Years": null,
+				"percentageEligableForFSM6Years": null
+			},
+			"trustSchoolFlag": {
+				"name": "Supported by a multi-academy trust",
+				"code": "3"
+			},
+			"trusts": {
+				"name": "WISE OWL TRUST",
+				"code": "5372"
+			},
+			"schoolSponsorFlag": "Linked to a sponsor",
+			"schoolSponsors": "Wise Owl Trust",
+			"federationFlag": "Not applicable",
+			"federations": {
+				"name": null,
+				"code": null
+			},
+			"ukprn": "10037732",
+			"feheiIdentifier": null,
+			"furtherEducationType": "Not applicable",
+			"ofstedLastInspection": "13-09-2018",
+			"ofstedSpecialMeasures": {
+				"name": "Not applicable",
+				"code": "0"
+			},
+			"lastChangedDate": "06-12-2022",
+			"address": {
+				"street": "Briscoe Lane",
+				"locality": "Newton Heath",
+				"additionalLine": null,
+				"town": "Manchester",
+				"county": "Greater Manchester",
+				"postcode": "M40 2TB"
+			},
+			"schoolWebsite": "www.briscoe.manchester.sch.uk",
+			"telephoneNumber": "01616811783",
+			"headteacherTitle": "Mrs",
+			"headteacherFirstName": "Claire",
+			"headteacherLastName": "Hall",
+			"headteacherPreferredJobTitle": "Principal",
+			"inspectorateName": null,
+			"inspectorateReport": null,
+			"dateOfLastInspectionVisit": null,
+			"dateOfNextInspectionVisit": null,
+			"teenMoth": "Not applicable",
+			"teenMothPlaces": null,
+			"ccf": "Not applicable",
+			"senpru": "Not applicable",
+			"ebd": "Not applicable",
+			"placesPRU": null,
+			"ftProv": null,
+			"edByOther": "Not applicable",
+			"section14Approved": "Not applicable",
+			"seN1": null,
+			"seN2": null,
+			"seN3": null,
+			"seN4": null,
+			"seN5": null,
+			"seN6": null,
+			"seN7": null,
+			"seN8": null,
+			"seN9": null,
+			"seN10": null,
+			"seN11": null,
+			"seN12": null,
+			"seN13": null,
+			"typeOfResourcedProvision": null,
+			"resourcedProvisionOnRoll": null,
+			"resourcedProvisionOnCapacity": null,
+			"senUnitOnRoll": null,
+			"senUnitCapacity": null,
+			"gor": {
+				"name": "North West",
+				"code": "B"
+			},
+			"districtAdministrative": {
+				"name": "Manchester",
+				"code": "E08000003"
+			},
+			"administractiveWard": {
+				"name": "Miles Platting & Newton Heath",
+				"code": "E05011371"
+			},
+			"parliamentaryConstituency": {
+				"name": "Manchester Central",
+				"code": "E14000807"
+			},
+			"urbanRural": {
+				"name": "(England/Wales) Urban major conurbation",
+				"code": "A1"
+			},
+			"gsslaCode": "E08000003",
+			"easting": "387767",
+			"northing": "400142",
+			"censusAreaStatisticWard": null,
+			"msoa": {
+				"name": "Manchester 012",
+				"code": "E02001056"
+			},
+			"lsoa": {
+				"name": "Manchester 012E",
+				"code": "E01005261"
+			},
+			"senStat": null,
+			"senNoStat": null,
+			"boardingEstablishment": null,
+			"propsName": null,
+			"previousLocalAuthority": {
+				"name": null,
+				"code": "999"
+			},
+			"previousEstablishmentNumber": null,
+			"ofstedRating": "Good",
+			"rscRegion": "Lancashire and West Yorkshire",
+			"country": null,
+			"uprn": "10023050148",
+			"misEstablishment": {
+				"siteName": null,
+				"webLink": "http://www.ofsted.gov.uk/inspection-reports/find-inspection-report/provider/ELS/138653",
+				"laestab": "3522040",
+				"schoolName": "Briscoe Lane Academy",
+				"ofstedPhase": "Primary",
+				"typeOfEducation": "Academy Converter",
+				"schoolOpenDate": "01/09/2012",
+				"sixthForm": "Does not have a sixth form",
+				"designatedReligiousCharacter": "Does not apply",
+				"religiousEthos": "Does not apply",
+				"faithGrouping": "Non-faith",
+				"ofstedRegion": "North West",
+				"region": "North West",
+				"localAuthority": "Manchester",
+				"parliamentaryConstituency": "Manchester Central",
+				"postcode": "M40 2TB",
+				"incomeDeprivationAffectingChildrenIndexQuintile": "5",
+				"totalNumberOfPupils": "642",
+				"latestSection8InspectionNumberSinceLastFullInspection": "10045963",
+				"section8InspectionRelatedToCurrentSchoolUrn": "Yes",
+				"urnAtTimeOfSection8Inspection": "138653",
+				"schoolNameAtTimeOfSection8Inspection": "Briscoe Lane Academy",
+				"schoolTypeAtTimeOfSection8Inspection": "Academy Converter",
+				"numberOfSection8InspectionsSinceLastFullInspection": "1",
+				"dateOfLatestSection8Inspection": "13/09/2018",
+				"section8InspectionPublicationDate": "04/10/2018",
+				"latestSection8InspectionConvertedToFullInspection": "No",
+				"section8InspectionOverallOutcome": "School remains Good",
+				"inspectionNumberOfLatestFullInspection": "ITS448881",
+				"inspectionType": "S5 Inspection",
+				"inspectionTypeGrouping": "S5 Inspection",
+				"inspectionStartDate": "16/09/2014",
+				"inspectionEndDate": "17/09/2014",
+				"publicationDate": "08/10/2014",
+				"latestFullInspectionRelatesToCurrentSchoolUrn": "Yes",
+				"schoolUrnAtTimeOfLastFullInspection": "138653",
+				"laestabAtTimeOfLastFullInspection": "3522040",
+				"schoolNameAtTimeOfLastFullInspection": "Briscoe Lane Academy",
+				"schoolTypeAtTimeOfLastFullInspection": "Academy Converter",
+				"overallEffectiveness": "2",
+				"categoryOfConcern": "",
+				"qualityOfEducation": "9",
+				"behaviourAndAttitudes": "9",
+				"personalDevelopment": "9",
+				"effectivenessOfLeadershipAndManagement": "2",
+				"safeguardingIsEffective": "9",
+				"earlyYearsProvision": "2",
+				"sixthFormProvision": "9",
+				"previousFullInspectionNumber": "ITS336488",
+				"previousInspectionStartDate": "28/01/2010",
+				"previousInspectionEndDate": "29/01/2010",
+				"previousPublicationDate": "26/02/2010",
+				"previousFullInspectionRelatesToUrnOfCurrentSchool": "No",
+				"urnAtTheTimeOfPreviousFullInspection": "105398",
+				"laestabAtTheTimeOfPreviousFullInspection": "3522040",
+				"schoolNameAtTheTimeOfPreviousFullInspection": "Briscoe Lane Primary School",
+				"schoolTypeAtTheTimeOfPreviousFullInspection": "Community School",
+				"previousFullInspectionOverallEffectiveness": "2",
+				"previousCategoryOfConcern": "",
+				"previousQualityOfEducation": "9",
+				"previousBehaviourAndAttitudes": "9",
+				"previousPersonalDevelopment": "9",
+				"previousEffectivenessOfLeadershipAndManagement": "1",
+				"previousIsSafeguardingEffective": "9",
+				"previousEarlyYearsProvision": "2",
+				"previousSixthFormProvision": "9"
+			},
+			"misFurtherEducationEstablishment": null,
+			"viewAcademyConversion": {
+				"viabilityIssue": null,
+				"pfi": "No",
+				"pan": null,
+				"deficit": null
+			},
+			"smartData": {
+				"probabilityOfDeclining": "0",
+				"probabilityOfStayingTheSame": "1",
+				"probabilityOfImproving": "0",
+				"predictedChangeInProgress8Score": "0",
+				"predictedChanceOfChangeOccurring": "0",
+				"totalNumberOfRisks": "9",
+				"totalRiskScore": "4.0",
+				"riskRatingNum": "13"
+			},
+			"financial": null,
+			"concerns": null
+		},
+		{
+			"urn": "139078",
+			"localAuthorityCode": "352",
+			"localAuthorityName": "Manchester",
+			"establishmentNumber": "2018",
+			"establishmentName": "Seymour Road Academy",
+			"establishmentType": {
+				"name": "Academy sponsor led",
+				"code": "28"
+			},
+			"establishmentTypeGroup": {
+				"name": "Academies",
+				"code": "10"
+			},
+			"establishmentStatus": {
+				"name": "Open",
+				"code": "1"
+			},
+			"reasonEstablishmentOpened": {
+				"name": "New Provision",
+				"code": "06"
+			},
+			"openDate": "01-02-2013",
+			"reasonEstablishmentClosed": {
+				"name": null,
+				"code": "99"
+			},
+			"closeDate": null,
+			"phaseOfEducation": {
+				"name": "Primary",
+				"code": "2"
+			},
+			"statutoryLowAge": "3",
+			"statutoryHighAge": "11",
+			"boarders": {
+				"name": "No boarders",
+				"code": "1"
+			},
+			"nurseryProvision": "Has Nursery Classes",
+			"officialSixthForm": {
+				"name": "Does not have a sixth form",
+				"code": "2"
+			},
+			"gender": {
+				"name": "Mixed",
+				"code": "3"
+			},
+			"religiousCharacter": {
+				"name": "Does not apply",
+				"code": "00"
+			},
+			"religiousEthos": "None",
+			"diocese": {
+				"name": "Not applicable",
+				"code": "0000"
+			},
+			"admissionsPolicy": {
+				"name": "Not applicable",
+				"code": "0"
+			},
+			"schoolCapacity": "420",
+			"specialClasses": {
+				"name": "Not applicable",
+				"code": "0"
+			},
+			"census": {
+				"censusDate": "20-01-2022",
+				"numberOfPupils": "451",
+				"numberOfBoys": "246",
+				"numberOfGirls": "205",
+				"percentageSen": null,
+				"percentageFsm": "56.50",
+				"percentageEnglishNotFirstLanguage": null,
+				"perceantageEnglishFirstLanguage": null,
+				"percentageFirstLanguageUnclassified": null,
+				"numberEligableForFSM": null,
+				"numberEligableForFSM6Years": null,
+				"percentageEligableForFSM6Years": null
+			},
+			"trustSchoolFlag": {
+				"name": "Supported by a multi-academy trust",
+				"code": "3"
+			},
+			"trusts": {
+				"name": "WISE OWL TRUST",
+				"code": "5372"
+			},
+			"schoolSponsorFlag": "Linked to a sponsor",
+			"schoolSponsors": "Wise Owl Trust",
+			"federationFlag": "Not applicable",
+			"federations": {
+				"name": null,
+				"code": null
+			},
+			"ukprn": "10039909",
+			"feheiIdentifier": null,
+			"furtherEducationType": "Not applicable",
+			"ofstedLastInspection": "12-03-2019",
+			"ofstedSpecialMeasures": {
+				"name": "Not applicable",
+				"code": "0"
+			},
+			"lastChangedDate": "24-01-2023",
+			"address": {
+				"street": "Seymour Road South",
+				"locality": null,
+				"additionalLine": null,
+				"town": "Manchester",
+				"county": null,
+				"postcode": "M11 4PR"
+			},
+			"schoolWebsite": "www.seymourroad.manchester.sch.uk/",
+			"telephoneNumber": "01613702616",
+			"headteacherTitle": "Miss",
+			"headteacherFirstName": "Debbie",
+			"headteacherLastName": "Frater",
+			"headteacherPreferredJobTitle": "Acting Principal",
+			"inspectorateName": null,
+			"inspectorateReport": null,
+			"dateOfLastInspectionVisit": null,
+			"dateOfNextInspectionVisit": null,
+			"teenMoth": "Not applicable",
+			"teenMothPlaces": null,
+			"ccf": null,
+			"senpru": "Not applicable",
+			"ebd": "Not applicable",
+			"placesPRU": null,
+			"ftProv": null,
+			"edByOther": null,
+			"section14Approved": "Not applicable",
+			"seN1": null,
+			"seN2": null,
+			"seN3": null,
+			"seN4": null,
+			"seN5": null,
+			"seN6": null,
+			"seN7": null,
+			"seN8": null,
+			"seN9": null,
+			"seN10": null,
+			"seN11": null,
+			"seN12": null,
+			"seN13": null,
+			"typeOfResourcedProvision": null,
+			"resourcedProvisionOnRoll": null,
+			"resourcedProvisionOnCapacity": null,
+			"senUnitOnRoll": null,
+			"senUnitCapacity": null,
+			"gor": {
+				"name": "North West",
+				"code": "B"
+			},
+			"districtAdministrative": {
+				"name": "Manchester",
+				"code": "E08000003"
+			},
+			"administractiveWard": {
+				"name": "Clayton & Openshaw",
+				"code": "E05011359"
+			},
+			"parliamentaryConstituency": {
+				"name": "Manchester Central",
+				"code": "E14000807"
+			},
+			"urbanRural": {
+				"name": "(England/Wales) Urban major conurbation",
+				"code": "A1"
+			},
+			"gsslaCode": "E08000003",
+			"easting": "388723",
+			"northing": "398481",
+			"censusAreaStatisticWard": null,
+			"msoa": {
+				"name": "Manchester 012",
+				"code": "E02001056"
+			},
+			"lsoa": {
+				"name": "Manchester 012B",
+				"code": "E01005094"
+			},
+			"senStat": null,
+			"senNoStat": null,
+			"boardingEstablishment": null,
+			"propsName": null,
+			"previousLocalAuthority": {
+				"name": null,
+				"code": "999"
+			},
+			"previousEstablishmentNumber": null,
+			"ofstedRating": "Good",
+			"rscRegion": "Lancashire and West Yorkshire",
+			"country": null,
+			"uprn": "77181192",
+			"misEstablishment": {
+				"siteName": null,
+				"webLink": "http://www.ofsted.gov.uk/inspection-reports/find-inspection-report/provider/ELS/139078",
+				"laestab": "3522018",
+				"schoolName": "Seymour Road Academy",
+				"ofstedPhase": "Primary",
+				"typeOfEducation": "Academy Sponsor Led",
+				"schoolOpenDate": "01/02/2013",
+				"sixthForm": "Does not have a sixth form",
+				"designatedReligiousCharacter": "Does not apply",
+				"religiousEthos": "None",
+				"faithGrouping": "Non-faith",
+				"ofstedRegion": "North West",
+				"region": "North West",
+				"localAuthority": "Manchester",
+				"parliamentaryConstituency": "Manchester Central",
+				"postcode": "M11 4PR",
+				"incomeDeprivationAffectingChildrenIndexQuintile": "5",
+				"totalNumberOfPupils": "451",
+				"latestSection8InspectionNumberSinceLastFullInspection": "10046018",
+				"section8InspectionRelatedToCurrentSchoolUrn": "Yes",
+				"urnAtTimeOfSection8Inspection": "139078",
+				"schoolNameAtTimeOfSection8Inspection": "Seymour Road Academy",
+				"schoolTypeAtTimeOfSection8Inspection": "Academy Sponsor Led",
+				"numberOfSection8InspectionsSinceLastFullInspection": "1",
+				"dateOfLatestSection8Inspection": "12/03/2019",
+				"section8InspectionPublicationDate": "31/03/2019",
+				"latestSection8InspectionConvertedToFullInspection": "No",
+				"section8InspectionOverallOutcome": "School remains Good",
+				"inspectionNumberOfLatestFullInspection": "ITS447849",
+				"inspectionType": "Academy First Section 5",
+				"inspectionTypeGrouping": "Academy First Section 5",
+				"inspectionStartDate": "15/10/2014",
+				"inspectionEndDate": "16/10/2014",
+				"publicationDate": "10/11/2014",
+				"latestFullInspectionRelatesToCurrentSchoolUrn": "Yes",
+				"schoolUrnAtTimeOfLastFullInspection": "139078",
+				"laestabAtTimeOfLastFullInspection": "3522018",
+				"schoolNameAtTimeOfLastFullInspection": "Seymour Road Academy",
+				"schoolTypeAtTimeOfLastFullInspection": "Academy Sponsor Led",
+				"overallEffectiveness": "2",
+				"categoryOfConcern": "",
+				"qualityOfEducation": "9",
+				"behaviourAndAttitudes": "9",
+				"personalDevelopment": "9",
+				"effectivenessOfLeadershipAndManagement": "2",
+				"safeguardingIsEffective": "9",
+				"earlyYearsProvision": "1",
+				"sixthFormProvision": "9",
+				"previousFullInspectionNumber": "ITS381340",
+				"previousInspectionStartDate": "18/01/2012",
+				"previousInspectionEndDate": "19/01/2012",
+				"previousPublicationDate": "29/02/2012",
+				"previousFullInspectionRelatesToUrnOfCurrentSchool": "No",
+				"urnAtTheTimeOfPreviousFullInspection": "131423",
+				"laestabAtTheTimeOfPreviousFullInspection": "3522333",
+				"schoolNameAtTheTimeOfPreviousFullInspection": "Seymour Road Primary School",
+				"schoolTypeAtTheTimeOfPreviousFullInspection": "Community School",
+				"previousFullInspectionOverallEffectiveness": "4",
+				"previousCategoryOfConcern": "SM",
+				"previousQualityOfEducation": "9",
+				"previousBehaviourAndAttitudes": "9",
+				"previousPersonalDevelopment": "9",
+				"previousEffectivenessOfLeadershipAndManagement": "4",
+				"previousIsSafeguardingEffective": "9",
+				"previousEarlyYearsProvision": "8",
+				"previousSixthFormProvision": "9"
+			},
+			"misFurtherEducationEstablishment": null,
+			"viewAcademyConversion": {
+				"viabilityIssue": null,
+				"pfi": "No",
+				"pan": null,
+				"deficit": null
+			},
+			"smartData": {
+				"probabilityOfDeclining": "0",
+				"probabilityOfStayingTheSame": "1",
+				"probabilityOfImproving": "0",
+				"predictedChangeInProgress8Score": "0",
+				"predictedChanceOfChangeOccurring": "0",
+				"totalNumberOfRisks": "9",
+				"totalRiskScore": "4.0",
+				"riskRatingNum": "13"
+			},
+			"financial": null,
+			"concerns": null
+		},
+		{
+			"urn": "142501",
+			"localAuthorityCode": "352",
+			"localAuthorityName": "Manchester",
+			"establishmentNumber": "2329",
+			"establishmentName": "Old Hall Drive Academy",
+			"establishmentType": {
+				"name": "Academy converter",
+				"code": "34"
+			},
+			"establishmentTypeGroup": {
+				"name": "Academies",
+				"code": "10"
+			},
+			"establishmentStatus": {
+				"name": "Open",
+				"code": "1"
+			},
+			"reasonEstablishmentOpened": {
+				"name": "Academy Converter",
+				"code": "10"
+			},
+			"openDate": "01-02-2016",
+			"reasonEstablishmentClosed": {
+				"name": null,
+				"code": "99"
+			},
+			"closeDate": null,
+			"phaseOfEducation": {
+				"name": "Primary",
+				"code": "2"
+			},
+			"statutoryLowAge": "3",
+			"statutoryHighAge": "11",
+			"boarders": {
+				"name": "No boarders",
+				"code": "1"
+			},
+			"nurseryProvision": "Has Nursery Classes",
+			"officialSixthForm": {
+				"name": "Does not have a sixth form",
+				"code": "2"
+			},
+			"gender": {
+				"name": "Mixed",
+				"code": "3"
+			},
+			"religiousCharacter": {
+				"name": "Does not apply",
+				"code": "00"
+			},
+			"religiousEthos": "Does not apply",
+			"diocese": {
+				"name": "Not applicable",
+				"code": "0000"
+			},
+			"admissionsPolicy": {
+				"name": "Not applicable",
+				"code": "0"
+			},
+			"schoolCapacity": "480",
+			"specialClasses": {
+				"name": "Not applicable",
+				"code": "0"
+			},
+			"census": {
+				"censusDate": "20-01-2022",
+				"numberOfPupils": "471",
+				"numberOfBoys": "243",
+				"numberOfGirls": "228",
+				"percentageSen": null,
+				"percentageFsm": "54.10",
+				"percentageEnglishNotFirstLanguage": null,
+				"perceantageEnglishFirstLanguage": null,
+				"percentageFirstLanguageUnclassified": null,
+				"numberEligableForFSM": null,
+				"numberEligableForFSM6Years": null,
+				"percentageEligableForFSM6Years": null
+			},
+			"trustSchoolFlag": {
+				"name": "Supported by a multi-academy trust",
+				"code": "3"
+			},
+			"trusts": {
+				"name": "WISE OWL TRUST",
+				"code": "5372"
+			},
+			"schoolSponsorFlag": "Linked to a sponsor",
+			"schoolSponsors": "Wise Owl Trust",
+			"federationFlag": "Not applicable",
+			"federations": {
+				"name": null,
+				"code": null
+			},
+			"ukprn": "10054997",
+			"feheiIdentifier": null,
+			"furtherEducationType": "Not applicable",
+			"ofstedLastInspection": "23-01-2019",
+			"ofstedSpecialMeasures": {
+				"name": "Not applicable",
+				"code": "0"
+			},
+			"lastChangedDate": "14-01-2023",
+			"address": {
+				"street": "Old Hall Drive",
+				"locality": "Gorton",
+				"additionalLine": null,
+				"town": "Manchester",
+				"county": "Greater Manchester",
+				"postcode": "M18 7FU"
+			},
+			"schoolWebsite": "www.oldhalldrive.co.uk",
+			"telephoneNumber": "01612232805",
+			"headteacherTitle": null,
+			"headteacherFirstName": "Hayley",
+			"headteacherLastName": "Brooker",
+			"headteacherPreferredJobTitle": "Headteacher",
+			"inspectorateName": null,
+			"inspectorateReport": null,
+			"dateOfLastInspectionVisit": null,
+			"dateOfNextInspectionVisit": null,
+			"teenMoth": "Not applicable",
+			"teenMothPlaces": null,
+			"ccf": "Not applicable",
+			"senpru": "Not applicable",
+			"ebd": "Not applicable",
+			"placesPRU": null,
+			"ftProv": null,
+			"edByOther": "Not applicable",
+			"section14Approved": "Not applicable",
+			"seN1": null,
+			"seN2": null,
+			"seN3": null,
+			"seN4": null,
+			"seN5": null,
+			"seN6": null,
+			"seN7": null,
+			"seN8": null,
+			"seN9": null,
+			"seN10": null,
+			"seN11": null,
+			"seN12": null,
+			"seN13": null,
+			"typeOfResourcedProvision": null,
+			"resourcedProvisionOnRoll": null,
+			"resourcedProvisionOnCapacity": null,
+			"senUnitOnRoll": null,
+			"senUnitCapacity": null,
+			"gor": {
+				"name": "North West",
+				"code": "B"
+			},
+			"districtAdministrative": {
+				"name": "Manchester",
+				"code": "E08000003"
+			},
+			"administractiveWard": {
+				"name": "Gorton & Abbey Hey",
+				"code": "E05011365"
+			},
+			"parliamentaryConstituency": {
+				"name": "Manchester, Gorton",
+				"code": "E14000808"
+			},
+			"urbanRural": {
+				"name": "(England/Wales) Urban major conurbation",
+				"code": "A1"
+			},
+			"gsslaCode": "E08000003",
+			"easting": "388796",
+			"northing": "395645",
+			"censusAreaStatisticWard": null,
+			"msoa": {
+				"name": "Manchester 023",
+				"code": "E02001067"
+			},
+			"lsoa": {
+				"name": "Manchester 023C",
+				"code": "E01005197"
+			},
+			"senStat": null,
+			"senNoStat": null,
+			"boardingEstablishment": null,
+			"propsName": null,
+			"previousLocalAuthority": {
+				"name": null,
+				"code": "999"
+			},
+			"previousEstablishmentNumber": null,
+			"ofstedRating": "Good",
+			"rscRegion": "Lancashire and West Yorkshire",
+			"country": null,
+			"uprn": "10023048058",
+			"misEstablishment": {
+				"siteName": null,
+				"webLink": "http://www.ofsted.gov.uk/inspection-reports/find-inspection-report/provider/ELS/142501",
+				"laestab": "3522329",
+				"schoolName": "Old Hall Drive Academy",
+				"ofstedPhase": "Primary",
+				"typeOfEducation": "Academy Converter",
+				"schoolOpenDate": "01/02/2016",
+				"sixthForm": "Does not have a sixth form",
+				"designatedReligiousCharacter": "Does not apply",
+				"religiousEthos": "Does not apply",
+				"faithGrouping": "Non-faith",
+				"ofstedRegion": "North West",
+				"region": "North West",
+				"localAuthority": "Manchester",
+				"parliamentaryConstituency": "Manchester, Gorton",
+				"postcode": "M18 7FU",
+				"incomeDeprivationAffectingChildrenIndexQuintile": "5",
+				"totalNumberOfPupils": "471",
+				"latestSection8InspectionNumberSinceLastFullInspection": null,
+				"section8InspectionRelatedToCurrentSchoolUrn": null,
+				"urnAtTimeOfSection8Inspection": "",
+				"schoolNameAtTimeOfSection8Inspection": null,
+				"schoolTypeAtTimeOfSection8Inspection": null,
+				"numberOfSection8InspectionsSinceLastFullInspection": "",
+				"dateOfLatestSection8Inspection": null,
+				"section8InspectionPublicationDate": null,
+				"latestSection8InspectionConvertedToFullInspection": "",
+				"section8InspectionOverallOutcome": null,
+				"inspectionNumberOfLatestFullInspection": "10057888",
+				"inspectionType": "S5 Inspection",
+				"inspectionTypeGrouping": "S5 Inspection",
+				"inspectionStartDate": "22/01/2019",
+				"inspectionEndDate": "23/01/2019",
+				"publicationDate": "12/02/2019",
+				"latestFullInspectionRelatesToCurrentSchoolUrn": "Yes",
+				"schoolUrnAtTimeOfLastFullInspection": "142501",
+				"laestabAtTimeOfLastFullInspection": "3522329",
+				"schoolNameAtTimeOfLastFullInspection": "Old Hall Drive Academy",
+				"schoolTypeAtTimeOfLastFullInspection": "Academy Converter",
+				"overallEffectiveness": "2",
+				"categoryOfConcern": "",
+				"qualityOfEducation": "9",
+				"behaviourAndAttitudes": "9",
+				"personalDevelopment": "9",
+				"effectivenessOfLeadershipAndManagement": "2",
+				"safeguardingIsEffective": "Yes",
+				"earlyYearsProvision": "2",
+				"sixthFormProvision": "9",
+				"previousFullInspectionNumber": "ITS442407",
+				"previousInspectionStartDate": "18/06/2014",
+				"previousInspectionEndDate": "19/06/2014",
+				"previousPublicationDate": "10/07/2014",
+				"previousFullInspectionRelatesToUrnOfCurrentSchool": "No",
+				"urnAtTheTimeOfPreviousFullInspection": "130394",
+				"laestabAtTheTimeOfPreviousFullInspection": "3522329",
+				"schoolNameAtTheTimeOfPreviousFullInspection": "Old Hall Drive Primary School",
+				"schoolTypeAtTheTimeOfPreviousFullInspection": "Community School",
+				"previousFullInspectionOverallEffectiveness": "3",
+				"previousCategoryOfConcern": "",
+				"previousQualityOfEducation": "9",
+				"previousBehaviourAndAttitudes": "9",
+				"previousPersonalDevelopment": "9",
+				"previousEffectivenessOfLeadershipAndManagement": "3",
+				"previousIsSafeguardingEffective": "9",
+				"previousEarlyYearsProvision": "9",
+				"previousSixthFormProvision": "9"
+			},
+			"misFurtherEducationEstablishment": null,
+			"viewAcademyConversion": {
+				"viabilityIssue": null,
+				"pfi": "No",
+				"pan": null,
+				"deficit": null
+			},
+			"smartData": {
+				"probabilityOfDeclining": "0",
+				"probabilityOfStayingTheSame": "1",
+				"probabilityOfImproving": "0",
+				"predictedChangeInProgress8Score": "0",
+				"predictedChanceOfChangeOccurring": "0",
+				"totalNumberOfRisks": "9",
+				"totalRiskScore": "4.0",
+				"riskRatingNum": "13"
+			},
+			"financial": null,
+			"concerns": null
+		}
+	]
+}

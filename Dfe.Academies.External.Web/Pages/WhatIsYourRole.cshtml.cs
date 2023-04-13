@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -11,11 +12,13 @@ namespace Dfe.Academies.External.Web.Pages;
 public class WhatIsYourRoleModel : BasePageModel
 {
 	private readonly IConversionApplicationCreationService _academisationCreationService;
+	private readonly ILogger<WhatIsYourRoleModel> logger;
 	private const string NextStepPage = "/ApplicationOverview";
 
-	public WhatIsYourRoleModel(IConversionApplicationCreationService academisationCreationService)
+	public WhatIsYourRoleModel(IConversionApplicationCreationService academisationCreationService, ILogger<WhatIsYourRoleModel> logger)
 	{
 		_academisationCreationService = academisationCreationService;
+		this.logger = logger;
 	}
 
 	[BindProperty]
@@ -45,10 +48,10 @@ public class WhatIsYourRoleModel : BasePageModel
 	{
 		ApplicationTypes = Enum.Parse<ApplicationTypes>(type.ToString());
 		//// on load - grab draft application from temp
-		var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+		var draftConversionApplication = TempDataHelper.GetSerialisedValueAndLog<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData, this.logger) ?? new ConversionApplication();
 
 		//// MR:- Need to drop into THIS pages cache here ready for post / server callback !
-		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+		TempDataHelper.StoreSerialisedValueAndLog(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication, this.logger);
 
 	}
 
@@ -68,7 +71,9 @@ public class WhatIsYourRoleModel : BasePageModel
 		}
 
 		//// grab draft application from temp= null
-		var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+		var draftConversionApplication = TempDataHelper.GetSerialisedValueAndLog<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData, logger) ?? new ConversionApplication();
+
+		this.logger.LogInformation($"application type of draft application: {draftConversionApplication.ApplicationType.ToString()}");
 
 		var firstName = User.FindFirst(ClaimTypes.GivenName)?.Value ?? "";
 		var lastName = User.FindFirst(ClaimTypes.Surname)?.Value ?? "";
@@ -79,7 +84,7 @@ public class WhatIsYourRoleModel : BasePageModel
 		draftConversionApplication = await _academisationCreationService.CreateNewApplication(draftConversionApplication);
 
 		// update temp store for next step - application overview i.e. ConversionApplication.ApplicationId
-		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
+		TempDataHelper.StoreSerialisedValueAndLog(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication, logger);
 
 		return RedirectToPage(NextStepPage, new { appId = draftConversionApplication.ApplicationId });
 	}

@@ -1,15 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
-using Dfe.Academies.External.Web.ViewModels;
+using Dfe.Academies.External.Web.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class LoanDetails : BasePageEditModel
 	{
+		private readonly IConversionApplicationCreationService academisationCreationService;
+
 		[BindProperty]
-		public int  Id { get; set; }
+		public int Id { get; set; }
 		[BindProperty]
 		public int ApplicationId { get; set; }
 
@@ -31,19 +33,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
 		public string RepaymentSchedule { get; set; }
-		
+
 		[BindProperty]
 		public bool IsEdit { get; set; }
-		
-		[BindProperty]
-		public bool IsDraft { get; set; }
 
-		public LoanDetails(IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService) 
+
+		public LoanDetails(IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService academisationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
+			this.academisationCreationService = academisationCreationService;
 		}
 
-		public async Task<IActionResult> OnGet(int appId, int urn, int id, bool isEdit, bool isDraft)
+		public async Task<IActionResult> OnGet(int appId, int urn, int id, bool isEdit)
 		{
 			LoadAndStoreCachedConversionApplication();
 
@@ -59,23 +60,21 @@ namespace Dfe.Academies.External.Web.Pages.School
 			Urn = urn;
 			IsEdit = isEdit;
 			Id = id;
-			IsDraft = isDraft;
-			
+
 			//If clicked changed answers then load the loan from tempdata and populate the fields
 			if (IsEdit)
 			{
-				var loanModels = TempDataLoadBySchool<List<LoanViewModel>>(Urn);
-				
-				var selectedLoan = loanModels?.FirstOrDefault(loan => loan.IsDraft == IsDraft && Id == loan.Id);
-				
+				var selectedSchool = await LoadAndSetSchoolDetails(appId, urn);
+				var selectedLoan = selectedSchool?.Loans?.FirstOrDefault(loan => Id == loan.LoanId);
+
 				if (selectedLoan != null)
 				{
-					Id = selectedLoan.Id;
-					TotalAmount = selectedLoan.TotalAmount;
+					Id = selectedLoan.LoanId;
+					TotalAmount = selectedLoan.Amount;
 					Purpose = selectedLoan.Purpose;
 					Provider = selectedLoan.Provider;
 					InterestRate = selectedLoan.InterestRate;
-					RepaymentSchedule = selectedLoan.RepaymentSchedule;
+					RepaymentSchedule = selectedLoan.Schedule;
 				}
 			}
 
@@ -89,44 +88,27 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return Page();
 			}
 
-			var selectedLoan = new LoanViewModel
-			{
-				Id = Id,
-				IsDraft = IsDraft,
-				TotalAmount = TotalAmount,
-				InterestRate = InterestRate,
-				Provider = Provider,
-				Purpose = Purpose,
-				RepaymentSchedule = RepaymentSchedule
-			};
-			
-			var loanViewModels = TempDataLoadBySchool<List<LoanViewModel>>(Urn) ?? new List<LoanViewModel>();
-			
+			var selectedSchool = await LoadAndSetSchoolDetails(ApplicationId, Urn);
+
+			var loan = new SchoolLoan(
+				Id,
+				TotalAmount,
+				Purpose,
+				Provider,
+				InterestRate,
+				RepaymentSchedule);
+
 			//If we're editing the loan then overwrite the correct loan in the list of loans with the current binded values
 			if (IsEdit)
 			{
-				var loanViewModel = loanViewModels.FirstOrDefault(loan => IsDraft == loan.IsDraft && Id == loan.Id);
-				
-				if (loanViewModel != null)
-				{
-					loanViewModel.Id = Id;
-					loanViewModel.IsDraft = IsDraft;
-					loanViewModel.TotalAmount = TotalAmount;
-					loanViewModel.InterestRate = InterestRate;
-					loanViewModel.Provider = Provider;
-					loanViewModel.Purpose = Purpose;
-					loanViewModel.RepaymentSchedule = RepaymentSchedule;
-				}
+				await this.academisationCreationService.UpdateLoan(ApplicationId, selectedSchool.id, loan);
 			}
 			else
 			{
-				//Otherwise it's a new loan, so add it to the list of loans
-				selectedLoan.IsDraft = true;
-				selectedLoan.Id = loanViewModels.Count;
-				loanViewModels.Add(selectedLoan);
+				await this.academisationCreationService.CreateLoan(ApplicationId, selectedSchool.id, loan);
 			}
-			TempDataSetBySchool<List<LoanViewModel>>(Urn, loanViewModels);
-			return RedirectToPage( "Loans" ,new {urn = Urn, appId = ApplicationId});
+
+			return RedirectToPage("Loans", new { urn = Urn, appId = ApplicationId });
 		}
 
 		///<inheritdoc/>

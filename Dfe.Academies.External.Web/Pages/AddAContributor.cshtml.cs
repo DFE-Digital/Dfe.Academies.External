@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Dynamic;
 using System.Security.Claims;
 using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -119,10 +121,14 @@ namespace Dfe.Academies.External.Web.Pages
 			string firstName = User.FindFirst(ClaimTypes.GivenName)?.Value ?? "";
 			string lastName = User.FindFirst(ClaimTypes.Surname)?.Value ?? "";
 			string invitingUserName = $"{firstName} {lastName}";
-
+			var schoolName = ApplicationSchoolName(draftConversionApplication);
+			var emailVariables = new EmailVariablesDto
+			{
+				ContributorName = Name!, InvitingUsername = invitingUserName, SchoolName = schoolName
+			};
+			
 			await _contributorEmailSenderService.SendInvitationToContributor(draftConversionApplication.ApplicationType, ContributorRole,
-				Name!, EmailAddress!, ApplicationSchoolName(draftConversionApplication),
-				invitingUserName);
+				EmailAddress!, emailVariables);
 
 			// update temp store for next step
 			draftConversionApplication.Contributors.Add(contributor);
@@ -189,42 +195,42 @@ namespace Dfe.Academies.External.Web.Pages
 		
 		private void PopulateUiModel(ConversionApplication? application)
 		{
-			if (application != null)
-			{
-				// convert application?.Contributors -> list<ConversionApplicationContributorViewModel>
-				if (application.Contributors.Any())
-				{
-					var contributors = application.Contributors
-						.Select(e => new ConversionApplicationContributorViewModel(e.ContributorId,
-																									application.ApplicationId,
-																									e.FullName, 
-																									e.Role, 
-																									e.OtherRoleName,
-																									e.EmailAddress))
-						.ToList();
-
-					ExistingContributors = contributors;
-
-					// MR:- setup roles collection i.e. if we already have a 'ChairOfGovernors' within the contributors collection
-					// remove from UI so can't have 2 because that would break business rules
-					var roles = Enum.GetValues(typeof(SchoolRoles)).OfType<SchoolRoles>();
-
-					bool hasChair = application.Contributors.Any(x => x.Role == SchoolRoles.ChairOfGovernors);
-
-					if (hasChair)
-					{
-						RolesToDisplay = roles.Where(x=> x != SchoolRoles.ChairOfGovernors);
-						ContributorRole = SchoolRoles.Other;
-						HideRadios = true;
-					}
-					else
-					{
-						RolesToDisplay = roles;
-						HideRadios = false;
-					}
-				}
-			}
+			if (application == null)
+				return;
 			
+			if (!application.Contributors.Any())
+				return;
+			
+
+			var contributors = application.Contributors
+				.Select(e => new ConversionApplicationContributorViewModel(e.ContributorId,
+					application.ApplicationId,
+					e.FullName, 
+					e.Role, 
+					e.OtherRoleName,
+					e.EmailAddress))
+				.ToList();
+
+			ExistingContributors = contributors;
+
+			// MR:- setup roles collection i.e. if we already have a 'ChairOfGovernors' within the contributors collection
+			// remove from UI so can't have 2 because that would break business rules
+			var roles = Enum.GetValues(typeof(SchoolRoles)).OfType<SchoolRoles>();
+
+			bool hasChair = application.Contributors.Any(x => x.Role == SchoolRoles.ChairOfGovernors && application.ApplicationType != ApplicationTypes.FormAMat);
+
+			if (hasChair)
+			{
+				RolesToDisplay = roles.Where(x=> x != SchoolRoles.ChairOfGovernors);
+				ContributorRole = SchoolRoles.Other;
+				HideRadios = true;
+			}
+			else
+			{
+				RolesToDisplay = roles;
+				HideRadios = false;
+			}
+
 			// this form won't be used as an update. Only add, so hence, so no VM property binding
 		}
 

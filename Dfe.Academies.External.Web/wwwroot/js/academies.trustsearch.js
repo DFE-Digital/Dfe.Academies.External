@@ -101,6 +101,9 @@ academies.renderTrustSearchOption = function (selectedValue) {
 
 academies.renderSelectedTrust = function (responseHtml) {
 	$('#trustSelectedDetails').html(responseHtml);
+	// this is a little hacky but without a page rewrite this is the best i could come up with in a short space of time
+	$('#trustReference').val($('#td-trustReference').val());
+
 };
 
 function debounceSuggest(query, syncResults) {

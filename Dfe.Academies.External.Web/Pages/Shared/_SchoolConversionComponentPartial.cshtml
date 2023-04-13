@@ -1,37 +1,22 @@
 ﻿@model Dfe.Academies.External.Web.ViewModels.SchoolQuestionAndAnswerViewModel
 
-<tr class="govuk-table__row">
-	<td class="govuk-table__cell">
-		<strong>@Model.Name</strong>
-	</td>
-	<td class="govuk-table__cell">
-		<dl>
-			<dd class="">
-				<dl class="govuk-body-s">
-					<dt class="">
-						@Model.Answer
-					</dt>
-				</dl>
-			</dd>
-			@if (Model.SubQuestionAndAnswers.Any())
-			{
-				<dd class="">
-					@foreach (var additionalInfo in Model.SubQuestionAndAnswers.ToList())
-					{
-                        @if (additionalInfo.QuestionAnswered)
-                        {
-	                        <dl class="govuk-body-s">
-                                <dt class="govuk-caption-m">
-	                                @additionalInfo.Name
-		                        </dt>
-		                        <dd data-field-name="@additionalInfo.Name">
-			                        @additionalInfo.Answer
-		                        </dd>
-	                        </dl>
-                        }
-					}
-				</dd>
-			}
-		</dl>
-	</td>
-</tr>
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<p class="govuk-body"><b>@Model.Name</b></p>
+	</div>
+	<div class="govuk-grid-column-one-third">
+		<p class="govuk-body">@Model.Answer</p>
+	</div>
+</div>
+@foreach (var additionalInfo in Model.SubQuestionAndAnswers.ToList().Where(additionalInfo => @additionalInfo.QuestionAnswered))
+{
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-two-thirds">
+			<p class="govuk-body"><b>@additionalInfo.Name</b></p>
+		</div>
+		<div class="govuk-grid-column-one-third">
+			<p class="govuk-body"> @(!string.IsNullOrEmpty(@additionalInfo.Answer) ? @additionalInfo.Answer : "You have not added any information")</p>
+		</div>
+	</div>
+	<hr/>
+}

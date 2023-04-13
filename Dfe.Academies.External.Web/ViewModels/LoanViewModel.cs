@@ -3,8 +3,6 @@
 	public class LoanViewModel
 	{
 		public int Id { get; set; }
-		public bool IsDraft { get; set; }
-
 		public string DisplayName { get; set; } = null;
 		public decimal TotalAmount { get; set; }
 		public string Purpose { get; set; }

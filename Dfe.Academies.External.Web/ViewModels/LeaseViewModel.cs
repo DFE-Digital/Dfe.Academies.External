@@ -3,8 +3,6 @@
 	public class LeaseViewModel
 	{
 		public int Id { get; set; }
-		public bool IsDraft { get; set; }
-
 		public string LeaseTerm { get; set; }
 		public decimal RepaymentAmount { get; set; }
 		public decimal InterestRate { get; set; }
