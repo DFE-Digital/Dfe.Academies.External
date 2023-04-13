@@ -8,7 +8,7 @@ const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
   e2e: {
-    url: 'https://webapp-t1dv-sip-a2c.azurewebsites.net',
+    url: 'https://s184t01-a2bextcdnendpoint-ezfhhdbpembpanh5.z01.azurefd.net',
     login_username: 'dan.good@education.gov.uk',
     login_password: 'P1ngO*1984',
     experimentalOriginDependencies: true,
