@@ -6,6 +6,11 @@ export default class A2BWhichTrustIsSchoolJoining extends BasePage {
         cy.whichTrustIsSchoolJoiningElementsVisible()
     }
 
+    static selectTrustName() 
+    {
+        cy.selectTrustName()
+    }
+
     static changeTrustName() {
         cy.changeTrustName()
     }

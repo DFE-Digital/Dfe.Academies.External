@@ -1,11 +1,18 @@
 import BasePage from "../BasePage"
 export default class A2BWhatIsTheNameOfTheSchool extends BasePage {
 
-static whatIsTheNameOfTheSchoolElementsVisible() {
+static whatIsTheNameOfTheSchoolElementsVisible() 
+{
     cy.whatIsTheNameOfTheSchoolElementsVisible()
 }
 
-static changeSchoolName() {
+static selectSchoolName()
+{
+    cy.selectSchoolName()
+}
+
+static changeSchoolName() 
+{
     cy.changeSchoolName()
 }
 
