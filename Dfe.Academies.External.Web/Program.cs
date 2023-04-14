@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Configuration;
+using System.Globalization;
 using Azure.Storage.Blobs;
 using Dfe.Academies.External.Web.AutoMapper;
 using Dfe.Academies.External.Web.Extensions;
@@ -31,7 +32,7 @@ using StackExchange.Redis;
 //using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
-ConfigurationManager configuration = builder.Configuration;
+Microsoft.Extensions.Configuration.ConfigurationManager configuration = builder.Configuration;
 
 //https://github.com/gunndabad/govuk-frontend-aspnetcore  
 builder.Services.AddGovUkFrontend();
@@ -64,6 +65,7 @@ builder.Services
 	.AddMvcOptions(options =>
 	{
 		options.MaxModelValidationErrors = 50;
+		options.Filters.Add(new MaintenancePageFilter(configuration));
 	})
 	.AddSessionStateTempDataProvider();
 
