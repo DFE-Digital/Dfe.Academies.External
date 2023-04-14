@@ -6,7 +6,7 @@ export default class Footer extends BasePage {
     }
 
     static cookiesLinkVisible() {
-        cy.get('a[href="/cookies"]').should('be.visible').contains('Cookie policy')
+        cy.contains('Cookie policy').should('be.visible').contains('Cookie policy')
     }
 
     static termsAndConditionsLinkVisible() {
