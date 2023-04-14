@@ -49,7 +49,7 @@ builder.Services
 			.AllowAnonymousToPage("/Error")
 			.AllowAnonymousToPage("/NotFound")
 			.AllowAnonymousToPage("/WhatYouWillNeed")
-			.AllowAnonymousToPage("/Help");
+			.AllowAnonymousToPage("/Maintenance");
 		options.Conventions.AddPageRoute("/notfound", "/error/404");
 		options.Conventions.AddPageRoute("/notfound", "/error/{code:int}");
 	})
