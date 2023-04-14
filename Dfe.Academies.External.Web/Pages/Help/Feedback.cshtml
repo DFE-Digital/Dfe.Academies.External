@@ -1,0 +1,63 @@
+@page
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@model Dfe.Academies.External.Web.Pages.Help.FeedbackModel
+@{
+    ViewData["Title"] = "Apply to become an academy - Give feedback on the apply to become and acaademy service";
+}
+
+@section BeforeMain
+    {
+    <a asp-page="HowCanWeHelp" class="govuk-back-link">Back</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+            Give feedback on the apply to become an academy service
+        </h1>
+
+<form method="post" name="frmFeedback" novalidate="">
+			<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+				<h1 class="govuk-heading-l"></h1>
+				<fieldset class="govuk-fieldset ">
+
+					   <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("Feedback") ? "govuk-visually-hidden" : "")">
+                        <span class="govuk-visually-hidden">Error:</span> You must chose an option
+                    </p>
+					<div class="govuk-form-group">
+                        <label for="FeedbackSummary" class="govuk-label govuk-!-font-weight-bold">On the whole, how do you feel about the service?</label>
+						<div class="govuk-radios--conditional">
+							@foreach (var Feedback in Enum.GetValues(typeof(Feedback)).OfType<Feedback>())
+							{
+								<div class="govuk-radios__item">
+									<input type="radio"
+									 asp-for="Feedback"
+                                     value="@Convert.ToInt32(Feedback)"
+									 id="id-@(Feedback)"
+			                         class="govuk-radios__input" />
+									<label for="label-@(Feedback)" class="govuk-label govuk-radios__label">@Feedback.GetDescription()</label>
+								</div>
+							}
+						</div>
+					</div>
+	
+				</fieldset>
+			</div>
+            <div class="govuk-form-group">
+                        <label for="FeedbackSummary" class="govuk-label govuk-!-font-weight-bold">What improvements could we make?</label>
+                        <legend class="govuk-caption-m">Do not give any information that may identify you, such as  names, email addresses or reference numbers.</legend>
+                        <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("FeedbackSummary") ? "govuk-visually-hidden" : "")">
+                            <span class="govuk-visually-hidden">Error:</span> You must give details
+                        </p>
+                        <textarea asp-for="FeedbackSummary" id="FeedbackSummary"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
+                <div id="FeedbackSummary-info" class="govuk-hint govuk-character-count__message">
+                    You can enter up to 2000 characters
+                </div>
+            </div>
+			<button type="submit" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8">Send feedback</button>
+		</form>
+	</div>
+</div>
+
+</div>
