@@ -18,10 +18,9 @@
 
 <form method="post" name="frmFeedback" novalidate="">
 			<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
-				<h1 class="govuk-heading-l"></h1>
 				<fieldset class="govuk-fieldset ">
 
-					   <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("Feedback") ? "govuk-visually-hidden" : "")">
+					   <p id="feedback-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("Feedback") ? "govuk-visually-hidden" : "")">
                         <span class="govuk-visually-hidden">Error:</span> You must chose an option
                     </p>
 					<div class="govuk-form-group">
@@ -33,9 +32,9 @@
 									<input type="radio"
 									 asp-for="Feedback"
                                      value="@Convert.ToInt32(Feedback)"
-									 id="id-@(Feedback)"
+									 id="Feedback@(Feedback)"
 			                         class="govuk-radios__input" />
-									<label for="label-@(Feedback)" class="govuk-label govuk-radios__label">@Feedback.GetDescription()</label>
+									<label for="Feedback@(Feedback)" class="govuk-label govuk-radios__label">@Feedback.GetDescription()</label>
 								</div>
 							}
 						</div>
@@ -46,11 +45,11 @@
             <div class="govuk-form-group">
                         <label for="FeedbackSummary" class="govuk-label govuk-!-font-weight-bold">What improvements could we make?</label>
                         <legend class="govuk-caption-m">Do not give any information that may identify you, such as  names, email addresses or reference numbers.</legend>
-                        <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("FeedbackSummary") ? "govuk-visually-hidden" : "")">
+                        <p id="feedback-summary-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("FeedbackSummary") ? "govuk-visually-hidden" : "")">
                             <span class="govuk-visually-hidden">Error:</span> You must give details
                         </p>
-                        <textarea asp-for="FeedbackSummary" id="FeedbackSummary"
-                              class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
+                        <textarea asp-for="FeedbackSummary" id="Feedback-Summary"
+                              class="govuk-textarea" cols="40" rows="5" maxlength="2000" aria-label="FeedbackSummary-form"></textarea>
                 <div id="FeedbackSummary-info" class="govuk-hint govuk-character-count__message">
                     You can enter up to 2000 characters
                 </div>
