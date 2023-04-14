@@ -16,11 +16,11 @@ export default class A2BHome extends BasePage {
     }
 
     static p3Visible() {
-        cy.get('p').eq(3).contains('This form is for local authority maintained schools that want to become academies.')
+        cy.get('p').eq(2).contains('This form is for local authority maintained schools that want to become academies.')
     }
 
     static p4Visible() {
-        cy.get('p').eq(4).contains('There is a separate process for:')
+        cy.get('p').eq(3).contains('There is a separate process for:')
     }
 
     static checkSpecialSchoolsLinkVisible() {
@@ -32,7 +32,7 @@ export default class A2BHome extends BasePage {
     }
 
     static p6Visible() {
-        cy.get('p').eq(5).contains('Although you can invite other people to help with this application, only the chair of governors will be able to submit it.')
+        cy.get('p').eq(4).contains('Although you can invite other people to help with this application, only the chair of governors will be able to submit it.')
     }
 
     static h2Visible() {
@@ -40,7 +40,7 @@ export default class A2BHome extends BasePage {
     }
 
     static p7Visible() {
-        cy.get('p').eq(6).contains('You must:')
+        cy.get('p').eq(5).contains('You must:')
     }
 
     static consultationWithStakeholdersLinkVisible() {
@@ -57,7 +57,7 @@ export default class A2BHome extends BasePage {
 
     static p8Visible()
     {
-        cy.get('p').eq(7).contains('You should also:')
+        cy.get('p').eq(6).contains('You should also:')
     }
 
     static contactYourRegionalDirectorLinkVisible()
