@@ -587,7 +587,7 @@ Cypress.Commands.add('yourApplicationNotStartedButTrustSectionCompleteElementsVi
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
-    cy.get('table[aria-describedby="schoolTableDescription"]').contains('Plymstock School')
+    cy.get('p').eq(3).contains('Plymstock School').contains('Plymstock School')
     cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
     cy.get('div[class="govuk-grid-row"]').eq(1).contains('About the conversion')
     cy.get('.govuk-grid-column-one-third').eq(0).contains('Not Started')
