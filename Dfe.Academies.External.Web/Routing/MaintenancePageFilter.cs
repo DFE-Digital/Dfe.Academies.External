@@ -24,7 +24,7 @@ namespace Dfe.Academies.External.Web.Routing
 			bool maintenanceMode = bool.Parse(_config["MaintenanceMode"]);
 
 			if (maintenanceMode && !context.ActionDescriptor.DisplayName.Contains("Maintenance")) {
-				context.Result = new RedirectToPageResult("Terms");
+				context.Result = new RedirectToPageResult("/Maintenance");
 				return;
 			}
 
