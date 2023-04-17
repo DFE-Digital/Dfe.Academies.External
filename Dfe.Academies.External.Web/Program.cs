@@ -64,6 +64,7 @@ builder.Services
 	.AddMvcOptions(options =>
 	{
 		options.MaxModelValidationErrors = 50;
+		options.Filters.Add(new MaintenancePageFilter(configuration));
 	})
 	.AddSessionStateTempDataProvider();
 
@@ -291,5 +292,7 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 
 // add OWASP top 10 response headers
 app.UseResponseMiddleware();
+
+
 
 app.Run();
