@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Globalization;
+﻿using System.Globalization;
 using Azure.Storage.Blobs;
 using Dfe.Academies.External.Web.AutoMapper;
 using Dfe.Academies.External.Web.Extensions;
@@ -32,7 +31,7 @@ using StackExchange.Redis;
 //using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
-Microsoft.Extensions.Configuration.ConfigurationManager configuration = builder.Configuration;
+ConfigurationManager configuration = builder.Configuration;
 
 //https://github.com/gunndabad/govuk-frontend-aspnetcore  
 builder.Services.AddGovUkFrontend();
@@ -50,7 +49,7 @@ builder.Services
 			.AllowAnonymousToPage("/Error")
 			.AllowAnonymousToPage("/NotFound")
 			.AllowAnonymousToPage("/WhatYouWillNeed")
-			.AllowAnonymousToPage("/Help");
+			.AllowAnonymousToPage("/Maintenance");
 		options.Conventions.AddPageRoute("/notfound", "/error/404");
 		options.Conventions.AddPageRoute("/notfound", "/error/{code:int}");
 	})
@@ -293,5 +292,7 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 
 // add OWASP top 10 response headers
 app.UseResponseMiddleware();
+
+
 
 app.Run();
