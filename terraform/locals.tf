@@ -23,6 +23,7 @@ locals {
   cdn_frontdoor_host_redirects                     = var.cdn_frontdoor_host_redirects
   cdn_frontdoor_origin_fqdn_override               = var.cdn_frontdoor_origin_fqdn_override
   key_vault_access_users                           = toset(var.key_vault_access_users)
+  key_vault_access_ipv4                            = var.key_vault_access_ipv4
   tfvars_filename                                  = var.tfvars_filename
   enable_monitoring                                = var.enable_monitoring
   monitor_email_receivers                          = var.monitor_email_receivers
