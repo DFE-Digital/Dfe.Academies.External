@@ -30,7 +30,6 @@
 				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>
-
 				<div class="govuk-form-group">
 					<label for="ApplicationJoinTrustReason" class="govuk-label">Why does the school want to join this trust in particular?</label>
 					<textarea asp-for="ApplicationJoinTrustReason" id="ApplicationJoinTrustReason" class="govuk-textarea" cols="40" rows="5"></textarea>

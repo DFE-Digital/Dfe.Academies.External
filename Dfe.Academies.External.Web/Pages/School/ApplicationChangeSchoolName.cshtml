@@ -50,15 +50,17 @@
 							<div class="@(Model.ChangeSchoolNameError ? "govuk-form-group--error" : "govuk-radios__conditional") 
 		                                            @(selectOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 							     id="selectoption-yes" aria-expanded="false">
+								<div id="ChangeSchoolNameNotEntered">
 								<div class="govuk-form-group govuk-error-summary__list">
 									<label for="selectoption-yes" class="govuk-label">What's the proposed new name?</label>
 									<span class="govuk-hint govuk-body govuk-!-margin-bottom-5">
 										You can change this later
 									</span>
-									<a href="#ChangeSchoolNameNotEntered" class="@(Model.ChangeSchoolNameError ? "govuk-error-message" : "govuk-visually-hidden")">
-										You must give a name
-									</a>
+									<label class="@(Model.ChangeSchoolNameError ? "govuk-error-message" : "govuk-visually-hidden")">
+										You must add a new school name
+									</label>
 									<input type="text" asp-for="ChangeSchoolName" id="ChangeSchoolName" class="govuk-input govuk-input--width-20" maxlength="100"/>
+								</div>
 								</div>
 							</div>
 						}

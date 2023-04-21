@@ -44,6 +44,7 @@
 				</div>
                 
                 <div class="govuk-form-group">
+				 <div id="CFYFinancialEndDateNotEntered">
                     <fieldset class="govuk-fieldset" role="group">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 							End of current financial year 
@@ -51,9 +52,9 @@
 					    <div id="pfy-end-date-hint" class="govuk-hint">
 						    For example, 01 09 2022
 					    </div>
-                            <a href="#govuk-date" class="@(Model.CFYFinancialEndDateError ? "govuk-error-message" : "govuk-visually-hidden")">
+                            <label class="@(Model.CFYFinancialEndDateError ? "govuk-error-message" : "govuk-visually-hidden")">
 						    You must select financial year end date
-					    </a>
+					    </label>
 					    <govuk-date field-name="@Model.CFYEndDateFormInputName"
 					        field-data="@Model.CFYEndDate"
 						    field-day="@Model.CFYEndDateDay"
@@ -61,6 +62,7 @@
 						    field-year="@Model.CFYEndDateDateYear">
 					    </govuk-date>
                     </fieldset>
+				   </div>
 				</div>
 
 				<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
@@ -73,6 +75,8 @@
 						</div>
 
 						<div class="govuk-form-group">
+							<div id="CFYRevenueStatus">
+					        <div id="CFYRevenueStatusExplainedNotEntered">
 							@foreach (var revenueType in Enum.GetValues(typeof(RevenueType)).OfType<RevenueType>())
 	                        {
 		                        <div class="govuk-radios__item">
@@ -88,15 +92,18 @@
 			                        </label>
 		                        </div>
 
+                               
 	                            @if (revenueType == RevenueType.Deficit)
 	                            {
+								 
+								 
                                     <div class="@(Model.CFYRevenueStatusExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
 				                                @(revenueType == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
 												id="revenueType-deficit">
-	                                    <a href="#schoolCfyRevenueFileUpload"
+	                                        <label
 												class="@(Model.CFYRevenueStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 	                                            You must enter the reason for the revenue deficit or upload a file
-	                                        </a>
+	                                        </label>
 		                                    <label for="CFYRevenueCarryForwardExplained" class="govuk-label">
 			                                    Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.
 		                                    </label>
@@ -137,7 +144,10 @@
 
 	                                    </div>
 	                            }
+								
 	                        }
+							</div>
+							</div>
 						</div>
 
 					</fieldset>
@@ -153,6 +163,8 @@
 		                </div>                        
 
 		                <div class="govuk-form-group">
+						  <div id="CFYCapitalCarryForwardStatus">
+							<div id="PFYCapitalCarryForwardExplainedNotEntered">
 			                @foreach (var capitalCarryForwardStatus in Enum.GetValues(typeof(RevenueType)).OfType<RevenueType>())
 			                {
 				                <div class="govuk-radios__item">
@@ -174,10 +186,10 @@
 					                                @(capitalCarryForwardStatus == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
 										id="capitalCarryForwardStatus-deficit">
 
-                                        <a href="#CFYCapitalCarryForwardExplained"
+                                        <label
 											class="@(Model.CFYCapitalCarryForwardStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 							                You must enter the reason for the capital carry forward deficit or upload a file
-						                </a>
+						                </label>
                                         <label for="CFYCapitalCarryForwardExplained" class="govuk-label">
 							                Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.
 						                </label>
@@ -219,7 +231,10 @@
 
                                     </div>
 								}
+								
 			                }
+							</div>
+						   </div>
 		                </div>
 	                </fieldset>
                 </div>

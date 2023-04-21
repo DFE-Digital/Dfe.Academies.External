@@ -13,7 +13,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	{
 		//// MR:- VM props to capture data
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must add new school name")]
 		public SelectOption ChangeName { get; set; }
 
 		[BindProperty]
@@ -45,7 +45,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (ChangeName == SelectOption.Yes && string.IsNullOrWhiteSpace(ChangeSchoolName))
 			{
-				ModelState.AddModelError("ChangeSchoolNameNotEntered", "You must provide details");
+				ModelState.AddModelError("ChangeSchoolNameNotEntered", "You must add a new school name");
 				PopulateValidationMessages();
 				return false;
 			}
