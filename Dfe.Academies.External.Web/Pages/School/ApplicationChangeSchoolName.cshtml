@@ -56,7 +56,7 @@
 									<span class="govuk-hint govuk-body govuk-!-margin-bottom-5">
 										You can change this later
 									</span>
-									<label class="@(Model.ChangeSchoolNameError ? "govuk-error-message" : "govuk-visually-hidden")">
+									<label for="ChangeSchoolName" class="@(Model.ChangeSchoolNameError ? "govuk-error-message" : "govuk-visually-hidden")">
 										You must add a new school name
 									</label>
 									<input type="text" asp-for="ChangeSchoolName" id="ChangeSchoolName" class="govuk-input govuk-input--width-20" maxlength="100"/>
