@@ -64,21 +64,23 @@
 									<div id="conversion-date-different-date-hint" class="govuk-hint">
 										For example, 1 9 2022
 									</div>
-									<a href="#SchoolConversionTargetDateNotEntered" class="@(Model.SchoolConversionTargetDateError ? "govuk-error-message" : "govuk-visually-hidden")">
+									<label class="@(Model.SchoolConversionTargetDateError ? "govuk-error-message" : "govuk-visually-hidden")">
 										You must select a conversion date
-									</a>
+									</label>
+									<div id = "SchoolConversionTargetDateNotEntered">
                                     <govuk-date field-name="@Model.SchoolConversionTargetDateDate"
 									            field-data="@Model.TargetDate"
 									            field-day="@Model.TargetDateDay"
 									            field-month="@Model.TargetDateMonth"
-									            field-year="@Model.TargetDateYear">
+									            field-year="@Model.TargetDateYear" >
 									</govuk-date>
+									</div>
 								</fieldset>
 
 								<div class="govuk-!-margin-6"></div>
-								<a href="#TargetDateExplainedNotEntered" class="@(Model.TargetDateExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
+								<label class="@(Model.TargetDateExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 									You must explain why you want to convert on this date
-								</a>
+								</label>
 								<label for="selectoption-yes" class="govuk-label">Explain why you want to convert on this date</label>
 								<textarea asp-for="TargetDateExplained" id="TargetDateExplained" class="govuk-textarea" cols="40" rows="5"></textarea>
 							</div>

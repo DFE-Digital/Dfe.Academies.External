@@ -18,6 +18,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public ApplicationSchoolContactsViewModel ViewModel { get; set; }
 
+		
+
 		public bool OtherContactError
 		{
 			get

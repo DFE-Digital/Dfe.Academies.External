@@ -36,11 +36,8 @@
 </div>
 				
 <div class="govuk-form-group">
-	<div class="govuk-form-group govuk-error-summary__list">
-		<a href="#TrustBenefitDetails" 
-		   class="@(Model.TrustBenefitDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
-			You must provide details
-		</a>
+	<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+	<fieldset class="govuk-fieldset">
 		<label for="TrustBenefitDetails" class="govuk-fieldset__legend govuk-fieldset__legend--s">
 			What will the school bring to the trust they are joining?
 		</label>
@@ -49,8 +46,9 @@
 		</span>
 		<textarea asp-for="TrustBenefitDetails" id="TrustBenefitDetails" 
                 								class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
-	</div>
 
+	</fieldset>
+  </div>
 </div>
 				
 <div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
@@ -408,21 +406,19 @@
 </div>
 			
 <div class="govuk-form-group">
+	<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+	<fieldset class="govuk-fieldset">
+<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+	<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+</div>
 	<label for="MainFeederSchools" class="govuk-fieldset__legend govuk-fieldset__legend--s">Please provide a list of your main feeder schools</label>
 	<span id="feeder-schools-hint" class="govuk-hint">
 		We recognise you may have many feeder schools, therefore please just detail the top 5
 	</span>
 
-	<div class="@(Model.MainFeederSchoolsError ? "govuk-form-group--error" : "govuk-radios__conditional")"
-	     id="mainFeederSchools">
-		<div class="govuk-form-group govuk-error-summary__list">
-			<a href="#MainFeederSchools"
-			   class="@(Model.MainFeederSchoolsError ? "govuk-error-message" : "govuk-visually-hidden")">
-				You must provide details
-			</a>
-		</div>
-	</div>
+	</fieldset>
 	<textarea asp-for="MainFeederSchools" id="MainFeederSchools" class="govuk-textarea" cols="40" rows="10" maxlength="200"></textarea>
+</div>
 </div>
 			
 <div class="govuk-form-group">

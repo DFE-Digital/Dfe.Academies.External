@@ -31,11 +31,11 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 
 	[BindProperty]
 	[Range(0, 200000000000000, ErrorMessage = "Revenue amount must be greater than 0")]
-	[Required(ErrorMessage = "You must provide a revenue amount")]
+	[Required(ErrorMessage = "You must provide a revenue carry forward amount")]
 	public decimal? Revenue { get; set; }
 
 	[BindProperty]
-	[RequiredEnum(ErrorMessage = "You must select an option")]
+	[RequiredEnum(ErrorMessage = "You must select a revenue carry forward option")]
 	public RevenueType CFYRevenueStatus { get; set; }
 
 	[BindProperty]
@@ -47,7 +47,7 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 	public decimal? CapitalCarryForward { get; set; }
 
 	[BindProperty]
-	[RequiredEnum(ErrorMessage = "You must select an option")]
+	[RequiredEnum(ErrorMessage = "You must select a capital carry forward option")]
 	public RevenueType CFYCapitalCarryForwardStatus { get; set; }
 
 	[BindProperty]
