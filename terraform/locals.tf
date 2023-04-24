@@ -26,6 +26,7 @@ locals {
   key_vault_access_ipv4                            = var.key_vault_access_ipv4
   tfvars_filename                                  = var.tfvars_filename
   enable_monitoring                                = var.enable_monitoring
+  enable_container_health_probe                    = var.enable_container_health_probe
   monitor_email_receivers                          = var.monitor_email_receivers
   monitor_enable_slack_webhook                     = var.monitor_enable_slack_webhook
   monitor_slack_webhook_receiver                   = var.monitor_slack_webhook_receiver

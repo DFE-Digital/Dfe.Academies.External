@@ -170,6 +170,12 @@ variable "monitor_slack_channel" {
   type        = string
 }
 
+variable "enable_container_health_probe" {
+  description = "Enable liveness probes for the Container"
+  type        = bool
+  default     = true
+}
+
 variable "enable_container_app_blob_storage" {
   description = "Create an Azure Storage Account and Storage Container to be accessed by the Container App"
   type        = bool
