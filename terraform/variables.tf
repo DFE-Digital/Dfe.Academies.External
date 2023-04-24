@@ -59,6 +59,12 @@ variable "container_secret_environment_variables" {
   sensitive   = true
 }
 
+variable "container_max_replicas" {
+  description = "Container max replicas"
+  type        = number
+  default     = 2
+}
+
 variable "enable_event_hub" {
   description = "Send Azure Container App logs to an Event Hub sink"
   type        = bool
