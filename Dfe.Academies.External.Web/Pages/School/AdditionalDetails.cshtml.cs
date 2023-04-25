@@ -18,6 +18,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
 		
 		[BindProperty]
+		[Required(ErrorMessage = "Please tell us what the school bring to the trust they are joining?")]
 		public string? TrustBenefitDetails { get; set; }
 		
 		[BindProperty]
@@ -99,6 +100,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public string? ExemptionEndDateYear { get; set; }
 		
 		[BindProperty]
+		[Required(ErrorMessage = "Please provide a list of your main feeder schools")]
+
 		public string MainFeederSchools { get; set; }
 
 		[DataType(DataType.Upload)]
@@ -294,12 +297,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public override bool RunUiValidation()
 		{
-			if (string.IsNullOrWhiteSpace(TrustBenefitDetails))
-			{
-				ModelState.AddModelError("TrustBenefitDetailsNotAdded", "You must enter details of the trust benefit");
-				PopulateValidationMessages();
-				return false;
-			}
 			if (OfstedInspected == SelectOption.Yes && string.IsNullOrWhiteSpace(OfstedInspectionDetails))
 			{
 				ModelState.AddModelError("OfstedInspectionDetailsNotAdded", "You must enter Ofsted inspection details");
@@ -336,13 +333,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 			    ExemptionEndDate.Value == DateTimeOffset.MinValue))
 			{
 				ModelState.AddModelError("exemptionFromSACREEndDateNotAdded", "You must enter a valid date");
-				PopulateValidationMessages();
-				return false;
-			}
-
-			if (string.IsNullOrWhiteSpace(MainFeederSchools))
-			{
-				ModelState.AddModelError("MainFeederSchoolsDetailsNotAdded", "You must provide details");
 				PopulateValidationMessages();
 				return false;
 			}

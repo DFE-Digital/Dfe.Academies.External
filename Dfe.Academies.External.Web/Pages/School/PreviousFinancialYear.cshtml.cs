@@ -37,7 +37,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public decimal Revenue { get; set; }
 
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must select an option")]
+		[RequiredEnum(ErrorMessage = "You must select a revenue carry forward option")]
 		public RevenueType PFYRevenueStatus { get; set; }
 
 		[BindProperty]
@@ -66,7 +66,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public decimal CapitalCarryForward { get; set; }
 
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must select an option")]
+		[RequiredEnum(ErrorMessage = "You must select a capital carry forward option")]
 		public RevenueType PFYCapitalCarryForwardStatus { get; set; }
 
 		[BindProperty]

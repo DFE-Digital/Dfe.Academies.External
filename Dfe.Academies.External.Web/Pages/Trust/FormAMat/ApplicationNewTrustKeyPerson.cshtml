@@ -35,7 +35,7 @@
 	                    </p>
 			            <input type="text" asp-for="TrustKeyPersonName" id="TrustKeyPersonName" class="govuk-input govuk-input--width-20" />@*@(Model.IsPropertyInvalid("TrustKeyPersonName") ? "govuk-input--error" : "")" />*@
 		            </div>
-                    
+					<div id="TrustKeyPersonRoleError">
 		            <div class="govuk-form-group">
 			            <fieldset class="govuk-fieldset">
 				            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
@@ -97,8 +97,12 @@
 					            </div>
 				            </div>
 			            </fieldset>
+					   </div>
 		            </div> 
                     
+					<div id="TrustKeyPersonDobLocalNotEntered">
+					<div id="TrustKeyPersonDobLocalError">
+					</div>
 		            <div class="govuk-form-group">
 			            <fieldset class="govuk-fieldset" role="group" aria-describedby="conversion-date-different-date-hint">
 				            <legend id="role-hint" class="govuk-fieldset__legend">
@@ -121,6 +125,8 @@
 				            </govuk-date>
 			            </fieldset>
 		            </div>
+					</div>
+					</div>
                     
 		            <div class="govuk-form-group">
 			            <label for="TrustKeyPersonBiography" class="govuk-label">Provide a biography of them</label>

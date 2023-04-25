@@ -32,7 +32,7 @@
 				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>
-                
+                <div id="PFYFinancialEndDateNotEntered">
 				<div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="pfy-end-date-hint" role="group">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
@@ -52,7 +52,8 @@
 					    </govuk-date>
                     </fieldset>
 				</div>
-                
+				</div>
+                <div id="PFYRevenueStatus">
 				<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
 					<fieldset class="govuk-fieldset" role="group" aria-describedby="">
 						<label for="Revenue" class="govuk-fieldset__legend govuk-fieldset__legend--s">
@@ -78,23 +79,27 @@
 			                        </label>
 		                        </div>
 
+
 	                            @if (revenueType == RevenueType.Deficit)
 	                            {
+								
                                     <div class="@(Model.PFYRevenueStatusExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
 				                                @(revenueType == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
 												id="revenueType-deficit">
-	                                    <a href="#PFYRevenueStatusExplained"
+	                                        <label
 												class="@(Model.PFYRevenueStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 	                                            You must enter the reason for the revenue deficit or upload a file
-	                                        </a>
+	                                        </label>
 		                                    <label for="PFYRevenueStatusExplained" class="govuk-label">
 			                                    Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.
 		                                    </label>
 		                                    <span class="govuk-hint">
 			                                    Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority 
 		                                    </span>
+											<div id="PFYRevenueStatusExplainedNotEntered">
 	                                        <textarea asp-for="PFYRevenueStatusExplained" id="PFYRevenueStatusExplained"
 	                                          class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+											  </div>
                                             <p class="govuk-label">
 									            You can upload the school’s recovery plan.
 								            </p>
@@ -122,11 +127,13 @@
 	                                    </div>
 	                                    <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn,EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FileNames = Model.SchoolPFYRevenueStatusFileNames, FilePrefixSection = FileUploadConstants.SchoolPFYRevenueStatusFile}" />
                                     </div>
+								
 	                            }
 	                        }
 						</div>
 
 					</fieldset>
+				</div>
 				</div>
 
                 <div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
@@ -137,7 +144,7 @@
 		                <div class="govuk-form-group">
                             <input type="number" asp-for="CapitalCarryForward" id="CapitalCarryForward" class="govuk-input govuk-input--width-20" />
 		                </div>                        
-                        
+                        <div id="PFYCapitalCarryForwardStatus"></div>
 		                <div class="govuk-form-group">
 			                @foreach (var capitalCarryForwardStatus in Enum.GetValues(typeof(RevenueType)).OfType<RevenueType>())
 			                {
@@ -145,7 +152,7 @@
 					                <input type="radio"
 	                                       asp-for="PFYCapitalCarryForwardStatus"
 					                       value="@Convert.ToInt32(capitalCarryForwardStatus)"
-					                       id="capitalRevenueType@(capitalCarryForwardStatus)"
+										   id="capitalRevenueType@(capitalCarryForwardStatus)"
 					                       class="govuk-radios__input"
 	                                       data-aria-controls="capitalCarryForwardStatus-@(capitalCarryForwardStatus.ToString().ToLower())"
 	                                       checked="@(capitalCarryForwardStatus.Equals(Model.PFYCapitalCarryForwardStatus))"/>
@@ -156,14 +163,15 @@
 
 				                @if (capitalCarryForwardStatus == RevenueType.Deficit)
 				                {
+								  <div id="PFYCapitalCarryForwardExplainedNotEntered">
                                     <div class="@(Model.PFYCapitalCarryForwardStatusExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
 					                                @(capitalCarryForwardStatus == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
 										id="capitalCarryForwardStatus-deficit">
 
-                                        <a href="#PFYCapitalCarryForwardExplained"
+                                        <label
 											class="@(Model.PFYCapitalCarryForwardStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 							                You must enter the reason for the capital carry forward deficit or upload a file
-						                </a>
+						                </label>
                                         <label for="PFYCapitalCarryForwardExplained" class="govuk-label">
 							                Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.
 						                </label>
@@ -201,10 +209,13 @@
 	                                    <partial name="Shared/_FileUploadPartial" model="new FileUploadViewModel{ ApplicationId = Model.ApplicationId, Urn = Model.Urn,EntityId = Model.EntityId, ApplicationReference = Model.ApplicationReference, FileNames = Model.SchoolPFYCapitalForwardStatusFileNames, FilePrefixSection = FileUploadConstants.SchoolPFYCapitalForwardStatusFile}" />
 
 					                </div>
+								</div>	
 								}
 			                }
-		                </div>
+		              
+						</div>
 	                </fieldset>
+					
                 </div>
 			</fieldset>
 		<br />

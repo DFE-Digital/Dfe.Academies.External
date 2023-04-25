@@ -61,25 +61,28 @@
 							</div>
 							@if (buildingWorksOption == SelectOption.Yes)
 							{
+								<div id="SchoolBuildLandWorksPlannedDateNotEntered">
 								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
 			                                            @(buildingWorksOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 														id="buildingWorksOption-yes" aria-expanded="false">
 									<div class="govuk-form-group govuk-error-summary__list">
-										<a href="#TargetDateExplainedNotEntered" 
+										<label
 										   class="@(Model.SchoolBuildLandWorksPlannedError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must provide details of the works
-										</a>
+										</label>
 										<label for="SchoolBuildLandWorksPlannedExplained" class="govuk-label">Provide details of the works, how they’ll be funded and whether the funding will be affected by the conversion</label>
+										<div id="SchoolBuildLandWorksPlannedExplainedNotEntered">
 										<textarea asp-for="SchoolBuildLandWorksPlannedExplained" id="SchoolBuildLandWorksPlannedExplained" 
 													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+										</div>
 										<div class="govuk-!-margin-6"></div>
 										<div id="works-planned-date-hint" class="govuk-hint">
 											For example, 01 09 2022
 										</div>
-										<a href="#SchoolBuildLandWorksPlannedDateNotEntered" 
+										<label
 										   class="@(Model.SchoolBuildLandWorksPlannedDateError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must select a scheduled date
-										</a>
+										</label>
 										<govuk-date field-name="@Model.PlannedDateFormInputName"
 										            field-data="@Model.WorksPlannedDate"
 										            field-day="@Model.WorksPlannedDateDay"
@@ -87,6 +90,7 @@
 										            field-year="@Model.WorksPlannedDateYear">
 										</govuk-date>
 									</div>
+								</div>
 								</div>
 							}
 						}
@@ -117,19 +121,20 @@
 								</label>
 							</div>
 							@if (sharedFacilitiesOption == SelectOption.Yes)
-							{
+							{   <div id="SchoolBuildLandSharedFacilitiesExplainedNotEntered">
 								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
 			                                            @(sharedFacilitiesOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 											id="sharedFacilitiesOption-yes" aria-expanded="false">
 									<div class="govuk-form-group govuk-error-summary__list">
-										<a href="#SchoolBuildLandSharedFacilitiesExplainedNotEntered" 
+										<label 
 										   class="@(Model.SchoolBuildLandSharedFacilitiesExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must provide list of these facilities
-										</a>
+										</label>
 										<label for="SchoolBuildLandSharedFacilitiesExplained" class="govuk-label">List these facilities and the school’s plan for them after converting</label>
-										<textarea asp-for="SchoolBuildLandSharedFacilitiesExplained" id="SchoolBuildLandWorksPlannedExplained" 
+										<textarea asp-for="SchoolBuildLandSharedFacilitiesExplained" id="SchoolBuildLandSharedFacilitiesExplained" 
 													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
 									</div>
+								</div>
 								</div>
 							}
 						}
@@ -158,18 +163,20 @@
 							</div>
 							@if (landGrantsOption == SelectOption.Yes)
 							{
+								<div id="SchoolBuildLandGrantsBodiesNotEntered">
 								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
 			                                            @(landGrantsOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 											id="landGrantsOption-yes" aria-expanded="false">
 									<div class="govuk-form-group govuk-error-summary__list">
-										<a href="#SchoolBuildLandGrantsBodiesNotEntered" 
+										<label
 											class="@(Model.SchoolBuildLandGrantsBodiesError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must provide list of these facilities
-										</a>
+										</label>
 										<label for="SchoolBuildLandGrantsBodies" class="govuk-label">Which bodies awarded the grants and what facilities did they fund?</label>
 										<textarea asp-for="SchoolBuildLandGrantsBodies" id="SchoolBuildLandGrantsBodies"
 										  class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
 									</div>
+								</div>
 								</div>
 							}
 						}
@@ -198,17 +205,19 @@
 							</div>
 							@if (pfiSchemeOption == SelectOption.Yes)
 							{
+								<div id="SchoolBuildLandPFISchemeTypeNotEntered">
 								<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
 			                                            @(pfiSchemeOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 										id="pfiSchemeOption-yes" aria-expanded="false">
 									<div class="govuk-form-group govuk-error-summary__list">
-										<a href="#SchoolBuildLandPFISchemeTypeNotEntered"
+										<label
 											class="@(Model.SchoolBuildLandPFISchemeTypeError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must provide type of PFI scheme
-										</a>
+										</label>
 										<label for="pfiSchemeOption-yes" class="govuk-label">What kind of a PFI scheme is your school part of?</label>
 										<input type="text" asp-for="SchoolBuildLandPFISchemeType" id="SchoolBuildLandPFISchemeType" class="govuk-input govuk-input--width-20" maxlength="100" />
 									</div>
+								</div>
 								</div>
 							}
 						}
