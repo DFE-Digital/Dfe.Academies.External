@@ -25,15 +25,16 @@ module "azure_container_apps_hosting" {
   dns_txt_records      = local.dns_txt_records
   dns_a_records        = local.dns_a_records
 
-  enable_cdn_frontdoor                        = local.enable_cdn_frontdoor
-  cdn_frontdoor_enable_rate_limiting          = local.cdn_frontdoor_enable_rate_limiting
-  cdn_frontdoor_rate_limiting_threshold       = local.cdn_frontdoor_rate_limiting_threshold
-  cdn_frontdoor_host_add_response_headers     = local.cdn_frontdoor_host_add_response_headers
-  cdn_frontdoor_custom_domains                = local.cdn_frontdoor_custom_domains
-  cdn_frontdoor_host_redirects                = local.cdn_frontdoor_host_redirects
-  cdn_frontdoor_origin_fqdn_override          = local.cdn_frontdoor_origin_fqdn_override
-  cdn_frontdoor_origin_host_header_override   = local.cdn_frontdoor_origin_host_header_override
-  restrict_container_apps_to_cdn_inbound_only = local.restrict_container_apps_to_cdn_inbound_only
+  enable_cdn_frontdoor                            = local.enable_cdn_frontdoor
+  cdn_frontdoor_enable_rate_limiting              = local.cdn_frontdoor_enable_rate_limiting
+  cdn_frontdoor_rate_limiting_threshold           = local.cdn_frontdoor_rate_limiting_threshold
+  cdn_frontdoor_host_add_response_headers         = local.cdn_frontdoor_host_add_response_headers
+  cdn_frontdoor_custom_domains                    = local.cdn_frontdoor_custom_domains
+  cdn_frontdoor_host_redirects                    = local.cdn_frontdoor_host_redirects
+  cdn_frontdoor_origin_fqdn_override              = local.cdn_frontdoor_origin_fqdn_override
+  cdn_frontdoor_origin_host_header_override       = local.cdn_frontdoor_origin_host_header_override
+  cdn_frontdoor_custom_domains_create_dns_records = local.cdn_frontdoor_custom_domains_create_dns_records
+  restrict_container_apps_to_cdn_inbound_only     = local.restrict_container_apps_to_cdn_inbound_only
 
   enable_monitoring              = local.enable_monitoring
   monitor_email_receivers        = local.monitor_email_receivers

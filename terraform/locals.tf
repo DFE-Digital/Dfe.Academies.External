@@ -24,6 +24,7 @@ locals {
   cdn_frontdoor_host_redirects                     = var.cdn_frontdoor_host_redirects
   cdn_frontdoor_origin_fqdn_override               = var.cdn_frontdoor_origin_fqdn_override
   cdn_frontdoor_origin_host_header_override        = var.cdn_frontdoor_origin_host_header_override
+  cdn_frontdoor_custom_domains_create_dns_records  = var.cdn_frontdoor_custom_domains_create_dns_records
   key_vault_access_users                           = toset(var.key_vault_access_users)
   key_vault_access_ipv4                            = var.key_vault_access_ipv4
   tfvars_filename                                  = var.tfvars_filename
