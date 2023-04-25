@@ -151,6 +151,13 @@ variable "cdn_frontdoor_origin_fqdn_override" {
   default     = ""
 }
 
+variable "cdn_frontdoor_origin_host_header_override" {
+  description = "Manually specify the host header that the CDN sends to the target. Defaults to the recieved host header. Set to null to set it to the host_name (`cdn_frontdoor_origin_fqdn_override`)"
+  type        = string
+  default     = ""
+  nullable    = true
+}
+
 variable "enable_monitoring" {
   description = "Create an App Insights instance and notification group for the Container App"
   type        = bool
