@@ -20,7 +20,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    [BindProperty]
 	    public string ApplicationReference { get; set; }
 		
-		[BindProperty]  
 		public ApplicationStatus ApplicationStatus {get; private set;}
 
 	
