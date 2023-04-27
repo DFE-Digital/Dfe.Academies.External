@@ -4,7 +4,6 @@ using Dfe.Academies.External.Web.AutoMapper;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Factories;
 using Dfe.Academies.External.Web.Helpers;
-using Dfe.Academies.External.Web.Jobs;
 using Dfe.Academies.External.Web.Middleware;
 using Dfe.Academies.External.Web.Models.EmailTemplates;
 using Dfe.Academies.External.Web.Routing;
