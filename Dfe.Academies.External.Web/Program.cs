@@ -4,7 +4,6 @@ using Dfe.Academies.External.Web.AutoMapper;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Factories;
 using Dfe.Academies.External.Web.Helpers;
-using Dfe.Academies.External.Web.Jobs;
 using Dfe.Academies.External.Web.Middleware;
 using Dfe.Academies.External.Web.Models.EmailTemplates;
 using Dfe.Academies.External.Web.Routing;
@@ -223,22 +222,6 @@ builder.Services.AddQuartz(q => { q.UseMicrosoftDependencyInjectionJobFactory();
 builder.Services.AddQuartzHostedService(opt => { opt.WaitForJobsToComplete = true; });
 
 var app = builder.Build();
-
-if (!localDevelopment)
-{
-	var schedulerFactory = app.Services.GetRequiredService<ISchedulerFactory>();
-	var scheduler = await schedulerFactory.GetScheduler();
-
-	var job = JobBuilder.Create<FixSharepointFoldersJob>()
-		.WithIdentity("fix-sharepoint")
-		.Build();
-
-	var trigger = TriggerBuilder.Create()
-		.WithIdentity("fix-sharepoint")
-		.StartNow()
-		.Build();
-	await scheduler.ScheduleJob(job, trigger);
-}
 
 // Configure the HTTP request pipeline.
 
