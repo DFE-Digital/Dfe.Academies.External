@@ -224,22 +224,6 @@ builder.Services.AddQuartzHostedService(opt => { opt.WaitForJobsToComplete = tru
 
 var app = builder.Build();
 
-if (!localDevelopment)
-{
-	var schedulerFactory = app.Services.GetRequiredService<ISchedulerFactory>();
-	var scheduler = await schedulerFactory.GetScheduler();
-
-	var job = JobBuilder.Create<FixSharepointFoldersJob>()
-		.WithIdentity("fix-sharepoint")
-		.Build();
-
-	var trigger = TriggerBuilder.Create()
-		.WithIdentity("fix-sharepoint")
-		.StartNow()
-		.Build();
-	await scheduler.ScheduleJob(job, trigger);
-}
-
 // Configure the HTTP request pipeline.
 
 if (!app.Environment.IsDevelopment())
