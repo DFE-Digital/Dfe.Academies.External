@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Notify.Client;
 using Notify.Interfaces;
@@ -134,10 +135,31 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 
 // Configure Redis Based Distributed Session
 var redisConfigurationOptions = ConfigurationOptions.Parse(builder.Configuration["ConnectionStrings:RedisCache"]);
+redisConfigurationOptions.AsyncTimeout = 15000;
+redisConfigurationOptions.SyncTimeout = 15000;
+
+//cofig from concerns
+//var redisConfigurationOptions = new ConfigurationOptions { Password = password, EndPoints = { $"{host}:{port}" }, Ssl = tls, AsyncTimeout = 15000, SyncTimeout = 15000 };
+
+// https://stackexchange.github.io/StackExchange.Redis/ThreadTheft.html
+ConnectionMultiplexer.SetFeatureFlag("preventthreadtheft", true);
+
+
+IConnectionMultiplexer redisConnectionMultiplexer = ConnectionMultiplexer.Connect(redisConfigurationOptions);
+//services.AddDataProtection().PersistKeysToStackExchangeRedis(redisConnectionMultiplexer, "DataProtectionKeys");
+
+//services.AddStackExchangeRedisCache(
+//	options =>
+//	{
+//		options.ConfigurationOptions = redisConfigurationOptions;
+//		options.InstanceName = $"Redis-{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}";
+//		options.ConnectionMultiplexerFactory = () => Task.FromResult(_redisConnectionMultiplexer);
+//	})
 
 builder.Services.AddStackExchangeRedisCache(redisCacheConfig =>
 {
 	redisCacheConfig.ConfigurationOptions = redisConfigurationOptions;
+	redisCacheConfig.ConnectionMultiplexerFactory = () => Task.FromResult(redisConnectionMultiplexer);
 });
 
 builder.Services.AddSession(options =>
