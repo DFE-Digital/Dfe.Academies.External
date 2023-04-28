@@ -138,6 +138,7 @@ var redisConfigurationOptions = ConfigurationOptions.Parse(builder.Configuration
 redisConfigurationOptions.AsyncTimeout = 15000;
 redisConfigurationOptions.SyncTimeout = 15000;
 
+
 //cofig from concerns
 //var redisConfigurationOptions = new ConfigurationOptions { Password = password, EndPoints = { $"{host}:{port}" }, Ssl = tls, AsyncTimeout = 15000, SyncTimeout = 15000 };
 
@@ -160,6 +161,7 @@ builder.Services.AddStackExchangeRedisCache(redisCacheConfig =>
 {
 	redisCacheConfig.ConfigurationOptions = redisConfigurationOptions;
 	redisCacheConfig.ConnectionMultiplexerFactory = () => Task.FromResult(redisConnectionMultiplexer);
+	redisCacheConfig.InstanceName = "redis-master";
 });
 
 builder.Services.AddSession(options =>
@@ -298,6 +300,7 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 // add OWASP top 10 response headers
 app.UseResponseMiddleware();
 
-
+// possible redis fix
+ThreadPool.SetMinThreads(400, 400);
 
 app.Run();
