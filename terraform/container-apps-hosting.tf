@@ -1,5 +1,5 @@
 module "azure_container_apps_hosting" {
-  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v0.17.1"
+  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=logic-app-receiver"
 
   environment    = local.environment
   project_name   = local.project_name
@@ -33,12 +33,10 @@ module "azure_container_apps_hosting" {
   cdn_frontdoor_origin_fqdn_override          = local.cdn_frontdoor_origin_fqdn_override
   restrict_container_apps_to_cdn_inbound_only = local.restrict_container_apps_to_cdn_inbound_only
 
-  enable_monitoring              = local.enable_monitoring
-  monitor_email_receivers        = local.monitor_email_receivers
-  monitor_enable_slack_webhook   = local.monitor_enable_slack_webhook
-  monitor_slack_webhook_receiver = local.monitor_slack_webhook_receiver
-  monitor_slack_channel          = local.monitor_slack_channel
-  enable_container_health_probe  = local.enable_container_health_probe
+  enable_monitoring             = local.enable_monitoring
+  monitor_email_receivers       = local.monitor_email_receivers
+  enable_container_health_probe = local.enable_container_health_probe
+  existing_logic_app_workflow   = local.existing_logic_app_workflow
 
   enable_container_app_blob_storage                = local.enable_container_app_blob_storage
   container_app_blob_storage_ipv4_allow_list       = local.container_app_blob_storage_ipv4_allow_list
