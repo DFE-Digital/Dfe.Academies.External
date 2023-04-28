@@ -300,6 +300,7 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 // add OWASP top 10 response headers
 app.UseResponseMiddleware();
 
-
+// possible redis fix
+ThreadPool.SetMinThreads(400, 400);
 
 app.Run();
