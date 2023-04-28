@@ -12,6 +12,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 	{
 		//// MR:- VM props to show data
 		public List<ApplicationNewTrustImprovementStrategyHeadingViewModel> ViewModel { get; set; } = new();
+        
+		public ApplicationStatus ApplicationStatus {get; private set;}
 
 		public ApplicationNewTrustImprovementStrategySummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 																IReferenceDataRetrievalService referenceDataRetrievalService) 
@@ -41,6 +43,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 		public override void PopulateUiModel(ConversionApplication? conversionApplication)
 		{
+			ApplicationStatus = conversionApplication.ApplicationStatus;
+			
 			if (conversionApplication != null && conversionApplication.FormTrustDetails != null)
 			{
 				TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;

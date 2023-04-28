@@ -13,6 +13,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		// MR:- VM props to show school consultation data
 		public List<SchoolConsultationSummaryHeadingViewModel> ViewModel { get; set; } = new();
 
+		public ApplicationStatus ApplicationStatus { get; private set;}
+
 		public ApplicationSchoolConsultationModelSummary(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
@@ -42,6 +44,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
+			var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
+		    ApplicationStatus = applicationDetails.ApplicationStatus;
+
 			SchoolConsultationSummaryHeadingViewModel heading1 = new(SchoolPupilNumbersSummaryHeadingViewModel.Heading,
 				"/school/ApplicationSchoolConsultation")
 			{

@@ -132,14 +132,14 @@
 				<h3 class="govuk-body govuk-!-font-weight-bold govuk-!-padding-right-5">@Model.NameOfTrustToJoin</h3>
 			</div>
 			<div class="govuk-grid-column-three-quarters">
-							@if (Model.ApplicationType == ApplicationTypes.JoinAMat)
+							@if (Model.ApplicationType == ApplicationTypes.JoinAMat && Model.ApplicationStatus != ApplicationStatus.Submitted)
             				{
             					<a asp-page="trust/joinamat/ApplicationSelectTrust" asp-route-appId="@Model.ApplicationId"
             					   class="govuk-link govuk-body">
             						Change
             					</a>
             				}
-							else
+							else if (Model.ApplicationStatus != ApplicationStatus.Submitted)
 							{
 								<a asp-page="trust/formamat/ApplicationNewTrustName" asp-route-appId="@Model.ApplicationId"
 								   class="govuk-link govuk-body">
