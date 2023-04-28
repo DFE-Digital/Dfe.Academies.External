@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -14,6 +15,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
 		public string? ProposedNameOfTrust { get; set; }
+
+		public ApplicationStatus ApplicationStatus {get; private set;}
 
 		public ApplicationNewTrustNameModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 	        IReferenceDataRetrievalService referenceDataRetrievalService, 
@@ -53,6 +56,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		///<inheritdoc/>
 		public override void PopulateUiModel(ConversionApplication? conversionApplication)
         {
+			
+			ApplicationStatus = conversionApplication.ApplicationStatus;
 	        if (conversionApplication != null && conversionApplication.FormTrustDetails != null)
 	        {
 		        ProposedNameOfTrust = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;

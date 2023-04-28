@@ -13,7 +13,10 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
     {
 	    [BindProperty]
 	    public List<NewTrustKeyPerson> NewTrustKeyPeople { get; set; } = new();
-		public ApplicationNewTrustKeyPersonSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
+
+        public ApplicationStatus ApplicationStatus {get; private set;}
+		
+        public ApplicationNewTrustKeyPersonSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 												IReferenceDataRetrievalService referenceDataRetrievalService) 
 	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
         {
@@ -42,6 +45,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
         ///<inheritdoc/>
 		public override void PopulateUiModel(ConversionApplication? conversionApplication)
         {
+            ApplicationStatus = conversionApplication.ApplicationStatus;
+
 	        if (conversionApplication != null && conversionApplication.FormTrustDetails != null)
 	        {
 		        TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;

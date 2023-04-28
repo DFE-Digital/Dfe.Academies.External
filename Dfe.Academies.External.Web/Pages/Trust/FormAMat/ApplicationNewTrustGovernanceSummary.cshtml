@@ -30,7 +30,7 @@
     						Start section
     					</a>
     				}
-    				else
+    				else if (Model.ApplicationStatus != ApplicationStatus.Submitted)
     				{
     					<a asp-page="@question.URI" class="govuk-link"
     					   asp-route-appId="@Model.ApplicationId">

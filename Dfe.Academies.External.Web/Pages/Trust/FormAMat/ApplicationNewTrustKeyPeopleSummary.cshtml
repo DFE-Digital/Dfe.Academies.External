@@ -52,19 +52,23 @@
                         <strong>Biography: </strong>@(keyPerson.Biography)
                     </p>
                     			    <div>
+
+                                         @if(Model.ApplicationStatus != ApplicationStatus.Submitted){
 	                                    <a asp-page="ApplicationNewTrustKeyPerson"
 	                                       asp-route-appId="@Model.ApplicationId"
                asp-route-keyPersonId="@keyPerson.Id"
             class="govuk-link govuk-link--no-visited-state">
             Edit
-            </a>
+            </a>}
             </div>
                 </li>
             }
         </ul>
     }
-    <a asp-page="ApplicationNewTrustKeyPerson" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Add a key person</a>
 
+     @if(Model.ApplicationStatus != ApplicationStatus.Submitted){
+    <a asp-page="ApplicationNewTrustKeyPerson" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Add a key person</a>
+     }
 
 
     <div class="govuk-!-margin-6"></div>
