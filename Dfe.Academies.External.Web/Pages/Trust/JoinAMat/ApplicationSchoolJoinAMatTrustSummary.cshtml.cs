@@ -42,8 +42,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		///<inheritdoc/>
 		public override void PopulateUiModel(ConversionApplication? conversionApplication)
 		{
-			var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
-		    ApplicationStatus = applicationDetails.ApplicationStatus;
+		    ApplicationStatus = conversionApplication.ApplicationStatus;
 			
 			if (conversionApplication != null)
 			{
