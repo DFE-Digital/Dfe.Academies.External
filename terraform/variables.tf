@@ -59,6 +59,12 @@ variable "container_secret_environment_variables" {
   sensitive   = true
 }
 
+variable "container_max_replicas" {
+  description = "Container max replicas"
+  type        = number
+  default     = 2
+}
+
 variable "enable_event_hub" {
   description = "Send Azure Container App logs to an Event Hub sink"
   type        = bool
@@ -143,6 +149,13 @@ variable "cdn_frontdoor_origin_fqdn_override" {
   description = "Manually specify the hostname that the CDN Front Door should target. Defaults to the Container App FQDN"
   type        = string
   default     = ""
+}
+
+variable "cdn_frontdoor_origin_host_header_override" {
+  description = "Manually specify the host header that the CDN sends to the target. Defaults to the recieved host header. Set to null to set it to the host_name (`cdn_frontdoor_origin_fqdn_override`)"
+  type        = string
+  default     = ""
+  nullable    = true
 }
 
 variable "enable_monitoring" {
