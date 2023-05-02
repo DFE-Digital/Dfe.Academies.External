@@ -19,7 +19,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 	
 	    [BindProperty]
 	    public string ApplicationReference { get; set; }
+		
+		public ApplicationStatus ApplicationStatus {get; private set;}
 
+	
 	    
 	    public FurtherInformationSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		    IReferenceDataRetrievalService referenceDataRetrievalService, IFileUploadService fileUploadService)
@@ -47,12 +50,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// does not apply on this page
 			return new();
 		}
+        
 		
 	    private FurtherInformationSummaryViewModel PopulateFurtherInformation(SchoolApplyingToConvert selectedSchool)
 	    {
 		    var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
 		    EntityId = selectedSchool.EntityId;
 		    ApplicationReference = applicationDetails.ApplicationReference;
+			ApplicationStatus = applicationDetails.ApplicationStatus;
 		    var sectionStarted = !string.IsNullOrEmpty(selectedSchool.TrustBenefitDetails);
 			// Heading
 			FurtherInformationSummaryViewModel FISheading = new(FurtherInformationSummaryViewModel.AdditionalDetailsHeading,

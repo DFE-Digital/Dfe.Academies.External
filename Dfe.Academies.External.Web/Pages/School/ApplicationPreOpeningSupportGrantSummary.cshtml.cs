@@ -13,6 +13,8 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BaseSchoolSummaryPa
 	//// MR:- VM props to show school conversion data
 	public List<ApplicationPreOpeningSupportGrantHeadingViewModel> ViewModel { get; set; } = new();
 
+	public ApplicationStatus ApplicationStatus { get; private set;}
+
 	public ApplicationPreOpeningSupportGrantSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		IReferenceDataRetrievalService referenceDataRetrievalService)
 		: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
@@ -42,6 +44,9 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BaseSchoolSummaryPa
 	///<inheritdoc/>
 	public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
+		var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
+		    ApplicationStatus = applicationDetails.ApplicationStatus;
+
 		ApplicationPreOpeningSupportGrantHeadingViewModel heading1 = new(ApplicationPreOpeningSupportGrantHeadingViewModel.Heading,
 			"/school/ApplicationPreOpeningSupportGrant"){
 			Status = !string.IsNullOrEmpty(selectedSchool.SchoolSupportGrantFundsPaidTo.ToString()) ?

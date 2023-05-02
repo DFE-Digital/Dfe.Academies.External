@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -13,6 +14,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		public string OpeningDateDate = "sip_formtrustopeningdate";
 
 		public string TrustName { get; private set; } = string.Empty;
+
+		public ApplicationStatus ApplicationStatus {get; private set;}
 
 		// MR:- VM props to capture data
 
@@ -151,6 +154,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		///<inheritdoc/>
 		public override void PopulateUiModel(ConversionApplication? conversionApplication)
 		{
+			ApplicationStatus = conversionApplication.ApplicationStatus;
 			if (conversionApplication != null && conversionApplication.FormTrustDetails != null)
 			{
 				TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;

@@ -18,6 +18,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		//// Below are props for UI display
 		public ApplicationTypes ApplicationType { get; private set; }
 
+		public ApplicationStatus ApplicationStatus { get; private set;}
+
 		public string SelectedTrustName { get; private set; }
 
 		public List<ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel> ViewModel { get; set; } = new();
@@ -40,6 +42,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		///<inheritdoc/>
 		public override void PopulateUiModel(ConversionApplication? conversionApplication)
 		{
+		    ApplicationStatus = conversionApplication.ApplicationStatus;
+			
 			if (conversionApplication != null)
 			{
 				SelectedTrustName = conversionApplication.JoinTrustDetails?.TrustName ?? string.Empty;
