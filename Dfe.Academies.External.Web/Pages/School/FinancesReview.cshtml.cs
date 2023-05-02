@@ -14,6 +14,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    //// MR:- VM props to show school conversion data
 	    public List<FinancesReviewHeadingViewModel> ViewModel { get; set; } = new();
 
+		public ApplicationStatus ApplicationStatus { get; private set;}
+
 	    public FinancesReviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		    IReferenceDataRetrievalService referenceDataRetrievalService)
 		    : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
@@ -340,6 +342,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	    {
+			var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
+		    ApplicationStatus = applicationDetails.ApplicationStatus;
+
 		    var PFYheading = PopulatePreviousFinancialYear(selectedSchool);
 		    var CFYheading = PopulateCurrentFinancialYear(selectedSchool);
 			var NFYheading = PopulateNextFinancialYear(selectedSchool);
