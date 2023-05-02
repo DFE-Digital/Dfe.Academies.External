@@ -45,7 +45,7 @@
 			Describe the contribution they will make
 		</span>
 		<textarea asp-for="TrustBenefitDetails" id="TrustBenefitDetails" 
-                								class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                								class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
 
 	</fieldset>
   </div>
@@ -79,7 +79,7 @@
 							You must provide details
 						</a>
 						<label for="OfstedInspectedDetails" class="govuk-label">Provide the inspection date and a short summary of the outcome</label>
-						<textarea asp-for="OfstedInspectionDetails" id="OfstedInspectedDetails" class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+						<textarea asp-for="OfstedInspectionDetails" id="OfstedInspectedDetails" class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
 					</div>
 				</div>
 			}
@@ -141,7 +141,7 @@
 						</a>
 						<label for="LocalAuthorityReorganisationDetails" class="govuk-label">Details of the reorganisation</label>
 						<textarea asp-for="LocalAuthorityReorganisationDetails" id="LocalAuthorityReorganisationDetails" 
-                                                													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                                                													class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
 					</div>
 				</div>
 			}
@@ -180,7 +180,7 @@
 						</a>
 						<label for="LocalAuthorityClosurePlanDetails" class="govuk-label">Details of the closure plans</label>
 						<textarea asp-for="LocalAuthorityClosurePlanDetails" id="LocalAuthorityClosurePlanDetails" 
-                                                                													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                                                                													class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
 					</div>
 				</div>
 			}
@@ -219,7 +219,7 @@
 						</a>
 					</div>
 					<label for="DioceseName" class="govuk-label">Name of diocese</label>
-					<textarea asp-for="DioceseName" id="DioceseName" class="govuk-textarea" cols="5" rows="1" maxlength="200"></textarea>
+					<textarea asp-for="DioceseName" id="DioceseName" class="govuk-textarea" cols="5" rows="1" maxlength="2000"></textarea>
 					
 					<p class="govuk-label">
 						Upload a letter from the diocese giving permission for the school to convert.
@@ -313,7 +313,7 @@
 						</a>
 					</div>
 					<label for="FoundationTrustOrBodyName" class="govuk-label">Name of this body</label>
-					<textarea asp-for="FoundationTrustOrBodyName" id="FoundationTrustOrBodyName" class="govuk-textarea" cols="10" rows="1" maxlength="200"></textarea>
+					<textarea asp-for="FoundationTrustOrBodyName" id="FoundationTrustOrBodyName" class="govuk-textarea" cols="10" rows="1" maxlength="2000"></textarea>
 										
 					<div class=" @(Model.FoundationConsentFileError ? "govuk-form-group--error" : "govuk-radios__conditional")"
 					     id="FoundationConsentFileNotAddedError">
@@ -417,7 +417,7 @@
 	</span>
 
 	</fieldset>
-	<textarea asp-for="MainFeederSchools" id="MainFeederSchools" class="govuk-textarea" cols="40" rows="10" maxlength="200"></textarea>
+	<textarea asp-for="MainFeederSchools" id="MainFeederSchools" class="govuk-textarea" cols="40" rows="10" maxlength="2000"></textarea>
 </div>
 </div>
 			
@@ -549,7 +549,7 @@
 						</a>
 						<label for="furtherInformationDetails" class="govuk-label">Any other information</label>
 						<textarea asp-for="FurtherInformationDetails" id="furtherInformationDetails" 
-                                                                													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                                                                													class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
 					</div>
 				</div>
 			}
