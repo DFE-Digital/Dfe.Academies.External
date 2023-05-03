@@ -28,7 +28,7 @@
 			        <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 		        </div>
 		        <div class="govuk-form-group">
-			        <div class="govuk-form-group">
+					<div id = "TotalAmountError" class="govuk-form-group">
 				        <label for="TotalAmount" class="govuk-label">Total amount</label>
 				        <input type="number" asp-for="TotalAmount" id="TotalAmount" class="govuk-input govuk-input--width-20"/>
 			        </div>
@@ -40,7 +40,7 @@
 				        <label for="Provider" class="govuk-label">Loan provider</label>
 				        <input type="text" asp-for="Provider" id="Provider" class="govuk-input govuk-input--width-20"/>
 			        </div>
-			        <div class="govuk-form-group">
+			        <div id = "InterestRateAmountError" class="govuk-form-group">
 				        <label for="InterestRate" class="govuk-label">Interest rate</label>
 				        <input type="number" asp-for="InterestRate" id="InterestRate" class="govuk-input govuk-input--width-20"/>
 			        </div>

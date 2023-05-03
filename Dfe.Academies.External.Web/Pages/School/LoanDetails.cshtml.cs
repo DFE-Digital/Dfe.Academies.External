@@ -19,6 +19,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public int Urn { get; set; }
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
+
 		public decimal TotalAmount { get; set; }
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
@@ -27,7 +28,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[Required(ErrorMessage = "You must provide details")]
 		public string Provider { get; set; }
 		[BindProperty]
-		[Range(0, 200000000000000, ErrorMessage = "Interest rate must be greater than 0")]
 		[Required(ErrorMessage = "You must provide details")]
 		public decimal InterestRate { get; set; }
 		[BindProperty]
@@ -114,6 +114,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
+			if(TotalAmount <= 0 ||TotalAmount > 200000000000000)
+			{							
+				ModelState.AddModelError("TotalAmountError", "The amount must be above 0 ");			
+			}
+
+			if(InterestRate <= 0 ||InterestRate> 200000000000000)
+			{							
+				ModelState.AddModelError("InterestRateAmountError", "The interest rate must be above 0 ");			
+			}
+
+			
+			
 			if (!ModelState.IsValid)
 			{
 				PopulateValidationMessages();

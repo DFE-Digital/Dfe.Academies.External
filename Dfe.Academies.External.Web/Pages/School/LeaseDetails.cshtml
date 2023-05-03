@@ -31,17 +31,17 @@
 			        <textarea asp-for="LeaseTerm" id="LeaseTerm" class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
 			        
 			        <label for="RepaymentAmount" class="govuk-fieldset__legend govuk-fieldset__legend--s">Repayment value</label>
-			        <div class="govuk-form-group">
+			        <div id="RepaymentAmountError" class="govuk-form-group">
 				        <input type="number" asp-for="RepaymentAmount" id="RepaymentAmount" class="govuk-input govuk-input--width-20"/>
 			        </div>
 			        
 			        <label for="InterestRate" class="govuk-fieldset__legend govuk-fieldset__legend--s">Interest rate chargeable</label>
-			        <div class="govuk-form-group">
+			        <div id="InterestRateAmountError" class="govuk-form-group">
 				        <input type="decimal" asp-for="InterestRate" id="InterestRate" class="govuk-input govuk-input--width-20"/>
 			        </div>
 			        
 			        <label for="PaymentsToDate" class="govuk-fieldset__legend govuk-fieldset__legend--s">Value of the payments made to date</label>
-			        <div class="govuk-form-group">
+			        <div id="PaymentsToDateAmountError" class="govuk-form-group">
 				        <input type="text" asp-for="PaymentsToDate" id="PaymentsToDate" class="govuk-input govuk-input--width-20"/>
 			        </div>
 			        
