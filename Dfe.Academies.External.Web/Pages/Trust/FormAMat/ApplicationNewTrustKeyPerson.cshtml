@@ -25,49 +25,50 @@
             </h1>
 
             <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
-	            <fieldset class="govuk-fieldset">
-		            <div class="govuk-form-group">@*@(Model.IsPropertyInvalid("TrustKeyPersonName") ? "govuk-form-group--error" : "")">*@
-			            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                                <label for="TrustKeyPersonName" class="govuk-label">Name</label>
-			            </legend>
-			            <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("TrustKeyPersonName") ? "govuk-visually-hidden" : "")">
+                <fieldset class="govuk-fieldset">
+                    <div class="govuk-form-group">
+                        @*@(Model.IsPropertyInvalid("TrustKeyPersonName") ? "govuk-form-group--error" : "")">*@
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <label for="TrustKeyPersonName" class="govuk-label">Name</label>
+                        </legend>
+                        <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("TrustKeyPersonName") ? "govuk-visually-hidden" : "")">
                             <span class="govuk-visually-hidden">Error:</span> Please enter a name
-	                    </p>
-			            <input type="text" asp-for="TrustKeyPersonName" id="TrustKeyPersonName" class="govuk-input govuk-input--width-20" />@*@(Model.IsPropertyInvalid("TrustKeyPersonName") ? "govuk-input--error" : "")" />*@
-		            </div>
-					<div id="TrustKeyPersonRoleError">
-		            <div class="govuk-form-group">
-			            <fieldset class="govuk-fieldset">
-				            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        </p>
+                        <input type="text" asp-for="TrustKeyPersonName" id="TrustKeyPersonName" class="govuk-input govuk-input--width-20" />@*@(Model.IsPropertyInvalid("TrustKeyPersonName") ? "govuk-input--error" : "")" />*@
+                    </div>
+                    <div id="TrustKeyPersonRoleError">
+                        <div class="govuk-form-group">
+                            <fieldset class="govuk-fieldset">
+                                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                                     <div class="govuk-label">Position within the trust</div>
-				            </legend>
-				            <div class="govuk-hint">
-					            Tick all that apply
-				            </div>
-				            <p id="role-input-error" class="govuk-error-message @(!Model.TrustKeyPersonRoleError ? "govuk-visually-hidden" : "")">
-					            <span class="govuk-visually-hidden">Error:</span> Please select at least one role
-				            </p>
-				            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-					            <div class="govuk-checkboxes__item">
-						            <input asp-for="TrustKeyPersonMember" type="checkbox" class="govuk-checkboxes__input">
-						            <label for='TrustKeyPersonMember' class="govuk-label govuk-checkboxes__label">
-							            Member
-						            </label>
-					            </div>
-					            <div class="govuk-checkboxes__item">
-						            <input asp-for="TrustKeyPersonTrustee" type="checkbox" class="govuk-checkboxes__input">
-						            <label for='TrustKeyPersonTrustee' class="govuk-label govuk-checkboxes__label">
-							            Trustee
-						            </label>
-					            </div>
-					            <div class="govuk-checkboxes__item">
-						            <input asp-for="TrustKeyPersonCeo" type="checkbox" class="govuk-checkboxes__input">
-						            <label for='TrustKeyPersonCeo' class="govuk-label govuk-checkboxes__label">
-							            CEO / executive
-						            </label>
-					            </div>
-					            <div class="govuk-checkboxes__item">
-						            <input asp-for="TrustKeyPersonChair" type="checkbox" class="govuk-checkboxes__input">
+                                </legend>
+                                <div class="govuk-hint">
+                                    Tick all that apply
+                                </div>
+                                <p id="role-input-error" class="govuk-error-message @(!Model.TrustKeyPersonRoleError ? "govuk-visually-hidden" : "")">
+                                    <span class="govuk-visually-hidden">Error:</span> Please select at least one role
+                                </p>
+                                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                    <div class="govuk-checkboxes__item">
+                                        <input asp-for="TrustKeyPersonMember" type="checkbox" class="govuk-checkboxes__input">
+                                        <label for='TrustKeyPersonMember' class="govuk-label govuk-checkboxes__label">
+                                            Member
+                                        </label>
+                                    </div>
+                                    <div class="govuk-checkboxes__item">
+                                        <input asp-for="TrustKeyPersonTrustee" type="checkbox" class="govuk-checkboxes__input">
+                                        <label for='TrustKeyPersonTrustee' class="govuk-label govuk-checkboxes__label">
+                                            Trustee
+                                        </label>
+                                    </div>
+                                    <div class="govuk-checkboxes__item">
+                                        <input asp-for="TrustKeyPersonCeo" type="checkbox" class="govuk-checkboxes__input">
+                                        <label for='TrustKeyPersonCeo' class="govuk-label govuk-checkboxes__label">
+                                            CEO / executive
+                                        </label>
+                                    </div>
+                                    <div class="govuk-checkboxes__item">
+                                        <input asp-for="TrustKeyPersonChair" type="checkbox" class="govuk-checkboxes__input">
                                         <label for='TrustKeyPersonChair' class="govuk-label govuk-checkboxes__label">
 							            Chair of trust
 						            </label>
@@ -132,13 +133,15 @@
 			            <label for="TrustKeyPersonBiography" class="govuk-label">Provide a biography of them</label>
                         <p id="biography-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("TrustKeyPersonBiography") ? "govuk-visually-hidden" : "")">
                             <span class="govuk-visually-hidden">Error:</span> Please enter a biography
-			            </p>
+                        </p>
                         <textarea asp-for="TrustKeyPersonBiography" id="TrustKeyPersonBiography"
                               class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
-		            </div>
+                    </div>
 
-	            </fieldset>
-				 <input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
+                </fieldset>
+            </div>
+
+            <input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
         </div>
     </div>
 </form>
