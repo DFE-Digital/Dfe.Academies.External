@@ -100,25 +100,37 @@
 							</div>
 							@if (conversionContactType == MainConversionContact.Other)
 							{
+
 								<div class="@(Model.OtherContactError ? "govuk-form-group--error" : "govuk-radios__conditional")
 	                                            @(Model.ViewModel.ContactRole != MainConversionContact.Other ? "govuk-radios__conditional--hidden" : "")"
 								     id="conditional-contacttype-other" aria-expanded="false">
 									<div class="govuk-form-group govuk-error-summary__list">
+										<div id ="MainContactOtherNameNotEntered">
 										<label for="conditional-contacttype-other" class="govuk-label">Name</label>
+										<label for="MainContactOtherNamey" class="govuk-label">
 										<input type="text" asp-for="@Model.ViewModel.MainContactOtherName" id="MainContactOtherName"
 										       class="govuk-input govuk-input--width-20"/>
-
+                                        </label>
+										</div>
+										<div id ="MainContactOtherEmailNotEntered">
 										<label for="conditional-contacttype-other" class="govuk-label">Email address</label>
 										<span class="govuk-hint">
 											We will only use this to contact you regarding your application
 										</span>
+									    </div>
+										<label for="MainContactOtherEmail" class="govuk-label">
 										<input type="email" asp-for="@Model.ViewModel.MainContactOtherEmail" id="MainContactOtherEmail"
 										       class="govuk-input govuk-input--width-20"/>
-
+											   </label>
+                                     <div id ="MainContactOtherTelephoneNotEntered">
 										<label for="conditional-contacttype-other" class="govuk-label">Telephone number</label>
+										<label for="MainContactOtherTelephone" class="govuk-label">
 										<input type="number" asp-for="@Model.ViewModel.MainContactOtherTelephone" id="MainContactOtherTelephone"
-										       class="govuk-input govuk-input--width-20"/>
+										       class="govuk-input govuk-input--width-20" aria-labelledby="something"/>
+											   </label>
 									</div>
+                                    </div>
+
 								</div>
 							}
 						}

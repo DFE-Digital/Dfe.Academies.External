@@ -110,11 +110,14 @@
 		                                    codes.
 	                                    </span>
 	                                    <div class="govuk-form-group @(Model.SchoolPFYRevenueFileSizeError || Model.SchoolPFYRevenueFileGenericError ? "govuk-form-group--error" : "")">
-		                                    <label for="schoolPfyRevenueFileUpload" class="govuk-label"> Upload a file</label>
-	                                    
+		                                    <div id="SchoolPFYRevenueStatusFiles">
+											<label for="schoolPfyRevenueFileUpload" class="govuk-label"> Upload a file</label>
+											</div>
+	                                        <div id="SchoolPFYRevenueFileSizeError">
 		                                    <p id="file-upload-schoolPFYRevenueFileSize-error" class="govuk-error-message @(!Model.SchoolPFYRevenueFileSizeError ? "govuk-visually-hidden" : "")">
 			                                    <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
 		                                    </p>
+											</div>
 		                                    <p id="file-upload-schoolPFYRevenueFile-genericError" class="govuk-error-message @(!Model.SchoolPFYRevenueFileGenericError ? "govuk-visually-hidden" : "")">
 			                                    <span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
 		                                    </p>
@@ -190,11 +193,14 @@
 		                                    codes.
 	                                    </span>
 	                                    <div class="govuk-form-group @(Model.SchoolPFYCapitalFileSizeError || Model.SchoolPFYCapitalFileGenericError ? "govuk-form-group--error" : "")">
-		                                    <label for="schoolPfyCapitalFileUpload" class="govuk-label"> Upload a file</label>
-          
+		                                    <div id="SchoolPFYCapitalForwardStatusFiles">
+											<label for="schoolPfyCapitalFileUpload" class="govuk-label"> Upload a file</label>
+											</div>
+                                           <div id="SchoolPFYCapitalFileSizeError">
 		                                    <p id="file-upload-schoolPFYCapitalFileSize-error" class="govuk-error-message @(!Model.SchoolPFYCapitalFileSizeError ? "govuk-visually-hidden" : "")">
 			                                    <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
 		                                    </p>
+											</div>
 		                                    <p id="file-upload-schoolPFYCapitalFile-genericError" class="govuk-error-message @(!Model.SchoolPFYCapitalFileGenericError ? "govuk-visually-hidden" : "")">
 			                                    <span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
 		                                    </p>

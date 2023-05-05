@@ -116,10 +116,14 @@
 										codes.
 									</span>
 									<div class="govuk-form-group @(Model.ForecastedRevenueFileSizeError || Model.SchoolRevenueFileGenericError ? "govuk-form-group--error" : "")">
+										<div id="ForecastedRevenueFiles">
 										<label for="schoolNfyRevenueFileUpload" class="govuk-label"> Upload a file</label>
+										</div>
+										<div id="ForecastedRevenueFileSizeError">
 										<p id="file-upload-forecastedRevenueFileSize-error" class="govuk-error-message @(!Model.ForecastedRevenueFileSizeError ? "govuk-visually-hidden" : "")">
 											<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
 										</p>
+										</div>
 										<p id="file-upload-forecastedRevenueFile-genericError" class="govuk-error-message @(!Model.SchoolRevenueFileGenericError ? "govuk-visually-hidden" : "")">
 											<span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
 										</p>
@@ -197,11 +201,16 @@
 										</a>
 										codes.
 									</span>
+
 									<div class="govuk-form-group @(Model.ForecastedCapitalFileSizeError || Model.SchoolCapitalFileGenericError ? "govuk-form-group--error" : "")">
+										<div id="ForecastedCapitalFiles">
 										<label for="schoolNfyCapitalFileUpload" class="govuk-label"> Upload a file</label>
-										<p id="file-upload-forecastedCapitalFileSize-error" class="govuk-error-message @(!Model.ForecastedCapitalFileSizeError ? "govuk-visually-hidden" : "")">
+										</div>
+                                        <div id="ForecastedCapitalFileSizeError">
+									        <p id="file-upload-forecastedCapitalFileSize-error" class="govuk-error-message @(!Model.ForecastedCapitalFileSizeError ? "govuk-visually-hidden" : "")">
 											<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
 										</p>
+										</div>
 										<p id="file-upload-forecastedCapitalFile-genericError" class="govuk-error-message @(!Model.SchoolCapitalFileGenericError ? "govuk-visually-hidden" : "")">
 											<span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
 										</p>

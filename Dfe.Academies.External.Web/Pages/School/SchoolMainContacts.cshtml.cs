@@ -105,21 +105,21 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherName))
 			{
-				ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide details");
+				ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide a contact name");
 				PopulateValidationMessages();
 				return false;
 			}
 
 			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
 			{
-				ModelState.AddModelError("MainContactOtherEmailNotEntered", "You must provide details");
+				ModelState.AddModelError("MainContactOtherEmailNotEntered", "You must provide an email");
 				PopulateValidationMessages();
 				return false;
 			}
 
 			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherTelephone))
 			{
-				ModelState.AddModelError("MainContactOtherTelephoneNotEntered", "You must provide details");
+				ModelState.AddModelError("MainContactOtherTelephoneNotEntered", "You must provide a telephone");
 				PopulateValidationMessages();
 				return false;
 			}

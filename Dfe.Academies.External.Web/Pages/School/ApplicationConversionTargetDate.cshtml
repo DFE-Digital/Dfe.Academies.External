@@ -78,9 +78,11 @@
 								</fieldset>
 
 								<div class="govuk-!-margin-6"></div>
+								<div id="TargetDateExplainedNotEntered">
 								<label class="@(Model.TargetDateExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 									You must explain why you want to convert on this date
 								</label>
+								</div>
 								<label for="TargetDateExplained" class="govuk-label">Explain why you want to convert on this date</label>
                                 <textarea asp-for="TargetDateExplained" id="TargetDateExplained" class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
 							</div>
