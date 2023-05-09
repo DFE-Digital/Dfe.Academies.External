@@ -75,10 +75,5 @@ namespace Dfe.Academies.External.Web.Pages.Help
 
 			return true;
 		}
-		public bool IsPropertyInvalid(string propertyKey)
-		{
-			return ModelState.GetFieldValidationState(propertyKey) == ModelValidationState.Invalid;
-		}
-
 	}
 }

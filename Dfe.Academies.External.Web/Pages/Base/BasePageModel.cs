@@ -2,6 +2,7 @@
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.Academies.External.Web.Pages.Base;
@@ -77,5 +78,10 @@ public abstract class BasePageModel : PageModel
 	protected string GetCurrentUserEmail()
 	{
 		return User.FindFirst(ClaimTypes.Email)?.Value ?? string.Empty;
+	}
+
+	public bool IsPropertyInvalid(string propertyKey)
+	{
+		return ModelState.GetFieldValidationState(propertyKey) == ModelValidationState.Invalid;
 	}
 }
