@@ -22,12 +22,12 @@ public class SchoolApplyingToConvert
         public SchoolLandAndBuildings LandAndBuildings { get; set; }
         public string TrustBenefitDetails  { get; set; }
         public string? OfstedInspectionDetails  { get; set; }
-        public bool Safeguarding  { get; set; }
+        public bool? Safeguarding  { get; set; }
         public string? LocalAuthorityReorganisationDetails  { get; set; }
         public string? LocalAuthorityClosurePlanDetails  { get; set; }
         public string? DioceseName  { get; set; }
         public string? DioceseFolderIdentifier  { get; set; }
-        public bool PartOfFederation { get; set; }
+        public bool? PartOfFederation { get; set; }
         public string? FoundationTrustOrBodyName { get; set; }
         public string? FoundationConsentFolderIdentifier { get; set; }
         public DateTimeOffset? ExemptionEndDate { get; set; }
