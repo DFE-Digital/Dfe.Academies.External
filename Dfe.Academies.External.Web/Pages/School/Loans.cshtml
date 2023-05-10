@@ -23,18 +23,20 @@
     		<input type="hidden" asp-for="ApplicationId"/>		
     		<partial name="_HiddenFields"/>
     		
-    		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+    		<div class="@(Model.IsPropertyInvalid("AnyLoans") ? "govuk-form-group--error" : "govuk-form-group")">
     			<fieldset class="govuk-fieldset">
     				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
     					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
     				</div>
-                
-    				<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+
+                    <div id="AnyLoans" class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
     					<fieldset class="govuk-fieldset" role="group">
 							<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 								Are there any existing loans?
 							</legend>
-						
+                            <p id="AnyLoans-error" class="govuk-error-message @(!Model.IsPropertyInvalid("AnyLoans") ? "govuk-visually-hidden" : "")">
+                                <span class="govuk-visually-hidden">Error:</span> You must provide details
+                            </p>
                             @foreach (var anyLoansOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
     						{
     							<div class="govuk-radios__item">
@@ -51,7 +53,7 @@
     							</div>
     							@if (anyLoansOption == SelectOption.Yes)
     							{
-								    <div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional") 
+                                <div class="@(Model.IsPropertyInvalid("AddedLoansButEmptyCollectionError") ? "govuk-form-group--error" : "govuk-radios__conditional")
 	                                                @(anyLoansOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 								         id="anyLoansOption-yes">
 									    @foreach (var loan in Model.LoanViewModels)
