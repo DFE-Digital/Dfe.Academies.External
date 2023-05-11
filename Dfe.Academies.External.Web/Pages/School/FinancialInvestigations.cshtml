@@ -21,16 +21,18 @@
 		@Html.AntiForgeryToken()
 		<input type="hidden" asp-for="Urn"/>
 		<input type="hidden" asp-for="ApplicationId"/>		
-		<partial name="_HiddenFields"/>    
+		<partial name="_HiddenFields"/>
 
-		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+            <div class="@(Model.IsPropertyInvalid("FinanceOngoingInvestigations") ? "govuk-form-group--error" : "govuk-form-group")">
 			<fieldset class="govuk-fieldset">
 				<legend id="role-hint" class="govuk-fieldset__legend">Are there any financial investigations ongoing at the school?</legend>
 
 				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>
-
+                    <p id="FinanceOngoingInvestigations-error" class="govuk-error-message @(!Model.IsPropertyInvalid("FinanceOngoingInvestigations") ? "govuk-visually-hidden" : "")">
+                        <span class="govuk-visually-hidden">Error:</span> You must provide details
+                    </p>
 				<div class="govuk-form-group">
 					<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
 						@foreach (var selectOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
@@ -49,11 +51,10 @@
 							</div>
 							@if (selectOption == SelectOption.Yes)
 							{
-								<div class="@(Model.FinancialInvestigationsExplainError ? "govuk-form-group--error" : "govuk-radios__conditional")
-	                                            @(selectOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+								<div class="govuk-radios__conditional @(selectOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 								     id="selectoption-yes">
 									 <div id ="FinancialInvestigationsExplainNotEntered">
-									<div class="govuk-form-group govuk-error-summary__list">
+                                        <div class="@(Model.FinancialInvestigationsExplainError ? "govuk-form-group--error" : "govuk-form-group") govuk-error-summary__list">
 										<label for="FinancialInvestigationsExplain" class="govuk-label">Provide a brief summary of the investigation</label>
 										<label class="@(Model.FinancialInvestigationsExplainError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must provide details of the investigation
@@ -61,12 +62,15 @@
 										<textarea asp-for="FinancialInvestigationsExplain" id="FinancialInvestigationsExplain"
                                           class="govuk-textarea" cols="40" rows="5" maxlength="2000">				
 										</textarea>
-										
-										<div class="govuk-form-group">
+                                        </div>
+                                        <div id="FinancialInvestigationsTrustAwareNotSelected" class="@(Model.IsPropertyInvalid("FinancialInvestigationsTrustAwareNotSelected")  ? "govuk-form-group--error" : "govuk-form-group")">
 											<fieldset class="govuk-fieldset">
 												<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 													Is the trust you are joining aware of the investigation?
-												</legend>
+                                                    </legend>
+                                                    <p id="FinancialInvestigationsTrustAwareNotSelected-error" class="govuk-error-message @(!Model.IsPropertyInvalid("FinancialInvestigationsTrustAwareNotSelected") ? "govuk-visually-hidden" : "")">
+                                                        <span class="govuk-visually-hidden">Error:</span> You must provide details
+                                                    </p>
 												@foreach (var trustAwareOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
 												{
 													<div class="govuk-radios__item">
@@ -85,7 +89,7 @@
 										</div>
 									</div>
 									</div>
-								</div>
+								
 							}
 						}
 					</div>
