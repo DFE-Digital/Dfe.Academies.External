@@ -24,7 +24,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				var bools = new[] { OtherNameError, OtherEmailError, OtherTelephoneError };
+				var bools = new[] { OtherNameError, OtherEmailError };
 
 				return bools.Any(b => b);
 			}
@@ -45,15 +45,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return !ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherEmailNotEntered");
 			}
 		}
-
-		public bool OtherTelephoneError
-		{
-			get
-			{
-				return !ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherTelephoneNotEntered");
-			}
-		}
-
+		
 		public SchoolMainContactsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationCreationService academisationCreationService)
@@ -117,12 +109,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return false;
 			}
 
-			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherTelephone))
-			{
-				ModelState.AddModelError("MainContactOtherTelephoneNotEntered", "You must provide a telephone");
-				PopulateValidationMessages();
-				return false;
-			}
 
 			// Check ViewModel.MainContactOtherEmail - is-valid email address
 			if (ViewModel.ContactRole == MainConversionContact.Other &&
@@ -158,21 +144,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				ViewModel.MainContactOtherName = null;
 				ViewModel.MainContactOtherEmail = null;
-				ViewModel.MainContactOtherTelephone = null;
 			}
 
 			return new Dictionary<string, dynamic>
 			{
 				{ nameof(SchoolApplyingToConvert.SchoolConversionContactHeadName), ViewModel.ContactHeadName },
 				{ nameof(SchoolApplyingToConvert.SchoolConversionContactHeadEmail), ViewModel.ContactHeadEmail },
-				{ nameof(SchoolApplyingToConvert.SchoolConversionContactHeadTel), ViewModel.ContactHeadTel },
 				{ nameof(SchoolApplyingToConvert.SchoolConversionContactChairName), ViewModel.ContactChairName },
 				{ nameof(SchoolApplyingToConvert.SchoolConversionContactChairEmail), ViewModel.ContactChairEmail },
-				{ nameof(SchoolApplyingToConvert.SchoolConversionContactChairTel), ViewModel.ContactChairTel },
 				{ nameof(SchoolApplyingToConvert.SchoolConversionContactRole), ViewModel.ContactRole.ToString() },
 				{ nameof(SchoolApplyingToConvert.SchoolConversionMainContactOtherName), ViewModel?.MainContactOtherName! },
 				{ nameof(SchoolApplyingToConvert.SchoolConversionMainContactOtherEmail), ViewModel?.MainContactOtherEmail! },
-				{ nameof(SchoolApplyingToConvert.SchoolConversionMainContactOtherTelephone), ViewModel?.MainContactOtherTelephone! },
 				{ nameof(SchoolApplyingToConvert.SchoolConversionApproverContactName), ViewModel?.ApproverContactName },
 				{ nameof(SchoolApplyingToConvert.SchoolConversionApproverContactEmail), ViewModel?.ApproverContactEmail }
 			};
@@ -195,14 +177,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				ContactHeadName = selectedSchool.SchoolConversionContactHeadName,
 				ContactHeadEmail = selectedSchool.SchoolConversionContactHeadEmail,
-				ContactHeadTel = selectedSchool.SchoolConversionContactHeadTel,
 				ContactChairName = selectedSchool.SchoolConversionContactChairName,
 				ContactChairEmail = selectedSchool.SchoolConversionContactChairEmail,
-				ContactChairTel = selectedSchool.SchoolConversionContactChairTel,
 				ContactRole = !string.IsNullOrEmpty(selectedSchool.SchoolConversionContactRole) ? selectedSchool.SchoolConversionContactRole.ToEnum<MainConversionContact>() : 0,
 				MainContactOtherName = selectedSchool.SchoolConversionMainContactOtherName,
 				MainContactOtherEmail = selectedSchool.SchoolConversionMainContactOtherEmail,
-				MainContactOtherTelephone = selectedSchool.SchoolConversionMainContactOtherTelephone,
 				ApproverContactName = selectedSchool.SchoolConversionApproverContactName,
 				ApproverContactEmail = selectedSchool.SchoolConversionApproverContactEmail
 			};
