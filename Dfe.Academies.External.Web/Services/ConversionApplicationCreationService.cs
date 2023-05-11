@@ -21,7 +21,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 	{
 		_httpClient = httpClientFactory.CreateClient(AcademisationAPIHttpClientName);
 		_logger = logger;
-		_resilientRequestProvider = new ResilientRequestProvider(_httpClient);
+		_resilientRequestProvider = new ResilientRequestProvider(_httpClient, _logger);
 		_conversionApplicationRetrievalService = conversionApplicationRetrievalService;
 	}
 

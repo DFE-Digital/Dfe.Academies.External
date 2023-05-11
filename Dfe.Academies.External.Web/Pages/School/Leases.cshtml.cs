@@ -1,6 +1,7 @@
 ﻿using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -117,7 +118,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			AnyLeases = HasLeases.HasValue && HasLeases.Value ? SelectOption.Yes : SelectOption.No;
+			AnyLeases = HasLeases.GetEnumValue();
 		}
 
 		///<inheritdoc/>
@@ -136,9 +137,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return false;
 			}
 
-			if (!AnyLeases.HasValue)
+			if (!ModelState.IsValid)
 			{
-				ModelState.AddModelError("InvalidSelectOptionError", "You must select an option");
 				PopulateValidationMessages();
 				return false;
 			}

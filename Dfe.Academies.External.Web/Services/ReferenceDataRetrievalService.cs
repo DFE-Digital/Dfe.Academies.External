@@ -16,7 +16,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 	{
 		_logger = logger;
 		_httpClient = httpClientFactory.CreateClient(AcademiesAPIHttpClientName);
-		_resilientRequestProvider = new ResilientRequestProvider(_httpClient);
+		_resilientRequestProvider = new ResilientRequestProvider(_httpClient, _logger);
 	}
 
 	///<inheritdoc/>
