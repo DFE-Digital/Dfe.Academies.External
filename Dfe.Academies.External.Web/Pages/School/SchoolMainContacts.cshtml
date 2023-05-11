@@ -51,12 +51,6 @@
 				</div>
 
 				<div class="govuk-form-group">
-					<label for="ViewModel.ContactHeadTel" class="govuk-label">Headteacher's telephone number</label>
-					<input type="number" asp-for="ViewModel.ContactHeadTel" id="ViewModel.ContactHeadTel"
-					       class="govuk-input govuk-input--width-20"/>
-				</div>
-
-				<div class="govuk-form-group">
 					<label for="ViewModel.ContactChairName" class="govuk-label">Name of the chair of the governing body</label>
 					<input type="text" asp-for="ViewModel.ContactChairName" id="ViewModel.ContactChairName"
 					       class="govuk-input govuk-input--width-20"/>
@@ -70,13 +64,6 @@
 					<input type="email" asp-for="ViewModel.ContactChairEmail" id="ViewModel.ContactChairEmail"
 					       class="govuk-input govuk-input--width-20"/>
 				</div>
-
-				<div class="govuk-form-group">
-					<label for="ViewModel.ContactChairTel" class="govuk-label">Chair's telephone number</label>
-					<input type="number" asp-for="ViewModel.ContactChairTel" id="ViewModel.ContactChairTel"
-					       class="govuk-input govuk-input--width-20"/>
-				</div>
-
 				<div class="govuk-form-group">
 					<span class="govuk-fieldset__legend govuk-fieldset__legend--s">
 						Who is the main contact for the conversion?
@@ -122,13 +109,6 @@
 										<input type="email" asp-for="@Model.ViewModel.MainContactOtherEmail" id="MainContactOtherEmail"
 										       class="govuk-input govuk-input--width-20"/>
 											   </label>
-                                     <div id ="MainContactOtherTelephoneNotEntered">
-										<label for="conditional-contacttype-other" class="govuk-label">Telephone number</label>
-										<label for="MainContactOtherTelephone" class="govuk-label">
-										<input type="number" asp-for="@Model.ViewModel.MainContactOtherTelephone" id="MainContactOtherTelephone"
-										       class="govuk-input govuk-input--width-20" aria-labelledby="something"/>
-											   </label>
-									</div>
                                     </div>
 
 								</div>
