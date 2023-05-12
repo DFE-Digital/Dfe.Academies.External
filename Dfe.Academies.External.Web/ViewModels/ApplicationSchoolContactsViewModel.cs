@@ -32,19 +32,12 @@ public sealed class ApplicationSchoolContactsViewModel
 	[Required(ErrorMessage = "You must provide the headteacher's email")]
 	public string ContactHeadEmail { get; set; }
 
-	[Phone] // TODO :- what kind of phone validation?
-	[Required(ErrorMessage = "You must provide the headteacher's phone number")]
-	public string ContactHeadTel { get; set; }
-
 	[Required(ErrorMessage = "You must provide the chair's name")]
 	public string ContactChairName { get; set; }
 
 	[EmailAddress(ErrorMessage = "Chair of governing body email is not a valid e-mail address")]
 	[Required(ErrorMessage = "You must provide the chair's email")]
 	public string ContactChairEmail { get; set; }
-
-	[Required(ErrorMessage = "You must provide the chair's phone number")]
-	public string ContactChairTel { get; set; }
 
 	[RequiredEnum(ErrorMessage = "You must provide a main contact")]
 	public MainConversionContact ContactRole { get; set; }
@@ -54,7 +47,6 @@ public sealed class ApplicationSchoolContactsViewModel
 	[EmailAddress(ErrorMessage = "Other contact email is not a valid e-mail address")]
 	public string? MainContactOtherEmail { get; set; }
 
-	public string? MainContactOtherTelephone { get; set; }
 
 	/// <summary>
 	/// only applicable if ContactRole = other - no idea what this is
