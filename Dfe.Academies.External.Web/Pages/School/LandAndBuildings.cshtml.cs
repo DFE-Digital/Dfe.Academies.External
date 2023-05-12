@@ -2,6 +2,7 @@
 using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -20,7 +21,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption SchoolBuildLandWorksPlanned { get; set; }
+		public SelectOption? SchoolBuildLandWorksPlanned { get; set; }
 
 		[BindProperty]
 		public string? SchoolBuildLandWorksPlannedExplained { get; set; }
@@ -39,32 +40,32 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption SchoolBuildLandSharedFacilities { get; set; }
+		public SelectOption? SchoolBuildLandSharedFacilities { get; set; }
 
 		[BindProperty]
 		public string? SchoolBuildLandSharedFacilitiesExplained { get; set; }
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption SchoolBuildLandGrants { get; set; }
+		public SelectOption? SchoolBuildLandGrants { get; set; }
 
 		[BindProperty]
 		public string? SchoolBuildLandGrantsBodies { get; set; }
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption SchoolBuildLandPFIScheme { get; set; }
+		public SelectOption? SchoolBuildLandPFIScheme { get; set; }
 
 		[BindProperty]
 		public string? SchoolBuildLandPFISchemeType { get; set; }
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption SchoolBuildLandPriorityBuildingProgramme { get; set; }
+		public SelectOption? SchoolBuildLandPriorityBuildingProgramme { get; set; }
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption SchoolBuildLandFutureProgramme { get; set; }
+		public SelectOption? SchoolBuildLandFutureProgramme { get; set; }
 
 		public bool HasError
 		{
@@ -268,36 +269,24 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			SchoolBuildLandOwnerExplained = selectedSchool.LandAndBuildings.OwnerExplained ?? string.Empty;
-			SchoolBuildLandWorksPlanned = selectedSchool.LandAndBuildings.WorksPlanned.HasValue 
-				? (selectedSchool.LandAndBuildings.WorksPlanned.Value ? SelectOption.Yes : SelectOption.No) 
-				: SelectOption.No;
+			SchoolBuildLandWorksPlanned = selectedSchool.LandAndBuildings.WorksPlanned.GetEnumValue();
 
 			SchoolBuildLandWorksPlannedExplained = selectedSchool.LandAndBuildings.WorksPlannedExplained;
 			WorksPlannedDate = (selectedSchool.LandAndBuildings.WorksPlannedDate.HasValue ?
 				selectedSchool.LandAndBuildings.WorksPlannedDate.Value.ToString("dd/MM/yyyy")
 				: string.Empty);
 
-			SchoolBuildLandSharedFacilities = selectedSchool.LandAndBuildings.FacilitiesShared.HasValue
-				? (selectedSchool.LandAndBuildings.FacilitiesShared.Value ? SelectOption.Yes : SelectOption.No)
-				: SelectOption.No;
+			SchoolBuildLandSharedFacilities = selectedSchool.LandAndBuildings.FacilitiesShared.GetEnumValue();
 			SchoolBuildLandSharedFacilitiesExplained = selectedSchool.LandAndBuildings.FacilitiesSharedExplained;
 
-			SchoolBuildLandGrants = selectedSchool.LandAndBuildings.Grants.HasValue
-				? (selectedSchool.LandAndBuildings.Grants.Value ? SelectOption.Yes : SelectOption.No)
-				: SelectOption.No;
+			SchoolBuildLandGrants = selectedSchool.LandAndBuildings.Grants.GetEnumValue();
 			SchoolBuildLandGrantsBodies = selectedSchool.LandAndBuildings.GrantsAwardingBodies;
 
-			SchoolBuildLandPFIScheme = selectedSchool.LandAndBuildings.PartOfPFIScheme.HasValue
-				? (selectedSchool.LandAndBuildings.PartOfPFIScheme.Value ? SelectOption.Yes : SelectOption.No)
-				: SelectOption.No;
+			SchoolBuildLandPFIScheme = selectedSchool.LandAndBuildings.PartOfPFIScheme.GetEnumValue();
 			SchoolBuildLandPFISchemeType = selectedSchool.LandAndBuildings.PartOfPFISchemeType;
 
-			SchoolBuildLandPriorityBuildingProgramme = selectedSchool.LandAndBuildings.PartOfPrioritySchoolsBuildingProgramme.HasValue
-				? (selectedSchool.LandAndBuildings.PartOfPrioritySchoolsBuildingProgramme.Value ? SelectOption.Yes : SelectOption.No)
-				: SelectOption.No;
-			SchoolBuildLandFutureProgramme = selectedSchool.LandAndBuildings.PartOfBuildingSchoolsForFutureProgramme.HasValue
-				? (selectedSchool.LandAndBuildings.PartOfBuildingSchoolsForFutureProgramme.Value ? SelectOption.Yes : SelectOption.No)
-				: SelectOption.No;
+			SchoolBuildLandPriorityBuildingProgramme = selectedSchool.LandAndBuildings.PartOfPrioritySchoolsBuildingProgramme.GetEnumValue();
+			SchoolBuildLandFutureProgramme = selectedSchool.LandAndBuildings.PartOfBuildingSchoolsForFutureProgramme.GetEnumValue();
 		}
 
 		private void RePopDatePickerModel(string worksPlannedDateDay, string worksPlannedDateMonth, string worksPlannedDateYear)
