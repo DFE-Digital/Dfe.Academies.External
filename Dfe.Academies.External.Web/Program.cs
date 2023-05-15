@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Notify.Client;
@@ -67,6 +68,16 @@ builder.Services
 		options.Filters.Add(new MaintenancePageFilter(configuration));
 	})
 	.AddSessionStateTempDataProvider();
+
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+	{
+		options.ForwardedHeaders =
+			ForwardedHeaders.XForwardedFor |
+			ForwardedHeaders.XForwardedHost |
+			ForwardedHeaders.XForwardedProto;
+
+		options.ForwardLimit = 2;  //Limit number of proxy hops trusted
+	});
 
 builder.Services.AddAuthentication(options =>
 	{
