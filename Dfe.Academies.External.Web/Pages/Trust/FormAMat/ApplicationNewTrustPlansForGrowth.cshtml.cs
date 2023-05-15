@@ -4,6 +4,7 @@ using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using Dfe.Academies.External.Web.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
@@ -15,8 +16,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		// MR:- VM props to capture data
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must select an option")]
-		public SelectOption GrowthPlansOption { get; set; }
+		public SelectOption? GrowthPlansOption { get; set; }
 
 		[BindProperty]
 		public string? GrowthPlanDescription { get; set; } = string.Empty;
@@ -59,16 +59,23 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		{
 			ModelState.Clear();
 
+			if (GrowthPlansOption == null)
+			{
+				ModelState.AddModelError("GrowthPlanOptionNotEntered", "You must provide a growth plan option");
+				PopulateValidationMessages();
+				return false;
+			}
+
 			if (GrowthPlansOption == SelectOption.Yes && string.IsNullOrWhiteSpace(GrowthPlanDescription))
 			{
-				ModelState.AddModelError("GrowthPlanDescriptionNotEntered", "You must provide details");
+				ModelState.AddModelError("GrowthPlanDescriptionNotEntered", "You must provide growth plan details");
 				PopulateValidationMessages();
 				return false;
 			}
 
 			if (GrowthPlansOption == SelectOption.No && string.IsNullOrWhiteSpace(NoGrowthPlanDescription))
 			{
-				ModelState.AddModelError("NoGrowthPlanDescriptionNotEntered", "You must provide details");
+				ModelState.AddModelError("NoGrowthPlanDescriptionNotEntered", "You must provide growth plan details");
 				PopulateValidationMessages();
 				return false;
 			}
@@ -94,7 +101,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			if (conversionApplication != null && conversionApplication.FormTrustDetails != null)
 			{
 				TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
-				GrowthPlansOption = conversionApplication.FormTrustDetails.FormTrustGrowthPlansYesNo.GetValueOrDefault() ? SelectOption.Yes : SelectOption.No;
+				GrowthPlansOption = conversionApplication.FormTrustDetails.FormTrustGrowthPlansYesNo.GetEnumValue();
 				GrowthPlanDescription = conversionApplication.FormTrustDetails.FormTrustPlanForGrowth ?? string.Empty;
 				NoGrowthPlanDescription = conversionApplication.FormTrustDetails.FormTrustPlansForNoGrowth ?? string.Empty;
 			}

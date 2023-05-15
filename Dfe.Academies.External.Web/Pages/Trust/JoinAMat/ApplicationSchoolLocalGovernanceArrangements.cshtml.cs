@@ -38,7 +38,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 			
 			if(ChangesToLaGovernanceOption == null)
 			{				
-				ModelState.AddModelError("ChangesToLaGovernanceOptionNotSelected", "You must chose an option");
+				ModelState.AddModelError("ChangesToLaGovernanceOptionNotSelected", "You must chose a local governance option");
 				PopulateValidationMessages();
 				return false;
 			}
@@ -46,7 +46,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 			
 			if (ChangesToLaGovernanceOption == SelectOption.Yes && string.IsNullOrWhiteSpace(ChangesToLaGovernanceExplained))
 			{
-				ModelState.AddModelError("ChangesToLaGovernanceExplainedNotEntered", "You must provide change details");
+				ModelState.AddModelError("ChangesToLaGovernanceExplainedNotEntered", "You must provide governance change details");
 				PopulateValidationMessages();
 				return false;
 			}
