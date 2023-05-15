@@ -19,7 +19,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
 		
 		[BindProperty]
-		[Required(ErrorMessage = "Please tell us what the school bring to the trust they are joining?")]
+		[Required(ErrorMessage = "You must provide details")]
 		public string? TrustBenefitDetails { get; set; }
 		
 		[BindProperty]
