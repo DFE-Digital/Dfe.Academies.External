@@ -303,9 +303,7 @@ Cypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', (
 })
 
 
-Cypress.Commands.add('selectStartANewApplication', () => {
-    cy.get('a[href="/what-are-you-applying-to-do"]').click()
-})
+
 
 Cypress.Commands.add('whatAreYouApplyingToDoElementsVisible', () => {
     cy.get('a[href="/your-applications"]').contains('Back')
@@ -320,25 +318,8 @@ Cypress.Commands.add('whatAreYouApplyingToDoElementsVisible', () => {
     cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
 })
 
-Cypress.Commands.add('selectJAMRadioButton', () => {
-    cy.get('input[type="radio"]').eq(0).click()
-})
 
-Cypress.Commands.add('verifyJAMRadioButtonChecked', () => {
-    cy.get('input[type="radio"]').eq(0).should('be.checked')
-})
 
-Cypress.Commands.add('selectFAMRadioButton', () => {
-    cy.get('input[type="radio"]').eq(1).click()
-})
-
-Cypress.Commands.add('verifyFAMRadioButtonChecked', () => {
-    cy.get('input[type="radio"]').eq(1).should('be.checked')
-})
-
-Cypress.Commands.add('selectApplyingToDoSaveAndContinue', () => {
- cy.get('input[type="submit"]').click()   
-})
 
 Cypress.Commands.add('whatIsYourRoleElementsVisible', () => {
     
@@ -352,25 +333,7 @@ Cypress.Commands.add('whatIsYourRoleElementsVisible', () => {
 })
 
 
-Cypress.Commands.add('selectChairOfGovernorsRadioButton', () => {
-    cy.get('input[type="radio"]').eq(0).click()
-})
 
-Cypress.Commands.add('verifyChairOfGovernorsRadioButtonChecked', () => {
-    cy.get('input[type="radio"]').eq(0).should('be.checked')
-})
-
-Cypress.Commands.add('selectSomethingElseRadioButton', () => {
-
-})
-
-Cypress.Commands.add('verifySomethingElseRadioButtonChecked', () => {
-
-})
-
-Cypress.Commands.add('selectWhatIsYourRoleSaveAndContinue', () => {
-    cy.get('input[type="submit"]').click()
-})
 
 
 Cypress.Commands.add('selectAddASchool', () => {
@@ -477,9 +440,7 @@ Cypress.Commands.add('youDontHavePermissionsElementsVisible', () => {
     cy.get('a[class="govuk-button"]').should('be.visible').contains('Save and return to your application')
 })
 
-Cypress.Commands.add('JAMTrustDetailsSummarySelectStartSection', () => {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').click()
-})
+
 
 Cypress.Commands.add('JAMTrustConsentElementsVisible', () => {
     cy.get('a[class="govuk-back-link"]').contains('Back')
@@ -502,9 +463,7 @@ Cypress.Commands.add('JAMTrustConsentFileUpload', () => {
   cy.get('#trustConsentFileUpload').attachFile(filepath)
 })
 
-Cypress.Commands.add('JAMTrustConsentSubmit', () => {
-    cy.get('input[type="submit"]').click()
-})
+
 
 Cypress.Commands.add('changesToTheTrustElementsVisible', () => {
     cy.get('a[class="govuk-back-link"]').contains('Back')
@@ -521,9 +480,7 @@ Cypress.Commands.add('changesToTheTrustElementsVisible', () => {
     cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
 })
 
-Cypress.Commands.add('changesToTheTrustClickYes', () => {
-    cy.get('#revenueTypeYes').click()
-})
+
 
 Cypress.Commands.add('enterChangesToTheTrust', () => {
     cy.get('#PFYRevenueStatusExplained').click()
@@ -532,9 +489,7 @@ Cypress.Commands.add('enterChangesToTheTrust', () => {
 })
 
 
-Cypress.Commands.add('changesToTheTrustSubmit', () => {
-    cy.get('input[type="submit"]').click()
-})
+
 
 Cypress.Commands.add('localGovernanceArrangementsElementsVisible', () => {
     cy.get('a[class="govuk-back-link"]').contains('Back')
@@ -550,9 +505,7 @@ Cypress.Commands.add('localGovernanceArrangementsElementsVisible', () => {
 
 })
 
-Cypress.Commands.add('localGovernanceArrangementsClickYes', () => {
-    cy.get('#changesToLaGovernanceYes').click()
-})
+
 
 Cypress.Commands.add('enterlocalGovernanceArrangementsChanges', () => {
     cy.get('#ChangesToLaGovernanceExplained').click()
@@ -605,9 +558,7 @@ Cypress.Commands.add('yourApplicationNotStartedButTrustSectionCompleteElementsVi
     cy.get('p').eq(3).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
 
-Cypress.Commands.add('selectAboutTheConversion', () => {
-    cy.contains('About the conversion').click()
-})
+
 
 Cypress.Commands.add('aboutTheConversionNotStartedElementsVisible', ():void => {
     cy.get('.govuk-back-link').contains('Back')
@@ -680,9 +631,7 @@ Cypress.Commands.add('aboutTheConversionNotStartedElementsVisible', ():void => {
 
 })
 
-Cypress.Commands.add('selectContactDetailsStartSection', () => {
-    cy.get('a[aria-describedby="component-not started"]').eq(0).click()
-})
+
 
 Cypress.Commands.add('mainContactsNotStartedElementsVisible', ():void => {
     cy.get('.govuk-back-link').contains('Back')
@@ -758,9 +707,6 @@ Cypress.Commands.add('fillApproverDetails', () => {
     cy.get('#ApproverContactEmail').type('nicky.price@aol.com')
 })
 
-Cypress.Commands.add('submitMainContactsForm', () => {
-    cy.get('input[type="submit"]').click()
-})
 
 Cypress.Commands.add('aboutTheConversionMainContactsCompleteElementsVisible', ():void => {
     cy.get('.govuk-back-link').contains('Back')
@@ -848,9 +794,6 @@ Cypress.Commands.add('conversionTargetDateElementsVisible', () => {
 
 })
 
-Cypress.Commands.add('conversionTargetDateSubmit', () => {
-    cy.get('input[type="submit"]').click()
-})
 
 Cypress.Commands.add('reasonsForJoiningElementsVisible', () => {
     cy.get('.govuk-back-link').contains('Back')
@@ -887,9 +830,7 @@ Cypress.Commands.add('changingTheNameOfTheSchoolElementsVisible', () => {
 
 })
 
-Cypress.Commands.add('submitChangingTheNameOfTheSchool', () => {
-    cy.get('input[type="submit"]').click()
-})
+
 
 Cypress.Commands.add('aboutTheConversionCompleteElementsVisible', () => {
     cy.get('.govuk-back-link').contains('Back')
@@ -971,10 +912,7 @@ Cypress.Commands.add('aboutTheConversionCompleteElementsVisible', () => {
     cy.get('.govuk-button').should('be.visible').contains('Back to application overview')
 })
 
-// OK COMPLETED ABOUT THE CONVERSION FORM IS OK SO SAVE THE FORM AND RETURN TO JAM APP OVERVIEW PAGE
-Cypress.Commands.add('submitAboutTheConversion', () => {
-    cy.get('.govuk-button').click()
-})  
+
 
 
 Cypress.Commands.add('yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible', () => {
@@ -1015,9 +953,7 @@ Cypress.Commands.add('yourApplicationTrustSectionAndAboutConversionCompleteEleme
     cy.get('p').eq(3).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
 
-Cypress.Commands.add('selectFurtherInformation', () => {
-    cy.contains('Further information').click()
-})
+
 
 Cypress.Commands.add('additionalDetailsSummaryNotStartedElementsVisible', () => {
     cy.get('.govuk-back-link').contains('Back')
@@ -1100,9 +1036,7 @@ Cypress.Commands.add('additionalDetailsSummaryNotStartedElementsVisible', () => 
 
 })
 
-Cypress.Commands.add('selectAdditionalDetailsStartSection', () => {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').click()
-})
+
 
 Cypress.Commands.add('additionalDetailsDetailsNotStartedElementsVisible', () => {
     cy.get('.govuk-back-link').contains('Back')
