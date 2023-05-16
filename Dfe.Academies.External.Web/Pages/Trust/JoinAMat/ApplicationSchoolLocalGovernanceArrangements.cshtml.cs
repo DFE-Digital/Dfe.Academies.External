@@ -5,7 +5,9 @@ using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using Dfe.Academies.External.Web.Extensions;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
 
 namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 {
@@ -18,11 +20,11 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		public string? SelectedTrustName { get; set; }
 		
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption ChangesToLaGovernanceOption { get; set; }
+		public SelectOption? ChangesToLaGovernanceOption { get; set; }
 
 		[BindProperty]
-		public string ChangesToLaGovernanceExplained { get; set; }
+		
+		public string? ChangesToLaGovernanceExplained { get; set; }
 		
 		public bool ChangesToLaGovernanceDetailsError => !ModelState.IsValid && ModelState.Keys.Contains("ChangesToLaGovernanceExplainedNotEntered");
 		
@@ -33,12 +35,23 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 
 		public override bool RunUiValidation()
 		{
-			if (ChangesToLaGovernanceOption == SelectOption.Yes && string.IsNullOrWhiteSpace(ChangesToLaGovernanceExplained))
-			{
-				ModelState.AddModelError("ChangesToLaGovernanceExplainedNotEntered", "You must provide details");
+			
+			if(ChangesToLaGovernanceOption == null)
+			{				
+				ModelState.AddModelError("ChangesToLaGovernanceOptionNotSelected", "You must chose a local governance option");
 				PopulateValidationMessages();
 				return false;
 			}
+
+			
+			if (ChangesToLaGovernanceOption == SelectOption.Yes && string.IsNullOrWhiteSpace(ChangesToLaGovernanceExplained))
+			{
+				ModelState.AddModelError("ChangesToLaGovernanceExplainedNotEntered", "You must provide governance change details");
+				PopulateValidationMessages();
+				return false;
+			}
+
+			
 
 			return true;
 		}
@@ -98,7 +111,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
 			SelectedTrustName = applicationDetails.JoinTrustDetails?.TrustName ?? string.Empty;
 			ChangesToLaGovernanceOption =
-				applicationDetails.JoinTrustDetails.ChangesToLaGovernance.GetValueOrDefault() ? SelectOption.Yes : SelectOption.No;
+				applicationDetails.JoinTrustDetails.ChangesToLaGovernance.GetEnumValue();
 			ChangesToLaGovernanceExplained = applicationDetails.JoinTrustDetails.ChangesToLaGovernanceExplained;
 			var selectedSchool = applicationDetails?.Schools.FirstOrDefault(x => x.URN == urn);
 
