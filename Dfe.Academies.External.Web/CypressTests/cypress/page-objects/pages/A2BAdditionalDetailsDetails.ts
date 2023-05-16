@@ -13,7 +13,7 @@ export default class A2BAdditionalDetailsDetails extends BasePage {
 
     static selectYesIsSchoolLinkedToDiocese()
     {
-        cy.selectYesIsSchoolLinkedToDiocese()
+        cy.get('#dioceseOptionYes').click()
     }
 
     static dioceseSectionElementsVisible()
@@ -23,7 +23,7 @@ export default class A2BAdditionalDetailsDetails extends BasePage {
 
     static inputDioceseName()
     {
-        cy.inputDioceseName()
+        cy.get('#DioceseName').type('Mr Diocese')
     }
 
     static dioceseFileUpload()
@@ -43,7 +43,7 @@ export default class A2BAdditionalDetailsDetails extends BasePage {
 
     static inputBodyName()
     {
-        cy.inputBodyName()
+        cy.get('#FoundationTrustOrBodyName').type('Mr Body')
     }
 
     static uploadSchoolSupportedByTrustOrBody()
@@ -63,7 +63,7 @@ export default class A2BAdditionalDetailsDetails extends BasePage {
 
     static submitAdditionalDetailsDetails()
     {
-        cy.submitAdditionalDetailsDetails()
+        cy.get('input[type="submit"]').click()
     }
 
     
