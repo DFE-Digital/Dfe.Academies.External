@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
 using Dfe.Academies.External.Web.Dtos;
-using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models.Notifications;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -10,28 +9,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
+using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.Extensions;
 
 namespace Dfe.Academies.External.Web.Pages.Help
 {
-	public class ApplicationHelpModel : BasePageModel
+	public class FeedbackModel : BasePageModel
 	{
 		private readonly IEmailNotificationService emailNotificationService;
 		private readonly IConfiguration configuration;
 		private readonly string templateId;
 
+        [BindProperty]
+        [RequiredEnum(ErrorMessage = "You must choose an option")]
+        public Feedback Feedback {get;set;}
+
 		[BindProperty]
 		[Required(ErrorMessage = "You must give details")]
-		public string HelpSummary { get; set; } = string.Empty;
+		public string FeedbackSummary { get; set; } = string.Empty;
 
-		[BindProperty]
-		[Required(ErrorMessage = "You must give an email address")]
-		public string EmailAddress { get; set; } = string.Empty;
 
-		public ApplicationHelpModel(IEmailNotificationService emailNotificationService, IOptions<NotifyTemplateSettings> notifyTemplateSettings, IConfiguration configuration)
+		public FeedbackModel(IEmailNotificationService emailNotificationService, IOptions<NotifyTemplateSettings> notifyTemplateSettings, IConfiguration configuration)
 		{
 			this.emailNotificationService = emailNotificationService;
 			this.configuration = configuration;
-			this.templateId = notifyTemplateSettings.Value.HelpWithAnApplicationTemplateId;
+			this.templateId = notifyTemplateSettings.Value.FeedbackTemplateId;
 		}
 
 		public void OnGet()
@@ -45,19 +48,19 @@ namespace Dfe.Academies.External.Web.Pages.Help
 				return Page();
 			}
 
-			// send email
+			//send email
 			var personalization = new Dictionary<string, object>();
 
-			personalization.Add("what_do_you_need_help_with", HelpSummary);
-			personalization.Add("help_email_address", EmailAddress);
-
+            personalization.Add("How_do_you_feel", Feedback.GetDescription());
+			personalization.Add("what_improvements", FeedbackSummary);
+			
 			var message = new MessageDto(this.configuration["emailnotifications:supportemail"], this.templateId)
 			{
 				Personalisation = personalization,
 			};
 			await this.emailNotificationService.SendAsync(message);
 
-			return RedirectToPage("ThankYou", new { helpTypeId = HelpTypes.ApplicationHelp });
+			return RedirectToPage("ThankYou", new { page = nameof(FeedbackModel) });
 		}
 
 		public override void PopulateValidationMessages()

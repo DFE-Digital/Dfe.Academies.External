@@ -36,11 +36,8 @@
 </div>
 				
 <div class="govuk-form-group">
-	<div class="govuk-form-group govuk-error-summary__list">
-		<a href="#TrustBenefitDetails" 
-		   class="@(Model.TrustBenefitDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
-			You must provide details
-		</a>
+	<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+	<fieldset class="govuk-fieldset">
 		<label for="TrustBenefitDetails" class="govuk-fieldset__legend govuk-fieldset__legend--s">
 			What will the school bring to the trust they are joining?
 		</label>
@@ -48,9 +45,10 @@
 			Describe the contribution they will make
 		</span>
 		<textarea asp-for="TrustBenefitDetails" id="TrustBenefitDetails" 
-                								class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
-	</div>
+                								class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
 
+	</fieldset>
+  </div>
 </div>
 				
 <div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
@@ -76,12 +74,14 @@
 			{
 				<div class="@(Model.OfstedInspectedDetailsError ? "govuk-form-group--error" : "govuk-radios__conditional") @(ofstedInspectedOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")" id="ofstedInspectedOption-yes">
 					<div class="govuk-form-group govuk-error-summary__list">
+						<div id="OfstedInspectionDetailsNotAdded">
 						<a href="#OfstedInspectedDetails" 
 						   class="@(Model.OfstedInspectedDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
 							You must provide details
 						</a>
+						</div>
 						<label for="OfstedInspectedDetails" class="govuk-label">Provide the inspection date and a short summary of the outcome</label>
-						<textarea asp-for="OfstedInspectionDetails" id="OfstedInspectedDetails" class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+						<textarea asp-for="OfstedInspectionDetails" id="OfstedInspectedDetails" class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
 					</div>
 				</div>
 			}
@@ -137,13 +137,15 @@
                                      @(localAuthorityOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 				     id="localAuthorityOption-yes">
 					<div class="govuk-form-group govuk-error-summary__list">
-						<a href="#LocalAuthorityReorganisationDetails" 
+						<div id="LocalAuthorityReorganisationDetailsNotAdded">
+						<a href="LocalAuthorityReorganisationDetails" 
 						   class="@(Model.LocalAuthorityReorganisationDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
 							You must provide details
 						</a>
+						</div>
 						<label for="LocalAuthorityReorganisationDetails" class="govuk-label">Details of the reorganisation</label>
 						<textarea asp-for="LocalAuthorityReorganisationDetails" id="LocalAuthorityReorganisationDetails" 
-                                                													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                                                													class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
 					</div>
 				</div>
 			}
@@ -176,13 +178,15 @@
                                      @(localAuthorityClosurePlanOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 				     id="localAuthorityClosurePlanOption-yes">
 					<div class="govuk-form-group govuk-error-summary__list">
+						<div id="localAuthorityClosurePlanDetailsNotAdded">
 						<a href="#LocalAuthorityClosurePlanDetails"
 						   class="@(Model.LocalAuthorityClosurePlanDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
 							You must provide details
 						</a>
+						</div>
 						<label for="LocalAuthorityClosurePlanDetails" class="govuk-label">Details of the closure plans</label>
 						<textarea asp-for="LocalAuthorityClosurePlanDetails" id="LocalAuthorityClosurePlanDetails" 
-                                                                													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                                                                													class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
 					</div>
 				</div>
 			}
@@ -215,13 +219,15 @@
                             			                                            @(dioceseOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 				     id="dioceseOption-yes">
 					<div class="govuk-form-group govuk-error-summary__list">
+						<div id="DioceseNameNotAdded">
 						<a href="#DioceseName" 
 						   class="@(Model.DioceseNameError ? "govuk-error-message" : "govuk-visually-hidden")">
 							You must provide details
 						</a>
+						</div>
 					</div>
 					<label for="DioceseName" class="govuk-label">Name of diocese</label>
-					<textarea asp-for="DioceseName" id="DioceseName" class="govuk-textarea" cols="5" rows="1" maxlength="200"></textarea>
+					<textarea asp-for="DioceseName" id="DioceseName" class="govuk-textarea" cols="5" rows="1" maxlength="2000"></textarea>
 					
 					<p class="govuk-label">
 						Upload a letter from the diocese giving permission for the school to convert.
@@ -229,15 +235,17 @@
 						<br/>
 						</p>
 						<div class="govuk-form-group @(Model.DioceseFileSizeError || Model.DioceseFileGenericError ? "govuk-form-group--error" : "")">
+						<div id="DioceseFiles">
 						<label for="dioceseFileUpload" class="govuk-label">Upload a file</label>
+						</div>
 						<span class="govuk-hint govuk-body govuk-!-margin-bottom-5">
 							The application cannot be submitted without this. You can carry on the application and come back to this later.
 						</span>
-					
+					<div id="DioceseFileSizeError">
 					<p id="file-upload-dioceseFiles-error"  class="govuk-error-message @(!Model.DioceseFileSizeError ? "govuk-visually-hidden" : "")">
 						<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
 					</p>
-					
+					</div>
 					<p id="file-upload-dioceseFiles-genericError" class="govuk-error-message @(!Model.DioceseFileGenericError ? "govuk-visually-hidden" : "")">
 						<span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
 					</p>
@@ -309,13 +317,15 @@
 																	@(supportedByFoundationTrustOrBodyOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 				     id="supportedByFoundationTrustOrBodyOption-yes">
 					<div class="govuk-form-group govuk-error-summary__list">
+						<div id="FoundationTrustOrBodyNameNotAdded">
 						<a href="#FoundationTrustOrBodyName" 
 						   class="@(Model.SupportedByFoundationTrustOrBodyError ? "govuk-error-message" : "govuk-visually-hidden")">
 							You must provide details
 						</a>
+						</div>
 					</div>
 					<label for="FoundationTrustOrBodyName" class="govuk-label">Name of this body</label>
-					<textarea asp-for="FoundationTrustOrBodyName" id="FoundationTrustOrBodyName" class="govuk-textarea" cols="10" rows="1" maxlength="200"></textarea>
+					<textarea asp-for="FoundationTrustOrBodyName" id="FoundationTrustOrBodyName" class="govuk-textarea" cols="10" rows="1" maxlength="2000"></textarea>
 										
 					<div class=" @(Model.FoundationConsentFileError ? "govuk-form-group--error" : "govuk-radios__conditional")"
 					     id="FoundationConsentFileNotAddedError">
@@ -333,12 +343,15 @@
 					<br/>
 				</p>
 					<div class="govuk-form-group @(Model.FoundationConsentFileSizeError || Model.FoundationConsentFileGenericError ? "govuk-form-group--error" : "")">
-			
+			             <div id="FoundationConsentFiles">
 						<label for="foundationConsentFileUpload" class="govuk-label"> Upload a file</label>
+						</div>
 						<br/>
+						<div id="FoundationConsentFileSizeError">
 						<p id="file-upload-foundationConsentFiles-error" class="govuk-error-message @(!Model.FoundationConsentFileSizeError ? "govuk-visually-hidden" : "")">
 							<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
 						</p>
+						</div>
 						<p id="file-upload-foundationConsentFiles-genericError" class="govuk-error-message @(!Model.FoundationConsentFileGenericError ? "govuk-visually-hidden" : "")">
 							<span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
 						</p>
@@ -383,10 +396,12 @@
 																	@(exemptionFromSACREOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 				     id="exemptionFromSACREOption-yes">
 					<div class="govuk-form-group govuk-error-summary__list">
+						<div id="exemptionFromSACREEndDateNotAdded">
 						<a href="#govuk-date" 
 						   class="@(Model.ExemptionFromSACREError ? "govuk-error-message" : "govuk-visually-hidden")">
 							You must provide details
 						</a>
+						</div>
 						<label for="govuk-date" class="govuk-label">When does the exemption end?</label>
 						<div id="exemption-end-date-hint" class="govuk-hint">
 							For example, 31 3 1980
@@ -408,21 +423,19 @@
 </div>
 			
 <div class="govuk-form-group">
+	<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+	<fieldset class="govuk-fieldset">
+<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+	<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
+</div>
 	<label for="MainFeederSchools" class="govuk-fieldset__legend govuk-fieldset__legend--s">Please provide a list of your main feeder schools</label>
 	<span id="feeder-schools-hint" class="govuk-hint">
 		We recognise you may have many feeder schools, therefore please just detail the top 5
 	</span>
 
-	<div class="@(Model.MainFeederSchoolsError ? "govuk-form-group--error" : "govuk-radios__conditional")"
-	     id="mainFeederSchools">
-		<div class="govuk-form-group govuk-error-summary__list">
-			<a href="#MainFeederSchools"
-			   class="@(Model.MainFeederSchoolsError ? "govuk-error-message" : "govuk-visually-hidden")">
-				You must provide details
-			</a>
-		</div>
-	</div>
-	<textarea asp-for="MainFeederSchools" id="MainFeederSchools" class="govuk-textarea" cols="40" rows="10" maxlength="200"></textarea>
+	</fieldset>
+	<textarea asp-for="MainFeederSchools" id="MainFeederSchools" class="govuk-textarea" cols="40" rows="10" maxlength="2000"></textarea>
+</div>
 </div>
 			
 <div class="govuk-form-group">
@@ -437,14 +450,17 @@
 	
 	<div class="govuk-form-group">
 									<div class="govuk-form-group @(Model.ResolutionConsentFileSizeError || Model.ResolutionConsentFileGenericError ? "govuk-form-group--error" : "")">
-										
+		<div id ="ResolutionConsentFiles">								
 		<label class="govuk-label" for="resolutionConsentFileUpload">
 			Upload a file
 		</label>
+		</div>
 		<br/>
+		<div id="ResolutionConsentFileSizeError">
 		<p id="file-upload-resolutionConsentFiles-error"  class="govuk-error-message @(!Model.ResolutionConsentFileSizeError ? "govuk-visually-hidden" : "")">
 			<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
 		</p>
+		</div>
 		<p id="file-upload-resolutionConsentFilesGeneric-Error" class="govuk-error-message @(!Model.ResolutionConsentFileGenericError ? "govuk-visually-hidden" : "")">
 			<span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
 		</p>
@@ -495,10 +511,12 @@
                             																	@(equalitiesImpactAssessmentOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 				     id="equalitiesImpactAssessmentOption-yes">
 					<div class="govuk-form-group govuk-error-summary__list">
+						<div id ="equalitiesImpactAssessmentOptionNoOptionSelected">
 						<a href="#disproportionateProtectedCharacteristicsOptionUnlikely"
 						   class="@(Model.EqualityAssessmentError ? "govuk-error-message" : "govuk-visually-hidden")">
 							You must enter an option
 						</a>
+						</div>
 						@foreach (var disproportionateProtectedCharacteristicsOption in Enum.GetValues<SchoolEqualitiesProtectedCharacteristics>().OrderByDescending(x => x.ToString()))
 						{
 							<div class="govuk-radios__item">
@@ -547,13 +565,15 @@
                             																	@(furtherInformationOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 				     id="furtherInformationOption-yes">
 					<div class="govuk-form-group govuk-error-summary__list">
+						<div id="furtherInformationDetailsNotAdded">
 						<a href="#furtherInformationDetails" 
 						   class="@(Model.FurtherInformationError ? "govuk-error-message" : "govuk-visually-hidden")">
 							You must provide details
 						</a>
+						</div>
 						<label for="furtherInformationDetails" class="govuk-label">Any other information</label>
 						<textarea asp-for="FurtherInformationDetails" id="furtherInformationDetails" 
-                                                                													class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                                                                													class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
 					</div>
 				</div>
 			}

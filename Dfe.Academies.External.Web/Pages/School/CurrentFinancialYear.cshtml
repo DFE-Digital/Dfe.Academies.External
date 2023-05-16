@@ -44,6 +44,7 @@
 				</div>
                 
                 <div class="govuk-form-group">
+				 <div id="CFYFinancialEndDateNotEntered">
                     <fieldset class="govuk-fieldset" role="group">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 							End of current financial year 
@@ -51,9 +52,9 @@
 					    <div id="pfy-end-date-hint" class="govuk-hint">
 						    For example, 01 09 2022
 					    </div>
-                            <a href="#govuk-date" class="@(Model.CFYFinancialEndDateError ? "govuk-error-message" : "govuk-visually-hidden")">
+                            <label class="@(Model.CFYFinancialEndDateError ? "govuk-error-message" : "govuk-visually-hidden")">
 						    You must select financial year end date
-					    </a>
+					    </label>
 					    <govuk-date field-name="@Model.CFYEndDateFormInputName"
 					        field-data="@Model.CFYEndDate"
 						    field-day="@Model.CFYEndDateDay"
@@ -61,6 +62,7 @@
 						    field-year="@Model.CFYEndDateDateYear">
 					    </govuk-date>
                     </fieldset>
+				   </div>
 				</div>
 
 				<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
@@ -73,6 +75,8 @@
 						</div>
 
 						<div class="govuk-form-group">
+							<div id="CFYRevenueStatus">
+					        <div id="CFYRevenueStatusExplainedNotEntered">
 							@foreach (var revenueType in Enum.GetValues(typeof(RevenueType)).OfType<RevenueType>())
 	                        {
 		                        <div class="govuk-radios__item">
@@ -88,15 +92,18 @@
 			                        </label>
 		                        </div>
 
+                               
 	                            @if (revenueType == RevenueType.Deficit)
 	                            {
+								 
+								 
                                     <div class="@(Model.CFYRevenueStatusExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
 				                                @(revenueType == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
 												id="revenueType-deficit">
-	                                    <a href="#schoolCfyRevenueFileUpload"
+	                                        <label
 												class="@(Model.CFYRevenueStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 	                                            You must enter the reason for the revenue deficit or upload a file
-	                                        </a>
+	                                        </label>
 		                                    <label for="CFYRevenueCarryForwardExplained" class="govuk-label">
 			                                    Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.
 		                                    </label>
@@ -104,7 +111,7 @@
 			                                    Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority 
 		                                    </span>
 	                                        <textarea id="CFYRevenueCarryForwardExplained" asp-for="CFYRevenueStatusExplained"
-	                                          class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+	                                          class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
                                             <p class="govuk-label">
 									            You can upload the school’s recovery plan.
 								            </p>
@@ -115,14 +122,17 @@
 		                                    codes.
 	                                    </span>
 	                                    <div class="govuk-form-group @(Model.SchoolCFYRevenueFileSizeError || Model.SchoolCFYRevenueFileGenericError ? "govuk-form-group--error" : "")">
-
+                                            <div id="SchoolCfyRevenueStatusFiles">
 		                                    <label for="schoolCfyRevenueFileUpload" class="govuk-label">
 			                                    Upload a file
 		                                    </label>
+											</div>
 		                                    <br/>
+											<div id="SchoolCFYRevenueFileSizeError">
 		                                    <p id="file-upload-schoolCFYRevenueFileSize-error" class="govuk-error-message @(!Model.SchoolCFYRevenueFileSizeError ? "govuk-visually-hidden" : "")">
 			                                    <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
 		                                    </p>
+											</div>
 		                                    <p id="file-upload-schoolCFYRevenueFile-genericError" class="govuk-error-message @(!Model.SchoolCFYRevenueFileGenericError ? "govuk-visually-hidden" : "")">
 			                                    <span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
 		                                    </p>
@@ -137,7 +147,10 @@
 
 	                                    </div>
 	                            }
+								
 	                        }
+							</div>
+							</div>
 						</div>
 
 					</fieldset>
@@ -153,6 +166,8 @@
 		                </div>                        
 
 		                <div class="govuk-form-group">
+						  <div id="CFYCapitalCarryForwardStatus">
+							<div id="PFYCapitalCarryForwardExplainedNotEntered">
 			                @foreach (var capitalCarryForwardStatus in Enum.GetValues(typeof(RevenueType)).OfType<RevenueType>())
 			                {
 				                <div class="govuk-radios__item">
@@ -174,10 +189,10 @@
 					                                @(capitalCarryForwardStatus == RevenueType.Surplus ? "govuk-radios__conditional--hidden" : "")"
 										id="capitalCarryForwardStatus-deficit">
 
-                                        <a href="#CFYCapitalCarryForwardExplained"
+                                        <label
 											class="@(Model.CFYCapitalCarryForwardStatusExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 							                You must enter the reason for the capital carry forward deficit or upload a file
-						                </a>
+						                </label>
                                         <label for="CFYCapitalCarryForwardExplained" class="govuk-label">
 							                Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.
 						                </label>
@@ -185,7 +200,7 @@
 							                Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority 
 						                </span>
 						                <textarea asp-for="CFYCapitalCarryForwardExplained" id="CFYCapitalCarryForwardExplained"
-						                          class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+						                          class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
                                         <p class="govuk-label">
 							                You can upload the school’s recovery plan.
 						                </p>
@@ -196,16 +211,21 @@
 		                                    codes.
 	                                    </span>
 	                                    <div class="govuk-form-group @(Model.SchoolCFYCapitalFileSizeError || Model.SchoolCFYCapitalFileGenericError ? "govuk-form-group--error" : "")">
-                                        						
+                                        	 <div id="SchoolCfyCapitalStatusFiles">					
 		                                    <label for="schoolCfyCapitalFileUpload" class="govuk-label">
 			                                    Upload a file
 		                                    </label>
+											</div>
+											<div id="SchoolCFYCapitalFileSizeError">
 		                                    <p id="file-upload-schoolCFYCapitalFileSize-error" class="govuk-error-message @(!Model.SchoolCFYCapitalFileSizeError ? "govuk-visually-hidden" : "")">
 			                                    <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
 		                                    </p>
+											</div>
+											<div id="SchoolCFYCapitalForwardFiles">
 		                                    <p id="file-upload-schoolCFYCapitalFile-genericError" class="govuk-error-message @(!Model.SchoolCFYCapitalFileGenericError ? "govuk-visually-hidden" : "")">
 			                                    <span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
 		                                    </p>
+											</div>
 		                                    
 		                                    <input id="schoolCfyCapitalFileUpload"
 		                                           type="file"
@@ -219,7 +239,10 @@
 
                                     </div>
 								}
+								
 			                }
+							</div>
+						   </div>
 		                </div>
 	                </fieldset>
                 </div>

@@ -8,6 +8,11 @@ variable "key_vault_access_users" {
   type        = list(string)
 }
 
+variable "key_vault_access_ipv4" {
+  description = "List of IPv4 Addresses that are permitted to access the Key Vault"
+  type        = list(string)
+}
+
 variable "tfvars_filename" {
   description = "tfvars filename. This ensures that tfvars are kept up to date in Key Vault."
   type        = string
@@ -52,6 +57,12 @@ variable "container_secret_environment_variables" {
   description = "Container secret environment variables"
   type        = map(string)
   sensitive   = true
+}
+
+variable "container_max_replicas" {
+  description = "Container max replicas"
+  type        = number
+  default     = 2
 }
 
 variable "enable_event_hub" {
@@ -140,6 +151,13 @@ variable "cdn_frontdoor_origin_fqdn_override" {
   default     = ""
 }
 
+variable "cdn_frontdoor_origin_host_header_override" {
+  description = "Manually specify the host header that the CDN sends to the target. Defaults to the recieved host header. Set to null to set it to the host_name (`cdn_frontdoor_origin_fqdn_override`)"
+  type        = string
+  default     = ""
+  nullable    = true
+}
+
 variable "enable_monitoring" {
   description = "Create an App Insights instance and notification group for the Container App"
   type        = bool
@@ -163,6 +181,12 @@ variable "monitor_slack_webhook_receiver" {
 variable "monitor_slack_channel" {
   description = "Slack channel name/id to send messages to"
   type        = string
+}
+
+variable "enable_container_health_probe" {
+  description = "Enable liveness probes for the Container"
+  type        = bool
+  default     = true
 }
 
 variable "enable_container_app_blob_storage" {

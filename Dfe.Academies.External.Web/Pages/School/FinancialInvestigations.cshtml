@@ -52,15 +52,16 @@
 								<div class="@(Model.FinancialInvestigationsExplainError ? "govuk-form-group--error" : "govuk-radios__conditional")
 	                                            @(selectOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
 								     id="selectoption-yes">
+									 <div id ="FinancialInvestigationsExplainNotEntered">
 									<div class="govuk-form-group govuk-error-summary__list">
 										<label for="FinancialInvestigationsExplain" class="govuk-label">Provide a brief summary of the investigation</label>
-										<a href="#FinancialInvestigationsExplain" class="@(Model.FinancialInvestigationsExplainError ? "govuk-error-message" : "govuk-visually-hidden")">
+										<label class="@(Model.FinancialInvestigationsExplainError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must provide details of the investigation
-										</a>
+										</label>
 										<textarea asp-for="FinancialInvestigationsExplain" id="FinancialInvestigationsExplain"
-                                          class="govuk-textarea" cols="40" rows="5" maxlength="200">				
+                                          class="govuk-textarea" cols="40" rows="5" maxlength="2000">				
 										</textarea>
-
+										
 										<div class="govuk-form-group">
 											<fieldset class="govuk-fieldset">
 												<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
@@ -82,6 +83,7 @@
 												}
 											</fieldset>
 										</div>
+									</div>
 									</div>
 								</div>
 							}

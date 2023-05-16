@@ -74,9 +74,11 @@
 									    }
 									    <div class="govuk-grid-row">
 										    <div class="govuk-grid-column-full">
+												<div id="AddedLeasesButEmptyCollectionError">
 											    <a asp-page="/school/LeaseDetails" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LeaseViewModels.Count" asp-route-isEdit="false" asp-route-isDraft="true">
 												    Add new lease
 											    </a>
+												</div>
 										    </div>
 									    </div>
 								    </div>

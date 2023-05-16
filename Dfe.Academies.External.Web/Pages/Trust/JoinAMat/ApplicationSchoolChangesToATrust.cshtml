@@ -30,9 +30,11 @@
 				        <legend id="role-hint" class="govuk-fieldset__legend govuk-!-font-weight-bold">
 					        Will there be changes to the governance of the trust due to the school joining?
 				        </legend>
+						<div id="TrustChangeExplainedNotSelected">
 				        <p class="govuk-caption-l">
 					        For example, changes to the trustees or their roles
 				        </p>
+						</div>
 				        <div class="govuk-!-margin-6"></div>
 				        <div class="govuk-form-group">
 					        @foreach (var trustChange in Enum.GetValues(typeof(TrustChange)).OfType<TrustChange>())
@@ -55,13 +57,15 @@
 							        <div class="@(Model.TrustChangeExplainedError ? "govuk-form-group--error" : "govuk-radios__conditional")
 										@(Model.TrustChange != TrustChange.Yes ? "govuk-radios__conditional--hidden" : "")"
 							             id="trustChange-yes" aria-expanded="false">
-								        <a href="#PFYRevenueStatusExplained"
+								        <div id="TrustChangeExplainedNotEntered">
+										<a href="#PFYRevenueStatusExplained"
 								           class="@(Model.TrustChangeExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
 									        You must enter the details of the changes to the trust
 								        </a>
+										</div>
 										<label for="PFYRevenueStatusExplained" class="govuk-label">What are the changes?</label>
 								        <textarea asp-for="TrustChangeExplained" id="PFYRevenueStatusExplained"
-                                      class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+                                      class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
 							        </div>
 						        }
 					        }

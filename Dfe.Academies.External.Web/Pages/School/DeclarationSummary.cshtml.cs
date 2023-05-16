@@ -12,6 +12,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 	{
 	    public List<DeclarationSummaryHeadingViewModel> ViewModel { get; set; } = new();
 
+		public ApplicationStatus ApplicationStatus { get; private set;}
+
 		public DeclarationSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
@@ -41,6 +43,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
+			var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
+		    ApplicationStatus = applicationDetails.ApplicationStatus;
+			
 			DeclarationSummaryHeadingViewModel heading1 = new(DeclarationSummaryHeadingViewModel.Heading,
 				"/school/Declaration")
 			{

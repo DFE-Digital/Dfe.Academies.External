@@ -1,0 +1,32 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.Help.ThankYouModel
+@{
+    ViewData["Title"] = "Apply to become an academy - Than you";
+}
+<div class="govuk-grid-column-two-thirds">
+    @if (Model.page == Enums.HelpTypes.Problem)
+    {
+        <h1 class="govuk-heading-l">Thank you for letting us know</h1>
+        <p class="govuk-body">If you have asked us to contact you we will be in touch as soon as possible.</p>
+        <p class="govuk-body">It could take up to 10 days for us to respond depending on the type of problem you have reported.</p>
+    }
+    @if (Model.page == Enums.HelpTypes.ApplicationHelp)
+    {
+        <h1 class="govuk-heading-l">Thank you - someone will be in contact</h1>
+        <p class="govuk-body">It could take up to 10 days for us to respond depending on your question or problem.</p>
+    }
+    @if (Model.page == Enums.HelpTypes.Feedback)
+    {
+        <h1 class="govuk-heading-l">Thank you for your feedback</h1>
+        <p class="govuk-body">Ypur commentsand suggestions will help us to make this service better.</p>
+    }
+    <ul class="govuk-list govuk-list--bullet">
+        <li>
+            <a asp-page="..\YourApplications"
+               class="govuk-link govuk-body">
+                start or continue an application
+            </a>
+        </li>
+        <li><a class="govuk-link govuk-body" href="https://www.gov.uk/guidance/convert-to-an-academy-information-for-schools">read about converting to an academy</a></li>
+    </ul>
+</div>

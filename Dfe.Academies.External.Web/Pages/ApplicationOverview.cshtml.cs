@@ -114,6 +114,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 		private void PopulateUiModel(ConversionApplication? conversionApplication)
 		{
+			
 			// grab current user email
 			string email = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
 

@@ -13,3 +13,22 @@ public enum HelpTypes
 	[Description("I have a comment or want to to suggest something")]
 	Feedback 
 }
+
+public enum Feedback
+{
+	[Description("Very Satisfied")]
+	VerySatisfied,
+	
+	[Description("Satisfied")]
+	Satisfied,
+
+	[Description("Neither satisfied or dissatisfied")]
+	Neutral,
+
+	[Description("Dissatisfied")]
+	Dissatisfied,
+
+	[Description("Very dissatisfied")]
+	Verydissatisfied,
+
+}

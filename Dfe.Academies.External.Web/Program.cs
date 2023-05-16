@@ -4,7 +4,6 @@ using Dfe.Academies.External.Web.AutoMapper;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Factories;
 using Dfe.Academies.External.Web.Helpers;
-using Dfe.Academies.External.Web.Jobs;
 using Dfe.Academies.External.Web.Middleware;
 using Dfe.Academies.External.Web.Models.EmailTemplates;
 using Dfe.Academies.External.Web.Routing;
@@ -17,6 +16,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Notify.Client;
 using Notify.Interfaces;
@@ -49,7 +49,7 @@ builder.Services
 			.AllowAnonymousToPage("/Error")
 			.AllowAnonymousToPage("/NotFound")
 			.AllowAnonymousToPage("/WhatYouWillNeed")
-			.AllowAnonymousToPage("/Help");
+			.AllowAnonymousToPage("/Maintenance");
 		options.Conventions.AddPageRoute("/notfound", "/error/404");
 		options.Conventions.AddPageRoute("/notfound", "/error/{code:int}");
 	})
@@ -64,6 +64,7 @@ builder.Services
 	.AddMvcOptions(options =>
 	{
 		options.MaxModelValidationErrors = 50;
+		options.Filters.Add(new MaintenancePageFilter(configuration));
 	})
 	.AddSessionStateTempDataProvider();
 
@@ -134,10 +135,33 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 
 // Configure Redis Based Distributed Session
 var redisConfigurationOptions = ConfigurationOptions.Parse(builder.Configuration["ConnectionStrings:RedisCache"]);
+redisConfigurationOptions.AsyncTimeout = 15000;
+redisConfigurationOptions.SyncTimeout = 15000;
+
+
+//cofig from concerns
+//var redisConfigurationOptions = new ConfigurationOptions { Password = password, EndPoints = { $"{host}:{port}" }, Ssl = tls, AsyncTimeout = 15000, SyncTimeout = 15000 };
+
+// https://stackexchange.github.io/StackExchange.Redis/ThreadTheft.html
+ConnectionMultiplexer.SetFeatureFlag("preventthreadtheft", true);
+
+
+IConnectionMultiplexer redisConnectionMultiplexer = ConnectionMultiplexer.Connect(redisConfigurationOptions);
+//services.AddDataProtection().PersistKeysToStackExchangeRedis(redisConnectionMultiplexer, "DataProtectionKeys");
+
+//services.AddStackExchangeRedisCache(
+//	options =>
+//	{
+//		options.ConfigurationOptions = redisConfigurationOptions;
+//		options.InstanceName = $"Redis-{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}";
+//		options.ConnectionMultiplexerFactory = () => Task.FromResult(_redisConnectionMultiplexer);
+//	})
 
 builder.Services.AddStackExchangeRedisCache(redisCacheConfig =>
 {
 	redisCacheConfig.ConfigurationOptions = redisConfigurationOptions;
+	redisCacheConfig.ConnectionMultiplexerFactory = () => Task.FromResult(redisConnectionMultiplexer);
+	redisCacheConfig.InstanceName = "redis-master";
 });
 
 builder.Services.AddSession(options =>
@@ -223,22 +247,6 @@ builder.Services.AddQuartzHostedService(opt => { opt.WaitForJobsToComplete = tru
 
 var app = builder.Build();
 
-if (!localDevelopment)
-{
-	var schedulerFactory = app.Services.GetRequiredService<ISchedulerFactory>();
-	var scheduler = await schedulerFactory.GetScheduler();
-
-	var job = JobBuilder.Create<FixSharepointFoldersJob>()
-		.WithIdentity("fix-sharepoint")
-		.Build();
-
-	var trigger = TriggerBuilder.Create()
-		.WithIdentity("fix-sharepoint")
-		.StartNow()
-		.Build();
-	await scheduler.ScheduleJob(job, trigger);
-}
-
 // Configure the HTTP request pipeline.
 
 if (!app.Environment.IsDevelopment())
@@ -291,5 +299,8 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 
 // add OWASP top 10 response headers
 app.UseResponseMiddleware();
+
+// possible redis fix
+ThreadPool.SetMinThreads(400, 400);
 
 app.Run();

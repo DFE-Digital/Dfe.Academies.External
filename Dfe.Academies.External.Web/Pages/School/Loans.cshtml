@@ -34,6 +34,7 @@
 							<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 								Are there any existing loans?
 							</legend>
+						
                             @foreach (var anyLoansOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
     						{
     							<div class="govuk-radios__item">
@@ -74,16 +75,21 @@
 									    }
 									    <div class="govuk-grid-row">
 										    <div class="govuk-grid-column-full">
+											<div id="AddedLoansButEmptyCollectionError">
 											    <a asp-page="/school/LoanDetails" class="govuk-link govuk-body" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LoanViewModels.Count" asp-route-isEdit="false" asp-route-isDraft="true">
 												    Add new loan
 											    </a>
+											</div>
 										    </div>
 									    </div>
 									</div>
     							}
     						}
+							</div>
+						
     					</fieldset>
-    				</div>
+    				
+					
                 </fieldset>
     		</div>
     		<br/>

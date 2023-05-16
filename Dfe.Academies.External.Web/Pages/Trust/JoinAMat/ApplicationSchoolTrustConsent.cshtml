@@ -47,10 +47,14 @@
 			<br/>
 		</label>
 		<div class="govuk-form-group @(Model.TrustConsentFileSizeError || Model.TrustConsentFileGenericError ? "govuk-form-group--error" : "")">
+			<div id="TrustConsentFiles">
 			<label class="govuk-label"> Upload a file</label>
+			</div>
+			<!--<div id="TrustConsentFileSizeError">-->
 			<p id="file-upload-trustConsentFileSize-error" class="govuk-error-message @(!Model.TrustConsentFileSizeError ? "govuk-visually-hidden" : "")">
 				<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
 			</p>
+			<!--</div>-->
 			<p id="file-upload-trustConsentFile-genericError" class="govuk-error-message @(!Model.TrustConsentFileGenericError ? "govuk-visually-hidden" : "")">
 				<span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
 			</p>

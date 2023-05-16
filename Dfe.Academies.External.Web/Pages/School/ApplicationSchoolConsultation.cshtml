@@ -57,17 +57,19 @@
 							</div>
 		                    @if (consultationStakeholdersOption == SelectOption.No)
 							{
+								<div id="SchoolConsultationStakeholdersConsultNotEntered">
                                 <div class="@(Model.SchoolConsultationStakeholdersConsultError ? "govuk-form-group--error" : "govuk-radios__conditional"))"
 									id="consultationStakeholdersOption-no">
 									<div class="govuk-form-group govuk-error-summary__list">
 		                                <label for="SchoolConsultationStakeholdersConsult" class="govuk-label">When does the governing body plan to consult?</label>
-										<a href="#SchoolConsultationStakeholdersConsult" 
+										<label
 										   class="@(Model.SchoolConsultationStakeholdersConsultError ? "govuk-error-message" : "govuk-visually-hidden")">
 											You must say when
-										</a>
+										</label>
                                         <textarea asp-for="SchoolConsultationStakeholdersConsult" id="SchoolConsultationStakeholdersConsult"
-		                                  class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+		                                  class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
 									</div>
+								</div>
 								</div>
 							}
 						}
