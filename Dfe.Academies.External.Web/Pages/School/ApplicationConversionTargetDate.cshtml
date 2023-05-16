@@ -5,93 +5,94 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.ApplicationConversionTargetDateModel
 @{
-	ViewData["Title"] = "Apply to become an academy - Conversion target date";
+    ViewData["Title"] = "Apply to become an academy - Conversion target date";
 }
 
 @section BeforeMain
-{
-	<a asp-page="SchoolMainContacts" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">
-		Back
-	</a>
+    {
+    <a asp-page="SchoolMainContacts" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">
+        Back
+    </a>
 }
 
-<div class="govuk-grid-column-two-thirds">
-	<span class="govuk-caption-l">
-		Conversion key details
-	</span>
-	<h1 class="govuk-heading-l">
-		Conversion target date
-	</h1>
-	
-	<p class="govuk-body-l">Conversion usually takes around 6 months. It may take longer if the school is part of a private finance initiative (PFI) contract.</p> 
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">
+            Conversion key details
+        </span>
+        <h1 class="govuk-heading-l">
+            Conversion target date
+        </h1>
 
-	<form method="post" name="frmConversionDate" novalidate="">
-		@Html.AntiForgeryToken()
-		<input type="hidden" asp-for="Urn"/>
-		<input type="hidden" asp-for="ApplicationId"/>		
-		<partial name="_HiddenFields"/>
-		
-		<div class="govuk-form-group">
-			<h2 class="govuk-heading-s">
-				Do you want the conversion to happen on a particular date?
-			</h2>
-			<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+        <p class="govuk-body-l">Conversion usually takes around 6 months. It may take longer if the school is part of a private finance initiative (PFI) contract.</p>
+
+        <form method="post" name="frmConversionDate" novalidate="">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Urn" />
+            <input type="hidden" asp-for="ApplicationId" />
+            <partial name="_HiddenFields" />
+
+            <div class="@(Model.IsPropertyInvalid("TargetDateDifferent") ? "govuk-form-group--error" : "govuk-form-group")">
+                <h2 class="govuk-heading-s">
+                    Do you want the conversion to happen on a particular date?
+                </h2>
+                <p id="TargetDateDifferent-error" class="govuk-error-message @(!Model.IsPropertyInvalid("TargetDateDifferent") ? "govuk-visually-hidden" : "")">
+                    <span class="govuk-visually-hidden">Error:</span> You must provide details
+                </p>
+                <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios" id="TargetDateDifferent">
                 @foreach (var selectOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
-				{
-					<div class="govuk-radios__item">
-						<input type="radio"
-						       asp-for="TargetDateDifferent"
-						       value="@Convert.ToInt32(selectOption)"
-						       id="selectoption@(selectOption)"
-						       class="govuk-radios__input"
-						       data-aria-controls="selectoption-@(selectOption.ToString().ToLower())"
-								checked="@(selectOption.Equals(ViewData.Model.TargetDateDifferent))"
-						       aria-expanded="False"/>
-						<label for="selectoption@(selectOption)" class="govuk-label govuk-radios__label">
-							@selectOption.GetDescription()
-						</label>
-					</div>
-					@if (selectOption == SelectOption.Yes)
-					{
-						<div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional") 
+                {
+                    <div class="govuk-radios__item">
+                        <input type="radio"
+                           asp-for="TargetDateDifferent"
+                           value="@Convert.ToInt32(selectOption)"
+                           id="selectoption@(selectOption)"
+                           class="govuk-radios__input"
+                           data-aria-controls="selectoption-@(selectOption.ToString().ToLower())"
+                           checked="@(selectOption.Equals(ViewData.Model.TargetDateDifferent))"
+                           aria-expanded="False" />
+                        <label for="selectoption@(selectOption)" class="govuk-label govuk-radios__label">
+                            @selectOption.GetDescription()
+                        </label>
+                    </div>
+                    @if (selectOption == SelectOption.Yes)
+                    {
+                        <div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
 			                                            @(selectOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
-						     id="selectoption-yes" aria-expanded="false">
-							<div class="govuk-form-group govuk-error-summary__list">
-								<fieldset class="govuk-fieldset" role="group" aria-describedby="conversion-date-different-date-hint">
-									<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-										Preferred date
-									</legend>
-									<div id="conversion-date-different-date-hint" class="govuk-hint">
-										For example, 1 9 2022
-									</div>
-									<label class="@(Model.SchoolConversionTargetDateError ? "govuk-error-message" : "govuk-visually-hidden")">
-										You must select a conversion date
-									</label>
-									<div id = "SchoolConversionTargetDateNotEntered">
-                                    <govuk-date field-name="@Model.SchoolConversionTargetDateDate"
-									            field-data="@Model.TargetDate"
-									            field-day="@Model.TargetDateDay"
-									            field-month="@Model.TargetDateMonth"
-									            field-year="@Model.TargetDateYear" >
-									</govuk-date>
-									</div>
-								</fieldset>
+                     id="selectoption-yes" aria-expanded="false">
+                            <div class="govuk-form-group govuk-error-summary__list">
+                                <fieldset class="govuk-fieldset" role="group" aria-describedby="conversion-date-different-date-hint">
+                                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                        Preferred date
+                                    </legend>
+                                    <div id="conversion-date-different-date-hint" class="govuk-hint">
+                                        For example, 1 9 2022
+                                    </div>
+                                    <label class="@(Model.SchoolConversionTargetDateError ? "govuk-error-message" : "govuk-visually-hidden")">
+                                        You must select a conversion date
+                                    </label>
+                                    <div id="SchoolConversionTargetDateNotEntered">
+                                        <govuk-date field-name="@Model.SchoolConversionTargetDateDate"
+                                            field-data="@Model.TargetDate"
+                                            field-day="@Model.TargetDateDay"
+                                            field-month="@Model.TargetDateMonth"
+                                            field-year="@Model.TargetDateYear">
+                                        </govuk-date>
+                                    </div>
+                                </fieldset>
 
-								<div class="govuk-!-margin-6"></div>
-								<div id="TargetDateExplainedNotEntered">
-								<label class="@(Model.TargetDateExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
-									You must explain why you want to convert on this date
-								</label>
-								</div>
-								<label for="TargetDateExplained" class="govuk-label">Explain why you want to convert on this date</label>
+                                <div class="govuk-!-margin-6"></div>
+                                <label class="@(Model.TargetDateExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
+                                    You must explain why you want to convert on this date
+                                </label>
+                                <label for="TargetDateExplained" class="govuk-label">Explain why you want to convert on this date</label>
                                 <textarea asp-for="TargetDateExplained" id="TargetDateExplained" class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
-							</div>
-						</div>
-					}
-				}
-			</div>
-		</div>
-		<br/>
-		<input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
-	</form>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <br />
+        <input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
+    </form>
 </div>

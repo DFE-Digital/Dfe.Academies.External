@@ -13,8 +13,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 	{
 		//// MR:- VM props to capture data
 		[BindProperty]
-		[Required(ErrorMessage = "You must add new school name")]
-		public SelectOption ChangeName { get; set; }
+		[Required(ErrorMessage = "You must provide details")]
+		public SelectOption? ChangeName { get; set; }
 
 		[BindProperty]
 		public string? ChangeSchoolName { get; set; }

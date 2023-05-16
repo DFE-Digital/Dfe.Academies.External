@@ -22,8 +22,8 @@
     		<input type="hidden" asp-for="Urn"/>
     		<input type="hidden" asp-for="ApplicationId"/>		
     		<partial name="_HiddenFields"/>
-    		
-    		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+
+            <div class="@(Model.IsPropertyInvalid("AnyLeases") ? "govuk-form-group--error" : "govuk-form-group")">
     			<fieldset class="govuk-fieldset">
     				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
     					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
@@ -34,6 +34,9 @@
 							<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
 								Are there any existing leases?
 							</legend>
+                            <p id="AnyLoans-error" class="govuk-error-message @(!Model.IsPropertyInvalid("AnyLeases") ? "govuk-visually-hidden" : "")">
+                                <span class="govuk-visually-hidden">Error:</span> You must provide details
+                            </p>
                             @foreach (var anyLeasesOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
     						{
     							<div class="govuk-radios__item">

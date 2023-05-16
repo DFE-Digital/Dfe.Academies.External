@@ -4,72 +4,75 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.ApplicationChangeSchoolNameModel
 @{
-	ViewData["Title"] = "Apply to become an academy - Changing the name of the school";
+    ViewData["Title"] = "Apply to become an academy - Changing the name of the school";
 }
 
 @section BeforeMain
-{
-	<a asp-page="ApplicationJoinTrustReasons" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">
-		Back
-	</a>
+    {
+    <a asp-page="ApplicationJoinTrustReasons" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">
+        Back
+    </a>
 }
 
-<div class="govuk-grid-column-two-thirds">
-	<h1 class="govuk-heading-l">
-		<span class="govuk-caption-l">Conversion key details</span>
-		Changing the name of the school
-	</h1> 
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+            <span class="govuk-caption-l">Conversion key details</span>
+            Changing the name of the school
+        </h1>
 
-	<form method="post" name="frmChangingSchoolName" novalidate="">
-		@Html.AntiForgeryToken()
-		<input type="hidden" asp-for="Urn"/>
-		<input type="hidden" asp-for="ApplicationId"/>
-		<partial name="_HiddenFields"/>
+        <form method="post" name="frmChangingSchoolName" novalidate="">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Urn" />
+            <input type="hidden" asp-for="ApplicationId" />
+            <partial name="_HiddenFields" />
 
-		<div class="govuk-form-group">
-			<fieldset class="govuk-fieldset">
-				<legend id="role-hint" class="govuk-fieldset__legend govuk-!-font-weight-bold">Is the school planning to change its name when it becomes an academy?</legend>
-				<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-					@foreach (var selectOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
-					{
-						<div class="govuk-radios__item">
-							<input type="radio"
-							       asp-for="ChangeName"
-							       value="@Convert.ToInt32(selectOption)"
-							       id="selectoption@(selectOption)"
-							       class="govuk-radios__input"
-							       data-aria-controls="selectoption-@(selectOption.ToString().ToLower())"
-							       checked="@(selectOption.Equals(ViewData.Model.ChangeName))"
-							       aria-expanded="False"/>
-							<label for="selectoption@(selectOption)" class="govuk-label govuk-radios__label">
-								@selectOption.GetDescription()
-							</label>
-						</div>
-						@if (selectOption == SelectOption.Yes)
-						{
-							<div class="@(Model.ChangeSchoolNameError ? "govuk-form-group--error" : "govuk-radios__conditional") 
+            <div class="@(Model.IsPropertyInvalid("ChangeName") ? "govuk-form-group--error" : "govuk-form-group")">
+                <fieldset class="govuk-fieldset">
+                    <legend id="role-hint" class="govuk-fieldset__legend govuk-!-font-weight-bold">Is the school planning to change its name when it becomes an academy?</legend>
+                    <p id="ChangeName-error" class="govuk-error-message @(!Model.IsPropertyInvalid("ChangeName") ? "govuk-visually-hidden" : "")">
+                        <span class="govuk-visually-hidden">Error:</span> You must provide details
+                    </p>
+                    <div class=" govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+                    @foreach (var selectOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+                    {
+                        <div class="govuk-radios__item">
+                            <input type="radio"
+                               asp-for="ChangeName"
+                               value="@Convert.ToInt32(selectOption)"
+                               id="selectoption@(selectOption)"
+                               class="govuk-radios__input"
+                               data-aria-controls="selectoption-@(selectOption.ToString().ToLower())"
+                               checked="@(selectOption.Equals(ViewData.Model.ChangeName))"
+                               aria-expanded="False" />
+                            <label for="selectoption@(selectOption)" class="govuk-label govuk-radios__label">
+                                @selectOption.GetDescription()
+                            </label>
+                        </div>
+                        @if (selectOption == SelectOption.Yes)
+                        {
+                            <div class="@(Model.ChangeSchoolNameError ? "govuk-form-group--error" : "govuk-radios__conditional")
 		                                            @(selectOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
-							     id="selectoption-yes" aria-expanded="false">
-								<div id="ChangeSchoolNameNotEntered">
-								<div class="govuk-form-group govuk-error-summary__list">
-									<label for="selectoption-yes" class="govuk-label">What's the proposed new name?</label>
-									<span class="govuk-hint govuk-body govuk-!-margin-bottom-5">
-										You can change this later
-									</span>
-									<label for="ChangeSchoolName" class="@(Model.ChangeSchoolNameError ? "govuk-error-message" : "govuk-visually-hidden")">
-										You must add a new school name
-									</label>
-									<input type="text" asp-for="ChangeSchoolName" id="ChangeSchoolName" class="govuk-input govuk-input--width-20" maxlength="100"/>
-								</div>
-								</div>
-							</div>
-						}
-					}
-				</div>
-			</fieldset>
-		</div>		
+                         id="selectoption-yes" aria-expanded="false">
+                                <div id="ChangeSchoolNameNotEntered">
+                                    <div class="govuk-form-group govuk-error-summary__list">
+                                        <label for="selectoption-yes" class="govuk-label">What's the proposed new name?</label>
+                                        <span class="govuk-hint govuk-body govuk-!-margin-bottom-5">
+                                            You can change this later
+                                        </span>
+                                        <label for="ChangeSchoolName" class="@(Model.ChangeSchoolNameError ? "govuk-error-message" : "govuk-visually-hidden")">
+                                            You must add a new school name
+                                        </label>
+                                        <input type="text" asp-for="ChangeSchoolName" id="ChangeSchoolName" class="govuk-input govuk-input--width-20" maxlength="100" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </fieldset>
+        </div>
 
-		<br/>
-		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
-	</form>
+        <br />
+        <input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
+    </form>
 </div>

@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Azure;
 
 namespace Dfe.Academies.External.Web.Services
 {
@@ -19,14 +20,16 @@ namespace Dfe.Academies.External.Web.Services
 		/// The client.
 		/// </summary>
 		private readonly HttpClient _client;
+		private readonly ILogger logger;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ResilientRequestProvider"/> class.
 		/// </summary>
-		public ResilientRequestProvider(HttpClient client)
+		public ResilientRequestProvider(HttpClient client, ILogger logger)
 		{
 			// consume singular HTTPClient, grabbed from DI config
 			this._client = client;
+			this.logger = logger;
 		}
 
 		/// <inheritdoc/>
@@ -62,6 +65,9 @@ namespace Dfe.Academies.External.Web.Services
 
 			var response = await this._client.PostAsync(uri, content);
 			var responsecontent = await response.Content.ReadAsStringAsync();
+			if (!response.IsSuccessStatusCode) { 
+				this.logger.LogError($"Request unsuccessfull, response status code : { response.StatusCode }| response content : { responsecontent }");
+			}
 ;			response.EnsureSuccessStatusCode();
 
 			// using stream reader as below
@@ -85,6 +91,11 @@ namespace Dfe.Academies.External.Web.Services
 			}
 
 			var response = await this._client.PutAsync(uri, content);
+			var responsecontent = await response.Content.ReadAsStringAsync();
+			if (!response.IsSuccessStatusCode)
+			{
+				this.logger.LogError($"Request unsuccessfull, response status code : {response.StatusCode}| response content : {responsecontent}");
+			}
 			response.EnsureSuccessStatusCode();
 
 			// get PUT response JSON using stream reader as below
