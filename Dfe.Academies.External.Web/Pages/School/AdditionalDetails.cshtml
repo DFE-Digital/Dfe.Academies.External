@@ -78,10 +78,10 @@
                         {
                             <div class="@(ofstedInspectedOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "govuk-radios__conditional")" id="ofstedInspectedOption-yes">
                                 <div class="govuk-form-group @(Model.OfstedInspectedDetailsError ? "govuk-form-group--error" : "")">
-                                    <a href="#OfstedInspectedDetails"
+                                    <p id="OfstedInspectionDetailsNotAdded"
                                class="@(Model.OfstedInspectedDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
                                         You must provide details
-                                    </a>
+                                    </p>
                                     <label for="OfstedInspectedDetails" class="govuk-label">Provide the inspection date and a short summary of the outcome</label>
                                     <textarea asp-for="OfstedInspectionDetails" id="OfstedInspectedDetails" class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
                                 </div>
@@ -144,10 +144,10 @@
                             <div class="@(localAuthorityOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "govuk-radios__conditional")"
                          id="localAuthorityOption-yes">
                                 <div class="govuk-form-group @(Model.LocalAuthorityReorganisationDetailsError ? "govuk-form-group--error" : "")">
-                                    <a href="#LocalAuthorityReorganisationDetails"
+                                    <p id="LocalAuthorityReorganisationDetailsNotAdded"
                                class="@(Model.LocalAuthorityReorganisationDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
                                         You must provide details
-                                    </a>
+                                    </p>
                                     <label for="LocalAuthorityReorganisationDetails" class="govuk-label">Details of the reorganisation</label>
                                     <textarea asp-for="LocalAuthorityReorganisationDetails" id="LocalAuthorityReorganisationDetails"
                                       class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
@@ -185,10 +185,10 @@
                             <div class="@(localAuthorityClosurePlanOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "govuk-radios__conditional")"
                          id="localAuthorityClosurePlanOption-yes">
                                 <div class="govuk-form-group @(Model.LocalAuthorityClosurePlanDetailsError ? "govuk-form-group--error" : "")">
-                                    <a href="#LocalAuthorityClosurePlanDetails"
+                                    <p id="localAuthorityClosurePlanDetailsNotAdded"
                                class="@(Model.LocalAuthorityClosurePlanDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
                                         You must provide details
-                                    </a>
+                                    </p>
                                     <label for="LocalAuthorityClosurePlanDetails" class="govuk-label">Details of the closure plans</label>
                                     <textarea asp-for="LocalAuthorityClosurePlanDetails" id="LocalAuthorityClosurePlanDetails"
                                       class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
@@ -226,10 +226,10 @@
                             <div class="@(dioceseOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "govuk-radios__conditional")"
                          id="dioceseOption-yes">
                                 <div class="govuk-form-group @(Model.DioceseNameError ? "govuk-form-group--error" : "")">
-                                    <a href="#DioceseName"
+                                    <p id="DioceseNameNotAdded"
                                class="@(Model.DioceseNameError ? "govuk-error-message" : "govuk-visually-hidden")">
                                         You must provide details
-                                    </a>
+                                    </p>
                                     <label for="DioceseName" class="govuk-label">Name of diocese</label>
                                     <textarea asp-for="DioceseName" id="DioceseName" class="govuk-textarea" cols="5" rows="1" maxlength="2000"></textarea>
                                     <p class="govuk-label">
@@ -323,10 +323,10 @@
                             <div class="@(supportedByFoundationTrustOrBodyOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "govuk-radios__conditional")"
                          id="supportedByFoundationTrustOrBodyOption-yes">
                                 <div class="govuk-form-group @(Model.SupportedByFoundationTrustOrBodyError ? "govuk-form-group--error" : "")">
-                                    <a href="#FoundationTrustOrBodyName"
+                                    <p id="FoundationTrustOrBodyNameNotAdded"
                                class="@(Model.SupportedByFoundationTrustOrBodyError ? "govuk-error-message" : "govuk-visually-hidden")">
                                         You must provide details
-                                    </a>
+                                    </p>
                                     <label for="FoundationTrustOrBodyName" class="govuk-label">Name of this body</label>
                                     <textarea asp-for="FoundationTrustOrBodyName" id="FoundationTrustOrBodyName" class="govuk-textarea" cols="10" rows="1" maxlength="2000"></textarea>
 
@@ -398,18 +398,15 @@
                         {
                             <div class="govuk-form-group @(Model.ExemptionFromSACREError ? "govuk-form-group--error" : "govuk-radios__conditional")
 																	@(exemptionFromSACREOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
-                         id="exemptionFromSACREOption-yes">
-                                <a href="#govuk-date"
-                           class="@(Model.ExemptionFromSACREError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                    You must provide details
-                                </a>
+                         id="exemptionFromSACREOption-yes">              
                                 <label for="govuk-date" class="govuk-label">When does the exemption end?</label>
                                 <div id="exemption-end-date-hint" class="govuk-hint">
                                     For example, 31 3 1980
-                                </div>
-                                <a href="#govuk-date" class="@(Model.ExemptionEndDateNotEntered ? "govuk-error-message" : "govuk-visually-hidden")">
-                                    You must select a conversion date
-                                </a>
+                                </div>           
+                                <p id="exemptionFromSACREEndDateNotAdded"
+                                             class="@(Model.ExemptionFromSACREError ? "govuk-error-message" : "govuk-visually-hidden")">
+                                    You must provide details
+                                </p>
                                 <govuk-date field-name="@Model.ExemptionEndDateName"
                                     field-data="@Model.ExemptionEndDate"
                                     field-day="@Model.ExemptionEndDateDay"
@@ -514,10 +511,10 @@
                             <div class="@(equalitiesImpactAssessmentOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "govuk-radios__conditional")"
                          id="equalitiesImpactAssessmentOption-yes">
                                 <div class="govuk-form-group @(Model.EqualityAssessmentError ? "govuk-form-group--error" : "")">
-                                    <a href="#disproportionateProtectedCharacteristicsOptionUnlikely"
+                                    <p id="equalitiesImpactAssessmentOptionNoOptionSelected"
                                class="@(Model.EqualityAssessmentError ? "govuk-error-message" : "govuk-visually-hidden")">
                                         You must enter an option
-                                    </a>
+                                    </p>
                                     @foreach (var disproportionateProtectedCharacteristicsOption in Enum.GetValues<SchoolEqualitiesProtectedCharacteristics>().OrderByDescending(x => x.ToString()))
                                     {
                                         <div class="govuk-radios__item">
@@ -568,10 +565,10 @@
                             <div class="@(furtherInformationOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "govuk-radios__conditional")"
                          id="furtherInformationOption-yes">
                                 <div class="govuk-form-group @(Model.FurtherInformationError ? "govuk-form-group--error" : "")">
-                                    <a href="#furtherInformationDetails"
+                                    <p id="furtherInformationDetailsNotAdded"
                                class="@(Model.FurtherInformationError ? "govuk-error-message" : "govuk-visually-hidden")">
                                         You must provide details
-                                    </a>
+                                    </p>
                                     <label for="furtherInformationDetails" class="govuk-label">Any other information</label>
                                     <textarea asp-for="FurtherInformationDetails" id="furtherInformationDetails"
                                       class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
