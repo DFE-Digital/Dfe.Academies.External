@@ -71,14 +71,7 @@ describe('View Application Tests', () => {
         A2BHome.contactYourRegionalDirectorLinkVisible()
         A2BHome.allInformationAndEvidenceYouWillNeedLinkVisible()
         
-        Footer.accessibilityStatementLinkVisible()
-        Footer.cookiesLinkVisible()
-        Footer.termsAndConditionsLinkVisible()
-        Footer.privacyLinkVisible()
-        Footer.oglLogoVisible()
-        Footer.allContentTextVisible()
-        Footer.openGovernmentLicence3LinkVisible()
-        Footer.crownCopyrightLinkVisible()
+        Footer.checkFooterLinksVisible()
         
         CookieHeaderModal.clickAcceptAnalyticsCookies()
         A2BHome.StartNowVisible()
@@ -88,54 +81,18 @@ describe('View Application Tests', () => {
     it('should be able to create a New Application', () => {
         A2BLogin.login(login_username, login_password)
 
-        Header.govUkHeaderVisible()
-        Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
         A2BYourApplications.yourApplicationsElementsVisible()
-
-        Footer.accessibilityStatementLinkVisible()
-        Footer.cookiesLinkVisible()
-        Footer.termsAndConditionsLinkVisible()
-        Footer.privacyLinkVisible()
-        Footer.oglLogoVisible()
-        Footer.allContentTextVisible()
-        Footer.openGovernmentLicence3LinkVisible()
-        Footer.crownCopyrightLinkVisible()
 
         A2BYourApplications.selectStartANewApplication()
 
-        Header.govUkHeaderVisible()
-        Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
         A2BWhatAreYouApplyingToDo.whatAreYouApplyingToDoElementsVisible()
-
-        Footer.accessibilityStatementLinkVisible()
-        Footer.cookiesLinkVisible()
-        Footer.termsAndConditionsLinkVisible()
-        Footer.privacyLinkVisible()
-        Footer.oglLogoVisible()
-        Footer.allContentTextVisible()
-        Footer.openGovernmentLicence3LinkVisible()
-        Footer.crownCopyrightLinkVisible()
 
         A2BWhatAreYouApplyingToDo.selectJAMRadioButton()
         A2BWhatAreYouApplyingToDo.verifyJAMRadioButtonChecked()
 
         A2BWhatAreYouApplyingToDo.selectApplyingToDoSaveAndContinue()
 
-        Header.govUkHeaderVisible()
-        Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
         A2BWhatIsYourRole.whatIsYourRoleElementsVisible()
-
-        Footer.accessibilityStatementLinkVisible()
-        Footer.cookiesLinkVisible()
-        Footer.termsAndConditionsLinkVisible()
-        Footer.privacyLinkVisible()
-        Footer.oglLogoVisible()
-        Footer.allContentTextVisible()
-        Footer.openGovernmentLicence3LinkVisible()
-        Footer.crownCopyrightLinkVisible()
 
         A2BWhatIsYourRole.selectChairOfGovernorsRadioButton()
         A2BWhatIsYourRole.verifyChairOfGovernorsRadioButtonChecked()
@@ -143,36 +100,13 @@ describe('View Application Tests', () => {
         A2BWhatIsYourRole.selectWhatIsYourRoleSaveAndContinue()
 
         // VERIFY JAM YOUR APPLICATION OVERVIEW PAGE DISPLAYS CORRECTLY
-        Header.govUkHeaderVisible()
-        Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
         A2BYourApplication.yourApplicationNotStartedElementsVisible()
-   
-        Footer.accessibilityStatementLinkVisible()
-        Footer.cookiesLinkVisible()
-        Footer.termsAndConditionsLinkVisible()
-        Footer.privacyLinkVisible()
-        Footer.oglLogoVisible()
-        Footer.allContentTextVisible()
-        Footer.openGovernmentLicence3LinkVisible()
-        Footer.crownCopyrightLinkVisible()
 
         //Click Add a Trust
         A2BYourApplication.selectAddATrust()
 
-       Header.govUkHeaderVisible()
-       Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
        A2BWhichTrustIsSchoolJoining.whichTrustIsSchoolJoiningElementsVisible()
-
-       Footer.accessibilityStatementLinkVisible()
-       Footer.cookiesLinkVisible()
-       Footer.termsAndConditionsLinkVisible()
-       Footer.privacyLinkVisible()
-       Footer.oglLogoVisible()
-       Footer.allContentTextVisible()
-       Footer.openGovernmentLicence3LinkVisible()
-       Footer.crownCopyrightLinkVisible()
 
        cy.wait(2000)
 
@@ -184,19 +118,8 @@ describe('View Application Tests', () => {
       A2BYourApplication.selectAddASchool()
 
       // CHECK THE ELEMENTS OF THE ADD A SCHOOL PAGE DISPLAY CORRECTLY
-      Header.govUkHeaderVisible()
-      Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
       A2BWhatIsTheNameOfTheSchool.whatIsTheNameOfTheSchoolElementsVisible()
-
-      Footer.accessibilityStatementLinkVisible()
-      Footer.cookiesLinkVisible()
-      Footer.termsAndConditionsLinkVisible()
-      Footer.privacyLinkVisible()
-      Footer.oglLogoVisible()
-      Footer.allContentTextVisible()
-      Footer.openGovernmentLicence3LinkVisible()
-      Footer.crownCopyrightLinkVisible()
 
       cy.wait(2000)
 
@@ -205,56 +128,23 @@ describe('View Application Tests', () => {
 
       // OK SO TRUST AND SCHOOL HAVE BEEN ADDED LETS CHECK THE JAM APPLICATION OVERVIEW PAGE
 
-      Header.govUkHeaderVisible()
-      Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
       A2BYourApplication.yourApplicationNotStartedButSchoolAddedElementsVisible()
 
-      Footer.accessibilityStatementLinkVisible()
-      Footer.cookiesLinkVisible()
-      Footer.termsAndConditionsLinkVisible()
-      Footer.privacyLinkVisible()
-      Footer.oglLogoVisible()
-      Footer.allContentTextVisible()
-      Footer.openGovernmentLicence3LinkVisible()
-      Footer.crownCopyrightLinkVisible()
 // PROCEED TO TRUST DETAILS SUMMARY PAGE!!!!
         // -----------------------------------------
         // PROCEED TO TRUST DETAILS SECTION
         A2BYourApplication.selectTrustDetails()
 
        // CHECK TRUST DETAILS SUMMARY PAGE
-       Header.govUkHeaderVisible()
-       Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
        A2BJAMTrustDetailsSummary.JAMTrustDetailsSummaryElementsVisible()
-
-       Footer.accessibilityStatementLinkVisible()
-       Footer.cookiesLinkVisible()
-       Footer.termsAndConditionsLinkVisible()
-       Footer.privacyLinkVisible()
-       Footer.oglLogoVisible()
-       Footer.allContentTextVisible()
-       Footer.openGovernmentLicence3LinkVisible()
-       Footer.crownCopyrightLinkVisible()
 
        // CLICK ON START SECTION
        A2BJAMTrustDetailsSummary.JAMTrustDetailsSummarySelectStartSection()
 
        // CHECK ELEMENTS VISIBLE ON JAM TRUST CONSENT PAGE
-       Header.govUkHeaderVisible()
-       Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
        A2BJAMTrustConsent.JAMTrustConsentElementsVisible()
-
-       Footer.accessibilityStatementLinkVisible()
-       Footer.cookiesLinkVisible()
-       Footer.termsAndConditionsLinkVisible()
-       Footer.privacyLinkVisible()
-       Footer.oglLogoVisible()
-       Footer.allContentTextVisible()
-       Footer.openGovernmentLicence3LinkVisible()
-       Footer.crownCopyrightLinkVisible()
 
        // ATTEMPT TO UPLOAD A FILE
        A2BJAMTrustConsent.JAMTrustConsentFileUpload()
@@ -263,19 +153,8 @@ describe('View Application Tests', () => {
        A2BJAMTrustConsent.JAMTrustConsentSubmit()
 
        // VERIFY THE CHANGES TO THE TRUST PAGE DISPLAYS CORRECTLY
-       Header.govUkHeaderVisible()
-       Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
        A2BChangesToTheTrust.changesToTheTrustElementsVisible()
-
-       Footer.accessibilityStatementLinkVisible()
-       Footer.cookiesLinkVisible()
-       Footer.termsAndConditionsLinkVisible()
-       Footer.privacyLinkVisible()
-       Footer.oglLogoVisible()
-       Footer.allContentTextVisible()
-       Footer.openGovernmentLicence3LinkVisible()
-       Footer.crownCopyrightLinkVisible()
 
 
        // CLICK YES TO CHANGES TO THE TRUST, ENTER REASONS WHY, AND CLICK ON THE SUBMIT BUTTON
@@ -286,20 +165,7 @@ describe('View Application Tests', () => {
        A2BChangesToTheTrust.changesToTheTrustSubmit()
 
        // CHECK ELEMENTS VISIBLE ON LOCAL GOVERNANCE ARRANGEMENTS PAGE
-       Header.govUkHeaderVisible()
-       Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
        A2BLocalGovernanceArrangements.localGovernanceArrangementsElementsVisible()
-
-
-       Footer.accessibilityStatementLinkVisible()
-       Footer.cookiesLinkVisible()
-       Footer.termsAndConditionsLinkVisible()
-       Footer.privacyLinkVisible()
-       Footer.oglLogoVisible()
-       Footer.allContentTextVisible()
-       Footer.openGovernmentLicence3LinkVisible()
-       Footer.crownCopyrightLinkVisible()
 
 
        // CLICK YES
@@ -315,56 +181,22 @@ describe('View Application Tests', () => {
       A2BJAMTrustDetailsSummary.JAMTrustDetailsSummarySaveAndReturnToApp()
 
       // CHECK YOUR APPLICATION PAGE DISPLAYS CORRECTLY AND TRUST SECTION IS MARKED AS COMPLETE
-      Header.govUkHeaderVisible()
-      Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
       A2BYourApplication.yourApplicationNotStartedButTrustSectionCompleteElementsVisible()
 
-      Footer.accessibilityStatementLinkVisible()
-      Footer.cookiesLinkVisible()
-      Footer.termsAndConditionsLinkVisible()
-      Footer.privacyLinkVisible()
-      Footer.oglLogoVisible()
-      Footer.allContentTextVisible()
-      Footer.openGovernmentLicence3LinkVisible()
-      Footer.crownCopyrightLinkVisible()
-
-// ADDING BEGINNING OF FILLING OUT JAM SCHOOL OVERVIEW SECTION
+      // ADDING BEGINNING OF FILLING OUT JAM SCHOOL OVERVIEW SECTION
       //  OK - Let's Start By Clicking On About the Conversion Section
       A2BYourApplication.selectAboutTheConversion()
 
       // OK we're Now on About the Conversion Page - Let's check all elements display correctly
-      Header.govUkHeaderVisible()
-      Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
       A2BAboutTheConversion.aboutTheConversionNotStartedElementsVisible()
-
-      Footer.accessibilityStatementLinkVisible()
-      Footer.cookiesLinkVisible()
-      Footer.termsAndConditionsLinkVisible()
-      Footer.privacyLinkVisible()
-      Footer.oglLogoVisible()
-      Footer.allContentTextVisible()
-      Footer.openGovernmentLicence3LinkVisible()
-      Footer.crownCopyrightLinkVisible()
 
       // OK now we want to click on Start section for main contacts
       A2BAboutTheConversion.selectContactDetailsStartSection()
 
       // OK so now we need to check ContactDetails / Main Contacts page displays correctly
-      Header.govUkHeaderVisible()
-      Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
       A2BMainContacts.mainContactsNotStartedElementsVisible()
-
-      Footer.accessibilityStatementLinkVisible()
-      Footer.cookiesLinkVisible()
-      Footer.termsAndConditionsLinkVisible()
-      Footer.privacyLinkVisible()
-      Footer.oglLogoVisible()
-      Footer.allContentTextVisible()
-      Footer.openGovernmentLicence3LinkVisible()
-      Footer.crownCopyrightLinkVisible()
 
       // OK - LET'S POPULATE THE MAIN CONTACTS FORM
       A2BMainContacts.fillHeadTeacherDetails()
@@ -376,19 +208,8 @@ describe('View Application Tests', () => {
       A2BMainContacts.submitMainContactsForm()
 
       // A2B ABOUT THE CONVERSION ELEMENTS VISIBLE WITH MAIN CONTACTS SECTION COMPLETE
-      Header.govUkHeaderVisible()
-      Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
       A2BAboutTheConversion.aboutTheConversionMainContactsCompleteElementsVisible()
-
-      Footer.accessibilityStatementLinkVisible()
-      Footer.cookiesLinkVisible()
-      Footer.termsAndConditionsLinkVisible()
-      Footer.privacyLinkVisible()
-      Footer.oglLogoVisible()
-      Footer.allContentTextVisible()
-      Footer.openGovernmentLicence3LinkVisible()
-      Footer.crownCopyrightLinkVisible()
 
       // OK SO MAIN CONTACTS COMPLETE AND INFO CORRECT ON ABOUT THE CONVERSION
       // OK now we want to click on Start section for main contacts
@@ -396,76 +217,31 @@ describe('View Application Tests', () => {
 
       // OK - NOW WE'RE ON THE DATE OF CONVERSION PAGE WE NEED TO CHECK PAGE ELEMENTS
       // DISPLAY CORRECTLY
-      Header.govUkHeaderVisible()
-      Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
       A2BConversionTargetDate.conversionTargetDateElementsVisible()
-
-      Footer.accessibilityStatementLinkVisible()
-      Footer.cookiesLinkVisible()
-      Footer.termsAndConditionsLinkVisible()
-      Footer.privacyLinkVisible()
-      Footer.oglLogoVisible()
-      Footer.allContentTextVisible()
-      Footer.openGovernmentLicence3LinkVisible()
-      Footer.crownCopyrightLinkVisible()
 
       // COMPLETE DATE CONVERSION PAGE AND SUBMIT
       A2BConversionTargetDate.conversionTargetDateSubmit()
 
 
       // CHECK REASONS FOR JOINING PAGE DISPLAYS CORRECTLY
-      Header.govUkHeaderVisible()
-      Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
       A2BReasonsForJoining.reasonsForJoiningElementsVisible()
 
-      Footer.accessibilityStatementLinkVisible()
-      Footer.cookiesLinkVisible()
-      Footer.termsAndConditionsLinkVisible()
-      Footer.privacyLinkVisible()
-      Footer.oglLogoVisible()
-      Footer.allContentTextVisible()
-      Footer.openGovernmentLicence3LinkVisible()
-      Footer.crownCopyrightLinkVisible()
 
       // COMPLETE REASONS FOR JOINING PAGE AND SUBMIT
       A2BReasonsForJoining.reasonsForJoiningInput()
-
       A2BReasonsForJoining.submitReasonsForJoining()
 
       // CHECK CHANGING THE NAME OF THE SCHOOL DISPLAYS CORRECTLY
-      Header.govUkHeaderVisible()
-      Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
       A2BChangingTheNameOfTheSchool.changingTheNameOfTheSchoolElementsVisible()
-
-      Footer.accessibilityStatementLinkVisible()
-      Footer.cookiesLinkVisible()
-      Footer.termsAndConditionsLinkVisible()
-      Footer.privacyLinkVisible()
-      Footer.oglLogoVisible()
-      Footer.allContentTextVisible()
-      Footer.openGovernmentLicence3LinkVisible()
-      Footer.crownCopyrightLinkVisible()
 
       // COMPLETE CHANGING THE NAME OF THE SCHOOL PAGE AND SUBMIT
       A2BChangingTheNameOfTheSchool.submitChangingTheNameOfTheSchool()
 
       // NOW CHECK ABOUT THE CONVERSION PAGE DISPLAYS CORRECTLY WITH ALL DATA
-      Header.govUkHeaderVisible()
-      Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
       A2BAboutTheConversion.aboutTheConversionCompleteElementsVisible()
-
-      Footer.accessibilityStatementLinkVisible()
-      Footer.cookiesLinkVisible()
-      Footer.termsAndConditionsLinkVisible()
-      Footer.privacyLinkVisible()
-      Footer.oglLogoVisible()
-      Footer.allContentTextVisible()
-      Footer.openGovernmentLicence3LinkVisible()
-      Footer.crownCopyrightLinkVisible()
 
       // NOW SAVE COMPLETED ABOUT THE CONVERSION SUMMARY PAGE
       A2BAboutTheConversion.submitAboutTheConversion()
@@ -473,7 +249,8 @@ describe('View Application Tests', () => {
       // NOW CHECK THE JAM APPLICATION OVERVIEW PAGE DISPLAYS CORRECTLY WITH
       // ABOUT THE CONVERSION SECTION MARKED AS COMPLETED
       A2BYourApplication.yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible()
-// SELECT FURTHER INFORMATION SECTION
+      
+      // SELECT FURTHER INFORMATION SECTION
       A2BYourApplication.selectFurtherInformation()
 
       // ADDITIONAL DETAILS SUMMARY PAGE CHECK ELEMENTS
@@ -522,76 +299,30 @@ describe('View Application Tests', () => {
       A2BAdditionalDetailsDetails.submitAdditionalDetailsDetails()
 
       // CHECK COMPLETED ADDITIONAL DETAILS SUMMARY PAGE DISPLAYS CORRECTLY
-      Header.govUkHeaderVisible()
-      Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
       A2BAdditionalDetailsSummaryPage.additionalDetailsSummaryCompleteElementsVisible()
-
-      Footer.accessibilityStatementLinkVisible()
-      Footer.cookiesLinkVisible()
-      Footer.termsAndConditionsLinkVisible()
-      Footer.privacyLinkVisible()
-      Footer.oglLogoVisible()
-      Footer.allContentTextVisible()
-      Footer.openGovernmentLicence3LinkVisible()
-      Footer.crownCopyrightLinkVisible()
 
       // SUBMIT ADDITIONAL DETAIL SUMMARY PAGE
       A2BAdditionalDetailsSummaryPage.submitAdditionalDetailsSummary()
 
       // CHECK JAM APPLICATION OVERVIEW PAGE DISPLAYS CORRECTLY WITH FURTHER INFORMATION SECTION MARKED AS COMPLETE
-      Header.govUkHeaderVisible()
-      Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
       A2BYourApplication.yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible()
 
-      Footer.accessibilityStatementLinkVisible()
-      Footer.cookiesLinkVisible()
-      Footer.termsAndConditionsLinkVisible()
-      Footer.privacyLinkVisible()
-      Footer.oglLogoVisible()
-      Footer.allContentTextVisible()
-      Footer.openGovernmentLicence3LinkVisible()
-      Footer.crownCopyrightLinkVisible()
-// SELECT FINANCES SECTION *******
+      // SELECT FINANCES SECTION *******
 
       // SELECT FINANCES LINK
       A2BYourApplication.selectFinances()
 
       // CHECK FINANCE SUMMARY PAGE DISPLAYS CORRECTLY
-      Header.govUkHeaderVisible()
-      Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
       A2BFinanceSummary.financeSummaryNotStartedElementsVisible()
-
-      Footer.accessibilityStatementLinkVisible()
-      Footer.cookiesLinkVisible()
-      Footer.termsAndConditionsLinkVisible()
-      Footer.privacyLinkVisible()
-      Footer.oglLogoVisible()
-      Footer.allContentTextVisible()
-      Footer.openGovernmentLicence3LinkVisible()
-      Footer.crownCopyrightLinkVisible()
 
       
       // SELECT PREVIOUS FINANCIAL YR START SECTION
       A2BFinanceSummary.selectPreviousFinancialYrStartSection()
 
       // CHECK PREVIOUS FINANCIAL YR PAGE DISPLAYS CORRECTLY
-      
-      Header.govUkHeaderVisible()
-      Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
       A2BPreviousFinancialYear.previousFinancialYrElementsVisible()
-
-      Footer.accessibilityStatementLinkVisible()
-      Footer.cookiesLinkVisible()
-      Footer.termsAndConditionsLinkVisible()
-      Footer.privacyLinkVisible()
-      Footer.oglLogoVisible()
-      Footer.allContentTextVisible()
-      Footer.openGovernmentLicence3LinkVisible()
-      Footer.crownCopyrightLinkVisible()
 
      // FILL OUT PREVIOUS FINANCIAL YR DETAILS
      A2BPreviousFinancialYear.inputPreviousFinancialYrDate()
@@ -608,11 +339,8 @@ describe('View Application Tests', () => {
      // SUBMIT PREVIOUS FINANCIAL YR
      A2BPreviousFinancialYear.submitPreviousFinancialYr()
 
-
-
-
-      // CHECK CURRENT FINANCIAL YR SECTION CORRECTLY
-      A2BCurrentFinancialYear.currentFinancialYrElementsVisible()
+    // CHECK CURRENT FINANCIAL YR SECTION CORRECTLY
+    A2BCurrentFinancialYear.currentFinancialYrElementsVisible()
 
 
       // FILL OUT CURRENT FINANCIAL YR DETAILS
@@ -668,127 +396,46 @@ describe('View Application Tests', () => {
 
 
       // CHECK LOANS SUMMARY PAGE DISPLAYS CORRECTLY
-      Header.govUkHeaderVisible()
-      Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
       A2BLoansSummary.loansSummaryElementsVisible()
-
-      Footer.accessibilityStatementLinkVisible()
-      Footer.cookiesLinkVisible()
-      Footer.termsAndConditionsLinkVisible()
-      Footer.privacyLinkVisible()
-      Footer.oglLogoVisible()
-      Footer.allContentTextVisible()
-      Footer.openGovernmentLicence3LinkVisible()
-      Footer.crownCopyrightLinkVisible()
      
       //SUBMIT LOANS
      A2BLoansSummary.submitLoansSummary()
 
        // CHECK LEASES SUMMARY PAGE DISPLAYS CORRECTLY
-       Header.govUkHeaderVisible()
-       Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
        A2BLeasesSummary.leasesSummaryElementsVisible()
-
-       Footer.accessibilityStatementLinkVisible()
-       Footer.cookiesLinkVisible()
-       Footer.termsAndConditionsLinkVisible()
-       Footer.privacyLinkVisible()
-       Footer.oglLogoVisible()
-       Footer.allContentTextVisible()
-       Footer.openGovernmentLicence3LinkVisible()
-       Footer.crownCopyrightLinkVisible()
       
-
- 
        // SUBMIT LEASES
        A2BLeasesSummary.submitLeasesSummary()
 
        // CHECK FINANCIAL INVESTIGATIONS PAGE DISPLAYS CORRECTLY
-       Header.govUkHeaderVisible()
-       Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
        A2BFinancialInvestigations.financialInvestigationsElementsVisible()
-
-       Footer.accessibilityStatementLinkVisible()
-       Footer.cookiesLinkVisible()
-       Footer.termsAndConditionsLinkVisible()
-       Footer.privacyLinkVisible()
-       Footer.oglLogoVisible()
-       Footer.allContentTextVisible()
-       Footer.openGovernmentLicence3LinkVisible()
-       Footer.crownCopyrightLinkVisible()
 
        // SUBMIT FINANCIAL INVESTIGATIONS
        A2BFinancialInvestigations.submitFinancialInvestigations()
 
        // CHECK COMPLETED FINANCE SUMMARY PAGE
-       Header.govUkHeaderVisible()
-       Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
        A2BFinanceSummary.financeSummaryCompleteElementsVisible()
-
-       Footer.accessibilityStatementLinkVisible()
-       Footer.cookiesLinkVisible()
-       Footer.termsAndConditionsLinkVisible()
-       Footer.privacyLinkVisible()
-       Footer.oglLogoVisible()
-       Footer.allContentTextVisible()
-       Footer.openGovernmentLicence3LinkVisible()
-       Footer.crownCopyrightLinkVisible()
 
        // SUBMIT FINANCE SUMMARY PAGE
        A2BFinanceSummary.submitFinanceSummary()
 
        // CHECK FINANCE MARKED COMPLETE ON JAM APP OVERVIEW PAGE
-       Header.govUkHeaderVisible()
-       Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
        A2BYourApplication.financeCompleteElementsVisible()
 
-       Footer.accessibilityStatementLinkVisible()
-       Footer.cookiesLinkVisible()
-       Footer.termsAndConditionsLinkVisible()
-       Footer.privacyLinkVisible()
-       Footer.oglLogoVisible()
-       Footer.allContentTextVisible()
-       Footer.openGovernmentLicence3LinkVisible()
-       Footer.crownCopyrightLinkVisible()
-// SELECT FUTURE PUPILS SECTION
-    A2BYourApplication.selectFuturePupilNumbers()
+      // SELECT FUTURE PUPILS SECTION
+      A2BYourApplication.selectFuturePupilNumbers()
 
     // ADDITIONAL DETAILS SUMMARY PAGE CHECK ELEMENTS
-    Header.govUkHeaderVisible()
-    Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
     A2BFuturePupilNumbersSummary.futurePupilNumbersSummaryElementsVisible()
-
-    Footer.accessibilityStatementLinkVisible()
-    Footer.cookiesLinkVisible()
-    Footer.termsAndConditionsLinkVisible()
-    Footer.privacyLinkVisible()
-    Footer.oglLogoVisible()
-    Footer.allContentTextVisible()
-    Footer.openGovernmentLicence3LinkVisible()
-    Footer.crownCopyrightLinkVisible()
 
     // CLICK START SECTION
     A2BFuturePupilNumbersSummary.selectFuturePupilNumbersStartSection()
 
-    Header.govUkHeaderVisible()
-    Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
     A2BFuturePupilNumbersDetails.futurePupilNumbersDetailsElementsVisible()
-
-    Footer.accessibilityStatementLinkVisible()
-    Footer.cookiesLinkVisible()
-    Footer.termsAndConditionsLinkVisible()
-    Footer.privacyLinkVisible()
-    Footer.oglLogoVisible()
-    Footer.allContentTextVisible()
-    Footer.openGovernmentLicence3LinkVisible()
-    Footer.crownCopyrightLinkVisible()
 
     // FILL OUT FUTURE PUPIL NUMBERS DETAILS
     A2BFuturePupilNumbersDetails.fillFuturePupilNumbersDetails()
@@ -797,61 +444,26 @@ describe('View Application Tests', () => {
     A2BFuturePupilNumbersDetails.submitFuturePupilNumbersDetails()
 
     // CHECK COMPLETED FUTURE PUPIL NUMBERS SUMMARY DISPLAYS CORRECTLY
-    Header.govUkHeaderVisible()
-    Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
     A2BFuturePupilNumbersSummary.futurePupilNumbersSummaryCompleteElementsVisible()
-
-    Footer.accessibilityStatementLinkVisible()
-    Footer.cookiesLinkVisible()
-    Footer.termsAndConditionsLinkVisible()
-    Footer.privacyLinkVisible()
-    Footer.oglLogoVisible()
-    Footer.allContentTextVisible()
-    Footer.openGovernmentLicence3LinkVisible()
-    Footer.crownCopyrightLinkVisible()
 
     // SUBMIT FUTURE PUPIL NUMBERS SUMMARY
     A2BFuturePupilNumbersSummary.submitFuturePupilNumbersSummary()
 
     // VERIFY JAM APP OVERVIEW PAGE DISPLAYS CORRECTLY WITH COMPLETED FUTURE PUPIL NUMBERS SUMMARY
     A2BYourApplication.futurePupilNumbersCompleteElementsVisible()
-// SELECT LAND AND BUILDINGS SECTION
-A2BYourApplication.selectLandAndBuildings()
 
-// ADDITIONAL DETAILS SUMMARY PAGE CHECK ELEMENTS
-Header.govUkHeaderVisible()
-Header.applyToBecomeAnAcademyHeaderLinkVisible()
+   // SELECT LAND AND BUILDINGS SECTION
+   A2BYourApplication.selectLandAndBuildings()
 
-A2BLandAndBuildingsSummary.landAndBuildingsSummaryElementsVisible()
-
-Footer.accessibilityStatementLinkVisible()
-Footer.cookiesLinkVisible()
-Footer.termsAndConditionsLinkVisible()
-Footer.privacyLinkVisible()
-Footer.oglLogoVisible()
-Footer.allContentTextVisible()
-Footer.openGovernmentLicence3LinkVisible()
-Footer.crownCopyrightLinkVisible()
+   // ADDITIONAL DETAILS SUMMARY PAGE CHECK ELEMENTS
+   A2BLandAndBuildingsSummary.landAndBuildingsSummaryElementsVisible()
 
 // CLICK START SECTION
 A2BLandAndBuildingsSummary.selectLandAndBuildingsStartSection()
 
 // CHECK LAND AND BUILDINGS DETAILS DISPLAY CORRECTLY
 
-Header.govUkHeaderVisible()
-Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
 A2BLandAndBuildingsDetails.landAndBuildingsDetailsElementsVisible()
-
-Footer.accessibilityStatementLinkVisible()
-Footer.cookiesLinkVisible()
-Footer.termsAndConditionsLinkVisible()
-Footer.privacyLinkVisible()
-Footer.oglLogoVisible()
-Footer.allContentTextVisible()
-Footer.openGovernmentLicence3LinkVisible()
-Footer.crownCopyrightLinkVisible()
 
 
 // FILL OUT LAND AND BUILDINGS DETAILS
@@ -861,19 +473,8 @@ A2BLandAndBuildingsDetails.fillLandAndBuildingsDetails()
 A2BLandAndBuildingsDetails.submitLandAndBuildingsDetails()
 
 // CHECK COMPLETED FUTURE PUPIL NUMBERS SUMMARY DISPLAYS CORRECTLY
-Header.govUkHeaderVisible()
-Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
 A2BLandAndBuildingsSummary.landAndBuildingsSummaryCompleteElementsVisible()
-
-Footer.accessibilityStatementLinkVisible()
-Footer.cookiesLinkVisible()
-Footer.termsAndConditionsLinkVisible()
-Footer.privacyLinkVisible()
-Footer.oglLogoVisible()
-Footer.allContentTextVisible()
-Footer.openGovernmentLicence3LinkVisible()
-Footer.crownCopyrightLinkVisible()
 
 // SUBMIT LAND AND BUILDINGS SUMMARY
 A2BLandAndBuildingsSummary.submitLandAndBuildingsSummary()
@@ -884,36 +485,12 @@ A2BYourApplication.landAndBuildingsCompleteElementsVisible()
 A2BYourApplication.selectConsultation()
 
 // ADDITIONAL DETAILS SUMMARY PAGE CHECK ELEMENTS
-Header.govUkHeaderVisible()
-Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
 A2BConsultationSummary.consultationSummaryElementsVisible()
-
-Footer.accessibilityStatementLinkVisible()
-Footer.cookiesLinkVisible()
-Footer.termsAndConditionsLinkVisible()
-Footer.privacyLinkVisible()
-Footer.oglLogoVisible()
-Footer.allContentTextVisible()
-Footer.openGovernmentLicence3LinkVisible()
-Footer.crownCopyrightLinkVisible()
 
 // CLICK START SECTION
 A2BConsultationSummary.selectConsultationStartSection()
 
-Header.govUkHeaderVisible()
-Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
 A2BConsultationDetails.consultationDetailsElementsVisible()
-
-Footer.accessibilityStatementLinkVisible()
-Footer.cookiesLinkVisible()
-Footer.termsAndConditionsLinkVisible()
-Footer.privacyLinkVisible()
-Footer.oglLogoVisible()
-Footer.allContentTextVisible()
-Footer.openGovernmentLicence3LinkVisible()
-Footer.crownCopyrightLinkVisible()
 
 // FILL OUT FUTURE PUPIL NUMBERS DETAILS
 A2BConsultationDetails.fillConsultationDetails()
@@ -922,19 +499,8 @@ A2BConsultationDetails.fillConsultationDetails()
 A2BConsultationDetails.submitConsultationDetails()
 
 // CHECK COMPLETED CONSULTATION SUMMARY DISPLAYS CORRECTLY
-Header.govUkHeaderVisible()
-Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
 A2BConsultationSummary.consultationSummaryCompleteElementsVisible()
-
-Footer.accessibilityStatementLinkVisible()
-Footer.cookiesLinkVisible()
-Footer.termsAndConditionsLinkVisible()
-Footer.privacyLinkVisible()
-Footer.oglLogoVisible()
-Footer.allContentTextVisible()
-Footer.openGovernmentLicence3LinkVisible()
-Footer.crownCopyrightLinkVisible()
 
 // SUBMIT CONSULTATION SUMMARY
 A2BConsultationSummary.submitConsultationSummary()
@@ -945,36 +511,12 @@ A2BYourApplication.consultationCompleteElementsVisible()
   A2BYourApplication.selectPreopeningSupportGrant()
 
   // PRE-OPENING SUPPORT GRANT CHECK ELEMENTS
-  Header.govUkHeaderVisible()
-  Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
   A2BPreOpeningSupportGrantSummary.preopeningSupportGrantSummaryElementsVisible()
-
-  Footer.accessibilityStatementLinkVisible()
-  Footer.cookiesLinkVisible()
-  Footer.termsAndConditionsLinkVisible()
-  Footer.privacyLinkVisible()
-  Footer.oglLogoVisible()
-  Footer.allContentTextVisible()
-  Footer.openGovernmentLicence3LinkVisible()
-  Footer.crownCopyrightLinkVisible()
 
   // CLICK START SECTION
   A2BPreOpeningSupportGrantSummary.selectPreopeningSupportGrantStartSection()
 
-  Header.govUkHeaderVisible()
-  Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
   A2BPreopeningSupportGrantDetails.preopeningSupportGrantDetailsElementsVisible()
-
-  Footer.accessibilityStatementLinkVisible()
-  Footer.cookiesLinkVisible()
-  Footer.termsAndConditionsLinkVisible()
-  Footer.privacyLinkVisible()
-  Footer.oglLogoVisible()
-  Footer.allContentTextVisible()
-  Footer.openGovernmentLicence3LinkVisible()
-  Footer.crownCopyrightLinkVisible()
 
   // FILL OUT FUTURE PUPIL NUMBERS DETAILS
   A2BPreopeningSupportGrantDetails.selectToTheSchoolPreopeningSupportGrantDetails()
@@ -986,59 +528,25 @@ A2BYourApplication.consultationCompleteElementsVisible()
   A2BPreopeningSupportGrantDetails.submitPreopeningSupportGrantDetails()
 
   // CHECK COMPLETED CONSULTATION SUMMARY DISPLAYS CORRECTLY
-  Header.govUkHeaderVisible()
-  Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
   A2BPreOpeningSupportGrantSummary.preopeningSupportGrantSummaryCompleteElementsVisible()
-
-  Footer.accessibilityStatementLinkVisible()
-  Footer.cookiesLinkVisible()
-  Footer.termsAndConditionsLinkVisible()
-  Footer.privacyLinkVisible()
-  Footer.oglLogoVisible()
-  Footer.allContentTextVisible()
-  Footer.openGovernmentLicence3LinkVisible()
-  Footer.crownCopyrightLinkVisible()
 
   // SUBMIT CONSULTATION SUMMARY
   A2BPreOpeningSupportGrantSummary.submitPreopeningSupportGrantSummary()
 
   // VERIFY JAM APP OVERVIEW PAGE DISPLAYS CORRECTLY WITH COMPLETED FUTURE PUPIL NUMBERS SUMMARY
   A2BYourApplication.preopeningSupportGrantCompleteElementsVisible()
-// SELECT PRE-OPENING SUPPORT GRANT SECTION
- A2BYourApplication.selectDeclaration()
+
+  // SELECT PRE-OPENING SUPPORT GRANT SECTION
+  A2BYourApplication.selectDeclaration()
 
  // PRE-OPENING SUPPORT GRANT CHECK ELEMENTS
- Header.govUkHeaderVisible()
- Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
  A2BDeclarationSummary.declarationSummaryElementsVisible()
-
- Footer.accessibilityStatementLinkVisible()
- Footer.cookiesLinkVisible()
- Footer.termsAndConditionsLinkVisible()
- Footer.privacyLinkVisible()
- Footer.oglLogoVisible()
- Footer.allContentTextVisible()
- Footer.openGovernmentLicence3LinkVisible()
- Footer.crownCopyrightLinkVisible()
 
  // CLICK START SECTION
  A2BDeclarationSummary.declarationStartSection()
 
- Header.govUkHeaderVisible()
- Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
  A2BDeclaration.declarationElementsVisible()
-
- Footer.accessibilityStatementLinkVisible()
- Footer.cookiesLinkVisible()
- Footer.termsAndConditionsLinkVisible()
- Footer.privacyLinkVisible()
- Footer.oglLogoVisible()
- Footer.allContentTextVisible()
- Footer.openGovernmentLicence3LinkVisible()
- Footer.crownCopyrightLinkVisible()
 
  // FILL OUT DECLARATION DETAILS
  A2BDeclaration.selectAgreements()
@@ -1049,31 +557,19 @@ A2BYourApplication.consultationCompleteElementsVisible()
  A2BDeclaration.submitDeclaration()
 
 
- // CHECK COMPLETED DECLARATION SUMMARY DISPLAYS CORRECTLY
- Header.govUkHeaderVisible()
- Header.applyToBecomeAnAcademyHeaderLinkVisible()
+    // CHECK COMPLETED DECLARATION SUMMARY DISPLAYS CORRECTLY
+    A2BDeclarationSummary.declarationSummaryCompleteElementsVisible()
 
- A2BDeclarationSummary.declarationSummaryCompleteElementsVisible()
+    // SUBMIT DECLARATION SUMMARY
+    A2BDeclarationSummary.submitDeclarationSummary()
 
- Footer.accessibilityStatementLinkVisible()
- Footer.cookiesLinkVisible()
- Footer.termsAndConditionsLinkVisible()
- Footer.privacyLinkVisible()
- Footer.oglLogoVisible()
- Footer.allContentTextVisible()
- Footer.openGovernmentLicence3LinkVisible()
- Footer.crownCopyrightLinkVisible()
+    // VERIFY JAM APP OVERVIEW PAGE DISPLAYS CORRECTLY WITH COMPLETED FUTURE PUPIL NUMBERS SUMMARY
+    A2BYourApplication.declarationCompleteElementsVisible()
 
- // SUBMIT DECLARATION SUMMARY
-A2BDeclarationSummary.submitDeclarationSummary()
+    // SUBMIT APPLICATION
+    A2BYourApplication.submitApplication()
 
- // VERIFY JAM APP OVERVIEW PAGE DISPLAYS CORRECTLY WITH COMPLETED FUTURE PUPIL NUMBERS SUMMARY
- A2BYourApplication.declarationCompleteElementsVisible()
-
- // SUBMIT APPLICATION
- A2BYourApplication.submitApplication()
-
- // SUCCESS PAGE DISPLAYS CORRECTLY
- A2BSuccessfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible()
+    // SUCCESS PAGE DISPLAYS CORRECTLY
+    A2BSuccessfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible()
     })
 })
