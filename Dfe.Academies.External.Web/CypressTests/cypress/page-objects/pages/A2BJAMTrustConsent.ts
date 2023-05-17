@@ -10,7 +10,7 @@ static JAMTrustConsentFileUpload() {
 }
 
 static JAMTrustConsentSubmit() {
-    cy.JAMTrustConsentSubmit()
+    cy.get('input[type="submit"]').click()
 }
 
 
