@@ -8,7 +8,7 @@ export default class A2BChangingTheNameOfTheSchool extends BasePage {
 
     static submitChangingTheNameOfTheSchool()
     {
-        cy.submitChangingTheNameOfTheSchool()
+        cy.get('input[type="submit"]').click()
     }
 
 }
