@@ -8,7 +8,7 @@ export default class A2BAboutTheConversion extends BasePage {
 
     static selectContactDetailsStartSection()
     {
-        cy.selectContactDetailsStartSection()
+        cy.get('a[class="govuk-button govuk-button--secondary"]').eq(0).click()
     }
     
     static aboutTheConversionMainContactsCompleteElementsVisible()
@@ -28,7 +28,7 @@ export default class A2BAboutTheConversion extends BasePage {
 
     static submitAboutTheConversion()
     {
-        cy.submitAboutTheConversion()
+        cy.get('.govuk-button').click()
     }
 
 
