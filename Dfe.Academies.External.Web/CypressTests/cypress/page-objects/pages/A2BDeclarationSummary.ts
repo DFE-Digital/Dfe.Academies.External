@@ -8,7 +8,7 @@ static declarationSummaryElementsVisible()
 
 static declarationStartSection()
 {
-    cy.declarationStartSection()
+    cy.contains('Start section').click()
 }
 
 static declarationSummaryCompleteElementsVisible()
@@ -18,7 +18,7 @@ static declarationSummaryCompleteElementsVisible()
 
 static submitDeclarationSummary()
 {
-    cy.submitDeclarationSummary()
+    cy.get('.govuk-button').click()
 }
 
 }
