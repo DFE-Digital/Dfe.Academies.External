@@ -29,14 +29,7 @@ describe('Forgotten Password Tests', () => {
     A2BHome.contactYourRegionalDirectorLinkVisible()
     A2BHome.allInformationAndEvidenceYouWillNeedLinkVisible()
 
-    Footer.accessibilityStatementLinkVisible()
-    Footer.cookiesLinkVisible()
-    Footer.termsAndConditionsLinkVisible()
-    Footer.privacyLinkVisible()
-    Footer.oglLogoVisible()
-    Footer.allContentTextVisible()
-    Footer.openGovernmentLicence3LinkVisible()
-    Footer.crownCopyrightLinkVisible()
+    Footer.checkFooterLinksVisible()
 
     CookieHeaderModal.clickAcceptAnalyticsCookies()
     A2BHome.StartNowVisible()
