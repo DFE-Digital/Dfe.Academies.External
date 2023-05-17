@@ -8,12 +8,12 @@ static financeSummaryNotStartedElementsVisible()
 }
 static selectPreviousFinancialYrStartSection()
 {
-    cy.selectPreviousFinancialYrStartSection()
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(0).click()
 }
 
 static selectCurrentFinancialYrStartSection()
 {
-    cy.selectCurrentFinancialYrStartSection()
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(1).click()
 }
 
 static selectNextFinancialYrStartSection()
