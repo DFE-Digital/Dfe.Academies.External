@@ -17,6 +17,6 @@ export default class A2BYourApplications extends BasePage {
 
     static selectStartANewApplication()
     {
-        cy.selectStartANewApplication()
+        cy.get('a[href="/what-are-you-applying-to-do"]').click()
     }
 }
