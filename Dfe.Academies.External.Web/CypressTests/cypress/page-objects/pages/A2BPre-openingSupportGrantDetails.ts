@@ -8,7 +8,7 @@ static preopeningSupportGrantDetailsElementsVisible()
 
 static selectToTheSchoolPreopeningSupportGrantDetails()
 {
-    cy.selectToTheSchoolPreopeningSupportGrantDetails()
+    cy.get('#pay-toSchool').click()
 }
 
 static verifyToTheSchoolPreopeningSupportGrantDetailsSectionDisplays()
@@ -18,7 +18,7 @@ static verifyToTheSchoolPreopeningSupportGrantDetailsSectionDisplays()
 
 static submitPreopeningSupportGrantDetails()
 {
-    cy.submitPreopeningSupportGrantDetails()
+    cy.get('input[type="submit"]').click()
 }
 
 }
