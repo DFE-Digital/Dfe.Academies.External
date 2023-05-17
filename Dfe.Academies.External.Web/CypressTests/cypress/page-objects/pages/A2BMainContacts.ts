@@ -18,7 +18,8 @@ export default class A2BMainContacts extends BasePage {
 
     static selectMainContactAsChair()
     {
-        cy.selectMainContactAsChair()
+    cy.get('#ContactTypeChairOfGoverningBody').click()
+    cy.get('#ContactTypeChairOfGoverningBody').should('be.checked')
     }
 
     static fillApproverDetails()
@@ -28,7 +29,7 @@ export default class A2BMainContacts extends BasePage {
 
     static submitMainContactsForm()
     {
-        cy.submitMainContactsForm()
+        cy.get('input[type="submit"]').click()
     }
 
 }
