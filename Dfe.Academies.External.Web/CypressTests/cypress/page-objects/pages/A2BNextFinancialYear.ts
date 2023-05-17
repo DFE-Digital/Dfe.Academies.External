@@ -19,7 +19,7 @@ static inputNextFinancialYrRevenueCarryForward()
 
 static selectRevenueCarryForwardDeficit()
 {
-    cy.selectRevenueCarryForwardDeficit()
+    cy.get('#revenueTypeDeficit').click()
 }
 
 static verifyNextRevenueCarryForwardDeficitSelectedSectionDisplays()
