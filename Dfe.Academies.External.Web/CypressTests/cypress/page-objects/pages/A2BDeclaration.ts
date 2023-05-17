@@ -18,7 +18,7 @@ static verifyAgreementsSelected()
 
 static submitDeclaration()
 {
-    cy.submitDeclaration()
+    cy.get('input[type="submit"]').click()
 }
 
 }
