@@ -43,7 +43,7 @@ export default class A2BYourApplication extends BasePage {
 
     static selectAboutTheConversion() 
     {
-        cy.selectAboutTheConversion()
+        cy.contains('About the conversion').click()
     }
 
     static yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible() 
@@ -53,7 +53,7 @@ export default class A2BYourApplication extends BasePage {
 
     static selectFurtherInformation()
     {
-        cy.selectFurtherInformation()
+        cy.contains('Further information').click()
     }
 
     static yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible()
@@ -63,7 +63,7 @@ export default class A2BYourApplication extends BasePage {
 
     static selectFinances()
     {
-        cy.selectFinances()
+        cy.contains('Finances').click()
     }
 
     static financeCompleteElementsVisible()
@@ -113,7 +113,7 @@ export default class A2BYourApplication extends BasePage {
 
     static selectDeclaration()
     {
-        cy.selectDeclaration()
+        cy.contains('Declaration').click()
     }
 
     static declarationCompleteElementsVisible()
@@ -123,7 +123,7 @@ export default class A2BYourApplication extends BasePage {
 
     static submitApplication()
     {
-        cy.submitApplication()
+        cy.get('input[type="submit"]').click()
     }
 
 
