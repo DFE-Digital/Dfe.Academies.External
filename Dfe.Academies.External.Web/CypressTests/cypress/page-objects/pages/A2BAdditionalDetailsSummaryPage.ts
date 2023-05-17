@@ -7,7 +7,7 @@ export default class A2BAdditionalDetailsSummaryPage extends BasePage {
 
     static selectAdditionalDetailsStartSection()
     {
-        cy.selectAdditionalDetailsStartSection()
+        cy.get('a[class="govuk-button govuk-button--secondary"]').click()
     }
 
     static additionalDetailsSummaryCompleteElementsVisible()
@@ -17,7 +17,7 @@ export default class A2BAdditionalDetailsSummaryPage extends BasePage {
 
     static submitAdditionalDetailsSummary()
     {
-        cy.submitAdditionalDetailsSummary()
+        cy.get('.govuk-button').click()
     }
 
 }
