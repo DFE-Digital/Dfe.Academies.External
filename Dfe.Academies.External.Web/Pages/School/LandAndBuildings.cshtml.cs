@@ -170,43 +170,33 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			if (!ModelState.IsValid)
-			{
-				PopulateValidationMessages();
-				return false;
-			}
-
 			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandWorksPlannedExplained))
 			{
 				ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", "You must provide details");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && WorksPlannedDateLocal == DateTime.MinValue)
 			{
 				ModelState.AddModelError("SchoolBuildLandWorksPlannedDateNotEntered", "You must input a valid date");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			if (SchoolBuildLandSharedFacilities == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandSharedFacilitiesExplained))
 			{
 				ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", "You must provide details");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			if (SchoolBuildLandGrants == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandGrantsBodies))
 			{
 				ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", "You must provide details");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			if (SchoolBuildLandPFIScheme == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandPFISchemeType))
 			{
 				ModelState.AddModelError("SchoolBuildLandPFISchemeTypeNotEntered", "You must provide details");
+			}
+
+			if (!ModelState.IsValid)
+			{
 				PopulateValidationMessages();
 				return false;
 			}

@@ -37,15 +37,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			if (!ModelState.IsValid)
-			{
-				PopulateValidationMessages();
-				return false;
-			}
-
 			if (ChangeName == SelectOption.Yes && string.IsNullOrWhiteSpace(ChangeSchoolName))
 			{
 				ModelState.AddModelError("ChangeSchoolNameNotEntered", "You must add a new school name");
+			}			
+			
+			if (!ModelState.IsValid)
+			{
 				PopulateValidationMessages();
 				return false;
 			}

@@ -302,62 +302,44 @@ namespace Dfe.Academies.External.Web.Pages.School
 			if (OfstedInspected == SelectOption.Yes && string.IsNullOrWhiteSpace(OfstedInspectionDetails))
 			{
 				ModelState.AddModelError("OfstedInspectionDetailsNotAdded", "You must enter Ofsted inspection details");
-				PopulateValidationMessages();
-				return false;
 			}
 			if (LocalAuthorityReorganisation == SelectOption.Yes && string.IsNullOrWhiteSpace(LocalAuthorityReorganisationDetails))
 			{
 				ModelState.AddModelError("LocalAuthorityReorganisationDetailsNotAdded", "You must enter details of the reorganisation");
-				PopulateValidationMessages();
-				return false;
 			}
 			if (LocalAuthorityClosurePlans == SelectOption.Yes && string.IsNullOrWhiteSpace(LocalAuthorityClosurePlanDetails))
 			{
 				ModelState.AddModelError("localAuthorityClosurePlanDetailsNotAdded", "You must enter details of the closure plans");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			if (LinkedToDiocese == SelectOption.Yes && string.IsNullOrWhiteSpace(DioceseName))
 			{
 				ModelState.AddModelError("DioceseNameNotAdded", "You must enter the name of the diocese");
-				PopulateValidationMessages();
-				return false;
 			}
 			if (SupportedByFoundationTrustOrBody == SelectOption.Yes && string.IsNullOrWhiteSpace(FoundationTrustOrBodyName))
 			{
 				ModelState.AddModelError("FoundationTrustOrBodyNameNotAdded", "You must enter the name of the body");
-				PopulateValidationMessages();
-				return false;
 			}
 			
 			if (ExemptionFromSACRE == SelectOption.Yes && (!ExemptionEndDate.HasValue ||
 			    ExemptionEndDate.Value == DateTimeOffset.MinValue))
 			{
 				ModelState.AddModelError("exemptionFromSACREEndDateNotAdded", "You must enter a valid date");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			if (EqualityAssessment == SelectOption.Yes && DisproportionateProtectedCharacteristics == null)
 			{
 				ModelState.AddModelError("equalitiesImpactAssessmentOptionNoOptionSelected", "You must select an equalities impact assessment option");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			if (FurtherInformation == SelectOption.Yes && string.IsNullOrWhiteSpace(FurtherInformationDetails))
 			{
 				ModelState.AddModelError("furtherInformationDetailsNotAdded", "You must provide details");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			foreach (var file in ResolutionConsentFiles.Where(file => file.Length >= 5 * 1024 * 1024))
 			{
 				ModelState.AddModelError(nameof(ResolutionConsentFileSizeError), $"File: {file.FileName} is too large");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			if (FoundationConsentFiles != null)
@@ -365,8 +347,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				foreach (var file in FoundationConsentFiles.Where(file => file.Length >= 5 * 1024 * 1024))
 				{
 					ModelState.AddModelError(nameof(FoundationConsentFileSizeError), $"File: {file.FileName} is too large");
-					PopulateValidationMessages();
-					return false;
 				}
 			}
 
@@ -375,8 +355,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				foreach (var file in DioceseFiles.Where(file => file.Length >= 5 * 1024 * 1024))
 				{
 					ModelState.AddModelError(nameof(DioceseFileSizeError), $"File: {file.FileName} is too large");
-					PopulateValidationMessages();
-					return false;
 				}
 			}
 

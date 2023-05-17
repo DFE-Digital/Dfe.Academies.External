@@ -95,23 +95,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			if (!ModelState.IsValid)
-			{
-				PopulateValidationMessages();
-				return false;
-			}
-
-
 			if (FinanceOngoingInvestigations == SelectOption.Yes && string.IsNullOrWhiteSpace(FinancialInvestigationsExplain))
 			{
 				ModelState.AddModelError("FinancialInvestigationsExplainNotEntered", "You must provide details of the investigation");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			if (FinanceOngoingInvestigations == SelectOption.Yes && !FinancialInvestigationsTrustAware.HasValue)
 			{
 				ModelState.AddModelError("FinancialInvestigationsTrustAwareNotSelected", "You must provide details");
+			}			
+			
+			if (!ModelState.IsValid)
+			{
 				PopulateValidationMessages();
 				return false;
 			}

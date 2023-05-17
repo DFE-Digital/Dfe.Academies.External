@@ -4,94 +4,97 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.Leases
 @{
-	ViewData["Title"] = "Apply to become an academy - About the conversion";
+    ViewData["Title"] = "Apply to become an academy - About the conversion";
 }
 
 @section BeforeMain
-{
+    {
     <a asp-page="Loans" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">Back</a>
 }
 
-<div class="govuk-grid-column-two-thirds">
-	<h1 class="govuk-heading-l">
-		<span class="govuk-caption-l">Finances (Step 5 of 6)</span>
-		Leases
-	</h1>
-	<form method="post" name="frmLeases" novalidate="">
-    		@Html.AntiForgeryToken()
-    		<input type="hidden" asp-for="Urn"/>
-    		<input type="hidden" asp-for="ApplicationId"/>		
-    		<partial name="_HiddenFields"/>
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+            <span class="govuk-caption-l">Finances (Step 5 of 6)</span>
+            Leases
+        </h1>
+        <form method="post" name="frmLeases" novalidate="">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Urn" />
+            <input type="hidden" asp-for="ApplicationId" />
+            <partial name="_HiddenFields" />
 
-            <div class="@(Model.IsPropertyInvalid("AnyLeases") ? "govuk-form-group--error" : "govuk-form-group")">
-    			<fieldset class="govuk-fieldset">
-    				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
-    					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
-    				</div>
-                
-    				<div class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-    					<fieldset class="govuk-fieldset" role="group">
-							<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-								Are there any existing leases?
-							</legend>
-                            <p id="AnyLoans-error" class="govuk-error-message @(!Model.IsPropertyInvalid("AnyLeases") ? "govuk-visually-hidden" : "")">
+            <div class="govuk-form-group @(Model.IsPropertyInvalid("AnyLeases") ? "govuk-form-group--error" : "")">
+                <fieldset class="govuk-fieldset">
+                    <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+                        <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel" />
+                    </div>
+
+                    <div id="AnyLeases" class="govuk-form-group govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+                        <fieldset class="govuk-fieldset" role="group">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                Are there any existing leases?
+                            </legend>
+                            <p id="AnyLeases-error" class="govuk-error-message @(!Model.IsPropertyInvalid("AnyLeases") ? "govuk-visually-hidden" : "")">
                                 <span class="govuk-visually-hidden">Error:</span> You must provide details
                             </p>
-                            @foreach (var anyLeasesOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
-    						{
-    							<div class="govuk-radios__item">
-    								<input type="radio"
-    								       asp-for="AnyLeases"
-    								       value="@Convert.ToInt32(anyLeasesOption)"
-    								       id="anyLeasesOption@(anyLeasesOption)"
-    								       class="govuk-radios__input"
-								           data-aria-controls="anyLeasesOption-@(anyLeasesOption.ToString().ToLower())"
-								           checked="@(anyLeasesOption.Equals(ViewData.Model.AnyLeases))"/>
-    								<label for="anyLeasesOption@(anyLeasesOption)" class="govuk-label govuk-radios__label">
-    									@anyLeasesOption.GetDescription()
-    								</label>
-    							</div>
-							    @if (anyLeasesOption == SelectOption.Yes)
-							    {
-								    <div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional") 
-	                                                @(anyLeasesOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
-								         id="anyLeasesOption-yes">
-									    @foreach (var lease in Model.LeaseViewModels)
-									    {
-										    <div class="govuk-grid-row">
-											    <div class="govuk-grid-column-one-third">
-												    <p class="govuk-label">Purpose: <strong>@lease.Purpose</strong></p>
-												    <div class="govuk-grid-row">
-													    <div class="govuk-grid-column-full">
-														    <p class="govuk-label">Amount: <strong>£@(lease.RepaymentAmount)</strong></p>
-													    </div>
-													    <div class="govuk-grid-column-full">
-														    <a asp-page="/school/LeaseDetails" class="govuk-link govuk-body" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@lease.Id" asp-route-isEdit="true" asp-route-isDraft="true">
-															    Change answers
-														    </a>
-													    </div>
-												    </div>
-												    <hr/>
-											    </div>
-										    </div>
-									    }
-									    <div class="govuk-grid-row">
-										    <div class="govuk-grid-column-full">
-												<div id="AddedLeasesButEmptyCollectionError">
-											    <a asp-page="/school/LeaseDetails" class="govuk-link" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LeaseViewModels.Count" asp-route-isEdit="false" asp-route-isDraft="true">
-												    Add new lease
-											    </a>
-												</div>
-										    </div>
-									    </div>
-								    </div>
-							    }
-    						}
-    					</fieldset>
-    				</div>
-                </fieldset>
-    		</div>
-    		<br/>
-    		<input type="submit" value="Continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
-    	</form>
+                        @foreach (var anyLeasesOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+                        {
+                            <div class="govuk-radios__item">
+                                <input type="radio"
+                                   asp-for="AnyLeases"
+                                   value="@Convert.ToInt32(anyLeasesOption)"
+                                   id="anyLeasesOption@(anyLeasesOption)"
+                                   class="govuk-radios__input"
+                                   data-aria-controls="anyLeasesOption-@(anyLeasesOption.ToString().ToLower())"
+                                   checked="@(anyLeasesOption.Equals(ViewData.Model.AnyLeases))" />
+                                <label for="anyLeasesOption@(anyLeasesOption)" class="govuk-label govuk-radios__label">
+                                    @anyLeasesOption.GetDescription()
+                                </label>
+                            </div>
+                            @if (anyLeasesOption == SelectOption.Yes)
+                            {
+                                <div class="govuk-radios__conditional  @(anyLeasesOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")" id="anyLeasesOption-yes">
+                                    <div class="govuk-form-group @(Model.IsPropertyInvalid("AddedLeasesButEmptyCollectionError") ? "govuk-form-group--error" : "")">
+                                        <p id="AddedLeasesButEmptyCollection-error" class="govuk-error-message @(!Model.IsPropertyInvalid("AddedLeasesButEmptyCollectionError") ? "govuk-visually-hidden" : "")">
+                                            <span class="govuk-visually-hidden">Error:</span> You must provide details
+                                        </p>
+                                        @foreach (var lease in Model.LeaseViewModels)
+                                        {
+                                            <div class="govuk-grid-row">
+                                                <div class="govuk-grid-column-one-third">
+                                                    <p class="govuk-label">Purpose: <strong>@lease.Purpose</strong></p>
+                                                    <div class="govuk-grid-row">
+                                                        <div class="govuk-grid-column-full">
+                                                            <p class="govuk-label">Amount: <strong>£@(lease.RepaymentAmount)</strong></p>
+                                                        </div>
+                                                        <div class="govuk-grid-column-full">
+                                                            <a asp-page="/school/LeaseDetails" class="govuk-link govuk-body" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@lease.Id" asp-route-isEdit="true" asp-route-isDraft="true">
+                                                                Change answers
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+                                                </div>
+                                            </div>
+                                        }
+                                        <div class="govuk-grid-row">
+                                            <div class="govuk-grid-column-full">
+                                                <div id="AddedLeasesButEmptyCollectionError">
+                                                    <a asp-page="/school/LeaseDetails" class="govuk-link govuk-body" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LeaseViewModels.Count" asp-route-isEdit="false" asp-route-isDraft="true">
+                                                        Add new lease
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </fieldset>
+                </div>
+            </fieldset>
+        </div>
+        <br />
+        <input type="submit" value="Continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
+    </form>
 </div>

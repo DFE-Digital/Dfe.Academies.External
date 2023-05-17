@@ -4,97 +4,102 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.Loans
 @{
-	ViewData["Title"] = "Apply to become an academy - About the conversion";
+    ViewData["Title"] = "Apply to become an academy - About the conversion";
 }
 
 @section BeforeMain
-{
+    {
     <a asp-page="NextFinancialYear" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">Back</a>
 }
 
-<div class="govuk-grid-column-two-thirds">
-	<h1 class="govuk-heading-l">
-		<span class="govuk-caption-l">Finances (Step 4 of 6)</span>
-		Loans
-	</h1>
-	<form method="post" name="frmLoans" novalidate="">
-    		@Html.AntiForgeryToken()
-    		<input type="hidden" asp-for="Urn"/>
-    		<input type="hidden" asp-for="ApplicationId"/>		
-    		<partial name="_HiddenFields"/>
-    		
-    		<div class="@(Model.IsPropertyInvalid("AnyLoans") ? "govuk-form-group--error" : "govuk-form-group")">
-    			<fieldset class="govuk-fieldset">
-    				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
-    					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
-    				</div>
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+            <span class="govuk-caption-l">Finances (Step 4 of 6)</span>
+            Loans
+        </h1>
+        <form method="post" name="frmLoans" novalidate="">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Urn" />
+            <input type="hidden" asp-for="ApplicationId" />
+            <partial name="_HiddenFields" />
+
+            <div class="govuk-form-group @(Model.IsPropertyInvalid("AnyLoans") ? "govuk-form-group--error" : "")">
+                <fieldset class="govuk-fieldset">
+                    <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+                        <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel" />
+                    </div>
 
                     <div id="AnyLoans" class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-    					<fieldset class="govuk-fieldset" role="group">
-							<legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-								Are there any existing loans?
-							</legend>
+                        <fieldset class="govuk-fieldset" role="group">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                Are there any existing loans?
+                            </legend>
                             <p id="AnyLoans-error" class="govuk-error-message @(!Model.IsPropertyInvalid("AnyLoans") ? "govuk-visually-hidden" : "")">
                                 <span class="govuk-visually-hidden">Error:</span> You must provide details
                             </p>
-                            @foreach (var anyLoansOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
-    						{
-    							<div class="govuk-radios__item">
-    								<input type="radio"
-    								       asp-for="AnyLoans"
-    								       value="@Convert.ToInt32(anyLoansOption)"
-    								       id="anyLoansOption@(anyLoansOption)"
-    								       class="govuk-radios__input"
-								           data-aria-controls="anyLoansOption-@(anyLoansOption.ToString().ToLower())"
-								           checked="@(anyLoansOption.Equals(ViewData.Model.AnyLoans))"/>
-    								<label for="anyLoansOption@(anyLoansOption)" class="govuk-label govuk-radios__label">
-    									@anyLoansOption.GetDescription()
-    								</label>
-    							</div>
-    							@if (anyLoansOption == SelectOption.Yes)
-    							{
-                                <div class="@(Model.IsPropertyInvalid("AddedLoansButEmptyCollectionError") ? "govuk-form-group--error" : "govuk-radios__conditional")
+                        @foreach (var anyLoansOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+                        {
+                            <div class="govuk-radios__item">
+                                <input type="radio"
+                                   asp-for="AnyLoans"
+                                   value="@Convert.ToInt32(anyLoansOption)"
+                                   id="anyLoansOption@(anyLoansOption)"
+                                   class="govuk-radios__input"
+                                   data-aria-controls="anyLoansOption-@(anyLoansOption.ToString().ToLower())"
+                                   checked="@(anyLoansOption.Equals(ViewData.Model.AnyLoans))" />
+                                <label for="anyLoansOption@(anyLoansOption)" class="govuk-label govuk-radios__label">
+                                    @anyLoansOption.GetDescription()
+                                </label>
+                            </div>
+                            @if (anyLoansOption == SelectOption.Yes)
+                            {
+                                <div class="govuk-radios__conditional
 	                                                @(anyLoansOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
-								         id="anyLoansOption-yes">
-									    @foreach (var loan in Model.LoanViewModels)
-									    {
-										    <div class="govuk-grid-row">
-											    <div class="govuk-grid-column-one-third">
-												    <p class="govuk-label">Provider: <strong>@loan.Provider</strong></p>
-												    <div class="govuk-grid-row">
-													    <div class="govuk-grid-column-full">
-														    <p class="govuk-label">Amount: <strong>£@(loan.TotalAmount)</strong></p>
-													    </div>
-													    <div class="govuk-grid-column-full">
-														    <a asp-page="/school/LoanDetails" class="govuk-link govuk-body" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@loan.Id" asp-route-isEdit="true">
-															    Change answers
-														    </a>
-													    </div>
-												    </div>
-												    <hr/>
-											    </div>
-										    </div>
-									    }
-									    <div class="govuk-grid-row">
-										    <div class="govuk-grid-column-full">
-											<div id="AddedLoansButEmptyCollectionError">
-											    <a asp-page="/school/LoanDetails" class="govuk-link govuk-body" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LoanViewModels.Count" asp-route-isEdit="false" asp-route-isDraft="true">
-												    Add new loan
-											    </a>
-											</div>
-										    </div>
-									    </div>
-									</div>
-    							}
-    						}
-							</div>
-						
-    					</fieldset>
-    				
-					
-                </fieldset>
-    		</div>
-    		<br/>
-    		<input type="submit" value="Continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
-    	</form>
+                             id="anyLoansOption-yes">
+                                    <div class="govuk-form-group @(Model.IsPropertyInvalid("AddedLoansButEmptyCollectionError") ? "govuk-form-group--error" : "")">
+                                        <p id="AddedLoansButEmptyCollection-error" class="govuk-error-message @(!Model.IsPropertyInvalid("AddedLoansButEmptyCollectionError") ? "govuk-visually-hidden" : "")">
+                                            <span class="govuk-visually-hidden">Error:</span> You must provide details
+                                        </p>
+                                        @foreach (var loan in Model.LoanViewModels)
+                                        {
+                                            <div class="govuk-grid-row">
+                                                <div class="govuk-grid-column-one-third">
+                                                    <p class="govuk-label">Provider: <strong>@loan.Provider</strong></p>
+                                                    <div class="govuk-grid-row">
+                                                        <div class="govuk-grid-column-full">
+                                                            <p class="govuk-label">Amount: <strong>£@(loan.TotalAmount)</strong></p>
+                                                        </div>
+                                                        <div class="govuk-grid-column-full">
+                                                            <a asp-page="/school/LoanDetails" class="govuk-link govuk-body" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@loan.Id" asp-route-isEdit="true">
+                                                                Change answers
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+                                                </div>
+                                            </div>
+                                        }
+                                        <div class="govuk-grid-row">
+                                            <div class="govuk-grid-column-full">
+                                                <div id="AddedLoansButEmptyCollectionError">
+                                                    <a asp-page="/school/LoanDetails" class="govuk-link govuk-body" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" asp-route-id="@Model.LoanViewModels.Count" asp-route-isEdit="false" asp-route-isDraft="true">
+                                                        Add new loan
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                </div>
+
+            </fieldset>
+
+
+            </fieldset>
+        </div>
+        <br />
+        <input type="submit" value="Continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
+    </form>
 </div>
