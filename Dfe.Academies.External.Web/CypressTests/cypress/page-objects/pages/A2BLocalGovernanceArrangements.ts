@@ -7,7 +7,7 @@ export default class A2BLocalGovernanceArrangements extends BasePage {
 
     static localGovernanceArrangementsClickYes()
     {
-        cy.localGovernanceArrangementsClickYes()
+        cy.get('#changesToLaGovernanceYes').click()
     }
 
     static enterlocalGovernanceArrangementsChanges()
@@ -17,6 +17,6 @@ export default class A2BLocalGovernanceArrangements extends BasePage {
 
     static localGovernanceArrangementsSubmit()
     {
-        cy.localGovernanceArrangementsSubmit()
+        cy.get('input[type="submit"]').click()
     }
 }
