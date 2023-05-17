@@ -8,7 +8,7 @@ static JAMTrustDetailsSummaryElementsVisible()
 
 static JAMTrustDetailsSummarySelectStartSection() 
 {
-    cy.JAMTrustDetailsSummarySelectStartSection()
+    cy.get('a[class="govuk-button govuk-button--secondary"]').click()
 }
 
 static JAMTrustDetailsSummarySaveAndReturnToApp() 
