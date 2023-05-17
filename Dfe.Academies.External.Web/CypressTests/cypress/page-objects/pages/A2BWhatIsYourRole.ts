@@ -7,12 +7,12 @@ export default class A2BWhatIsYourRole extends BasePage {
 
     static selectChairOfGovernorsRadioButton()
     {
-        cy.selectChairOfGovernorsRadioButton()
+        cy.get('input[type="radio"]').eq(0).click()
     }
 
     static verifyChairOfGovernorsRadioButtonChecked()
     {
-        cy.verifyChairOfGovernorsRadioButtonChecked()
+        cy.get('input[type="radio"]').eq(0).should('be.checked')
     }
 
     static selectSomethingElseRadioButton()
@@ -27,6 +27,6 @@ export default class A2BWhatIsYourRole extends BasePage {
 
     static selectWhatIsYourRoleSaveAndContinue()
     {
-        cy.selectWhatIsYourRoleSaveAndContinue()
+        cy.get('input[type="submit"]').click()
     }
 }
