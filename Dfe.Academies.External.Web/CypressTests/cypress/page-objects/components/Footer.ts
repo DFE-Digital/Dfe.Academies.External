@@ -1,6 +1,11 @@
 import BasePage from "../BasePage"
 export default class Footer extends BasePage {
 
+    static checkFooterLinksVisible()
+    {
+        cy.checkFooterLinksVisible()
+    }
+
     static accessibilityStatementLinkVisible() {
         cy.get('a[href="/accessibility"]').should('be.visible').contains('Accessibility statement')
     }

@@ -75,19 +75,7 @@ it('should NOT login into application WITH CROSS-SITE SCRIPTING ATTEMPT / INVALI
   it('should login into application WITH CORRECT CREDENTIALS', () => {
    A2BLogin.login(login_username, login_password)
 
-   Header.govUkHeaderVisible()
-   Header.applyToBecomeAnAcademyHeaderLinkVisible()
-
    A2BYourApplications.yourApplicationsElementsVisible()
-
-   Footer.accessibilityStatementLinkVisible()
-   Footer.cookiesLinkVisible()
-   Footer.termsAndConditionsLinkVisible()
-   Footer.privacyLinkVisible()
-   Footer.oglLogoVisible()
-   Footer.allContentTextVisible()
-   Footer.openGovernmentLicence3LinkVisible()
-   Footer.crownCopyrightLinkVisible()
 
   })
 
