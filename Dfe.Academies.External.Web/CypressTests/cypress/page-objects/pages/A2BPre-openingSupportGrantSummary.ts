@@ -8,7 +8,7 @@ static preopeningSupportGrantSummaryElementsVisible()
 
 static selectPreopeningSupportGrantStartSection()
 {
-    cy.selectPreopeningSupportGrantStartSection()
+    cy.contains('Start section').click()
 }
 
 static preopeningSupportGrantSummaryCompleteElementsVisible()
@@ -18,7 +18,7 @@ static preopeningSupportGrantSummaryCompleteElementsVisible()
 
 static submitPreopeningSupportGrantSummary()
 {
-    cy.submitPreopeningSupportGrantSummary()
+    cy.get('.govuk-button').click()
 }
 
 }
