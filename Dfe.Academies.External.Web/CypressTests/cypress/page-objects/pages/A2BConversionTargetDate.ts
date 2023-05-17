@@ -8,6 +8,6 @@ export default class A2BConversionTargetDate extends BasePage {
 
     static conversionTargetDateSubmit()
     {
-        cy.conversionTargetDateSubmit()
+        cy.get('input[type="submit"]').click()
     }
 }
