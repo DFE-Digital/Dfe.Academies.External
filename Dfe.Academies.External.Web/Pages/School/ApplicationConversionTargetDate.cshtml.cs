@@ -116,22 +116,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			if (!ModelState.IsValid)
-			{
-				PopulateValidationMessages();
-				return false;
-			}
-
 			if (TargetDateDifferent == SelectOption.Yes && TargetDateLocal == DateTime.MinValue)
 			{
 				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must input a valid date");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			if (TargetDateDifferent == SelectOption.Yes && string.IsNullOrWhiteSpace(TargetDateExplained))
 			{
 				ModelState.AddModelError("TargetDateExplainedNotEntered", "You must explain why you want to convert on this date");
+			}
+
+			if (!ModelState.IsValid)
+			{
 				PopulateValidationMessages();
 				return false;
 			}

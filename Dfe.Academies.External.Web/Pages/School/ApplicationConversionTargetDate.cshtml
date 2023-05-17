@@ -16,6 +16,7 @@
 }
 
     <div class="govuk-grid-column-two-thirds">
+
         <span class="govuk-caption-l">
             Conversion key details
         </span>
@@ -26,18 +27,20 @@
         <p class="govuk-body-l">Conversion usually takes around 6 months. It may take longer if the school is part of a private finance initiative (PFI) contract.</p>
 
         <form method="post" name="frmConversionDate" novalidate="">
+
             @Html.AntiForgeryToken()
             <input type="hidden" asp-for="Urn" />
             <input type="hidden" asp-for="ApplicationId" />
             <partial name="_HiddenFields" />
 
-            <div class="@(Model.IsPropertyInvalid("TargetDateDifferent") ? "govuk-form-group--error" : "govuk-form-group")">
+            <div class="govuk-form-group @(Model.IsPropertyInvalid("TargetDateDifferent") ? "govuk-form-group--error" : "")">
                 <h2 class="govuk-heading-s">
                     Do you want the conversion to happen on a particular date?
                 </h2>
                 <p id="TargetDateDifferent-error" class="govuk-error-message @(!Model.IsPropertyInvalid("TargetDateDifferent") ? "govuk-visually-hidden" : "")">
                     <span class="govuk-visually-hidden">Error:</span> You must provide details
                 </p>
+
                 <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios" id="TargetDateDifferent">
                 @foreach (var selectOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                 {
@@ -56,10 +59,9 @@
                     </div>
                     @if (selectOption == SelectOption.Yes)
                     {
-                        <div class="@(Model.HasError ? "govuk-form-group--error" : "govuk-radios__conditional")
-			                                            @(selectOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
+                        <div class="govuk-radios__conditional @(selectOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
                      id="selectoption-yes" aria-expanded="false">
-                            <div class="govuk-form-group govuk-error-summary__list">
+                            <div id="SchoolConversionTargetDateNotEntered" class=" govuk-form-group @(Model.SchoolConversionTargetDateError ? "govuk-form-group--error" : "")">
                                 <fieldset class="govuk-fieldset" role="group" aria-describedby="conversion-date-different-date-hint">
                                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
                                         Preferred date
@@ -79,7 +81,8 @@
                                         </govuk-date>
                                     </div>
                                 </fieldset>
-
+                            </div>
+                            <div id="TargetDateExplainedNotEntered" class="govuk-form-group @(Model.TargetDateExplainedError ? "govuk-form-group--error" : "")">
                                 <div class="govuk-!-margin-6"></div>
                                 <label class="@(Model.TargetDateExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
                                     You must explain why you want to convert on this date

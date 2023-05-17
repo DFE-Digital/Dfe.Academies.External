@@ -26,7 +26,7 @@
             <input type="hidden" asp-for="ApplicationId" />
             <partial name="_HiddenFields" />
 
-            <div class="@(Model.IsPropertyInvalid("ChangeName") ? "govuk-form-group--error" : "govuk-form-group")">
+            <div class="govuk-form-group @(Model.IsPropertyInvalid("ChangeName") ? "govuk-form-group--error" : "")">
                 <fieldset class="govuk-fieldset">
                     <legend id="role-hint" class="govuk-fieldset__legend govuk-!-font-weight-bold">Is the school planning to change its name when it becomes an academy?</legend>
                     <p id="ChangeName-error" class="govuk-error-message @(!Model.IsPropertyInvalid("ChangeName") ? "govuk-visually-hidden" : "")">
