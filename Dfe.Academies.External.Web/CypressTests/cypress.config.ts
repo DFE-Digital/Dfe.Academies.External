@@ -1,3 +1,7 @@
+import { url, login_username, login_password, dfeSignInTestEnvURLForA2BDevAndA2BTest, dfeSignInTestEnvForgotPasswordCodeInputURLForA2BDevAndA2BTest, dfeSignInTestEnvCreateAccountForA2BDevAndA2BTest } from './config'
+
+import { Cypress } from 'cypress';
+ 
 const { defineConfig } = require('cypress')
 /*const {
   username,
@@ -8,7 +12,7 @@ const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
   e2e: {
-    url: Cypress.env('url'),
+    url: url,
     login_username: Cypress.env('username'),
     login_password: Cypress.env('password'),
     experimentalOriginDependencies: true,
