@@ -165,7 +165,7 @@ Cypress.Commands.add('forgotPasswordVerifyCodeElementsVisible', ():void => {
 })
 
 Cypress.Commands.add('createAccountElementsVisible', ():void => {
-    cy.origin('https://test-profile.signin.education.gov.uk/register', () => {
+    cy.origin(dfeSignInTestEnvCreateAccountForA2BDevAndA2BTest, () => {
     cy.get('.govuk-heading-xl').contains('Create a DfE Sign-in account')
     cy.get('label[for="firstName"]').contains('First name')
     cy.get('#firstName').should('be.visible')
@@ -182,7 +182,7 @@ Cypress.Commands.add('createAccountElementsVisible', ():void => {
     })
 
     Cypress.Commands.add('createAccountFailsWithNoData', ():void => {
-        cy.origin('https://test-profile.signin.education.gov.uk/register', () => {
+        cy.origin(dfeSignInTestEnvCreateAccountForA2BDevAndA2BTest, () => {
             cy.contains('Continue').click()
             cy.get('div[role="alert"]').should('be.visible')
             cy.get('a[href="#firstName"]').contains('Please enter a valid first name')
@@ -197,7 +197,7 @@ Cypress.Commands.add('createAccountElementsVisible', ():void => {
 Cypress.Commands.add('createAccountSuccessful', ():void => {
     let generateData = new DataGenerator()
     const sentArgs = { firstName: generateData.generateName(), lastName: generateData.generateName(), email: generateData.generateEmail() }
-    cy.origin('https://test-profile.signin.education.gov.uk/register',
+    cy.origin(dfeSignInTestEnvCreateAccountForA2BDevAndA2BTest,
     {args: sentArgs},
     ({ firstName, lastName, email }) => { 
         cy.get('#firstName').type(firstName)
@@ -209,7 +209,7 @@ Cypress.Commands.add('createAccountSuccessful', ():void => {
 })
 
 Cypress.Commands.add('createAccountConfirmElementsVisible', ():void => {
-    cy.origin('https://test-profile.signin.education.gov.uk/register', () => {
+    cy.origin(dfeSignInTestEnvCreateAccountForA2BDevAndA2BTest, () => {
     cy.get('#notification-title').contains('Success')
     cy.get('h3[class="govuk-notification-banner__heading"]').contains('Verification email sent')
     cy.get('p[class="govuk-body"').contains('We have sent an account verification email to: ')
