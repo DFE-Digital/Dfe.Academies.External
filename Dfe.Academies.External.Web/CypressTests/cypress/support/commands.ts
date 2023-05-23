@@ -153,7 +153,7 @@ Cypress.Commands.add('forgotPasswordA2BUserEmailSubmitted', (username):void => {
 })
 
 Cypress.Commands.add('forgotPasswordVerifyCodeElementsVisible', ():void => {
-    cy.origin('https://test-interactions.signin.education.gov.uk/bb11be36-f9b9-420d-8765-aeab083b495d/resetpassword/1786759B-D42E-4A52-B189-4788B76DD793/confirm', () => {
+    cy.origin(dfeSignInTestEnvForgotPasswordCodeInputURLForA2BDevAndA2BTest, () => {
     cy.get('#govuk-notification-banner-title').contains('Important')
     cy.get('.govuk-notification-banner__heading.wrap.full-width').contains('Confirm your email address by entering your verification code')
     cy.get('button[type="submit"]')
