@@ -24,7 +24,7 @@ Cypress.Commands.add('checkFooterLinksVisible', ():void => {
 
 Cypress.Commands.add('loginWithWrongUsername', (username :string, password :string):void => {
     //cy.get('#form-signin').should('be.visible')
-    cy.origin('https://test-interactions.signin.education.gov.uk//7fbd2f4e-8296-4211-a7e4-a38df63d3ff5/usernamepassword', () => {
+    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
     username = 'rachel.riley@msn.com'
     password = 'P1ng0*1984'
     cy.get('#username').type(username)
@@ -35,7 +35,7 @@ Cypress.Commands.add('loginWithWrongUsername', (username :string, password :stri
 
 Cypress.Commands.add('loginWithNoPassword', (username :string, password):void => {
     //cy.get('#form-signin').should('be.visible')
-    cy.origin('https://test-interactions.signin.education.gov.uk//7fbd2f4e-8296-4211-a7e4-a38df63d3ff5/usernamepassword', () => {
+    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
     username = 'dan.good@education.gov.uk'
     password = ''
     cy.get('#username').type(username)
@@ -45,7 +45,7 @@ Cypress.Commands.add('loginWithNoPassword', (username :string, password):void =>
 
 Cypress.Commands.add('loginWithNoUsername', (username:string, password:string):void => {
     //cy.get('#form-signin').should('be.visible')
-    cy.origin('https://test-interactions.signin.education.gov.uk//7fbd2f4e-8296-4211-a7e4-a38df63d3ff5/usernamepassword', () => {
+    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
     username = ''
     password = 'P1ngO*1984'
     cy.get('#password').type(password, { log: false })
@@ -57,7 +57,7 @@ Cypress.Commands.add('loginWithNoUsername', (username:string, password:string):v
 
 Cypress.Commands.add('sqlInjectionAndInvalidUsername', (username:string, password:string):void => {
     //cy.get('#form-signin').should('be.visible')
-    cy.origin('https://test-interactions.signin.education.gov.uk//7fbd2f4e-8296-4211-a7e4-a38df63d3ff5/usernamepassword', () => {
+    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
     username = '\' or 1=1 --'
     password = ''
     cy.get('#username').type(username)
@@ -67,7 +67,7 @@ Cypress.Commands.add('sqlInjectionAndInvalidUsername', (username:string, passwor
 
 Cypress.Commands.add('crossSiteScriptAndInvalidUsername', (username:string, password:string):void => {
     //cy.get('#form-signin').should('be.visible')
-    cy.origin('https://test-interactions.signin.education.gov.uk//7fbd2f4e-8296-4211-a7e4-a38df63d3ff5/usernamepassword', () => {
+    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
     username = '<script>window.alert(\\"Hello World!\\")</script>'
     password = ''
     cy.get('#username').type(username)
@@ -77,7 +77,7 @@ Cypress.Commands.add('crossSiteScriptAndInvalidUsername', (username:string, pass
 
 Cypress.Commands.add('loginWithWrongPassword', (username:string, password:string):void => {
     //cy.get('#form-signin').should('be.visible')
-    cy.origin('https://test-interactions.signin.education.gov.uk//7fbd2f4e-8296-4211-a7e4-a38df63d3ff5/usernamepassword', () => {
+    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
     username = 'dan.good@education.gov.uk'
     password = 'POTATO'
     cy.get('#username').type(username)
@@ -88,7 +88,7 @@ Cypress.Commands.add('loginWithWrongPassword', (username:string, password:string
 
 Cypress.Commands.add('login', (username:string, password:string):void => {
     //cy.get('#form-signin').should('be.visible')
-    cy.origin('https://test-interactions.signin.education.gov.uk//7fbd2f4e-8296-4211-a7e4-a38df63d3ff5/usernamepassword', () => {
+    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
     username = 'dan.good@education.gov.uk'
     password = 'P1ngO*1984'
     cy.get('#username').type(username)
@@ -109,19 +109,19 @@ Cypress.Commands.add('loginToUnauthApplication', (username:string, password:stri
 
 
 Cypress.Commands.add('createAccount', ():void => {
-    cy.origin('https://test-interactions.signin.education.gov.uk//7fbd2f4e-8296-4211-a7e4-a38df63d3ff5/usernamepassword', () => {
+    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
     cy.contains('Create account').click()
     })
 })
 
 Cypress.Commands.add('forgotPassword', ():void => {
-    cy.origin('https://test-interactions.signin.education.gov.uk//7fbd2f4e-8296-4211-a7e4-a38df63d3ff5/usernamepassword', () => {
+    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
     cy.contains('Forgotten your password?').click()
     })
 })
 
 Cypress.Commands.add('forgotPasswordElementsVisible', ():void => {
-    cy.origin('https://test-interactions.signin.education.gov.uk//7fbd2f4e-8296-4211-a7e4-a38df63d3ff5/usernamepassword', () => {
+    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
     cy.get('.govuk-heading-xl').contains('Forgotten your password?')
     cy.get('label[for="email"]').contains('Email address')
     cy.get('#email').should('be.visible')
@@ -130,14 +130,14 @@ Cypress.Commands.add('forgotPasswordElementsVisible', ():void => {
 })
 
 Cypress.Commands.add('forgotPasswordEmptyEmailSubmitted', ():void => {
-    cy.origin('https://test-interactions.signin.education.gov.uk//7fbd2f4e-8296-4211-a7e4-a38df63d3ff5/usernamepassword', () => {
+    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
     cy.get('.govuk-button').click()
     cy.get('#validation-email').contains('Please enter a valid email address')
 })
 })
 
 Cypress.Commands.add('forgotPasswordInvalidEmailSubmitted', ():void => {
-    cy.origin('https://test-interactions.signin.education.gov.uk//7fbd2f4e-8296-4211-a7e4-a38df63d3ff5/usernamepassword', () => {
+    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
     cy.get('#email').type('POTATO')
     cy.get('.govuk-button').click()
     cy.get('#validation-email').contains('Please enter a valid email address')
@@ -145,7 +145,7 @@ Cypress.Commands.add('forgotPasswordInvalidEmailSubmitted', ():void => {
 })
 
 Cypress.Commands.add('forgotPasswordA2BUserEmailSubmitted', (username):void => {
-    cy.origin('https://test-interactions.signin.education.gov.uk//bb11be36-f9b9-420d-8765-aeab083b495d/usernamepassword', () => {
+    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
     username = 'dangood15111984@gmail.com'
     cy.get('#email').type(username)
     cy.get('.govuk-button').click()
