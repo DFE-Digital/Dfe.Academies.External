@@ -13,6 +13,7 @@ const { defineConfig } = require('cypress')
 module.exports = defineConfig({
   e2e: {
     supportFile: 'Dfe.Academies.External.Web/CypressTests/cypress/support/e2e.ts',
+    integrationFolder: 'Dfe.Academies.External.Web/CypressTests/cypress/e2e',
     url: url,
     login_username: login_username,
     login_password: login_password,
