@@ -9,6 +9,9 @@ import Footer from '../page-objects/components/Footer'
 describe('Login Tests', () => {
 
   beforeEach(function() {
+    // OK TEST IS BREAKING ON THE url VALUE - LET'S LOOK INSIDE IT TO DEBUG
+    console.log("url var = " + url)
+
     cy.visit(url)
 
     Header.govUkHeaderVisible()
