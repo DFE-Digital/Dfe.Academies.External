@@ -1,5 +1,5 @@
-import dotenv from 'dotenv';
-dotenv.config();
+import * as dotenv from 'dotenv';
+dotenv.config({ path: '.env' });
 
 export const url :string = process.env.url
 export const dfeSignInTestEnvURLForA2BDevAndA2BTest: string = "https://test-interactions.signin.education.gov.uk//7fbd2f4e-8296-4211-a7e4-a38df63d3ff5/usernamepassword"
