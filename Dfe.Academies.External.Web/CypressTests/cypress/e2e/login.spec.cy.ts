@@ -12,6 +12,8 @@ describe('Login Tests', () => {
     // OK TEST IS BREAKING ON THE url VALUE - LET'S LOOK INSIDE IT TO DEBUG
     cy.debug() // ATTEMPTING TO SLOW CYPRESS DOWN TO LOOK INSIDE THE VAR
     console.log("url var = " + url)
+    console.log("username var = " + login_username)
+    console.log(login_password)
 
     cy.visit(url)
 
