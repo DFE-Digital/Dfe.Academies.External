@@ -10,6 +10,7 @@ describe('Login Tests', () => {
 
   beforeEach(function() {
     // OK TEST IS BREAKING ON THE url VALUE - LET'S LOOK INSIDE IT TO DEBUG
+    cy.debug() // ATTEMPTING TO SLOW CYPRESS DOWN TO LOOK INSIDE THE VAR
     console.log("url var = " + url)
 
     cy.visit(url)
