@@ -20,26 +20,12 @@ describe('Login Tests', () => {
     Header.govUkHeaderVisible()
     Header.applyToBecomeAnAcademyHeaderLinkVisible()
 
-    A2BHome.h1ApplyToBecomeAnAcademyVisible()
-    A2BHome.p3Visible()
-    A2BHome.p4Visible()
-    A2BHome.checkSpecialSchoolsLinkVisible()
-    A2BHome.checkPupilReferralUnitsLinkVisible()
-    A2BHome.p6Visible()
-    A2BHome.h2Visible()
-    A2BHome.p7Visible()
-    A2BHome.completeAnEqualityImpactAssessmentVisible()
-    A2BHome.consultationWithStakeholdersLinkVisible()
-    A2BHome.p8Visible()
-    A2BHome.contactYourRegionalDirectorLinkVisible()
-    A2BHome.allInformationAndEvidenceYouWillNeedLinkVisible()
+    A2BHome.homePageElementsVisible()
 
     Footer.checkFooterLinksVisible()
 
-
     CookieHeaderModal.clickAcceptAnalyticsCookies()
 
-    A2BHome.StartNowVisible()
     A2BHome.clickStartNow()
   })
 
