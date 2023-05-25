@@ -7,6 +7,12 @@ static financialInvestigationsElementsVisible()
     cy.financialInvestigationsElementsVisible()
 }
 
+static selectFinancialInvestigationsOptionNo()
+{
+    cy.get('#selectoptionNo').click()
+    cy.get('#selectoptionNo').should('be.checked')
+}
+
 static submitFinancialInvestigations()
 {
     cy.submitFinancialInvestigations()
