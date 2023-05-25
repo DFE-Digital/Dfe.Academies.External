@@ -6,6 +6,12 @@ export default class A2BChangingTheNameOfTheSchool extends BasePage {
         cy.changingTheNameOfTheSchoolElementsVisible()
     }
 
+    static changingTheNameOfTheSchoolSelectOptionNo()
+    {
+    cy.get('#selectoptionNo').click()
+    cy.get('#selectoptionNo').should('be.checked')
+    }
+
     static submitChangingTheNameOfTheSchool()
     {
         cy.get('input[type="submit"]').click()
