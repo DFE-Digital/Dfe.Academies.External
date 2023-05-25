@@ -6,6 +6,12 @@ static consultationDetailsElementsVisible()
     cy.consultationDetailsElementsVisible()
 }
 
+static selectHasGovBodyConsultedStakeholdersOptionNo()
+{
+    cy.get('#consultationStakeholdersOptionNo').click()
+    cy.get('#consultationStakeholdersOptionNo').should('be.checked')
+}
+
 static fillConsultationDetails()
 {
     cy.fillConsultationDetails()
