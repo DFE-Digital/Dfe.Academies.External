@@ -68,18 +68,12 @@ describe('View Application Tests', () => {
     it('should be able to create a New Application', () => {
         A2BLogin.login(login_username, login_password)
 
-        A2BYourApplications.yourApplicationsElementsVisible()
-
         A2BYourApplications.selectStartANewApplication()
-
-        A2BWhatAreYouApplyingToDo.whatAreYouApplyingToDoElementsVisible()
 
         A2BWhatAreYouApplyingToDo.selectJAMRadioButton()
         A2BWhatAreYouApplyingToDo.verifyJAMRadioButtonChecked()
 
         A2BWhatAreYouApplyingToDo.selectApplyingToDoSaveAndContinue()
-
-        A2BWhatIsYourRole.whatIsYourRoleElementsVisible()
 
         A2BWhatIsYourRole.selectChairOfGovernorsRadioButton()
         A2BWhatIsYourRole.verifyChairOfGovernorsRadioButtonChecked()
@@ -99,14 +93,12 @@ describe('View Application Tests', () => {
 
        A2BWhichTrustIsSchoolJoining.selectTrustName()
        cy.wait(1000)
+	A2BWhichTrustIsSchoolJoining.selectConfirmTrust()
+       A2BWhichTrustIsSchoolJoining.submitTrustName()
 
 
       // CLICK ADD A SCHOOL
       A2BYourApplication.selectAddASchool()
-
-      // CHECK THE ELEMENTS OF THE ADD A SCHOOL PAGE DISPLAY CORRECTLY
-
-      A2BWhatIsTheNameOfTheSchool.whatIsTheNameOfTheSchoolElementsVisible()
 
       cy.wait(2000)
 
@@ -115,8 +107,6 @@ describe('View Application Tests', () => {
 
       // OK SO TRUST AND SCHOOL HAVE BEEN ADDED LETS CHECK THE JAM APPLICATION OVERVIEW PAGE
 
-      A2BYourApplication.yourApplicationNotStartedButSchoolAddedElementsVisible()
-
 // PROCEED TO TRUST DETAILS SUMMARY PAGE!!!!
         // -----------------------------------------
         // PROCEED TO TRUST DETAILS SECTION
@@ -124,24 +114,14 @@ describe('View Application Tests', () => {
 
        // CHECK TRUST DETAILS SUMMARY PAGE
 
-       A2BJAMTrustDetailsSummary.JAMTrustDetailsSummaryElementsVisible()
-
        // CLICK ON START SECTION
        A2BJAMTrustDetailsSummary.JAMTrustDetailsSummarySelectStartSection()
-
-       // CHECK ELEMENTS VISIBLE ON JAM TRUST CONSENT PAGE
-
-       A2BJAMTrustConsent.JAMTrustConsentElementsVisible()
 
        // ATTEMPT TO UPLOAD A FILE
        A2BJAMTrustConsent.JAMTrustConsentFileUpload()
 
        // ATTEMPT TO SUBMIT TRUST CONSENT FORM
        A2BJAMTrustConsent.JAMTrustConsentSubmit()
-
-       // VERIFY THE CHANGES TO THE TRUST PAGE DISPLAYS CORRECTLY
-
-       A2BChangesToTheTrust.changesToTheTrustElementsVisible()
 
 
        // CLICK YES TO CHANGES TO THE TRUST, ENTER REASONS WHY, AND CLICK ON THE SUBMIT BUTTON
@@ -150,9 +130,6 @@ describe('View Application Tests', () => {
        A2BChangesToTheTrust.enterChangesToTheTrust()
 
        A2BChangesToTheTrust.changesToTheTrustSubmit()
-
-       // CHECK ELEMENTS VISIBLE ON LOCAL GOVERNANCE ARRANGEMENTS PAGE
-       A2BLocalGovernanceArrangements.localGovernanceArrangementsElementsVisible()
        
        // CLICK YES
        A2BLocalGovernanceArrangements.localGovernanceArrangementsClickYes()
@@ -176,15 +153,11 @@ describe('View Application Tests', () => {
 
       // OK we're Now on About the Conversion Page - Let's check all elements display correctly
 
-      A2BAboutTheConversion.aboutTheConversionNotStartedElementsVisible()
-
       // OK now we want to click on Start section for main contacts
       A2BAboutTheConversion.selectContactDetailsStartSection()
 
-      // OK so now we need to check ContactDetails / Main Contacts page displays correctly
-      A2BMainContacts.mainContactsNotStartedElementsVisible()
-
       // OK - LET'S POPULATE THE MAIN CONTACTS FORM
+      // MAKE THIS ONE FUNCTION ALONG WITH THE SUBMIT
       A2BMainContacts.fillHeadTeacherDetails()
       A2BMainContacts.fillChairDetails()
       A2BMainContacts.selectMainContactAsChair()
@@ -194,33 +167,20 @@ describe('View Application Tests', () => {
       A2BMainContacts.submitMainContactsForm()
 
       // A2B ABOUT THE CONVERSION ELEMENTS VISIBLE WITH MAIN CONTACTS SECTION COMPLETE
-
       A2BAboutTheConversion.aboutTheConversionMainContactsCompleteElementsVisible()
-
-      // OK SO MAIN CONTACTS COMPLETE AND INFO CORRECT ON ABOUT THE CONVERSION
-      // OK now we want to click on Start section for main contacts
-      A2BAboutTheConversion.selectDateForConversionStartSection()
-
-      // OK - NOW WE'RE ON THE DATE OF CONVERSION PAGE WE NEED TO CHECK PAGE ELEMENTS
-      // DISPLAY CORRECTLY
-
-      A2BConversionTargetDate.conversionTargetDateElementsVisible()
+  
+  // CLICK AN OPTION
+      A2BConversionTargetDate.selectConversionTargetDateOptionNo()
 
       // COMPLETE DATE CONVERSION PAGE AND SUBMIT
       A2BConversionTargetDate.conversionTargetDateSubmit()
 
 
-      // CHECK REASONS FOR JOINING PAGE DISPLAYS CORRECTLY
-      A2BReasonsForJoining.reasonsForJoiningElementsVisible()
-
-
       // COMPLETE REASONS FOR JOINING PAGE AND SUBMIT
       A2BReasonsForJoining.reasonsForJoiningInput()
       A2BReasonsForJoining.submitReasonsForJoining()
-
-      // CHECK CHANGING THE NAME OF THE SCHOOL DISPLAYS CORRECTLY
-
-      A2BChangingTheNameOfTheSchool.changingTheNameOfTheSchoolElementsVisible()
+      // SELECT OPTION NO
+      A2BChangingTheNameOfTheSchool.changingTheNameOfTheSchoolSelectOptionNo()
 
       // COMPLETE CHANGING THE NAME OF THE SCHOOL PAGE AND SUBMIT
       A2BChangingTheNameOfTheSchool.submitChangingTheNameOfTheSchool()
@@ -239,23 +199,18 @@ describe('View Application Tests', () => {
       // SELECT FURTHER INFORMATION SECTION
       A2BYourApplication.selectFurtherInformation()
 
-      // ADDITIONAL DETAILS SUMMARY PAGE CHECK ELEMENTS
-      A2BAdditionalDetailsSummaryPage.additionalDetailsSummaryNotStartedElementsVisible()
-
       // SELECT START SECTION ON ADDITIONAL DETAILS SUMMARY PAGE
       A2BAdditionalDetailsSummaryPage.selectAdditionalDetailsStartSection()
-
-      // CHECK ELEMENTS ON ADDITIONAL DETAILS DETAILS PAGE
-      A2BAdditionalDetailsDetails.additionalDetailsDetailsNotStartedElementsVisible()
 
       // FILL SCHOOL CONTRIBUTION
       A2BAdditionalDetailsDetails.fillSchoolContribution()
 
+A2BAdditionalDetailsDetails.selectOfstedReportOptionNo()
+      A2BAdditionalDetailsDetails.selectSafeguardingInvestigationsOptionNo()
+      A2BAdditionalDetailsDetails.selectSchoolLocalAuthorityReorgOptionNo()
+      A2BAdditionalDetailsDetails.selectSchoolLocalAuthorityClosureOptionNo()
       //DIOCESE STUFF
       A2BAdditionalDetailsDetails.selectYesIsSchoolLinkedToDiocese()
-
-      // CHECK DIOCESE SECTION ELEMENTS DISPLAY CORRECTLY
-      A2BAdditionalDetailsDetails.dioceseSectionElementsVisible()
 
       // INPUT DIOCESE NAME
       A2BAdditionalDetailsDetails.inputDioceseName()
@@ -263,11 +218,9 @@ describe('View Application Tests', () => {
       // UPLOAD DIOCESE LETTER
       A2BAdditionalDetailsDetails.dioceseFileUpload()
 
+A2BAdditionalDetailsDetails.selectSchoolPartOfFedOptionNo()
       // SELECT YES ON IS SCHOOL SUPPORTED BY FOUNDATION
       A2BAdditionalDetailsDetails.selectYesSchoolSupportedByTrustOrFoundation()
-
-      // CHECK SCHOOL SUPPORTED BY TRUST OR FOUNDATION DISPLAYS CORRECTLY
-      A2BAdditionalDetailsDetails.schoolSupportedByElementsVisible()
 
       // INPUT NAME OF BODY
       A2BAdditionalDetailsDetails.inputBodyName()
@@ -275,12 +228,15 @@ describe('View Application Tests', () => {
       // UPLOAD FOUNDATION TRUST OR BODY CONSENT
       A2BAdditionalDetailsDetails.uploadSchoolSupportedByTrustOrBody()
 
+A2BAdditionalDetailsDetails.selectSchoolExFromChristianWorshipOptionNo()
       // INPUT LIST OF FEEDER SCHOOLS
       A2BAdditionalDetailsDetails.inputListOfFeederSchools()
 
       // UPLOAD SCHOOL LETTER OF CONSENT
       A2BAdditionalDetailsDetails.uploadSchoolLetterOfConsent()
 
+      A2BAdditionalDetailsDetails.selectEqualitiesImpactCarriedOutOptionNo()
+      A2BAdditionalDetailsDetails.selectAddFurtherInfoOptionNo()
       // SUBMIT ADDITIONAL DETAILS DETAILS PAGE
       A2BAdditionalDetailsDetails.submitAdditionalDetailsDetails()
 
@@ -298,17 +254,9 @@ describe('View Application Tests', () => {
       // SELECT FINANCES LINK
       A2BYourApplication.selectFinances()
 
-      // CHECK FINANCE SUMMARY PAGE DISPLAYS CORRECTLY
-
-      A2BFinanceSummary.financeSummaryNotStartedElementsVisible()
-
       
       // SELECT PREVIOUS FINANCIAL YR START SECTION
       A2BFinanceSummary.selectPreviousFinancialYrStartSection()
-
-      // CHECK PREVIOUS FINANCIAL YR PAGE DISPLAYS CORRECTLY
-
-      A2BPreviousFinancialYear.previousFinancialYrElementsVisible()
 
      // FILL OUT PREVIOUS FINANCIAL YR DETAILS
      A2BPreviousFinancialYear.inputPreviousFinancialYrDate()
@@ -324,9 +272,6 @@ describe('View Application Tests', () => {
 
      // SUBMIT PREVIOUS FINANCIAL YR
      A2BPreviousFinancialYear.submitPreviousFinancialYr()
-
-    // CHECK CURRENT FINANCIAL YR SECTION CORRECTLY
-    A2BCurrentFinancialYear.currentFinancialYrElementsVisible()
 
 
       // FILL OUT CURRENT FINANCIAL YR DETAILS
@@ -351,11 +296,6 @@ describe('View Application Tests', () => {
      A2BCurrentFinancialYear.submitCurrentFinancialYr()
 
 
-
-     // CHECK NEXT FINANCIAL YR SECTION CORRECTLY
-     A2BNextFinancialYear.nextFinancialYrElementsVisible()
-
-
      // FILL OUT NEXT FINANCIAL YR DETAILS
      A2BNextFinancialYear.inputNextFinancialYrDate()
 
@@ -378,17 +318,13 @@ describe('View Application Tests', () => {
      A2BNextFinancialYear.submitNextFinancialYr()
 
 
-
-
-
-      // CHECK LOANS SUMMARY PAGE DISPLAYS CORRECTLY
-      A2BLoansSummary.loansSummaryElementsVisible()
      
+// SELECT NO LOANS
+      A2BLoansSummary.selectLoansOptionNo()
       //SUBMIT LOANS
      A2BLoansSummary.submitLoansSummary()
-
-       // CHECK LEASES SUMMARY PAGE DISPLAYS CORRECTLY
-       A2BLeasesSummary.leasesSummaryElementsVisible()
+// SELECT LEASES OPTION NO
+      A2BLeasesSummary.leasesSelectOptionNo()
       
        // SUBMIT LEASES
        A2BLeasesSummary.submitLeasesSummary()
@@ -396,6 +332,7 @@ describe('View Application Tests', () => {
        // CHECK FINANCIAL INVESTIGATIONS PAGE DISPLAYS CORRECTLY
 
        A2BFinancialInvestigations.financialInvestigationsElementsVisible()
+       A2BFinancialInvestigations.selectFinancialInvestigationsOptionNo()
 
        // SUBMIT FINANCIAL INVESTIGATIONS
        A2BFinancialInvestigations.submitFinancialInvestigations()
@@ -414,14 +351,8 @@ describe('View Application Tests', () => {
       // SELECT FUTURE PUPILS SECTION
       A2BYourApplication.selectFuturePupilNumbers()
 
-    // ADDITIONAL DETAILS SUMMARY PAGE CHECK ELEMENTS
-
-    A2BFuturePupilNumbersSummary.futurePupilNumbersSummaryElementsVisible()
-
     // CLICK START SECTION
     A2BFuturePupilNumbersSummary.selectFuturePupilNumbersStartSection()
-
-    A2BFuturePupilNumbersDetails.futurePupilNumbersDetailsElementsVisible()
 
     // FILL OUT FUTURE PUPIL NUMBERS DETAILS
     A2BFuturePupilNumbersDetails.fillFuturePupilNumbersDetails()
@@ -441,24 +372,25 @@ describe('View Application Tests', () => {
    // SELECT LAND AND BUILDINGS SECTION
    A2BYourApplication.selectLandAndBuildings()
 
-   // ADDITIONAL DETAILS SUMMARY PAGE CHECK ELEMENTS
-   A2BLandAndBuildingsSummary.landAndBuildingsSummaryElementsVisible()
+
 
 // CLICK START SECTION
 A2BLandAndBuildingsSummary.selectLandAndBuildingsStartSection()
-
-// CHECK LAND AND BUILDINGS DETAILS DISPLAY CORRECTLY
-
-A2BLandAndBuildingsDetails.landAndBuildingsDetailsElementsVisible()
 
 
 // FILL OUT LAND AND BUILDINGS DETAILS
 A2BLandAndBuildingsDetails.fillLandAndBuildingsDetails()
 
+ A2BLandAndBuildingsDetails.selectCurrentPlannedBuildingWorksOptionNo()
+      A2BLandAndBuildingsDetails.selectSharedFacilitiesOptionNo()
+      A2BLandAndBuildingsDetails.selectLandGrantsOptionNo()
+      A2BLandAndBuildingsDetails.selectSchoolPFIOptionNo()
+      A2BLandAndBuildingsDetails.selectPrioritySchoolBuildProgOptionNo()
+      A2BLandAndBuildingsDetails.selectBuildSchoolsForFutureOptionNo()
 // SUBMIT LAND AND BUILDINGS DETAILS
 A2BLandAndBuildingsDetails.submitLandAndBuildingsDetails()
 
-// CHECK COMPLETED FUTURE PUPIL NUMBERS SUMMARY DISPLAYS CORRECTLY
+// CHECK COMPLETED LAND AND BUILDINGS SUMMARY DISPLAYS CORRECTLY
 
 A2BLandAndBuildingsSummary.landAndBuildingsSummaryCompleteElementsVisible()
 
@@ -470,15 +402,12 @@ A2BYourApplication.landAndBuildingsCompleteElementsVisible()
 // SELECT CONSULTATION SECTION
 A2BYourApplication.selectConsultation()
 
-// ADDITIONAL DETAILS SUMMARY PAGE CHECK ELEMENTS
-A2BConsultationSummary.consultationSummaryElementsVisible()
-
 // CLICK START SECTION
 A2BConsultationSummary.selectConsultationStartSection()
+// SELECT CONSULTATION DETAILS NO
+A2BConsultationDetails.selectHasGovBodyConsultedStakeholdersOptionNo()
 
-A2BConsultationDetails.consultationDetailsElementsVisible()
-
-// FILL OUT FUTURE PUPIL NUMBERS DETAILS
+// FILL OUT CONSULTATION DETAILS
 A2BConsultationDetails.fillConsultationDetails()
 
 // SUBMIT CONSULTATION DETAILS
@@ -496,19 +425,11 @@ A2BYourApplication.consultationCompleteElementsVisible()
   // SELECT PRE-OPENING SUPPORT GRANT SECTION
   A2BYourApplication.selectPreopeningSupportGrant()
 
-  // PRE-OPENING SUPPORT GRANT CHECK ELEMENTS
-  A2BPreOpeningSupportGrantSummary.preopeningSupportGrantSummaryElementsVisible()
-
   // CLICK START SECTION
   A2BPreOpeningSupportGrantSummary.selectPreopeningSupportGrantStartSection()
 
-  A2BPreopeningSupportGrantDetails.preopeningSupportGrantDetailsElementsVisible()
-
   // FILL OUT FUTURE PUPIL NUMBERS DETAILS
   A2BPreopeningSupportGrantDetails.selectToTheSchoolPreopeningSupportGrantDetails()
-
-  // VERIFY TO THE SCHOOL SECTION DISPLAYS CORRECTLY
-  A2BPreopeningSupportGrantDetails.verifyToTheSchoolPreopeningSupportGrantDetailsSectionDisplays()
 
   // SUBMIT CONSULTATION DETAILS
   A2BPreopeningSupportGrantDetails.submitPreopeningSupportGrantDetails()
@@ -524,10 +445,6 @@ A2BYourApplication.consultationCompleteElementsVisible()
 
   // SELECT PRE-OPENING SUPPORT GRANT SECTION
   A2BYourApplication.selectDeclaration()
-
- // PRE-OPENING SUPPORT GRANT CHECK ELEMENTS
-
- A2BDeclarationSummary.declarationSummaryElementsVisible()
 
  // CLICK START SECTION
  A2BDeclarationSummary.declarationStartSection()

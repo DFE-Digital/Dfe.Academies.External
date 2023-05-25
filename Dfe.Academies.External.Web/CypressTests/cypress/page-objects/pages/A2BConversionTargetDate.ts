@@ -6,6 +6,12 @@ export default class A2BConversionTargetDate extends BasePage {
         cy.conversionTargetDateElementsVisible()
     }
 
+    static selectConversionTargetDateOptionNo()
+    {
+        cy.get('#selectoptionNo').click()
+        cy.get('#selectoptionNo').should('be.checked')
+    }
+
     static conversionTargetDateSubmit()
     {
         cy.get('input[type="submit"]').click()
