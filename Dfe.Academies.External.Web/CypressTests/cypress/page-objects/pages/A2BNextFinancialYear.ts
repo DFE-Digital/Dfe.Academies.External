@@ -7,63 +7,30 @@ static nextFinancialYrElementsVisible()
     cy.nextFinancialYrElementsVisible()
 }
 
-static inputNextFinancialYrDate()
+static inputNextFinancialYrDataAndSubmit()
 {
     cy.inputNextFinancialYrDate()
-}
 
-static inputNextFinancialYrRevenueCarryForward()
-{
     cy.inputNextFinancialYrRevenueCarryForward()
-}
 
-static selectRevenueCarryForwardDeficit()
-{
     cy.get('#revenueTypeDeficit').click()
-}
 
-static verifyNextRevenueCarryForwardDeficitSelectedSectionDisplays()
-{
     cy.verifyNextRevenueCarryForwardDeficitSelectedSectionDisplays()
-}
 
-static inputReasonsForNextRevenueCarryForwardDeficit()
-{
     cy.inputReasonsForNextRevenueCarryForwardDeficit()
-}
 
-static uploadFileForNextRevenueCarryForwardDeficit()
-{
     cy.uploadFileForNextRevenueCarryForwardDeficit()
-}
 
-static inputNextFinancialYrCapitalCarryForward()
-{
     cy.inputNextFinancialYrCapitalCarryForward()
-}
 
-static selectNextCapitalCarryForwardDeficit()
-{
     cy.selectNextCapitalCarryForwardDeficit()
-}
 
-static verifyNextCapitalCarryForwardDeficitSelectedSectionDisplays()
-{
     cy.verifyNextCapitalCarryForwardDeficitSelectedSectionDisplays()
-}
 
-static inputReasonsForNextCapitalCarryForwardDeficit()
-{
     cy.inputReasonsForNextCapitalCarryForwardDeficit()
-}
 
-static uploadFileForNextCapitalCarryForwardDeficit()
-{
     cy.uploadFileForNextCapitalCarryForwardDeficit()
-}
 
-static submitNextFinancialYr()
-{
     cy.submitNextFinancialYr()
 }
 
