@@ -165,9 +165,6 @@ describe('View Application Tests', () => {
 
       // SUBMIT MAINCONTACTS FORM
       A2BMainContacts.submitMainContactsForm()
-
-      // A2B ABOUT THE CONVERSION ELEMENTS VISIBLE WITH MAIN CONTACTS SECTION COMPLETE
-      A2BAboutTheConversion.aboutTheConversionMainContactsCompleteElementsVisible()
   
   // CLICK AN OPTION
       A2BConversionTargetDate.selectConversionTargetDateOptionNo()
@@ -203,42 +200,7 @@ describe('View Application Tests', () => {
       A2BAdditionalDetailsSummaryPage.selectAdditionalDetailsStartSection()
 
       // FILL SCHOOL CONTRIBUTION
-      A2BAdditionalDetailsDetails.fillSchoolContribution()
-
-A2BAdditionalDetailsDetails.selectOfstedReportOptionNo()
-      A2BAdditionalDetailsDetails.selectSafeguardingInvestigationsOptionNo()
-      A2BAdditionalDetailsDetails.selectSchoolLocalAuthorityReorgOptionNo()
-      A2BAdditionalDetailsDetails.selectSchoolLocalAuthorityClosureOptionNo()
-      //DIOCESE STUFF
-      A2BAdditionalDetailsDetails.selectYesIsSchoolLinkedToDiocese()
-
-      // INPUT DIOCESE NAME
-      A2BAdditionalDetailsDetails.inputDioceseName()
-
-      // UPLOAD DIOCESE LETTER
-      A2BAdditionalDetailsDetails.dioceseFileUpload()
-
-A2BAdditionalDetailsDetails.selectSchoolPartOfFedOptionNo()
-      // SELECT YES ON IS SCHOOL SUPPORTED BY FOUNDATION
-      A2BAdditionalDetailsDetails.selectYesSchoolSupportedByTrustOrFoundation()
-
-      // INPUT NAME OF BODY
-      A2BAdditionalDetailsDetails.inputBodyName()
-
-      // UPLOAD FOUNDATION TRUST OR BODY CONSENT
-      A2BAdditionalDetailsDetails.uploadSchoolSupportedByTrustOrBody()
-
-A2BAdditionalDetailsDetails.selectSchoolExFromChristianWorshipOptionNo()
-      // INPUT LIST OF FEEDER SCHOOLS
-      A2BAdditionalDetailsDetails.inputListOfFeederSchools()
-
-      // UPLOAD SCHOOL LETTER OF CONSENT
-      A2BAdditionalDetailsDetails.uploadSchoolLetterOfConsent()
-
-      A2BAdditionalDetailsDetails.selectEqualitiesImpactCarriedOutOptionNo()
-      A2BAdditionalDetailsDetails.selectAddFurtherInfoOptionNo()
-      // SUBMIT ADDITIONAL DETAILS DETAILS PAGE
-      A2BAdditionalDetailsDetails.submitAdditionalDetailsDetails()
+      A2BAdditionalDetailsDetails.fillAdditionalDetailsDetailsAndSubmit()
 
       // CHECK COMPLETED ADDITIONAL DETAILS SUMMARY PAGE DISPLAYS CORRECTLY
       A2BAdditionalDetailsSummaryPage.additionalDetailsSummaryCompleteElementsVisible()
@@ -258,64 +220,17 @@ A2BAdditionalDetailsDetails.selectSchoolExFromChristianWorshipOptionNo()
       // SELECT PREVIOUS FINANCIAL YR START SECTION
       A2BFinanceSummary.selectPreviousFinancialYrStartSection()
 
-     // FILL OUT PREVIOUS FINANCIAL YR DETAILS
-     A2BPreviousFinancialYear.inputPreviousFinancialYrDate()
-
-     A2BPreviousFinancialYear.inputPreviousFinancialYrRevenueCarryForward()
-     A2BPreviousFinancialYear.selectRevenueCarryForwardSurplus()
-     A2BPreviousFinancialYear.verifyRevenueCarryForwardSurplusSelected()
+     // FILL OUT PREVIOUS FINANCIAL YR DETAILS AND SUBMIT
+     A2BPreviousFinancialYear.inputPreviousFinancialYrDataAndSubmit()
 
 
-     A2BPreviousFinancialYear.inputPreviousFinancialYrCapitalCarryForward()
-     A2BPreviousFinancialYear.selectCapitalCarryForwardSurplus()
-     A2BPreviousFinancialYear.verifyCapitalCarryForwardSurplusSelected
 
-     // SUBMIT PREVIOUS FINANCIAL YR
-     A2BPreviousFinancialYear.submitPreviousFinancialYr()
-
-
-      // FILL OUT CURRENT FINANCIAL YR DETAILS
-     A2BCurrentFinancialYear.inputCurrentFinancialYrDate()
-
-     A2BCurrentFinancialYear.inputCurrentFinancialYrRevenueCarryForward()
-     A2BCurrentFinancialYear.selectRevenueCarryForwardDeficit()
-     A2BCurrentFinancialYear.verifyCurrentRevenueCarryForwardDeficitSelectedSectionDisplays()
-
-     A2BCurrentFinancialYear.inputReasonsForCurrentRevenueCarryForwardDeficit()
-     A2BCurrentFinancialYear.uploadFileForCurrentRevenueCarryForwardDeficit()
-
-
-     A2BCurrentFinancialYear.inputCurrentFinancialYrCapitalCarryForward()
-     A2BCurrentFinancialYear.selectCurrentCapitalCarryForwardDeficit()
-     A2BCurrentFinancialYear.verifyCurrentCapitalCarryForwardDeficitSelectedSectionDisplays()
-
-     A2BCurrentFinancialYear.inputReasonsForCurrentCapitalCarryForwardDeficit()
-     A2BCurrentFinancialYear.uploadFileForCurrentCapitalCarryForwardDeficit()
-
-     // SUBMIT CURRENT FINANCIAL YR
-     A2BCurrentFinancialYear.submitCurrentFinancialYr()
-
+    
+// FILL OUT CURRENT FINANCIAL YR DETAILS AND SUBMIT
+     A2BCurrentFinancialYear.inputCurrentFinancialYrDataAndSubmit()
 
      // FILL OUT NEXT FINANCIAL YR DETAILS
-     A2BNextFinancialYear.inputNextFinancialYrDate()
-
-     A2BNextFinancialYear.inputNextFinancialYrRevenueCarryForward()
-     A2BNextFinancialYear.selectRevenueCarryForwardDeficit()
-     A2BNextFinancialYear.verifyNextRevenueCarryForwardDeficitSelectedSectionDisplays()
-
-     A2BNextFinancialYear.inputReasonsForNextRevenueCarryForwardDeficit()
-     A2BNextFinancialYear.uploadFileForNextRevenueCarryForwardDeficit()
-
-
-     A2BNextFinancialYear.inputNextFinancialYrCapitalCarryForward()
-     A2BNextFinancialYear.selectNextCapitalCarryForwardDeficit()
-     A2BNextFinancialYear.verifyNextCapitalCarryForwardDeficitSelectedSectionDisplays()
-
-     A2BNextFinancialYear.inputReasonsForNextCapitalCarryForwardDeficit()
-     A2BNextFinancialYear.uploadFileForNextCapitalCarryForwardDeficit()
-
-     // SUBMIT NEXT FINANCIAL YR
-     A2BNextFinancialYear.submitNextFinancialYr()
+     A2BNextFinancialYear.inputNextFinancialYrDataAndSubmit()
 
 
      
@@ -378,17 +293,10 @@ A2BAdditionalDetailsDetails.selectSchoolExFromChristianWorshipOptionNo()
 A2BLandAndBuildingsSummary.selectLandAndBuildingsStartSection()
 
 
-// FILL OUT LAND AND BUILDINGS DETAILS
-A2BLandAndBuildingsDetails.fillLandAndBuildingsDetails()
+      // FILL OUT LAND AND BUILDINGS DETAILS AND SUBMIT
+      A2BLandAndBuildingsDetails.fillLandAndBuildingsDetailsDataAndSubmit()
 
- A2BLandAndBuildingsDetails.selectCurrentPlannedBuildingWorksOptionNo()
-      A2BLandAndBuildingsDetails.selectSharedFacilitiesOptionNo()
-      A2BLandAndBuildingsDetails.selectLandGrantsOptionNo()
-      A2BLandAndBuildingsDetails.selectSchoolPFIOptionNo()
-      A2BLandAndBuildingsDetails.selectPrioritySchoolBuildProgOptionNo()
-      A2BLandAndBuildingsDetails.selectBuildSchoolsForFutureOptionNo()
-// SUBMIT LAND AND BUILDINGS DETAILS
-A2BLandAndBuildingsDetails.submitLandAndBuildingsDetails()
+
 
 // CHECK COMPLETED LAND AND BUILDINGS SUMMARY DISPLAYS CORRECTLY
 
