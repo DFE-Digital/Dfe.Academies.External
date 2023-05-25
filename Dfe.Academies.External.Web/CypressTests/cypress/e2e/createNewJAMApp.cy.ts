@@ -153,8 +153,7 @@ describe('View Application Tests', () => {
 
        // CHECK ELEMENTS VISIBLE ON LOCAL GOVERNANCE ARRANGEMENTS PAGE
        A2BLocalGovernanceArrangements.localGovernanceArrangementsElementsVisible()
-
-
+       
        // CLICK YES
        A2BLocalGovernanceArrangements.localGovernanceArrangementsClickYes()
 
