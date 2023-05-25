@@ -6,29 +6,15 @@ export default class A2BMainContacts extends BasePage {
         cy.mainContactsNotStartedElementsVisible()
     }
     
-    static fillHeadTeacherDetails() 
+    static fillMainContactDetailsAndSubmit() 
     {
         cy.fillHeadTeacherDetails()
-    }
-
-    static fillChairDetails()
-    {
+  
         cy.fillChairDetails()
-    }
-
-    static selectMainContactAsChair()
-    {
-    cy.get('#ContactTypeChairOfGoverningBody').click()
-    cy.get('#ContactTypeChairOfGoverningBody').should('be.checked')
-    }
-
-    static fillApproverDetails()
-    {
-        cy.fillApproverDetails()
-    }
-
-    static submitMainContactsForm()
-    {
+ 
+        cy.get('#ContactTypeChairOfGoverningBody').click()
+        cy.get('#ContactTypeChairOfGoverningBody').should('be.checked')
+  
         cy.get('input[type="submit"]').click()
     }
 
