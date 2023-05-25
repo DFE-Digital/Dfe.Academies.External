@@ -7,6 +7,13 @@ static loansSummaryElementsVisible()
     cy.loansSummaryElementsVisible()
 }
 
+static selectLoansOptionNo()
+{
+    cy.get('#anyLoansOptionNo').click()
+    cy.get('#anyLoansOptionNo').should('be.checked')
+
+}
+
 static submitLoansSummary()
 {
     cy.submitLoansSummary()
