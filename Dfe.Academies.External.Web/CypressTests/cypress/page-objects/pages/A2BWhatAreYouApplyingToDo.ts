@@ -5,14 +5,11 @@ export default class A2BWhatAreYouApplyingToDo extends BasePage {
         cy.whatAreYouApplyingToDoElementsVisible()
     }
 
-    static selectJAMRadioButton()
+    static selectJAMRadioButtonVerifyAndSubmit()
     {
         cy.get('input[type="radio"]').eq(0).click()
-    }
-
-    static verifyJAMRadioButtonChecked()
-    {
         cy.get('input[type="radio"]').eq(0).should('be.checked')
+        cy.get('input[type="submit"]').click()  
     }
 
     static selectFAMRadioButton()
@@ -25,8 +22,6 @@ export default class A2BWhatAreYouApplyingToDo extends BasePage {
         cy.get('input[type="radio"]').eq(1).should('be.checked')
     }
 
-    static selectApplyingToDoSaveAndContinue()
-    {
-        cy.get('input[type="submit"]').click()  
-    }
+        
+
 }
