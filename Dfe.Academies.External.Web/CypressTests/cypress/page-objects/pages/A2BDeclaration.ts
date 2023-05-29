@@ -6,18 +6,10 @@ static declarationElementsVisible()
     cy.declarationElementsVisible()
 }
 
-static selectAgreements()
+static selectAgreementsVerifyAndSubmit()
 {
     cy.selectAgreements()
-}
-
-static verifyAgreementsSelected()
-{
     cy.verifyAgreementsSelected()
-}
-
-static submitDeclaration()
-{
     cy.get('input[type="submit"]').click()
 }
 
