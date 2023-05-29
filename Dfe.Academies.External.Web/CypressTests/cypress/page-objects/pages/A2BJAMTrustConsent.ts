@@ -5,11 +5,8 @@ static JAMTrustConsentElementsVisible() {
     cy.JAMTrustConsentElementsVisible()
 }
 
-static JAMTrustConsentFileUpload() {
+static JAMTrustConsentFileUploadAndSubmit() {
     cy.JAMTrustConsentFileUpload()
-}
-
-static JAMTrustConsentSubmit() {
     cy.get('input[type="submit"]').click()
 }
 
