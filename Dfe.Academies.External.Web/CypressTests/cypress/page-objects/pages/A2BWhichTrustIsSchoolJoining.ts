@@ -6,18 +6,10 @@ export default class A2BWhichTrustIsSchoolJoining extends BasePage {
         cy.whichTrustIsSchoolJoiningElementsVisible()
     }
 
-    static selectTrustName() 
+    static selectConfirmAndSubmitTrust()
     {
         cy.selectTrustName()
-    }
-
-    static selectConfirmTrust()
-    {
         cy.get('#ConfirmSelection').click()
-    }
-
-    static submitTrustName()
-    {
         cy.get('#btnAdd').click()
     }
 
