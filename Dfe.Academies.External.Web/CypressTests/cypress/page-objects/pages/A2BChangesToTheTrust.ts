@@ -5,7 +5,7 @@ export default class A2BChangesToTheTrust extends BasePage {
         cy.changesToTheTrustElementsVisible()
     }
 
-    changesToTheTrustClickYesEnterChangesAndSubmit()
+    static changesToTheTrustClickYesEnterChangesAndSubmit()
     {
         cy.get('#revenueTypeYes').click()
         cy.enterChangesToTheTrust()
