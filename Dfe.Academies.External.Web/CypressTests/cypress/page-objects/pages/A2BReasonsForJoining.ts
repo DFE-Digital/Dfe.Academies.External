@@ -6,13 +6,9 @@ export default class A2BReasonsForJoining extends BasePage {
         cy.reasonsForJoiningElementsVisible()
     }
 
-    static reasonsForJoiningInput()
+    static reasonsForJoiningInputAndSubmit()
     {
         cy.reasonsForJoiningInput()
-    }
-
-    static submitReasonsForJoining()
-    {
         cy.submitReasonsForJoining()
     }
 
