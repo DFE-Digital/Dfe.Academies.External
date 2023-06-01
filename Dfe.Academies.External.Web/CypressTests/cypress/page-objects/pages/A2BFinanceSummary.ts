@@ -1,5 +1,5 @@
 import BasePage from "../BasePage"
-export default class A2BYourApplication extends BasePage {
+export default class A2BFinanceSummary extends BasePage {
 
 
 static financeSummaryNotStartedElementsVisible()
