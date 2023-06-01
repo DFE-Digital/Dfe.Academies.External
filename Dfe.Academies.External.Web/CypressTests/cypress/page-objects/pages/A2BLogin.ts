@@ -53,17 +53,7 @@ export default class A2BLogin extends BasePage {
     })
     }
 
-    static sqlInjectionAndInvalidUsername(username, password)
-    {
-        cy.sqlInjectionAndInvalidUsername(username, password)
-    }
 
-
-    static loginErrorVisibleWithSqlInjectionAttemptAndInvalidUsername() {
-        cy.origin('https://test-interactions.signin.education.gov.uk//7fbd2f4e-8296-4211-a7e4-a38df63d3ff5/usernamepassword', () => {
-            cy.get('span[class="govuk-error-message"]').contains('Please enter a valid email address')
-        })
-    }
 
     static sqlInjectionAndInvalidUsername(username, password)
     {
