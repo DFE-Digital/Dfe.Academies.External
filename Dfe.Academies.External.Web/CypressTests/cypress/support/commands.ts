@@ -1,6 +1,6 @@
 import DataGenerator from "../fixtures/data-generator";
 
-import { url, login_username, login_password, dfeSignInTestEnvURLForA2BDevAndA2BTest, dfeSignInTestEnvForgotPasswordCodeInputURLForA2BDevAndA2BTest, dfeSignInTestEnvCreateAccountForA2BDevAndA2BTest } from '../../config'
+import { url, login_username, login_password, dfeSignInTestEnvURLForA2BDevAndA2BTest, dfeSignInTestEnvForgotPasswordCodeInputURLForA2BDevAndA2BTest, dfeSignInTestEnvCreateAccountForA2BDevAndA2BTest } from '../../customConfig'
 
 import 'cypress-file-upload';
 
