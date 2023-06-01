@@ -14,6 +14,8 @@ export default class A2BMainContacts extends BasePage {
  
         cy.get('#ContactTypeChairOfGoverningBody').click()
         cy.get('#ContactTypeChairOfGoverningBody').should('be.checked')
+
+        cy.fillApproverDetails()
   
         cy.get('input[type="submit"]').click()
     }
