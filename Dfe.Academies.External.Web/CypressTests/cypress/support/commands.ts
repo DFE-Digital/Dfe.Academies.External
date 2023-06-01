@@ -1,11 +1,18 @@
+/// <reference types="cypress" />
 import DataGenerator from "../fixtures/data-generator";
+//import { customConfig } from 'cypress';
 
-import { url, login_username, login_password, dfeSignInTestEnvURLForA2BDevAndA2BTest, dfeSignInTestEnvForgotPasswordCodeInputURLForA2BDevAndA2BTest, dfeSignInTestEnvCreateAccountForA2BDevAndA2BTest } from '../../customConfig'
+
+
+//import * as dotenv from 'dotenv';
+require('dotenv').config() // Load the .env file
+
+
+import { dfeSignInTestEnvURLForA2BDevAndA2BTest, dfeSignInTestEnvForgotPasswordCodeInputURLForA2BDevAndA2BTest, dfeSignInTestEnvCreateAccountForA2BDevAndA2BTest } from '../../customConfig'
 
 import 'cypress-file-upload';
 
-// @ts-ignore
-//import { Cypress } from 'cypress';
+
 
 
 let globalApplicationId = 10080;
