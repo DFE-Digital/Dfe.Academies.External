@@ -33,7 +33,7 @@ Cypress.Commands.add('loginWithWrongUsername', (username :string, password :stri
     //cy.get('#form-signin').should('be.visible')
     cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
     username = 'rachel.riley@msn.com'
-    password = 'P1ng0*1984'
+    password = Cypress.env('LOGIN_PASSWORD')
     cy.get('#username').type(username)
     cy.get('#password').type(password, { log: false})
     cy.contains('Sign in').click()
@@ -43,7 +43,7 @@ Cypress.Commands.add('loginWithWrongUsername', (username :string, password :stri
 Cypress.Commands.add('loginWithNoPassword', (username :string, password):void => {
     //cy.get('#form-signin').should('be.visible')
     cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
-    username = 'dan.good@education.gov.uk'
+    username = Cypress.env('LOGIN_USERNAME')
     password = ''
     cy.get('#username').type(username)
     cy.contains('Sign in').click()
@@ -54,7 +54,7 @@ Cypress.Commands.add('loginWithNoUsername', (username:string, password:string):v
     //cy.get('#form-signin').should('be.visible')
     cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
     username = ''
-    password = 'P1ngO*1984'
+    password = Cypress.env('LOGIN_PASSWORD')
     cy.get('#password').type(password, { log: false })
     cy.contains('Sign in').click()
 })
@@ -85,7 +85,7 @@ Cypress.Commands.add('crossSiteScriptAndInvalidUsername', (username:string, pass
 Cypress.Commands.add('loginWithWrongPassword', (username:string, password:string):void => {
     //cy.get('#form-signin').should('be.visible')
     cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
-    username = 'dan.good@education.gov.uk'
+    username = Cypress.env('LOGIN_USERNAME')
     password = 'POTATO'
     cy.get('#username').type(username)
     cy.get('#password').type(password)
@@ -93,11 +93,13 @@ Cypress.Commands.add('loginWithWrongPassword', (username:string, password:string
 })
 })
 
-Cypress.Commands.add('login', (username:string, password:string):void => {
+Cypress.Commands.add('login', ():void => {
     //cy.get('#form-signin').should('be.visible')
     cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
-    username = 'dan.good@education.gov.uk'
-    password = 'P1ngO*1984'
+        const username :string = Cypress.env('LOGIN_USERNAME')
+        const password :string = Cypress.env('LOGIN_PASSWORD')
+        console.log(username)
+
     cy.get('#username').type(username)
     cy.get('#password').type(password, { log: false})
     cy.contains('Sign in').click()
@@ -107,8 +109,8 @@ Cypress.Commands.add('login', (username:string, password:string):void => {
 Cypress.Commands.add('loginToUnauthApplication', (username:string, password:string):void => {
     //cy.get('#form-signin').should('be.visible')
   
-    username = 'dan.good@education.gov.uk'
-    password = 'P1ngO*1984'
+    username = Cypress.env('LOGIN_USERNAME')
+    password = Cypress.env('LOGIN_PASSWORD')
     cy.get('#username').type(username)
     cy.get('#password').type(password, { log: false})
     cy.contains('Sign in').click()
@@ -153,7 +155,7 @@ Cypress.Commands.add('forgotPasswordInvalidEmailSubmitted', ():void => {
 
 Cypress.Commands.add('forgotPasswordA2BUserEmailSubmitted', (username):void => {
     cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
-    username = 'dangood15111984@gmail.com'
+    username = Cypress.env('LOGIN_USERNAME')
     cy.get('#email').type(username)
     cy.get('.govuk-button').click()
 })
@@ -497,7 +499,7 @@ Cypress.Commands.add('localGovernanceArrangementsElementsVisible', ():void => {
     cy.get('.govuk-caption-l').eq(1).contains('For example, setting up a local sub-regional hub or changes to any schemes of delegation.')
     cy.get('#changesToLaGovernanceYes').should('not.be.checked')
     cy.get('label[for="changesToLaGovernanceYes"]').contains('Yes')
-    cy.get('#changesToLaGovernanceNo').should('be.checked')
+    cy.get('#changesToLaGovernanceNo').should('not.be.checked')
     cy.get('label[for="changesToLaGovernanceNo"]').contains('No')
     cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
 
@@ -506,6 +508,7 @@ Cypress.Commands.add('localGovernanceArrangementsElementsVisible', ():void => {
 
 Cypress.Commands.add('enterlocalGovernanceArrangementsChanges', (localGovernanceArrangements:string):void => {
     localGovernanceArrangements = 'What are the changes and how do they fit into the current lines of accountability in the trust? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et d'
+    cy.get('#changesToLaGovernanceYes').click()
     cy.get('#ChangesToLaGovernanceExplained').click()
     cy.get('#ChangesToLaGovernanceExplained').type(localGovernanceArrangements)
 })
@@ -695,8 +698,8 @@ Cypress.Commands.add('fillChairDetails', (chairName:string,chairEmail:string,cha
 })
 
 Cypress.Commands.add('fillApproverDetails', (approverName:string,approverEmail:string):void => {
-    approverName = 'Nicky Price'
-    approverEmail = 'nicky.price@aol.com'
+    approverName = 'James Stewart'
+    approverEmail = 'james.stewart@aol.com'
     
     cy.get('#ApproverContactName').type(approverName)
     cy.get('#ApproverContactEmail').type(approverEmail)
@@ -733,10 +736,10 @@ Cypress.Commands.add('aboutTheConversionMainContactsCompleteElementsVisible', ()
     cy.get('.govuk-body').eq(9).contains('The chair of the governing body')
 
     cy.get('.govuk-body').eq(10).contains('Approver\'s full name')
-    cy.get('.govuk-body').eq(11).contains('Nicky Price')
+    cy.get('.govuk-body').eq(11).contains('James Stewart')
 
     cy.get('.govuk-body').eq(12).contains('Approver\'s email address')
-    cy.get('.govuk-body').eq(13).contains('nicky.price@aol.com')
+    cy.get('.govuk-body').eq(13).contains('james.stewart@aol.com')
 
     
 
@@ -782,7 +785,7 @@ Cypress.Commands.add('conversionTargetDateElementsVisible', ():void => {
     cy.get('.govuk-heading-s').contains('Do you want the conversion to happen on a particular date?')
     cy.get('#selectoptionYes').should('not.be.checked')
     cy.get('label[for="selectoptionYes"]').contains('Yes')
-    cy.get('#selectoptionNo').should('be.checked')
+    cy.get('#selectoptionNo').should('not.be.checked')
     cy.get('label[for="selectoptionNo"]').contains('No')
     cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
 
@@ -818,7 +821,7 @@ Cypress.Commands.add('changingTheNameOfTheSchoolElementsVisible', ():void => {
     cy.get('#role-hint').contains('Is the school planning to change its name when it becomes an academy?')
     cy.get('#selectoptionYes').should('not.be.checked')
     cy.get('label[for="selectoptionYes"]').contains('Yes')
-    cy.get('#selectoptionNo').should('be.checked')
+    cy.get('#selectoptionNo').should('not.be.checked')
     cy.get('label[for="selectoptionNo"]').contains('No')
     cy.get('input[type="submit"]').should('be.visible').contains('Save and return to overview')
 
@@ -855,10 +858,10 @@ Cypress.Commands.add('aboutTheConversionCompleteElementsVisible', ():void => {
     cy.get('.govuk-body').eq(9).contains('The chair of the governing body')
 
     cy.get('.govuk-body').eq(10).contains('Approver\'s full name')
-    cy.get('.govuk-body').eq(11).contains('Nicky Price')
+    cy.get('.govuk-body').eq(11).contains('James Stewart')
 
     cy.get('.govuk-body').eq(12).contains('Approver\'s email address')
-    cy.get('.govuk-body').eq(13).contains('nicky.price@aol.com')
+    cy.get('.govuk-body').eq(13).contains('james.stewart@aol.com')
 
 
     
@@ -1012,7 +1015,7 @@ Cypress.Commands.add('additionalDetailsDetailsNotStartedElementsVisible', ():voi
     cy.get('#ofstedInspectedOptionYes').should('not.be.checked')
     cy.get('label[for="ofstedInspectedOptionYes"]').contains('Yes')
 
-    cy.get('#ofstedInspectedOptionNo').should('be.checked')
+    cy.get('#ofstedInspectedOptionNo').should('not.be.checked')
     cy.get('label[for="ofstedInspectedOptionNo"]').contains('No')
 
     cy.get('legend').eq(1).contains('Are there any safeguarding investigations ongoing at the school')
@@ -1020,7 +1023,7 @@ Cypress.Commands.add('additionalDetailsDetailsNotStartedElementsVisible', ():voi
     cy.get('#safeguardingOptionYes').should('not.be.checked')
     cy.get('label[for="safeguardingOptionYes"]').contains('Yes')
 
-    cy.get('#safeguardingOptionNo').should('be.checked')
+    cy.get('#safeguardingOptionNo').should('not.be.checked')
     cy.get('label[for="safeguardingOptionNo"]').contains('No')
 
     cy.get('legend').eq(2).contains('Is the school part of a local authority reorganisation?')
@@ -1028,7 +1031,7 @@ Cypress.Commands.add('additionalDetailsDetailsNotStartedElementsVisible', ():voi
     cy.get('#localAuthorityOptionYes').should('not.be.checked')
     cy.get('label[for="localAuthorityOptionYes"]').contains('Yes')
 
-    cy.get('#localAuthorityOptionNo').should('be.checked')
+    cy.get('#localAuthorityOptionNo').should('not.be.checked')
     cy.get('label[for="localAuthorityOptionNo"]').contains('No')
 
 
@@ -1037,7 +1040,7 @@ Cypress.Commands.add('additionalDetailsDetailsNotStartedElementsVisible', ():voi
     cy.get('#localAuthorityClosurePlanOptionYes').should('not.be.checked')
     cy.get('label[for="localAuthorityClosurePlanOptionYes"]').contains('Yes')
 
-    cy.get('#localAuthorityClosurePlanOptionNo').should('be.checked')
+    cy.get('#localAuthorityClosurePlanOptionNo').should('not.be.checked')
     cy.get('label[for="localAuthorityClosurePlanOptionNo"]').contains('No')
 
 
@@ -1046,7 +1049,7 @@ Cypress.Commands.add('additionalDetailsDetailsNotStartedElementsVisible', ():voi
     cy.get('#dioceseOptionYes').should('not.be.checked')
     cy.get('label[for="dioceseOptionYes"]').contains('Yes')
 
-    cy.get('#dioceseOptionNo').should('be.checked')
+    cy.get('#dioceseOptionNo').should('not.be.checked')
     cy.get('label[for="dioceseOptionNo"]').contains('No')
 
 
@@ -1057,7 +1060,7 @@ Cypress.Commands.add('additionalDetailsDetailsNotStartedElementsVisible', ():voi
     cy.get('#federationOptionYes').should('not.be.checked')
     cy.get('label[for="federationOptionYes"]').contains('Yes')
 
-    cy.get('#federationOptionNo').should('be.checked')
+    cy.get('#federationOptionNo').should('not.be.checked')
     cy.get('label[for="federationOptionNo"]').contains('No')
 
     cy.get('legend').eq(7).contains('Is the school supported by a foundation, trust or other body(e.g. parish council) that appoints foundation governors?')
@@ -1065,7 +1068,7 @@ Cypress.Commands.add('additionalDetailsDetailsNotStartedElementsVisible', ():voi
     cy.get('#supportedByFoundationTrustOrBodyOptionYes').should('not.be.checked')
     cy.get('label[for="supportedByFoundationTrustOrBodyOptionYes"]').contains('Yes')
 
-    cy.get('#supportedByFoundationTrustOrBodyOptionNo').should('be.checked')
+    cy.get('#supportedByFoundationTrustOrBodyOptionNo').should('not.be.checked')
     cy.get('label[for="supportedByFoundationTrustOrBodyOptionNo"]').contains('No')
 
 
@@ -1074,7 +1077,7 @@ Cypress.Commands.add('additionalDetailsDetailsNotStartedElementsVisible', ():voi
     cy.get('#exemptionFromSACREOptionYes').should('not.be.checked')
     cy.get('label[for="exemptionFromSACREOptionYes"]').contains('Yes')
 
-    cy.get('#exemptionFromSACREOptionNo').should('be.checked')
+    cy.get('#exemptionFromSACREOptionNo').should('not.be.checked')
     cy.get('label[for="exemptionFromSACREOptionNo"]').contains('No')
 
     cy.get('label[for="MainFeederSchools"]').contains('Please provide a list of your main feeder schools')
@@ -1102,7 +1105,7 @@ Cypress.Commands.add('additionalDetailsDetailsNotStartedElementsVisible', ():voi
     cy.get('#equalitiesImpactAssessmentOptionYes').should('not.be.checked')
     cy.get('label[for="equalitiesImpactAssessmentOptionYes"]').contains('Yes')
 
-    cy.get('#equalitiesImpactAssessmentOptionNo').should('be.checked')
+    cy.get('#equalitiesImpactAssessmentOptionNo').should('not.be.checked')
     cy.get('label[for="equalitiesImpactAssessmentOptionNo"]').contains('No')
 
 
@@ -1111,7 +1114,7 @@ Cypress.Commands.add('additionalDetailsDetailsNotStartedElementsVisible', ():voi
     cy.get('#furtherInformationOptionYes').should('not.be.checked')
     cy.get('label[for="furtherInformationOptionYes"]').contains('Yes')
 
-    cy.get('#furtherInformationOptionNo').should('be.checked')
+    cy.get('#furtherInformationOptionNo').should('not.be.checked')
     cy.get('label[for="furtherInformationOptionNo"]').contains('No')
 
     cy.get('input[type="submit"]').should('be.visible').contains('Save and return to overview')
@@ -1134,10 +1137,10 @@ Cypress.Commands.add('dioceseSectionElementsVisible', ():void => {
     cy.get('label[for="DioceseName"]').contains('Name of diocese')
 
     cy.get('#DioceseName').should('be.visible').should('be.enabled')
-    cy.get('#dioceseOption-yes > :nth-child(4)').contains('Upload a letter from the diocese giving permission for the school to convert.')
+    cy.get('#dioceseOption-yes > :nth-child(1) > :nth-child(4)').contains('Upload a letter from the diocese giving permission for the school to convert.')
     cy.get('label[for="dioceseFileUpload"]').contains('Upload a file')
     cy.get(':nth-child(5) > .govuk-hint').contains('The application cannot be submitted without this. You can carry on the application and come back to this later.')
-    cy.get('#dioceseOption-yes > .govuk-fieldset__legend').contains('Uploaded files')
+    cy.get('#dioceseOption-yes > :nth-child(1) > .govuk-fieldset__legend').contains('Uploaded files')
     cy.get('hr').eq(0).should('be.visible')
     cy.get('.govuk-label').contains('No file uploaded')
     cy.get('hr').eq(1).should('be.visible')
@@ -1159,11 +1162,11 @@ Cypress.Commands.add('schoolSupportedByElementsVisible', ():void => {
     cy.get('label[for="supportedByFoundationTrustOrBodyOptionYes"]').contains('Yes')
     cy.get('label[for="FoundationTrustOrBodyName"]').contains('Name of this body')
     cy.get('#FoundationTrustOrBodyName').should('be.visible').should('be.enabled')
-    cy.get('#supportedByFoundationTrustOrBodyOption-yes > :nth-child(5)').contains('Please upload their letter of consent')
+    cy.get('#supportedByFoundationTrustOrBodyOption-yes > :nth-child(1) > :nth-child(5)').contains('Please upload their letter of consent')
    // cy.get('#FoundationConsentFiles > .govuk-label').contains('Upload a file')
-    cy.get('#supportedByFoundationTrustOrBodyOption-yes > .govuk-fieldset__legend').contains('Uploaded files')
+   cy.get('#supportedByFoundationTrustOrBodyOption-yes > :nth-child(1) > .govuk-fieldset__legend').contains('Uploaded files')
     cy.get('hr').eq(3).should('be.visible')
-    cy.get('#supportedByFoundationTrustOrBodyOption-yes > :nth-child(9)').contains('No file uploaded')
+    cy.get('#supportedByFoundationTrustOrBodyOption-yes > :nth-child(1) > :nth-child(9)').contains('No file uploaded')
     cy.get('hr').eq(4).should('be.visible')
     cy.get('#supportedByFoundationTrustOrBodyOptionNo').should('not.be.checked')
     cy.get('label[for="supportedByFoundationTrustOrBodyOptionNo"]').contains('No')
@@ -1731,7 +1734,7 @@ Cypress.Commands.add('loansSummaryElementsVisible', ():void => {
     cy.get('#anyLoansOptionYes').should('not.be.checked')
     cy.get('label[for="anyLoansOptionYes"]').contains('Yes')
 
-    cy.get('#anyLoansOptionNo').should('be.checked')
+    cy.get('#anyLoansOptionNo').should('not.be.checked')
     cy.get('label[for="anyLoansOptionNo"]').contains('No')
 
     cy.get('input[type="submit"]').should('be.visible').contains('Continue')
@@ -1758,7 +1761,7 @@ Cypress.Commands.add('leasesSummaryElementsVisible', ():void => {
     cy.get('#anyLeasesOptionYes').should('not.be.checked')
     cy.get('label[for="anyLeasesOptionYes"]').contains('Yes')
 
-    cy.get('#anyLeasesOptionNo').should('be.checked')
+    cy.get('#anyLeasesOptionNo').should('not.be.checked')
     cy.get('label[for="anyLeasesOptionNo"]').contains('No')
 
     cy.get('input[type="submit"]').should('be.visible').contains('Continue')
@@ -1784,7 +1787,7 @@ Cypress.Commands.add('financialInvestigationsElementsVisible', ():void => {
     cy.get('#selectoptionYes').should('not.be.checked')
     cy.get('label[for="selectoptionYes"]').contains('Yes')
 
-    cy.get('#selectoptionNo').should('be.checked')
+    cy.get('#selectoptionNo').should('not.be.checked')
     cy.get('label[for="selectoptionNo"]').contains('No')
 
     cy.get('input[type="submit"]')
@@ -2121,7 +2124,7 @@ Cypress.Commands.add('landAndBuildingsDetailsElementsVisible', ():void => {
     cy.get('#buildingWorksOptionYes').should('not.be.checked')
     cy.get('label[for="buildingWorksOptionYes"]').contains('Yes')
 
-    cy.get('#buildingWorksOptionNo').should('be.checked')
+    cy.get('#buildingWorksOptionNo').should('not.be.checked')
     cy.get('label[for="buildingWorksOptionNo"]').contains('No')
 
     cy.get('legend').eq(1).contains('Are there any shared facilities on site?')
@@ -2131,7 +2134,7 @@ Cypress.Commands.add('landAndBuildingsDetailsElementsVisible', ():void => {
     cy.get('#sharedFacilitiesOptionYes').should('not.be.checked')
     cy.get('label[for="sharedFacilitiesOptionYes"]').contains('Yes')
 
-    cy.get('#sharedFacilitiesOptionNo').should('be.checked')
+    cy.get('#sharedFacilitiesOptionNo').should('not.be.checked')
     cy.get('label[for="sharedFacilitiesOptionNo"]').contains('No')
 
     cy.get('legend').eq(2).contains('Has the school had any grants from Sport England, the Big Lottery Fund, or the Football Federation?')
@@ -2139,7 +2142,7 @@ Cypress.Commands.add('landAndBuildingsDetailsElementsVisible', ():void => {
     cy.get('#landGrantsOptionYes').should('not.be.checked')
     cy.get('label[for="landGrantsOptionYes"]').contains('Yes')
 
-    cy.get('#landGrantsOptionNo').should('be.checked')
+    cy.get('#landGrantsOptionNo').should('not.be.checked')
     cy.get('label[for="landGrantsOptionNo"]').contains('No')
 
     cy.get('legend').eq(3).contains('Is the school part of a Private Finance Initiative (PFI) scheme?')
@@ -2147,7 +2150,7 @@ Cypress.Commands.add('landAndBuildingsDetailsElementsVisible', ():void => {
     cy.get('#pfiSchemeOptionYes').should('not.be.checked')
     cy.get('label[for="pfiSchemeOptionYes"]').contains('Yes')
 
-    cy.get('#pfiSchemeOptionNo').should('be.checked')
+    cy.get('#pfiSchemeOptionNo').should('not.be.checked')
     cy.get('label[for="pfiSchemeOptionNo"]').contains('No')
 
     cy.get('legend').eq(4).contains('Is the school part of the Priority School Building Programme?')
@@ -2155,7 +2158,7 @@ Cypress.Commands.add('landAndBuildingsDetailsElementsVisible', ():void => {
     cy.get('#SchoolBuildLandPriorityBuildingProgrammeYes').should('not.be.checked')
     cy.get('label[for="SchoolBuildLandPriorityBuildingProgrammeYes"]').contains('Yes')
 
-    cy.get('#SchoolBuildLandPriorityBuildingProgrammeNo').should('be.checked')
+    cy.get('#SchoolBuildLandPriorityBuildingProgrammeNo').should('not.be.checked')
     cy.get('label[for="SchoolBuildLandPriorityBuildingProgrammeNo"]').contains('No')
 
     cy.get('legend').eq(5).contains('Is the school part of the Building Schools for the Future Programme?')
@@ -2163,7 +2166,7 @@ Cypress.Commands.add('landAndBuildingsDetailsElementsVisible', ():void => {
     cy.get('#SchoolBuildLandFutureProgrammeYes').should('not.be.checked')
     cy.get('label[for="SchoolBuildLandFutureProgrammeYes"]').contains('Yes')
 
-    cy.get('#SchoolBuildLandFutureProgrammeNo').should('be.checked')
+    cy.get('#SchoolBuildLandFutureProgrammeNo').should('not.be.checked')
     cy.get('label[for="SchoolBuildLandFutureProgrammeNo"]').contains('No')
 
     cy.get('input[type="submit"]').should('be.visible').contains('Save and return to overview')
@@ -2292,7 +2295,7 @@ Cypress.Commands.add('consultationDetailsElementsVisible', ():void => {
     cy.get('#consultationStakeholdersOptionYes').should('not.be.checked')
     cy.get('label[for="consultationStakeholdersOptionYes"]').contains('Yes')
 
-    cy.get('#consultationStakeholdersOptionNo').should('be.checked')
+    cy.get('#consultationStakeholdersOptionNo').should('not.be.checked')
     cy.get('label[for="consultationStakeholdersOptionNo"]').contains('No')
 
     cy.get('label[for="SchoolConsultationStakeholdersConsult"]').contains('When does the governing body plan to consult?')
@@ -2393,9 +2396,7 @@ Cypress.Commands.add('preopeningSupportGrantSummaryElementsVisible', ():void => 
 
 })
 
-Cypress.Commands.add('selectPreopeningSupportGrantStartSection', ():void => {
-    
-})
+
 
 Cypress.Commands.add('preopeningSupportGrantDetailsElementsVisible', ():void => {
     cy.get('.govuk-back-link').contains('Back')
