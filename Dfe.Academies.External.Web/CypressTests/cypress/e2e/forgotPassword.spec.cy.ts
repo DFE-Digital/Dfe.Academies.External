@@ -1,4 +1,4 @@
-import { url } from '../../config'
+
 import Header from '../page-objects/components/Header'
 import CookieHeaderModal from '../page-objects/components/CookieHeaderModal'
 import A2BHome from '../page-objects/pages/A2BHome'
@@ -10,7 +10,7 @@ import Footer from '../page-objects/components/Footer'
 describe('Forgotten Password Tests', () => {
 
   beforeEach(function() {
-    cy.visit(url)
+    cy.visit(Cypress.env('URL'))
 
     Header.govUkHeaderVisible()
     Header.applyToBecomeAnAcademyHeaderLinkVisible()
