@@ -1,8 +1,6 @@
 /// <reference types="cypress" />
 import DataGenerator from "../fixtures/data-generator";
-//import { customConfig } from 'cypress';
 
-//import * as dotenv from 'dotenv';
 require('dotenv').config() // Load the .env file
 
 
