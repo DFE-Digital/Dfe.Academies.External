@@ -1,25 +1,26 @@
-import { url, login_username, login_password, dfeSignInTestEnvURLForA2BDevAndA2BTest, dfeSignInTestEnvForgotPasswordCodeInputURLForA2BDevAndA2BTest, dfeSignInTestEnvCreateAccountForA2BDevAndA2BTest } from './customConfig'
-
-import { Cypress } from 'cypress';
-
-const { defineConfig } = require('cypress')
-/*const {
-  username,
-  password
-} = require('./config')
-*/
+const { defineConfig } = require ('cypress')
+require("dotenv").config(); // Load the .env file
 
 
 module.exports = defineConfig({
+  env: {
+    URL: process.env.URL,
+    LOGIN_USERNAME: process.env.LOGIN_USERNAME,
+    LOGIN_PASSWORD: process.env.LOGIN_PASSWORD,
+  },
   e2e: {
     supportFile: 'Dfe.Academies.External.Web/CypressTests/cypress/support/e2e.ts',
     specPattern: 'Dfe.Academies.External.Web/CypressTests/cypress/e2e',
-    url: url,
-    login_username: login_username,
-    login_password: login_password,
     experimentalOriginDependencies: true,
+    ChromeWebSecurity: false,
+    waitForAnimations: true,
+    waitForTransition: true,
     setupNodeEvents(on, config) {
       // implement node event listeners here
-    },
-  },
-});
+      on('before:run', (details) => {
+        // Map .env variables to Cypress env
+        config.env = process.env;
+     });
+   },
+   },
+ });
