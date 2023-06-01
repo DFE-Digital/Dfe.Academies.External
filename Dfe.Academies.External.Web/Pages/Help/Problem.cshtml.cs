@@ -89,7 +89,7 @@ namespace Dfe.Academies.External.Web.Pages.Help
 
 			await this.emailNotificationService.SendAsync(message);
 
-			return RedirectToPage("ThankYou", new { page = nameof(ProblemModel) });
+			return RedirectToPage("ThankYou", new { helpTypeId = HelpTypes.Problem });
 		}
 
 		public override void PopulateValidationMessages()

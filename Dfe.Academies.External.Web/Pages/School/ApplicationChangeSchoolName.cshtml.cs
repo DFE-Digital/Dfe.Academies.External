@@ -14,7 +14,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//// MR:- VM props to capture data
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
-		public SelectOption ChangeName { get; set; }
+		public SelectOption? ChangeName { get; set; }
 
 		[BindProperty]
 		public string? ChangeSchoolName { get; set; }
@@ -37,15 +37,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			if (!ModelState.IsValid)
-			{
-				PopulateValidationMessages();
-				return false;
-			}
-
 			if (ChangeName == SelectOption.Yes && string.IsNullOrWhiteSpace(ChangeSchoolName))
 			{
-				ModelState.AddModelError("ChangeSchoolNameNotEntered", "You must provide details");
+				ModelState.AddModelError("ChangeSchoolNameNotEntered", "You must add a new school name");
+			}			
+			
+			if (!ModelState.IsValid)
+			{
 				PopulateValidationMessages();
 				return false;
 			}

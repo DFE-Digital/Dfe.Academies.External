@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -33,7 +34,7 @@ internal sealed class ResilientRequestProviderTests
 		var httpClient = new HttpClient(clientHandlerStub);
 
 		// act
-		var resilientRequestProvider = new ResilientRequestProvider(httpClient);
+		var resilientRequestProvider = new ResilientRequestProvider(httpClient, new Mock<ILogger>().Object);
 		var response = await resilientRequestProvider.DeleteAsync<string>("https://www.example.com/ConversionApplication/1/", expected);
 
 		// assert

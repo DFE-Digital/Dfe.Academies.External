@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Notify.Models;
 using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Dtos;
-using static GovUk.Frontend.AspNetCore.ComponentDefaults;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 {

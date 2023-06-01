@@ -13,6 +13,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//// MR:- VM props to show school conversion data
 		public List<SchoolLandAndBuildingsSummaryHeadingViewModel> ViewModel { get; set; } = new();
 
+		public ApplicationStatus ApplicationStatus { get; private set;}
+
 		public LandAndBuildingsSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
@@ -41,7 +43,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		///<inheritdoc/>
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+
 		{
+			var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
+		    ApplicationStatus = applicationDetails.ApplicationStatus;
 			var landAndBuildings = selectedSchool.LandAndBuildings;
 
 			SchoolLandAndBuildingsSummaryHeadingViewModel heading1 = new(SchoolLandAndBuildingsSummaryHeadingViewModel.Heading,

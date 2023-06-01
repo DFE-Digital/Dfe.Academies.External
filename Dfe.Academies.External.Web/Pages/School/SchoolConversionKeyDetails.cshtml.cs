@@ -16,10 +16,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 		//// MR:- VM props to show school conversion data
 		public List<SchoolConversionComponentHeadingViewModel> ViewModel { get; set; } = new();
 
+		public ApplicationStatus ApplicationStatus  { get; private set; } 
+
 		public SchoolConversionKeyDetailsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
+			
 		}
 
 		///<inheritdoc/>
@@ -45,6 +48,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
+
+			 var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
+			 ApplicationStatus = applicationDetails.ApplicationStatus;
+
 			SchoolConversionComponentHeadingViewModel contactsSection =
 				new(SchoolConversionComponentHeadingViewModel.HeadingApplicationContactDetails,
 				"/school/SchoolMainContacts")
@@ -67,12 +74,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 						));
 			contactsSection.Sections.Add(
 				new(
-					SchoolConversionComponentSectionViewModel.ContactDetailsHeadteacherTelNoSectionName,
-					!string.IsNullOrWhiteSpace(selectedSchool.SchoolConversionContactHeadTel) ?
-						selectedSchool.SchoolConversionContactHeadTel : QuestionAndAnswerConstants.NoInfoAnswer
-						));
-			contactsSection.Sections.Add(
-				new(
 					SchoolConversionComponentSectionViewModel.ContactDetailsChairNameSectionName,
 					!string.IsNullOrWhiteSpace(selectedSchool.SchoolConversionContactChairName) ?
 						selectedSchool.SchoolConversionContactChairName : QuestionAndAnswerConstants.NoInfoAnswer
@@ -82,12 +83,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 					SchoolConversionComponentSectionViewModel.ContactDetailsChairEmailSectionName,
 					!string.IsNullOrWhiteSpace(selectedSchool.SchoolConversionContactChairEmail) ?
 						selectedSchool.SchoolConversionContactChairEmail : QuestionAndAnswerConstants.NoInfoAnswer
-						));
-			contactsSection.Sections.Add(
-				new(
-					SchoolConversionComponentSectionViewModel.ContactDetailsChairTelNoSectionName,
-					!string.IsNullOrWhiteSpace(selectedSchool.SchoolConversionContactChairTel) ?
-						selectedSchool.SchoolConversionContactChairTel : QuestionAndAnswerConstants.NoInfoAnswer
 						));
 			contactsSection.Sections.Add(
 				new(
@@ -112,13 +107,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 						SchoolConversionComponentSectionViewModel.ContactDetailsMainContactOtherEmailSectionName,
 						!string.IsNullOrWhiteSpace(selectedSchool.SchoolConversionMainContactOtherEmail) ?
 							selectedSchool.SchoolConversionMainContactOtherEmail : QuestionAndAnswerConstants.NoInfoAnswer
-						));
-
-				contactsSection.Sections.Add(
-					new(
-						SchoolConversionComponentSectionViewModel.ContactDetailsMainContactOtherTelephoneSectionName,
-						!string.IsNullOrWhiteSpace(selectedSchool.SchoolConversionMainContactOtherTelephone) ?
-							selectedSchool.SchoolConversionMainContactOtherTelephone : QuestionAndAnswerConstants.NoInfoAnswer
 						));
 			}
 			contactsSection.Sections.Add(

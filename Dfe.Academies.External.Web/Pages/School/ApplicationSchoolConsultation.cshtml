@@ -8,74 +8,72 @@
 }
 
 @section BeforeMain
-{
+    {
     <a asp-page="ApplicationSchoolConsultationSummary" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">
-		Back
-	</a>
+        Back
+    </a>
 }
 
-<div class="govuk-grid-column-two-thirds">
-    <span class="govuk-caption-l">
-        @Model.SchoolName
-    </span>
-    <h1 class="govuk-heading-l">
-        Consultation
-    </h1>
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">
+            @Model.SchoolName
+        </span>
+        <h1 class="govuk-heading-l">
+            Consultation
+        </h1>
 
-	<p class="govuk-body">
-        Schools must consult any stakeholders relevant to the conversion
-	</p>
+        <p class="govuk-body">
+            Schools must consult any stakeholders relevant to the conversion
+        </p>
 
-	<form method="post" name="frmApplicationSchoolConsultation" novalidate="">
-		@Html.AntiForgeryToken()
-		<input type="hidden" asp-for="Urn"/>
-		<input type="hidden" asp-for="ApplicationId"/>
-		<partial name="_HiddenFields"/>
-        
-		<div class="@(!ViewData.ModelState.IsValid && !Model.HasError ? "govuk-form-group--error" : "")">
-			<fieldset class="govuk-fieldset">
-				<legend id="role-hint" class="govuk-fieldset__legend">Has the governing body consulted the relevant stakeholders?</legend>
-				<div class="@(Model.HasError ? "govuk-visually-hidden" : "")">
-					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
-				</div>        
+        <form method="post" name="frmApplicationSchoolConsultation" novalidate="">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Urn" />
+            <input type="hidden" asp-for="ApplicationId" />
+            <partial name="_HiddenFields" />
 
-				<div class="govuk-form-group">
-					<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-						@foreach (var consultationStakeholdersOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
-						{
-							<div class="govuk-radios__item">
-								<input type="radio"
-		                           asp-for="SchoolConsultationStakeholders"
-								       value="@Convert.ToInt32(consultationStakeholdersOption)"
-										id="consultationStakeholdersOption@(consultationStakeholdersOption)"
-								       class="govuk-radios__input"
-										data-aria-controls="consultationStakeholdersOption-@(consultationStakeholdersOption.ToString().ToLower())"
-										checked="@(consultationStakeholdersOption.Equals(ViewData.Model.SchoolConsultationStakeholders))"/>
-		                        <label for="consultationStakeholdersOption@(consultationStakeholdersOption)" class="govuk-label govuk-radios__label">
-									@consultationStakeholdersOption.GetDescription()
-								</label>
-							</div>
-		                    @if (consultationStakeholdersOption == SelectOption.No)
-							{
-                                <div class="@(Model.SchoolConsultationStakeholdersConsultError ? "govuk-form-group--error" : "govuk-radios__conditional"))"
-									id="consultationStakeholdersOption-no">
-									<div class="govuk-form-group govuk-error-summary__list">
-		                                <label for="SchoolConsultationStakeholdersConsult" class="govuk-label">When does the governing body plan to consult?</label>
-										<a href="#SchoolConsultationStakeholdersConsult" 
-										   class="@(Model.SchoolConsultationStakeholdersConsultError ? "govuk-error-message" : "govuk-visually-hidden")">
-											You must say when
-										</a>
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                    <legend id="role-hint" class="govuk-fieldset__legend">Has the governing body consulted the relevant stakeholders?</legend>
+                    <div class="@(Model.HasError ? "govuk-visually-hidden" : "")">
+                        <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel" />
+                    </div>
+
+                    <div id="SchoolConsultationStakeholders" class="govuk-form-group @(Model.IsPropertyInvalid("SchoolConsultationStakeholders") ? "govuk-form-group--error" : "") ">
+                        <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+                        @foreach (var consultationStakeholdersOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
+                        {
+                            <div class="govuk-radios__item">
+                                <input type="radio"
+                                   asp-for="SchoolConsultationStakeholders"
+                                   value="@Convert.ToInt32(consultationStakeholdersOption)"
+                                   id="consultationStakeholdersOption@(consultationStakeholdersOption)"
+                                   class="govuk-radios__input"
+                                   data-aria-controls="consultationStakeholdersOption-@(consultationStakeholdersOption.ToString().ToLower())"
+                                   checked="@(consultationStakeholdersOption.Equals(ViewData.Model.SchoolConsultationStakeholders))" />
+                                <label for="consultationStakeholdersOption@(consultationStakeholdersOption)" class="govuk-label govuk-radios__label">
+                                    @consultationStakeholdersOption.GetDescription()
+                                </label>
+                            </div>
+                            @if (consultationStakeholdersOption == SelectOption.No)
+                            {
+                                <div class="govuk-radios__conditional @(consultationStakeholdersOption == SelectOption.Yes ? "govuk-radios__conditional--hidden" : "")" id="consultationStakeholdersOption-no" aria-expanded="false">
+                                    <div id="SchoolConsultationStakeholdersConsultNotEntered" class="govuk-form-group @(Model.SchoolConsultationStakeholdersConsultError ? "govuk-form-group--error" : "")">
+                                        <label for="SchoolConsultationStakeholdersConsult" class="govuk-label">When does the governing body plan to consult?</label>
+                                        <label class="@(Model.SchoolConsultationStakeholdersConsultError ? "govuk-error-message" : "govuk-visually-hidden")">
+                                            You must provide details
+                                        </label>
                                         <textarea asp-for="SchoolConsultationStakeholdersConsult" id="SchoolConsultationStakeholdersConsult"
-		                                  class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
-									</div>
-								</div>
-							}
-						}
-					</div>
-				</div>		
-			</fieldset>
-		</div>
-		<br/>
-		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
-	</form>
+                                          class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <br />
+        <input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
+    </form>
 </div>

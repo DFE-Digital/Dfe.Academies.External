@@ -27,13 +27,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public decimal RepaymentAmount { get; set; }
 
 		[BindProperty]
-		[Range(0, 200000000000000, ErrorMessage = "Interest rate must be greater than 0")]
 		[Required(ErrorMessage = "You must provide details")]
 		public decimal InterestRate { get; set; }
 
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
+
 		public decimal PaymentsToDate { get; set; }
+
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
 		public string Purpose { get; set; }
@@ -96,9 +97,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public async Task<IActionResult> OnPostAsync()
 		{
-			if (!ModelState.IsValid)
+			if (!RunUiValidation())
 			{
-				PopulateValidationMessages();
 				return Page();
 			}
 
@@ -136,6 +136,22 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
+			
+			if (RepaymentAmount <= 0)
+			{
+				ModelState.AddModelError("RepaymentAmountError", "Repayment value must be above 0");			
+			}
+				
+			if (InterestRate  <= 0)
+			{
+				ModelState.AddModelError("InterestRateAmountError", "Interest rate must be above 0");			
+			}
+
+			if (PaymentsToDate <= 0)
+			{
+				ModelState.AddModelError("PaymentsToDateAmountError", "Payments to date must be above 0");			
+			}
+
 			if (!ModelState.IsValid)
 			{
 				PopulateValidationMessages();

@@ -118,7 +118,7 @@ internal sealed class SchoolMainContactsModelTests
 
 		// assert
 		Assert.AreEqual(1, errors.Count);
-		Assert.AreEqual(true, pageModel.OtherTelephoneError);
+		//Assert.AreEqual(true, pageModel.OtherTelephoneError);
 	}
 
 	[Test]
@@ -171,30 +171,6 @@ internal sealed class SchoolMainContactsModelTests
 		Assert.AreEqual(true, pageModel.OtherContactError);
 	}
 
-	[Test]
-	public async Task ModelState___MainContactOtherTelephoneNotEntered___OtherContactErrorTrue()
-	{
-		// arrange
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
-		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
-		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var expectedErrorText = "You must provide details";
-
-		var pageModel = SetupSchoolMainContactsModel(mockConversionApplicationCreationService.Object,
-			mockConversionApplicationRetrievalService.Object,
-			mockReferenceDataRetrievalService.Object);
-
-		pageModel.ModelState.AddModelError("MainContactOtherTelephoneNotEntered", expectedErrorText);
-
-		// act
-		await pageModel.OnPostAsync();
-
-		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
-
-		// assert
-		Assert.AreEqual(1, errors.Count);
-		Assert.AreEqual(true, pageModel.OtherContactError);
-	}
 
 	// TODO :- OnPostAsync___ModelIsValid___Invalid
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses

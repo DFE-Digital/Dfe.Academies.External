@@ -33,9 +33,9 @@
 				        <label for="ChangesToLaGovernanceOption" class="govuk-caption-l">
 					        For example, setting up a local sub-regional hub or changes to any schemes of delegation.
 				        </label>
-				        <div class="govuk-!-margin-6"></div>
+				        <div class="govuk-!-margin-6" id="ChangesToLaGovernanceOptionNotSelected"></div>
 				        <div class="govuk-form-group">
-					        @foreach (var changesToLaGovernanceOption in Enum.GetValues<SelectOption>().OrderByDescending(x => x == SelectOption.Yes))
+					        @foreach (var changesToLaGovernanceOption in Enum.GetValues<SelectOption>().OrderByDescending(x => x.ToString()))
 					        {
 						        <div class="govuk-radios__item">
 							        <input type="radio"
@@ -53,18 +53,16 @@
 
 						        @if (changesToLaGovernanceOption == SelectOption.Yes)
 						        {
-							        <div class="@(Model.ChangesToLaGovernanceDetailsError ? "govuk-form-group--error" : "govuk-radios__conditional")
-										@(Model.ChangesToLaGovernanceOption != SelectOption.Yes ? "govuk-radios__conditional--hidden" : "")"
-							             id="changesToLaGovernance-yes" aria-expanded="false">
-								        <a href="#ChangesToLaGovernanceExplainedNotEntered"
-								           class="@(Model.ChangesToLaGovernanceDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
+							        <div class="govuk-radios__conditional @(Model.ChangesToLaGovernanceOption != SelectOption.Yes ? "govuk-radios__conditional--hidden" : "")"
+							             id="changesToLaGovernance-yes">
+								        <a class="@(Model.ChangesToLaGovernanceDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
 									        You must enter the details of the changes to the governance
 								        </a>
-								        <label for="ChangesToLaGovernanceExplained" class="govuk-label">
+								        <label id="ChangesToLaGovernanceExplainedNotEntered" for="ChangesToLaGovernanceExplained" class="govuk-label">
 									        What are the changes and how do they fit into the current lines of accountability in the trust?
 								        </label>
 								        <textarea asp-for="ChangesToLaGovernanceExplained" id="ChangesToLaGovernanceExplained"
-											class="govuk-textarea" cols="40" rows="5" maxlength="200"></textarea>
+											class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
 							        </div>
 						        }
 					        }

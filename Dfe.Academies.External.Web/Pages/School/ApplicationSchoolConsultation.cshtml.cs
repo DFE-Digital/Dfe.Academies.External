@@ -1,6 +1,7 @@
 ﻿using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -13,7 +14,7 @@ public class ApplicationSchoolConsultationModel : BaseSchoolPageEditModel
 	// MR:- VM props to capture data
 	[BindProperty]
 	[RequiredEnum(ErrorMessage = "You must choose an option")]
-	public SelectOption SchoolConsultationStakeholders { get; set; }
+	public SelectOption? SchoolConsultationStakeholders { get; set; }
 
 	[BindProperty]
 	public string? SchoolConsultationStakeholdersConsult { get; set; }
@@ -93,7 +94,7 @@ public class ApplicationSchoolConsultationModel : BaseSchoolPageEditModel
 	///<inheritdoc/>
 	public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
-		SchoolConsultationStakeholders = selectedSchool.SchoolHasConsultedStakeholders != null && selectedSchool.SchoolHasConsultedStakeholders.Value ? SelectOption.Yes : SelectOption.No;
+		SchoolConsultationStakeholders = selectedSchool.SchoolHasConsultedStakeholders.GetEnumValue();
 		SchoolConsultationStakeholdersConsult = selectedSchool.SchoolPlanToConsultStakeholders;
 	}
 }

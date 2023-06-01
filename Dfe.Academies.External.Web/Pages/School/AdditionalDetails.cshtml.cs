@@ -4,6 +4,7 @@ using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Exceptions;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -18,36 +19,37 @@ namespace Dfe.Academies.External.Web.Pages.School
 		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
 		
 		[BindProperty]
+		[Required(ErrorMessage = "You must provide details")]
 		public string? TrustBenefitDetails { get; set; }
 		
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption OfstedInspected { get; set; }
+		public SelectOption? OfstedInspected { get; set; }
 		
 		[BindProperty]
 		public string? OfstedInspectionDetails { get; set; }
 		
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption SafeguardingInvestigations { get; set; }
+		public SelectOption? SafeguardingInvestigations { get; set; }
 		
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption LocalAuthorityReorganisation { get; set; }
+		public SelectOption? LocalAuthorityReorganisation { get; set; }
 		
 		[BindProperty]
 		public string? LocalAuthorityReorganisationDetails { get; set; }
 		
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption LocalAuthorityClosurePlans { get; set; }
+		public SelectOption? LocalAuthorityClosurePlans { get; set; }
 		
 		[BindProperty]
 		public string? LocalAuthorityClosurePlanDetails { get; set; }
 		
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption LinkedToDiocese { get; set; }
+		public SelectOption? LinkedToDiocese { get; set; }
 		
 		[BindProperty]
 		public string? DioceseName { get; set; }
@@ -61,11 +63,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 		
 		//No additional text box
 		[BindProperty]
-		public SelectOption PartOfFederation { get; set; }
+		[RequiredEnum(ErrorMessage = "You must provide details")]
+		public SelectOption? PartOfFederation { get; set; }
 		
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption SupportedByFoundationTrustOrBody { get; set; }
+		public SelectOption? SupportedByFoundationTrustOrBody { get; set; }
 		
 		[BindProperty]
 		public string? FoundationTrustOrBodyName { get; set; }
@@ -79,7 +82,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption ExemptionFromSACRE { get; set; }
+		public SelectOption? ExemptionFromSACRE { get; set; }
 		
 		[BindProperty]
 		public DateTimeOffset? ExemptionEndDate { get; set; }
@@ -99,6 +102,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public string? ExemptionEndDateYear { get; set; }
 		
 		[BindProperty]
+		[Required(ErrorMessage = "Please provide a list of your main feeder schools")]
+
 		public string MainFeederSchools { get; set; }
 
 		[DataType(DataType.Upload)]
@@ -111,14 +116,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption EqualityAssessment { get; set; }
+		public SelectOption? EqualityAssessment { get; set; }
 		
 		[BindProperty]
 		public SchoolEqualitiesProtectedCharacteristics? DisproportionateProtectedCharacteristics { get; set; }
 		
 		[BindProperty]
 		[RequiredEnum(ErrorMessage = "You must provide details")]
-		public SelectOption FurtherInformation { get; set; }
+		public SelectOption? FurtherInformation { get; set; }
 		
 		[BindProperty]
 		public string? FurtherInformationDetails { get; set; }
@@ -294,78 +299,47 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public override bool RunUiValidation()
 		{
-			if (string.IsNullOrWhiteSpace(TrustBenefitDetails))
-			{
-				ModelState.AddModelError("TrustBenefitDetailsNotAdded", "You must enter details of the trust benefit");
-				PopulateValidationMessages();
-				return false;
-			}
 			if (OfstedInspected == SelectOption.Yes && string.IsNullOrWhiteSpace(OfstedInspectionDetails))
 			{
 				ModelState.AddModelError("OfstedInspectionDetailsNotAdded", "You must enter Ofsted inspection details");
-				PopulateValidationMessages();
-				return false;
 			}
 			if (LocalAuthorityReorganisation == SelectOption.Yes && string.IsNullOrWhiteSpace(LocalAuthorityReorganisationDetails))
 			{
 				ModelState.AddModelError("LocalAuthorityReorganisationDetailsNotAdded", "You must enter details of the reorganisation");
-				PopulateValidationMessages();
-				return false;
 			}
 			if (LocalAuthorityClosurePlans == SelectOption.Yes && string.IsNullOrWhiteSpace(LocalAuthorityClosurePlanDetails))
 			{
 				ModelState.AddModelError("localAuthorityClosurePlanDetailsNotAdded", "You must enter details of the closure plans");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			if (LinkedToDiocese == SelectOption.Yes && string.IsNullOrWhiteSpace(DioceseName))
 			{
 				ModelState.AddModelError("DioceseNameNotAdded", "You must enter the name of the diocese");
-				PopulateValidationMessages();
-				return false;
 			}
 			if (SupportedByFoundationTrustOrBody == SelectOption.Yes && string.IsNullOrWhiteSpace(FoundationTrustOrBodyName))
 			{
 				ModelState.AddModelError("FoundationTrustOrBodyNameNotAdded", "You must enter the name of the body");
-				PopulateValidationMessages();
-				return false;
 			}
 			
 			if (ExemptionFromSACRE == SelectOption.Yes && (!ExemptionEndDate.HasValue ||
 			    ExemptionEndDate.Value == DateTimeOffset.MinValue))
 			{
 				ModelState.AddModelError("exemptionFromSACREEndDateNotAdded", "You must enter a valid date");
-				PopulateValidationMessages();
-				return false;
-			}
-
-			if (string.IsNullOrWhiteSpace(MainFeederSchools))
-			{
-				ModelState.AddModelError("MainFeederSchoolsDetailsNotAdded", "You must provide details");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			if (EqualityAssessment == SelectOption.Yes && DisproportionateProtectedCharacteristics == null)
 			{
 				ModelState.AddModelError("equalitiesImpactAssessmentOptionNoOptionSelected", "You must select an equalities impact assessment option");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			if (FurtherInformation == SelectOption.Yes && string.IsNullOrWhiteSpace(FurtherInformationDetails))
 			{
 				ModelState.AddModelError("furtherInformationDetailsNotAdded", "You must provide details");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			foreach (var file in ResolutionConsentFiles.Where(file => file.Length >= 5 * 1024 * 1024))
 			{
 				ModelState.AddModelError(nameof(ResolutionConsentFileSizeError), $"File: {file.FileName} is too large");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			if (FoundationConsentFiles != null)
@@ -373,8 +347,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				foreach (var file in FoundationConsentFiles.Where(file => file.Length >= 5 * 1024 * 1024))
 				{
 					ModelState.AddModelError(nameof(FoundationConsentFileSizeError), $"File: {file.FileName} is too large");
-					PopulateValidationMessages();
-					return false;
 				}
 			}
 
@@ -383,8 +355,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 				foreach (var file in DioceseFiles.Where(file => file.Length >= 5 * 1024 * 1024))
 				{
 					ModelState.AddModelError(nameof(DioceseFileSizeError), $"File: {file.FileName} is too large");
-					PopulateValidationMessages();
-					return false;
 				}
 			}
 
@@ -415,41 +385,47 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
+			var sectionStarted = !string.IsNullOrEmpty(selectedSchool.TrustBenefitDetails);
+
 			SchoolName = selectedSchool.SchoolName;
 			TrustBenefitDetails = selectedSchool.TrustBenefitDetails;
 			OfstedInspectionDetails = selectedSchool.OfstedInspectionDetails;
+
 			OfstedInspected = selectedSchool.OfstedInspectionDetails == null
-				? SelectOption.No
+				? (sectionStarted ? SelectOption.No : null)
 				: SelectOption.Yes;
-			SafeguardingInvestigations = selectedSchool.Safeguarding ? SelectOption.Yes : SelectOption.No;
+
+			SafeguardingInvestigations = (sectionStarted ? selectedSchool.Safeguarding.GetEnumValue() : null);
 			LocalAuthorityReorganisation = selectedSchool.LocalAuthorityReorganisationDetails == null
-				? SelectOption.No
+				? (sectionStarted ? SelectOption.No : null)
 				: SelectOption.Yes;
 			LocalAuthorityReorganisationDetails = selectedSchool.LocalAuthorityReorganisationDetails;
+
 			LocalAuthorityClosurePlans = selectedSchool.LocalAuthorityClosurePlanDetails == null
-				? SelectOption.No
+				? (sectionStarted ? SelectOption.No : null)
 				: SelectOption.Yes;
+
 			LocalAuthorityClosurePlanDetails = selectedSchool.LocalAuthorityClosurePlanDetails;
 			DioceseName = selectedSchool.DioceseName;
 			LinkedToDiocese = selectedSchool.DioceseName == null
-				? SelectOption.No
+				? (sectionStarted ? SelectOption.No : null)
 				: SelectOption.Yes;
 
-			PartOfFederation = selectedSchool.PartOfFederation ? SelectOption.Yes : SelectOption.No;
+			PartOfFederation = (sectionStarted ? selectedSchool.PartOfFederation.GetEnumValue() : null);
 			FoundationTrustOrBodyName = selectedSchool.FoundationTrustOrBodyName;
 			SupportedByFoundationTrustOrBody = selectedSchool.FoundationTrustOrBodyName == null
-				? SelectOption.No
+				? (sectionStarted ? SelectOption.No : null)
 				: SelectOption.Yes;
 
 			ExemptionEndDate = selectedSchool.ExemptionEndDate;
-			ExemptionFromSACRE = ExemptionEndDate.HasValue ? SelectOption.Yes : SelectOption.No;
+			ExemptionFromSACRE = ExemptionEndDate.HasValue ? SelectOption.Yes : (sectionStarted ? SelectOption.No : null);
 			
 			MainFeederSchools = selectedSchool.MainFeederSchools;
 			
 			DisproportionateProtectedCharacteristics = selectedSchool.ProtectedCharacteristics;
-			EqualityAssessment = DisproportionateProtectedCharacteristics.HasValue ? SelectOption.Yes : SelectOption.No;
+			EqualityAssessment = DisproportionateProtectedCharacteristics.HasValue ? SelectOption.Yes : (sectionStarted ? SelectOption.No : null);
 			FurtherInformation = selectedSchool.FurtherInformation == null 
-				? SelectOption.No 
+				? (sectionStarted ? SelectOption.No : null)
 				: SelectOption.Yes;
 			FurtherInformationDetails = selectedSchool.FurtherInformation;
 			EntityId = selectedSchool.EntityId;

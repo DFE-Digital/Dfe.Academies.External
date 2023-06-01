@@ -36,52 +36,40 @@
 				</div>
 
 				<div class="govuk-form-group">
-					<label for="ContactHeadName" class="govuk-label">Name of headteacher</label>
-					<input type="text" asp-for="ViewModel.ContactHeadName" id="ContactHeadName"
+					<label for="ViewModel.ContactHeadName" class="govuk-label">Name of headteacher</label>
+					<input type="text" asp-for="ViewModel.ContactHeadName" id="ViewModel.ContactHeadName"
 					       class="govuk-input govuk-input--width-20"/>
 				</div>
 
 				<div class="govuk-form-group">
-					<label for="ContactHeadEmail" class="govuk-label">Headteacher's email address</label>
+					<label for="ViewModel.ContactHeadEmail" class="govuk-label">Headteacher's email address</label>
 					<span class="govuk-hint">
 						We will only use this to contact you regarding your application
 					</span>
-					<input type="email" asp-for="ViewModel.ContactHeadEmail" id="ContactHeadEmail"
+					<input type="email" asp-for="ViewModel.ContactHeadEmail" id="ViewModel.ContactHeadEmail"
 					       class="govuk-input govuk-input--width-20"/>
 				</div>
 
 				<div class="govuk-form-group">
-					<label for="ContactHeadTel" class="govuk-label">Headteacher's telephone number</label>
-					<input type="number" asp-for="ViewModel.ContactHeadTel" id="ContactHeadTel"
+					<label for="ViewModel.ContactChairName" class="govuk-label">Name of the chair of the governing body</label>
+					<input type="text" asp-for="ViewModel.ContactChairName" id="ViewModel.ContactChairName"
 					       class="govuk-input govuk-input--width-20"/>
 				</div>
 
 				<div class="govuk-form-group">
-					<label for="ContactChairName" class="govuk-label">Name of the chair of the governing body</label>
-					<input type="text" asp-for="ViewModel.ContactChairName" id="ContactChairName"
-					       class="govuk-input govuk-input--width-20"/>
-				</div>
-
-				<div class="govuk-form-group">
-					<label for="ContactChairEmail" class="govuk-label">Chair's email address</label>
+					<label for="ViewModel.ContactChairEmail" class="govuk-label">Chair's email address</label>
 					<span class="govuk-hint">
 						We will only use this to contact you regarding your application
 					</span>
-					<input type="email" asp-for="ViewModel.ContactChairEmail" id="ContactChairEmail"
+					<input type="email" asp-for="ViewModel.ContactChairEmail" id="ViewModel.ContactChairEmail"
 					       class="govuk-input govuk-input--width-20"/>
 				</div>
-
-				<div class="govuk-form-group">
-					<label for="ContactChairTel" class="govuk-label">Chair's telephone number</label>
-					<input type="number" asp-for="ViewModel.ContactChairTel" id="ContactChairTel"
-					       class="govuk-input govuk-input--width-20"/>
-				</div>
-
 				<div class="govuk-form-group">
 					<span class="govuk-fieldset__legend govuk-fieldset__legend--s">
 						Who is the main contact for the conversion?
 					</span>
 					<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+						<div id="ViewModel.ContactRole">
 						@foreach (var conversionContactType in Enum.GetValues(typeof(MainConversionContact)).OfType<MainConversionContact>())
 						{
 							<div class="govuk-radios__item">
@@ -99,29 +87,35 @@
 							</div>
 							@if (conversionContactType == MainConversionContact.Other)
 							{
+
 								<div class="@(Model.OtherContactError ? "govuk-form-group--error" : "govuk-radios__conditional")
 	                                            @(Model.ViewModel.ContactRole != MainConversionContact.Other ? "govuk-radios__conditional--hidden" : "")"
 								     id="conditional-contacttype-other" aria-expanded="false">
 									<div class="govuk-form-group govuk-error-summary__list">
+										<div id ="MainContactOtherNameNotEntered">
 										<label for="conditional-contacttype-other" class="govuk-label">Name</label>
+										<label for="MainContactOtherNamey" class="govuk-label">
 										<input type="text" asp-for="@Model.ViewModel.MainContactOtherName" id="MainContactOtherName"
 										       class="govuk-input govuk-input--width-20"/>
-
+                                        </label>
+										</div>
+										<div id ="MainContactOtherEmailNotEntered">
 										<label for="conditional-contacttype-other" class="govuk-label">Email address</label>
 										<span class="govuk-hint">
 											We will only use this to contact you regarding your application
 										</span>
+									    </div>
+										<label for="MainContactOtherEmail" class="govuk-label">
 										<input type="email" asp-for="@Model.ViewModel.MainContactOtherEmail" id="MainContactOtherEmail"
 										       class="govuk-input govuk-input--width-20"/>
+											   </label>
+                                    </div>
 
-										<label for="conditional-contacttype-other" class="govuk-label">Telephone number</label>
-										<input type="number" asp-for="@Model.ViewModel.MainContactOtherTelephone" id="MainContactOtherTelephone"
-										       class="govuk-input govuk-input--width-20"/>
-									</div>
 								</div>
 							}
 						}
 					</div >
+					</div>
 				</div>
 
 				<div class="govuk-form-group">

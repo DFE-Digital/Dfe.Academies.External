@@ -1,5 +1,6 @@
 ﻿using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
@@ -19,7 +20,10 @@ namespace Dfe.Academies.External.Web.Pages.School
 	
 	    [BindProperty]
 	    public string ApplicationReference { get; set; }
+		
+		public ApplicationStatus ApplicationStatus {get; private set;}
 
+	
 	    
 	    public FurtherInformationSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		    IReferenceDataRetrievalService referenceDataRetrievalService, IFileUploadService fileUploadService)
@@ -47,12 +51,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// does not apply on this page
 			return new();
 		}
+        
 		
 	    private FurtherInformationSummaryViewModel PopulateFurtherInformation(SchoolApplyingToConvert selectedSchool)
 	    {
 		    var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
 		    EntityId = selectedSchool.EntityId;
 		    ApplicationReference = applicationDetails.ApplicationReference;
+			ApplicationStatus = applicationDetails.ApplicationStatus;
 		    var sectionStarted = !string.IsNullOrEmpty(selectedSchool.TrustBenefitDetails);
 			// Heading
 			FurtherInformationSummaryViewModel FISheading = new(FurtherInformationSummaryViewModel.AdditionalDetailsHeading,
@@ -77,7 +83,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			FISheading.Sections.Add(new(
 				FurtherInformationSectionViewModel.SafeguardingInvestigations,
 				sectionStarted ?
-					(selectedSchool.Safeguarding ? "Yes" : "No") : QuestionAndAnswerConstants.NoInfoAnswer)
+					(selectedSchool.Safeguarding.GetStringDescription()) : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			
 			FISheading.Sections.Add(new(
@@ -101,7 +107,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			FISheading.Sections.Add(new(
 				FurtherInformationSectionViewModel.Federation,
 				sectionStarted ?
-					((selectedSchool.PartOfFederation) ? "Yes" : "No") : QuestionAndAnswerConstants.NoInfoAnswer)
+					(selectedSchool.PartOfFederation.GetStringDescription()) : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			
 			FISheading.Sections.Add(new(

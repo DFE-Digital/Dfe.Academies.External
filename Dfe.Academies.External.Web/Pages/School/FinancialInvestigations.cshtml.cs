@@ -1,6 +1,7 @@
 ﻿using Dfe.Academies.External.Web.Attributes;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
@@ -12,7 +13,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	{
 		// MR:- VM props to capture data
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must select an option")]
+		[RequiredEnum(ErrorMessage = "You must provide details")]
 		public SelectOption? FinanceOngoingInvestigations { get; set; }
 
 		[BindProperty]
@@ -94,22 +95,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
-			if (!ModelState.IsValid)
-			{
-				PopulateValidationMessages();
-				return false;
-			}
-
 			if (FinanceOngoingInvestigations == SelectOption.Yes && string.IsNullOrWhiteSpace(FinancialInvestigationsExplain))
 			{
 				ModelState.AddModelError("FinancialInvestigationsExplainNotEntered", "You must provide details of the investigation");
-				PopulateValidationMessages();
-				return false;
 			}
 
 			if (FinanceOngoingInvestigations == SelectOption.Yes && !FinancialInvestigationsTrustAware.HasValue)
 			{
-				ModelState.AddModelError("FinancialInvestigationsTrustAwareNotSelected", "You must select an option");
+				ModelState.AddModelError("FinancialInvestigationsTrustAwareNotSelected", "You must provide details");
+			}			
+			
+			if (!ModelState.IsValid)
+			{
 				PopulateValidationMessages();
 				return false;
 			}
@@ -150,9 +147,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 		///<inheritdoc/>
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
-			FinanceOngoingInvestigations = selectedSchool.FinanceOngoingInvestigations != null && selectedSchool.FinanceOngoingInvestigations.Value ? SelectOption.Yes : SelectOption.No;
+			FinanceOngoingInvestigations = selectedSchool.FinanceOngoingInvestigations.GetEnumValue();
 			FinancialInvestigationsExplain = selectedSchool.FinancialInvestigationsExplain;
-			FinancialInvestigationsTrustAware = selectedSchool.FinancialInvestigationsTrustAware != null && selectedSchool.FinancialInvestigationsTrustAware.Value ? SelectOption.Yes : SelectOption.No; 
+			FinancialInvestigationsTrustAware = selectedSchool.FinancialInvestigationsTrustAware.GetEnumValue(); ; 
 		}
 	}
 }

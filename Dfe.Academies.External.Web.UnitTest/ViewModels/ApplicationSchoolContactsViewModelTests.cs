@@ -27,10 +27,8 @@ internal sealed class ApplicationSchoolContactsViewModelTests
 		{
 			ContactHeadName = contactHeadName,
 			ContactHeadEmail = contactHeadEmail,
-			ContactHeadTel = contactHeadTel,
 			ContactChairName = contactChairName,
 			ContactChairEmail = contactChairEmail,
-			ContactChairTel = contactChairTel,
 			ContactRole = contactRole
 		};
 
@@ -43,10 +41,8 @@ internal sealed class ApplicationSchoolContactsViewModelTests
 		Assert.That(schoolDetailsViewModel.Urn, Is.EqualTo(urn));
 		Assert.That(schoolDetailsViewModel.ContactHeadName, Is.EqualTo(contactHeadName));
 		Assert.That(schoolDetailsViewModel.ContactHeadEmail, Is.EqualTo(contactHeadEmail));
-		Assert.That(schoolDetailsViewModel.ContactHeadTel, Is.EqualTo(contactHeadTel));
 		Assert.That(schoolDetailsViewModel.ContactChairName, Is.EqualTo(contactChairName));
 		Assert.That(schoolDetailsViewModel.ContactChairEmail, Is.EqualTo(contactChairEmail));
-		Assert.That(schoolDetailsViewModel.ContactChairTel, Is.EqualTo(contactChairTel));
 		Assert.That(schoolDetailsViewModel.ContactRole, Is.EqualTo(contactRole));
 	}
 }

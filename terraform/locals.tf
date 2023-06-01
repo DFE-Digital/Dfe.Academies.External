@@ -8,6 +8,7 @@ locals {
   image_name                                       = var.image_name
   container_command                                = var.container_command
   container_secret_environment_variables           = var.container_secret_environment_variables
+  container_max_replicas                           = var.container_max_replicas
   enable_cdn_frontdoor                             = var.enable_cdn_frontdoor
   enable_event_hub                                 = var.enable_event_hub
   enable_dns_zone                                  = var.enable_dns_zone
@@ -22,9 +23,12 @@ locals {
   cdn_frontdoor_custom_domains                     = var.cdn_frontdoor_custom_domains
   cdn_frontdoor_host_redirects                     = var.cdn_frontdoor_host_redirects
   cdn_frontdoor_origin_fqdn_override               = var.cdn_frontdoor_origin_fqdn_override
+  cdn_frontdoor_origin_host_header_override        = var.cdn_frontdoor_origin_host_header_override
   key_vault_access_users                           = toset(var.key_vault_access_users)
+  key_vault_access_ipv4                            = var.key_vault_access_ipv4
   tfvars_filename                                  = var.tfvars_filename
   enable_monitoring                                = var.enable_monitoring
+  enable_container_health_probe                    = var.enable_container_health_probe
   monitor_email_receivers                          = var.monitor_email_receivers
   monitor_enable_slack_webhook                     = var.monitor_enable_slack_webhook
   monitor_slack_webhook_receiver                   = var.monitor_slack_webhook_receiver
