@@ -1,4 +1,6 @@
-import { url, login_username, login_password } from '../../config'
+
+import * as dotenv from 'dotenv';
+dotenv.config(); // Load the .env file
 import Header from '../page-objects/components/Header'
 import CookieHeaderModal from '../page-objects/components/CookieHeaderModal'
 import A2BHome from '../page-objects/pages/A2BHome'
@@ -6,16 +8,15 @@ import A2BLogin from '../page-objects/pages/A2BLogin'
 import A2BYourApplications from '../page-objects/pages/A2BYourApplications'
 import Footer from '../page-objects/components/Footer'
 
-describe('Login Tests', () => {
+describe('Login Tests', ():void => {
+  let login_username = Cypress.env('LOGIN_USERNAME')
+  let login_password = Cypress.env('LOGIN_PASSWORD')
+beforeEach(function() {
+cy.log('url = ' + Cypress.env('URL'))
+cy.log('username = ' + Cypress.env('LOGIN_USERNAME'))
 
-  beforeEach(function() {
-    // OK TEST IS BREAKING ON THE url VALUE - LET'S LOOK INSIDE IT TO DEBUG
-    cy.debug() // ATTEMPTING TO SLOW CYPRESS DOWN TO LOOK INSIDE THE VAR
-    console.log("url var = " + url)
-    console.log("username var = " + login_username)
-    console.log(login_password)
+cy.visit(Cypress.env('URL'))
 
-    cy.visit(url)
 
     Header.govUkHeaderVisible()
     Header.applyToBecomeAnAcademyHeaderLinkVisible()
