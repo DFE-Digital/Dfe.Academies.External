@@ -1,4 +1,4 @@
-import { url, login_username, login_password } from "../../config";
+
 import Header from "../page-objects/components/Header";
 import CookieHeaderModal from "../page-objects/components/CookieHeaderModal";
 import A2BHome from "../page-objects/pages/A2BHome";
@@ -42,7 +42,7 @@ import Footer from "../page-objects/components/Footer";
 
 describe("View Application Tests", () => {
   beforeEach(function () {
-    cy.visit(url);
+    cy.visit(Cypress.env('URL'));
 
     Header.govUkHeaderVisible();
     Header.applyToBecomeAnAcademyHeaderLinkVisible();
@@ -56,7 +56,7 @@ describe("View Application Tests", () => {
   });
 
   it("should be able to create a New Application", () => {
-    A2BLogin.login(login_username, login_password);
+    A2BLogin.login(Cypress.env('LOGIN_USERNAME'), Cypress.env('LOGIN_PASSWORD'));
 
     A2BYourApplications.selectStartANewApplication();
 
