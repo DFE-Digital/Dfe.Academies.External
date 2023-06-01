@@ -3,7 +3,6 @@ import DataGenerator from "../fixtures/data-generator";
 
 require('dotenv').config() // Load the .env file
 
-
 import { dfeSignInTestEnvURLForA2BDevAndA2BTest, dfeSignInTestEnvForgotPasswordCodeInputURLForA2BDevAndA2BTest, dfeSignInTestEnvCreateAccountForA2BDevAndA2BTest } from '../../customConfig'
 
 import 'cypress-file-upload';
