@@ -11,9 +11,4 @@ static selectSchoolName()
     cy.selectSchoolName()
 }
 
-static changeSchoolName() 
-{
-    cy.changeSchoolName()
-}
-
 }
