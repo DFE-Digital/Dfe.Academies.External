@@ -122,8 +122,8 @@ jobs:
               --output none
 
   cypress-tests:
-      needs: deploy-image
-      environment: ${{ steps.var.outputs.environment }}
+      needs: [ deploy-image, set-env ]
+      environment: ${{ needs.set-env.outputs.environment }}
       runs-on: ubuntu-latest
       defaults:
         run:
