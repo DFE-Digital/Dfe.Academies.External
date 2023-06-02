@@ -121,26 +121,34 @@ jobs:
               --image ${{ secrets.ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.release }} \
               --output none
 
-  # Re-enable once PR #374 is merged
-  # cypress-tests:
-  #     needs: deploy-image
-  #     environment: ${{ steps.var.outputs.environment }}
-  #     runs-on: ubuntu-latest
-  #     defaults:
-  #       run:
-  #         working-directory: Dfe.Academies.External.Web/CypressTests
-  #     steps:
-  #       - uses: actions/checkout@v2
-  #       - name: Setup node.js
-  #         uses: actions/setup-node@v3
-  #         with:
-  #           node-version: ${{ env.NODE_VERSION }}
-  #       - name: Npm install
-  #         run: npm install
-  #       - name: Run cypress
-  #         run: npm run cy:run
-  #       - uses: actions/upload-artifact@v1
-  #         if: failure()
-  #         with:
-  #           name: screenshots
-  #           path: Dfe.Academies.External.Web/CypressTests/cypress/screenshots
+  cypress-tests:
+      needs: deploy-image
+      environment: ${{ steps.var.outputs.environment }}
+      runs-on: ubuntu-latest
+      defaults:
+        run:
+          working-directory: Dfe.Academies.External.Web/CypressTests
+      steps:
+        - name: Checkout code
+        - uses: actions/checkout@v2
+
+        - name: Setup node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: ${{ env.NODE_VERSION }}
+        
+        - name: Npm install
+          run: npm install
+        
+        - name: Run cypress
+          run: npm run cy:run
+          env:
+            URL: ${{ vars.URL }}
+            LOGIN_USERNAME: ${{ vars.LOGIN_USERNAME }}
+            LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
+        
+        - uses: actions/upload-artifact@v1
+          if: failure()
+          with:
+            name: screenshots
+            path: Dfe.Academies.External.Web/CypressTests/cypress/screenshots
