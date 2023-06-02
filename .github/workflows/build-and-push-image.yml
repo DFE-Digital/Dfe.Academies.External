@@ -130,7 +130,7 @@ jobs:
           working-directory: Dfe.Academies.External.Web/CypressTests
       steps:
         - name: Checkout code
-        - uses: actions/checkout@v2
+          uses: actions/checkout@v2
 
         - name: Setup node.js
           uses: actions/setup-node@v3
@@ -141,14 +141,15 @@ jobs:
           run: npm install
         
         - name: Run cypress
-          run: npm run cy:run
           env:
             URL: ${{ vars.URL }}
             LOGIN_USERNAME: ${{ vars.LOGIN_USERNAME }}
             LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
+          run: npm run cy:run
         
-        - uses: actions/upload-artifact@v1
-          if: failure()
-          with:
-            name: screenshots
-            path: Dfe.Academies.External.Web/CypressTests/cypress/screenshots
+        - name: upload report
+          uses: actions/upload-artifact@v1
+            if: failure()
+            with:
+              name: screenshots
+              path: Dfe.Academies.External.Web/CypressTests/cypress/screenshots
