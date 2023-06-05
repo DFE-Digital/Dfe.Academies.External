@@ -4,100 +4,122 @@
 @using Dfe.Academies.External.Web.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-	ViewData["Title"] = "Apply to become an academy - Add a contributor";
+    ViewData["Title"] = "Apply to become an academy - Add a contributor";
 }
 
 @section BeforeMain
-{
+    {
     <a asp-page="ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">
-		Back
-	</a>
+        Back
+    </a>
 }
 
-<div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-column-two-thirds">
     @if (Model.ShowConfirmationBox)
     {
-	    <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-		    <div class="govuk-notification-banner__header">
-			    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-				    Success
-			    </h2>
-		    </div>
-		    <div class="govuk-notification-banner__content">
-			    <h3 class="govuk-notification-banner__heading">
-				    Contributor added
-			    </h3>
-                <p>@Model.Name has been sent an invitation to help with this application.</p>
-		    </div>
-	    </div>
+        <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
+         aria-labelledby="govuk-notification-banner-title"
+         data-module="govuk-notification-banner">
+            <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                    Success
+                </h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+                <h3 class="govuk-notification-banner__heading">
+                    Contributor added
+                </h3>
+                <p class="govuk-body">@Model.Name has been sent an invitation to help with this application.</p>
+            </div>
+        </div>
     }
 
-	<h1 class="govuk-heading-l">
-		Invite a contributor
-	</h1>
-
-	<p class="govuk-body-m">You can invite people to help you complete your application by providing their email address, name and role.</p>
-
-	<p class="govuk-body-m">They must have a DfE Sign-in account</p>
-
-	<form method="post" name="frmAddContributor" novalidate="">
-		@Html.AntiForgeryToken()
-		<input type="hidden" asp-for="ApplicationId"/>
-		<partial name="_HiddenFields"/>
-
-		<div class="govuk-form-group">
-			<label for="EmailAddress" class="govuk-heading-m">What is the email address of the person you want to invite?</label>
-			<input type="email" asp-for="EmailAddress" id="EmailAddress" class="govuk-input govuk-input--width-20"/>
-		</div>
-
-		<div class="govuk-form-group">
-			<label for="Name" class="govuk-heading-m">What is the name of the person you want to invite?</label>
-			<input type="text" asp-for="Name" id="Name" class="govuk-input govuk-input--width-20"/>
-		</div>
-
-		
-	<div id ="OtherRoleNotEntered">
-		<div class="govuk-form-group">
-          <fieldset class="govuk-fieldset">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-			<div id ="ContributorRole">
-              <h2 class="govuk-heading-m">
-                What is their role?
-            </h2>
-			  </div>
-            </legend>
-	          <div class="govuk-radios" data-module="govuk-radios">
-              <div class="@(Model.HideRadios ? "govuk-visually-hidden" : "govuk-radios__item")">
-                <input class="govuk-radios__input" id="role" name="ContributorRole" type="radio" value="@Convert.ToInt32(SchoolRoles.ChairOfGovernors)" data-aria-controls="conditional-role">
-                <label class="govuk-label govuk-radios__label" for="role">
-                  Chair of governers
-                </label>
-              </div>
-	            <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="role-2" name="ContributorRole" type="radio" value="@Convert.ToInt32(SchoolRoles.Other)" data-aria-controls="conditional-role-2">
-                <label class="govuk-label govuk-radios__label" for="role-2">
-                  Something else
-                </label>
-              </div>
-              <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-role-2">
-                <div class="govuk-form-group">
-                  <label class="govuk-label" for="OtherRoleNotListed">
-                    What is their role?
-                  </label>
-				  <label class="govuk-label" for="role-description">
-                  <input class="govuk-input govuk-!-width-one-third" id="role-description" name="OtherRoleNotListed" type="text" spellcheck="true">
-				  </label>
-                </div>
-              </div>
+    @if (Model.ShowContributorRemovedConfirmationBox)
+    {
+        <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
+         aria-labelledby="govuk-notification-banner-title"
+         data-module="govuk-notification-banner">
+            <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                    Success
+                </h2>
             </div>
-          </fieldset>
+            <div class="govuk-notification-banner__content">
+                <h3 class="govuk-notification-banner__heading">
+                    Contributor removed
+                </h3>
+                <p class ="govuk-body">
+                    @Model.RemovedContributorName can no longer contribute to this application.</p>
+            </div>
         </div>
-	</div>
-		<input type="submit" value="Send invite" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
-	</form>
+    }
 
-	<div class="govuk-form-group">
-		<h2 class="govuk-heading-m">Current contributors</h2>
-		<partial name="_ApplicationContributorsPartial" model="Model.ExistingContributors"/>
-	</div>
+    <h1 class="govuk-heading-l">
+        Invite a contributor
+    </h1>
+
+    <p class="govuk-body-m">You can invite people to help you complete your application by providing their email address, name and role.</p>
+
+    <p class="govuk-body-m">They must have a DfE Sign-in account</p>
+
+    <form method="post" name="frmAddContributor" novalidate="">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="ApplicationId" />
+        <partial name="_HiddenFields" />
+
+        <div class="govuk-form-group">
+            <label for="EmailAddress" class="govuk-heading-m">What is the email address of the person you want to invite?</label>
+            <input type="email" asp-for="EmailAddress" id="EmailAddress" class="govuk-input govuk-input--width-20" />
+        </div>
+
+        <div class="govuk-form-group">
+            <label for="Name" class="govuk-heading-m">What is the name of the person you want to invite?</label>
+            <input type="text" asp-for="Name" id="Name" class="govuk-input govuk-input--width-20" />
+        </div>
+
+
+        <div id="OtherRoleNotEntered">
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <div id="ContributorRole">
+                            <h2 class="govuk-heading-m">
+                                What is their role?
+                            </h2>
+                        </div>
+                    </legend>
+                    <div class="govuk-radios" data-module="govuk-radios">
+                        <div class="@(Model.HideRadios ? "govuk-visually-hidden" : "govuk-radios__item")">
+                            <input class="govuk-radios__input" id="role" name="ContributorRole" type="radio" value="@Convert.ToInt32(SchoolRoles.ChairOfGovernors)" data-aria-controls="conditional-role">
+                            <label class="govuk-label govuk-radios__label" for="role">
+                                Chair of governers
+                            </label>
+                        </div>
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input" id="role-2" name="ContributorRole" type="radio" value="@Convert.ToInt32(SchoolRoles.Other)" data-aria-controls="conditional-role-2">
+                            <label class="govuk-label govuk-radios__label" for="role-2">
+                                Something else
+                            </label>
+                        </div>
+                        <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-role-2">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label" for="OtherRoleNotListed">
+                                    What is their role?
+                                </label>
+                                <label class="govuk-label" for="role-description">
+                                    <input class="govuk-input govuk-!-width-one-third" id="role-description" name="OtherRoleNotListed" type="text" spellcheck="true">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <input type="submit" value="Send invite" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
+    </form>
+
+    <div class="govuk-form-group">
+        <h2 class="govuk-heading-m">Current contributors</h2>
+        <partial name="_ApplicationContributorsPartial" model="Model.ExistingContributors" />
+    </div>
 </div>

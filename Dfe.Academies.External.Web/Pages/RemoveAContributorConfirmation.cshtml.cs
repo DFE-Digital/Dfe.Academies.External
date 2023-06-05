@@ -68,7 +68,7 @@ namespace Dfe.Academies.External.Web.Pages
 			draftConversionApplication.Contributors.Remove(contributor);
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
-			return RedirectToPage(NextStepPage, new { appId = ApplicationId });
+			return RedirectToPage(NextStepPage, new { appId = ApplicationId, removedContributorName = contributor.FullName,  });
 		}
 
 		///<inheritdoc/>
