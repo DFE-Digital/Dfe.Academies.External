@@ -65,9 +65,15 @@ namespace Dfe.Academies.External.Web.Pages
 		public bool ShowConfirmationBox { get; set; }
 
 		[BindProperty]
+		public bool ShowContributorRemovedConfirmationBox { get { return !string.IsNullOrEmpty(RemovedContributorName);  } }
+
+		[BindProperty]
+		public string? RemovedContributorName { get; set; }
+
+		[BindProperty]
 		public bool HideRadios { get; set; }
 
-		public List<ConversionApplicationContributorViewModel> ExistingContributors { get; private set; } = new();
+		public List<ConversionApplicationContributorViewModel> ExistingContributors { get; private set; }
 
 		public AddAContributorModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
@@ -84,10 +90,11 @@ namespace Dfe.Academies.External.Web.Pages
 		/// </summary>
 		/// <param name="appId"></param>
 		/// <returns></returns>
-		public async Task<ActionResult> OnGetAsync(int appId)
+		public async Task<ActionResult> OnGetAsync(int appId, string? removedContributorName)
 		{
 			//// on load - grab draft application from temp
 			var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
+			RemovedContributorName = removedContributorName;
 
 			// check user access
 			var checkStatus = await CheckApplicationPermission(appId);
@@ -108,6 +115,7 @@ namespace Dfe.Academies.External.Web.Pages
 		{
 			//// grab draft application from temp= null
 			var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
+			RemovedContributorName = null;
 
 			if (!RunUiValidation())
 			{
@@ -131,7 +139,7 @@ namespace Dfe.Academies.External.Web.Pages
 				EmailAddress!, emailVariables);
 
 			// update temp store for next step
-			draftConversionApplication.Contributors.Add(contributor);
+			draftConversionApplication = await LoadAndSetApplicationDetails(ApplicationId);
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);
 
 			// MR:- need to stay on the page to show user a green confirmation banner that email has been sent / db updated

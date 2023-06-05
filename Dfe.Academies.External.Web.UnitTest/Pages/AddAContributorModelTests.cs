@@ -43,7 +43,7 @@ internal sealed class AddAContributorModelTests
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
-		await pageModel.OnGetAsync(applicationId);
+		await pageModel.OnGetAsync(applicationId, null);
 
 		// assert
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
