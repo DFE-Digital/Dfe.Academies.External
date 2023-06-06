@@ -1,14 +1,22 @@
 {
-  "name": "A2BCoreJourneysCypressUITests",
+  "name": "A2BCoreJourneysUITests",
   "version": "1.0.0",
-  "description": "",
+  "description": "Cypress tests for the core journeys of the A2B service",
   "main": "index.js",
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run --env url=$URL --env username=$LOGIN_USERNAME --env password=$LOGIN_PASSWORD"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "regression",
+    "cypress",
+    "testing"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DFE-Digital/Dfe.Academies.External.git"
+  },
+  "author": "Dan Good",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^20.2.5",

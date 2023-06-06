@@ -15,6 +15,7 @@ module.exports = defineConfig({
     ChromeWebSecurity: false,
     waitForAnimations: true,
     waitForTransition: true,
+    video: false,
     setupNodeEvents(on, config) {
       // implement node event listeners here
       on('before:run', (details) => {
