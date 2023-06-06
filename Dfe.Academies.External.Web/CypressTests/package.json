@@ -18,6 +18,7 @@
     "webpack-preprocessor": "^0.1.12"
   },
   "devDependencies": {
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "zaproxy": "^2.0.0-rc.1"
   }
 }
