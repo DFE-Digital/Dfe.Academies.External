@@ -1,6 +1,6 @@
 const { defineConfig } = require ('cypress')
 require("dotenv").config(); // Load the .env file
-
+import { generateZapReport } from './cypress/plugins/generateZapReport'
 
 module.exports = defineConfig({
   env: {
@@ -22,6 +22,12 @@ module.exports = defineConfig({
         // Map .env variables to Cypress env
         config.env = process.env;
      });
+
+     on('after:run', async () => {
+      if(process.env.zapReport) {
+        await generateZapReport()
+      }
+     })
    },
    },
  });
