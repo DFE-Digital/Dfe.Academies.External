@@ -30,9 +30,7 @@ locals {
   enable_monitoring                                = var.enable_monitoring
   enable_container_health_probe                    = var.enable_container_health_probe
   monitor_email_receivers                          = var.monitor_email_receivers
-  monitor_enable_slack_webhook                     = var.monitor_enable_slack_webhook
-  monitor_slack_webhook_receiver                   = var.monitor_slack_webhook_receiver
-  monitor_slack_channel                            = var.monitor_slack_channel
+  existing_logic_app_workflow                      = var.existing_logic_app_workflow
   enable_container_app_blob_storage                = var.enable_container_app_blob_storage
   container_app_blob_storage_ipv4_allow_list       = var.container_app_blob_storage_ipv4_allow_list
   container_app_blob_storage_public_access_enabled = var.container_app_blob_storage_public_access_enabled
