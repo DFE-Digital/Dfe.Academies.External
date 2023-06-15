@@ -20,6 +20,7 @@ Web Application to contain any functionality accessed externally (i.e. outside D
 - [Built With](#built-with)
   - [Dot Net Core Dependency Injection](#dot-net-core-dependency-injection)
   - [Logging, Serilog and Sentry](#logging-serilog-sentry)
+- [End to End Tests](#end-to-end-tests)
 
 ## Getting Started
 
@@ -230,3 +231,10 @@ Here are some tutorials followed to set up the logging:
 <small>^ [Back to Top](#dfe-academies-external-web)</small>
 
 
+### End to End Tests
+
+The end to end tests are documented within their directory:
+
+[End to end tests](Dfe.Academies.External.Web/CypressTests/README.md)
+
+<small>^ [Back to Top](#dfe-academies-external-web)</small>
