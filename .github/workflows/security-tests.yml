@@ -18,10 +18,10 @@ jobs:
       - name: Run tests with scanner
         env:
           HTTP_PROXY: http://zap:8080
-          LOGIN_USERNAME: ${{ vars.LOGIN_USERNAME }}
+          LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
           LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
           NO_PROXY: "google-analytics.com,googletagmanager.com,microsoftonline.com,gvt1.com"
-          URL: ${{ vars.URL }}
+          URL: ${{ secrets.URL }}
           ZAP_API_KEY: ${{ secrets.ZAP_API_KEY }}
         run: |
           docker-compose -f Dfe.Academies.External.Web/CypressTests/docker-compose.yml up --exit-code-from cypress
