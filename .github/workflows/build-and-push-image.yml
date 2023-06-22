@@ -143,8 +143,8 @@ jobs:
         
         - name: Run cypress
           env:
-            URL: ${{ vars.URL }}
-            LOGIN_USERNAME: ${{ vars.LOGIN_USERNAME }}
+            URL: ${{ secrets.URL }}
+            LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
             LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
           run: npm run cy:run
         
