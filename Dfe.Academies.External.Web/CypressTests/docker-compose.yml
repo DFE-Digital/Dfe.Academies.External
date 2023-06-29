@@ -22,4 +22,4 @@ services:
       - zapApiKey=${ZAP_API_KEY}
       - zapUrl=${HTTP_PROXY}
     volumes:
-      - .reports/:/reports
+      - ./reports/:/reports
