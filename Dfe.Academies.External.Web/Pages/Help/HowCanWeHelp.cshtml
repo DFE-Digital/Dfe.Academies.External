@@ -25,22 +25,22 @@
 							@foreach (var HelpType in Enum.GetValues(typeof(HelpTypes)).OfType<HelpTypes>())
 							{
 								<div class="govuk-radios__item">
-									<input type="radio"
-									 asp-for="HelpType"
-									 value="@Convert.ToInt32(HelpType)"
-									 id="HelpType@(HelpType)"
-			                         class="govuk-radios__input" />
-									<label for="HelpType@(HelpType)" class="govuk-label govuk-radios__label">@HelpType.GetDescription()</label>
+									<input type="radio" asp-for="HelpType" value="@Convert.ToInt32(HelpType)"
+										id="HelpType@(HelpType)" class="govuk-radios__input" />
+									<label for="HelpType@(HelpType)"
+										class="govuk-label govuk-radios__label">@HelpType.GetDescription()</label>
+									@if (HelpType == HelpTypes.Feedback)
+									{
+										<div id="help-feedback-hint" class="govuk-hint govuk-radios__hint">
+											Feedback is anonymous and will not affect your application
+										</div>
+									}
 								</div>
 							}
 						</div>
-					</div>
-	
+					</div>	
 				</fieldset>
 			</div>
-			<br />
-			<legend class="govuk-caption-m">Feedback is anonymous and will not affect your application</legend>
-			<br />
 			<button type="submit" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8">Continue</button>
 		</form>
 	</div>
