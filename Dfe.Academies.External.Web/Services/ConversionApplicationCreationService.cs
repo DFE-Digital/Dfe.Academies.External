@@ -2,8 +2,7 @@
 using Dfe.Academies.External.Web.Commands;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
-using Dfe.Academies.External.Web.Models;
-using Dfe.Academies.External.Web.Pages.School;
+using Dfe.Academisation.CorrelationIdMiddleware;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Services;
@@ -17,9 +16,10 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 	public ConversionApplicationCreationService(IHttpClientFactory httpClientFactory,
 												ILogger<ConversionApplicationCreationService> logger,
-												IConversionApplicationRetrievalService conversionApplicationRetrievalService) : base(httpClientFactory)
+												IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+												ICorrelationContext correlationContext) : base(httpClientFactory, correlationContext, AcademisationAPIHttpClientName)
 	{
-		_httpClient = httpClientFactory.CreateClient(AcademisationAPIHttpClientName);
+		_httpClient = base.HttpClient;
 		_logger = logger;
 		_resilientRequestProvider = new ResilientRequestProvider(_httpClient, _logger);
 		_conversionApplicationRetrievalService = conversionApplicationRetrievalService;

@@ -3,6 +3,7 @@ using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Trusts;
 using Dfe.Academies.External.Web.ViewModels;
+using Dfe.Academisation.CorrelationIdMiddleware;
 
 namespace Dfe.Academies.External.Web.Services;
 
@@ -12,10 +13,12 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 	private readonly HttpClient _httpClient;
 	private readonly ResilientRequestProvider _resilientRequestProvider;
 
-	public ReferenceDataRetrievalService(IHttpClientFactory httpClientFactory, ILogger<ReferenceDataRetrievalService> logger) : base(httpClientFactory)
+	public ReferenceDataRetrievalService(IHttpClientFactory httpClientFactory, 
+		ILogger<ReferenceDataRetrievalService> logger,
+		ICorrelationContext correlationContext) : base(httpClientFactory, correlationContext, AcademiesAPIHttpClientName)
 	{
 		_logger = logger;
-		_httpClient = httpClientFactory.CreateClient(AcademiesAPIHttpClientName);
+		_httpClient = base.HttpClient;
 		_resilientRequestProvider = new ResilientRequestProvider(_httpClient, _logger);
 	}
 

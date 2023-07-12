@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Helpers;
-using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.ViewModels;
+using Dfe.Academisation.CorrelationIdMiddleware;
 
 namespace Dfe.Academies.External.Web.Services;
 
@@ -16,9 +15,12 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	private readonly HttpClient _httpClient;
 	private readonly ResilientRequestProvider _resilientRequestProvider;
 	private readonly IFileUploadService _fileUploadService;
-	public ConversionApplicationRetrievalService(IHttpClientFactory httpClientFactory, ILogger<ConversionApplicationRetrievalService> logger, IFileUploadService fileUploadService) : base(httpClientFactory)
+	public ConversionApplicationRetrievalService(IHttpClientFactory httpClientFactory, 
+		ILogger<ConversionApplicationRetrievalService> logger, 
+		IFileUploadService fileUploadService,
+		ICorrelationContext correlationContext) : base(httpClientFactory, correlationContext, AcademisationAPIHttpClientName)
 	{
-		_httpClient = httpClientFactory.CreateClient(AcademisationAPIHttpClientName);
+		_httpClient = base.HttpClient;
 		_logger = logger;
 		_fileUploadService = fileUploadService;
 		_resilientRequestProvider = new ResilientRequestProvider(_httpClient, _logger);

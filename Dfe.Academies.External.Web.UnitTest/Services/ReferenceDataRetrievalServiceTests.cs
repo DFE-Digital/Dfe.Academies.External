@@ -9,6 +9,7 @@ using System.Web;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
+using Dfe.Academisation.CorrelationIdMiddleware;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
@@ -37,7 +38,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		SchoolSearch schoolSearch = new(schoolName, urn.ToString(), string.Empty);
 
 		// act
-		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var searchSchools = await referenceDataRetrievalService.SearchSchools(schoolSearch);
 
 		// assert
@@ -63,7 +64,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		SchoolSearch schoolSearch = new(schoolName, urn.ToString(), string.Empty);
 
 		// act
-		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// assert
 		var ex = Assert.ThrowsAsync<HttpRequestException>(() => referenceDataRetrievalService.SearchSchools(schoolSearch));
@@ -81,7 +82,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		// act
-		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var school = await referenceDataRetrievalService.GetSchool(urn);
 
 		// assert
@@ -110,7 +111,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		// act
-		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// assert
 		var ex = Assert.ThrowsAsync<HttpRequestException>(() => referenceDataRetrievalService.GetSchool(urn));
@@ -129,7 +130,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		SchoolSearch schoolSearch = new(name, string.Empty, string.Empty);
 
 		// act
-		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var builtUri = referenceDataRetrievalService.BuildSchoolSearchRequestUri(schoolSearch, "V1");
 
 		// assert
@@ -152,7 +153,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		SchoolSearch schoolSearch = new(string.Empty, urn, string.Empty);
 
 		// act
-		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var builtUri = referenceDataRetrievalService.BuildSchoolSearchRequestUri(schoolSearch, "V1");
 
 		// assert
@@ -175,7 +176,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		SchoolSearch schoolSearch = new(string.Empty, string.Empty, ukprn);
 
 		// act
-		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var builtUri = referenceDataRetrievalService.BuildSchoolSearchRequestUri(schoolSearch, "V1");
 
 		// assert
@@ -201,7 +202,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		TrustSearch trustSearch = new(name, ukprn, string.Empty);
 
 		// act
-		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var trusts = await referenceDataRetrievalService.GetTrusts(trustSearch);
 
 		// assert
@@ -234,7 +235,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		TrustSearch trustSearch = new(name, ukprn, string.Empty);
 
 		// act
-		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// assert
 		var ex = Assert.ThrowsAsync<HttpRequestException>(() => referenceDataRetrievalService.GetTrusts(trustSearch));
@@ -252,7 +253,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		// act
-		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var trusts = await referenceDataRetrievalService.GetTrustByUkPrn(ukprn);
 
 		// assert
@@ -282,7 +283,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		var mockLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
 
 		// act
-		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// assert
 		var ex = Assert.ThrowsAsync<HttpRequestException>(() => referenceDataRetrievalService.GetTrustByUkPrn(ukprn));
@@ -299,7 +300,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		TrustSearch trustSearch = new(name, string.Empty, string.Empty);
 
 		// act
-		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var builtUri = referenceDataRetrievalService.BuildTrustSearchRequestUri(trustSearch);
 
 		// assert
@@ -320,7 +321,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		TrustSearch trustSearch = new(string.Empty, ukPrn, string.Empty);
 
 		// act
-		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var builtUri = referenceDataRetrievalService.BuildTrustSearchRequestUri(trustSearch);
 
 		// assert
@@ -341,7 +342,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 		TrustSearch trustSearch = new(string.Empty, string.Empty, companiesHouseNumber);
 
 		// act
-		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var builtUri = referenceDataRetrievalService.BuildTrustSearchRequestUri(trustSearch);
 
 		// assert

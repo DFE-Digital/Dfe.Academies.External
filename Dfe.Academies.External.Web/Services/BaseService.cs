@@ -1,14 +1,18 @@
-﻿namespace Dfe.Academies.External.Web.Services
+﻿using Dfe.Academisation.CorrelationIdMiddleware;
+
+namespace Dfe.Academies.External.Web.Services
 {
 	public class BaseService
 	{
-		internal readonly IHttpClientFactory ClientFactory;
 		internal const string AcademiesAPIHttpClientName = "AcademiesClient";
 		internal const string AcademisationAPIHttpClientName = "AcademisationClient";
+		public HttpClient HttpClient { get; set; }
 
-		protected BaseService(IHttpClientFactory clientFactory)
+		protected BaseService(IHttpClientFactory clientFactory, ICorrelationContext correlationContext, string httpClientName)
 		{
-			ClientFactory = clientFactory;
+			this.HttpClient = clientFactory.CreateClient(httpClientName);
+			this.HttpClient.DefaultRequestHeaders.Add(Keys.HeaderKey, correlationContext.CorrelationId.ToString());
 		}
+
 	}
 }

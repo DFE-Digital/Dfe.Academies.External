@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
+using Dfe.Academisation.CorrelationIdMiddleware;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
@@ -97,7 +98,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
 		// act
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var expectedExistingApplicationsTestData = await applicationRetrievalService.GetPendingApplications(userEmail);
 
 		// assert
@@ -167,7 +168,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
 		// act
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var expectedExistingApplicationsTestData = await applicationRetrievalService.GetCompletedApplications(userEmail);
 
 		// assert
@@ -188,7 +189,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
 		// act
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var auditEntries = await applicationRetrievalService.GetConversionApplicationAuditEntries(applicationId);
 
 		// assert
@@ -211,7 +212,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
 		// act
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var applicationComponentStatuses = await applicationRetrievalService.GetSchoolApplicationComponents(applicationId, URN);
 
 		// assert
@@ -233,7 +234,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
 		// act
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var applicationContributors = await applicationRetrievalService.GetConversionApplicationContributors(applicationId);
 
 		// assert
@@ -256,7 +257,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
 		// act
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var application = await applicationRetrievalService.GetApplication(GetApplicationId);
 
 		// assert
