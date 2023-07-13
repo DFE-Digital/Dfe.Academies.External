@@ -13,6 +13,5 @@ namespace Dfe.Academies.External.Web.Services
 			this.HttpClient = clientFactory.CreateClient(httpClientName);
 			this.HttpClient.DefaultRequestHeaders.Add(Keys.HeaderKey, correlationContext.CorrelationId.ToString());
 		}
-
 	}
 }

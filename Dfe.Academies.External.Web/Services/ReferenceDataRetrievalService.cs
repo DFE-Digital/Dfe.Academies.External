@@ -10,7 +10,6 @@ namespace Dfe.Academies.External.Web.Services;
 public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataRetrievalService
 {
 	private readonly ILogger<ReferenceDataRetrievalService> _logger;
-	private readonly HttpClient _httpClient;
 	private readonly ResilientRequestProvider _resilientRequestProvider;
 
 	public ReferenceDataRetrievalService(IHttpClientFactory httpClientFactory, 
@@ -18,8 +17,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		ICorrelationContext correlationContext) : base(httpClientFactory, correlationContext, AcademiesAPIHttpClientName)
 	{
 		_logger = logger;
-		_httpClient = base.HttpClient;
-		_resilientRequestProvider = new ResilientRequestProvider(_httpClient, _logger);
+		_resilientRequestProvider = new ResilientRequestProvider(HttpClient, _logger);
 	}
 
 	///<inheritdoc/>
@@ -28,7 +26,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		try
 		{
 			//{{api-host}}/establishments?api-version=V1&Urn=101934&ukprn=10006563&Name=wise
-			string apiurl = $"{_httpClient.BaseAddress}/establishments?{BuildSchoolSearchRequestUri(schoolSearch, "V1")}";
+			string apiurl = $"{HttpClient.BaseAddress}/establishments?{BuildSchoolSearchRequestUri(schoolSearch, "V1")}";
 
 			IList<SchoolSearchResultViewModel> schools = new List<SchoolSearchResultViewModel>();
 
@@ -55,7 +53,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		try
 		{
 			// {{api-host}}/establishment/urn/101934?api-version=V1
-			string apiurl = $"{_httpClient.BaseAddress}/establishment/urn/{urn}?api-version=V1";
+			string apiurl = $"{HttpClient.BaseAddress}/establishment/urn/{urn}?api-version=V1";
 
 			//// API returns EstablishmentResponse
 			var APIresult = await _resilientRequestProvider.GetAsync<EstablishmentResponse>(apiurl);
@@ -100,7 +98,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		try
 		{
 			// {{api-host}}/trusts?api-version=V1&groupName=grammar
-			string apiurl = $"{_httpClient.BaseAddress}/trusts?{BuildTrustSearchRequestUri(trustSearch)}&api-version=V1";
+			string apiurl = $"{HttpClient.BaseAddress}/trusts?{BuildTrustSearchRequestUri(trustSearch)}&api-version=V1";
 
 			// API returns ApiListWrapper<TrustSearchDto>
 			var APIresult = await _resilientRequestProvider.GetAsync<List<TrustSearchDto>>(apiurl);
@@ -121,7 +119,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		{
 			// MR:- api endpoint to build will look like this:-
 			// {{api-host}}/trusts?ukprn=10058464&api-version=V1
-			string apiurl = $"{_httpClient.BaseAddress}/trusts?ukprn={ukPrn}&api-version=V1";
+			string apiurl = $"{HttpClient.BaseAddress}/trusts?ukprn={ukPrn}&api-version=V1";
 
 			// API - returns ApiWrapper<TrustDetailsDto>
 			var APIresult = await _resilientRequestProvider.GetAsync<List<TrustSummaryDto>>(apiurl);
@@ -139,7 +137,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 	{
 		try
 		{
-			string apiUrl = $"{_httpClient.BaseAddress}/trust/{ukPrn}?api-version=V1";
+			string apiUrl = $"{HttpClient.BaseAddress}/trust/{ukPrn}?api-version=V1";
 
 
 			var result = await _resilientRequestProvider.GetAsync<TrustFullDetailsDto>(apiUrl);

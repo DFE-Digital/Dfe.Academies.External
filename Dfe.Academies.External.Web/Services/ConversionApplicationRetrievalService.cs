@@ -12,7 +12,6 @@ namespace Dfe.Academies.External.Web.Services;
 public sealed class ConversionApplicationRetrievalService : BaseService, IConversionApplicationRetrievalService
 {
 	private readonly ILogger<ConversionApplicationRetrievalService> _logger;
-	private readonly HttpClient _httpClient;
 	private readonly ResilientRequestProvider _resilientRequestProvider;
 	private readonly IFileUploadService _fileUploadService;
 	public ConversionApplicationRetrievalService(IHttpClientFactory httpClientFactory, 
@@ -20,10 +19,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		IFileUploadService fileUploadService,
 		ICorrelationContext correlationContext) : base(httpClientFactory, correlationContext, AcademisationAPIHttpClientName)
 	{
-		_httpClient = base.HttpClient;
 		_logger = logger;
 		_fileUploadService = fileUploadService;
-		_resilientRequestProvider = new ResilientRequestProvider(_httpClient, _logger);
+		_resilientRequestProvider = new ResilientRequestProvider(HttpClient, _logger);
 	}
 
 	///<inheritdoc/>
@@ -31,7 +29,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	{
 		try
 		{
-			string apiurl = $"{_httpClient.BaseAddress}application/contributor/{email}?api-version=V1";
+			string apiurl = $"{HttpClient.BaseAddress}application/contributor/{email}?api-version=V1";
 
 			JsonSerializerOptions options = new JsonSerializerOptions
 			{
@@ -61,7 +59,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			// baseaddress has a backslash at the end to be a valid URI !!!
 			// https://academies-academisation-api-dev.azurewebsites.net/application/99
 			// endpoint will return 404 if id NOT found !
-			string apiurl = $"{_httpClient.BaseAddress}application/contributor/{email}?api-version=V1";
+			string apiurl = $"{HttpClient.BaseAddress}application/contributor/{email}?api-version=V1";
 
 			JsonSerializerOptions options = new JsonSerializerOptions
 			{
@@ -274,7 +272,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			// baseaddress has a backslash at the end to be a valid URI !!!
 			// https://academies-academisation-api-dev.azurewebsites.net/application/99
 			// endpoint will return 404 if id NOT found !
-			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+			string apiurl = $"{HttpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
 			JsonSerializerOptions options = new JsonSerializerOptions
 			{
@@ -304,7 +302,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			// baseaddress has a backslash at the end to be a valid URI !!!
 			// https://academies-academisation-api-dev.azurewebsites.net/application/99
 			// endpoint will return 404 if id NOT found !
-			string apiurl = $"{_httpClient.BaseAddress}application/all?api-version=V1";
+			string apiurl = $"{HttpClient.BaseAddress}application/all?api-version=V1";
 
 			JsonSerializerOptions options = new JsonSerializerOptions
 			{

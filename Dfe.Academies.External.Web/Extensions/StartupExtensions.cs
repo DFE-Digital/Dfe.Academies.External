@@ -1,6 +1,7 @@
 ﻿using System.Net.Mime;
 using Dfe.Academies.External.Web.Middleware;
 using Dfe.Academies.External.Web.Services;
+using Dfe.Academisation.CorrelationIdMiddleware;
 
 namespace Dfe.Academies.External.Web.Extensions;
 
@@ -57,9 +58,9 @@ public static class StartupExtension
 	public static void AddInternalServices(this IServiceCollection services)
 	{
 		// Web application services
-		services.AddSingleton<IConversionApplicationCreationService, ConversionApplicationCreationService>();
-		services.AddSingleton<IConversionApplicationRetrievalService, ConversionApplicationRetrievalService>();
-		services.AddSingleton<IReferenceDataRetrievalService, ReferenceDataRetrievalService>();
+		services.AddScoped<IConversionApplicationCreationService, ConversionApplicationCreationService>();
+		services.AddScoped<IConversionApplicationRetrievalService, ConversionApplicationRetrievalService>();
+		services.AddScoped<IReferenceDataRetrievalService, ReferenceDataRetrievalService>();
 		services.AddSingleton<IContributorEmailSenderService, ContributorEmailSenderService>();
 	}
 

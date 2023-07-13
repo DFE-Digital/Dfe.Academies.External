@@ -179,6 +179,8 @@ builder.Services.AddSingleton<IContributorTemplate, JoinAMatNonChairContributor>
 builder.Services.AddSingleton<IContributorNotifyTemplateFactory, ContributorNotifyTemplateFactory>();
 builder.Services.AddSingleton<IEmailNotificationService, EmailNotificationService>();
 
+builder.Services.AddScoped<ICorrelationContext, CorrelationContext>();
+
 builder.Services.AddHttpClient<IFileUploadService, FileUploadService>(client =>
 	{
 		client.BaseAddress = new Uri(configuration["Sharepoint:ApiUrl"]);
@@ -263,7 +265,6 @@ app.UseStatusCodePagesWithReExecute("/error/{0}");
 
 //
 //app.UseBespokeExceptionHandling(app.Environment);
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
