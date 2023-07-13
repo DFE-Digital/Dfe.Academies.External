@@ -1,5 +1,5 @@
 module "azure_container_apps_hosting" {
-  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v0.18.1"
+  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v0.18.2"
 
   environment    = local.environment
   project_name   = local.project_name
@@ -17,7 +17,9 @@ module "azure_container_apps_hosting" {
 
   enable_redis_cache = local.enable_redis_cache
 
-  enable_event_hub = local.enable_event_hub
+  enable_event_hub                          = local.enable_event_hub
+  enable_logstash_consumer                  = local.enable_logstash_consumer
+  eventhub_export_log_analytics_table_names = local.eventhub_export_log_analytics_table_names
 
   enable_dns_zone      = local.enable_dns_zone
   dns_zone_domain_name = local.dns_zone_domain_name
