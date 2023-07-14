@@ -60,6 +60,7 @@ jobs:
         with:
           context: .
           file: Dockerfile
+          secrets: github_token=${{ secrets.GITHUB_TOKEN }}
           tags: |
             ${{ secrets.ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.branch }}
             ${{ secrets.ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.release }}
