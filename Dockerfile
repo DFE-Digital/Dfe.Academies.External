@@ -9,9 +9,8 @@ COPY ./Dfe.Academies.External.Web/ ./Dfe.Academies.External.Web/
 
 RUN --mount=type=secret,id=github_token dotnet nuget add source --username USERNAME --password $(cat /run/secrets/github_token) --store-password-in-clear-text --name github "https://nuget.pkg.github.com/DFE-Digital/index.json"
 RUN dotnet restore Dfe.Academies.External.Web
-RUN dotnet build Dfe.Academies.External.Web
-
-RUN dotnet publish Dfe.Academies.External.Web -c Release -o /app
+RUN dotnet build Dfe.Academies.External.Web --no-restore
+RUN dotnet publish Dfe.Academies.External.Web -c Release -o /app --no-restore
 
 COPY ./script/web-docker-entrypoint.sh /app/docker-entrypoint.sh
 
