@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using AutoFixture;
 using Dfe.Academies.External.Web.ViewModels;
+using Dfe.Academisation.CorrelationIdMiddleware;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services
 {
@@ -32,7 +33,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 			var mockFileUploadService = new Mock<IFileUploadService>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationNoRoles();
@@ -68,7 +69,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 			var mockFileUploadService = new Mock<IFileUploadService>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -108,7 +109,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 			var mockFileUploadService = new Mock<IFileUploadService>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -138,7 +139,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 			var mockFileUploadService = new Mock<IFileUploadService>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -174,7 +175,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 			var mockFileUploadService = new Mock<IFileUploadService>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -210,7 +211,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 			var mockFileUploadService = new Mock<IFileUploadService>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -247,7 +248,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 			var mockFileUploadService = new Mock<IFileUploadService>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -283,7 +284,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 			var mockFileUploadService = new Mock<IFileUploadService>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -319,7 +320,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 			var mockFileUploadService = new Mock<IFileUploadService>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -355,7 +356,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 			var mockFileUploadService = new Mock<IFileUploadService>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -391,7 +392,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 			var mockFileUploadService = new Mock<IFileUploadService>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;

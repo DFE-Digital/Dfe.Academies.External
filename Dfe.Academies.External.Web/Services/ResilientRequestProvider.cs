@@ -35,8 +35,6 @@ namespace Dfe.Academies.External.Web.Services
 		/// <inheritdoc/>
 		public async Task<TResult> GetAsync<TResult>(string uri, JsonSerializerOptions? options = null, string token = "")
 		{
-			//this.ClearRequestHeaders(this._client); // MR:- commented out as headers set up StartupExtension
-
 			// don't always have token e.g. token / login 
 			if (!string.IsNullOrEmpty(token))
 			{
@@ -55,8 +53,6 @@ namespace Dfe.Academies.External.Web.Services
 			var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
 			content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-			//this.ClearRequestHeaders(this._client); // MR:- commented out as headers set up StartupExtension
-
 			// don't always have token e.g. token / login 
 			if (!string.IsNullOrEmpty(token))
 			{
@@ -64,9 +60,9 @@ namespace Dfe.Academies.External.Web.Services
 			}
 
 			var response = await this._client.PostAsync(uri, content);
-			var responsecontent = await response.Content.ReadAsStringAsync();
+			var responseContent = await response.Content.ReadAsStringAsync();
 			if (!response.IsSuccessStatusCode) { 
-				this.logger.LogError($"Request unsuccessfull, response status code : { response.StatusCode }| response content : { responsecontent }");
+				this.logger.LogError($"Request unsuccessful, response status code : { response.StatusCode }| response content : { responseContent }");
 			}
 ;			response.EnsureSuccessStatusCode();
 
@@ -91,10 +87,10 @@ namespace Dfe.Academies.External.Web.Services
 			}
 
 			var response = await this._client.PutAsync(uri, content);
-			var responsecontent = await response.Content.ReadAsStringAsync();
+			var responseContent = await response.Content.ReadAsStringAsync();
 			if (!response.IsSuccessStatusCode)
 			{
-				this.logger.LogError($"Request unsuccessfull, response status code : {response.StatusCode}| response content : {responsecontent}");
+				this.logger.LogError($"Request unsuccessful, response status code : {response.StatusCode}| response content : {responseContent}");
 			}
 			response.EnsureSuccessStatusCode();
 
@@ -107,8 +103,6 @@ namespace Dfe.Academies.External.Web.Services
 		/// <inheritdoc/>
 		public async Task<bool> DeleteAsync<T>(string uri, T data, string token = "")
 		{
-			//this.ClearRequestHeaders(this._client); // MR:- commented out as headers set up StartupExtension
-
 			// don't always have token e.g. token / login 
 			if (!string.IsNullOrEmpty(token))
 			{
@@ -163,19 +157,6 @@ namespace Dfe.Academies.External.Web.Services
 
 			return result;
 		}
-
-		// MR:- commented out as headers set up StartupExtension
-		///// <summary>
-		///// The clear request headers.
-		///// </summary>
-		///// <param name="httpClient">
-		///// The http client.
-		///// </param>
-		//private void ClearRequestHeaders(HttpClient httpClient)
-		//{
-		//    httpClient.DefaultRequestHeaders.Clear();
-		//    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-		//}
 
 		/// <summary>
 		/// The add bearer token authentication header.

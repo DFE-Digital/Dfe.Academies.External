@@ -9,6 +9,7 @@ using Dfe.Academies.External.Web.Controllers;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Dfe.Academies.External.Web.ViewModels;
+using Dfe.Academisation.CorrelationIdMiddleware;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -34,7 +35,7 @@ internal sealed class TrustControllerTests
 		var mockLogger = new Mock<ILogger<TrustController>>();
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 		var mockReferenceDataRetrievalServiceLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
-		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockReferenceDataRetrievalServiceLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockReferenceDataRetrievalServiceLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var trustController = new TrustController(mockLogger.Object, referenceDataRetrievalService);
 
 		// act
@@ -58,7 +59,7 @@ internal sealed class TrustControllerTests
 		var mockLogger = new Mock<ILogger<TrustController>>();
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 		var mockReferenceDataRetrievalServiceLogger = new Mock<ILogger<ReferenceDataRetrievalService>>();
-		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockReferenceDataRetrievalServiceLogger.Object);
+		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockReferenceDataRetrievalServiceLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		var trustController = new TrustController(mockLogger.Object, referenceDataRetrievalService);
 
 		// act
