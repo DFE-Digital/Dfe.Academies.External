@@ -1,0 +1,33 @@
+﻿@page
+@model Dfe.Academies.External.Web.Pages.DeleteApplicationModel
+
+@section BeforeMain
+{
+	<a asp-page="ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">
+        Back
+    </a>
+}
+
+@{
+    <span class="govuk-caption-xl">Application reference:&nbsp;@Model.ApplicationReferenceNumber</span>
+    <h1 class="govuk-heading-l">Are you sure you want to delete this application?</h1>
+
+    <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-warning-text__assistive">Warning</span>
+            This action cannot be undone.
+        </strong>
+    </div>
+
+    <p class="govuk-body">It will we deleted for<b> all contributors</b> and any information that has been given will be lost. Any
+        schools on this application that want to become academies later must start a new application.</p>
+
+    <div>
+        <button id="deleteButton" class="govuk-button govuk-button--warning" data-module="govuk-button">
+            Yes, delete
+        </button>
+
+        <a asp-page="ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-button govuk-button--secondary">No, take me back </a>
+    </div>
+}

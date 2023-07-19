@@ -17,6 +17,12 @@ namespace Dfe.Academies.External.Web.Pages
 		[BindProperty]
 		public int ApplicationId { get; set; }
 
+		[BindProperty]
+		public bool HideDeleteButton { get; set; }
+
+
+
+
 		//// Below are props for UI display
 		public ApplicationTypes ApplicationType { get; private set; }
 
@@ -69,6 +75,7 @@ namespace Dfe.Academies.External.Web.Pages
 		/// </summary>
 		public string HeaderText { get; private set; } = string.Empty;
 
+
 		public ApplicationOverviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 										IReferenceDataRetrievalService referenceDataRetrievalService,
 										IConversionApplicationCreationService conversionApplicationCreationService,
@@ -116,7 +123,18 @@ namespace Dfe.Academies.External.Web.Pages
 		{
 			
 			// grab current user email
-			string email = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
+			string email = User.FindFirst(ClaimTypes.Email)?.Value ?? "";		
+			var firstContributorEmail = conversionApplication.Contributors.FirstOrDefault().EmailAddress;
+			
+		    if(email == firstContributorEmail)
+			{
+				HideDeleteButton = false;
+			}
+
+			else
+			{
+				HideDeleteButton = true;
+			}
 
 			this.logger.LogInformation($"Populating application overview for user | Email: { email }");
 
