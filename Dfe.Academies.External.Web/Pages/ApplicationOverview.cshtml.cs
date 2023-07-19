@@ -18,7 +18,7 @@ namespace Dfe.Academies.External.Web.Pages
 		public int ApplicationId { get; set; }
 
 		[BindProperty]
-		public bool HideDeleteButton { get; set; }
+		public bool HideDeleteButton { get; set; } = true;
 
 		//// Below are props for UI display
 		public ApplicationTypes ApplicationType { get; private set; }
@@ -121,11 +121,9 @@ namespace Dfe.Academies.External.Web.Pages
 			
 			// grab current user email
 			string email = User.FindFirst(ClaimTypes.Email)?.Value ?? "";		
-			var firstContributorEmail = conversionApplication.Contributors.FirstOrDefault().EmailAddress;
+			var firstContributorEmail = conversionApplication?.Contributors?.FirstOrDefault()?.EmailAddress;
 			
-			if (firstContributorEmail is null || email != firstContributorEmail ) HideDeleteButton = true;
-		
-			else if (email == firstContributorEmail) HideDeleteButton = false;
+			HideDeleteButton = (email != firstContributorEmail);
 				
 		
 			this.logger.LogInformation($"Populating application overview for user | Email: { email }");
