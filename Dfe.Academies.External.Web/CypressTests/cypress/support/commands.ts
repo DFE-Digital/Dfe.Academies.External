@@ -9,6 +9,24 @@ import 'cypress-file-upload';
 
 let globalApplicationId = 10080;
 
+Cypress.Commands.add('confirmApplicationDeleteVerifyElementsVisible', ():void => {
+    cy.get('.govuk-caption-xl').eq(0).then(($applicationId)=> {
+        const applicationId = $applicationId.text().split('_').pop().replace(/\s/g, '')
+        cy.log(`Application ID = ${applicationId}`)
+        globalApplicationId = Number(applicationId)
+        cy.log(`Global Application ID = ${globalApplicationId}`)
+
+        cy.get('.govuk-back-link').contains('Back')
+        cy.get('.govuk-caption-xl').contains('Application reference: ')
+        cy.get('.govuk-heading-l').contains('Are you sure you want to delete this application?')
+        cy.get('govuk-warning-text').contains('This action cannot be undone')
+        cy.get('.govuk-body').contains('It will be deleted for all contributors and any information that has been given will be lost. Any schools on this application that want to become academies later must start a new application.')
+        
+        cy.get('#deleteButton').should('be.visible').contains('Yes, delete')
+        cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('No, take me back')
+})
+})
+
 Cypress.Commands.add('checkFooterLinksVisible', ():void => {
         cy.get('a[href="/accessibility-statement"]').should('be.visible').contains('Accessibility statement')
         cy.contains('Cookie policy').should('be.visible').contains('Cookie policy')
