@@ -126,6 +126,9 @@ export default class A2BYourApplication extends BasePage {
         cy.get('input[type="submit"]').click()
     }
 
-
+    static selectCancelApplication()
+    {
+        cy.contains('Cancel application').click()
+    }
 
 }
