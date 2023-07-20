@@ -7,6 +7,7 @@ import A2BYourApplications from "../page-objects/pages/A2BYourApplications";
 import A2BWhatAreYouApplyingToDo from "../page-objects/pages/A2BWhatAreYouApplyingToDo";
 import A2BWhatIsYourRole from "../page-objects/pages/A2BWhatIsYourRole";
 import A2BYourApplication from "../page-objects/pages/A2BYourApplication";
+import A2BConfirmApplicationDelete from "../page-objects/pages/A2BConfirmApplicationDelete";
 import Footer from "../page-objects/components/Footer";
 
 describe("Delete Application Tests", () => {
@@ -36,10 +37,11 @@ describe("Delete Application Tests", () => {
     A2BYourApplication.yourApplicationNotStartedElementsVisible();
 
     // CLICK CANCEL APPLICATION LINK
-    // A2BYourApplication.selectCancelApplication();
+    A2BYourApplication.selectCancelApplication();
 
     //VERIFY CONFIRM DELETE APPLICATION PAGE DISPLAYS CORRECTLY
-    //A2BConfirmApplicationDelete.confirmApplicationDeleteVerifyElementsVisible();
+    A2BConfirmApplicationDelete.confirmApplicationDeleteVerifyElementsVisible();
+
     //A2BConfirmApplicationDelete.selectConfirmDelete();
 
     // VERIFY CONFIRMATION OF DELETION BANNER DISPLAYS ON YOUR APPLICATIONS PAGE
