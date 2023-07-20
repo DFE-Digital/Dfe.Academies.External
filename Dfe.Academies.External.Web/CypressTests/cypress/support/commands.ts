@@ -19,7 +19,7 @@ Cypress.Commands.add('confirmApplicationDeleteVerifyElementsVisible', ():void =>
         cy.get('.govuk-back-link').contains('Back')
         cy.get('.govuk-caption-xl').contains('Application reference: ')
         cy.get('.govuk-heading-l').contains('Are you sure you want to delete this application?')
-        cy.get('govuk-warning-text').contains('This action cannot be undone')
+        cy.get('.govuk-warning-text').contains('This action cannot be undone')
         cy.get('.govuk-body').contains('It will be deleted for all contributors and any information that has been given will be lost. Any schools on this application that want to become academies later must start a new application.')
         
         cy.get('#deleteButton').should('be.visible').contains('Yes, delete')
