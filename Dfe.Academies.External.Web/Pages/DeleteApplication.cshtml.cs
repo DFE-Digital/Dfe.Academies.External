@@ -9,7 +9,6 @@ namespace Dfe.Academies.External.Web.Pages
     public class DeleteApplicationModel : BasePageEditModel
     {
 
-        private readonly IEmailNotificationService _emailNotificationService;
 		private readonly IConversionApplicationService _academisationService;
 		private readonly IConfiguration configuration;
 
