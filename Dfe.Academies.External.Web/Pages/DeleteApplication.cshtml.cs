@@ -47,7 +47,7 @@ namespace Dfe.Academies.External.Web.Pages
         {
             var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
 		
-			var checkStatus = await CheckApplicationPermission(9005);
+			var checkStatus = await CheckApplicationPermission(appId);
 
 			if (checkStatus is ForbidResult)
 			{
@@ -93,8 +93,6 @@ namespace Dfe.Academies.External.Web.Pages
 			}
 
 			await _academisationService.CancelApplication(appId);	
-
-			var cat  = draftConversionApplication.Contributors;
 
 			return RedirectToPage("YourApplications", new 
 				{ deletedApplicationReferenceNumber = draftConversionApplication.ApplicationReference,
