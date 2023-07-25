@@ -40,7 +40,10 @@ public class ConversionApplication
 
 	public ExistingTrust? JoinTrustDetails { get; set; }
 
+	public DateTime? DeletedAt { get; set; }
+
 	public string TrustName => (ApplicationType == ApplicationTypes.JoinAMat
 		? JoinTrustDetails?.TrustName
 		: FormTrustDetails?.FormTrustProposedNameOfTrust) ?? string.Empty;
+		
 }

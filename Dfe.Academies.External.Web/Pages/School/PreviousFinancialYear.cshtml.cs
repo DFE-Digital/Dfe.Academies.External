@@ -126,7 +126,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public PreviousFinancialYearModel(IFileUploadService fileUploadService,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
-			IConversionApplicationCreationService academisationCreationService)
+			IConversionApplicationService academisationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
 				academisationCreationService, "CurrentFinancialYear")
 		{

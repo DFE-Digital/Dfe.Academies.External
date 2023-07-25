@@ -1,15 +1,17 @@
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
-using Dfe.Academies.External.Web.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Dfe.Academies.External.Web.Extensions;
+
 
 namespace Dfe.Academies.External.Web.Pages
 {
     public class DeleteApplicationModel : BasePageEditModel
     {
 
-		private readonly IConversionApplicationCreationService _academisationCreationService;
+        private readonly IEmailNotificationService _emailNotificationService;
+		private readonly IConversionApplicationService _academisationService;
+		private readonly IConfiguration configuration;
 
         [BindProperty]
 		public int ApplicationId { get; set; }
@@ -35,25 +37,24 @@ namespace Dfe.Academies.External.Web.Pages
 		}
 
        public DeleteApplicationModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-			IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService academisationCreationService)
+			IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationService academisationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
-			_academisationCreationService = academisationCreationService;
-			
+			_academisationService = academisationService;			
 		}
         
         public async Task<ActionResult> OnGetAsync(int appId)
         {
             var draftConversionApplication = await LoadAndSetApplicationDetails(appId);
 		
-			var checkStatus = await CheckApplicationPermission(appId);
+			var checkStatus = await CheckApplicationPermission(9005);
 
 			if (checkStatus is ForbidResult)
 			{
 				return RedirectToPage("ApplicationAccessException");
 			}
 
-			if (draftConversionApplication?.ApplicationStatus == Enums.ApplicationStatus.Submitted)
+			if (draftConversionApplication?.ApplicationStatus == Enums.ApplicationStatus.Submitted || draftConversionApplication?.DeletedAt != null)
 			{
 				return RedirectToPage("ApplicationAccessException");
 			}
@@ -86,12 +87,14 @@ namespace Dfe.Academies.External.Web.Pages
 				return RedirectToPage("ApplicationAccessException");
 			}
 
-			if (draftConversionApplication.ApplicationStatus == Enums.ApplicationStatus.Submitted )
+			if (draftConversionApplication.ApplicationStatus == Enums.ApplicationStatus.Submitted)
 			{
 				return RedirectToPage("ApplicationAccessException");
 			}
 
-			await _academisationCreationService.CancelApplication(appId);			
+			await _academisationService.CancelApplication(appId);	
+
+			var cat  = draftConversionApplication.Contributors;
 
 			return RedirectToPage("YourApplications", new 
 				{ deletedApplicationReferenceNumber = draftConversionApplication.ApplicationReference,

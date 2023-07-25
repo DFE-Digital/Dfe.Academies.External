@@ -21,7 +21,7 @@ internal sealed class TempDataHelperTests
 		// arrange
 		var expected = int.MaxValue.ToString();
 		var storageKey = "TempDataHelperService___GetNonSerialisedValue___Success";
-		var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockAcademisationCreationService = new Mock<IConversionApplicationService>();
 		var pageModel = SetupWhatIsYourRoleModel(mockAcademisationCreationService.Object);
 
 		// act
@@ -39,7 +39,7 @@ internal sealed class TempDataHelperTests
 		// arrange
 		var expected = int.MaxValue.ToString();
 		var storageKey = "TempDataHelperService___StoreNonSerialisedValue___Success";
-		var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockAcademisationCreationService = new Mock<IConversionApplicationService>();
 		var pageModel = SetupWhatIsYourRoleModel(mockAcademisationCreationService.Object);
 
 		// act
@@ -56,7 +56,7 @@ internal sealed class TempDataHelperTests
 	{
 		// arrange
 		var storageKey = "TempDataHelperService___GetSerialisedValue___Success";
-		var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockAcademisationCreationService = new Mock<IConversionApplicationService>();
 		var pageModel = SetupWhatIsYourRoleModel(mockAcademisationCreationService.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
@@ -78,7 +78,7 @@ internal sealed class TempDataHelperTests
 	{
 		// arrange
 		var storageKey = "TempDataHelperService___StoreSerialisedValue___Success";
-		var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockAcademisationCreationService = new Mock<IConversionApplicationService>();
 		var pageModel = SetupWhatIsYourRoleModel(mockAcademisationCreationService.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
@@ -96,7 +96,7 @@ internal sealed class TempDataHelperTests
 	}
 
 	private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(
-		IConversionApplicationCreationService mockAcademisationCreationService,
+		IConversionApplicationService mockAcademisationCreationService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);

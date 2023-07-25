@@ -26,7 +26,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 		public ApplicationNewTrustImprovementStrategyModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 												IReferenceDataRetrievalService referenceDataRetrievalService,
-												IConversionApplicationCreationService conversionApplicationCreationService)
+												IConversionApplicationService conversionApplicationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService,
 				"ApplicationNewTrustImprovementStrategySummary")
 		{

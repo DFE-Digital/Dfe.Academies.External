@@ -58,7 +58,7 @@ public static class StartupExtension
 	public static void AddInternalServices(this IServiceCollection services)
 	{
 		// Web application services
-		services.AddScoped<IConversionApplicationCreationService, ConversionApplicationCreationService>();
+		services.AddScoped<IConversionApplicationService, ConversionApplicationService>();
 		services.AddScoped<IConversionApplicationRetrievalService, ConversionApplicationRetrievalService>();
 		services.AddScoped<IReferenceDataRetrievalService, ReferenceDataRetrievalService>();
 		services.AddSingleton<IContributorEmailSenderService, ContributorEmailSenderService>();

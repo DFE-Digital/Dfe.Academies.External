@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Services;
 
-public sealed class ConversionApplicationCreationService : BaseService, IConversionApplicationCreationService
+public sealed class ConversionApplicationService : BaseService, IConversionApplicationService
 {
-	private readonly ILogger<ConversionApplicationCreationService> _logger;
+	private readonly ILogger<ConversionApplicationService> _logger;
 	private readonly ResilientRequestProvider _resilientRequestProvider;
 	private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
 
-	public ConversionApplicationCreationService(IHttpClientFactory httpClientFactory,
-												ILogger<ConversionApplicationCreationService> logger,
+	public ConversionApplicationService(IHttpClientFactory httpClientFactory,
+												ILogger<ConversionApplicationService> logger,
 												IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 												ICorrelationContext correlationContext) : base(httpClientFactory, correlationContext, AcademisationAPIHttpClientName)
 	{

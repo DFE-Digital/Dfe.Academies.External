@@ -29,7 +29,7 @@ internal sealed class AddAContributorModelTests
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 		var mockContributorEmailSenderService  = new Mock<IContributorEmailSenderService>(); 
 		int applicationId = Fixture.Create<int>();
 
@@ -52,7 +52,7 @@ internal sealed class AddAContributorModelTests
 	private static AddAContributorModel SetupAddAContributorModel(
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
-		IConversionApplicationCreationService mockConversionApplicationCreationService,
+		IConversionApplicationService mockConversionApplicationCreationService,
 		IContributorEmailSenderService contributorEmailSenderService,
 		bool isAuthenticated = false)
 	{

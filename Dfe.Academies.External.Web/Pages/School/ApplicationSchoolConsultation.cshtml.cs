@@ -39,7 +39,7 @@ public class ApplicationSchoolConsultationModel : BaseSchoolPageEditModel
 
 	public ApplicationSchoolConsultationModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		IReferenceDataRetrievalService referenceDataRetrievalService,
-		IConversionApplicationCreationService academisationCreationService)
+		IConversionApplicationService academisationCreationService)
 		: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
 			academisationCreationService, "ApplicationSchoolConsultationSummary")
 	{}
