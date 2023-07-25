@@ -65,4 +65,6 @@ public interface IConversionApplicationCreationService
 	Task DeleteKeyPerson(int applicationId, int keyPersonId);
 
 	Task RemoveSchoolFromApplication(int applicationId, int schoolUrn);
+
+	Task CancelApplication(int applicationId);
 }

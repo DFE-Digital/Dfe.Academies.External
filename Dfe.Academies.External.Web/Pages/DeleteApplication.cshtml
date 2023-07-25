@@ -24,9 +24,14 @@
         schools on this application that want to become academies later must start a new application.</p>
 
     <div>
-        <button id="deleteButton" class="govuk-button govuk-button--warning" data-module="govuk-button">
+        <form method="post" name="frmDeleteApplication" novalidate="">
+              @Html.AntiForgeryToken()
+        <button type="submit" id="deleteButton" class="govuk-button govuk-button--warning" data-module="govuk-button">
             Yes, delete
         </button>
+        </form>
+       
+       
 
         <a asp-page="ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-button govuk-button--secondary">No, take me back </a>
     </div>

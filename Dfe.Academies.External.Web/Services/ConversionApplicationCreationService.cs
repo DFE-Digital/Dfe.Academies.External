@@ -498,6 +498,19 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		await _resilientRequestProvider.DeleteAsync<DeleteSchoolCommand>(apiurl, deleteSchoolCommand);
 	}
 
+		public async Task CancelApplication(int applicationId)
+	{
+		var application = await GetApplication(applicationId);
+
+		if (application?.ApplicationId != applicationId)
+		{
+			throw new ArgumentException("Application not found");
+		}	
+
+		string apiurl = $"{HttpClient.BaseAddress}application/{applicationId}/delete-application";
+		await _resilientRequestProvider.DeleteAsync<int>(apiurl, applicationId);
+	}
+
 	private async Task<ConversionApplication?> GetApplication(int applicationId)
 	{
 		return await _conversionApplicationRetrievalService.GetApplication(applicationId);
