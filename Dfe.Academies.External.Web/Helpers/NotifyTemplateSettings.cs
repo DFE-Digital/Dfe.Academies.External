@@ -10,5 +10,6 @@
 		public string ProblemWithTheFormNoResponseNeededTemplateId { get; set; }
 		public string ProblemWithTheFormResponseNeededTemplateId { get; set; }
 		public string FeedbackTemplateId { get; set; }
+		public string ApplicationDeletedId { get; set; }
 	}
 }
