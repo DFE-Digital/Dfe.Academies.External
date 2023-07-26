@@ -4,11 +4,9 @@
     ViewData["Title"] = "Apply to become an academy - Your applications";
 }
 
-<div class="govuk-grid-column-full">
+ <div class="govuk-grid-column-two-thirds">
 
-    @{
-
-          @if (Model.ShowApplicationRemovedConfirmationBox)
+           @if (Model.ShowApplicationRemovedConfirmationBox)
     {
         <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
          aria-labelledby="govuk-notification-banner-title"
@@ -22,11 +20,16 @@
                 <h3 class="govuk-notification-banner__heading">
                     Application Deleted
                 </h3>
-                <p class ="govuk-body">
-                    @Model.DeletedApplicationType @Model.RemovedApplicationReferenceNumber has been successfully removed</p>
+                <p class ="govuk-body">@Model.DeletedApplicationType @Model.RemovedApplicationReferenceNumber has been successfully removed.</p>
             </div>
         </div>
     }
+ </div>
+
+<div class="govuk-grid-column-full">
+    @{
+
+  
         if (Model.ExistingApplications.Any())
         {
 
