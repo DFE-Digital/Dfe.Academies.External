@@ -8,7 +8,7 @@ namespace Dfe.Academies.External.Web.Pages
 {
     public class RemoveAContributorConfirmationModel : BasePageEditModel
 	{
-		private readonly IConversionApplicationCreationService _academisationCreationService;
+		private readonly IConversionApplicationService _academisationCreationService;
 		
 		[BindProperty]
 		public int ContributorId { get; set; }
@@ -22,7 +22,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public RemoveAContributorConfirmationModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
-			IConversionApplicationCreationService academisationCreationService) 
+			IConversionApplicationService academisationCreationService) 
 	        : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
         {
 	        _academisationCreationService = academisationCreationService;

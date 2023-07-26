@@ -16,7 +16,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public ApplicationJoinTrustReasonsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
-			IConversionApplicationCreationService academisationCreationService)
+			IConversionApplicationService academisationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, 
 				academisationCreationService, "ApplicationChangeSchoolName")
 		{}

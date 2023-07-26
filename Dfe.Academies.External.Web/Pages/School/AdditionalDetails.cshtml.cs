@@ -16,7 +16,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	public class AdditionalDetails : BaseSchoolPageEditModel
 	{
 		private readonly IFileUploadService _fileUploadService;
-		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
+		private readonly IConversionApplicationService _conversionApplicationCreationService;
 		
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
@@ -286,7 +286,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
 		}
 		
-		public AdditionalDetails(IFileUploadService fileUploadService, IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "FurtherInformationSummary")
+		public AdditionalDetails(IFileUploadService fileUploadService, IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationService conversionApplicationCreationService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "FurtherInformationSummary")
 		{
 			_fileUploadService = fileUploadService;
 			_conversionApplicationCreationService = conversionApplicationCreationService;

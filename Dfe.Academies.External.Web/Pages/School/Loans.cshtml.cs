@@ -14,7 +14,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	{
 		public Loans(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
-			IConversionApplicationCreationService academisationCreationService) :
+			IConversionApplicationService academisationCreationService) :
 			base(conversionApplicationRetrievalService, referenceDataRetrievalService,
 				academisationCreationService, "Leases")
 		{ }

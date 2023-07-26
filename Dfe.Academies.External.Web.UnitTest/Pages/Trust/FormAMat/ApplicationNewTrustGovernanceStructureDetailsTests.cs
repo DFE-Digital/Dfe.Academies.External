@@ -30,7 +30,7 @@ internal sealed class ApplicationNewTrustGovernanceStructureDetailsTests
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
 		int applicationId = Fixture.Create<int>();
 
@@ -57,7 +57,7 @@ internal sealed class ApplicationNewTrustGovernanceStructureDetailsTests
 	private static ApplicationNewTrustGovernanceStructureDetails setupApplicationNewTrustGovernanceStructureDetails(
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
-		IConversionApplicationCreationService mockConversionApplicationCreationService,
+		IConversionApplicationService mockConversionApplicationCreationService,
 		IFileUploadService mockFileUploadService,
 		bool isAuthenticated = false)
 	{

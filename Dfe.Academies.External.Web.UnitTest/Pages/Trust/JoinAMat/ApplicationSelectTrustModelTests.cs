@@ -27,7 +27,7 @@ internal sealed class ApplicationSelectTrustModelTests
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 		int applicationId = int.MaxValue;
 		int urn = 101934;
 
@@ -52,7 +52,7 @@ internal sealed class ApplicationSelectTrustModelTests
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 		int applicationId = int.MaxValue;
 		int urn = 101934;
 
@@ -79,7 +79,7 @@ internal sealed class ApplicationSelectTrustModelTests
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 		int applicationId = int.MaxValue;
 		int urn = 101934;
 
@@ -106,7 +106,7 @@ internal sealed class ApplicationSelectTrustModelTests
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 		int applicationId = int.MaxValue;
 		int urn = 101934;
 
@@ -133,7 +133,7 @@ internal sealed class ApplicationSelectTrustModelTests
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 		int applicationId = int.MaxValue;
 		int urn = 101934;
 
@@ -161,7 +161,7 @@ internal sealed class ApplicationSelectTrustModelTests
 	private static ApplicationSelectTrustModel SetupApplicationSelectSchoolModel(
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
-		IConversionApplicationCreationService mockConversionApplicationCreationService,
+		IConversionApplicationService mockConversionApplicationCreationService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);

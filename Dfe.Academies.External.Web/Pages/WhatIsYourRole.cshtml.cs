@@ -11,11 +11,11 @@ namespace Dfe.Academies.External.Web.Pages;
 
 public class WhatIsYourRoleModel : BasePageModel
 {
-	private readonly IConversionApplicationCreationService _academisationCreationService;
+	private readonly IConversionApplicationService _academisationCreationService;
 	private readonly ILogger<WhatIsYourRoleModel> logger;
 	private const string NextStepPage = "/ApplicationOverview";
 
-	public WhatIsYourRoleModel(IConversionApplicationCreationService academisationCreationService, ILogger<WhatIsYourRoleModel> logger)
+	public WhatIsYourRoleModel(IConversionApplicationService academisationCreationService, ILogger<WhatIsYourRoleModel> logger)
 	{
 		_academisationCreationService = academisationCreationService;
 		this.logger = logger;

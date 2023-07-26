@@ -67,7 +67,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public ApplicationConversionTargetDateModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
-			IConversionApplicationCreationService academisationCreationService)
+			IConversionApplicationService academisationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
 				academisationCreationService, "ApplicationJoinTrustReasons")
 		{}

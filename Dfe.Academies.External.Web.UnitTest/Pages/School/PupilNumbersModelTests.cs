@@ -24,7 +24,7 @@ internal sealed class PupilNumbersModelTests
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		int urn = 101934;
@@ -52,7 +52,7 @@ internal sealed class PupilNumbersModelTests
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static PupilNumbersModel SetupPupilNumbersModel(
-		IConversionApplicationCreationService mockConversionApplicationCreationService,
+		IConversionApplicationService mockConversionApplicationCreationService,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		bool isAuthenticated = false)

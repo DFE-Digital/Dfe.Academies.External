@@ -36,7 +36,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 		public ApplicationNewTrustReasonsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 												IReferenceDataRetrievalService referenceDataRetrievalService, 
-												IConversionApplicationCreationService conversionApplicationCreationService) 
+												IConversionApplicationService conversionApplicationCreationService) 
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, 
 				"ApplicationNewTrustReasonsSummary")
 		{

@@ -13,6 +13,15 @@ namespace Dfe.Academies.External.Web.Pages
 		public List<ConversionApplication> ExistingApplications { get; set; } = new();
 		public List<ConversionApplication> CompletedApplications { get; set; } = new();
 
+		[BindProperty]
+		public bool ShowApplicationRemovedConfirmationBox { get { return !string.IsNullOrEmpty(RemovedApplicationReferenceNumber);  } }
+
+		[BindProperty]
+		public string? RemovedApplicationReferenceNumber { get; set; }
+
+		[BindProperty]
+		public string? DeletedApplicationType{ get; set; }
+
 		private readonly IConversionApplicationRetrievalService _conversionApplications;
 
 		public HomeModel(IConversionApplicationRetrievalService conversionApplications)
@@ -20,8 +29,12 @@ namespace Dfe.Academies.External.Web.Pages
 			_conversionApplications = conversionApplications;
 		}
 
-		public async Task OnGet()
+		public async Task OnGet(string? deletedApplicationReferenceNumber,string? deletedApplicationType)
 		{
+			RemovedApplicationReferenceNumber = deletedApplicationReferenceNumber;
+			
+			DeletedApplicationType = deletedApplicationType;
+
 			string userEmail = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
 
 			ExistingApplications = await _conversionApplications.GetPendingApplications(userEmail);

@@ -11,7 +11,7 @@ namespace Dfe.Academies.External.Web.Pages
 {
 	public class ApplicationOverviewModel : BasePageEditModel
 	{
-		private readonly IConversionApplicationCreationService _conversionApplicationCreationService;
+		private readonly IConversionApplicationService _conversionApplicationCreationService;
 		private readonly ILogger<ApplicationOverviewModel> logger;
 
 		[BindProperty]
@@ -75,7 +75,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public ApplicationOverviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 										IReferenceDataRetrievalService referenceDataRetrievalService,
-										IConversionApplicationCreationService conversionApplicationCreationService,
+										IConversionApplicationService conversionApplicationCreationService,
 										ILogger<ApplicationOverviewModel> logger
 		) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
