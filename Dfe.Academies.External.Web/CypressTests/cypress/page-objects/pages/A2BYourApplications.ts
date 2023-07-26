@@ -16,4 +16,9 @@ export default class A2BYourApplications extends BasePage {
     {
         cy.get('a[href="/what-are-you-applying-to-do"]').click()
     }
+
+    static verifyApplicationDeleted()
+    {
+        cy.verifyApplicationDeleted()
+    }
 }
