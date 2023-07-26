@@ -40,13 +40,10 @@ describe("Delete Application Tests", () => {
     A2BYourApplication.selectCancelApplication();
 
     //VERIFY CONFIRM DELETE APPLICATION PAGE DISPLAYS CORRECTLY
-    A2BConfirmApplicationDelete.confirmApplicationDeleteVerifyElementsVisible();
-
-    //A2BConfirmApplicationDelete.selectConfirmDelete();
+    A2BConfirmApplicationDelete.checkAppIDIsCorrectAndselectConfirmDelete()
 
     // VERIFY CONFIRMATION OF DELETION BANNER DISPLAYS ON YOUR APPLICATIONS PAGE
-    // AND A2B_XX IS NO LONGER PRESENT
-    //A2BYourApplications.verifyApplicationDeleted();
+     A2BYourApplications.verifyApplicationDeleted();
 
   })
 })
