@@ -4,6 +4,7 @@
 
 @{
 	string currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value ?? string.Empty;
+    var leadContributor = Model.FirstOrDefault();
 }
 
 @*    <p id="summaryTableDescription" class="govuk-body">Application contributors</p>*@
@@ -24,7 +25,9 @@
                     <th scope="row" class="govuk-table__cell">@contributor.FullName</th>
 	                <td class="govuk-table__cell">@contributor.RoleName</td>
 	                <td class="govuk-table__cell">
-                        @if (!string.Equals(currentUserEmail.Trim().ToLower(), contributor.EmailAddress.Trim().ToLower(), StringComparison.Ordinal))
+                        @if (!string.Equals(currentUserEmail.Trim().ToLower(), contributor.EmailAddress.Trim().ToLower(), StringComparison.Ordinal) ||
+                         !string.Equals(contributor.EmailAddress.Trim().ToLower(),leadContributor?.EmailAddress?.Trim().ToLower())
+                        )
                         {
 	                        <a asp-page="RemoveAContributorConfirmation" asp-route-appId="@contributor.ApplicationId"
 	                           asp-route-contributorId="@contributor.ContributorId"
