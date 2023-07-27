@@ -29,7 +29,7 @@ internal sealed class ApplicationNewTrustOpeningDateModelTests
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 		int applicationId = Fixture.Create<int>();
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
@@ -50,7 +50,7 @@ internal sealed class ApplicationNewTrustOpeningDateModelTests
 	private static ApplicationNewTrustOpeningDateModel SetupApplicationNewTrustOpeningDateModel(
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
-		IConversionApplicationCreationService mockConversionApplicationCreationService,
+		IConversionApplicationService mockConversionApplicationCreationService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);

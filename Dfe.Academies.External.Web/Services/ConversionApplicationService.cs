@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Services;
 
-public sealed class ConversionApplicationCreationService : BaseService, IConversionApplicationCreationService
+public sealed class ConversionApplicationService : BaseService, IConversionApplicationService
 {
-	private readonly ILogger<ConversionApplicationCreationService> _logger;
+	private readonly ILogger<ConversionApplicationService> _logger;
 	private readonly ResilientRequestProvider _resilientRequestProvider;
 	private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
 
-	public ConversionApplicationCreationService(IHttpClientFactory httpClientFactory,
-												ILogger<ConversionApplicationCreationService> logger,
+	public ConversionApplicationService(IHttpClientFactory httpClientFactory,
+												ILogger<ConversionApplicationService> logger,
 												IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 												ICorrelationContext correlationContext) : base(httpClientFactory, correlationContext, AcademisationAPIHttpClientName)
 	{
@@ -496,6 +496,19 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		// https://academies-academisation-api-dev.azurewebsites.net/application/99/form-trust/school/99
 		string apiurl = $"{HttpClient.BaseAddress}application/{applicationId}/form-trust/school/{schoolUrn}";
 		await _resilientRequestProvider.DeleteAsync<DeleteSchoolCommand>(apiurl, deleteSchoolCommand);
+	}
+
+	public async Task CancelApplication(int applicationId)
+	{
+		var application = await GetApplication(applicationId);
+	
+		if (application == null)
+		{
+			throw new ArgumentException("Application not found");
+		}	
+
+		string apiurl = $"{HttpClient.BaseAddress}application/{applicationId}/delete-application";
+		await _resilientRequestProvider.DeleteAsync<int>(apiurl, applicationId);
 	}
 
 	private async Task<ConversionApplication?> GetApplication(int applicationId)

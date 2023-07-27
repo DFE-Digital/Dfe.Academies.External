@@ -42,7 +42,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 		public ApplicationNewTrustPlansForGrowthModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 												IReferenceDataRetrievalService referenceDataRetrievalService,
-												IConversionApplicationCreationService conversionApplicationCreationService)
+												IConversionApplicationService conversionApplicationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService,
 				"ApplicationNewTrustGrowthSummary")
 		{

@@ -26,7 +26,7 @@ internal sealed class ApplicationJoinTrustReasonsModelTests
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
@@ -54,7 +54,7 @@ internal sealed class ApplicationJoinTrustReasonsModelTests
 	private static ApplicationJoinTrustReasonsModel SetupApplicationJoinTrustReasonsModel(
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
-		IConversionApplicationCreationService academisationCreationService,
+		IConversionApplicationService academisationCreationService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);

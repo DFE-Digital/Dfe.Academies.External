@@ -8,7 +8,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class LeaseDetails : BasePageEditModel
 	{
-		private readonly IConversionApplicationCreationService academisationCreationService;
+		private readonly IConversionApplicationService academisationCreationService;
 
 		[BindProperty]
 		public int Id { get; set; }
@@ -127,7 +127,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		///<inheritdoc/>
 		public LeaseDetails(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-																	IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService academisationCreationService)
+																	IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationService academisationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
 			this.academisationCreationService = academisationCreationService;

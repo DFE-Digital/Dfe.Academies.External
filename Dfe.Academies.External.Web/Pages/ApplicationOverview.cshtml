@@ -176,7 +176,6 @@
 		<hr/>
 	}
 
-
 	<div class="govuk-!-margin-6"></div>
 
 	@if (!Model.UserHasSubmitApplicationRole && Model.DeclarationStatus == Status.Completed)
@@ -214,6 +213,11 @@
 
 		</form>
 	</div>
+
+		@if (!Model.HideDeleteButton && Model.ApplicationStatus == ApplicationStatus.InProgress)
+			{
+				<p class="govuk-body"> <a asp-page="DeleteApplication" asp-route-appId="@Model.ApplicationId" class="govuk-link">Cancel application</a></p>
+			}
 </div>
 
 @*<div class="govuk-grid-column-one-third">

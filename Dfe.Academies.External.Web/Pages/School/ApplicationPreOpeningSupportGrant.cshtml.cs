@@ -39,7 +39,7 @@ public class ApplicationPreOpeningSupportGrantModel : BaseSchoolPageEditModel
 
 	public ApplicationPreOpeningSupportGrantModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		IReferenceDataRetrievalService referenceDataRetrievalService,
-		IConversionApplicationCreationService academisationCreationService)
+		IConversionApplicationService academisationCreationService)
 		: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
 			academisationCreationService, "ApplicationPreOpeningSupportGrantSummary")
 	{}
