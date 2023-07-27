@@ -15,8 +15,7 @@ namespace Dfe.Academies.External.Web.Pages
         private readonly IEmailNotificationService _emailNotificationService;
 		
 		private readonly IConversionApplicationService _academisationService;
-		private readonly IConfiguration configuration;
-
+		
         [BindProperty]
 		public int ApplicationId { get; set; }
 
