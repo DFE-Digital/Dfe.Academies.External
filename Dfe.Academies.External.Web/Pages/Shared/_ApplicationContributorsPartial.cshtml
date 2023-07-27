@@ -25,11 +25,14 @@
                     <th scope="row" class="govuk-table__cell">@contributor.FullName</th>
 	                <td class="govuk-table__cell">@contributor.RoleName</td>
 	                <td class="govuk-table__cell">
-                        @if (!string.Equals(currentUserEmail.Trim().ToLower(), contributor.EmailAddress.Trim().ToLower(), StringComparison.Ordinal) ||
-                         !string.Equals(contributor.EmailAddress.Trim().ToLower(),leadContributor?.EmailAddress?.Trim().ToLower(),StringComparison.Ordinal)
-                        )
+                        @if (string.Equals(leadContributor?.EmailAddress.Trim().ToLower(), contributor.EmailAddress.Trim().ToLower(), StringComparison.Ordinal))
                         {
-	                        <a asp-page="RemoveAContributorConfirmation" asp-route-appId="@contributor.ApplicationId"
+	                        <a>Lead contributor</a>
+                        }
+
+                        else if (!string.Equals(currentUserEmail.Trim().ToLower(), contributor.EmailAddress.Trim().ToLower(), StringComparison.Ordinal))
+                        {
+                          <a asp-page="RemoveAContributorConfirmation" asp-route-appId="@contributor.ApplicationId"
 	                           asp-route-contributorId="@contributor.ContributorId"
 	                           class="govuk-link">Remove contributor</a>
                         }
