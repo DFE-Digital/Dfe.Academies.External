@@ -2570,6 +2570,9 @@ Cypress.Commands.add('declarationCompleteElementsVisible', ():void => {
     cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
     cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
 
+    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get('p').eq(4).contains('You can invite or remove contributors to this form. If you are not the chair of the school\'s governing body, you must add them so that they can submit this application.')
+
     // CHECK FOR SUBMIT APPLICATION BUTTON
     cy.contains('Submit application').should('be.visible').contains('Submit application')
 
