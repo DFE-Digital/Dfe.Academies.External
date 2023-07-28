@@ -9,6 +9,32 @@ import 'cypress-file-upload';
 
 let globalApplicationId = 10080;
 
+Cypress.Commands.add('checkAppIDIsCorrectAndselectConfirmDelete', ():void => {
+    cy.log(`Global Application ID = ${globalApplicationId}`)
+
+
+    cy.get('.govuk-caption-xl').contains(`Application reference: A2B_${globalApplicationId}`)
+
+    
+    cy.get('#deleteButton').should('be.visible').contains('Yes, delete')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('No, take me back')
+
+    cy.get('#deleteButton').should('be.visible').contains('Yes, delete').click()
+
+})
+
+Cypress.Commands.add('verifyApplicationDeleted', ():void => {
+    cy.log(`Global Application ID = ${globalApplicationId}`)
+
+    cy.get('.govuk-body').eq(0).contains(`trust A2B_${globalApplicationId} has been successfully removed.`)
+
+    cy.get('.govuk-table').contains(`${globalApplicationId}`).should('not.exist')
+
+
+})
+
+
+
 Cypress.Commands.add('checkFooterLinksVisible', ():void => {
         cy.get('a[href="/accessibility-statement"]').should('be.visible').contains('Accessibility statement')
         cy.contains('Cookie policy').should('be.visible').contains('Cookie policy')
