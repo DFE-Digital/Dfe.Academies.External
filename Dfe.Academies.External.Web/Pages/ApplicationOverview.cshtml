@@ -193,7 +193,7 @@
 
 	@if (Model.HasSchool)
 	{
-		<p class="govuk-body">You can <a asp-page="AddAContributor" asp-route-appId="@Model.ApplicationId" class="govuk-link">invite other people to help you complete this form</a> or see who has already been invited.</p>
+		<p class="govuk-body">You can <a asp-page="AddAContributor" asp-route-appId="@Model.ApplicationId" class="govuk-link">invite other people to help you complete this form</a>. If you are not the chair of the schools's governing body, you must add them so that they can submit this application.</p>
 	}
 	else
 	{
