@@ -15,17 +15,14 @@
             <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
                 <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel" />
             </div>
-
+            <h1 class="govuk-heading-l">Help with your application</h1>
             <div class="govuk-character-count">
                 <div class="@(Model.IsPropertyInvalid("HelpSummary") ? "govuk-form-group--error" : "govuk-form-group")">
                     <h1 class="govuk-label-wrapper">
-                        <label class="govuk-label govuk-label--l" for="HelpSummary">
-                            Help with your application
+                        <label class="govuk-label govuk-label--m" for="HelpSummary">
+                            What do you need help with?
                         </label>
                     </h1>
-                    <div id="HelpSummary-hint" class="govuk-hint">
-                        What do you need help with?
-                    </div>
                     <p id="full-name-input-error" class="govuk-error-message @(!Model.IsPropertyInvalid("HelpSummary") ? "govuk-visually-hidden" : "")">
                         <span class="govuk-visually-hidden">Error:</span> You must give details
                     </p>
