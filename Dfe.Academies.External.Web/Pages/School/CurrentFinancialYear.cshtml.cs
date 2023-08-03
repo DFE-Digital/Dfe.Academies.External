@@ -122,7 +122,7 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 
 	public CurrentFinancialYearModel(IFileUploadService fileUploadService, IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 									IReferenceDataRetrievalService referenceDataRetrievalService,
-									IConversionApplicationCreationService academisationCreationService) 
+									IConversionApplicationService academisationCreationService) 
         : base(conversionApplicationRetrievalService, referenceDataRetrievalService,
 	        academisationCreationService, "NextFinancialYear")
 	{

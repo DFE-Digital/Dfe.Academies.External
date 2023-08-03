@@ -4,23 +4,25 @@ Web Application to contain any functionality accessed externally (i.e. outside D
 
 ## Content
 
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Shared Components](#Shared-Components)
-  - [User Secrets](#user-secrets)
-  - [Installing](#installing)
-- [Contributing](#contributing)
-  - [Project Architecture](#project-architecture)
-  - [Code structure](#code-structure)
-  - [Caching](#caching)
-  - [Error handling - model state errors](#error-handling-model-state-errors)
-- [Running the Tests](#running-the-tests)
-  - [Unit Tests](#unit-tests)
-- [Deployment](#deployment)
-- [Built With](#built-with)
-  - [Dot Net Core Dependency Injection](#dot-net-core-dependency-injection)
-  - [Logging, Serilog and Sentry](#logging-serilog-sentry)
-- [End to End Tests](#end-to-end-tests)
+- [Dfe Academies External Web](#dfe-academies-external-web)
+  - [Content](#content)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Shared Components](#shared-components)
+    - [User Secrets](#user-secrets)
+    - [Installing](#installing)
+  - [Contributing](#contributing)
+    - [Project Architecture](#project-architecture)
+    - [Code structure](#code-structure)
+    - [Caching](#caching)
+    - [Error handling model state errors](#error-handling-model-state-errors)
+  - [Running the Tests](#running-the-tests)
+    - [Unit Tests](#unit-tests)
+  - [Deployment](#deployment)
+  - [Built With](#built-with)
+    - [Dot Net Core Dependency Injection](#dot-net-core-dependency-injection)
+    - [Logging / Serilog and Sentry](#logging--serilog-and-sentry)
+    - [End to End Tests](#end-to-end-tests)
 
 ## Getting Started
 
@@ -69,18 +71,6 @@ Using Visual Studio, open the `Dfe.Academies.External.sln` file and let the IDE 
 Once the solution is fully loaded, you can right click on the solution file in the file explorer (inside Visual Studio) and then click on "Restore NuGet Packages". 
 This will assert that the packages required for all projects under this solution are restored. 
 Finally build the solution; the main project to set as the "Start Up Project" should be `Dfe.Academies.External.Web`.
-
-### Launching with Docker Compose
-
-This app has also been containerised with Docker.
-
-To launch locally, run:
-
-```
-docker-compose up -f docker-compose.yml --build
-```
-
-The app will then be exposed on port 80 localhost (http://localhost)
 
 ## Contributing
 

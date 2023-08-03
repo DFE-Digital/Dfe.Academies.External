@@ -12,6 +12,7 @@ using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
+using Dfe.Academisation.CorrelationIdMiddleware;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
@@ -36,12 +37,13 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationNoRoles();
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.BadRequest, expectedJson);
-		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 
-		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+		var conversionApplicationCreationService = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
-			mockConversionApplicationRetrievalService.Object);
+			mockConversionApplicationRetrievalService.Object,
+			Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// act / assert
 		var ex = Assert.ThrowsAsync<ArgumentException>(() => conversionApplicationCreationService.CreateNewApplication(conversionApplication));
@@ -59,12 +61,13 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithOtherRole();
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.Created, expectedJson);
-		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 
-		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+		var conversionApplicationCreationService = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
-			mockConversionApplicationRetrievalService.Object);
+			mockConversionApplicationRetrievalService.Object,
+			Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// act
 		var newApplication = await conversionApplicationCreationService.CreateNewApplication(conversionApplication);
@@ -91,15 +94,16 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
 		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object);
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// act
-		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+		var conversionApplicationCreationService = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
-			mockConversionApplicationRetrievalService);
+			mockConversionApplicationRetrievalService, 
+			Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// assert
 		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.AddSchoolToApplication(GetApplicationId,
@@ -122,15 +126,16 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
 		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object);
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// act
-		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+		var conversionApplicationCreationService = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
-			mockConversionApplicationRetrievalService);
+			mockConversionApplicationRetrievalService, 
+			Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// assert
 		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.AddSchoolToApplication(GetApplicationId,
@@ -150,15 +155,16 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
 		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object);
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// act
-		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+		var conversionApplicationCreationService = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
-			mockConversionApplicationRetrievalService);
+			mockConversionApplicationRetrievalService,
+			Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// assert
 		var ex = Assert.ThrowsAsync<ArgumentException>(() => conversionApplicationCreationService.AddSchoolToApplication(applicationId,
@@ -180,12 +186,13 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
-		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 
-		var sut = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+		var sut = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
-			mockConversionApplicationRetrievalService.Object);
+			mockConversionApplicationRetrievalService.Object,
+			Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		//Act
 		var result = Assert.ThrowsAsync<ArgumentException>(async () => await sut.PutSchoolApplicationDetails(GetApplicationId, schoolUrn, dictionary));
@@ -206,16 +213,17 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
-		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 
 		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(applicationId))
 			.ReturnsAsync(Fixture.Build<ConversionApplication>().With(x => x.ApplicationId, applicationId).With(x => x.Schools, new List<SchoolApplyingToConvert> { new("test", 1, "") }).Create());
 
 		//Act
-		var sut = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+		var sut = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
-			mockConversionApplicationRetrievalService.Object);
+			mockConversionApplicationRetrievalService.Object, 
+			Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		var result = Assert.ThrowsAsync<ArgumentException>(async () => await sut.PutSchoolApplicationDetails(applicationId, schoolUrn, dictionary));
 		Assert.AreEqual("School not found", result.Message);
@@ -232,15 +240,16 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
-		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 
 		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(GetApplicationId))
 			.ReturnsAsync(Fixture.Build<ConversionApplication>().With(x => x.ApplicationId, GetApplicationId).With(x => x.Schools, new List<SchoolApplyingToConvert> { new("test", schoolUrn, "") }).Create());
 
-		var sut = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+		var sut = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
-			mockConversionApplicationRetrievalService.Object);
+			mockConversionApplicationRetrievalService.Object,
+			Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		//Act
 		Assert.DoesNotThrowAsync(async () => await sut.PutSchoolApplicationDetails(GetApplicationId, schoolUrn, dictionary));
@@ -262,15 +271,16 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
 		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object);
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// act
-		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+		var conversionApplicationCreationService = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
-			mockConversionApplicationRetrievalService);
+			mockConversionApplicationRetrievalService,
+			Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// assert
 		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.PutSchoolApplicationDetails(
@@ -293,15 +303,16 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
 		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object);
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		
 		// act
-		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+		var conversionApplicationCreationService = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
-			mockConversionApplicationRetrievalService);
+			mockConversionApplicationRetrievalService,
+			Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// assert
 		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.PutSchoolApplicationDetails(
@@ -326,15 +337,16 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
 		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object);
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		
 		// act
-		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+		var conversionApplicationCreationService = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
-			mockConversionApplicationRetrievalService);
+			mockConversionApplicationRetrievalService,
+			Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// assert
 		Assert.DoesNotThrowAsync(() => conversionApplicationCreationService.PutSchoolApplicationDetails(
@@ -357,15 +369,16 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
 		var mockRetrievalHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
-		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationCreationService>>();
+		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object);
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 		
 		// act
-		var conversionApplicationCreationService = new ConversionApplicationCreationService(mockCreationHttpClientFactory.Object,
+		var conversionApplicationCreationService = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
 			mockLoggerCreationService.Object,
-			mockConversionApplicationRetrievalService);
+			mockConversionApplicationRetrievalService,
+			Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		// assert
 		Assert.ThrowsAsync<HttpRequestException>(() => conversionApplicationCreationService.PutSchoolApplicationDetails(

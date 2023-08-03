@@ -7,7 +7,7 @@ namespace Dfe.Academies.External.Web.Pages.Base;
 
 public abstract class BaseTrustFamApplicationPageEditModel : BasePageEditModel
 {
-	public readonly IConversionApplicationCreationService ConversionApplicationCreationService;
+	public readonly IConversionApplicationService ConversionApplicationCreationService;
 
 	[BindProperty]
 	public int ApplicationId { get; set; }
@@ -16,7 +16,7 @@ public abstract class BaseTrustFamApplicationPageEditModel : BasePageEditModel
 
 	protected BaseTrustFamApplicationPageEditModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 										IReferenceDataRetrievalService referenceDataRetrievalService,
-										IConversionApplicationCreationService conversionApplicationCreationService,
+										IConversionApplicationService conversionApplicationCreationService,
 										string nextStepPage)
 		: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 	{

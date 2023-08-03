@@ -125,7 +125,7 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 
 	public NextFinancialYearModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		IReferenceDataRetrievalService referenceDataRetrievalService,
-		IConversionApplicationCreationService academisationCreationService,
+		IConversionApplicationService academisationCreationService,
 		IFileUploadService fileUploadService)
 		: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
 			academisationCreationService, "Loans")

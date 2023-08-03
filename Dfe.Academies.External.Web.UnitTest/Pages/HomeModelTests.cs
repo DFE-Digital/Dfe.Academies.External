@@ -22,7 +22,7 @@ internal sealed class HomeModelTests
 		var pageModel = SetupHomeModel(mockConversionApplicationsService.Object);
 
 		// act
-		pageModel.OnGet();
+		pageModel.OnGet(null,null);
 
 		// assert
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));

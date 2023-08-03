@@ -9,6 +9,32 @@ import 'cypress-file-upload';
 
 let globalApplicationId = 10080;
 
+Cypress.Commands.add('checkAppIDIsCorrectAndselectConfirmDelete', ():void => {
+    cy.log(`Global Application ID = ${globalApplicationId}`)
+
+
+    cy.get('.govuk-caption-xl').contains(`Application reference: A2B_${globalApplicationId}`)
+
+    
+    cy.get('#deleteButton').should('be.visible').contains('Yes, delete')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('No, take me back')
+
+    cy.get('#deleteButton').should('be.visible').contains('Yes, delete').click()
+
+})
+
+Cypress.Commands.add('verifyApplicationDeleted', ():void => {
+    cy.log(`Global Application ID = ${globalApplicationId}`)
+
+    cy.get('.govuk-body').eq(0).contains(`trust A2B_${globalApplicationId} has been successfully removed.`)
+
+    cy.get('.govuk-table').contains(`${globalApplicationId}`).should('not.exist')
+
+
+})
+
+
+
 Cypress.Commands.add('checkFooterLinksVisible', ():void => {
         cy.get('a[href="/accessibility-statement"]').should('be.visible').contains('Accessibility statement')
         cy.contains('Cookie policy').should('be.visible').contains('Cookie policy')
@@ -309,7 +335,7 @@ Cypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', (
 
 
     cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-    cy.get('p').eq(4).contains('You can invite other people to help you complete this form or see who has already been invited.')
+    cy.get('p').eq(4).contains('You can invite or remove contributors to this form. If you are not the chair of the school\'s governing body, you must add them so that they can submit this application.')
 })
 
 Cypress.Commands.add('whatAreYouApplyingToDoElementsVisible', ():void => {
@@ -541,10 +567,6 @@ Cypress.Commands.add('yourApplicationNotStartedButTrustSectionCompleteElementsVi
     cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
     cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
 
-
-
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-    cy.get('p').eq(4).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
 
 Cypress.Commands.add('aboutTheConversionNotStartedElementsVisible', ():void => {
@@ -932,9 +954,6 @@ Cypress.Commands.add('yourApplicationTrustSectionAndAboutConversionCompleteEleme
     cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
 
 
-
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-    cy.get('p').eq(4).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
 
 Cypress.Commands.add('additionalDetailsSummaryNotStartedElementsVisible', ():void => {
@@ -1265,10 +1284,6 @@ Cypress.Commands.add('yourApplicationTrustSectionAboutConversionFurtherInformati
     cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
     cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
 
-
-
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-    cy.get('p').eq(4).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
 
 Cypress.Commands.add('yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible', ():void => {
@@ -1303,10 +1318,6 @@ Cypress.Commands.add('yourApplicationTrustSectionAboutConversionFurtherInformati
     cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
     cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
 
-
-
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-    cy.get('p').eq(4).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
 
 Cypress.Commands.add('financeSummaryNotStartedElementsVisible', ():void => {
@@ -1910,10 +1921,6 @@ Cypress.Commands.add('financeCompleteElementsVisible', ():void => {
     cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
     cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
 
-
-
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-    cy.get('p').eq(4).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
 
 Cypress.Commands.add('selectFuturePupilNumbers', ():void => {
@@ -2055,10 +2062,6 @@ Cypress.Commands.add('futurePupilNumbersCompleteElementsVisible', ():void => {
     cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
     cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
 
-
-
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-    cy.get('p').eq(4).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
 
 Cypress.Commands.add('selectLandAndBuildings', ():void => {
@@ -2242,10 +2245,6 @@ Cypress.Commands.add('landAndBuildingsCompleteElementsVisible', ():void => {
     cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
     cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
 
-
-
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-    cy.get('p').eq(4).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
 
 Cypress.Commands.add('selectConsultation', ():void => {
@@ -2358,10 +2357,6 @@ Cypress.Commands.add('consultationCompleteElementsVisible', ():void => {
     cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
     cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
 
-
-
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-    cy.get('p').eq(4).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
 
 Cypress.Commands.add('selectPreopeningSupportGrant', ():void => {
@@ -2468,10 +2463,6 @@ Cypress.Commands.add('preopeningSupportGrantCompleteElementsVisible', ():void =>
     cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
     cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
 
-
-
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-    cy.get('p').eq(4).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
 
 Cypress.Commands.add('declarationSummaryElementsVisible', ():void => {
@@ -2575,11 +2566,12 @@ Cypress.Commands.add('declarationCompleteElementsVisible', ():void => {
     cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
     cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
 
+    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get('p').eq(4).contains('You can invite or remove contributors to this form. If you are not the chair of the school\'s governing body, you must add them so that they can submit this application.')
+
     // CHECK FOR SUBMIT APPLICATION BUTTON
     cy.contains('Submit application').should('be.visible').contains('Submit application')
 
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-    cy.get('p').eq(4).contains('You can invite other people to help you complete this form or see who has already been invited.')
 })
 
 Cypress.Commands.add('applicationSubmittedSuccessfullyElementsVisible', ():void => {

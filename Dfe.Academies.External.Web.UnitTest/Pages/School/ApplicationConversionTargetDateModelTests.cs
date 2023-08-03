@@ -23,7 +23,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 			var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 			var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-			var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+			var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 			int urn = 101934;
 			int applicationId = int.MaxValue;
 
@@ -52,7 +52,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 			var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 			var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-			var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+			var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 			int urn = 101934;
 			int applicationId = int.MaxValue;
 
@@ -86,7 +86,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 			var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 			var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-			var mockConversionApplicationCreationService = new Mock<IConversionApplicationCreationService>();
+			var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 			int urn = 101934;
 			int applicationId = int.MaxValue;
 
@@ -112,7 +112,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 		// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 		private static ApplicationConversionTargetDateModel SetupApplicationConversionTargetDateModel(
-			IConversionApplicationCreationService mockConversionApplicationCreationService,
+			IConversionApplicationService mockConversionApplicationCreationService,
 			IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 			IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 			bool isAuthenticated = false)

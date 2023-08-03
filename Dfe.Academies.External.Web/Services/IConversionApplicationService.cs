@@ -4,7 +4,7 @@ using Dfe.Academies.External.Web.Models;
 
 namespace Dfe.Academies.External.Web.Services;
 
-public interface IConversionApplicationCreationService
+public interface IConversionApplicationService
 {
 	Task<ConversionApplication> CreateNewApplication(ConversionApplication application);
 
@@ -65,4 +65,6 @@ public interface IConversionApplicationCreationService
 	Task DeleteKeyPerson(int applicationId, int keyPersonId);
 
 	Task RemoveSchoolFromApplication(int applicationId, int schoolUrn);
+
+	Task CancelApplication(int applicationId);
 }

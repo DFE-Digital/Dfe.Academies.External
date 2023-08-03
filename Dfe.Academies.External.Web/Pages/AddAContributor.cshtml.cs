@@ -21,7 +21,7 @@ namespace Dfe.Academies.External.Web.Pages
 	/// </summary>
 	public class AddAContributorModel : BasePageEditModel
 	{
-	    private readonly IConversionApplicationCreationService _academisationCreationService;
+	    private readonly IConversionApplicationService _academisationCreationService;
 	    private readonly IContributorEmailSenderService _contributorEmailSenderService;
 
 		//// MR:- selected school props for UI rendering
@@ -77,7 +77,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 		public AddAContributorModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
-			IConversionApplicationCreationService academisationCreationService,
+			IConversionApplicationService academisationCreationService,
 			IContributorEmailSenderService contributorEmailSenderService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{

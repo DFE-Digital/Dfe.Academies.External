@@ -176,7 +176,6 @@
 		<hr/>
 	}
 
-
 	<div class="govuk-!-margin-6"></div>
 
 	@if (!Model.UserHasSubmitApplicationRole && Model.DeclarationStatus == Status.Completed)
@@ -194,7 +193,7 @@
 
 	@if (Model.HasSchool)
 	{
-		<p class="govuk-body">You can <a asp-page="AddAContributor" asp-route-appId="@Model.ApplicationId" class="govuk-link">invite other people to help you complete this form</a> or see who has already been invited.</p>
+		<p class="govuk-body">You can <a asp-page="AddAContributor" asp-route-appId="@Model.ApplicationId" class="govuk-link">invite or remove contributors to this form</a>. If you are not the chair of the school's governing body, you must add them so that they can submit this application.</p>
 	}
 	else
 	{
@@ -214,6 +213,11 @@
 
 		</form>
 	</div>
+
+		@if (!Model.HideDeleteButton && Model.ApplicationStatus == ApplicationStatus.InProgress)
+			{
+				<p class="govuk-body"> <a asp-page="DeleteApplication" asp-route-appId="@Model.ApplicationId" class="govuk-link">Cancel application</a></p>
+			}
 </div>
 
 @*<div class="govuk-grid-column-one-third">

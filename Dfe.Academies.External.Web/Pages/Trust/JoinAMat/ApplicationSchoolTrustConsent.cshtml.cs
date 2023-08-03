@@ -16,7 +16,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		private readonly IFileUploadService _fileUploadService;
 		
 		public ApplicationSchoolTrustConsent(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
-			IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationCreationService conversionApplicationCreationService, 
+			IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationService conversionApplicationCreationService, 
 			IFileUploadService fileUploadService) 
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "ApplicationSchoolChangesToATrust")
 		{

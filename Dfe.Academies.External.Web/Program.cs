@@ -8,15 +8,14 @@ using Dfe.Academies.External.Web.Middleware;
 using Dfe.Academies.External.Web.Models.EmailTemplates;
 using Dfe.Academies.External.Web.Routing;
 using Dfe.Academies.External.Web.Services;
+using Dfe.Academisation.CorrelationIdMiddleware;
 using GovUk.Frontend.AspNetCore;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Notify.Client;
 using Notify.Interfaces;
@@ -25,10 +24,6 @@ using Polly.Extensions.Http;
 using Quartz;
 using Serilog;
 using StackExchange.Redis;
-
-//using Serilog;
-//using Serilog.Events;
-//using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -184,6 +179,8 @@ builder.Services.AddSingleton<IContributorTemplate, JoinAMatNonChairContributor>
 builder.Services.AddSingleton<IContributorNotifyTemplateFactory, ContributorNotifyTemplateFactory>();
 builder.Services.AddSingleton<IEmailNotificationService, EmailNotificationService>();
 
+builder.Services.AddScoped<ICorrelationContext, CorrelationContext>();
+
 builder.Services.AddHttpClient<IFileUploadService, FileUploadService>(client =>
 	{
 		client.BaseAddress = new Uri(configuration["Sharepoint:ApiUrl"]);
@@ -268,7 +265,6 @@ app.UseStatusCodePagesWithReExecute("/error/{0}");
 
 //
 //app.UseBespokeExceptionHandling(app.Environment);
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -299,6 +295,7 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 
 // add OWASP top 10 response headers
 app.UseResponseMiddleware();
+app.UseMiddleware<CorrelationIdMiddleware>();
 
 // possible redis fix
 ThreadPool.SetMinThreads(400, 400);

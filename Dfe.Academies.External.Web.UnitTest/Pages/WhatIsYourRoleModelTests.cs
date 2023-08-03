@@ -25,7 +25,7 @@ internal sealed class WhatIsYourRoleModelTests
 	{
 		// arrange
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
-		var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockAcademisationCreationService = new Mock<IConversionApplicationService>();
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
@@ -48,7 +48,7 @@ internal sealed class WhatIsYourRoleModelTests
 	public async Task OnGetAsync___Invalid()
 	{
 		// arrange
-		var mockAcademisationCreationService = new Mock<IConversionApplicationCreationService>();
+		var mockAcademisationCreationService = new Mock<IConversionApplicationService>();
 		var pageModel = SetupWhatIsYourRoleModel(mockAcademisationCreationService.Object);
 
 		// act
@@ -70,7 +70,7 @@ internal sealed class WhatIsYourRoleModelTests
 	// TODO MR:- OnPostAsync___Model___Invalid = without "draftConversionApplication" in temp storage
 
 	private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(
-		IConversionApplicationCreationService mockAcademisationCreationService,
+		IConversionApplicationService mockAcademisationCreationService,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);

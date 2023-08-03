@@ -2,26 +2,24 @@
 using Dfe.Academies.External.Web.Commands;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
-using Dfe.Academies.External.Web.Models;
-using Dfe.Academies.External.Web.Pages.School;
+using Dfe.Academisation.CorrelationIdMiddleware;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Services;
 
-public sealed class ConversionApplicationCreationService : BaseService, IConversionApplicationCreationService
+public sealed class ConversionApplicationService : BaseService, IConversionApplicationService
 {
-	private readonly ILogger<ConversionApplicationCreationService> _logger;
-	private readonly HttpClient _httpClient;
+	private readonly ILogger<ConversionApplicationService> _logger;
 	private readonly ResilientRequestProvider _resilientRequestProvider;
 	private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
 
-	public ConversionApplicationCreationService(IHttpClientFactory httpClientFactory,
-												ILogger<ConversionApplicationCreationService> logger,
-												IConversionApplicationRetrievalService conversionApplicationRetrievalService) : base(httpClientFactory)
+	public ConversionApplicationService(IHttpClientFactory httpClientFactory,
+												ILogger<ConversionApplicationService> logger,
+												IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+												ICorrelationContext correlationContext) : base(httpClientFactory, correlationContext, AcademisationAPIHttpClientName)
 	{
-		_httpClient = httpClientFactory.CreateClient(AcademisationAPIHttpClientName);
 		_logger = logger;
-		_resilientRequestProvider = new ResilientRequestProvider(_httpClient, _logger);
+		_resilientRequestProvider = new ResilientRequestProvider(HttpClient, _logger);
 		_conversionApplicationRetrievalService = conversionApplicationRetrievalService;
 	}
 
@@ -38,7 +36,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 			//// baseaddress has a backslash at the end to be a valid URI !!!
 			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
-			string apiurl = $"{_httpClient.BaseAddress}application/?api-version=V1";
+			string apiurl = $"{HttpClient.BaseAddress}application/?api-version=V1";
 			CreateApplicationApiModel createApplicationApiModel;
 
 			// Push data into Academisation API
@@ -82,7 +80,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 			//// baseaddress has a backslash at the end to be a valid URI !!!
 			//// https://academies-academisation-api-dev.azurewebsites.net/application/99
-			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+			string apiurl = $"{HttpClient.BaseAddress}application/{applicationId}?api-version=V1";
 
 			// PL:- if is form a mat we can add as many schools as we want just check that we aren't adding the same school twice
 			// if is join a mat then we add only if it is the first one
@@ -145,7 +143,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 			//// baseaddress has a backslash at the end to be a valid URI !!!
 			//// https://s184d01-aca-aca-app.nicedesert-a691fec6.westeurope.azurecontainerapps.io/application/99/join-trust
-			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/join-trust?api-version=V1";
+			string apiurl = $"{HttpClient.BaseAddress}application/{applicationId}/join-trust?api-version=V1";
 
 			ExistingTrust trust;
 			if (application.JoinTrustDetails != null)
@@ -193,7 +191,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 			//// baseaddress has a backslash at the end to be a valid URI !!!
 			//// https://s184d01-aca-aca-app.nicedesert-a691fec6.westeurope.azurecontainerapps.io/application/99/join-trust
-			string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/join-trust?api-version=V1";
+			string apiurl = $"{HttpClient.BaseAddress}application/{applicationId}/join-trust?api-version=V1";
 
 
 			// MR:- no response from Academies API - Just an OK
@@ -229,7 +227,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			if (prop.CanBeSet())
 				prop?.SetValue(school, property.Value);
 		}
-		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+		string apiurl = $"{HttpClient.BaseAddress}application/{applicationId}?api-version=V1";
 		await _resilientRequestProvider.PutAsync(apiurl, application);
 	}
 
@@ -245,7 +243,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 		application.Contributors.Add(contributor);
 
-		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+		string apiurl = $"{HttpClient.BaseAddress}application/{applicationId}?api-version=V1";
 		await _resilientRequestProvider.PutAsync(apiurl, application);
 	}
 
@@ -265,7 +263,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			application.Contributors.Remove(contributor);
 		}
 
-		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}?api-version=V1";
+		string apiurl = $"{HttpClient.BaseAddress}application/{applicationId}?api-version=V1";
 		await _resilientRequestProvider.PutAsync(apiurl, application);
 	}
 
@@ -282,7 +280,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			InterestRate = loan.InterestRate,
 			Schedule = loan.Schedule
 		};
-		string apiurl = $"{_httpClient.BaseAddress}school/loan/create";
+		string apiurl = $"{HttpClient.BaseAddress}school/loan/create";
 		await _resilientRequestProvider.PutAsync(apiurl, createLoanCommand);
 	}
 
@@ -300,7 +298,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			InterestRate = loan.InterestRate,
 			Schedule = loan.Schedule
 		};
-		string apiurl = $"{_httpClient.BaseAddress}school/loan/update";
+		string apiurl = $"{HttpClient.BaseAddress}school/loan/update";
 		await _resilientRequestProvider.PostAsync<IActionResult, UpdateLoanCommand>(apiurl, updateLoanCommand);
 	}
 
@@ -313,7 +311,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			SchoolId = schoolId,
 			LoanId = loanId
 		};
-		string apiurl = $"{_httpClient.BaseAddress}school/loan/delete";
+		string apiurl = $"{HttpClient.BaseAddress}school/loan/delete";
 		await _resilientRequestProvider.DeleteAsync<DeleteLoanCommand>(apiurl, deleteLoanCommand);
 	}
 
@@ -332,7 +330,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			ResponsibleForAssets = lease.ResponsibleForAssets,
 			ValueOfAssets = lease.ValueOfAssets
 		};
-		string apiurl = $"{_httpClient.BaseAddress}school/lease/create";
+		string apiurl = $"{HttpClient.BaseAddress}school/lease/create";
 		await _resilientRequestProvider.PutAsync(apiurl, createLeaseCommand);
 	}
 
@@ -352,7 +350,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			ResponsibleForAssets = lease.ResponsibleForAssets,
 			ValueOfAssets = lease.ValueOfAssets
 		};
-		string apiurl = $"{_httpClient.BaseAddress}school/lease/update";
+		string apiurl = $"{HttpClient.BaseAddress}school/lease/update";
 		await _resilientRequestProvider.PostAsync<IActionResult, UpdateLeaseCommand>(apiurl, updateLeaseCommand);
 	}
 
@@ -365,7 +363,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			SchoolId = schoolId,
 			LeaseId = leaseId
 		};
-		string apiurl = $"{_httpClient.BaseAddress}school/lease/delete";
+		string apiurl = $"{HttpClient.BaseAddress}school/lease/delete";
 		await _resilientRequestProvider.DeleteAsync<DeleteLeaseCommand>(apiurl, deleteLeaseCommand);
 	}
 
@@ -398,7 +396,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			FurtherInformation = furtherInformation
 		};
 
-		string apiurl = $"{_httpClient.BaseAddress}school/additional-details";
+		string apiurl = $"{HttpClient.BaseAddress}school/additional-details";
 		await _resilientRequestProvider.PutAsync<SetAdditionalDetailsCommand>(apiurl, setAdditionalDetailsCommand);
 	}
 
@@ -422,7 +420,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 
 		application.FormTrustDetails = existingFamDetails;
 
-		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/form-trust?api-version=V1";
+		string apiurl = $"{HttpClient.BaseAddress}application/{applicationId}/form-trust?api-version=V1";
 		await _resilientRequestProvider.PutAsync(apiurl, application.FormTrustDetails);
 	}
 
@@ -439,7 +437,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		// MR:- shouldn't we set who did this in the database?
 		var command = new SubmitApplicationCommand(applicationId);
 
-		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/submit?api-version=V1";
+		string apiurl = $"{HttpClient.BaseAddress}application/{applicationId}/submit?api-version=V1";
 		// expected object is not used, so deserialization to generic object is sufficient
 		await _resilientRequestProvider.PostAsync<Object, SubmitApplicationCommand>(apiurl, command);
 	}
@@ -454,7 +452,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			Biography = person.Biography,
 			Roles = person.Roles
 		};
-		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/form-trust/key-person?api-version=V1";
+		string apiurl = $"{HttpClient.BaseAddress}application/{applicationId}/form-trust/key-person?api-version=V1";
 		await _resilientRequestProvider.PostAsync<IActionResult, CreateTrustKeyPersonCommand>(apiurl, createTrustKeyPersonCommand);
 	}
 
@@ -470,7 +468,7 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 			Roles = person.Roles
 		};
 
-		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/form-trust/key-person/{person.Id}?api-version=V1";
+		string apiurl = $"{HttpClient.BaseAddress}application/{applicationId}/form-trust/key-person/{person.Id}?api-version=V1";
 		await _resilientRequestProvider.PutAsync(apiurl, updateTrustKeyPersonCommand);
 	}
 
@@ -496,8 +494,21 @@ public sealed class ConversionApplicationCreationService : BaseService, IConvers
 		};
 
 		// https://academies-academisation-api-dev.azurewebsites.net/application/99/form-trust/school/99
-		string apiurl = $"{_httpClient.BaseAddress}application/{applicationId}/form-trust/school/{schoolUrn}";
+		string apiurl = $"{HttpClient.BaseAddress}application/{applicationId}/form-trust/school/{schoolUrn}";
 		await _resilientRequestProvider.DeleteAsync<DeleteSchoolCommand>(apiurl, deleteSchoolCommand);
+	}
+
+	public async Task CancelApplication(int applicationId)
+	{
+		var application = await GetApplication(applicationId);
+	
+		if (application == null)
+		{
+			throw new ArgumentException("Application not found");
+		}	
+
+		string apiurl = $"{HttpClient.BaseAddress}application/{applicationId}/delete-application";
+		await _resilientRequestProvider.DeleteAsync<int>(apiurl, applicationId);
 	}
 
 	private async Task<ConversionApplication?> GetApplication(int applicationId)
