@@ -58,6 +58,7 @@
 						<div class="govuk-radios--conditional">
                             <div id="Application-hint" class="govuk-hint">
                     This is a list of the applications you have in progress currently. Please select from the options below the application reference number you need help with.
+                    <div id="SelectedReferenceNumber">
                 </div>
 							@foreach (var data in @Model.ExistingApplications)
 							{
@@ -73,7 +74,7 @@
                        
 						</div>
 
-
+                    </div>
 				</div>
             }
 
