@@ -30,9 +30,9 @@ namespace Dfe.Academies.External.Web.Pages.Help
 		
 		[BindProperty]
 		[Required(ErrorMessage = "You must select an application")]
+		
 		public string SelectedReferenceNumber { get; set; }
 
-		[BindProperty]
 		public List<ConversionApplication> ExistingApplications { get; set; } = new();
 
 		private readonly IConversionApplicationRetrievalService conversionApplications;
