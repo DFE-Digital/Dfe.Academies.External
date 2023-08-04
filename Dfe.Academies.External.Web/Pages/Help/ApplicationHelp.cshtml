@@ -50,9 +50,10 @@
                 <input type="email" asp-for="EmailAddress" id="EmailAddress" class="govuk-input govuk-input--width-20" />
             </div>
 
-            @if(@Model.ExistingApplications.Any()){
+            @if(@Model.ExistingApplications.Any())
+            {
 
-	 <div class="govuk-form-group">
+	       <div class="govuk-form-group">
                         <label class="govuk-label govuk-label--m" for="SelectedReferenceNumber">Which application do you need help with?</label>
 						<div class="govuk-radios--conditional">
                             <div id="Application-hint" class="govuk-hint">

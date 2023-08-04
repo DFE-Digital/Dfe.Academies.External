@@ -53,7 +53,6 @@ namespace Dfe.Academies.External.Web.Pages.Help
 
 		  ExistingApplications = await conversionApplications.GetPendingApplications(userEmail);
 
-
 		}
 
 		public async Task<IActionResult> OnPostAsync()
@@ -61,7 +60,9 @@ namespace Dfe.Academies.External.Web.Pages.Help
 			if (!RunUiValidation())
 			{
 				string userEmail = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
+				
 				ExistingApplications = await conversionApplications.GetPendingApplications(userEmail);
+				
 				return Page();
 			}
 
