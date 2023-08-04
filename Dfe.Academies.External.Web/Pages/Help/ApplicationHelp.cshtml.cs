@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
+using System.Security.Claims;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Helpers;
@@ -26,22 +27,41 @@ namespace Dfe.Academies.External.Web.Pages.Help
 		[BindProperty]
 		[Required(ErrorMessage = "You must give an email address")]
 		public string EmailAddress { get; set; } = string.Empty;
+		
+		[BindProperty]
+		[Required(ErrorMessage = "You must select an application")]
+		public string SelectedReferenceNumber { get; set; }
 
-		public ApplicationHelpModel(IEmailNotificationService emailNotificationService, IOptions<NotifyTemplateSettings> notifyTemplateSettings, IConfiguration configuration)
+		[BindProperty]
+		public List<ConversionApplication> ExistingApplications { get; set; } = new();
+
+		private readonly IConversionApplicationRetrievalService conversionApplications;
+
+
+
+		public ApplicationHelpModel(IEmailNotificationService emailNotificationService, IOptions<NotifyTemplateSettings> notifyTemplateSettings, IConfiguration configuration,IConversionApplicationRetrievalService conversionApplications)
 		{
 			this.emailNotificationService = emailNotificationService;
 			this.configuration = configuration;
 			this.templateId = notifyTemplateSettings.Value.HelpWithAnApplicationTemplateId;
+			this.conversionApplications = conversionApplications;
 		}
 
-		public void OnGet()
+		public async Task OnGet()
 		{
+          string userEmail = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
+
+		  ExistingApplications = await conversionApplications.GetPendingApplications(userEmail);
+
+
 		}
 
 		public async Task<IActionResult> OnPostAsync()
 		{
 			if (!RunUiValidation())
 			{
+				string userEmail = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
+				ExistingApplications = await conversionApplications.GetPendingApplications(userEmail);
 				return Page();
 			}
 
@@ -50,6 +70,7 @@ namespace Dfe.Academies.External.Web.Pages.Help
 
 			personalization.Add("what_do_you_need_help_with", HelpSummary);
 			personalization.Add("help_email_address", EmailAddress);
+			personalization.Add("app_ref", SelectedReferenceNumber);
 
 			var message = new MessageDto(this.configuration["emailnotifications:supportemail"], this.templateId)
 			{
