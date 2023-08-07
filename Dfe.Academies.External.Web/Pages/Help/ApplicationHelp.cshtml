@@ -50,6 +50,43 @@
                 <input type="email" asp-for="EmailAddress" id="EmailAddress" class="govuk-input govuk-input--width-20" />
             </div>
 
+            @if(@Model.ExistingApplications.Any())
+            {
+
+	       <div class="govuk-form-group">
+                        <label class="govuk-label govuk-label--m" for="SelectedReferenceNumber">Which application do you need help with?</label>
+						<div class="govuk-radios--conditional">
+                            <div id="Application-hint" class="govuk-hint">
+                    This is a list of the applications you have in progress currently. Please select from the options below the application reference number you need help with.
+                    <div id="SelectedReferenceNumber">
+                </div>
+							@foreach (var data in @Model.ExistingApplications)
+							{
+								<div class="govuk-radios__item">
+									<input type="radio"
+									 asp-for="SelectedReferenceNumber"
+                                     value="@data.ApplicationReference"
+									 id="@data.ApplicationReference"
+			                         class="govuk-radios__input" />
+									<label for="@data.ApplicationReference" class="govuk-label govuk-radios__label">@data.ApplicationReference - @data.TrustName</label>
+								</div>
+							}
+                       
+						</div>
+
+                    </div>
+				</div>
+            }
+
+            else
+            {
+                <input type ="hidden"  asp-for="SelectedReferenceNumber" value="Has no applications in progress">
+            } 
+ 
+
+           
+
+
             <input type="submit" value="Submit details" class="govuk-button govuk-!-margin-top-4 govuk-!-margin-bottom-" />
         </form>
     </div>
