@@ -125,6 +125,7 @@ jobs:
 
   cypress-tests:
       needs: [ deploy-image, set-env ]
+      if: needs.set-env.outputs.environment == 'test' || needs.set-env.outputs.environment == 'dev'
       environment: ${{ needs.set-env.outputs.environment }}
       runs-on: ubuntu-latest
       defaults:
