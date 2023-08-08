@@ -14,7 +14,7 @@ module.exports = {
       // Wait for passive scanner to finish scanning before generating report
       let recordsRemaining = 100
       while (recordsRemaining !== 0) {
-        await zap.pscan.recordsToScan()
+        await zaproxy.pscan.recordsToScan()
           .then((resp) => {
             try {
               recordsRemaining = parseInt(resp.recordsToScan, 10)
@@ -33,7 +33,7 @@ module.exports = {
           })
       }
 
-      await zap.reports.generate({
+      await zaproxy.reports.generate({
         title: 'Report',
         template: 'traditional-html',
         reportfilename: 'ZAP-Report.html',
