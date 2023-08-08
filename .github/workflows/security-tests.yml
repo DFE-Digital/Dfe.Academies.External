@@ -98,3 +98,7 @@ jobs:
               --name "Dfe.Academies.External.Web/${{ env.checked_out_sha }}/ZAP-Report.html" \
               --auth-mode login \
               --overwrite
+
+      - name: Stop ZAP container
+        if: always()
+        run: docker stop zap_container
