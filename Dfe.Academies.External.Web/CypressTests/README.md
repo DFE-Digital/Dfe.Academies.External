@@ -25,3 +25,7 @@ There are two ways Cypress provides to run tests - through the Cypress runner an
 To run through the Cypress runner, use `npm run cy:open`
 
 To run through the command line, use `npm run cy:run`
+
+## Linting
+
+We use [eslint](https://eslint.org/) for static code analysis. To run the linter, use the script `npm run lint`
