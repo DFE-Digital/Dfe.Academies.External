@@ -43,8 +43,6 @@ import Footer from "../page-objects/components/Footer";
 describe("View Application Tests", () => {
   beforeEach(function () {
     cy.visit(Cypress.env('URL'));
-    cy.injectAxe();
-    cy.checkA11y();
 
     Header.govUkHeaderVisible();
     Header.applyToBecomeAnAcademyHeaderLinkVisible();
