@@ -9,6 +9,28 @@ import 'cypress-file-upload';
 
 let globalApplicationId = 10080;
 
+
+Cypress.Commands.add("excuteAccessibilityTests", () => {
+    // FUNCTION COURTESY OF FAHAD DARWISH - NIMBLE APPROACH CONFLUENECE
+        const wcagStandards = ["wcag22aa"];
+        const impactLevel = ["critical", "minor", "moderate", "serious"];
+        const continueOnFail = false;
+        cy.injectAxe();
+        cy.checkA11y(
+            null,
+            {
+                runOnly: {
+                    type: "tag",
+                    values: wcagStandards,
+                },
+                includedImpacts: impactLevel,
+            },
+            null,
+            continueOnFail
+        );
+      });
+  
+
 Cypress.Commands.add('checkAppIDIsCorrectAndselectConfirmDelete', ():void => {
     cy.log(`Global Application ID = ${globalApplicationId}`)
 
