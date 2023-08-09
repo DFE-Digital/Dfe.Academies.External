@@ -386,3 +386,7 @@ Brewfile.lock.json
 
 ## .env local environment files
 *.env
+
+# Cypress
+
+**/cypress/screenshots
