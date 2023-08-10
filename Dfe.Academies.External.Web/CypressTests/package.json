@@ -6,7 +6,6 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run --env url=$URL --env username=$LOGIN_USERNAME --env password=$LOGIN_PASSWORD",
-    "zap": "cypress run --env url=$url,username=$LOGIN_USERNAME,password=$LOGIN_PASSWORD,zap=true,zapAddress=$ZAP_ADDRESS,zapPort=$ZAP_PORT,zapApiKey=$ZAP_API_KEY",
     "lint": "eslint . --ext .js,.cy.js,.jsx,.ts.tsx"
   },
   "keywords": [
