@@ -57,7 +57,7 @@ describe("View Application Tests", () => {
 
   it("should be able to create a New Application", () => {
     A2BLogin.login(Cypress.env('LOGIN_USERNAME'), Cypress.env('LOGIN_PASSWORD'));
-
+    
     A2BYourApplications.selectStartANewApplication();
 
     A2BWhatAreYouApplyingToDo.selectJAMRadioButtonVerifyAndSubmit();
