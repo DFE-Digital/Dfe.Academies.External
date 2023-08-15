@@ -6,7 +6,7 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run --env url=$URL --env username=$LOGIN_USERNAME --env password=$LOGIN_PASSWORD",
-    "lint": "eslint . --ext .js,.cy.js,.jsx,.ts.tsx"
+    "lint": "eslint . --ext .js,.cy.js,.jsx,.ts,.tsx"
   },
   "keywords": [
     "regression",
@@ -24,13 +24,15 @@
     "cypress": "^12.2.0",
     "cypress-file-upload": "^5.0.8",
     "dotenv": "^16.1.3",
+    "typescript": "^5.1.6",
     "webpack-preprocessor": "^0.1.12"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
+    "@typescript-eslint/parser": "^6.3.0",
     "cypress-axe": "^1.4.0",
-    "eslint": "^8.43.0",
+    "eslint": "^8.46.0",
     "eslint-plugin-cypress": "^2.13.3",
-    "typescript": "^5.0.4",
     "zaproxy": "^2.0.0-rc.1"
   }
 }

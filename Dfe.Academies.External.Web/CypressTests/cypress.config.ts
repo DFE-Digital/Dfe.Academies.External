@@ -1,8 +1,10 @@
-const { defineConfig } = require ('cypress')
-require("dotenv").config(); // Load the .env file
+import { defineConfig } from 'cypress'
+import * as dotenv from "dotenv";
 import { generateZapReport } from './cypress/plugins/generateZapReport'
 
-module.exports = defineConfig({
+dotenv.config();
+
+export default defineConfig({
   env: {
     URL: process.env.URL,
     LOGIN_USERNAME: process.env.LOGIN_USERNAME,
@@ -12,13 +14,12 @@ module.exports = defineConfig({
     supportFile: 'cypress/support/e2e.ts',
     specPattern: 'cypress/e2e',
     experimentalOriginDependencies: true,
-    ChromeWebSecurity: false,
+    chromeWebSecurity: false,
     waitForAnimations: true,
-    waitForTransition: true,
     video: false,
     setupNodeEvents(on, config) {
       // implement node event listeners here
-      on('before:run', (details) => {
+      on('before:run', () => {
         // Map .env variables to Cypress env
         config.env = process.env;
      });

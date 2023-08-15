@@ -1,11 +1,10 @@
 /// <reference types="cypress" />
 import DataGenerator from "../fixtures/data-generator";
-
-require('dotenv').config() // Load the .env file
-
+import * as dotenv from "dotenv";
 import { dfeSignInTestEnvURLForA2BDevAndA2BTest, dfeSignInTestEnvForgotPasswordCodeInputURLForA2BDevAndA2BTest, dfeSignInTestEnvCreateAccountForA2BDevAndA2BTest } from '../../customConfig'
-
 import 'cypress-file-upload';
+
+dotenv.config();
 
 let globalApplicationId = 10080;
 
@@ -67,70 +66,6 @@ Cypress.Commands.add('checkFooterLinksVisible', ():void => {
         cy.get('.govuk-footer__licence-description').should('be.visible').contains('All content is available under the Open Government Licence v3.0, except where otherwise stated')
         cy.get('a[href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"]').should('be.visible').contains('Open Government Licence v3.0')
         cy.get('.govuk-footer__link.govuk-footer__copyright-logo').should('be.visible').contains('© Crown copyright')
-})
-
-Cypress.Commands.add('loginWithWrongUsername', (username :string, password :string):void => {
-    //cy.get('#form-signin').should('be.visible')
-    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
-    username = 'rachel.riley@msn.com'
-    password = Cypress.env('LOGIN_PASSWORD')
-    cy.get('#username').type(username)
-    cy.get('#password').type(password, { log: false})
-    cy.contains('Sign in').click()
-})
-})
-
-Cypress.Commands.add('loginWithNoPassword', (username :string, password):void => {
-    //cy.get('#form-signin').should('be.visible')
-    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
-    username = Cypress.env('LOGIN_USERNAME')
-    password = ''
-    cy.get('#username').type(username)
-    cy.contains('Sign in').click()
-})
-})
-
-Cypress.Commands.add('loginWithNoUsername', (username:string, password:string):void => {
-    //cy.get('#form-signin').should('be.visible')
-    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
-    username = ''
-    password = Cypress.env('LOGIN_PASSWORD')
-    cy.get('#password').type(password, { log: false })
-    cy.contains('Sign in').click()
-})
-})
-
-
-
-Cypress.Commands.add('sqlInjectionAndInvalidUsername', (username:string, password:string):void => {
-    //cy.get('#form-signin').should('be.visible')
-    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
-    username = '\' or 1=1 --'
-    password = ''
-    cy.get('#username').type(username)
-    cy.contains('Sign in').click()
-})
-})
-
-Cypress.Commands.add('crossSiteScriptAndInvalidUsername', (username:string, password:string):void => {
-    //cy.get('#form-signin').should('be.visible')
-    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
-    username = '<script>window.alert(\\"Hello World!\\")</script>'
-    password = ''
-    cy.get('#username').type(username)
-    cy.contains('Sign in').click()
-})
-})
-
-Cypress.Commands.add('loginWithWrongPassword', (username:string, password:string):void => {
-    //cy.get('#form-signin').should('be.visible')
-    cy.origin(dfeSignInTestEnvURLForA2BDevAndA2BTest, () => {
-    username = Cypress.env('LOGIN_USERNAME')
-    password = 'POTATO'
-    cy.get('#username').type(username)
-    cy.get('#password').type(password)
-    cy.contains('Sign in').click()
-})
 })
 
 Cypress.Commands.add('login', ():void => {
@@ -244,7 +179,7 @@ Cypress.Commands.add('createAccountElementsVisible', ():void => {
     })
 
 Cypress.Commands.add('createAccountSuccessful', ():void => {
-    let generateData = new DataGenerator()
+    const generateData = new DataGenerator()
     const sentArgs = { firstName: generateData.generateName(), lastName: generateData.generateName(), email: generateData.generateEmail() }
     cy.origin(dfeSignInTestEnvCreateAccountForA2BDevAndA2BTest,
     {args: sentArgs},
@@ -275,6 +210,7 @@ Cypress.Commands.add('createAccountConfirmElementsVisible', ():void => {
 })
 
 Cypress.Commands.add('yourApplicationsElementsVisible', ():void => {
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(3000)
     cy.get('h1').contains('Your applications')
     cy.get('h2').contains('Applications in progress')
@@ -435,6 +371,7 @@ Cypress.Commands.add('selectSchoolName', (schoolNameSearchPartial:string):void =
     cy.get('.autocomplete__wrapper > #SearchQueryInput').click()
     cy.get('.autocomplete__wrapper > #SearchQueryInput').type(schoolNameSearchPartial)
     cy.get('#SearchQueryInput__option--9').click()
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(2000)
     cy.get('#ConfirmSelection').click()
     cy.get('#btnAdd').click()
@@ -713,6 +650,7 @@ Cypress.Commands.add('mainContactsNotStartedElementsVisible', ():void => {
     cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 Cypress.Commands.add('fillHeadTeacherDetails', (headName:string,headEmail:string,headTel:string):void => {
     headName = 'Paul Lockwood'
     headEmail = 'paul.lockwood@education.gov.uk'
@@ -723,10 +661,11 @@ Cypress.Commands.add('fillHeadTeacherDetails', (headName:string,headEmail:string
   //  cy.get('#ViewModel\\.ContactHeadTel').type(headTel)
 })
 
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 Cypress.Commands.add('fillChairDetails', (chairName:string,chairEmail:string,chairTel:string):void => {
     chairName = 'Dan Good'
     chairEmail = 'dan.good@education.gov.uk'
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     chairTel = '01752 404000'
     cy.get('#ViewModel\\.ContactChairName').type(chairName)
     cy.get('#ViewModel\\.ContactChairEmail').type(chairEmail)
@@ -1547,7 +1486,7 @@ Cypress.Commands.add('verifyCurrentRevenueCarryForwardDeficitSelectedSectionDisp
     cy.get('.govuk-hint').eq(1).contains('Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority')
     cy.get('#CFYRevenueCarryForwardExplained').should('be.visible').should('be.enabled')
 
-    cy.get('.govuk-label').eq(6).contains('You can upload the school\’s recovery plan.')
+    cy.get('.govuk-label').eq(6).contains('You can upload the school’s recovery plan.')
 
     cy.get('.govuk-hint').eq(2).contains('We prefer schools to set out their income and expenditure using the consistent financial reporting codes.')
     cy.get('a[href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"]').contains('consistent financial reporting')
@@ -1586,7 +1525,7 @@ Cypress.Commands.add('verifyCurrentCapitalCarryForwardDeficitSelectedSectionDisp
     cy.get('.govuk-hint').eq(3).contains('Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority')
     cy.get('#CFYCapitalCarryForwardExplained').should('be.visible').should('be.enabled')
 
-    cy.get('.govuk-label').eq(13).contains('You can upload the school\’s recovery plan.')
+    cy.get('.govuk-label').eq(13).contains('You can upload the school’s recovery plan.')
 
     cy.get('.govuk-hint').eq(4).contains('We prefer schools to set out their income and expenditure using the consistent financial reporting codes.')
     cy.get('a[href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"]').contains('consistent financial reporting')
@@ -1607,7 +1546,7 @@ Cypress.Commands.add('verifyNextCapitalCarryForwardDeficitSelectedSectionDisplay
     cy.get('.govuk-hint').eq(3).contains('Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority')
     cy.get('#PFYCapitalCarryForwardExplained').should('be.visible').should('be.enabled')
 
-    cy.get('.govuk-label').eq(13).contains('You can upload the school\’s recovery plan.')
+    cy.get('.govuk-label').eq(13).contains('You can upload the school’s recovery plan.')
 
     cy.get('.govuk-hint').eq(4).contains('We prefer schools to set out their income and expenditure using the consistent financial reporting codes.')
     cy.get('a[href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"]').contains('consistent financial reporting')
@@ -1697,7 +1636,7 @@ Cypress.Commands.add('verifyNextRevenueCarryForwardDeficitSelectedSectionDisplay
     cy.get('.govuk-hint').eq(1).contains('Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority')
     cy.get('#NFYRevenueStatusExplained').should('be.visible').should('be.enabled')
 
-    cy.get('.govuk-label').eq(6).contains('You can upload the school\’s recovery plan.')
+    cy.get('.govuk-label').eq(6).contains('You can upload the school’s recovery plan.')
 
     cy.get('.govuk-hint').eq(2).contains('We prefer schools to set out their income and expenditure using the consistent financial reporting codes.')
     cy.get('a[href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"]').contains('consistent financial reporting')
