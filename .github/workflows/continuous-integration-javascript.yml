@@ -3,7 +3,7 @@ name: Cypress test linting
 on:
   pull_request:
     paths:
-      - Dfe.Academies.External.Web\CypressTests
+      - Dfe.Academies.External.Web/CypressTests
     types: [opened, synchronize]
 
 jobs:
