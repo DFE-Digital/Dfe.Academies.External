@@ -29,6 +29,64 @@ Cypress.Commands.add("excuteAccessibilityTests", () => {
             continueOnFail
         );
       });
+
+      Cypress.Commands.add('fillDetailsAndSubmit', ():void => {
+        cy.get('#EmailAddress').click()
+        cy.get('#EmailAddress').type('dangood84@me.com')
+    
+        cy.get('#Name').click()
+        cy.get('#Name').type('Daniel')
+    
+        cy.get('#role-2').click()
+    
+        cy.get('#role-description').click()
+        cy.get('#role-description').type('Headmaster')
+    
+        cy.get('input[type="submit"]').click()
+    })
+    
+    Cypress.Commands.add('verifySuccessBannerAndContributorList', ():void => {
+        cy.get('div[role="alert"]').contains('Success')
+        cy.get('div[role="alert"]').contains('Contributor added')
+        cy.get('div[role="alert"]').contains('Daniel has been sent an invitation to help with this application.')
+    
+        cy.get('.govuk-form-group').contains('Daniel')
+        cy.get('.govuk-form-group').contains('Headmaster')
+        cy.get('.govuk-form-group').contains('Remove contributor')
+    
+    })
+    
+    Cypress.Commands.add('verifyContributorRemovedAndSuccessRemoved', ():void => {
+        cy.get('div[role="alert"]').contains('Success')
+        cy.get('div[role="alert"]').contains('Contributor removed')
+        cy.get('div[role="alert"]').contains('Daniel can no longer contribute to this application.')
+    
+        cy.get('.govuk-form-group').contains('Daniel').should('not.exist')
+    })
+    
+    Cypress.Commands.add('checkAppIDIsCorrectAndselectConfirmDelete', ():void => {
+        cy.log(`Global Application ID = ${globalApplicationId}`)
+    
+    
+        cy.get('.govuk-caption-xl').contains(`Application reference: A2B_${globalApplicationId}`)
+    
+        
+        cy.get('#deleteButton').should('be.visible').contains('Yes, delete')
+        cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('No, take me back')
+    
+        cy.get('#deleteButton').should('be.visible').contains('Yes, delete').click()
+    
+    })
+    
+    Cypress.Commands.add('verifyApplicationDeleted', ():void => {
+        cy.log(`Global Application ID = ${globalApplicationId}`)
+    
+        cy.get('.govuk-body').eq(0).contains(`trust A2B_${globalApplicationId} has been successfully removed.`)
+    
+        cy.get('.govuk-table').contains(`${globalApplicationId}`).should('not.exist')
+    
+    
+    })
   
 
 Cypress.Commands.add('checkAppIDIsCorrectAndselectConfirmDelete', ():void => {
