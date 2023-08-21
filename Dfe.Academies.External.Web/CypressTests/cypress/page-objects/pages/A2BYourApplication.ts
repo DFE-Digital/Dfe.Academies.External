@@ -131,4 +131,9 @@ export default class A2BYourApplication extends BasePage {
         cy.contains('Cancel application').click()
     }
 
+    static selectInviteContributorLink()
+    {
+        cy.contains('invite or remove').click()
+    }
+
 }
