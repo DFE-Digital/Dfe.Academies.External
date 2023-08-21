@@ -21,4 +21,9 @@ export default class A2BYourApplications extends BasePage {
     {
         cy.verifyApplicationDeleted()
     }
+
+    static selectApplicationForInviteContributor()
+    {
+        cy.contains('10280').click()
+    }
 }
