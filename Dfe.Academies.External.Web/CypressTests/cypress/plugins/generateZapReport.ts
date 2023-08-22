@@ -1,4 +1,4 @@
-import { zaproxy as ZapClient } from 'zaproxy'
+import zaproxy from 'zaproxy'
 
 export async function generateZapReport() {
 
@@ -11,11 +11,11 @@ export async function generateZapReport() {
       port: process.env.ZAP_PORT
     }
   }
-  const zaproxy = new ZapClient(zapOptions)
+  const zap = new zaproxy(zapOptions)
   // Wait for passive scanner to finish scanning before generating report
   let recordsRemaining = 100
   while (recordsRemaining !== 0) {
-    await zaproxy.pscan.recordsToScan()
+    await zap.pscan.recordsToScan()
       .then((resp) => {
         try {
           recordsRemaining = parseInt(resp.recordsToScan, 10)
@@ -34,7 +34,7 @@ export async function generateZapReport() {
       })
   }
 
-  await zaproxy.reports.generate({
+  await zap.reports.generate({
     title: 'Report',
     template: 'traditional-html',
     reportfilename: 'ZAP-Report.html',
