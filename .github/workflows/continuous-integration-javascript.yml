@@ -1,0 +1,21 @@
+name: Cypress test linting
+
+on:
+  pull_request:
+    paths:
+      - Dfe.Academies.External.Web/CypressTests
+    types: [opened, synchronize]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      working-directory: Dfe.Academies.External.Web/CypressTests
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+
+      - name: lint cypress tests
+        run: |
+          npm ci
+          npm run lint        

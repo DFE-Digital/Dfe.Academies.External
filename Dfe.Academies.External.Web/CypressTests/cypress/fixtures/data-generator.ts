@@ -1,8 +1,8 @@
 class DataGenerator {
     generateName() {
         let result = ''
-        let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-        let charactersLength = characters.length
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+        const charactersLength = characters.length
         
         for (let i = 0; i < charactersLength; i++) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength))
@@ -11,7 +11,7 @@ class DataGenerator {
     }
 
     generateEmail() {
-        let values = 'abcdefghijklmnopqrstuvwxyz0123456789'
+        const values = 'abcdefghijklmnopqrstuvwxyz0123456789'
         let email = ''
         let temp = ''
 
@@ -32,7 +32,7 @@ class DataGenerator {
     }
 
     generateNumbers() {
-        let numbers = Math.floor(Math.random() * 9000000000) + 1000000000
+        const numbers = Math.floor(Math.random() * 9000000000) + 1000000000
         return numbers.toString()
     }
 
