@@ -3,13 +3,28 @@ import * as dotenv from "dotenv";
 import { dfeSignInTestEnvURLForA2BDevAndA2BTest, dfeSignInTestEnvForgotPasswordCodeInputURLForA2BDevAndA2BTest, dfeSignInTestEnvCreateAccountForA2BDevAndA2BTest } from '../../customConfig'
 import 'cypress-file-upload';
 import DataGenerator from "../fixtures/data-generator";
+import { faker } from '@faker-js/faker'
+
+const randomContributorFirstName = faker.person.firstName()
+const randomContributorEmail = faker.internet.email()
+
+const approverName = faker.person.fullName()
+const approverEmail = faker.internet.email()
+
+const chairName = faker.person.fullName()
+const chairEmail = faker.internet.email()
+
+const headTeacherName = faker.person.fullName()
+const headTeacherEmail = faker.internet.email()
+
+const FAMKeyPersonName = faker.person.fullName()
 
 dotenv.config();
 
 //GET DATAGENERATOR CLASS FROM FIXTURES/DATA-GENERATOR AND GET IT TO
 // CREATE A TRUSTOPENINGDATE FOR FAM AND selectYearAndInput() FUNCTION BELOW
 let generateData = new DataGenerator()
-const trustOpeningDate = generateData.generateFAMTrustOpeningDate()
+const trustOpeningDateYear = generateData.generateFAMTrustOpeningDate()
 
 const FAM_WHY_FORM_TRUST = 'Why are the schools forming the trust? This could include the expected benefits or existing links you are building on.'
 const FAM_WHAT_VISION = 'What vision and aspiration have the schools agreed for the trust?'
@@ -41,10 +56,10 @@ Cypress.Commands.add("excuteAccessibilityTests", () => {
 
 Cypress.Commands.add('fillDetailsAndSubmit', ():void => {
     cy.get('#EmailAddress').click()
-    cy.get('#EmailAddress').type('dangood84@me.com')
+    cy.get('#EmailAddress').type(randomContributorEmail)
 
     cy.get('#Name').click()
-    cy.get('#Name').type('Daniel')
+    cy.get('#Name').type(randomContributorFirstName)
 
     cy.get('#role-2').click()
 
@@ -54,12 +69,13 @@ Cypress.Commands.add('fillDetailsAndSubmit', ():void => {
     cy.get('input[type="submit"]').click()
 })
 
+
 Cypress.Commands.add('verifySuccessBannerAndContributorList', ():void => {
     cy.get('div[role="alert"]').contains('Success')
     cy.get('div[role="alert"]').contains('Contributor added')
-    cy.get('div[role="alert"]').contains('Daniel has been sent an invitation to help with this application.')
+    cy.get('div[role="alert"]').contains(`${randomContributorFirstName} has been sent an invitation to help with this application.`)
 
-    cy.get('.govuk-form-group').contains('Daniel')
+    cy.get('.govuk-form-group').contains(`${randomContributorFirstName}`)
     cy.get('.govuk-form-group').contains('Headmaster')
     cy.get('.govuk-form-group').contains('Remove contributor')
 
@@ -68,9 +84,9 @@ Cypress.Commands.add('verifySuccessBannerAndContributorList', ():void => {
 Cypress.Commands.add('verifyContributorRemovedAndSuccessRemoved', ():void => {
     cy.get('div[role="alert"]').contains('Success')
     cy.get('div[role="alert"]').contains('Contributor removed')
-    cy.get('div[role="alert"]').contains('Daniel can no longer contribute to this application.')
+    cy.get('div[role="alert"]').contains(`${randomContributorFirstName} can no longer contribute to this application.`)
 
-    cy.get('.govuk-form-group').contains('Daniel').should('not.exist')
+    cy.get('.govuk-form-group').contains(`${randomContributorFirstName}`).should('not.exist')
 })
 
 Cypress.Commands.add('checkAppIDIsCorrectAndselectConfirmDelete', ():void => {
@@ -125,7 +141,17 @@ Cypress.Commands.add('login', ():void => {
 })
     Cypress.Commands.add('selectYearAndInput', ():void => {
         cy.get('#sip_formtrustopeningdate-year').click()
-        cy.get('#sip_formtrustopeningdate-year').type(trustOpeningDate)
+        cy.get('#sip_formtrustopeningdate-year').type(trustOpeningDateYear)
+    })
+
+    Cypress.Commands.add('FAMTrustOpeningDateInputApproverDetailsAndSubmit', () => {
+        cy.get('#TrustApproverName').click()
+        cy.get('#TrustApproverName').type(approverName)
+
+        cy.get('#TrustApproverEmail').click()
+        cy.get('#TrustApproverEmail').type(approverEmail)
+
+        cy.get('input[type="submit"]').should('be.visible').contains('Save and continue').click()
     })
 
 Cypress.Commands.add('yourApplicationsElementsVisible', ():void => {
@@ -287,9 +313,9 @@ Cypress.Commands.add('FAMOpeningDateSummaryCompleteElementsVisibleAndSubmit', ()
 
     cy.get('.govuk-link').contains('Change your answers')
     cy.get('p').eq(1).contains('When do the schools plan to establish the new multi-academy trust?')
-    cy.get('p').eq(2).contains(`01/09/${trustOpeningDate}`)
-    cy.get('p').eq(4).contains('James Stewart')
-    cy.get('p').eq(6).contains('james.stewart@aol.com')
+    cy.get('p').eq(2).contains(`01/09/${trustOpeningDateYear}`)
+    cy.get('p').eq(4).contains(approverName)
+    cy.get('p').eq(6).contains(approverEmail)
 
     cy.get('.govuk-button').should('be.visible').contains('Save and return to your application').click()
 
@@ -554,6 +580,41 @@ Cypress.Commands.add('FAMTrustOverviewGovernanceStructureCompleteElementsVisible
     cy.get('strong').eq(7).contains('Not Started')
 
     cy.get('.govuk-button').should('be.visible').contains('Return to your application')
+})
+
+Cypress.Commands.add('fillKeyPersonDetailsAndSubmit', ():void => {
+    cy.get('#TrustKeyPersonName').click()
+    cy.get('#TrustKeyPersonName').type(FAMKeyPersonName)
+
+    cy.get('#TrustKeyPersonFinancialDirector').click()
+
+    cy.get('#TrustKeyPersonTimeInRole').click()
+    cy.get('#TrustKeyPersonTimeInRole').type('35 hours p/w')
+
+    cy.get('#sip_formtrustkeypersondate-day').click()
+    cy.get('#sip_formtrustkeypersondate-day').type('15')
+
+    cy.get('#sip_formtrustkeypersondate-month').click()
+    cy.get('#sip_formtrustkeypersondate-month').type('10')
+
+    cy.get('#sip_formtrustkeypersondate-year').click()
+    cy.get('#sip_formtrustkeypersondate-year').type('1980')
+
+    cy.get('#TrustKeyPersonBiography').click()
+    cy.get('#TrustKeyPersonBiography').type('Please provide a biography of them')
+
+    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue').click()
+})
+
+Cypress.Commands.add('FAMKeyPeopleSummaryCompleteElementsVisibleAndSubmit', ():void => {
+    cy.get('.govuk-heading-s').eq(0).contains(`${FAMKeyPersonName} (Financial director)`)
+    cy.get('.app-task-list__item').contains('15/10/1980')
+    cy.get('.app-task-list__item').contains('Please provide a biography of them')
+    cy.get('.app-task-list__item').contains('Edit')
+
+    cy.get('.govuk-button').eq(0).should('be.visible').contains('Add a key person')
+
+    cy.get('.govuk-button').eq(1).should('be.visible').contains('Save and return to your application').click()
 })
 
 Cypress.Commands.add('FAMTrustOverviewKeyPeopleCompleteElementsVisible', ():void => {
@@ -1109,30 +1170,21 @@ Cypress.Commands.add('mainContactsNotStartedElementsVisible', ():void => {
     cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
 })
 
-Cypress.Commands.add('fillHeadTeacherDetails', (headName:string,headEmail:string,headTel:string):void => {
-    headName = 'Paul Lockwood'
-    headEmail = 'paul.lockwood@education.gov.uk'
+Cypress.Commands.add('fillHeadTeacherDetails', ():void => {
   //  headTel = '01752 404930'
     
-    cy.get('#ViewModel\\.ContactHeadName').type(headName)
-    cy.get('#ViewModel\\.ContactHeadEmail').type(headEmail)
+    cy.get('#ViewModel\\.ContactHeadName').type(headTeacherName)
+    cy.get('#ViewModel\\.ContactHeadEmail').type(headTeacherEmail)
   //  cy.get('#ViewModel\\.ContactHeadTel').type(headTel)
 })
 
 
-Cypress.Commands.add('fillChairDetails', (chairName:string,chairEmail:string,chairTel:string):void => {
-    chairName = 'Dan Good'
-    chairEmail = 'dan.good@education.gov.uk'
-    chairTel = '01752 404000'
+Cypress.Commands.add('fillChairDetails', ():void => {
     cy.get('#ViewModel\\.ContactChairName').type(chairName)
     cy.get('#ViewModel\\.ContactChairEmail').type(chairEmail)
- //   cy.get('#ViewModel\\.ContactChairTel').type(chairTel)
 })
 
-Cypress.Commands.add('fillApproverDetails', (approverName:string,approverEmail:string):void => {
-    approverName = 'James Stewart'
-    approverEmail = 'james.stewart@aol.com'
-    
+Cypress.Commands.add('fillApproverDetails', ():void => {
     cy.get('#ApproverContactName').type(approverName)
     cy.get('#ApproverContactEmail').type(approverEmail)
 })
@@ -1147,31 +1199,25 @@ Cypress.Commands.add('aboutTheConversionMainContactsCompleteElementsVisible', ()
     cy.get('a[class="govuk-link"]').eq(1).contains('Change your answers')
 
     cy.get('.govuk-body').eq(0).contains('Name of headteacher')
-    cy.get('.govuk-body').eq(1).contains('Paul Lockwood')
+    cy.get('.govuk-body').eq(1).contains(headTeacherName)
 
     cy.get('.govuk-body').eq(2).contains('Headteacher\'s email address')
-    cy.get('.govuk-body').eq(3).contains('paul.lockwood@education.gov.uk')
-
-  //  cy.get('.govuk-body').eq(4).contains('Headteacher\'s telephone number')
-  //  cy.get('.govuk-body').eq(5).contains('01752404930')
+    cy.get('.govuk-body').eq(3).contains(headTeacherEmail)
 
     cy.get('.govuk-body').eq(4).contains('Name of the chair of the governing body')
-    cy.get('.govuk-body').eq(5).contains('Dan Good')
+    cy.get('.govuk-body').eq(5).contains(chairName)
 
     cy.get('.govuk-body').eq(6).contains('Chair\'s email address')
-    cy.get('.govuk-body').eq(7).contains('dan.good@education.gov.uk')
-
-  //  cy.get('.govuk-body').eq(8).contains('Chair\'s telephone number')
-  //  cy.get('.govuk-body').eq(9).contains('01752404000')
+    cy.get('.govuk-body').eq(7).contains(chairEmail)
 
     cy.get('.govuk-body').eq(8).contains('Who is the main contact for the conversion')
     cy.get('.govuk-body').eq(9).contains('The chair of the governing body')
 
     cy.get('.govuk-body').eq(10).contains('Approver\'s full name')
-    cy.get('.govuk-body').eq(11).contains('James Stewart')
+    cy.get('.govuk-body').eq(11).contains(approverName)
 
     cy.get('.govuk-body').eq(12).contains('Approver\'s email address')
-    cy.get('.govuk-body').eq(13).contains('james.stewart@aol.com')
+    cy.get('.govuk-body').eq(13).contains(approverEmail)
 
     
 
@@ -1269,34 +1315,25 @@ Cypress.Commands.add('aboutTheConversionCompleteElementsVisible', ():void => {
     cy.get('a[class="govuk-link"]').eq(1).contains('Change your answers')
 
     cy.get('.govuk-body').eq(0).contains('Name of headteacher')
-    cy.get('.govuk-body').eq(1).contains('Paul Lockwood')
+    cy.get('.govuk-body').eq(1).contains(headTeacherName)
 
     cy.get('.govuk-body').eq(2).contains('Headteacher\'s email address')
-    cy.get('.govuk-body').eq(3).contains('paul.lockwood@education.gov.uk')
-
-   // cy.get('.govuk-body').eq(4).contains('Headteacher\'s telephone number')
-   // cy.get('.govuk-body').eq(5).contains('01752404930')
+    cy.get('.govuk-body').eq(3).contains(headTeacherEmail)
 
     cy.get('.govuk-body').eq(4).contains('Name of the chair of the governing body')
-    cy.get('.govuk-body').eq(5).contains('Dan Good')
+    cy.get('.govuk-body').eq(5).contains(chairName)
 
     cy.get('.govuk-body').eq(6).contains('Chair\'s email address')
-    cy.get('.govuk-body').eq(7).contains('dan.good@education.gov.uk')
-
-   // cy.get('.govuk-body').eq(10).contains('Chair\'s telephone number')
-   // cy.get('.govuk-body').eq(11).contains('01752404000')
+    cy.get('.govuk-body').eq(7).contains(chairEmail)
 
     cy.get('.govuk-body').eq(8).contains('Who is the main contact for the conversion')
     cy.get('.govuk-body').eq(9).contains('The chair of the governing body')
 
     cy.get('.govuk-body').eq(10).contains('Approver\'s full name')
-    cy.get('.govuk-body').eq(11).contains('James Stewart')
+    cy.get('.govuk-body').eq(11).contains(approverName)
 
     cy.get('.govuk-body').eq(12).contains('Approver\'s email address')
-    cy.get('.govuk-body').eq(13).contains('james.stewart@aol.com')
-
-
-    
+    cy.get('.govuk-body').eq(13).contains(approverEmail)
 
    // HR PART OF START SECTION COMPONENT SECTION
 
