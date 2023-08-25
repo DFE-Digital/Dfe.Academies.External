@@ -8,7 +8,7 @@ import { faker } from '@faker-js/faker'
 const randomContributorFirstName = faker.person.firstName()
 const randomContributorEmail = faker.internet.email()
 
-const approverName = faker.person.fullName()
+let approverName = faker.person.fullName()
 const approverEmail = faker.internet.email()
 
 const chairName = faker.person.fullName()
@@ -145,6 +145,9 @@ Cypress.Commands.add('login', ():void => {
     })
 
     Cypress.Commands.add('FAMTrustOpeningDateInputApproverDetailsAndSubmit', () => {
+        if (approverName.includes('.')) {
+            approverName = approverName.replace('.', '');
+          }
         cy.get('#TrustApproverName').click()
         cy.get('#TrustApproverName').type(approverName)
 
