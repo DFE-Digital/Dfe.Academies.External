@@ -242,7 +242,7 @@ describe("View Application Tests", () => {
 
     A2BFAMTrustOpeningDateDetails.selectYearAndInput()
 
-    A2BFAMTrustOpeningDateDetails.inputApproverDetailsAndSubmit()
+    A2BFAMTrustOpeningDateDetails.FAMTrustOpeningDateInputApproverDetailsAndSubmit()
 
     A2BFAMTrustOpeningDateSummary.FAMOpeningDateSummaryCompleteElementsVisibleAndSubmit()
 
@@ -294,7 +294,7 @@ describe("View Application Tests", () => {
 
     A2BFAMKeyPersonDetails.fillKeyPersonDetailsAndSubmit()
 
-    A2BFAMKeyPeopleSummary.FAMReasonsForFormingTrustSummaryCompleteElementsVisibleAndSubmit()
+    A2BFAMKeyPeopleSummary.FAMKeyPeopleSummaryCompleteElementsVisibleAndSubmit()
 
     A2BFAMTrustOverview.FAMTrustOverviewKeyPeopleCompleteElementsVisible()
 
