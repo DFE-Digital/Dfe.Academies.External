@@ -13,4 +13,12 @@ static selectToTheSchoolVerifyAndSubmitPreopeningSupportGrantDetails()
     cy.get('input[type="submit"]').click()
 }
 
+static FAMSelectToTheSchoolVerifyAndSubmitPreopeningSupportGrantDetails()
+{
+    cy.get('#ConfirmSchoolPay').click()
+    cy.get('#ConfirmSchoolPay').should('be.checked')
+
+    cy.get('input[type="submit"]').click()
+}
+
 }
