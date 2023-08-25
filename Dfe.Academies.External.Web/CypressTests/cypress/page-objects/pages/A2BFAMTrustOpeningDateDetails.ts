@@ -18,15 +18,8 @@ export default class A2BFAMTrustOpeningDateDetails extends BasePage {
         cy.selectYearAndInput()
     }
 
-    static inputApproverDetailsAndSubmit()
+    static FAMTrustOpeningDateInputApproverDetailsAndSubmit()
     {
-        cy.get('#TrustApproverName').click()
-        cy.get('#TrustApproverName').type('James Stewart')
-
-        cy.get('#TrustApproverEmail').click()
-        cy.get('#TrustApproverEmail').type('james.stewart@aol.com')
-
-        cy.get('input[type="submit"]').should('be.visible').contains('Save and continue').click()
-
+        cy.FAMTrustOpeningDateInputApproverDetailsAndSubmit()
     }
 }
