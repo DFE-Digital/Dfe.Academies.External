@@ -28,6 +28,7 @@
     "webpack-preprocessor": "^0.1.12"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@typescript-eslint/eslint-plugin": "^6.3.0",
     "@typescript-eslint/parser": "^6.3.0",
     "cypress-axe": "^1.4.0",
