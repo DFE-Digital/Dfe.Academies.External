@@ -36,7 +36,7 @@ let globalApplicationId = 100080
 
 Cypress.Commands.add("excuteAccessibilityTests", () => {
 // FUNCTION COURTESY OF FAHAD DARWISH - NIMBLE APPROACH CONFLUENECE
-    const wcagStandards = ["wcag22aa"];
+    const wcagStandards = ["wcag22aa", "wcag21aa"];
     const impactLevel = ["critical", "minor", "moderate", "serious"];
     const continueOnFail = false;
     cy.injectAxe();
