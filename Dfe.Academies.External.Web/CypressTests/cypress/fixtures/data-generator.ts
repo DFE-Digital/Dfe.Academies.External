@@ -4,7 +4,7 @@ class DataGenerator {
         const today = new Date()
         let yearDate = new Date().getFullYear()
 
-        if (today.getMonth() > 8)
+        if (today.getMonth() > 7)
         {
         yearDate = yearDate + 1
         }
