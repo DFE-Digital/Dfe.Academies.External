@@ -41,4 +41,8 @@ locals {
   existing_network_watcher_name                    = var.existing_network_watcher_name
   existing_network_watcher_resource_group_name     = var.existing_network_watcher_resource_group_name
   enable_redis_cache                               = var.enable_redis_cache
+  statuscake_monitored_resource_addresses          = var.statuscake_monitored_resource_addresses
+  statuscake_contact_group_name                    = var.statuscake_contact_group_name
+  statuscake_contact_group_integrations            = var.statuscake_contact_group_integrations
+  statuscake_contact_group_email_addresses         = var.statuscake_contact_group_email_addresses
 }
