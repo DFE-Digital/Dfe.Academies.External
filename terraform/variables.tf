@@ -211,12 +211,12 @@ variable "enable_container_app_blob_storage" {
   type        = bool
 }
 
-variable "container_app_blob_storage_ipv4_allow_list" {
+variable "storage_account_ipv4_allow_list" {
   description = "A list of public IPv4 address to grant access to the Blob Storage Account"
   type        = list(string)
 }
 
-variable "container_app_blob_storage_public_access_enabled" {
+variable "storage_account_public_access_enabled" {
   description = "Should the Azure Storage Account have Public visibility?"
   type        = bool
 }
