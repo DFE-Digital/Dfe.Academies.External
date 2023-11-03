@@ -44,9 +44,9 @@ module "azure_container_apps_hosting" {
   existing_logic_app_workflow   = local.existing_logic_app_workflow
   enable_container_health_probe = local.enable_container_health_probe
 
-  enable_container_app_blob_storage                = local.enable_container_app_blob_storage
-  container_app_blob_storage_ipv4_allow_list       = local.container_app_blob_storage_ipv4_allow_list
-  container_app_blob_storage_public_access_enabled = local.container_app_blob_storage_public_access_enabled
+  enable_container_app_blob_storage     = local.enable_container_app_blob_storage
+  storage_account_ipv4_allow_list       = local.storage_account_ipv4_allow_list
+  storage_account_public_access_enabled = local.storage_account_public_access_enabled
 
   existing_network_watcher_name                = local.existing_network_watcher_name
   existing_network_watcher_resource_group_name = local.existing_network_watcher_resource_group_name
