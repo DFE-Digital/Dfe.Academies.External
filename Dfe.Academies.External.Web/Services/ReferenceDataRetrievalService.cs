@@ -1,8 +1,8 @@
 ﻿using System.Web;
 using Dfe.Academies.Contracts.V4;
+using Dfe.Academies.Contracts.V4.Establishments;
 using Dfe.Academies.Contracts.V4.Trusts;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
-using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 using Dfe.Academies.External.Web.ViewModels;
 using Dfe.Academisation.CorrelationIdMiddleware;
 
@@ -22,7 +22,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 	}
 
 	///<inheritdoc/>
-	public async Task<IList<SchoolSearchResultViewModel>> SearchSchools(SchoolSearch schoolSearch)
+	public async Task<IEnumerable<EstablishmentDto>> SearchSchools(SchoolSearch schoolSearch)
 	{
 		try
 		{
@@ -32,14 +32,9 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 			IList<SchoolSearchResultViewModel> schools = new List<SchoolSearchResultViewModel>();
 
 			//// API returns list<SchoolsSearchDto>
-			var schoolsSearchResults = await _resilientRequestProvider.GetAsync<List<SchoolsSearchDto>>(apiurl);
+			var schoolsSearchResults = await _resilientRequestProvider.GetAsync<List<EstablishmentDto>>(apiurl);
 
-			// convert SchoolsSearchDto -> view model
-			if (schoolsSearchResults.Any())
-				schools = schoolsSearchResults.Select(c =>
-					new SchoolSearchResultViewModel(name: c.Name, urn: int.Parse(c.Urn), ukprn: c.Ukprn)).ToList();
-
-			return schools;
+			return schoolsSearchResults;
 		}
 		catch (Exception ex)
 		{
@@ -49,7 +44,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 	}
 
 	///<inheritdoc/>
-	public async Task<EstablishmentResponse> GetSchool(int urn)
+	public async Task<EstablishmentDto> GetSchool(int urn)
 	{
 		try
 		{
@@ -57,7 +52,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 			string apiurl = $"{HttpClient.BaseAddress}V4/establishment/urn/{urn}";
 
 			//// API returns EstablishmentResponse
-			var APIresult = await _resilientRequestProvider.GetAsync<EstablishmentResponse>(apiurl);
+			var APIresult = await _resilientRequestProvider.GetAsync<EstablishmentDto>(apiurl);
 
 			return APIresult;
 		}
@@ -94,14 +89,14 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 	}
 
 	///<inheritdoc/>
-	public async Task<PagedDataResponse<TrustDto>> GetTrusts(TrustSearch trustSearch)
+	public async Task<IEnumerable<TrustDto>> GetTrusts(TrustSearch trustSearch)
 	{
 		try
 		{
 			string apiurl = $"{HttpClient.BaseAddress}V4/trusts?{BuildTrustSearchRequestUri(trustSearch)}";
 			var APIresult = await _resilientRequestProvider.GetAsync<PagedDataResponse<TrustDto>>(apiurl);
 
-			return APIresult;
+			return APIresult.Data;
 		}
 		catch (Exception ex)
 		{

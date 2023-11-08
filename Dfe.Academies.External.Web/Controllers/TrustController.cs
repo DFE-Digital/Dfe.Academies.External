@@ -35,9 +35,9 @@ namespace Dfe.Academies.External.Web.Controllers
 				var trustSearch = new TrustSearch(searchQuery, searchQuery, searchQuery);
 				var trusts = await ReferenceDataRetrievalService.GetTrusts(trustSearch);
 
-				if (trusts.Data.Any())
+				if (trusts.Any())
 				{
-					return trusts.Data.Select(x =>
+					return trusts.Select(x =>
 					{
 						return $"{x.Name} ({x.Ukprn})";
 					});
