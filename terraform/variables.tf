@@ -211,12 +211,12 @@ variable "enable_container_app_blob_storage" {
   type        = bool
 }
 
-variable "container_app_blob_storage_ipv4_allow_list" {
+variable "storage_account_ipv4_allow_list" {
   description = "A list of public IPv4 address to grant access to the Blob Storage Account"
   type        = list(string)
 }
 
-variable "container_app_blob_storage_public_access_enabled" {
+variable "storage_account_public_access_enabled" {
   description = "Should the Azure Storage Account have Public visibility?"
   type        = bool
 }
@@ -234,4 +234,35 @@ variable "existing_network_watcher_resource_group_name" {
 variable "enable_redis_cache" {
   description = "Set to true to create an Azure Redis Cache, with a private endpoint within the virtual network"
   type        = bool
+}
+
+variable "statuscake_api_token" {
+  description = "API token for StatusCake"
+  type        = string
+  sensitive   = true
+  default     = "00000000000000000000000000000"
+}
+
+variable "statuscake_contact_group_name" {
+  description = "Name of the contact group in StatusCake"
+  type        = string
+  default     = ""
+}
+
+variable "statuscake_contact_group_integrations" {
+  description = "List of Integration IDs to connect to your Contact Group"
+  type        = list(string)
+  default     = []
+}
+
+variable "statuscake_monitored_resource_addresses" {
+  description = "The URLs to perform TLS checks on"
+  type        = list(string)
+  default     = []
+}
+
+variable "statuscake_contact_group_email_addresses" {
+  description = "List of email address that should receive notifications from StatusCake"
+  type        = list(string)
+  default     = []
 }
