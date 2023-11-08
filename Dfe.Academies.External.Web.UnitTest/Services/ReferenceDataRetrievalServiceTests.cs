@@ -131,7 +131,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
-		var builtUri = referenceDataRetrievalService.BuildSchoolSearchRequestUri(schoolSearch, "V1");
+		var builtUri = referenceDataRetrievalService.BuildSchoolSearchRequestUri(schoolSearch);
 
 		// assert
 		Assert.That(builtUri, Is.Not.Null);
@@ -154,7 +154,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
-		var builtUri = referenceDataRetrievalService.BuildSchoolSearchRequestUri(schoolSearch, "V1");
+		var builtUri = referenceDataRetrievalService.BuildSchoolSearchRequestUri(schoolSearch);
 
 		// assert
 		Assert.That(builtUri, Is.Not.Null);
@@ -177,7 +177,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// act
 		var referenceDataRetrievalService = new ReferenceDataRetrievalService(mockFactory.Object, mockLogger.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
-		var builtUri = referenceDataRetrievalService.BuildSchoolSearchRequestUri(schoolSearch, "V1");
+		var builtUri = referenceDataRetrievalService.BuildSchoolSearchRequestUri(schoolSearch);
 
 		// assert
 		Assert.That(builtUri, Is.Not.Null);
@@ -207,18 +207,17 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// assert
 		Assert.That(trusts, Is.Not.Null);
-		Assert.AreEqual(true, trusts.Any());
-		Assert.AreEqual(expectedCount, trusts.Count);
-		Assert.AreEqual(ukprn, trusts?.FirstOrDefault()?.UkPrn);
-		Assert.AreEqual(null, trusts?.FirstOrDefault()?.Urn);
-		Assert.AreEqual("ALCESTER GRAMMAR SCHOOL", trusts?.FirstOrDefault()?.GroupName);
-		Assert.AreEqual("07485466", trusts?.FirstOrDefault()?.CompaniesHouseNumber);
-		Assert.AreEqual(null, trusts?.FirstOrDefault()?.TrustAddress.Street);
-		Assert.AreEqual(null, trusts?.FirstOrDefault()?.TrustAddress.Locality);
-		Assert.AreEqual("Birmingham Road", trusts?.FirstOrDefault()?.TrustAddress.AdditionalLine);
-		Assert.AreEqual("Alcester", trusts?.FirstOrDefault()?.TrustAddress.Town);
-		Assert.AreEqual(null, trusts?.FirstOrDefault()?.TrustAddress.County);
-		Assert.AreEqual("B49 5ED", trusts?.FirstOrDefault()?.TrustAddress.Postcode);
+		Assert.AreEqual(true, trusts.Data.Any());
+		Assert.AreEqual(expectedCount, trusts.Data.Count());
+		Assert.AreEqual(ukprn, trusts?.Data.FirstOrDefault()?.Ukprn);
+		Assert.AreEqual("ALCESTER GRAMMAR SCHOOL", trusts?.Data.FirstOrDefault()?.Name);
+		Assert.AreEqual("07485466", trusts?.Data.FirstOrDefault()?.CompaniesHouseNumber);
+		Assert.AreEqual(null, trusts?.Data.FirstOrDefault()?.Address.Street);
+		Assert.AreEqual(null, trusts?.Data.FirstOrDefault()?.Address.Locality);
+		Assert.AreEqual("Birmingham Road", trusts?.Data.FirstOrDefault()?.Address.Additional);
+		Assert.AreEqual("Alcester", trusts?.Data.FirstOrDefault()?.Address.Town);
+		Assert.AreEqual(null, trusts?.Data.FirstOrDefault()?.Address.County);
+		Assert.AreEqual("B49 5ED", trusts?.Data.FirstOrDefault()?.Address.Postcode);
 	}
 
 	[Test]
@@ -258,18 +257,15 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// assert
 		Assert.That(trusts, Is.Not.Null);
-		Assert.AreEqual(ukprn, trusts?.FirstOrDefault()?.UkPrn);
-		Assert.AreEqual(null, trusts?.FirstOrDefault()?.Urn);
-		Assert.AreEqual(ukprn, trusts?.FirstOrDefault()?.UkPrn);
-		Assert.AreEqual(null, trusts?.FirstOrDefault()?.Urn);
-		Assert.AreEqual("ALCESTER GRAMMAR SCHOOL", trusts?.FirstOrDefault()?.GroupName);
-		Assert.AreEqual("07485466", trusts?.FirstOrDefault()?.CompaniesHouseNumber);
-		Assert.AreEqual(null, trusts?.FirstOrDefault()?.TrustAddress.Street);
-		Assert.AreEqual(null, trusts?.FirstOrDefault()?.TrustAddress.Locality);
-		Assert.AreEqual("Birmingham Road", trusts?.FirstOrDefault()?.TrustAddress.AdditionalLine);
-		Assert.AreEqual("Alcester", trusts?.FirstOrDefault()?.TrustAddress.Town);
-		Assert.AreEqual(null, trusts?.FirstOrDefault()?.TrustAddress.County);
-		Assert.AreEqual("B49 5ED", trusts?.FirstOrDefault()?.TrustAddress.Postcode);
+		Assert.AreEqual(ukprn, trusts?.Ukprn);
+		Assert.AreEqual("ALCESTER GRAMMAR SCHOOL", trusts?.Name);
+		Assert.AreEqual("07485466", trusts?.CompaniesHouseNumber);
+		Assert.AreEqual(null, trusts?.Address.Street);
+		Assert.AreEqual(null, trusts?.Address.Locality);
+		Assert.AreEqual("Birmingham Road", trusts?.Address.Additional);
+		Assert.AreEqual("Alcester", trusts?.Address.Town);
+		Assert.AreEqual(null, trusts?.Address.County);
+		Assert.AreEqual("B49 5ED", trusts?.Address.Postcode);
 	}
 
 	[Test]

@@ -35,9 +35,12 @@ namespace Dfe.Academies.External.Web.Controllers
 				var trustSearch = new TrustSearch(searchQuery, searchQuery, searchQuery);
 				var trusts = await ReferenceDataRetrievalService.GetTrusts(trustSearch);
 
-				if (trusts.Any())
+				if (trusts.Data.Any())
 				{
-					return trusts.Select(x => x.DisplayName).AsEnumerable();
+					return trusts.Data.Select(x =>
+					{
+						return $"{x.Name} ({x.Ukprn})";
+					});
 				}
 				else
 				{
@@ -66,14 +69,14 @@ namespace Dfe.Academies.External.Web.Controllers
 					.Split('(', StringSplitOptions.RemoveEmptyEntries);
 
 				int ukprn = Convert.ToInt32(trustSplit[^1]);
-				var trust = await ReferenceDataRetrievalService.GetTrustFullDetailsByUkPrn(ukprn.ToString());
+				var trust = await ReferenceDataRetrievalService.GetTrustByUkPrn(ukprn.ToString());
 
-				var vm = new TrustDetailsViewModel(trustName: trust.giasData.groupName,
+				var vm = new TrustDetailsViewModel(trustName: trust.Name,
 					ukprn: ukprn,
-					trustReference : trust.giasData.groupId,
-					street: trust.giasData.groupContactAddress.street,
-					town: trust.giasData.groupContactAddress.town,
-					fullUkPostcode: trust.giasData.groupContactAddress.postcode);
+					trustReference : trust.ReferenceNumber,
+					street: trust.Address.Street,
+					town: trust.Address.Town,
+					fullUkPostcode: trust.Address.Postcode);
 
 				return PartialView("_TrustDetails", vm);
 			}

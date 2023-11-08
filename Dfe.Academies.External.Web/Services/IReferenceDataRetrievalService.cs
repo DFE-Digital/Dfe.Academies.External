@@ -1,6 +1,7 @@
-﻿using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
+﻿using Dfe.Academies.Contracts.V4;
+using Dfe.Academies.Contracts.V4.Trusts;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
-using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Trusts;
 using Dfe.Academies.External.Web.ViewModels;
 
 namespace Dfe.Academies.External.Web.Services;
@@ -26,13 +27,7 @@ public interface IReferenceDataRetrievalService
 	/// </summary>
 	/// <param name="trustSearch"></param>
 	/// <returns></returns>
-	Task<List<TrustSearchDto>> GetTrusts(TrustSearch trustSearch);
+	Task<PagedDataResponse<TrustDto>> GetTrusts(TrustSearch trustSearch);
 
-	/// <summary>
-	/// Method to call academies API Get Trust endpoint
-	/// </summary>
-	/// <param name="ukPrn"></param>
-	/// <returns></returns>
-	Task<List<TrustSummaryDto>> GetTrustByUkPrn(string ukPrn);
-	Task<TrustFullDetailsDto> GetTrustFullDetailsByUkPrn(string ukPrn);
+	Task<TrustDto> GetTrustByUkPrn(string ukPrn);
 }
