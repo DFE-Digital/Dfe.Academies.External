@@ -1,5 +1,5 @@
 ﻿using Dfe.Academies.External.Web.Dtos;
-using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -117,7 +117,7 @@ namespace Dfe.Academies.External.Web.Pages
 			SchoolNameForDisplay = selectedSchool.SchoolName;
 			var selectedSchoolFullDetails = await this.ReferenceDataRetrievalService.GetSchool(Urn);
 
-			SchoolRegisteredAddress = selectedSchoolFullDetails.Address.FullAddress;
+			SchoolRegisteredAddress = selectedSchoolFullDetails.Address.ToFullAddress();
 		}
 	}
 }

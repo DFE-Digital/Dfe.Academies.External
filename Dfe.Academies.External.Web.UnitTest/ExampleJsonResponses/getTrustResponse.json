@@ -1,24 +1,14 @@
-[
-	{
-		"ukprn": "10058464",
-		"urn": null,
-		"groupName": "ALCESTER GRAMMAR SCHOOL",
-		"companiesHouseNumber": "07485466",
-		"trustType": "Standalone",
-		"trustAddress": {
-			"street": null,
-			"locality": null,
-			"additionalLine": "Birmingham Road",
-			"town": "Alcester",
-			"county": null,
-			"postcode": "B49 5ED"
-		},
-		"establishments": [
-			{
-				"urn": "136622",
-				"name": "Alcester Grammar School",
-				"ukprn": "10033336"
-			}
-		]
+{
+	"ukprn": "10058464",
+	"name": "ALCESTER GRAMMAR SCHOOL",
+	"companiesHouseNumber": "07485466",
+	"referenceNumber": "TR02511",
+	"address": {
+		"street": "Birmingham Road",
+		"locality": null,
+		"additional": null,
+		"town": "Alcester",
+		"county": null,
+		"postcode": "B49 5ED"
 	}
-]
+}

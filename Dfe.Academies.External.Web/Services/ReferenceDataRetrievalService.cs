@@ -1,7 +1,8 @@
 ﻿using System.Web;
+using Dfe.Academies.Contracts.V4;
+using Dfe.Academies.Contracts.V4.Establishments;
+using Dfe.Academies.Contracts.V4.Trusts;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
-using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
-using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Trusts;
 using Dfe.Academies.External.Web.ViewModels;
 using Dfe.Academisation.CorrelationIdMiddleware;
 
@@ -21,24 +22,19 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 	}
 
 	///<inheritdoc/>
-	public async Task<IList<SchoolSearchResultViewModel>> SearchSchools(SchoolSearch schoolSearch)
+	public async Task<IEnumerable<EstablishmentDto>> SearchSchools(SchoolSearch schoolSearch)
 	{
 		try
 		{
 			//{{api-host}}/establishments?api-version=V1&Urn=101934&ukprn=10006563&Name=wise
-			string apiurl = $"{HttpClient.BaseAddress}/establishments?{BuildSchoolSearchRequestUri(schoolSearch, "V1")}";
+			string apiurl = $"{HttpClient.BaseAddress}V4/establishments?{BuildSchoolSearchRequestUri(schoolSearch)}";
 
 			IList<SchoolSearchResultViewModel> schools = new List<SchoolSearchResultViewModel>();
 
 			//// API returns list<SchoolsSearchDto>
-			var schoolsSearchResults = await _resilientRequestProvider.GetAsync<List<SchoolsSearchDto>>(apiurl);
+			var schoolsSearchResults = await _resilientRequestProvider.GetAsync<List<EstablishmentDto>>(apiurl);
 
-			// convert SchoolsSearchDto -> view model
-			if (schoolsSearchResults.Any())
-				schools = schoolsSearchResults.Select(c =>
-					new SchoolSearchResultViewModel(name: c.Name, urn: int.Parse(c.Urn), ukprn: c.Ukprn)).ToList();
-
-			return schools;
+			return schoolsSearchResults;
 		}
 		catch (Exception ex)
 		{
@@ -48,15 +44,15 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 	}
 
 	///<inheritdoc/>
-	public async Task<EstablishmentResponse> GetSchool(int urn)
+	public async Task<EstablishmentDto> GetSchool(int urn)
 	{
 		try
 		{
 			// {{api-host}}/establishment/urn/101934?api-version=V1
-			string apiurl = $"{HttpClient.BaseAddress}/establishment/urn/{urn}?api-version=V1";
+			string apiurl = $"{HttpClient.BaseAddress}V4/establishment/urn/{urn}";
 
 			//// API returns EstablishmentResponse
-			var APIresult = await _resilientRequestProvider.GetAsync<EstablishmentResponse>(apiurl);
+			var APIresult = await _resilientRequestProvider.GetAsync<EstablishmentDto>(apiurl);
 
 			return APIresult;
 		}
@@ -68,7 +64,7 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 	}
 
 	//// Public method, so can write unit tests !!!!
-	public string BuildSchoolSearchRequestUri(SchoolSearch schoolSearch, string apiVersionNumber)
+	public string BuildSchoolSearchRequestUri(SchoolSearch schoolSearch)
 	{
 		var queryParams = HttpUtility.ParseQueryString(string.Empty);
 
@@ -87,23 +83,20 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 			queryParams.Add("ukprn", schoolSearch.Ukprn);
 		}
 
-		queryParams.Add("api-version", apiVersionNumber);
+		//queryParams.Add("api-version", apiVersionNumber);
 
 		return HttpUtility.UrlEncode(queryParams.ToString());
 	}
 
 	///<inheritdoc/>
-	public async Task<List<TrustSearchDto>> GetTrusts(TrustSearch trustSearch)
+	public async Task<IEnumerable<TrustDto>> GetTrusts(TrustSearch trustSearch)
 	{
 		try
 		{
-			// {{api-host}}/trusts?api-version=V1&groupName=grammar
-			string apiurl = $"{HttpClient.BaseAddress}/trusts?{BuildTrustSearchRequestUri(trustSearch)}&api-version=V1";
+			string apiurl = $"{HttpClient.BaseAddress}V4/trusts?{BuildTrustSearchRequestUri(trustSearch)}";
+			var APIresult = await _resilientRequestProvider.GetAsync<PagedDataResponse<TrustDto>>(apiurl);
 
-			// API returns ApiListWrapper<TrustSearchDto>
-			var APIresult = await _resilientRequestProvider.GetAsync<List<TrustSearchDto>>(apiurl);
-
-			return APIresult;
+			return APIresult.Data;
 		}
 		catch (Exception ex)
 		{
@@ -112,35 +105,14 @@ public sealed class ReferenceDataRetrievalService : BaseService, IReferenceDataR
 		}
 	}
 
-	///<inheritdoc/>
-	public async Task<List<TrustSummaryDto>> GetTrustByUkPrn(string ukPrn)
+	public async Task<TrustDto> GetTrustByUkPrn(string ukPrn)
 	{
 		try
 		{
-			// MR:- api endpoint to build will look like this:-
-			// {{api-host}}/trusts?ukprn=10058464&api-version=V1
-			string apiurl = $"{HttpClient.BaseAddress}/trusts?ukprn={ukPrn}&api-version=V1";
-
-			// API - returns ApiWrapper<TrustDetailsDto>
-			var APIresult = await _resilientRequestProvider.GetAsync<List<TrustSummaryDto>>(apiurl);
-
-			return APIresult;
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("ReferenceDataRetrievalService::GetTrustByUkPrn::Exception - {Message}", ex.Message);
-			throw;
-		}
-	}
-
-	public async Task<TrustFullDetailsDto> GetTrustFullDetailsByUkPrn(string ukPrn)
-	{
-		try
-		{
-			string apiUrl = $"{HttpClient.BaseAddress}/trust/{ukPrn}?api-version=V1";
+			string apiUrl = $"{HttpClient.BaseAddress}V4/trust/{ukPrn}";
 
 
-			var result = await _resilientRequestProvider.GetAsync<TrustFullDetailsDto>(apiUrl);
+			var result = await _resilientRequestProvider.GetAsync<TrustDto>(apiUrl);
 
 			return result;
 		}
