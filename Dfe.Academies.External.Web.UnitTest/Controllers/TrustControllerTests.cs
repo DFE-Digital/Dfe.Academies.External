@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Bogus.Bson;
+using Dfe.Academies.Contracts.V4.Trusts;
 using Dfe.Academies.External.Web.Controllers;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
@@ -14,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.Controllers;
@@ -51,10 +54,9 @@ internal sealed class TrustControllerTests
 	public async Task ReturnTrustDetailsPartialViewPopulated___ValidTrust___ReturnsPartialView()
 	{
 		// arrange
-		string selectedTrust = "ALCESTER GRAMMAR SCHOOL (10059766)"; // selected value will be in the format 'WISE OWL TRUST (10059766)'
 		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getTrustResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
-		int ukprn = 10059766;
+		var selectedTrust = JsonConvert.DeserializeObject<TrustDto>(expectedJson);
 
 		var mockLogger = new Mock<ILogger<TrustController>>();
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
@@ -71,7 +73,7 @@ internal sealed class TrustControllerTests
 
 		Assert.That(result.Model, Is.Not.Null);
 		TrustDetailsViewModel vm = (TrustDetailsViewModel)result.Model!;
-		Assert.That(vm.Ukprn, Is.EqualTo(ukprn));
+		Assert.That(vm.Ukprn, Is.EqualTo(selectedTrust.Ukprn));
 		Assert.That(vm.TrustName, Is.EqualTo("ALCESTER GRAMMAR SCHOOL"));
 		Assert.That(vm.TrustReference, Is.EqualTo("TR02511"));
 		Assert.That(vm.Street, Is.EqualTo("Birmingham Road"));

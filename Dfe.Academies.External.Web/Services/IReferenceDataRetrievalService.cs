@@ -30,4 +30,5 @@ public interface IReferenceDataRetrievalService
 	Task<IEnumerable<TrustDto>> GetTrusts(TrustSearch trustSearch);
 
 	Task<TrustDto> GetTrustByUkPrn(string ukPrn);
+	Task<TrustDto> GetTrustByCompaniesHouseNumber(string companiesHouseNumber);
 }
