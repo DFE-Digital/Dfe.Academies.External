@@ -919,7 +919,7 @@ Cypress.Commands.add('selectTrustName', (trustName:string):void => {
     trustName = 'Plym'
     cy.get('.autocomplete__wrapper > #SearchQueryInput').click()
     cy.get('.autocomplete__wrapper > #SearchQueryInput').type(trustName)
-    cy.get('#SearchQueryInput__option--4').click() 
+    cy.get('#SearchQueryInput__option--0').click() 
 })
 
 Cypress.Commands.add('youDontHavePermissionsElementsVisible', () => {
