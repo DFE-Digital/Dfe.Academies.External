@@ -51,4 +51,4 @@ jobs:
         dotnet build --no-restore
         dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
         reportgenerator -reports:./**/coverage.cobertura.xml -targetdir:./CoverageReport -reporttypes:SonarQube
-        dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"  
+        dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"  
