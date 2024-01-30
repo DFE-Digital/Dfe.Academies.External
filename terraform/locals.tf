@@ -10,6 +10,7 @@ locals {
   registry_managed_identity_assign_role        = var.registry_managed_identity_assign_role
   image_name                                   = var.image_name
   container_command                            = var.container_command
+  container_scale_http_concurrency             = var.container_scale_http_concurrency
   container_secret_environment_variables       = var.container_secret_environment_variables
   container_max_replicas                       = var.container_max_replicas
   enable_cdn_frontdoor                         = var.enable_cdn_frontdoor
