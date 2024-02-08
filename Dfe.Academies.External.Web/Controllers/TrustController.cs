@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using Dfe.Academies.Contracts.V4.Trusts;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
@@ -20,7 +22,7 @@ namespace Dfe.Academies.External.Web.Controllers
 		[HttpGet]
 		[Route("trust/search")]
 		[Route("trust/trust/search")]
-		public async Task<IEnumerable<string>> Search(string searchQuery)
+		public async Task<IEnumerable<TrustDto>> Search(string searchQuery)
 		{
 			try
 			{
@@ -29,7 +31,7 @@ namespace Dfe.Academies.External.Web.Controllers
 				// Double check search query.
 				if (string.IsNullOrEmpty(searchQuery) || searchQuery.Length < SearchQueryMinLength)
 				{
-					return Enumerable.Empty<string>();
+					return Enumerable.Empty<TrustDto>();
 				}
 
 				var trustSearch = new TrustSearch(searchQuery, searchQuery, searchQuery);
@@ -37,43 +39,34 @@ namespace Dfe.Academies.External.Web.Controllers
 
 				if (trusts.Any())
 				{
-					return trusts.Select(x => x.DisplayName).AsEnumerable();
+					return trusts;
 				}
 				else
 				{
-					return Enumerable.Empty<string>();
+					return Enumerable.Empty<TrustDto>();
 				}
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError("TrustController::Search::Exception - {Message}", ex.Message);
 
-				return Enumerable.Empty<string>();
+				return Enumerable.Empty<TrustDto>();
 			}
 		}
 
-		[HttpGet]
+		[HttpPost]
 		[Route("trust/ReturnTrustDetailsPartialViewPopulated")]
 		[Route("trust/trust/ReturnTrustDetailsPartialViewPopulated")]
-		public async Task<IActionResult> ReturnTrustDetailsPartialViewPopulated(string selectedTrust)
+		public async Task<IActionResult> ReturnTrustDetailsPartialViewPopulated(TrustDto selectedTrust)
 		{
 			try
 			{
-				// Remove whitespace and trailing ) then split removing empty entries
-				var trustSplit = selectedTrust
-					.Trim()
-					.Replace(")", string.Empty)
-					.Split('(', StringSplitOptions.RemoveEmptyEntries);
-
-				int ukprn = Convert.ToInt32(trustSplit[^1]);
-				var trust = await ReferenceDataRetrievalService.GetTrustFullDetailsByUkPrn(ukprn.ToString());
-
-				var vm = new TrustDetailsViewModel(trustName: trust.giasData.groupName,
-					ukprn: ukprn,
-					trustReference : trust.giasData.groupId,
-					street: trust.giasData.groupContactAddress.street,
-					town: trust.giasData.groupContactAddress.town,
-					fullUkPostcode: trust.giasData.groupContactAddress.postcode);
+				var vm = new TrustDetailsViewModel(trustName: selectedTrust.Name,
+					ukprn: selectedTrust.Ukprn ?? string.Empty,
+					trustReference : selectedTrust.ReferenceNumber,
+					street: selectedTrust.Address.Street,
+					town: selectedTrust.Address.Town,
+					fullUkPostcode: selectedTrust.Address.Postcode);
 
 				return PartialView("_TrustDetails", vm);
 			}

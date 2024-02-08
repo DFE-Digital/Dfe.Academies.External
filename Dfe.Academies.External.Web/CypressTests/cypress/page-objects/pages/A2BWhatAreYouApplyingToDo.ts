@@ -12,14 +12,12 @@ export default class A2BWhatAreYouApplyingToDo extends BasePage {
         cy.get('input[type="submit"]').click()  
     }
 
-    static selectFAMRadioButton()
+    static selectFAMRadioButtonVerifyAndSubmit()
     {
         cy.get('input[type="radio"]').eq(1).click()
-    }
-
-    static verifyFAMRadioButtonChecked()
-    {
         cy.get('input[type="radio"]').eq(1).should('be.checked')
+
+        cy.get('input[type="submit"]').click()
     }
 
         

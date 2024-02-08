@@ -44,19 +44,19 @@ jobs:
     runs-on: ubuntu-22.04
     environment: ${{ needs.set-env.outputs.environment }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
 
       - name: Azure Container Registry login
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.ACR_CLIENTID }}
           password: ${{ secrets.ACR_SECRET }}
           registry: ${{ secrets.ACR_URL }}
 
       - name: Build and push docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: Dockerfile
@@ -72,7 +72,7 @@ jobs:
     needs: set-env
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
 
@@ -133,7 +133,7 @@ jobs:
           working-directory: Dfe.Academies.External.Web/CypressTests
       steps:
         - name: Checkout code
-          uses: actions/checkout@v3
+          uses: actions/checkout@v4
 
         - name: Setup node.js
           uses: actions/setup-node@v3

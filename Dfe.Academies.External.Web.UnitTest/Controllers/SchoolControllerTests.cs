@@ -82,7 +82,6 @@ internal sealed class SchoolControllerTests
 		Assert.That(vm.Town, Is.EqualTo("Greenford"));
 		Assert.That(vm.CountyDescription, Is.EqualTo(null));
 		Assert.That(vm.FullUkPostcode, Is.EqualTo("UB6 9AW"));
-		Assert.That(vm.UKPRN, Is.EqualTo(null));
 	}
 
 	private Mock<IHttpClientFactory> SetupMockHttpClientFactory(HttpStatusCode expectedStatusCode, string expectedJson)

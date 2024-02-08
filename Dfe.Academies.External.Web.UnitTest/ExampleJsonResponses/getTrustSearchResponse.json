@@ -1,222 +1,221 @@
-[
-  {
-    "ukprn": "10058464",
-    "urn": null,
-    "groupName": "ALCESTER GRAMMAR SCHOOL",
-    "companiesHouseNumber": "07485466",
-    "trustType": "Standalone",
-    "trustAddress": {
-      "street": null,
-      "locality": null,
-      "additionalLine": "Birmingham Road",
-      "town": "Alcester",
-      "county": null,
-      "postcode": "B49 5ED"
-    },
-    "establishments": [
-      {
-        "urn": "136622",
-        "name": "Alcester Grammar School",
-        "ukprn": "10033336"
-      }
-    ]
-  },
-  {
-    "ukprn": "10059089",
-    "urn": null,
-    "groupName": "APPLEBY GRAMMAR SCHOOL",
-    "companiesHouseNumber": "07698461",
-    "trustType": "Standalone",
-    "trustAddress": {
-      "street": null,
-      "locality": "Battlebarrow",
-      "additionalLine": "Appleby Grammar School",
-      "town": "Appleby In Westmorland",
-      "county": "Cumbria",
-      "postcode": "CA16 6XU"
-    },
-    "establishments": [
-      {
-        "urn": "137251",
-        "name": "Appleby Grammar School",
-        "ukprn": "10034596"
-      }
-    ]
-  },
-  {
-    "ukprn": "10058537",
-    "urn": null,
-    "groupName": "AYLESBURY GRAMMAR SCHOOL",
-    "companiesHouseNumber": "07538386",
-    "trustType": "Standalone",
-    "trustAddress": {
-      "street": null,
-      "locality": "Walton Road",
-      "additionalLine": "Aylesbury Grammar School",
-      "town": "Aylesbury",
-      "county": null,
-      "postcode": "HP21 7RP"
-    },
-    "establishments": [
-      {
-        "urn": "136884",
-        "name": "Aylesbury Grammar School",
-        "ukprn": "10033392"
-      }
-    ]
-  },
-  {
-    "ukprn": "10060065",
-    "urn": null,
-    "groupName": "BACUP AND RAWTENSTALL GRAMMAR SCHOOL",
-    "companiesHouseNumber": "08205021",
-    "trustType": "Standalone",
-    "trustAddress": {
-      "street": null,
-      "locality": "Waterfoot",
-      "additionalLine": "Bacup And Rawtenstall Grammar School Glen Road",
-      "town": "Rossendale",
-      "county": "Lancashire",
-      "postcode": "BB4 7BJ"
-    },
-    "establishments": [
-      {
-        "urn": "138835",
-        "name": "Bacup and Rawtenstall Grammar School",
-        "ukprn": "10039025"
-      }
-    ]
-  },
-  {
-    "ukprn": "10058366",
-    "urn": null,
-    "groupName": "BETHS GRAMMAR SCHOOL",
-    "companiesHouseNumber": "07379768",
-    "trustType": "Standalone",
-    "trustAddress": {
-      "street": null,
-      "locality": "Hartford Road",
-      "additionalLine": "Beths Grammar School",
-      "town": "Bexley",
-      "county": null,
-      "postcode": "DA5 1NE"
-    },
-    "establishments": [
-      {
-        "urn": "136334",
-        "name": "Beths Grammar School",
-        "ukprn": "10031564"
-      }
-    ]
-  },
-  {
-    "ukprn": "10058972",
-    "urn": null,
-    "groupName": "BEVERLEY GRAMMAR SCHOOL",
-    "companiesHouseNumber": "07688240",
-    "trustType": "Standalone",
-    "trustAddress": {
-      "street": null,
-      "locality": "Queensgate",
-      "additionalLine": "Beverley Grammar School",
-      "town": "Beverley",
-      "county": "Humberside",
-      "postcode": "HU17 8NF"
-    },
-    "establishments": [
-      {
-        "urn": "136995",
-        "name": "Beverley Grammar School",
-        "ukprn": "10034618"
-      }
-    ]
-  },
-  {
-    "ukprn": "10058429",
-    "urn": null,
-    "groupName": "BEXLEY GRAMMAR SCHOOL",
-    "companiesHouseNumber": "07455732",
-    "trustType": "Standalone",
-    "trustAddress": {
-      "street": null,
-      "locality": "Danson Lane",
-      "additionalLine": "Bexley Grammar School",
-      "town": "Welling",
-      "county": "Kent",
-      "postcode": "DA16 2BL"
-    },
-    "establishments": [
-      {
-        "urn": "136369",
-        "name": "Bexley Grammar School",
-        "ukprn": "10032339"
-      }
-    ]
-  },
-  {
-    "ukprn": "10059685",
-    "urn": null,
-    "groupName": "BISHOP VESEY'S GRAMMAR SCHOOL",
-    "companiesHouseNumber": "07986921",
-    "trustType": "Standalone",
-    "trustAddress": {
-      "street": null,
-      "locality": "Lichfield Road",
-      "additionalLine": "Bishop Vesey'S Grammar School",
-      "town": "Sutton Coldfield",
-      "county": null,
-      "postcode": "B74 2NH"
-    },
-    "establishments": [
-      {
-        "urn": "137988",
-        "name": "Bishop Vesey's Grammar School",
-        "ukprn": "10036861"
-      }
-    ]
-  },
-  {
-    "ukprn": "10058514",
-    "urn": null,
-    "groupName": "BISHOP WORDSWORTH'S CHURCH OF ENGLAND GRAMMAR SCHOOL",
-    "companiesHouseNumber": "07525856",
-    "trustType": "Standalone",
-    "trustAddress": {
-      "street": null,
-      "locality": null,
-      "additionalLine": "11 The Close",
-      "town": "Salisbury",
-      "county": null,
-      "postcode": "SP1 2ED"
-    },
-    "establishments": [
-      {
-        "urn": "136500",
-        "name": "Bishop Wordsworth's Church of England Grammar School",
-        "ukprn": "10033023"
-      }
-    ]
-  },
-  {
-    "ukprn": "10059396",
-    "urn": null,
-    "groupName": "BORDEN GRAMMAR SCHOOL TRUST",
-    "companiesHouseNumber": "07827591",
-    "trustType": "Standalone",
-    "trustAddress": {
-      "street": null,
-      "locality": "Avenue Of Remembrance",
-      "additionalLine": "Borden Grammar School",
-      "town": "Sittingbourne",
-      "county": "Kent",
-      "postcode": "ME10 4DB"
-    },
-    "establishments": [
-      {
-        "urn": "137800",
-        "name": "Borden Grammar School",
-        "ukprn": "10035796"
-      }
-    ]
-  }
-]
+{
+	"data": [
+		{
+			"ukprn": "10058464",
+			"name": "ALCESTER GRAMMAR SCHOOL",
+			"companiesHouseNumber": "07485466",
+			"address": {
+				"street": null,
+				"locality": null,
+				"additional": "Birmingham Road",
+				"town": "Alcester",
+				"county": null,
+				"postcode": "B49 5ED"
+			},
+			"establishments": [
+				{
+					"urn": "136622",
+					"name": "Alcester Grammar School",
+					"ukprn": "10033336"
+				}
+			]
+		},
+		{
+			"ukprn": "10059089",
+
+			"name": "APPLEBY GRAMMAR SCHOOL",
+			"companiesHouseNumber": "07698461",
+			"address": {
+				"street": null,
+				"locality": "Battlebarrow",
+				"additional": "Appleby Grammar School",
+				"town": "Appleby In Westmorland",
+				"county": "Cumbria",
+				"postcode": "CA16 6XU"
+			},
+			"establishments": [
+				{
+					"urn": "137251",
+					"name": "Appleby Grammar School",
+					"ukprn": "10034596"
+				}
+			]
+		},
+		{
+			"ukprn": "10058537",
+
+			"name": "AYLESBURY GRAMMAR SCHOOL",
+			"companiesHouseNumber": "07538386",
+
+			"address": {
+				"street": null,
+				"locality": "Walton Road",
+				"additional": "Aylesbury Grammar School",
+				"town": "Aylesbury",
+				"county": null,
+				"postcode": "HP21 7RP"
+			},
+			"establishments": [
+				{
+					"urn": "136884",
+					"name": "Aylesbury Grammar School",
+					"ukprn": "10033392"
+				}
+			]
+		},
+		{
+			"ukprn": "10060065",
+
+			"name": "BACUP AND RAWTENSTALL GRAMMAR SCHOOL",
+			"companiesHouseNumber": "08205021",
+
+			"address": {
+				"street": null,
+				"locality": "Waterfoot",
+				"additional": "Bacup And Rawtenstall Grammar School Glen Road",
+				"town": "Rossendale",
+				"county": "Lancashire",
+				"postcode": "BB4 7BJ"
+			},
+			"establishments": [
+				{
+					"urn": "138835",
+					"name": "Bacup and Rawtenstall Grammar School",
+					"ukprn": "10039025"
+				}
+			]
+		},
+		{
+			"ukprn": "10058366",
+
+			"name": "BETHS GRAMMAR SCHOOL",
+			"companiesHouseNumber": "07379768",
+
+			"address": {
+				"street": null,
+				"locality": "Hartford Road",
+				"additional": "Beths Grammar School",
+				"town": "Bexley",
+				"county": null,
+				"postcode": "DA5 1NE"
+			},
+			"establishments": [
+				{
+					"urn": "136334",
+					"name": "Beths Grammar School",
+					"ukprn": "10031564"
+				}
+			]
+		},
+		{
+			"ukprn": "10058972",
+
+			"name": "BEVERLEY GRAMMAR SCHOOL",
+			"companiesHouseNumber": "07688240",
+
+			"address": {
+				"street": null,
+				"locality": "Queensgate",
+				"additional": "Beverley Grammar School",
+				"town": "Beverley",
+				"county": "Humberside",
+				"postcode": "HU17 8NF"
+			},
+			"establishments": [
+				{
+					"urn": "136995",
+					"name": "Beverley Grammar School",
+					"ukprn": "10034618"
+				}
+			]
+		},
+		{
+			"ukprn": "10058429",
+
+			"name": "BEXLEY GRAMMAR SCHOOL",
+			"companiesHouseNumber": "07455732",
+
+			"address": {
+				"street": null,
+				"locality": "Danson Lane",
+				"additional": "Bexley Grammar School",
+				"town": "Welling",
+				"county": "Kent",
+				"postcode": "DA16 2BL"
+			},
+			"establishments": [
+				{
+					"urn": "136369",
+					"name": "Bexley Grammar School",
+					"ukprn": "10032339"
+				}
+			]
+		},
+		{
+			"ukprn": "10059685",
+
+			"name": "BISHOP VESEY'S GRAMMAR SCHOOL",
+			"companiesHouseNumber": "07986921",
+
+			"address": {
+				"street": null,
+				"locality": "Lichfield Road",
+				"additional": "Bishop Vesey'S Grammar School",
+				"town": "Sutton Coldfield",
+				"county": null,
+				"postcode": "B74 2NH"
+			},
+			"establishments": [
+				{
+					"urn": "137988",
+					"name": "Bishop Vesey's Grammar School",
+					"ukprn": "10036861"
+				}
+			]
+		},
+		{
+			"ukprn": "10058514",
+
+			"name": "BISHOP WORDSWORTH'S CHURCH OF ENGLAND GRAMMAR SCHOOL",
+			"companiesHouseNumber": "07525856",
+
+			"address": {
+				"street": null,
+				"locality": null,
+				"additional": "11 The Close",
+				"town": "Salisbury",
+				"county": null,
+				"postcode": "SP1 2ED"
+			},
+			"establishments": [
+				{
+					"urn": "136500",
+					"name": "Bishop Wordsworth's Church of England Grammar School",
+					"ukprn": "10033023"
+				}
+			]
+		},
+		{
+			"ukprn": "10059396",
+
+			"name": "BORDEN GRAMMAR SCHOOL TRUST",
+			"companiesHouseNumber": "07827591",
+
+			"address": {
+				"street": null,
+				"locality": "Avenue Of Remembrance",
+				"additional": "Borden Grammar School",
+				"town": "Sittingbourne",
+				"county": "Kent",
+				"postcode": "ME10 4DB"
+			},
+			"establishments": [
+				{
+					"urn": "137800",
+					"name": "Borden Grammar School",
+					"ukprn": "10035796"
+				}
+			]
+		}
+	]
+}

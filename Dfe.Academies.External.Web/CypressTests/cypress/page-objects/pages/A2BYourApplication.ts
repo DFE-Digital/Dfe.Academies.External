@@ -131,4 +131,55 @@ export default class A2BYourApplication extends BasePage {
         cy.contains('Cancel application').click()
     }
 
+    static selectInviteContributorLink()
+    {
+        cy.contains('invite or remove').click()
+    }
+
+    // FAM FUNCTIONS BELOW HERE
+    static FAMApplicationNotStartedElementsVisible()
+    {
+        cy.FAMApplicationNotStartedElementsVisible()
+    }
+
+    static FAMApplicationNotStartedSchoolAddedElementsVisible()
+    {
+        cy.FAMApplicationNotStartedSchoolAddedElementsVisible()
+    }
+
+    static FAMApplicationSchoolCompleteElementsVisible()
+    {
+        cy.FAMApplicationSchoolCompleteElementsVisible()
+    }
+
+    static FAMApplicationTrustNameComplete()
+    {
+        cy.FAMApplicationTrustNameComplete()
+    }
+
+    static FAMApplicationFuturePupilNumbersSubmittedElementsVisible()
+    {
+        cy.FAMApplicationFuturePupilNumbersSubmittedElementsVisible()
+    }
+
+    static selectFAMSchool()
+    {
+        cy.selectFAMSchool()
+    }
+
+    static selectFAMAddTheTrust()
+    {
+        cy.selectFAMAddTheTrust()
+    }
+
+    static selectFAMTrustDetails()
+    {
+        cy.selectFAMTrustDetails()
+    }
+
+    static FAMApplicationOverviewCompleteElementsVisible()
+    {
+        cy.FAMApplicationOverviewCompleteElementsVisible()
+    }
+
 }

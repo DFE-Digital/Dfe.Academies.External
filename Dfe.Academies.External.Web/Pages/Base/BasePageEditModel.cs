@@ -1,11 +1,8 @@
 ﻿using System.Globalization;
 using System.Text.Json;
-using Dfe.Academies.External.Web.AcademiesAPIResponseModels.Schools;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
-using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
-using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 
@@ -90,28 +87,6 @@ public abstract class BasePageEditModel : BasePageModel
 			};
 
 		return dateComponents;
-	}
-
-	private void CacheSelectedSchool(EstablishmentResponse? schoolDetails)
-	{
-		if (schoolDetails != null)
-		{
-			SchoolCacheValuesViewModel cachedValuesViewModel = new(Convert.ToInt32(schoolDetails.Urn), schoolDetails.EstablishmentName);
-
-			ViewDataHelper.StoreSerialisedValue(nameof(SchoolCacheValuesViewModel), ViewData, cachedValuesViewModel);
-		}
-	}
-
-	private SchoolApplyingToConvert? ConvertApiResponseToModel(EstablishmentResponse? schoolDetails)
-	{
-		if (schoolDetails != null)
-		{
-			return new SchoolApplyingToConvert(schoolDetails.EstablishmentName, Convert.ToInt32(schoolDetails.Urn), schoolDetails.UPRN);
-		}
-		else
-		{
-			return null;
-		}
 	}
 
 	protected DateTime BuildDateTime(string day, string month, string year)

@@ -23,11 +23,6 @@ public class SchoolDetailsViewModel
 	public int URN { get; set; }
 
 	/// <summary>
-	/// Not nullable - GIAS unique school Id ? e.g. GAT00123
-	/// </summary>
-	public string? UKPRN { get; set; }
-
-	/// <summary>
 	/// e.g. 7083
 	/// </summary>
 	public string? EstablishmentNumber { get; set; }

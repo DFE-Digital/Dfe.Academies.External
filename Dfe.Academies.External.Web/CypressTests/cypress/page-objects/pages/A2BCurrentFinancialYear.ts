@@ -20,8 +20,7 @@ static inputCurrentFinancialYrDataAndSubmit()
 
     cy.verifyCurrentRevenueCarryForwardDeficitSelectedSectionDisplays()
 
-    var reasonsRevenueCarryForwardDeficit
-    reasonsRevenueCarryForwardDeficit = 'A) plain the reason for the deficit, how the school plan to deal with it, and the recovery plan. Provide details of the financial forecast and/or the deficit recovery plan agreed with the local author'
+    const reasonsRevenueCarryForwardDeficit = 'A) plain the reason for the deficit, how the school plan to deal with it, and the recovery plan. Provide details of the financial forecast and/or the deficit recovery plan agreed with the local author'
     cy.get('label[for="CFYRevenueCarryForwardExplained"]').type(reasonsRevenueCarryForwardDeficit)
 
     cy.uploadFileForCurrentRevenueCarryForwardDeficit()
@@ -32,8 +31,7 @@ static inputCurrentFinancialYrDataAndSubmit()
     cy.selectCurrentCapitalCarryForwardDeficit()
 
     cy.verifyCurrentCapitalCarryForwardDeficitSelectedSectionDisplays()
-   var reasonsCapitalCarryForwardDeficit
-    reasonsCapitalCarryForwardDeficit = 'B) plain the reason for the deficit, how the school plan to deal with it, and the recovery plan. Provide details of the financial forecast and/or the deficit recovery plan agreed with the local author'
+    const reasonsCapitalCarryForwardDeficit = 'B) plain the reason for the deficit, how the school plan to deal with it, and the recovery plan. Provide details of the financial forecast and/or the deficit recovery plan agreed with the local author'
     cy.get('label[for="CFYCapitalCarryForwardExplained"]').type(reasonsCapitalCarryForwardDeficit)
 
     cy.uploadFileForCurrentCapitalCarryForwardDeficit()

@@ -5,7 +5,7 @@
 /// </summary>
 public class TrustDetailsViewModel
 {
-	public TrustDetailsViewModel(string trustName, string trustReference, int ukprn, string street, string town, string fullUkPostcode)
+	public TrustDetailsViewModel(string trustName, string trustReference, string ukprn, string street, string town, string fullUkPostcode)
 	{
 		Ukprn = ukprn;
 		TrustName = trustName;
@@ -18,7 +18,7 @@ public class TrustDetailsViewModel
 	/// <summary>
 	/// Unique identifier for a trust. urn is null on trust search
 	/// </summary>
-	public int Ukprn { get; set; }
+	public string Ukprn { get; set; }
 
 	public string TrustName { get; set; }
 

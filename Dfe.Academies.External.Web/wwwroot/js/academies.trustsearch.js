@@ -64,6 +64,15 @@ academies.searchTrusts = function () {
 	let autocompleteContainer = document.getElementById("autocomplete-container"); // MR:- this is just a plain old DIV
 	const input = $("#SearchQueryInput"); // MR:- this is input type=text, which gets cloned
 
+	function inputValueTemplate(result) {
+		return result && result.name + (result.ukprn != null ? ' (' + result.ukprn + ')' : '');
+	}
+
+	function suggestionTemplate(result) {
+		return result && result.name +
+			(result.ukprn != null ? ' (<span>' + result.ukprn + '</span>)' : '');
+	}
+
 	accessibleAutocomplete({
 		element: autocompleteContainer,
 		id: input.attr("id"),
@@ -73,13 +82,18 @@ academies.searchTrusts = function () {
 		displayMenu: 'overlay',
 		minLength: 4,
 		onConfirm: (function (selectedValue) {
-			input.val(selectedValue);
+			let val = selectedValue.name +' (' + selectedValue.ukprn + ')';
+			input.val(val);
 
 			academies.renderTrustSearchOption(selectedValue);
 
 			let originalSearchInput = $("#autocomplete-container #SearchQueryInput");
-			originalSearchInput.val(selectedValue);
-		})
+			originalSearchInput.val(val);
+		}),
+		templates: {
+			inputValue: inputValueTemplate,
+			suggestion: suggestionTemplate
+		}
 	});
 };
 
@@ -89,8 +103,8 @@ academies.renderTrustSearchOption = function (selectedValue) {
 	// unhide selected trust section of screen
 	$.ajax({
 		url: '../trust/ReturnTrustDetailsPartialViewPopulated',
-		type: 'GET',
-		data: { 'selectedTrust': selectedValue }, // selected value will be in the format 'trust name (UKprn)'
+		type: 'POST',
+		data: selectedValue, // selected value will be in the format 'trust name (UKprn)'
 		success: function (response) {
 			academies.renderSelectedTrust(response);
 			academies.unhideSelectedTrustSectionAndConfirmCheckbox();

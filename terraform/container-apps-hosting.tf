@@ -1,5 +1,5 @@
 module "azure_container_apps_hosting" {
-  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v0.19.1"
+  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v1.4.9"
 
   environment    = local.environment
   project_name   = local.project_name
@@ -8,12 +8,16 @@ module "azure_container_apps_hosting" {
 
   virtual_network_address_space = local.virtual_network_address_space
 
-  enable_container_registry = local.enable_container_registry
+  enable_container_registry             = local.enable_container_registry
+  registry_admin_enabled                = local.registry_admin_enabled
+  registry_use_managed_identity         = local.registry_use_managed_identity
+  registry_managed_identity_assign_role = local.registry_managed_identity_assign_role
 
   image_name                             = local.image_name
   container_command                      = local.container_command
   container_secret_environment_variables = local.container_secret_environment_variables
   container_max_replicas                 = local.container_max_replicas
+  container_scale_http_concurrency       = local.container_scale_http_concurrency
 
   enable_redis_cache = local.enable_redis_cache
 
@@ -44,9 +48,9 @@ module "azure_container_apps_hosting" {
   existing_logic_app_workflow   = local.existing_logic_app_workflow
   enable_container_health_probe = local.enable_container_health_probe
 
-  enable_container_app_blob_storage                = local.enable_container_app_blob_storage
-  container_app_blob_storage_ipv4_allow_list       = local.container_app_blob_storage_ipv4_allow_list
-  container_app_blob_storage_public_access_enabled = local.container_app_blob_storage_public_access_enabled
+  enable_container_app_blob_storage     = local.enable_container_app_blob_storage
+  storage_account_ipv4_allow_list       = local.storage_account_ipv4_allow_list
+  storage_account_public_access_enabled = local.storage_account_public_access_enabled
 
   existing_network_watcher_name                = local.existing_network_watcher_name
   existing_network_watcher_resource_group_name = local.existing_network_watcher_resource_group_name

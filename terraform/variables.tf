@@ -43,6 +43,24 @@ variable "enable_container_registry" {
   type        = bool
 }
 
+variable "registry_admin_enabled" {
+  description = "Do you want to enable access key based authentication for your Container Registry?"
+  type        = bool
+  default     = true
+}
+
+variable "registry_use_managed_identity" {
+  description = "Create a User-Assigned Managed Identity for the Container App. Note: If you do not have 'Microsoft.Authorization/roleAssignments/write' permission, you will need to manually assign the 'AcrPull' Role to the identity"
+  type        = bool
+  default     = false
+}
+
+variable "registry_managed_identity_assign_role" {
+  description = "Assign the 'AcrPull' Role to the Container App User-Assigned Managed Identity. Note: If you do not have 'Microsoft.Authorization/roleAssignments/write' permission, you will need to manually assign the 'AcrPull' Role to the identity"
+  type        = bool
+  default     = false
+}
+
 variable "image_name" {
   description = "Image name"
   type        = string
@@ -68,6 +86,7 @@ variable "container_max_replicas" {
 variable "enable_event_hub" {
   description = "Send Azure Container App logs to an Event Hub sink"
   type        = bool
+  default     = false
 }
 
 variable "enable_logstash_consumer" {
@@ -111,6 +130,12 @@ variable "container_apps_allow_ips_inbound" {
   description = "Restricts access to the Container Apps by creating a network security group rule that only allow inbound traffic from the provided list of IPs"
   type        = list(string)
   default     = []
+}
+
+variable "container_scale_http_concurrency" {
+  description = "When the number of concurrent HTTP requests exceeds this value, then another replica is added. Replicas continue to add to the pool up to the max-replicas amount."
+  type        = number
+  default     = 10
 }
 
 variable "enable_dns_zone" {
@@ -211,12 +236,12 @@ variable "enable_container_app_blob_storage" {
   type        = bool
 }
 
-variable "container_app_blob_storage_ipv4_allow_list" {
+variable "storage_account_ipv4_allow_list" {
   description = "A list of public IPv4 address to grant access to the Blob Storage Account"
   type        = list(string)
 }
 
-variable "container_app_blob_storage_public_access_enabled" {
+variable "storage_account_public_access_enabled" {
   description = "Should the Azure Storage Account have Public visibility?"
   type        = bool
 }
@@ -234,4 +259,35 @@ variable "existing_network_watcher_resource_group_name" {
 variable "enable_redis_cache" {
   description = "Set to true to create an Azure Redis Cache, with a private endpoint within the virtual network"
   type        = bool
+}
+
+variable "statuscake_api_token" {
+  description = "API token for StatusCake"
+  type        = string
+  sensitive   = true
+  default     = "00000000000000000000000000000"
+}
+
+variable "statuscake_contact_group_name" {
+  description = "Name of the contact group in StatusCake"
+  type        = string
+  default     = ""
+}
+
+variable "statuscake_contact_group_integrations" {
+  description = "List of Integration IDs to connect to your Contact Group"
+  type        = list(string)
+  default     = []
+}
+
+variable "statuscake_monitored_resource_addresses" {
+  description = "The URLs to perform TLS checks on"
+  type        = list(string)
+  default     = []
+}
+
+variable "statuscake_contact_group_email_addresses" {
+  description = "List of email address that should receive notifications from StatusCake"
+  type        = list(string)
+  default     = []
 }
