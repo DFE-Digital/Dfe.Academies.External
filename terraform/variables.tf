@@ -138,6 +138,12 @@ variable "container_scale_http_concurrency" {
   default     = 10
 }
 
+variable "enable_cdn_frontdoor_health_probe" {
+  description = "Enable CDN Front Door health probe"
+  type        = bool
+  default     = false
+}
+
 variable "enable_dns_zone" {
   description = "Conditionally create a DNS zone"
   type        = bool

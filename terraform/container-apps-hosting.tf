@@ -42,6 +42,7 @@ module "azure_container_apps_hosting" {
   cdn_frontdoor_origin_host_header_override   = local.cdn_frontdoor_origin_host_header_override
   restrict_container_apps_to_cdn_inbound_only = local.restrict_container_apps_to_cdn_inbound_only
   container_apps_allow_ips_inbound            = local.container_apps_allow_ips_inbound
+  enable_cdn_frontdoor_health_probe           = local.enable_cdn_frontdoor_health_probe
 
   enable_monitoring             = local.enable_monitoring
   monitor_email_receivers       = local.monitor_email_receivers
