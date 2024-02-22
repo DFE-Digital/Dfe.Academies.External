@@ -13,7 +13,7 @@
 	@if (canTrack)
 	{
 		<!-- Google Tag Manager -->
-		<script>
+		<script asp-add-nonce>
 			(function (w, d, s, l, i) {
 				w[l] = w[l] || []; w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
 				var f = d.getElementsByTagName(s)[0],
@@ -51,7 +51,7 @@
 	<!-- End Google Tag Manager (noscript) -->
 }
 
-<script>
+<script asp-add-nonce>
         document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
 </script>
 <partial name="_CookieConsentPartial"/>
@@ -102,7 +102,7 @@
     </environment>
     <script src="~/assets/application-39beab6507cd50944edb58ab76ca9a393e09d467cba25003fbd3104c8a02514b.js"></script>
 @*    <script src="~/js/all.js"></script>*@
-    <script>
+    <script asp-add-nonce>
         window.GOVUKFrontend.initAll();
         @if (canTrack)
         {
