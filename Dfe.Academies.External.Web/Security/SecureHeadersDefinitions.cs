@@ -2,6 +2,19 @@
 
 public static class SecureHeadersDefinitions
 {
+	private static readonly string[] DefaultSrcExclusions = {
+		"wss://localhost:*/Dfe.Academies.External.Web/", 
+		"https://*.googletagmanager.com",
+		"https://*.google-analytics.com"
+	};
+
+	private static readonly string[] ScriptSrcExclusions = {
+		"https://*.googletagmanager.com", 
+		"https://*.google-analytics.com"
+	};
+
+	private static readonly string[] ImageSrcExclusions = { "https://www.googletagmanager.com" };
+	
 	public static HeaderPolicyCollection GetHeaderPolicyCollection()
 	{
 		HeaderPolicyCollection policy = new HeaderPolicyCollection()
@@ -24,20 +37,11 @@ public static class SecureHeadersDefinitions
 			})
 			.AddContentSecurityPolicy(builder =>
 			{
-				builder.AddDefaultSrc().Self().From(new[]
-				{
-					"wss://localhost:*/Dfe.Academies.External.Web/", 
-					"https://*.googletagmanager.com",
-					"https://*.google-analytics.com"
-				});
-				builder.AddScriptSrc().Self().WithNonce().From(new []
-				{
-					"https://*.googletagmanager.com",
-					"https://*.google-analytics.com"
-				});
+				builder.AddDefaultSrc().Self().From(DefaultSrcExclusions);
+				builder.AddScriptSrc().Self().WithNonce().From(ScriptSrcExclusions);
 				builder.AddStyleSrc().Self();
 				builder.AddFontSrc().Self();
-				builder.AddImgSrc().Self().From("https://www.googletagmanager.com");
+				builder.AddImgSrc().Self().From(ImageSrcExclusions);
 				builder.AddFrameSrc().Self();
 			})
 			.AddPermissionsPolicy(builder =>
