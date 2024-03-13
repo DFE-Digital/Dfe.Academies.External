@@ -79,7 +79,7 @@ namespace Dfe.Academies.External.Web.Controllers
 				int urn = Convert.ToInt32(schoolSplit[^1]);
 				var result = await ReferenceDataRetrievalService.GetSchool(urn);
 
-				_logger.LogInformation(JsonConvert.SerializeObject(result));
+				_logger.LogInformation("Result of get school by urn::" + JsonConvert.SerializeObject(result));
 
 				var vm = new SchoolDetailsViewModel(schoolName: result.Name,
 					urn: Convert.ToInt32(result.Urn),
