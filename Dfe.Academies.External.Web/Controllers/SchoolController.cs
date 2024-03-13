@@ -4,6 +4,7 @@ using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Dfe.Academies.External.Web.Controllers
 {
@@ -77,6 +78,8 @@ namespace Dfe.Academies.External.Web.Controllers
 
 				int urn = Convert.ToInt32(schoolSplit[^1]);
 				var result = await ReferenceDataRetrievalService.GetSchool(urn);
+
+				_logger.LogInformation(JsonConvert.SerializeObject(result));
 
 				var vm = new SchoolDetailsViewModel(schoolName: result.Name,
 					urn: Convert.ToInt32(result.Urn),
