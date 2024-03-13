@@ -102,7 +102,10 @@ academies.renderSchoolSearchOption = function (selectedValue) {
 	        academies.renderSelectedSchool(response);
             academies.unhideSelectedSchoolSectionAndConfirmCheckbox();
             academies.clearErrorBars(); // clear any existing name not input err
-        }
+		},
+		function(req, err) {
+			console.log('ReturnSchoolDetailsPartialViewPopulated:error: ' + err);
+		}
     });
 };
 
