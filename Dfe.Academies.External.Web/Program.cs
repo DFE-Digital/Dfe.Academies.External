@@ -4,9 +4,9 @@ using Dfe.Academies.External.Web.AutoMapper;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Factories;
 using Dfe.Academies.External.Web.Helpers;
-using Dfe.Academies.External.Web.Middleware;
 using Dfe.Academies.External.Web.Models.EmailTemplates;
 using Dfe.Academies.External.Web.Routing;
+using Dfe.Academies.External.Web.Security;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academisation.CorrelationIdMiddleware;
 using GovUk.Frontend.AspNetCore;
@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.Options;
+using NetEscapades.AspNetCore.SecurityHeaders;
 using Notify.Client;
 using Notify.Interfaces;
 using Polly;
@@ -29,7 +30,10 @@ var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 //https://github.com/gunndabad/govuk-frontend-aspnetcore  
-builder.Services.AddGovUkFrontend();
+builder.Services.AddGovUkFrontend(options =>
+{
+	options.GetCspNonceForRequest = context => context.GetNonce();
+});
 
 builder.Services
 	.AddRazorPages(options =>
@@ -294,7 +298,7 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 });
 
 // add OWASP top 10 response headers
-app.UseResponseMiddleware();
+app.UseSecurityHeaders(SecureHeadersDefinitions.GetHeaderPolicyCollection());
 app.UseMiddleware<CorrelationIdMiddleware>();
 
 // possible redis fix
