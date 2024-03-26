@@ -1,6 +1,6 @@
 ﻿# Stage 1
 ARG ASPNET_IMAGE_TAG=6.0.9-bullseye-slim
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /build
 
 ENV DEBIAN_FRONTEND=noninteractive
