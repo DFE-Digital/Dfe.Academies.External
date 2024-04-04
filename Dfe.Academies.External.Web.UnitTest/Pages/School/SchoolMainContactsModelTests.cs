@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.School;
 
@@ -43,7 +44,7 @@ internal sealed class SchoolMainContactsModelTests
 		await pageModel.OnGetAsync(urn, applicationId);
 
 		// assert
-		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
+		ClassicAssert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
 	[Test]
@@ -67,8 +68,8 @@ internal sealed class SchoolMainContactsModelTests
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.AreEqual(1, errors.Count);
-		Assert.AreEqual(true, pageModel.OtherNameError);
+		ClassicAssert.AreEqual(1, errors.Count);
+		ClassicAssert.AreEqual(true, pageModel.OtherNameError);
 	}
 
 	[Test]
@@ -92,8 +93,8 @@ internal sealed class SchoolMainContactsModelTests
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.AreEqual(1, errors.Count);
-		Assert.AreEqual(true, pageModel.OtherEmailError);
+		ClassicAssert.AreEqual(1, errors.Count);
+		ClassicAssert.AreEqual(true, pageModel.OtherEmailError);
 	}
 
 	[Test]
@@ -117,8 +118,8 @@ internal sealed class SchoolMainContactsModelTests
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.AreEqual(1, errors.Count);
-		//Assert.AreEqual(true, pageModel.OtherTelephoneError);
+		ClassicAssert.AreEqual(1, errors.Count);
+		//ClassicAssert.AreEqual(true, pageModel.OtherTelephoneError);
 	}
 
 	[Test]
@@ -142,8 +143,8 @@ internal sealed class SchoolMainContactsModelTests
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.AreEqual(1, errors.Count);
-		Assert.AreEqual(true, pageModel.OtherContactError);
+		ClassicAssert.AreEqual(1, errors.Count);
+		ClassicAssert.AreEqual(true, pageModel.OtherContactError);
 	}
 
 	[Test]
@@ -167,8 +168,8 @@ internal sealed class SchoolMainContactsModelTests
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.AreEqual(1, errors.Count);
-		Assert.AreEqual(true, pageModel.OtherContactError);
+		ClassicAssert.AreEqual(1, errors.Count);
+		ClassicAssert.AreEqual(true, pageModel.OtherContactError);
 	}
 
 

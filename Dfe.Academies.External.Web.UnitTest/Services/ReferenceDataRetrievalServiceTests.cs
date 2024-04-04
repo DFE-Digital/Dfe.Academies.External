@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
@@ -43,8 +44,8 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// assert
 		Assert.That(searchSchools, Is.Not.Null);
-		Assert.AreEqual(true, searchSchools.Any());
-		Assert.AreEqual(expectedCount, searchSchools.Count());
+		ClassicAssert.AreEqual(true, searchSchools.Any());
+		ClassicAssert.AreEqual(expectedCount, searchSchools.Count());
 		Assert.That(searchSchools?.FirstOrDefault()?.Name, Is.EqualTo("The Cardinal Wiseman Catholic School"));
 		Assert.That(searchSchools?.FirstOrDefault()?.Urn, Is.EqualTo("101934"));
 	}
@@ -132,9 +133,9 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// assert
 		Assert.That(builtUri, Is.Not.Null);
-		Assert.AreEqual("name%3dwise", builtUri);
+		ClassicAssert.AreEqual("name%3dwise", builtUri);
 		var decodedUri = HttpUtility.UrlDecode(builtUri);
-		Assert.AreEqual("name=wise", decodedUri);
+		ClassicAssert.AreEqual("name=wise", decodedUri);
 	}
 
 	[Test]
@@ -155,9 +156,9 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// assert
 		Assert.That(builtUri, Is.Not.Null);
-		Assert.AreEqual("Urn%3d101934", builtUri);
+		ClassicAssert.AreEqual("Urn%3d101934", builtUri);
 		var decodedUri = HttpUtility.UrlDecode(builtUri);
-		Assert.AreEqual("Urn=101934", decodedUri);
+		ClassicAssert.AreEqual("Urn=101934", decodedUri);
 	}
 
 	[Test]
@@ -178,9 +179,9 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// assert
 		Assert.That(builtUri, Is.Not.Null);
-		Assert.AreEqual("ukprn%3d10015453", builtUri);
+		ClassicAssert.AreEqual("ukprn%3d10015453", builtUri);
 		var decodedUri = HttpUtility.UrlDecode(builtUri);
-		Assert.AreEqual("ukprn=10015453", decodedUri);
+		ClassicAssert.AreEqual("ukprn=10015453", decodedUri);
 	}
 
 	[Test]
@@ -204,17 +205,17 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// assert
 		Assert.That(trusts, Is.Not.Null);
-		Assert.AreEqual(true, trusts.Any());
-		Assert.AreEqual(expectedCount, trusts.Count());
-		Assert.AreEqual(ukprn, trusts?.FirstOrDefault()?.Ukprn);
-		Assert.AreEqual("ALCESTER GRAMMAR SCHOOL", trusts?.FirstOrDefault()?.Name);
-		Assert.AreEqual("07485466", trusts?.FirstOrDefault()?.CompaniesHouseNumber);
-		Assert.AreEqual(null, trusts?.FirstOrDefault()?.Address.Street);
-		Assert.AreEqual(null, trusts?.FirstOrDefault()?.Address.Locality);
-		Assert.AreEqual("Birmingham Road", trusts?.FirstOrDefault()?.Address.Additional);
-		Assert.AreEqual("Alcester", trusts?.FirstOrDefault()?.Address.Town);
-		Assert.AreEqual(null, trusts?.FirstOrDefault()?.Address.County);
-		Assert.AreEqual("B49 5ED", trusts?.FirstOrDefault()?.Address.Postcode);
+		ClassicAssert.AreEqual(true, trusts.Any());
+		ClassicAssert.AreEqual(expectedCount, trusts.Count());
+		ClassicAssert.AreEqual(ukprn, trusts?.FirstOrDefault()?.Ukprn);
+		ClassicAssert.AreEqual("ALCESTER GRAMMAR SCHOOL", trusts?.FirstOrDefault()?.Name);
+		ClassicAssert.AreEqual("07485466", trusts?.FirstOrDefault()?.CompaniesHouseNumber);
+		ClassicAssert.AreEqual(null, trusts?.FirstOrDefault()?.Address.Street);
+		ClassicAssert.AreEqual(null, trusts?.FirstOrDefault()?.Address.Locality);
+		ClassicAssert.AreEqual("Birmingham Road", trusts?.FirstOrDefault()?.Address.Additional);
+		ClassicAssert.AreEqual("Alcester", trusts?.FirstOrDefault()?.Address.Town);
+		ClassicAssert.AreEqual(null, trusts?.FirstOrDefault()?.Address.County);
+		ClassicAssert.AreEqual("B49 5ED", trusts?.FirstOrDefault()?.Address.Postcode);
 	}
 
 	[Test]
@@ -254,15 +255,15 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// assert
 		Assert.That(trusts, Is.Not.Null);
-		Assert.AreEqual(ukprn, trusts?.Ukprn);
-		Assert.AreEqual("ALCESTER GRAMMAR SCHOOL", trusts?.Name);
-		Assert.AreEqual("07485466", trusts?.CompaniesHouseNumber);
-		Assert.AreEqual(null, trusts?.Address.Additional);
-		Assert.AreEqual(null, trusts?.Address.Locality);
-		Assert.AreEqual("Birmingham Road", trusts?.Address.Street);
-		Assert.AreEqual("Alcester", trusts?.Address.Town);
-		Assert.AreEqual(null, trusts?.Address.County);
-		Assert.AreEqual("B49 5ED", trusts?.Address.Postcode);
+		ClassicAssert.AreEqual(ukprn, trusts?.Ukprn);
+		ClassicAssert.AreEqual("ALCESTER GRAMMAR SCHOOL", trusts?.Name);
+		ClassicAssert.AreEqual("07485466", trusts?.CompaniesHouseNumber);
+		ClassicAssert.AreEqual(null, trusts?.Address.Additional);
+		ClassicAssert.AreEqual(null, trusts?.Address.Locality);
+		ClassicAssert.AreEqual("Birmingham Road", trusts?.Address.Street);
+		ClassicAssert.AreEqual("Alcester", trusts?.Address.Town);
+		ClassicAssert.AreEqual(null, trusts?.Address.County);
+		ClassicAssert.AreEqual("B49 5ED", trusts?.Address.Postcode);
 	}
 
 	[Test]
@@ -298,9 +299,9 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// assert
 		Assert.That(builtUri, Is.Not.Null);
-		Assert.AreEqual("groupName%3dwise%26page%3d1", builtUri);
+		ClassicAssert.AreEqual("groupName%3dwise%26page%3d1", builtUri);
 		var decodedUri = HttpUtility.UrlDecode(builtUri);
-		Assert.AreEqual("groupName=wise&page=1", decodedUri);
+		ClassicAssert.AreEqual("groupName=wise&page=1", decodedUri);
 	}
 
 	[Test]
@@ -319,9 +320,9 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// assert
 		Assert.That(builtUri, Is.Not.Null);
-		Assert.AreEqual("ukprn%3d10058464%26page%3d1", builtUri);
+		ClassicAssert.AreEqual("ukprn%3d10058464%26page%3d1", builtUri);
 		var decodedUri = HttpUtility.UrlDecode(builtUri);
-		Assert.AreEqual("ukprn=10058464&page=1", decodedUri);
+		ClassicAssert.AreEqual("ukprn=10058464&page=1", decodedUri);
 	}
 
 	[Test]
@@ -340,9 +341,9 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// assert
 		Assert.That(builtUri, Is.Not.Null);
-		Assert.AreEqual("companiesHouseNumber%3d07485466%26page%3d1", builtUri);
+		ClassicAssert.AreEqual("companiesHouseNumber%3d07485466%26page%3d1", builtUri);
 		var decodedUri = HttpUtility.UrlDecode(builtUri);
-		Assert.AreEqual("companiesHouseNumber=07485466&page=1", decodedUri);
+		ClassicAssert.AreEqual("companiesHouseNumber=07485466&page=1", decodedUri);
 	}
 
 	private static Mock<IHttpClientFactory> SetupMockHttpClientFactory(HttpStatusCode expectedStatusCode, string expectedJson)

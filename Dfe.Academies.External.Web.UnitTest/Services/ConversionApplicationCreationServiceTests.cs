@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
@@ -74,10 +75,10 @@ internal sealed class ConversionApplicationCreationServiceTests
 
 		// assert
 		Assert.That(newApplication, Is.Not.Null);
-		Assert.AreEqual(newApplication.ApplicationType, conversionApplication.ApplicationType);
-		Assert.AreEqual(newApplication.ApplicationStatus, conversionApplication.ApplicationStatus);
+		ClassicAssert.AreEqual(newApplication.ApplicationType, conversionApplication.ApplicationType);
+		ClassicAssert.AreEqual(newApplication.ApplicationStatus, conversionApplication.ApplicationStatus);
 
-		Assert.AreNotEqual(newApplication.ApplicationId, 0);
+		ClassicAssert.AreNotEqual(newApplication.ApplicationId, 0);
 	}
 
 	/// <summary>
@@ -198,7 +199,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var result = Assert.ThrowsAsync<ArgumentException>(async () => await sut.PutSchoolApplicationDetails(GetApplicationId, schoolUrn, dictionary));
 
 		//Assert
-		Assert.AreEqual("Application not found", result.Message);
+		ClassicAssert.AreEqual("Application not found", result.Message);
 
 	}
 	[Test]
@@ -226,7 +227,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 			Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
 
 		var result = Assert.ThrowsAsync<ArgumentException>(async () => await sut.PutSchoolApplicationDetails(applicationId, schoolUrn, dictionary));
-		Assert.AreEqual("School not found", result.Message);
+		ClassicAssert.AreEqual("School not found", result.Message);
 	}
 
 	[Test]
