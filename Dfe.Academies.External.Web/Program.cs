@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-using Azure.Storage.Blobs;
+using Azure.Identity;
 using Dfe.Academies.External.Web.AutoMapper;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Factories;
@@ -231,12 +231,14 @@ var localDevelopment = builder.Configuration.GetValue<bool>("local_development")
 if (!localDevelopment)
 {
 	string blobName = "keys.xml";
-	BlobContainerClient container = new BlobContainerClient(new Uri(builder.Configuration["ConnectionStrings:BlobStorage"]));
-
-	BlobClient blobClient = container.GetBlobClient(blobName);
+	string blobContainerName = builder.Configuration["StorageAccount:ContainerName"];
+	Uri blobAccountUri = new Uri(builder.Configuration["StorageAccount:Uri"] + "/" + blobContainerName + "/" + blobName);
 
 	builder.Services.AddDataProtection()
-		.PersistKeysToAzureBlobStorage(blobClient);
+		.PersistKeysToAzureBlobStorage(
+			blobAccountUri,
+			new DefaultAzureCredential()
+		);
 }
 
 builder.Services.AddQuartz(q => { q.UseMicrosoftDependencyInjectionJobFactory(); });
