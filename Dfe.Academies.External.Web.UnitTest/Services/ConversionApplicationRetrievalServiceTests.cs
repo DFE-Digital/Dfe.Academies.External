@@ -10,6 +10,7 @@ using Dfe.Academisation.CorrelationIdMiddleware;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
@@ -103,7 +104,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
 		// assert
 		Assert.That(expectedExistingApplicationsTestData, Is.Not.Null);
-		Assert.AreEqual(expectedCount, expectedExistingApplicationsTestData.Count, "Count is not correct");
+		ClassicAssert.AreEqual(expectedCount, expectedExistingApplicationsTestData.Count, "Count is not correct");
 	}
 
 	[Test]
@@ -173,7 +174,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
 		// assert
 		Assert.That(expectedExistingApplicationsTestData, Is.Not.Null);
-		Assert.AreEqual(expectedCount, expectedExistingApplicationsTestData.Count, "Count is not correct");
+		ClassicAssert.AreEqual(expectedCount, expectedExistingApplicationsTestData.Count, "Count is not correct");
 	}
 
 	[Test]
@@ -194,7 +195,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
 		// assert
 		Assert.That(auditEntries, Is.Not.Null);
-		Assert.AreEqual(expectedCount, auditEntries.Count, "Count is not correct");
+		ClassicAssert.AreEqual(expectedCount, auditEntries.Count, "Count is not correct");
 	}
 
 	[Test]
@@ -217,7 +218,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
 		// assert
 		Assert.That(applicationComponentStatuses, Is.Not.Null);
-		Assert.AreEqual(expectedCount, applicationComponentStatuses.Count, "Count is not correct");
+		ClassicAssert.AreEqual(expectedCount, applicationComponentStatuses.Count, "Count is not correct");
 	}
 
 	[Test]
@@ -239,7 +240,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 
 		// assert
 		Assert.That(applicationContributors, Is.Not.Null);
-		Assert.AreEqual(expectedCount, applicationContributors.Count, "Count is not correct");
+		ClassicAssert.AreEqual(expectedCount, applicationContributors.Count, "Count is not correct");
 	}
 
 	[Test]
@@ -266,7 +267,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 		Assert.That(application.ApplicationTitle, Is.EqualTo("Join a multi-academy trust A2B_1"));
 		Assert.That(application.ApplicationStatus, Is.EqualTo(status));
 
-		Assert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
+		ClassicAssert.AreEqual(expectedCount, application.Schools.Count, "Count is not correct");
 		Assert.That(application.Schools.FirstOrDefault()?.SchoolName, Is.EqualTo("Plymstock School"));
 		Assert.That(application.Schools.FirstOrDefault()?.URN, Is.EqualTo(GetSchoolUrn));
 	}

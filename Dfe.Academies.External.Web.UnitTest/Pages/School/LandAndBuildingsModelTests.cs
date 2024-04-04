@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.School;
 
@@ -44,7 +45,7 @@ internal sealed class LandAndBuildingsModelTests
 		await pageModel.OnGetAsync(urn, applicationId);
 
 		// assert
-		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
+		ClassicAssert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
 	[Test]
@@ -70,8 +71,8 @@ internal sealed class LandAndBuildingsModelTests
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.AreEqual(1, errors.Count);
-		Assert.AreEqual(true, pageModel.SchoolBuildLandWorksPlannedError);
+		ClassicAssert.AreEqual(1, errors.Count);
+		ClassicAssert.AreEqual(true, pageModel.SchoolBuildLandWorksPlannedError);
 	}
 
 	[Test]
@@ -97,8 +98,8 @@ internal sealed class LandAndBuildingsModelTests
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.AreEqual(1, errors.Count);
-		Assert.AreEqual(true, pageModel.SchoolBuildLandWorksPlannedDateError);
+		ClassicAssert.AreEqual(1, errors.Count);
+		ClassicAssert.AreEqual(true, pageModel.SchoolBuildLandWorksPlannedDateError);
 	}
 
 	[Test]
@@ -124,8 +125,8 @@ internal sealed class LandAndBuildingsModelTests
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.AreEqual(1, errors.Count);
-		Assert.AreEqual(true, pageModel.SchoolBuildLandSharedFacilitiesExplainedError);
+		ClassicAssert.AreEqual(1, errors.Count);
+		ClassicAssert.AreEqual(true, pageModel.SchoolBuildLandSharedFacilitiesExplainedError);
 	}
 
 	[Test]
@@ -151,8 +152,8 @@ internal sealed class LandAndBuildingsModelTests
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.AreEqual(1, errors.Count);
-		Assert.AreEqual(true, pageModel.SchoolBuildLandGrantsBodiesError);
+		ClassicAssert.AreEqual(1, errors.Count);
+		ClassicAssert.AreEqual(true, pageModel.SchoolBuildLandGrantsBodiesError);
 	}
 
 	[Test]
@@ -178,8 +179,8 @@ internal sealed class LandAndBuildingsModelTests
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.AreEqual(1, errors.Count);
-		Assert.AreEqual(true, pageModel.SchoolBuildLandPFISchemeTypeError);
+		ClassicAssert.AreEqual(1, errors.Count);
+		ClassicAssert.AreEqual(true, pageModel.SchoolBuildLandPFISchemeTypeError);
 	}
 
 	[Test]
@@ -205,8 +206,8 @@ internal sealed class LandAndBuildingsModelTests
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.AreEqual(1, errors.Count);
-		Assert.AreEqual(true, pageModel.HasError);
+		ClassicAssert.AreEqual(1, errors.Count);
+		ClassicAssert.AreEqual(true, pageModel.HasError);
 	}
 
 	[Test]
@@ -232,8 +233,8 @@ internal sealed class LandAndBuildingsModelTests
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.AreEqual(1, errors.Count);
-		Assert.AreEqual(true, pageModel.HasError);
+		ClassicAssert.AreEqual(1, errors.Count);
+		ClassicAssert.AreEqual(true, pageModel.HasError);
 	}
 
 	[Test]
@@ -259,8 +260,8 @@ internal sealed class LandAndBuildingsModelTests
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.AreEqual(1, errors.Count);
-		Assert.AreEqual(true, pageModel.HasError);
+		ClassicAssert.AreEqual(1, errors.Count);
+		ClassicAssert.AreEqual(true, pageModel.HasError);
 	}
 
 	[Test]
@@ -286,8 +287,8 @@ internal sealed class LandAndBuildingsModelTests
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.AreEqual(1, errors.Count);
-		Assert.AreEqual(true, pageModel.HasError);
+		ClassicAssert.AreEqual(1, errors.Count);
+		ClassicAssert.AreEqual(true, pageModel.HasError);
 	}
 
 	[Test]
@@ -313,8 +314,8 @@ internal sealed class LandAndBuildingsModelTests
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.AreEqual(1, errors.Count);
-		Assert.AreEqual(true, pageModel.HasError);
+		ClassicAssert.AreEqual(1, errors.Count);
+		ClassicAssert.AreEqual(true, pageModel.HasError);
 	}
 
 	// TODO :- OnPostAsync___ModelIsValid___Invalid

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.School;
 
@@ -42,7 +43,7 @@ internal sealed class ApplicationJoinTrustReasonsModelTests
 		await pageModel.OnGetAsync(urn, applicationId);
 
 		// assert
-		Assert.AreEqual(null, pageModel.TempData["Errors"]);
+		ClassicAssert.AreEqual(null, pageModel.TempData["Errors"]);
 	}
 
 	// TODO :- OnPostAsync___ModelIsValid___Invalid

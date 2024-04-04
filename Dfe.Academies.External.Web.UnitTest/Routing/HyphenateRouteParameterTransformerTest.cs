@@ -1,5 +1,7 @@
 ﻿using Dfe.Academies.External.Web.Routing;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
+
 
 namespace DfE.Academies.External.Web.UnitTest.Routing
 {
@@ -14,7 +16,7 @@ namespace DfE.Academies.External.Web.UnitTest.Routing
 
 			var result = target.TransformOutbound(parameter);
 
-			Assert.IsNull(result);
+			ClassicAssert.IsNull(result);
 		}
 
 		[TestCase(1)]
@@ -25,7 +27,7 @@ namespace DfE.Academies.External.Web.UnitTest.Routing
 
 			var result = target.TransformOutbound(parameter);
 
-			Assert.IsNull(result);
+			ClassicAssert.IsNull(result);
 		}
 
 		[Test]
@@ -37,7 +39,7 @@ namespace DfE.Academies.External.Web.UnitTest.Routing
 
 			var result = target.TransformOutbound(parameter);
 
-			Assert.IsNull(result);
+			ClassicAssert.IsNull(result);
 		}
 
 		[TestCase("", "")]
@@ -51,7 +53,7 @@ namespace DfE.Academies.External.Web.UnitTest.Routing
 
 			var result = target.TransformOutbound(parameter);
 
-			Assert.AreEqual(expected, result);
+			ClassicAssert.AreEqual(expected, result);
 		}
 	}
 }
