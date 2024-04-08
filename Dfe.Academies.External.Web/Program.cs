@@ -233,11 +233,17 @@ if (!localDevelopment)
 	string blobName = "keys.xml";
 	string blobContainerName = builder.Configuration["StorageAccount:ContainerName"];
 	Uri blobAccountUri = new Uri(builder.Configuration["StorageAccount:Uri"] + "/" + blobContainerName + "/" + blobName);
+	Uri kvProtectionKeyUri = new Uri(builder.Configuration["DataProtection:KeyVaultKey"]);
+	var credentials = new DefaultAzureCredential();
 
 	builder.Services.AddDataProtection()
 		.PersistKeysToAzureBlobStorage(
 			blobAccountUri,
-			new DefaultAzureCredential()
+			credentials
+		)
+		.ProtectKeysWithAzureKeyVault(
+			kvProtectionKeyUri,
+			credentials
 		);
 }
 
