@@ -243,10 +243,7 @@ if (!localDevelopment)
 	var credentials = new DefaultAzureCredential();
 
 	builder.Services.AddDataProtection()
-		.PersistKeysToAzureBlobStorage(
-			blobAccountUri,
-			credentials
-		)
+		.PersistKeysToAzureBlobStorage(blobClient)
 		.ProtectKeysWithAzureKeyVault(
 			kvProtectionKeyUri,
 			credentials
