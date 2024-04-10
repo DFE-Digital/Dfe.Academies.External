@@ -235,7 +235,7 @@ if (!localDevelopment)
 	var credentials = new DefaultAzureCredential();
 
 	builder.Services.AddDataProtection()
-		.PersistKeysToFileSystem(new DirectoryInfo(@"/src/app/storage"))
+		.PersistKeysToFileSystem(new DirectoryInfo(@"/srv/app/storage"))
 		.ProtectKeysWithAzureKeyVault(
 			kvProtectionKeyUri,
 			credentials
