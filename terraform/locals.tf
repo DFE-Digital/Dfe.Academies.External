@@ -41,6 +41,7 @@ locals {
   monitor_email_receivers                      = var.monitor_email_receivers
   existing_logic_app_workflow                  = var.existing_logic_app_workflow
   enable_container_app_blob_storage            = var.enable_container_app_blob_storage
+  enable_container_app_file_share              = var.enable_container_app_file_share
   storage_account_ipv4_allow_list              = var.storage_account_ipv4_allow_list
   storage_account_public_access_enabled        = var.storage_account_public_access_enabled
   existing_network_watcher_name                = var.existing_network_watcher_name

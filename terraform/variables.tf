@@ -243,6 +243,17 @@ variable "enable_container_app_blob_storage" {
   type        = bool
 }
 
+variable "enable_container_app_file_share" {
+  description = "Create an Azure Storage Account and File Share to be mounted to the Container Apps"
+  type        = bool
+}
+
+variable "container_app_file_share_mount_path" {
+  description = "A path inside your container where the File Share will be mounted to"
+  type        = string
+  default     = "/srv/app/storage"
+}
+
 variable "storage_account_ipv4_allow_list" {
   description = "A list of public IPv4 address to grant access to the Blob Storage Account"
   type        = list(string)
