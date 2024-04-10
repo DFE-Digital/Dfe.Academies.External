@@ -191,6 +191,16 @@ namespace Dfe.Academies.External.Web.Pages
 				return false;
 			}
 
+			//check email address not already in use
+			if (draftConversionApplication.Contributors.Any(x => x.EmailAddress.ToLower().Equals(EmailAddress?.Trim().ToLower())))
+			{
+				ModelState.AddModelError("EmailAddressInUse", "You must use a unique email address, the email address is already in use");
+				PopulateValidationMessages();
+				// MR:- need to call below otherwise will lose ExistingContributors()
+				PopulateUiModel(draftConversionApplication);
+				return false;
+			}
+
 			return true;
 		}
 
