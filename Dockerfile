@@ -17,6 +17,7 @@ COPY ./script/web-docker-entrypoint.sh /app/docker-entrypoint.sh
 # Stage 2
 ARG ASPNET_IMAGE_TAG
 FROM "mcr.microsoft.com/dotnet/aspnet:${ASPNET_IMAGE_TAG}" AS final
+LABEL org.opencontainers.image.source=https://github.com/DFE-Digital/Dfe.Academies.External
 
 COPY --from=build /app /app
 WORKDIR /app
