@@ -231,19 +231,11 @@ builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfig
 var localDevelopment = builder.Configuration.GetValue<bool>("local_development");
 if (!localDevelopment)
 {
-	string blobName = "keys.xml";
-	// string blobContainerName = builder.Configuration["StorageAccount:ContainerName"];
-	// Uri blobAccountUri = new Uri(builder.Configuration["StorageAccount:Uri"] + "/" + blobContainerName + "/" + blobName);
-
-	Uri blobAccountUri = new Uri(builder.Configuration["ConnectionStrings:BlobStorage"]);
-	BlobContainerClient container = new BlobContainerClient(blobAccountUri);
-	BlobClient blobClient = container.GetBlobClient(blobName);
-
 	Uri kvProtectionKeyUri = new Uri(builder.Configuration["DataProtection:KeyVaultKey"]);
 	var credentials = new DefaultAzureCredential();
 
 	builder.Services.AddDataProtection()
-		.PersistKeysToAzureBlobStorage(blobClient)
+		.PersistKeysToFileSystem(new DirectoryInfo(@"/src/app/storage"))
 		.ProtectKeysWithAzureKeyVault(
 			kvProtectionKeyUri,
 			credentials
