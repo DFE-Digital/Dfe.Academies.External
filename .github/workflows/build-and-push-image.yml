@@ -26,6 +26,7 @@ jobs:
       environment: ${{ steps.var.outputs.environment }}
       branch: ${{ steps.var.outputs.branch }}
       release: ${{ steps.var.outputs.release }}
+      github_repository_lc: ${{ steps.var.outputs.github_repository_lc }}
     steps:
       - id: var
         run: |
@@ -34,9 +35,11 @@ jobs:
           INPUT=${{ github.event.inputs.environment }}
           ENVIRONMENT=${INPUT:-"development"}
           RELEASE=${ENVIRONMENT,,}-`date +%Y-%m-%d`.${{ github.run_number }}
+          GITHUB_REPOSITORY=${{ github.repository }}
           echo "environment=${ENVIRONMENT,,}" >> $GITHUB_OUTPUT
           echo "branch=$GIT_BRANCH" >> $GITHUB_OUTPUT
           echo "release=${RELEASE}" >> $GITHUB_OUTPUT
+          echo "github_repository_lc=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
 
   build-and-push-image:
     name: Build and push to ACR
@@ -72,9 +75,9 @@ jobs:
             ${{ secrets.ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.branch }}
             ${{ secrets.ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.release }}
             ${{ secrets.ACR_URL }}/${{ env.DOCKER_IMAGE }}:latest
-            ghcr.io/${{ github.repository }}:${{ needs.set-env.outputs.branch }}
-            ghcr.io/${{ github.repository }}:${{ needs.set-env.outputs.release }}
-            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ needs.set-env.outputs.github_repository_lc }}:${{ needs.set-env.outputs.branch }}
+            ghcr.io/${{ needs.set-env.outputs.github_repository_lc }}:${{ needs.set-env.outputs.release }}
+            ghcr.io/${{ needs.set-env.outputs.github_repository_lc }}:latest
           push: true
 
   create-tag:
