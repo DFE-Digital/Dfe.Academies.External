@@ -29,7 +29,7 @@ using StackExchange.Redis;
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
-//https://github.com/gunndabad/govuk-frontend-aspnetcore  
+//https://github.com/gunndabad/govuk-frontend-aspnetcore
 builder.Services.AddGovUkFrontend();
 
 builder.Services
@@ -207,7 +207,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 	options.DefaultRequestCulture = new RequestCulture("en-GB");
 	// By default the below will be set to whatever the server culture is.
 	options.SupportedCultures = supportedCultures;
-	// Supported cultures is a list of cultures that your web app will be able to run under. By default this is set to a the culture of the machine. 
+	// Supported cultures is a list of cultures that your web app will be able to run under. By default this is set to a the culture of the machine.
 	options.SupportedUICultures = supportedCultures;
 });
 
