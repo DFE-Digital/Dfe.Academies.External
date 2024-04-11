@@ -120,10 +120,10 @@ jobs:
     if: needs.set-env.outputs.environment == 'development'
     environment: ${{ needs.set-env.outputs.environment }}
     steps:
-      - name: Azure login with ACA credentials
+      - name: Azure login with ACR credentials
         uses: azure/login@v2
         with:
-          creds: ${{ secrets.ACA_CREDENTIALS }}
+          creds: ${{ secrets.ACR_CREDENTIALS }}
 
       - name: Run ACR Import
         uses: azure/cli@v2
