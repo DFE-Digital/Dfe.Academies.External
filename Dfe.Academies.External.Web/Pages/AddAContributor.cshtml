@@ -60,7 +60,7 @@
 
     <p class="govuk-body-m">You can invite people to help you complete your application by providing their email address, name and role.</p>
 
-    <p class="govuk-body-m">They must have a DfE Sign-in account</p>
+    <p class="govuk-body-m">They must have a DfE Sign-in account. Once a contributor joins the application, they will be able to see each contributor's email address.</p>
 
     <form method="post" name="frmAddContributor" novalidate="">
         @Html.AntiForgeryToken()
@@ -119,7 +119,7 @@
     </form>
 
     <div class="govuk-form-group">
-        <h2 class="govuk-heading-m">Current contributors</h2>
+        <h2 class="govuk-heading-m">Contributors</h2>
         <partial name="_ApplicationContributorsPartial" model="Model.ExistingContributors" />
     </div>
 </div>

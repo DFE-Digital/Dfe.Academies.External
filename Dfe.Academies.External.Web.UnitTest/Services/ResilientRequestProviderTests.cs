@@ -6,6 +6,7 @@ using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
@@ -38,7 +39,7 @@ internal sealed class ResilientRequestProviderTests
 		var response = await resilientRequestProvider.DeleteAsync<string>("https://www.example.com/ConversionApplication/1/", expected);
 
 		// assert
-		Assert.AreEqual(response, true);
+		ClassicAssert.AreEqual(response, true);
 	}
 
 	// TODO:- Test resilientRequestProvider.GetAsync<>()

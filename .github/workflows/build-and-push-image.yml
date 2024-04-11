@@ -26,6 +26,7 @@ jobs:
       environment: ${{ steps.var.outputs.environment }}
       branch: ${{ steps.var.outputs.branch }}
       release: ${{ steps.var.outputs.release }}
+      github_repository_lc: ${{ steps.var.outputs.github_repository_lc }}
     steps:
       - id: var
         run: |
@@ -34,9 +35,11 @@ jobs:
           INPUT=${{ github.event.inputs.environment }}
           ENVIRONMENT=${INPUT:-"development"}
           RELEASE=${ENVIRONMENT,,}-`date +%Y-%m-%d`.${{ github.run_number }}
+          GITHUB_REPOSITORY=${{ github.repository }}
           echo "environment=${ENVIRONMENT,,}" >> $GITHUB_OUTPUT
           echo "branch=$GIT_BRANCH" >> $GITHUB_OUTPUT
           echo "release=${RELEASE}" >> $GITHUB_OUTPUT
+          echo "github_repository_lc=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
 
   build-and-push-image:
     name: Build and push to ACR
@@ -55,6 +58,13 @@ jobs:
           password: ${{ secrets.ACR_SECRET }}
           registry: ${{ secrets.ACR_URL }}
 
+      - name: GitHub Container Registry login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+
       - name: Build and push docker image
         uses: docker/build-push-action@v5
         with:
@@ -65,6 +75,9 @@ jobs:
             ${{ secrets.ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.branch }}
             ${{ secrets.ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.release }}
             ${{ secrets.ACR_URL }}/${{ env.DOCKER_IMAGE }}:latest
+            ghcr.io/${{ needs.set-env.outputs.github_repository_lc }}:${{ needs.set-env.outputs.branch }}
+            ghcr.io/${{ needs.set-env.outputs.github_repository_lc }}:${{ needs.set-env.outputs.release }}
+            ghcr.io/${{ needs.set-env.outputs.github_repository_lc }}:latest
           push: true
 
   create-tag:
@@ -100,19 +113,51 @@ jobs:
               core.setFailed(error.message);
             }
 
+  acr-import:
+    name: Import images to ${{ needs.set-env.outputs.environment }} ACR
+    needs: [ build-and-push-image, set-env ]
+    runs-on: ubuntu-22.04
+    if: needs.set-env.outputs.environment == 'development'
+    environment: ${{ needs.set-env.outputs.environment }}
+    steps:
+      - name: Azure login with ACA credentials
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.ACA_CREDENTIALS }}
+
+      - name: Run ACR Import
+        uses: azure/cli@v2
+        with:
+          azcliversion: 2.40.0
+          inlineScript: |
+            TAGS=(
+              ${{ needs.set-env.outputs.branch }}
+              ${{ needs.set-env.outputs.release }}
+              latest
+            )
+            az config set extension.use_dynamic_install=yes_without_prompt
+            for source in "${TAGS[@]}" do
+              az acr import \
+                --name ${{ secrets.ACR_NAME } \
+                --source "ghcr.io/${{ needs.set-env.outputs.github_repository_lc }}:$tag" \
+                --image "${{ env.DOCKER_IMAGE }}:$tag" \
+                --username ${{ github.actor }} \
+                --password ${{ secrets.GITHUB_TOKEN }}
+            done
+
   deploy-image:
     name: Deploy to ${{ needs.set-env.outputs.environment }} (${{ needs.set-env.outputs.release }})
-    needs: [ build-and-push-image, set-env ]
+    needs: [ build-and-push-image, set-env, acr-import ]
     runs-on: ubuntu-22.04
     environment: ${{ needs.set-env.outputs.environment }}
     steps:
       - name: Azure login with ACA credentials
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           creds: ${{ secrets.ACA_CREDENTIALS }}
 
       - name: Update Azure Container Apps Revision
-        uses: azure/CLI@v1
+        uses: azure/cli@v2
         with:
           azcliversion: 2.40.0
           inlineScript: |

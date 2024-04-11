@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Dfe.Academies.External.Web.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Dfe.Academies.External.Web.UnitTest.TagHelpers;
 
@@ -46,7 +47,7 @@ internal sealed class GovUkDateInputTagHelperTests
 		Assert.That(tagHelperOutput.PreContent.GetContent(), Is.Not.Null);
 		Assert.That(tagHelperOutput.PreContent.GetContent(), Is.Not.EqualTo(string.Empty));
 
-		Assert.AreEqual(expectedHtml, tagHelperOutput.PreContent.GetContent());
+		ClassicAssert.AreEqual(expectedHtml, tagHelperOutput.PreContent.GetContent());
 	}
 
 	[Test]
@@ -85,7 +86,7 @@ internal sealed class GovUkDateInputTagHelperTests
 		Assert.That(tagHelperOutput.PreContent.GetContent(), Is.Not.Null);
 		Assert.That(tagHelperOutput.PreContent.GetContent(), Is.Not.EqualTo(string.Empty));
 
-		Assert.AreEqual(expectedHtml, tagHelperOutput.PreContent.GetContent());
+		ClassicAssert.AreEqual(expectedHtml, tagHelperOutput.PreContent.GetContent());
 	}
 
 	[Test]
@@ -124,7 +125,7 @@ internal sealed class GovUkDateInputTagHelperTests
 		Assert.That(tagHelperOutput.PreContent.GetContent(), Is.Not.Null);
 		Assert.That(tagHelperOutput.PreContent.GetContent(), Is.Not.EqualTo(string.Empty));
 
-		Assert.AreEqual(expectedHtml, tagHelperOutput.PreContent.GetContent());
+		ClassicAssert.AreEqual(expectedHtml, tagHelperOutput.PreContent.GetContent());
 	}
 
 	[Test]
@@ -163,6 +164,6 @@ internal sealed class GovUkDateInputTagHelperTests
 		Assert.That(tagHelperOutput.PreContent.GetContent(), Is.Not.Null);
 		Assert.That(tagHelperOutput.PreContent.GetContent(), Is.Not.EqualTo(string.Empty));
 
-		Assert.AreEqual(expectedHtml, tagHelperOutput.PreContent.GetContent());
+		ClassicAssert.AreEqual(expectedHtml, tagHelperOutput.PreContent.GetContent());
 	}
 }

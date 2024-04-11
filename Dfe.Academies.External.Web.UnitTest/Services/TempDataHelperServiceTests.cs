@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
-[Parallelizable(ParallelScope.All)]
 internal sealed class TempDataHelperTests
 {
 	[Test]
@@ -30,7 +30,7 @@ internal sealed class TempDataHelperTests
 		// assert - grab value back to see if it's stored
 		var storedValue = TempDataHelper.GetNonSerialisedValue(storageKey, pageModel.TempData);
 
-		Assert.AreEqual(storedValue, expected);
+		ClassicAssert.AreEqual(storedValue, expected);
 	}
 
 	[Test]
@@ -48,7 +48,7 @@ internal sealed class TempDataHelperTests
 		// assert - grab value back to see if it's stored
 		var storedValue = TempDataHelper.GetNonSerialisedValue(storageKey, pageModel.TempData);
 
-		Assert.AreEqual(storedValue, expected);
+		ClassicAssert.AreEqual(storedValue, expected);
 	}
 
 	[Test]
@@ -67,10 +67,10 @@ internal sealed class TempDataHelperTests
 		// assert - grab value back to see if it's stored
 		var storedValue = TempDataHelper.GetSerialisedValue<ConversionApplication>(storageKey, pageModel.TempData);
 
-		Assert.AreEqual(conversionApplication.ApplicationId, storedValue.ApplicationId);
-		Assert.AreEqual(conversionApplication.ApplicationType, storedValue.ApplicationType);
-		Assert.AreEqual(conversionApplication.UserEmail, storedValue.UserEmail);
-		Assert.AreEqual(conversionApplication.ApplicationTitle, storedValue.ApplicationTitle);
+		ClassicAssert.AreEqual(conversionApplication.ApplicationId, storedValue.ApplicationId);
+		ClassicAssert.AreEqual(conversionApplication.ApplicationType, storedValue.ApplicationType);
+		ClassicAssert.AreEqual(conversionApplication.UserEmail, storedValue.UserEmail);
+		ClassicAssert.AreEqual(conversionApplication.ApplicationTitle, storedValue.ApplicationTitle);
 	}
 
 	[Test]
@@ -89,10 +89,10 @@ internal sealed class TempDataHelperTests
 		// assert - grab value back to see if it's stored
 		var storedValue = TempDataHelper.GetSerialisedValue<ConversionApplication>(storageKey, pageModel.TempData);
 
-		Assert.AreEqual(conversionApplication.ApplicationId, storedValue.ApplicationId);
-		Assert.AreEqual(conversionApplication.ApplicationType, storedValue.ApplicationType);
-		Assert.AreEqual(conversionApplication.UserEmail, storedValue.UserEmail);
-		Assert.AreEqual(conversionApplication.ApplicationTitle, storedValue.ApplicationTitle);
+		ClassicAssert.AreEqual(conversionApplication.ApplicationId, storedValue.ApplicationId);
+		ClassicAssert.AreEqual(conversionApplication.ApplicationType, storedValue.ApplicationType);
+		ClassicAssert.AreEqual(conversionApplication.UserEmail, storedValue.UserEmail);
+		ClassicAssert.AreEqual(conversionApplication.ApplicationTitle, storedValue.ApplicationTitle);
 	}
 
 	private static WhatIsYourRoleModel SetupWhatIsYourRoleModel(

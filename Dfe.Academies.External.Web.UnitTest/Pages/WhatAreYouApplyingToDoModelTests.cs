@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages;
 
@@ -43,7 +44,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
 
 		// no use case as yet !
 		// assert
-		//Assert.That(pageModel.TempData["Errors"], Is.EqualTo("An error occurred loading the page, please try again. If the error persists contact the service administrator."));
+		//ClassicAssert.That(pageModel.TempData["Errors"], Is.EqualTo("An error occurred loading the page, please try again. If the error persists contact the service administrator."));
 	}
 
 	[Test]
@@ -61,7 +62,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
 		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.AreEqual(1, errors.Count);
+		ClassicAssert.AreEqual(1, errors.Count);
 	}
 
 	[Test]
@@ -76,7 +77,7 @@ internal sealed class WhatAreYouApplyingToDoModelTests
 		var errors = pageModel.ViewData["Errors"]!;
 
 		// assert - no model state validation errors
-		Assert.AreEqual(null, errors);
+		ClassicAssert.AreEqual(null, errors);
 	}
 
 	private static WhatAreYouApplyingToDoModel SetupWhatAreYouApplyingToDoModel(
