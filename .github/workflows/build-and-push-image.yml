@@ -158,6 +158,7 @@ jobs:
           creds: ${{ secrets.ACA_CREDENTIALS }}
 
       - name: Update Azure Container Apps Revision
+        if: ${{ needs.set-env.outputs.environment != 'development' }}
         uses: azure/cli@v2
         with:
           azcliversion: 2.40.0
@@ -167,6 +168,19 @@ jobs:
               --name ${{ secrets.ACA_CONTAINERAPP_NAME }} \
               --resource-group ${{ secrets.ACA_RESOURCE_GROUP }} \
               --image ${{ secrets.ACR_URL }}/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.release }} \
+              --output none
+
+      - name: Update Azure Container Apps Revision (From new ACR)
+        if: ${{ needs.set-env.outputs.environment == 'development' }}
+        uses: azure/cli@v2
+        with:
+          azcliversion: 2.40.0
+          inlineScript: |
+            az config set extension.use_dynamic_install=yes_without_prompt
+            az containerapp update \
+              --name ${{ secrets.ACA_CONTAINERAPP_NAME }} \
+              --resource-group ${{ secrets.ACA_RESOURCE_GROUP }} \
+              --image ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.release }} \
               --output none
 
   cypress-tests:
