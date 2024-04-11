@@ -136,7 +136,7 @@ jobs:
               latest
             )
             az config set extension.use_dynamic_install=yes_without_prompt
-            for source in "${TAGS[@]}"
+            for tag in "${TAGS[@]}"
             do
               az acr import \
                 --name ${{ secrets.ACR_NAME }} \
