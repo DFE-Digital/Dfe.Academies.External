@@ -136,7 +136,8 @@ jobs:
               latest
             )
             az config set extension.use_dynamic_install=yes_without_prompt
-            for source in "${TAGS[@]}" do
+            for source in "${TAGS[@]}"
+            do
               az acr import \
                 --name ${{ secrets.ACR_NAME }} \
                 --source "ghcr.io/${{ needs.set-env.outputs.github_repository_lc }}:$tag" \
