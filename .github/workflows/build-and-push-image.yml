@@ -143,7 +143,8 @@ jobs:
                 --source "ghcr.io/${{ needs.set-env.outputs.github_repository_lc }}:$tag" \
                 --image "${{ env.DOCKER_IMAGE }}:$tag" \
                 --username ${{ github.actor }} \
-                --password ${{ secrets.GITHUB_TOKEN }}
+                --password ${{ secrets.GITHUB_TOKEN }} \
+                --force
             done
 
   deploy-image:
