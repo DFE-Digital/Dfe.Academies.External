@@ -230,15 +230,20 @@ builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfig
 var localDevelopment = builder.Configuration.GetValue<bool>("local_development");
 if (!localDevelopment)
 {
-	Uri kvProtectionKeyUri = new Uri(builder.Configuration["DataProtection:KeyVaultKey"]);
-	var credentials = new DefaultAzureCredential();
+	// Setup basic Data Protection and persist keys.xml to local file system
+	var dp = builder.Services.AddDataProtection()
+		.PersistKeysToFileSystem(new DirectoryInfo(@"/srv/app/storage"));
 
-	builder.Services.AddDataProtection()
-		.PersistKeysToFileSystem(new DirectoryInfo(@"/srv/app/storage"))
-		.ProtectKeysWithAzureKeyVault(
-			kvProtectionKeyUri,
+	// If a Key Vault Key URI is defined, expect to encrypt the keys.xml
+	string? kvProtectionKeyUri = builder.Configuration.GetValue<string>("DataProtection:KeyVaultKey");
+	if (!string.IsNullOrEmpty(kvProtectionKeyUri))
+	{
+		var credentials = new DefaultAzureCredential();
+		dp.ProtectKeysWithAzureKeyVault(
+			new Uri(kvProtectionKeyUri),
 			credentials
 		);
+	}
 }
 
 builder.Services.AddQuartz(q => { q.UseMicrosoftDependencyInjectionJobFactory(); });
