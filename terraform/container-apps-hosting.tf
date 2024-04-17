@@ -52,6 +52,7 @@ module "azure_container_apps_hosting" {
 
   enable_container_app_blob_storage     = local.enable_container_app_blob_storage
   enable_container_app_file_share       = local.enable_container_app_file_share
+  container_app_file_share_mount_path   = local.container_app_file_share_mount_path
   storage_account_ipv4_allow_list       = local.storage_account_ipv4_allow_list
   storage_account_public_access_enabled = local.storage_account_public_access_enabled
 
