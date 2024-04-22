@@ -1,5 +1,5 @@
 module "azure_container_apps_hosting" {
-  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v1.6.1"
+  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v1.6.3"
 
   environment    = local.environment
   project_name   = local.project_name
@@ -31,6 +31,7 @@ module "azure_container_apps_hosting" {
   dns_ns_records       = local.dns_ns_records
   dns_txt_records      = local.dns_txt_records
   dns_a_records        = local.dns_a_records
+  dns_mx_records       = local.dns_mx_records
 
   enable_cdn_frontdoor                        = local.enable_cdn_frontdoor
   cdn_frontdoor_forwarding_protocol           = local.cdn_frontdoor_forwarding_protocol
