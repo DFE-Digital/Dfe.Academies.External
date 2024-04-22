@@ -23,6 +23,7 @@ locals {
   dns_ns_records                               = var.dns_ns_records
   dns_txt_records                              = var.dns_txt_records
   dns_a_records                                = var.dns_a_records
+  dns_mx_records                               = var.dns_mx_records
   restrict_container_apps_to_cdn_inbound_only  = var.restrict_container_apps_to_cdn_inbound_only
   container_apps_allow_ips_inbound             = var.container_apps_allow_ips_inbound
   cdn_frontdoor_enable_rate_limiting           = var.cdn_frontdoor_enable_rate_limiting
