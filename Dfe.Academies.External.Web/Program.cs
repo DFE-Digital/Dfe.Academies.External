@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-using Azure.Storage.Blobs;
+using Azure.Identity;
 using Dfe.Academies.External.Web.AutoMapper;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Factories;
@@ -28,7 +28,7 @@ using StackExchange.Redis;
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
-//https://github.com/gunndabad/govuk-frontend-aspnetcore  
+//https://github.com/gunndabad/govuk-frontend-aspnetcore
 builder.Services.AddGovUkFrontend();
 
 builder.Services
@@ -206,7 +206,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 	options.DefaultRequestCulture = new RequestCulture("en-GB");
 	// By default the below will be set to whatever the server culture is.
 	options.SupportedCultures = supportedCultures;
-	// Supported cultures is a list of cultures that your web app will be able to run under. By default this is set to a the culture of the machine. 
+	// Supported cultures is a list of cultures that your web app will be able to run under. By default this is set to a the culture of the machine.
 	options.SupportedUICultures = supportedCultures;
 });
 
@@ -230,13 +230,20 @@ builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfig
 var localDevelopment = builder.Configuration.GetValue<bool>("local_development");
 if (!localDevelopment)
 {
-	string blobName = "keys.xml";
-	BlobContainerClient container = new BlobContainerClient(new Uri(builder.Configuration["ConnectionStrings:BlobStorage"]));
+	// Setup basic Data Protection and persist keys.xml to local file system
+	var dp = builder.Services.AddDataProtection()
+		.PersistKeysToFileSystem(new DirectoryInfo(@"/srv/app/storage"));
 
-	BlobClient blobClient = container.GetBlobClient(blobName);
-
-	builder.Services.AddDataProtection()
-		.PersistKeysToAzureBlobStorage(blobClient);
+	// If a Key Vault Key URI is defined, expect to encrypt the keys.xml
+	string? kvProtectionKeyUri = builder.Configuration.GetValue<string>("DataProtection:KeyVaultKey");
+	if (!string.IsNullOrEmpty(kvProtectionKeyUri))
+	{
+		var credentials = new DefaultAzureCredential();
+		dp.ProtectKeysWithAzureKeyVault(
+			new Uri(kvProtectionKeyUri),
+			credentials
+		);
+	}
 }
 
 builder.Services.AddQuartz(q => { q.UseMicrosoftDependencyInjectionJobFactory(); });
