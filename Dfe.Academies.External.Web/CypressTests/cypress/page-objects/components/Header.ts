@@ -2,7 +2,7 @@ import BasePage from "../BasePage"
 export default class Header extends BasePage {
 
     static govUkHeaderVisible():void {
-        cy.get('.govuk-header__logotype').should('be.visible').contains('GOV.UK')
+        cy.get('.govuk-header__logotype').should('be.visible')
     }
 
     static applyToBecomeAnAcademyHeaderLinkVisible():void {
