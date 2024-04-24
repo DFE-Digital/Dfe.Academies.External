@@ -57,8 +57,9 @@ jobs:
 
   create-tag:
     name: Tag and release
-    needs: set-env
+    needs: [ set-env, deploy-image ]
     runs-on: ubuntu-22.04
+    if: needs.set-env.outputs.environment == 'production'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -92,7 +93,7 @@ jobs:
       needs: [ deploy-image, set-env ]
       if: needs.set-env.outputs.environment == 'test' || needs.set-env.outputs.environment == 'development'
       environment: ${{ needs.set-env.outputs.environment }}
-      runs-on: ubuntu-latest
+      runs-on: ubuntu-22.04
       defaults:
         run:
           working-directory: Dfe.Academies.External.Web/CypressTests
