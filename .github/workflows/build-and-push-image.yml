@@ -77,11 +77,11 @@ jobs:
           script: |
             try {
               await github.rest.repos.createRelease({
-                draft: ${{ needs.set-env.outputs.environment == 'staging' }},
+                draft: false,
                 generate_release_notes: true,
                 name: "${{ needs.set-env.outputs.release }}",
                 owner: context.repo.owner,
-                prerelease: ${{ needs.set-env.outputs.environment == 'staging' }},
+                prerelease: false,
                 repo: context.repo.repo,
                 tag_name: "${{ needs.set-env.outputs.release }}",
               });
