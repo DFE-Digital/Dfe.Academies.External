@@ -15,7 +15,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 
 env:
-  DOCKER_IMAGE: a2bext-app
   NODE_VERSION: 18.x
 
 jobs:
@@ -28,9 +27,17 @@ jobs:
       release: ${{ steps.var.outputs.release }}
       github_repository_lc: ${{ steps.var.outputs.github_repository_lc }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get branch name for push/dispatch event
+        run: |
+          GIT_REF=${{ github.ref_name }}
+          echo "branch_ref=${GIT_REF}" >> $GITHUB_ENV
+
       - id: var
         run: |
-          GIT_REF=${{ github.ref }}
+          GIT_REF=${{ env.branch_ref }}
           GIT_BRANCH=${GIT_REF##*/}
           INPUT=${{ github.event.inputs.environment }}
           ENVIRONMENT=${INPUT:-"development"}
@@ -39,36 +46,20 @@ jobs:
           echo "environment=${ENVIRONMENT,,}" >> $GITHUB_OUTPUT
           echo "branch=$GIT_BRANCH" >> $GITHUB_OUTPUT
           echo "release=${RELEASE}" >> $GITHUB_OUTPUT
-          echo "github_repository_lc=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
 
-  build-and-push-image:
-    name: Build and push to GHCR
-    needs: set-env
-    runs-on: ubuntu-22.04
-    environment: ${{ needs.set-env.outputs.environment }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref }}
-
-      - name: GitHub Container Registry login
-        uses: docker/login-action@v3
-        with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: ghcr.io
-
-      - name: Build and push docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: Dockerfile
-          secrets: github_token=${{ secrets.GITHUB_TOKEN }}
-          tags: |
-            ghcr.io/${{ needs.set-env.outputs.github_repository_lc }}:${{ needs.set-env.outputs.branch }}
-            ghcr.io/${{ needs.set-env.outputs.github_repository_lc }}:${{ needs.set-env.outputs.release }}
-            ghcr.io/${{ needs.set-env.outputs.github_repository_lc }}:latest
-          push: true
+  deploy-image:
+    needs: [ set-env ]
+    uses: DFE-Digital/deploy-azure-container-apps-action/.github/workflows/build-push-deploy.yml@v2.0.0
+    with:
+      docker-image-name: 'a2bext-app'
+      docker-build-file-name: './Dockerfile'
+      environment: ${{ needs.set-env.outputs.environment }}
+    secrets:
+      azure-acr-credentials: ${{ secrets.ACR_CREDENTIALS }}
+      azure-acr-name: ${{ secrets.ACR_NAME }}
+      azure-aca-credentials: ${{ secrets.ACA_CREDENTIALS }}
+      azure-aca-name: ${{ secrets.ACA_CONTAINERAPP_NAME }}
+      azure-aca-resource-group: ${{ secrets.ACA_RESOURCE_GROUP }}
 
   create-tag:
     name: Tag and release
@@ -103,62 +94,6 @@ jobs:
               core.setFailed(error.message);
             }
 
-  acr-import:
-    name: Import images to ${{ needs.set-env.outputs.environment }} ACR
-    needs: [ build-and-push-image, set-env ]
-    runs-on: ubuntu-22.04
-    environment: ${{ needs.set-env.outputs.environment }}
-    steps:
-      - name: Azure login with ACR credentials
-        uses: azure/login@v2
-        with:
-          creds: ${{ secrets.ACR_CREDENTIALS }}
-
-      - name: Run ACR Import
-        uses: azure/cli@v2
-        with:
-          azcliversion: 2.40.0
-          inlineScript: |
-            TAGS=(
-              ${{ needs.set-env.outputs.branch }}
-              ${{ needs.set-env.outputs.release }}
-              latest
-            )
-            az config set extension.use_dynamic_install=yes_without_prompt
-            for tag in "${TAGS[@]}"
-            do
-              az acr import \
-                --name ${{ secrets.ACR_NAME }} \
-                --source "ghcr.io/${{ needs.set-env.outputs.github_repository_lc }}:$tag" \
-                --image "${{ env.DOCKER_IMAGE }}:$tag" \
-                --username ${{ github.actor }} \
-                --password ${{ secrets.GITHUB_TOKEN }} \
-                --force
-            done
-
-  deploy-image:
-    name: Deploy to ${{ needs.set-env.outputs.environment }} (${{ needs.set-env.outputs.release }})
-    needs: [ build-and-push-image, set-env, acr-import ]
-    runs-on: ubuntu-22.04
-    environment: ${{ needs.set-env.outputs.environment }}
-    steps:
-      - name: Azure login with ACA credentials
-        uses: azure/login@v2
-        with:
-          creds: ${{ secrets.ACA_CREDENTIALS }}
-
-      - name: Update Azure Container Apps Revision (From new ACR)
-        uses: azure/cli@v2
-        with:
-          azcliversion: 2.40.0
-          inlineScript: |
-            az config set extension.use_dynamic_install=yes_without_prompt
-            az containerapp update \
-              --name ${{ secrets.ACA_CONTAINERAPP_NAME }} \
-              --resource-group ${{ secrets.ACA_RESOURCE_GROUP }} \
-              --image ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.DOCKER_IMAGE }}:${{ needs.set-env.outputs.release }} \
-              --output none
-
   cypress-tests:
       needs: [ deploy-image, set-env ]
       if: needs.set-env.outputs.environment == 'test' || needs.set-env.outputs.environment == 'development'
@@ -175,17 +110,17 @@ jobs:
           uses: actions/setup-node@v4
           with:
             node-version: ${{ env.NODE_VERSION }}
-        
+
         - name: Npm install
           run: npm install
-        
+
         - name: Run cypress
           env:
             URL: ${{ secrets.URL }}
             LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
             LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
           run: npm run cy:run
-        
+
         - name: upload report
           uses: actions/upload-artifact@v4
           if: failure()
