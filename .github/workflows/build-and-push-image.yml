@@ -25,24 +25,17 @@ jobs:
       environment: ${{ steps.var.outputs.environment }}
       branch: ${{ steps.var.outputs.branch }}
       release: ${{ steps.var.outputs.release }}
-      github_repository_lc: ${{ steps.var.outputs.github_repository_lc }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Get branch name for push/dispatch event
-        run: |
-          GIT_REF=${{ github.ref_name }}
-          echo "branch_ref=${GIT_REF}" >> $GITHUB_ENV
-
       - id: var
         run: |
-          GIT_REF=${{ env.branch_ref }}
+          GIT_REF=${{ github.ref_name }}
           GIT_BRANCH=${GIT_REF##*/}
           INPUT=${{ github.event.inputs.environment }}
           ENVIRONMENT=${INPUT:-"development"}
           RELEASE=${ENVIRONMENT,,}-`date +%Y-%m-%d`.${{ github.run_number }}
-          GITHUB_REPOSITORY=${{ github.repository }}
           echo "environment=${ENVIRONMENT,,}" >> $GITHUB_OUTPUT
           echo "branch=$GIT_BRANCH" >> $GITHUB_OUTPUT
           echo "release=${RELEASE}" >> $GITHUB_OUTPUT
