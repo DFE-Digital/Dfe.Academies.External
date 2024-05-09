@@ -33,7 +33,7 @@
     "@typescript-eslint/parser": "^7.0.0",
     "cypress-axe": "^1.4.0",
     "eslint": "^8.46.0",
-    "eslint-plugin-cypress": "^2.13.3",
+    "eslint-plugin-cypress": "^3.0.0",
     "zaproxy": "^2.0.0-rc.1"
   }
 }
