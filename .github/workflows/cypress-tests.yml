@@ -1,0 +1,61 @@
+name: Run Cypress tests
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+    secrets:
+      URL:
+        required: true
+      LOGIN_USERNAME:
+        required: true
+      LOGIN_PASSWORD:
+        required: true
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run tests against'
+        required: true
+        type: environment
+
+concurrency:
+  group: ${{ github.workflow }}
+
+env:
+  NODE_VERSION: 18.x
+
+jobs:
+  cypress-tests:
+    if: inputs.environment == 'test' || inputs.environment == 'development'
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Dfe.Academies.External.Web/CypressTests
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Npm install
+        run: npm install
+
+      - name: Run cypress
+        env:
+          URL: ${{ secrets.URL }}
+          LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
+          LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
+        run: npm run cy:run
+
+      - name: upload report
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: screenshots
+          path: Dfe.Academies.External.Web/CypressTests/cypress/screenshots

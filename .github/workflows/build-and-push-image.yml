@@ -95,35 +95,10 @@ jobs:
             }
 
   cypress-tests:
+      name: Run Cypress tests
       needs: [ deploy-image, set-env ]
       if: needs.set-env.outputs.environment == 'test' || needs.set-env.outputs.environment == 'development'
-      environment: ${{ needs.set-env.outputs.environment }}
-      runs-on: ubuntu-latest
-      defaults:
-        run:
-          working-directory: Dfe.Academies.External.Web/CypressTests
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
-
-        - name: Setup node.js
-          uses: actions/setup-node@v4
-          with:
-            node-version: ${{ env.NODE_VERSION }}
-
-        - name: Npm install
-          run: npm install
-
-        - name: Run cypress
-          env:
-            URL: ${{ secrets.URL }}
-            LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
-            LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
-          run: npm run cy:run
-
-        - name: upload report
-          uses: actions/upload-artifact@v4
-          if: failure()
-          with:
-            name: screenshots
-            path: Dfe.Academies.External.Web/CypressTests/cypress/screenshots
+      uses: ./.github/workflows/cypress-tests.yml
+      with:
+        environment: ${{ needs.set-env.outputs.environment }}
+      secrets: inherit
