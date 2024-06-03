@@ -21,6 +21,7 @@ module "azure_container_apps_hosting" {
   container_scale_http_concurrency       = local.container_scale_http_concurrency
 
   enable_redis_cache = local.enable_redis_cache
+  redis_cache_sku    = local.redis_cache_sku
 
   enable_event_hub                          = local.enable_event_hub
   enable_logstash_consumer                  = local.enable_logstash_consumer
