@@ -2,21 +2,26 @@
 
 public static class SecureHeadersDefinitions
 {
-	private static readonly string[] DefaultSrcExclusions =
-	{
-		"wss://localhost:*/Dfe.Academies.External.Web/", "https://*.googletagmanager.com",
-		"https://*.google-analytics.com"
-	};
+	private static readonly string[] DefaultSrcExclusions = ["wss://localhost:*/Dfe.Academies.External.Web/"];
 
 	private static readonly string[] ScriptSrcExclusions =
-	{
-		"https://*.googletagmanager.com", "https://*.google-analytics.com"
-	};
+	[
+		"https://*.googletagmanager.com", "https://*.google-analytics.com",
+		"https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.8.18.min.js",
+		"https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js"
+	];
 
 	private static readonly string[] ImageSrcExclusions =
-	{
+	[
 		"https://www.googletagmanager.com", "https://*.google-analytics.com"
-	};
+	];
+
+	private static readonly string[] ConnectSrcExclusions =
+	[
+		"https://js.monitor.azure.com/scripts/b/ai.config.1.cfg.json",
+		"https://*.in.applicationinsights.azure.com/v2/track", "https://*.googletagmanager.com",
+		"https://*.google-analytics.com"
+	];
 
 	public static HeaderPolicyCollection GetHeaderPolicyCollection()
 	{
@@ -46,6 +51,7 @@ public static class SecureHeadersDefinitions
 				builder.AddFontSrc().Self();
 				builder.AddImgSrc().Self().From(ImageSrcExclusions);
 				builder.AddFrameSrc().Self();
+				builder.AddConnectSrc().Self().From(ConnectSrcExclusions);
 			})
 			.AddPermissionsPolicy(builder =>
 			{
