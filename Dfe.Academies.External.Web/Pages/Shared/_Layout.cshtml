@@ -1,10 +1,12 @@
 ﻿@using Microsoft.Extensions.Configuration
 @using Microsoft.AspNetCore.Http.Features
+@using System.Security.Claims;
 @inject IConfiguration _configuration
 
 @{
 	var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
 	var canTrack = consentFeature?.CanTrack ?? false;
+	var authenticatedUserId = User.Identity.IsAuthenticated ? User.FindFirst(ClaimTypes.Email)?.Value ?? "Unknown" : "Anonymous";
 }
 
 <!DOCTYPE html>
