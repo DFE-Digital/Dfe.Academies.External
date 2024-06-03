@@ -295,6 +295,12 @@ variable "enable_redis_cache" {
   type        = bool
 }
 
+variable "redis_cache_sku" {
+  description = "Redis Cache SKU"
+  type        = string
+  default     = "Basic"
+}
+
 variable "statuscake_api_token" {
   description = "API token for StatusCake"
   type        = string
