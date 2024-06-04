@@ -185,6 +185,22 @@ variable "dns_txt_records" {
   )
 }
 
+variable "dns_mx_records" {
+  description = "DNS MX records to add to the DNS Zone"
+  type = map(
+    object({
+      ttl : optional(number, 300),
+      records : list(
+        object({
+          preference : number,
+          exchange : string
+        })
+      )
+    })
+  )
+  default = {}
+}
+
 variable "cdn_frontdoor_forwarding_protocol" {
   description = "Azure CDN Front Door forwarding protocol"
   type        = string
@@ -243,6 +259,17 @@ variable "enable_container_app_blob_storage" {
   type        = bool
 }
 
+variable "enable_container_app_file_share" {
+  description = "Create an Azure Storage Account and File Share to be mounted to the Container Apps"
+  type        = bool
+}
+
+variable "container_app_file_share_mount_path" {
+  description = "A path inside your container where the File Share will be mounted to"
+  type        = string
+  default     = "/srv/app/storage"
+}
+
 variable "storage_account_ipv4_allow_list" {
   description = "A list of public IPv4 address to grant access to the Blob Storage Account"
   type        = list(string)
@@ -266,6 +293,12 @@ variable "existing_network_watcher_resource_group_name" {
 variable "enable_redis_cache" {
   description = "Set to true to create an Azure Redis Cache, with a private endpoint within the virtual network"
   type        = bool
+}
+
+variable "redis_cache_sku" {
+  description = "Redis Cache SKU"
+  type        = string
+  default     = "Basic"
 }
 
 variable "statuscake_api_token" {

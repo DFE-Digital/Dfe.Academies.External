@@ -3,9 +3,17 @@ name: .NET
 on:
   push:
     branches: [ master ]
+    paths:
+    - 'Dfe.Academies.*/**'
+    - '!Dfe.Academies.External.Web.CypressTests/**'
+    - '**/*.csproj'
   pull_request:
     branches: [ master ]
     types: [ opened, synchronize, reopened ]
+    paths:
+    - 'Dfe.Academies.*/**'
+    - '!Dfe.Academies.External.Web.CypressTests/**'
+    - '**/*.csproj'
 
 env:
   JAVA_VERSION: '17'

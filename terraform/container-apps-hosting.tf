@@ -1,5 +1,5 @@
 module "azure_container_apps_hosting" {
-  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v1.6.1"
+  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v1.6.4"
 
   environment    = local.environment
   project_name   = local.project_name
@@ -21,6 +21,7 @@ module "azure_container_apps_hosting" {
   container_scale_http_concurrency       = local.container_scale_http_concurrency
 
   enable_redis_cache = local.enable_redis_cache
+  redis_cache_sku    = local.redis_cache_sku
 
   enable_event_hub                          = local.enable_event_hub
   enable_logstash_consumer                  = local.enable_logstash_consumer
@@ -31,6 +32,7 @@ module "azure_container_apps_hosting" {
   dns_ns_records       = local.dns_ns_records
   dns_txt_records      = local.dns_txt_records
   dns_a_records        = local.dns_a_records
+  dns_mx_records       = local.dns_mx_records
 
   enable_cdn_frontdoor                        = local.enable_cdn_frontdoor
   cdn_frontdoor_forwarding_protocol           = local.cdn_frontdoor_forwarding_protocol
@@ -51,6 +53,8 @@ module "azure_container_apps_hosting" {
   enable_container_health_probe = local.enable_container_health_probe
 
   enable_container_app_blob_storage     = local.enable_container_app_blob_storage
+  enable_container_app_file_share       = local.enable_container_app_file_share
+  container_app_file_share_mount_path   = local.container_app_file_share_mount_path
   storage_account_ipv4_allow_list       = local.storage_account_ipv4_allow_list
   storage_account_public_access_enabled = local.storage_account_public_access_enabled
 

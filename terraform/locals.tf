@@ -23,6 +23,7 @@ locals {
   dns_ns_records                               = var.dns_ns_records
   dns_txt_records                              = var.dns_txt_records
   dns_a_records                                = var.dns_a_records
+  dns_mx_records                               = var.dns_mx_records
   restrict_container_apps_to_cdn_inbound_only  = var.restrict_container_apps_to_cdn_inbound_only
   container_apps_allow_ips_inbound             = var.container_apps_allow_ips_inbound
   cdn_frontdoor_enable_rate_limiting           = var.cdn_frontdoor_enable_rate_limiting
@@ -41,11 +42,14 @@ locals {
   monitor_email_receivers                      = var.monitor_email_receivers
   existing_logic_app_workflow                  = var.existing_logic_app_workflow
   enable_container_app_blob_storage            = var.enable_container_app_blob_storage
+  enable_container_app_file_share              = var.enable_container_app_file_share
+  container_app_file_share_mount_path          = var.container_app_file_share_mount_path
   storage_account_ipv4_allow_list              = var.storage_account_ipv4_allow_list
   storage_account_public_access_enabled        = var.storage_account_public_access_enabled
   existing_network_watcher_name                = var.existing_network_watcher_name
   existing_network_watcher_resource_group_name = var.existing_network_watcher_resource_group_name
   enable_redis_cache                           = var.enable_redis_cache
+  redis_cache_sku                              = var.redis_cache_sku
   statuscake_monitored_resource_addresses      = var.statuscake_monitored_resource_addresses
   statuscake_contact_group_name                = var.statuscake_contact_group_name
   statuscake_contact_group_integrations        = var.statuscake_contact_group_integrations
