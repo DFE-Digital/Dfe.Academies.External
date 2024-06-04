@@ -1,7 +1,7 @@
 import paths from '../fixtures/accessibilityTestPages.json'
-import CookieHeaderModal from '../page-objects/components/cookieHeaderModal'
-import A2BHome from '../page-objects/pages/A2BHome'
-import A2BLogin from '../page-objects/pages/A2BLogin'
+import cookieHeaderModal from '../page-objects/components/cookieHeaderModal'
+import home from '../page-objects/pages/home'
+import login from '../page-objects/pages/login'
 
 describe('Check accessibility of all A2B pages', function () {
   it('Checks accessibility', function () {
@@ -10,11 +10,11 @@ describe('Check accessibility of all A2B pages', function () {
 
     cy.visit(Cypress.env('URL'))
 
-    CookieHeaderModal.clickAcceptAnalyticsCookies()
+    cookieHeaderModal.clickAcceptAnalyticsCookies()
 
-    A2BHome.clickStartNow()
+    home.clickStartNow()
 
-    A2BLogin.login(login_username, login_password)
+    login.login(login_username, login_password)
 
     paths.forEach((link) => {
       cy.visit(Cypress.env('URL') + link)

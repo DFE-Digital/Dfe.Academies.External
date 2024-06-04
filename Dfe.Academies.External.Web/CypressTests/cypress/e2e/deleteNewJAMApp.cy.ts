@@ -1,12 +1,12 @@
 import header from '../page-objects/components/header'
 import cookieHeaderModal from '../page-objects/components/cookieHeaderModal'
-import A2BHome from '../page-objects/pages/A2BHome'
-import A2BLogin from '../page-objects/pages/A2BLogin'
-import A2BYourApplications from '../page-objects/pages/A2BYourApplications'
-import A2BWhatAreYouApplyingToDo from '../page-objects/pages/A2BWhatAreYouApplyingToDo'
-import A2BWhatIsYourRole from '../page-objects/pages/A2BWhatIsYourRole'
-import A2BYourApplication from '../page-objects/pages/A2BYourApplication'
-import A2BConfirmApplicationDelete from '../page-objects/pages/A2BConfirmApplicationDelete'
+import home from '../page-objects/pages/home'
+import login from '../page-objects/pages/login'
+import yourApplications from '../page-objects/pages/yourApplications'
+import whatAreYouApplyingToDo from '../page-objects/pages/whatAreYouApplyingToDo'
+import whatIsYourRole from '../page-objects/pages/whatIsYourRole'
+import yourApplication from '../page-objects/pages/yourApplication'
+import confirmApplicationDelete from '../page-objects/pages/confirmApplicationDelete'
 import footer from '../page-objects/components/footer'
 
 describe('Delete application', () => {
@@ -16,33 +16,27 @@ describe('Delete application', () => {
     header.govUkHeaderVisible()
       .applyToBecomeAnAcademyHeaderLinkVisible()
 
-    A2BHome.homePageElementsVisible()
-
     footer.checkFooterLinksVisible()
 
     cookieHeaderModal.clickAcceptAnalyticsCookies()
 
-    A2BHome.clickStartNow()
+    home.clickStartNow()
   })
 
   it('should be able to delete a JAM application', () => {
-    A2BLogin.login(Cypress.env('LOGIN_USERNAME'), Cypress.env('LOGIN_PASSWORD'))
+    login.login(Cypress.env('LOGIN_USERNAME'), Cypress.env('LOGIN_PASSWORD'))
 
-    A2BYourApplications.selectStartANewApplication()
+    yourApplications.selectStartANewApplication()
 
-    A2BWhatAreYouApplyingToDo.selectJAMRadioButtonVerifyAndSubmit()
+    whatAreYouApplyingToDo.selectJAMRadioButtonVerifyAndSubmit()
 
-    A2BWhatIsYourRole.selectChairOfGovernorsRadioButtonVerifyAndSubmit()
+    whatIsYourRole.selectChairOfGovernorsRadioButtonVerifyAndSubmit()
 
-    A2BYourApplication.yourApplicationNotStartedElementsVisible()
+    yourApplication.yourApplicationNotStartedElementsVisible()
+      .selectCancelApplication()
 
-    // CLICK CANCEL APPLICATION LINK
-    A2BYourApplication.selectCancelApplication()
+    confirmApplicationDelete.checkAppIDIsCorrectAndselectConfirmDelete()
 
-    // VERIFY CONFIRM DELETE APPLICATION PAGE DISPLAYS CORRECTLY
-    A2BConfirmApplicationDelete.checkAppIDIsCorrectAndselectConfirmDelete()
-
-    // VERIFY CONFIRMATION OF DELETION BANNER DISPLAYS ON YOUR APPLICATIONS PAGE
-    A2BYourApplications.verifyApplicationDeleted()
+    yourApplications.verifyApplicationDeleted()
   })
 })

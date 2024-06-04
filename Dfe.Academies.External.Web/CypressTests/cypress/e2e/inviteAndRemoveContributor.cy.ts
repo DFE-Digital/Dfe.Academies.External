@@ -1,11 +1,11 @@
 import header from '../page-objects/components/header'
 import cookieHeaderModal from '../page-objects/components/cookieHeaderModal'
-import A2BHome from '../page-objects/pages/A2BHome'
-import A2BLogin from '../page-objects/pages/A2BLogin'
-import A2BYourApplications from '../page-objects/pages/A2BYourApplications'
-import A2BYourApplication from '../page-objects/pages/A2BYourApplication'
-import A2BInviteContributor from '../page-objects/pages/A2BInviteContributor'
-import A2BConfirmInviteContributorDelete from '../page-objects/pages/A2BConfirmInviteContributorDelete'
+import home from '../page-objects/pages/home'
+import login from '../page-objects/pages/login'
+import yourApplications from '../page-objects/pages/yourApplications'
+import yourApplication from '../page-objects/pages/yourApplication'
+import inviteContributor from '../page-objects/pages/inviteContributor'
+import confirmInviteContributorDelete from '../page-objects/pages/confirmInviteContributorDelete'
 import footer from '../page-objects/components/footer'
 
 describe('Invite/remove contributor', () => {
@@ -15,30 +15,26 @@ describe('Invite/remove contributor', () => {
     header.govUkHeaderVisible()
       .applyToBecomeAnAcademyHeaderLinkVisible()
 
-    A2BHome.homePageElementsVisible()
-
     footer.checkFooterLinksVisible()
 
     cookieHeaderModal.clickAcceptAnalyticsCookies()
 
-    A2BHome.clickStartNow()
+    home.clickStartNow()
   })
 
   it('should add and remove a contributor from an application', () => {
-    A2BLogin.login(Cypress.env('LOGIN_USERNAME'), Cypress.env('LOGIN_PASSWORD'))
+    login.login(Cypress.env('LOGIN_USERNAME'), Cypress.env('LOGIN_PASSWORD'))
 
-    A2BYourApplications.selectApplicationForInviteContributor()
+    yourApplications.selectApplicationForInviteContributor()
 
-    A2BYourApplication.selectInviteContributorLink()
+    yourApplication.selectInviteContributorLink()
 
-    A2BInviteContributor.fillDetailsAndSubmit()
+    inviteContributor.fillDetailsAndSubmit()
+      .verifySuccessBannerAndContributorList()
+      .selectRemoveContributorLink()
 
-    A2BInviteContributor.verifySuccessBannerAndContributorList()
+    confirmInviteContributorDelete.confirmRemoveContributor()
 
-    A2BInviteContributor.selectRemoveContributorLink()
-
-    A2BConfirmInviteContributorDelete.confirmRemoveContributor()
-
-    A2BInviteContributor.verifyContributorRemovedAndSuccessRemoved()
+    inviteContributor.verifyContributorRemovedAndSuccessRemoved()
   })
 })
