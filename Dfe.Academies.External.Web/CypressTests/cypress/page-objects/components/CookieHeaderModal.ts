@@ -1,17 +1,23 @@
-import BasePage from "../BasePage"
-export default class CookieHeaderModal extends BasePage {
-    static clickAcceptAnalyticsCookies() {
-        cy.get('[value="accept"]').click()
-    }
+class CookieHeaderModal {
+  public clickAcceptAnalyticsCookies(): this {
+    cy.get('[value="accept"]').click()
 
-    static clickRejectAnalyticsCookies() {
-        cy.get('[value="reject"]').click()
-    }
+    return this
+  }
 
-    static clickViewCookies() {
-        cy.get('.govuk-button-group > .govuk-link').click()
-    }
+  public clickRejectAnalyticsCookies(): this {
+    cy.get('[value="reject"]').click()
 
+    return this
+  }
 
+  public clickViewCookies(): this {
+    cy.get('.govuk-button-group > .govuk-link').click()
 
+    return this
+  }
 }
+
+const cookieHeaderModal = new CookieHeaderModal()
+
+export default cookieHeaderModal
