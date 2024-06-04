@@ -2,19 +2,22 @@
 
 public static class SecureHeadersDefinitions
 {
-	private static readonly string[] DefaultSrcExclusions = {
-		"wss://localhost:*/Dfe.Academies.External.Web/", 
-		"https://*.googletagmanager.com",
+	private static readonly string[] DefaultSrcExclusions =
+	{
+		"wss://localhost:*/Dfe.Academies.External.Web/", "https://*.googletagmanager.com",
 		"https://*.google-analytics.com"
 	};
 
-	private static readonly string[] ScriptSrcExclusions = {
-		"https://*.googletagmanager.com", 
-		"https://*.google-analytics.com"
+	private static readonly string[] ScriptSrcExclusions =
+	{
+		"https://*.googletagmanager.com", "https://*.google-analytics.com"
 	};
 
-	private static readonly string[] ImageSrcExclusions = { "https://www.googletagmanager.com" };
-	
+	private static readonly string[] ImageSrcExclusions =
+	{
+		"https://www.googletagmanager.com", "https://*.google-analytics.com"
+	};
+
 	public static HeaderPolicyCollection GetHeaderPolicyCollection()
 	{
 		HeaderPolicyCollection policy = new HeaderPolicyCollection()
@@ -59,4 +62,3 @@ public static class SecureHeadersDefinitions
 		return policy;
 	}
 }
-
