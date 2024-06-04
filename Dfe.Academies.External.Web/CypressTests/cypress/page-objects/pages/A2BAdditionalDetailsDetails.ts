@@ -1,5 +1,5 @@
 
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BAdditionalDetailsDetails extends BasePage {
     static additionalDetailsDetailsNotStartedElementsVisible()
     {
@@ -50,7 +50,7 @@ export default class A2BAdditionalDetailsDetails extends BasePage {
         cy.get('#furtherInformationOptionNo').click()
         cy.get('#furtherInformationOptionNo').should('be.checked')
    
-        cy.get('input[type="submit"]').click()
+        cy.get('input[type=submit]').click()
     }
 
     

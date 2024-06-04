@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BFAMTrustOpeningDateSummary extends BasePage {
     static selectStartSection()
     {

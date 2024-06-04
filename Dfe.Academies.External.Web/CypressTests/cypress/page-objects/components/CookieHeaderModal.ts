@@ -1,12 +1,12 @@
 class CookieHeaderModal {
   public clickAcceptAnalyticsCookies(): this {
-    cy.get('[value="accept"]').click()
+    cy.get('[value=accept]').click()
 
     return this
   }
 
   public clickRejectAnalyticsCookies(): this {
-    cy.get('[value="reject"]').click()
+    cy.get('[value=reject]').click()
 
     return this
   }

@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BCurrentFinancialYear extends BasePage {
 
 
@@ -21,7 +21,7 @@ static inputCurrentFinancialYrDataAndSubmit()
     cy.verifyCurrentRevenueCarryForwardDeficitSelectedSectionDisplays()
 
     const reasonsRevenueCarryForwardDeficit = 'A) plain the reason for the deficit, how the school plan to deal with it, and the recovery plan. Provide details of the financial forecast and/or the deficit recovery plan agreed with the local author'
-    cy.get('label[for="CFYRevenueCarryForwardExplained"]').type(reasonsRevenueCarryForwardDeficit)
+    cy.get('label[for=CFYRevenueCarryForwardExplained]').type(reasonsRevenueCarryForwardDeficit)
 
     cy.uploadFileForCurrentRevenueCarryForwardDeficit()
 
@@ -32,7 +32,7 @@ static inputCurrentFinancialYrDataAndSubmit()
 
     cy.verifyCurrentCapitalCarryForwardDeficitSelectedSectionDisplays()
     const reasonsCapitalCarryForwardDeficit = 'B) plain the reason for the deficit, how the school plan to deal with it, and the recovery plan. Provide details of the financial forecast and/or the deficit recovery plan agreed with the local author'
-    cy.get('label[for="CFYCapitalCarryForwardExplained"]').type(reasonsCapitalCarryForwardDeficit)
+    cy.get('label[for=CFYCapitalCarryForwardExplained]').type(reasonsCapitalCarryForwardDeficit)
 
     cy.uploadFileForCurrentCapitalCarryForwardDeficit()
 

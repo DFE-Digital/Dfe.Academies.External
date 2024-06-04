@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BJAMTrustDetailsSummary extends BasePage {
     
 static JAMTrustDetailsSummaryElementsVisible() 
@@ -8,7 +8,7 @@ static JAMTrustDetailsSummaryElementsVisible()
 
 static JAMTrustDetailsSummarySelectStartSection() 
 {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').click()
+    cy.get('a[class=govuk-button govuk-button--secondary]').click()
 }
 
 static JAMTrustDetailsSummarySaveAndReturnToApp() 

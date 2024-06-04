@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BConversionTargetDate extends BasePage {
 
     static conversionTargetDateElementsVisible()
@@ -14,6 +14,6 @@ export default class A2BConversionTargetDate extends BasePage {
 
     static conversionTargetDateSubmit()
     {
-        cy.get('input[type="submit"]').click()
+        cy.get('input[type=submit]').click()
     }
 }

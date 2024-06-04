@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BFinanceSummary extends BasePage {
 
 
@@ -8,12 +8,12 @@ static financeSummaryNotStartedElementsVisible()
 }
 static selectPreviousFinancialYrStartSection()
 {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(0).click()
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(0).click()
 }
 
 static selectCurrentFinancialYrStartSection()
 {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(1).click()
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(1).click()
 }
 
 static selectNextFinancialYrStartSection()

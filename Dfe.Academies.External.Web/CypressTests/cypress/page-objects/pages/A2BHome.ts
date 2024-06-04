@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BHome extends BasePage {
 /*  NOW CALLING THESE FROM NEW HEADER COMPONENT 
     static govUkHeaderVisible() {

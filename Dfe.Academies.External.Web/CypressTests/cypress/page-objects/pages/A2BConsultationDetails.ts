@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BConsultationDetails extends BasePage {
 
 static consultationDetailsElementsVisible()

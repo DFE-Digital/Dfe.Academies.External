@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BChangesToTheTrust extends BasePage {
     static changesToTheTrustElementsVisible()
     {
@@ -9,6 +9,6 @@ export default class A2BChangesToTheTrust extends BasePage {
     {
         cy.get('#revenueTypeYes').click()
         cy.enterChangesToTheTrust()
-        cy.get('input[type="submit"]').click()
+        cy.get('input[type=submit]').click()
     }
 }

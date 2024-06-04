@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BChangingTheNameOfTheSchool extends BasePage {
 
     static changingTheNameOfTheSchoolElementsVisible()
@@ -14,7 +14,7 @@ export default class A2BChangingTheNameOfTheSchool extends BasePage {
 
     static submitChangingTheNameOfTheSchool()
     {
-        cy.get('input[type="submit"]').click()
+        cy.get('input[type=submit]').click()
     }
 
 }

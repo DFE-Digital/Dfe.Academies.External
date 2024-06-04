@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BLocalGovernanceArrangements extends BasePage {
     static localGovernanceArrangementsElementsVisible()
     {
@@ -17,6 +17,6 @@ export default class A2BLocalGovernanceArrangements extends BasePage {
 
     static localGovernanceArrangementsSubmit()
     {
-        cy.get('input[type="submit"]').click()
+        cy.get('input[type=submit]').click()
     }
 }

@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BAdditionalDetailsSummaryPage extends BasePage {
     static additionalDetailsSummaryNotStartedElementsVisible()
     {
@@ -7,7 +7,7 @@ export default class A2BAdditionalDetailsSummaryPage extends BasePage {
 
     static selectAdditionalDetailsStartSection()
     {
-        cy.get('a[class="govuk-button govuk-button--secondary"]').click()
+        cy.get('a[class=govuk-button govuk-button--secondary]').click()
     }
 
     static additionalDetailsSummaryCompleteElementsVisible()

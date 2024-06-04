@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BYourApplication extends BasePage {
     
     static yourApplicationNotStartedElementsVisible()
@@ -123,7 +123,7 @@ export default class A2BYourApplication extends BasePage {
 
     static submitApplication()
     {
-        cy.get('input[type="submit"]').click()
+        cy.get('input[type=submit]').click()
     }
 
     static selectCancelApplication()

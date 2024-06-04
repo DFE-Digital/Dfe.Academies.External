@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BPreviousFinancialYear extends BasePage {
 
 
@@ -27,7 +27,7 @@ static inputPreviousFinancialYrDataAndSubmit()
 
     cy.get('#capitalRevenueTypeSurplus').should('be.checked')
 
-    cy.get('input[type="submit"]').click()
+    cy.get('input[type=submit]').click()
 }
 
 }

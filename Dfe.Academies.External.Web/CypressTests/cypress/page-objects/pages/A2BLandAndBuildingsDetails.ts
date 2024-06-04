@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BLandAndBuildingsDetails extends BasePage {
     static landAndBuildingsDetailsElementsVisible()
     {

@@ -1,37 +1,25 @@
-import BasePage from "../BasePage"
-export default class A2BAboutTheConversion extends BasePage {
-    
-    static aboutTheConversionNotStartedElementsVisible()
-    {
-        cy.aboutTheConversionNotStartedElementsVisible()
-    }
+export default class A2BAboutTheConversion {
+  static aboutTheConversionNotStartedElementsVisible() {
+    cy.aboutTheConversionNotStartedElementsVisible()
+  }
 
-    static selectContactDetailsStartSection()
-    {
-        cy.get('a[class="govuk-button govuk-button--secondary"]').eq(0).click()
-    }
-    
-    static aboutTheConversionMainContactsCompleteElementsVisible()
-    {
-        cy.aboutTheConversionMainContactsCompleteElementsVisible()
-    }
+  static selectContactDetailsStartSection() {
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(0).click()
+  }
 
-    static selectDateForConversionStartSection()
-    {
-        cy.selectDateForConversionStartSection()
-    }
+  static aboutTheConversionMainContactsCompleteElementsVisible() {
+    cy.aboutTheConversionMainContactsCompleteElementsVisible()
+  }
 
-    static aboutTheConversionCompleteElementsVisible()
-    {
-        cy.aboutTheConversionCompleteElementsVisible()
-    }
+  static selectDateForConversionStartSection() {
+    cy.selectDateForConversionStartSection()
+  }
 
-    static submitAboutTheConversion()
-    {
-        cy.get('.govuk-button').click()
-    }
+  static aboutTheConversionCompleteElementsVisible() {
+    cy.aboutTheConversionCompleteElementsVisible()
+  }
 
-
-
-
+  static submitAboutTheConversion() {
+    cy.get('.govuk-button').click()
+  }
 }

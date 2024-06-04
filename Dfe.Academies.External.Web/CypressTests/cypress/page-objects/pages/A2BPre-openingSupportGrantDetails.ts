@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BPreopeningSupportGrantDetails extends BasePage {
 
 static preopeningSupportGrantDetailsElementsVisible()
@@ -10,7 +10,7 @@ static selectToTheSchoolVerifyAndSubmitPreopeningSupportGrantDetails()
 {
     cy.get('#pay-toSchool').click()
     cy.verifyToTheSchoolPreopeningSupportGrantDetailsSectionDisplays()
-    cy.get('input[type="submit"]').click()
+    cy.get('input[type=submit]').click()
 }
 
 static FAMSelectToTheSchoolVerifyAndSubmitPreopeningSupportGrantDetails()
@@ -18,7 +18,7 @@ static FAMSelectToTheSchoolVerifyAndSubmitPreopeningSupportGrantDetails()
     cy.get('#ConfirmSchoolPay').click()
     cy.get('#ConfirmSchoolPay').should('be.checked')
 
-    cy.get('input[type="submit"]').click()
+    cy.get('input[type=submit]').click()
 }
 
 }

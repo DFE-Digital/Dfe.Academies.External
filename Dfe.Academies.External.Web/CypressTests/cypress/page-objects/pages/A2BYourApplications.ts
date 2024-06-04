@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BYourApplications extends BasePage {
     static yourApplicationsElementsVisible()
     {
@@ -14,7 +14,7 @@ export default class A2BYourApplications extends BasePage {
 
     static selectStartANewApplication()
     {
-        cy.get('a[href="/what-are-you-applying-to-do"]').click()
+        cy.get('a[href=/what-are-you-applying-to-do]').click()
     }
 
     static verifyApplicationDeleted()

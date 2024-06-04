@@ -1,8 +1,8 @@
-/// <reference types="cypress" />
-import * as dotenv from "dotenv";
+/// <reference types=cypress />
+import * as dotenv from dotenv;
 import { dfeSignInTestEnvURLForA2BDevAndA2BTest, dfeSignInTestEnvForgotPasswordCodeInputURLForA2BDevAndA2BTest, dfeSignInTestEnvCreateAccountForA2BDevAndA2BTest } from '../../customConfig'
 import 'cypress-file-upload';
-import DataGenerator from "../fixtures/data-generator";
+import DataGenerator from ../fixtures/data-generator;
 import { faker } from '@faker-js/faker'
 
 const randomContributorFirstName = faker.person.firstName()
@@ -34,17 +34,17 @@ const FAM_HOW_IMPROVE_TEACHING = 'How will the schools work together to improve 
 
 let globalApplicationId = 100080
 
-Cypress.Commands.add("excuteAccessibilityTests", () => {
+Cypress.Commands.add(excuteAccessibilityTests, () => {
 // FUNCTION COURTESY OF FAHAD DARWISH - NIMBLE APPROACH CONFLUENECE
-    const wcagStandards = ["wcag22aa", "wcag21aa"];
-    const impactLevel = ["critical", "minor", "moderate", "serious"];
+    const wcagStandards = [wcag22aa, wcag21aa];
+    const impactLevel = [critical, minor, moderate, serious];
     const continueOnFail = false;
     cy.injectAxe();
     cy.checkA11y(
         null,
         {
             runOnly: {
-                type: "tag",
+                type: tag,
                 values: wcagStandards,
             },
             includedImpacts: impactLevel,
@@ -66,14 +66,14 @@ Cypress.Commands.add('fillDetailsAndSubmit', ():void => {
     cy.get('#role-description').click()
     cy.get('#role-description').type('Headmaster')
 
-    cy.get('input[type="submit"]').click()
+    cy.get('input[type=submit]').click()
 })
 
 
 Cypress.Commands.add('verifySuccessBannerAndContributorList', ():void => {
-    cy.get('div[role="alert"]').contains('Success')
-    cy.get('div[role="alert"]').contains('Contributor added')
-    cy.get('div[role="alert"]').contains(`${randomContributorFirstName} has been sent an invitation to help with this application.`)
+    cy.get('div[role=alert]').contains('Success')
+    cy.get('div[role=alert]').contains('Contributor added')
+    cy.get('div[role=alert]').contains(`${randomContributorFirstName} has been sent an invitation to help with this application.`)
 
     cy.get('.govuk-form-group').contains(`${randomContributorFirstName}`)
     cy.get('.govuk-form-group').contains('Headmaster')
@@ -82,9 +82,9 @@ Cypress.Commands.add('verifySuccessBannerAndContributorList', ():void => {
 })
 
 Cypress.Commands.add('verifyContributorRemovedAndSuccessRemoved', ():void => {
-    cy.get('div[role="alert"]').contains('Success')
-    cy.get('div[role="alert"]').contains('Contributor removed')
-    cy.get('div[role="alert"]').contains(`${randomContributorFirstName} can no longer contribute to this application.`)
+    cy.get('div[role=alert]').contains('Success')
+    cy.get('div[role=alert]').contains('Contributor removed')
+    cy.get('div[role=alert]').contains(`${randomContributorFirstName} can no longer contribute to this application.`)
 
     cy.get('.govuk-form-group').contains(`${randomContributorFirstName}`).should('not.exist')
 })
@@ -97,7 +97,7 @@ Cypress.Commands.add('checkAppIDIsCorrectAndselectConfirmDelete', ():void => {
 
     
     cy.get('#deleteButton').should('be.visible').contains('Yes, delete')
-    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('No, take me back')
+    cy.get('a[class=govuk-button govuk-button--secondary]').should('be.visible').contains('No, take me back')
 
     cy.get('#deleteButton').should('be.visible').contains('Yes, delete').click()
 
@@ -138,7 +138,7 @@ Cypress.Commands.add('login', ():void => {
         cy.get('#TrustApproverEmail').click()
         cy.get('#TrustApproverEmail').type(approverEmail)
 
-        cy.get('input[type="submit"]').should('be.visible').contains('Save and continue').click()
+        cy.get('input[type=submit]').should('be.visible').contains('Save and continue').click()
     })
 
 Cypress.Commands.add('yourApplicationsElementsVisible', ():void => {
@@ -148,23 +148,23 @@ Cypress.Commands.add('yourApplicationsElementsVisible', ():void => {
     cy.get('th:nth-child(1)').contains('Application')
     cy.get('th:nth-child(2)').contains('Trust Name')
     cy.get('th:nth-child(3)').contains('School Or Schools Applying To Convert')
-    cy.get('a[href="/what-are-you-applying-to-do"]').should('be.visible').contains('Start a new application')
+    cy.get('a[href=/what-are-you-applying-to-do]').should('be.visible').contains('Start a new application')
    
    // cy.get('.govuk-grid-column-full > :nth-child(8)').contains('Past applications')
-   // cy.get('[aria-describedby="completedApplicationsTableDescription"] > .govuk-table__head > .govuk-table__row > :nth-child(1)').contains('Application')
-   // cy.get('[aria-describedby="completedApplicationsTableDescription"] > .govuk-table__head > .govuk-table__row > :nth-child(2)').contains('Trust Name')
-   // cy.get('[aria-describedby="completedApplicationsTableDescription"] > .govuk-table__head > .govuk-table__row > :nth-child(3)').contains('School Or Schools Applying To Convert')
+   // cy.get('[aria-describedby=completedApplicationsTableDescription] > .govuk-table__head > .govuk-table__row > :nth-child(1)').contains('Application')
+   // cy.get('[aria-describedby=completedApplicationsTableDescription] > .govuk-table__head > .govuk-table__row > :nth-child(2)').contains('Trust Name')
+   // cy.get('[aria-describedby=completedApplicationsTableDescription] > .govuk-table__head > .govuk-table__row > :nth-child(3)').contains('School Or Schools Applying To Convert')
 })
 
 Cypress.Commands.add('selectJAMNotStartedApplication', ():void => {
-    cy.get('a[href="/application-overview?appId=10049"]').contains('Join a multi-academy trust')
-    cy.get('a[href="/application-overview?appId=10049"]').click()
+    cy.get('a[href=/application-overview?appId=10049]').contains('Join a multi-academy trust')
+    cy.get('a[href=/application-overview?appId=10049]').click()
 })
 
 Cypress.Commands.add('selectJAMNotStartedApplicationButSchoolAdded', ():void => {
-    cy.get('a[href="/application-overview?appId=10048"]').contains('Join a multi-academy trust')
+    cy.get('a[href=/application-overview?appId=10048]').contains('Join a multi-academy trust')
     cy.get('ul').contains('Plymstock School')
-    cy.get('a[href="/application-overview?appId=10048"]').click()
+    cy.get('a[href=/application-overview?appId=10048]').click()
 })
 
 Cypress.Commands.add('yourApplicationNotStartedElementsVisible', ():void => {
@@ -174,17 +174,17 @@ Cypress.Commands.add('yourApplicationNotStartedElementsVisible', ():void => {
         globalApplicationId = Number(applicationId)
         cy.log(`Global Application ID = ${globalApplicationId}`)
     
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
 
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).should('be.visible').contains('Add a school')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).should('be.visible').contains('Add a school')
 
     cy.get('h2').eq(1).contains('The trust the school will join')
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).should('be.visible').contains('Add a trust')
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get(`a[href=/trust/join-amat/application-select-trust?appId=${globalApplicationId}]`).should('be.visible').contains('Add a trust')
+    cy.get('h2[class=govuk-heading-l]').contains('Contributors')
     cy.get('p').eq(3).contains('You will be able to invite other people to help you complete this form after you have added a school.')
 })
 })
@@ -196,100 +196,100 @@ Cypress.Commands.add('FAMApplicationNotStartedElementsVisible', ():void => {
         globalApplicationId = Number(applicationId)
         cy.log(`Global Application ID = ${globalApplicationId}`)
     
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Form a new multi-academy trust')
 
-    cy.get('p[class="govuk-body govuk-radios__conditional"]').contains('All school and trust details must be given before this application can be submitted.')
+    cy.get('p[class=govuk-body govuk-radios__conditional]').contains('All school and trust details must be given before this application can be submitted.')
 
     cy.get('.govuk-heading-m').eq(0).contains('Give details of schools in the trust')
 
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).should('be.visible').contains('Add a school')
-    cy.get(`a[href="/remove-school-selection?appId=${globalApplicationId}"]`).contains('Remove a school')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).should('be.visible').contains('Add a school')
+    cy.get(`a[href=/remove-school-selection?appId=${globalApplicationId}]`).contains('Remove a school')
 
     cy.get('.govuk-heading-m').eq(1).contains('Give details of the trust')
     
-    cy.get(`a[href="/trust/form-amat/application-new-trust-name?appId=${globalApplicationId}"]`).should('be.visible').contains('Add the trust')
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get(`a[href=/trust/form-amat/application-new-trust-name?appId=${globalApplicationId}]`).should('be.visible').contains('Add the trust')
+    cy.get('h2[class=govuk-heading-l]').contains('Contributors')
     cy.get('p').eq(3).contains('You will be able to invite other people to help you complete this form after you have added a school.')
 })
 })
 
 Cypress.Commands.add('FAMApplicationNotStartedSchoolAddedElementsVisible', ():void => {
 
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Form a new multi-academy trust')
 
-    cy.get('p[class="govuk-body govuk-radios__conditional"]').contains('All school and trust details must be given before this application can be submitted.')
+    cy.get('p[class=govuk-body govuk-radios__conditional]').contains('All school and trust details must be given before this application can be submitted.')
 
     cy.get('.govuk-heading-m').eq(0).contains('Give details of schools in the trust')
 
-    cy.get(`a[href="/school/school-overview?appId=${globalApplicationId}&urn=113537"]`).contains('Plymstock School')
+    cy.get(`a[href=/school/school-overview?appId=${globalApplicationId}&urn=113537]`).contains('Plymstock School')
     cy.get('strong').eq(1).contains('Not Started')
 
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).should('be.visible').contains('Add a school')
-    cy.get(`a[href="/remove-school-selection?appId=${globalApplicationId}"]`).contains('Remove a school')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).should('be.visible').contains('Add a school')
+    cy.get(`a[href=/remove-school-selection?appId=${globalApplicationId}]`).contains('Remove a school')
 
     cy.get('.govuk-heading-m').eq(1).contains('Give details of the trust')
     
-    cy.get(`a[href="/trust/form-amat/application-new-trust-name?appId=${globalApplicationId}"]`).should('be.visible').contains('Add the trust')
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get(`a[href=/trust/form-amat/application-new-trust-name?appId=${globalApplicationId}]`).should('be.visible').contains('Add the trust')
+    cy.get('h2[class=govuk-heading-l]').contains('Contributors')
     cy.get('p').eq(3).contains('You can invite or remove contributors to this form. If you are not the chair of the school\'s governing body, you must add them so that they can submit this application.')
 })
 
 Cypress.Commands.add('FAMApplicationTrustNameComplete', () => {
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Form a new multi-academy trust')
 
-    cy.get('p[class="govuk-body govuk-radios__conditional"]').contains('All school and trust details must be given before this application can be submitted.')
+    cy.get('p[class=govuk-body govuk-radios__conditional]').contains('All school and trust details must be given before this application can be submitted.')
 
     cy.get('.govuk-heading-m').eq(0).contains('Give details of schools in the trust')
 
-    cy.get(`a[href="/school/school-overview?appId=${globalApplicationId}&urn=113537"]`).contains('Plymstock School')
+    cy.get(`a[href=/school/school-overview?appId=${globalApplicationId}&urn=113537]`).contains('Plymstock School')
     cy.get('strong').eq(1).contains('Completed')
 
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).should('be.visible').contains('Add a school')
-    cy.get(`a[href="/remove-school-selection?appId=${globalApplicationId}"]`).contains('Remove a school')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).should('be.visible').contains('Add a school')
+    cy.get(`a[href=/remove-school-selection?appId=${globalApplicationId}]`).contains('Remove a school')
 
     cy.get('.govuk-heading-m').eq(1).contains('Give details of the trust')
     
     cy.get('h3').contains('Plymouth')
-    cy.get(`a[href="/trust/form-amat/application-new-trust-name?appId=${globalApplicationId}"]`).contains('Change')
+    cy.get(`a[href=/trust/form-amat/application-new-trust-name?appId=${globalApplicationId}]`).contains('Change')
 
-    cy.get(`a[href="/trust/form-amat/application-new-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
+    cy.get(`a[href=/trust/form-amat/application-new-trust-summary?appId=${globalApplicationId}]`).contains('Trust details')
     cy.get('strong').eq(2).contains('In Progress')
 
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get('h2[class=govuk-heading-l]').contains('Contributors')
     cy.get('p').eq(3).contains('You can invite or remove contributors to this form. If you are not the chair of the school\'s governing body, you must add them so that they can submit this application.')
 })
 
 Cypress.Commands.add('FAMApplicationOverviewCompleteElementsVisible', () => {
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Form a new multi-academy trust')
 
     cy.get('.govuk-heading-m').eq(0).contains('Give details of schools in the trust')
 
-    cy.get(`a[href="/school/school-overview?appId=${globalApplicationId}&urn=113537"]`).contains('Plymstock School')
+    cy.get(`a[href=/school/school-overview?appId=${globalApplicationId}&urn=113537]`).contains('Plymstock School')
     cy.get('strong').eq(1).contains('Completed')
 
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).should('be.visible').contains('Add a school')
-    cy.get(`a[href="/remove-school-selection?appId=${globalApplicationId}"]`).contains('Remove a school')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).should('be.visible').contains('Add a school')
+    cy.get(`a[href=/remove-school-selection?appId=${globalApplicationId}]`).contains('Remove a school')
 
     cy.get('.govuk-heading-m').eq(1).contains('Give details of the trust')
     
     cy.get('h3').contains('Plymouth')
-    cy.get(`a[href="/trust/form-amat/application-new-trust-name?appId=${globalApplicationId}"]`).contains('Change')
+    cy.get(`a[href=/trust/form-amat/application-new-trust-name?appId=${globalApplicationId}]`).contains('Change')
 
-    cy.get(`a[href="/trust/form-amat/application-new-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
+    cy.get(`a[href=/trust/form-amat/application-new-trust-summary?appId=${globalApplicationId}]`).contains('Trust details')
     cy.get('strong').eq(2).contains('Completed')
 
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get('h2[class=govuk-heading-l]').contains('Contributors')
     cy.get('p').eq(3).contains('You can invite or remove contributors to this form. If you are not the chair of the school\'s governing body, you must add them so that they can submit this application.')
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Submit application')
+    cy.get('input[type=submit]').should('be.visible').contains('Submit application')
 })
 
 
@@ -324,7 +324,7 @@ Cypress.Commands.add('FAMFillReasonsForFormingTrustAndSubmit', ():void => {
     cy.get('#ImproveTeaching').click()
     cy.get('#ImproveTeaching').type(FAM_HOW_IMPROVE_TEACHING)
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue').click()
+    cy.get('input[type=submit]').should('be.visible').contains('Save and continue').click()
 
 })
 
@@ -339,46 +339,46 @@ Cypress.Commands.add('FAMReasonsForFormingTrustSummaryCompleteElementsVisibleAnd
 })
 
 Cypress.Commands.add('FAMApplicationFuturePupilNumbersSubmittedElementsVisible', ():void => {
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Form a new multi-academy trust')
 
-    cy.get('p[class="govuk-body govuk-radios__conditional"]').contains('All school and trust details must be given before this application can be submitted.')
+    cy.get('p[class=govuk-body govuk-radios__conditional]').contains('All school and trust details must be given before this application can be submitted.')
 
     cy.get('.govuk-heading-m').eq(0).contains('Give details of schools in the trust')
 
-    cy.get(`a[href="/school/school-overview?appId=${globalApplicationId}&urn=113537"]`).contains('Plymstock School')
+    cy.get(`a[href=/school/school-overview?appId=${globalApplicationId}&urn=113537]`).contains('Plymstock School')
     cy.get('strong').eq(1).contains('In Progress')
 
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).should('be.visible').contains('Add a school')
-    cy.get(`a[href="/remove-school-selection?appId=${globalApplicationId}"]`).contains('Remove a school')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).should('be.visible').contains('Add a school')
+    cy.get(`a[href=/remove-school-selection?appId=${globalApplicationId}]`).contains('Remove a school')
 
     cy.get('.govuk-heading-m').eq(1).contains('Give details of the trust')
     
-    cy.get(`a[href="/trust/form-amat/application-new-trust-name?appId=${globalApplicationId}"]`).should('be.visible').contains('Add the trust')
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get(`a[href=/trust/form-amat/application-new-trust-name?appId=${globalApplicationId}]`).should('be.visible').contains('Add the trust')
+    cy.get('h2[class=govuk-heading-l]').contains('Contributors')
     cy.get('p').eq(3).contains('You can invite or remove contributors to this form. If you are not the chair of the school\'s governing body, you must add them so that they can submit this application.')
 })
 
 Cypress.Commands.add('FAMApplicationSchoolCompleteElementsVisible', ():void => {
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Form a new multi-academy trust')
 
-    cy.get('p[class="govuk-body govuk-radios__conditional"]').contains('All school and trust details must be given before this application can be submitted.')
+    cy.get('p[class=govuk-body govuk-radios__conditional]').contains('All school and trust details must be given before this application can be submitted.')
 
     cy.get('.govuk-heading-m').eq(0).contains('Give details of schools in the trust')
 
-    cy.get(`a[href="/school/school-overview?appId=${globalApplicationId}&urn=113537"]`).contains('Plymstock School')
+    cy.get(`a[href=/school/school-overview?appId=${globalApplicationId}&urn=113537]`).contains('Plymstock School')
     cy.get('strong').eq(1).contains('Completed')
 
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).should('be.visible').contains('Add a school')
-    cy.get(`a[href="/remove-school-selection?appId=${globalApplicationId}"]`).contains('Remove a school')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).should('be.visible').contains('Add a school')
+    cy.get(`a[href=/remove-school-selection?appId=${globalApplicationId}]`).contains('Remove a school')
 
     cy.get('.govuk-heading-m').eq(1).contains('Give details of the trust')
     
-    cy.get(`a[href="/trust/form-amat/application-new-trust-name?appId=${globalApplicationId}"]`).should('be.visible').contains('Add the trust')
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get(`a[href=/trust/form-amat/application-new-trust-name?appId=${globalApplicationId}]`).should('be.visible').contains('Add the trust')
+    cy.get('h2[class=govuk-heading-l]').contains('Contributors')
     cy.get('p').eq(3).contains('You can invite or remove contributors to this form. If you are not the chair of the school\'s governing body, you must add them so that they can submit this application.')
 })
 
@@ -590,7 +590,7 @@ Cypress.Commands.add('fillKeyPersonDetailsAndSubmit', ():void => {
     cy.get('#TrustKeyPersonBiography').click()
     cy.get('#TrustKeyPersonBiography').type('Please provide a biography of them')
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue').click()
+    cy.get('input[type=submit]').should('be.visible').contains('Save and continue').click()
 })
 
 Cypress.Commands.add('FAMKeyPeopleSummaryCompleteElementsVisibleAndSubmit', ():void => {
@@ -625,15 +625,15 @@ Cypress.Commands.add('FAMTrustOverviewKeyPeopleCompleteElementsVisible', ():void
 })
 
 Cypress.Commands.add('selectFAMSchool', () => {
-    cy.get(`a[href="/school/school-overview?appId=${globalApplicationId}&urn=113537"]`).click()
+    cy.get(`a[href=/school/school-overview?appId=${globalApplicationId}&urn=113537]`).click()
 })
 
 Cypress.Commands.add('selectFAMAddTheTrust', () => {
-    cy.get(`a[href="/trust/form-amat/application-new-trust-name?appId=${globalApplicationId}"]`).click()
+    cy.get(`a[href=/trust/form-amat/application-new-trust-name?appId=${globalApplicationId}]`).click()
 })
 
 Cypress.Commands.add('selectFAMTrustDetails', () => {
-    cy.get(`a[href="/trust/form-amat/application-new-trust-summary?appId=${globalApplicationId}"]`).click()
+    cy.get(`a[href=/trust/form-amat/application-new-trust-summary?appId=${globalApplicationId}]`).click()
 })
 
 Cypress.Commands.add('FAMSchoolOverviewPageNotStartedElementsVisible', ():void => {
@@ -775,65 +775,65 @@ Cypress.Commands.add('FAMSchoolOverviewPageLandAndBuildingsCompleteElementsVisib
 })
 
 Cypress.Commands.add('yourApplicationNotStartedButSchoolAddedElementsVisible', ():void => {
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
     cy.get('p').eq(3).contains('Plymstock School')
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('About the conversion')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).contains('Change')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('About the conversion')
     cy.get('.govuk-grid-column-one-third').eq(0).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Further information')
     cy.get('.govuk-grid-column-one-third').eq(1).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Finances')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Finances')
     cy.get('.govuk-grid-column-one-third').eq(2).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Future pupil numbers')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Future pupil numbers')
     cy.get('.govuk-grid-column-one-third').eq(3).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Land and buildings')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Land and buildings')
     cy.get('.govuk-grid-column-one-third').eq(4).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Consultation')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Consultation')
     cy.get('.govuk-grid-column-one-third').eq(5).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Pre-opening support grant')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Pre-opening support grant')
     cy.get('.govuk-grid-column-one-third').eq(6).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Declaration')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Declaration')
     cy.get('.govuk-grid-column-one-third').eq(7).contains('Not Started')
 
     cy.get('h2').eq(1).contains('The trust the school will join')
     //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
     cy.get('h3').contains('PLYMOUTH CAST')
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
-    cy.get('strong[class="govuk-tag app-task-list__tag govuk-tag--blue"]').contains('In Progress')
+    cy.get(`a[href=/trust/join-amat/application-select-trust?appId=${globalApplicationId}]`).contains('Change')
+    cy.get(`a[href=/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}]`).contains('Trust details')
+    cy.get('strong[class=govuk-tag app-task-list__tag govuk-tag--blue]').contains('In Progress')
 
 
 
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get('h2[class=govuk-heading-l]').contains('Contributors')
     cy.get('p').eq(4).contains('You can invite or remove contributors to this form. If you are not the chair of the school\'s governing body, you must add them so that they can submit this application.')
 })
 
 Cypress.Commands.add('whatAreYouApplyingToDoElementsVisible', ():void => {
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('h1').contains('What are you applying to do?')
     cy.get('legend').contains('When a school becomes an academy, it must either join an existing trust or form a new one.')
-    cy.get('input[type="radio"]').eq(0).should('exist')
-    cy.get('label[for="ApplicationTypeJoinAMat"]').contains('Join a multi-academy trust')
-    cy.get('input[type="radio"]').eq(1).should('exist')
-    cy.get('label[for="ApplicationTypeFormAMat"]').contains('Form a new multi-academy trust')
-    cy.get('.govuk-inset-text').should('be.visible').contains("If your school is unable to either join an existing trust or form one with other schools, you should contact your Regional Director")
+    cy.get('input[type=radio]').eq(0).should('exist')
+    cy.get('label[for=ApplicationTypeJoinAMat]').contains('Join a multi-academy trust')
+    cy.get('input[type=radio]').eq(1).should('exist')
+    cy.get('label[for=ApplicationTypeFormAMat]').contains('Form a new multi-academy trust')
+    cy.get('.govuk-inset-text').should('be.visible').contains(If your school is unable to either join an existing trust or form one with other schools, you should contact your Regional Director)
     cy.get('.govuk-link').should('be.visible').contains('your Regional Director')
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and continue')
 })
 
 Cypress.Commands.add('whatIsYourRoleElementsVisible', ():void => {
     
     cy.get('h1').contains('What is your role?')
     cy.get('p').contains('Anyone from the school can contribute to this form, but only the chair of governors can complete the declaration section or submit it.')
-    cy.get('input[type="radio"]').eq(0).should('exist')
-    cy.get('label[for="RoleTypeChairOfGovernors"]').contains('The chair of the school\'s governors')
-    cy.get('input[type="radio"]').eq(1).should('exist')
-    cy.get('label[for="RoleTypeOther"]').contains('Something else')
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
+    cy.get('input[type=radio]').eq(0).should('exist')
+    cy.get('label[for=RoleTypeChairOfGovernors]').contains('The chair of the school\'s governors')
+    cy.get('input[type=radio]').eq(1).should('exist')
+    cy.get('label[for=RoleTypeOther]').contains('Something else')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and continue')
 })
 
 Cypress.Commands.add('selectAddASchool', ():void => {
@@ -842,7 +842,7 @@ Cypress.Commands.add('selectAddASchool', ():void => {
         cy.log(`Application ID = ${applicationId}`)
         globalApplicationId = Number(applicationId)
         cy.log(`Global Application ID = ${globalApplicationId}`)
-        cy.get(`a[href="/school/application-select-school?appId=${applicationId}"]`).click()
+        cy.get(`a[href=/school/application-select-school?appId=${applicationId}]`).click()
     })
 })
 
@@ -852,7 +852,7 @@ cy.get('.govuk-body').eq(0).then(($applicationId)=> {
     cy.log(`Application ID = ${applicationId}`)
     globalApplicationId = Number(applicationId)
     cy.log(`Global Application ID = ${globalApplicationId}`)
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${applicationId}"]`).click()
+    cy.get(`a[href=/trust/join-amat/application-select-trust?appId=${applicationId}]`).click()
 })
 })
 
@@ -868,12 +868,12 @@ Cypress.Commands.add('whichTrustIsSchoolJoiningElementsVisible', ():void => {
 
 
 Cypress.Commands.add('selectTrustDetails', ():void => {
-    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
-    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).click()
+    cy.get(`a[href=/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}]`).contains('Trust details')
+    cy.get(`a[href=/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}]`).click()
 })
 
 Cypress.Commands.add('selectChangeSchool', ():void => {
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).click()
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).click()
 })
 
 Cypress.Commands.add('selectSchoolName', (schoolNameSearchPartial:string):void => {
@@ -896,7 +896,7 @@ Cypress.Commands.add('whatIsTheNameOfTheSchoolElementsVisible', ():void => {
 })
 
 Cypress.Commands.add('selectChangeTrust', ():void => {
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).click()
+    cy.get(`a[href=/trust/join-amat/application-select-trust?appId=${globalApplicationId}]`).click()
 })
 
 Cypress.Commands.add('selectTrustName', (trustName:string):void => {
@@ -906,36 +906,24 @@ Cypress.Commands.add('selectTrustName', (trustName:string):void => {
     cy.get('#SearchQueryInput__option--0').click() 
 })
 
-Cypress.Commands.add('youDontHavePermissionsElementsVisible', () => {
-   cy.origin('https://s184t01-a2bextcdnendpoint-ezfhhdbpembpanh5.z01.azurefd.net/application-access-exception', () => {
-    cy.get('.govuk-back-link').contains('Back')
-    cy.get('h1').contains('You do not have permission to view this application')
-    cy.get('#main-content > div > div > p:nth-child(2)').contains('To view and contribute:')
-    cy.get('li').eq(0).contains('you must have been invited by an existing contributor')
-    cy.get('li').eq(1).contains('your email address must match the one entered for you by the person who sent you the invite')
-    cy.get('#main-content > div > div > p:nth-child(4)').contains('If you have checked these details and are still seeing this message, contact regionalservices.rg@education.gov.uk')
-    cy.get('a[href="mailto:regionalservices.rg@education.gov.uk"]').contains('regionalservices.rg@education.gov.uk')
-   })
-})
-
 Cypress.Commands.add('JAMTrustDetailsSummaryElementsVisible', ():void => {
     cy.get('.govuk-back-link').contains('Back')
     cy.get('.govuk-caption-l').contains('Join a multi-academy trust')
     cy.get('.govuk-heading-l').contains('PLYMOUTH CAST')
     cy.get('.govuk-heading-m').eq(0).contains('The trust the school is joining')
     cy.get('.govuk-body').contains('The name of the trust')
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}&urn=0"]`).contains('Change your answers')
+    cy.get(`a[href=/trust/join-amat/application-select-trust?appId=${globalApplicationId}&urn=0]`).contains('Change your answers')
     cy.get('.govuk-heading-m').eq(1).contains('Details')
     cy.get('p').eq(3).contains('Upload evidence that the trust consents to the school joining')
     cy.get('p').eq(5).contains('Will there be any changes to the governance of the trust due to the school joining?')
     cy.get('p').eq(7).contains('Will there be any changes at a local level due to this school joining?')
     cy.get('p').eq(8).contains('Not Entered')
-    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
-    cy.get('a[class="govuk-button"]').should('be.visible').contains('Save and return to your application')
+    cy.get('a[class=govuk-button govuk-button--secondary]').should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button]').should('be.visible').contains('Save and return to your application')
 })
 
 Cypress.Commands.add('JAMTrustConsentElementsVisible', ():void => {
-    cy.get('a[class="govuk-back-link"]').contains('Back')
+    cy.get('a[class=govuk-back-link]').contains('Back')
     cy.get('.govuk-caption-l').contains('PLYMOUTH CAST (step 1 of 3)')
     cy.get('.govuk-heading-l').contains('Trust consent')
     cy.get('legend').eq(0).contains('Upload evidence that the trust consents to the school joining')
@@ -946,7 +934,7 @@ Cypress.Commands.add('JAMTrustConsentElementsVisible', ():void => {
     cy.get('hr').eq(0).should('be.visible')
     cy.get('p').eq(3).contains('No file uploaded')
     cy.get('hr').eq(1).should('be.visible')
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and continue')
 
 })
 
@@ -956,7 +944,7 @@ Cypress.Commands.add('JAMTrustConsentFileUpload', ():void => {
 })
 
 Cypress.Commands.add('changesToTheTrustElementsVisible', ():void => {
-    cy.get('a[class="govuk-back-link"]').contains('Back')
+    cy.get('a[class=govuk-back-link]').contains('Back')
     cy.get('.govuk-caption-l').eq(0).contains('PLYMOUTH CAST (step 2 of 3)')
     cy.get('.govuk-heading-l').contains('Changes to the trust')
     cy.get('legend').eq(0).contains('Will there be changes to the governance of the trust due to the school joining?')
@@ -967,7 +955,7 @@ Cypress.Commands.add('changesToTheTrustElementsVisible', ():void => {
     cy.get('.govuk-label').eq(2).contains('No')
     cy.get('#revenueTypeUnknown').should('not.be.checked')
     cy.get('.govuk-label').eq(3).contains('Unknown at this point')
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and continue')
 })
 
 Cypress.Commands.add('enterChangesToTheTrust', (changesToTheTrust:string):void => {
@@ -978,16 +966,16 @@ Cypress.Commands.add('enterChangesToTheTrust', (changesToTheTrust:string):void =
 })
 
 Cypress.Commands.add('localGovernanceArrangementsElementsVisible', ():void => {
-    cy.get('a[class="govuk-back-link"]').contains('Back')
+    cy.get('a[class=govuk-back-link]').contains('Back')
     cy.get('.govuk-caption-l').eq(0).contains('PLYMOUTH CAST (step 3 of 3)')
     cy.get('.govuk-heading-l').contains('Local governance arrangements')
     cy.get('legend').eq(0).contains('Will there be any changes at a local level due to this school joining?')
     cy.get('.govuk-caption-l').eq(1).contains('For example, setting up a local sub-regional hub or changes to any schemes of delegation.')
     cy.get('#changesToLaGovernanceYes').should('not.be.checked')
-    cy.get('label[for="changesToLaGovernanceYes"]').contains('Yes')
+    cy.get('label[for=changesToLaGovernanceYes]').contains('Yes')
     cy.get('#changesToLaGovernanceNo').should('not.be.checked')
-    cy.get('label[for="changesToLaGovernanceNo"]').contains('No')
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
+    cy.get('label[for=changesToLaGovernanceNo]').contains('No')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and continue')
 
 })
 
@@ -1000,40 +988,40 @@ Cypress.Commands.add('enterlocalGovernanceArrangementsChanges', (localGovernance
 })
 
 Cypress.Commands.add('JAMTrustDetailsSummarySaveAndReturnToApp', ():void => {
-    cy.get(`a[href="/application-overview?appId=${globalApplicationId}"]`).eq(1).click()
+    cy.get(`a[href=/application-overview?appId=${globalApplicationId}]`).eq(1).click()
 })
 
 Cypress.Commands.add('yourApplicationNotStartedButTrustSectionCompleteElementsVisible', ():void => {
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
     cy.get('p').eq(3).contains('Plymstock School')
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('About the conversion')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).contains('Change')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('About the conversion')
     cy.get('.govuk-grid-column-one-third').eq(0).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Further information')
     cy.get('.govuk-grid-column-one-third').eq(1).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Finances')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Finances')
     cy.get('.govuk-grid-column-one-third').eq(2).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Future pupil numbers')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Future pupil numbers')
     cy.get('.govuk-grid-column-one-third').eq(3).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Land and buildings')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Land and buildings')
     cy.get('.govuk-grid-column-one-third').eq(4).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Consultation')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Consultation')
     cy.get('.govuk-grid-column-one-third').eq(5).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Pre-opening support grant')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Pre-opening support grant')
     cy.get('.govuk-grid-column-one-third').eq(6).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Declaration')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Declaration')
     cy.get('.govuk-grid-column-one-third').eq(7).contains('Not Started')
 
     cy.get('h2').eq(1).contains('The trust the school will join')
     //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
     cy.get('h3').contains('PLYMOUTH CAST')
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
-    cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
+    cy.get(`a[href=/trust/join-amat/application-select-trust?appId=${globalApplicationId}]`).contains('Change')
+    cy.get(`a[href=/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}]`).contains('Trust details')
+    cy.get('strong[class=govuk-tag app-task-list__tag]').contains('Completed')
 
 })
 
@@ -1071,7 +1059,7 @@ Cypress.Commands.add('aboutTheConversionNotStartedElementsVisible', ():void => {
     cy.get('.govuk-body').eq(12).contains('Approver\'s email address')
     cy.get('.govuk-body').eq(13).contains('You have not added any information')
 
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(0).should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(0).should('be.visible').contains('Start section')
 
    // HR PART OF START SECTION COMPONENT SECTION
 
@@ -1079,7 +1067,7 @@ Cypress.Commands.add('aboutTheConversionNotStartedElementsVisible', ():void => {
     cy.get('.govuk-body').eq(14).contains('Do you want the conversion to happen on a particular date?')
     cy.get('.govuk-body').eq(15).contains('You have not added any information')
 
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(1).should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(1).should('be.visible').contains('Start section')
 
     // HR PART OF START SECTION COMPONENT SECTION
 
@@ -1089,7 +1077,7 @@ Cypress.Commands.add('aboutTheConversionNotStartedElementsVisible', ():void => {
 
   //  cy.get('hr').eq(10).should('be.visible')
 
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(2).should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(2).should('be.visible').contains('Start section')
 
     // HR PART OF START SECTION COMPONENT SECTION
 
@@ -1098,7 +1086,7 @@ Cypress.Commands.add('aboutTheConversionNotStartedElementsVisible', ():void => {
     cy.get('.govuk-body').eq(19).contains('You have not added any information')
 
 
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(3).should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(3).should('be.visible').contains('Start section')
 
     // HR PART OF START SECTION COMPONENT SECTION
 
@@ -1131,30 +1119,30 @@ Cypress.Commands.add('mainContactsNotStartedElementsVisible', ():void => {
    // cy.get('.govuk-label').eq(5).contains('Chair\'s telephone number')
    // cy.get('#ViewModel\\.ContactChairTel')
 
-    cy.get('span[class="govuk-fieldset__legend govuk-fieldset__legend--s"]').contains('Who is the main contact for the conversion?')
+    cy.get('span[class=govuk-fieldset__legend govuk-fieldset__legend--s]').contains('Who is the main contact for the conversion?')
     
     cy.get('#ContactTypeHeadTeacher').should('not.be.checked')
-    cy.get('label[for="ContactTypeHeadTeacher"]').contains('The headteacher')
+    cy.get('label[for=ContactTypeHeadTeacher]').contains('The headteacher')
 
     cy.get('#ContactTypeChairOfGoverningBody').should('not.be.checked')
-    cy.get('label[for="ContactTypeChairOfGoverningBody"]').contains('The chair of the governing body')
+    cy.get('label[for=ContactTypeChairOfGoverningBody]').contains('The chair of the governing body')
 
     cy.get('#ContactTypeOther').should('not.be.checked')
-    cy.get('label[for="ContactTypeOther"]').contains('Someone else')
+    cy.get('label[for=ContactTypeOther]').contains('Someone else')
 
     cy.get('.govuk-fieldset__heading').contains('When your schools converts, we need to create a new DfE sign-in account for the academy. Please provide the most suitable contact to manage the new academies account.')
 
     cy.get('.govuk-hint').eq(3).contains('For more details on the approvers role and responsibilities please see')
-    cy.get('a[href="https://help.signin.education.gov.uk/contact/approver"]').contains('the approver guide')
+    cy.get('a[href=https://help.signin.education.gov.uk/contact/approver]').contains('the approver guide')
 
-    cy.get('label[for="ApproverContactName"]').contains('Full Name')
+    cy.get('label[for=ApproverContactName]').contains('Full Name')
     cy.get('#ApproverContactName').should('be.enabled')
 
-    cy.get('label[for="ApproverContactEmail"]').contains('Email address')
+    cy.get('label[for=ApproverContactEmail]').contains('Email address')
     cy.get('.govuk-hint').eq(4).contains('We will only use this to contact you regarding your application')
     cy.get('#ApproverContactEmail').should('be.enabled')
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and continue')
 })
 
 Cypress.Commands.add('fillHeadTeacherDetails', ():void => {
@@ -1183,7 +1171,7 @@ Cypress.Commands.add('aboutTheConversionMainContactsCompleteElementsVisible', ()
     cy.get('.govuk-heading-l').contains('About the conversion')
     cy.get('.govuk-heading-m').eq(0).contains('Contact details')
 
-    cy.get('a[class="govuk-link"]').eq(1).contains('Change your answers')
+    cy.get('a[class=govuk-link]').eq(1).contains('Change your answers')
 
     cy.get('.govuk-body').eq(0).contains('Name of headteacher')
     cy.get('.govuk-body').eq(1).contains(headTeacherName)
@@ -1214,7 +1202,7 @@ Cypress.Commands.add('aboutTheConversionMainContactsCompleteElementsVisible', ()
     cy.get('.govuk-body').eq(14).contains('Do you want the conversion to happen on a particular date?')
     cy.get('.govuk-body').eq(15).contains('You have not added any information')
 
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(0).should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(0).should('be.visible').contains('Start section')
 
     // HR PART OF START SECTION COMPONENT SECTION
 
@@ -1222,7 +1210,7 @@ Cypress.Commands.add('aboutTheConversionMainContactsCompleteElementsVisible', ()
     cy.get('.govuk-body').eq(16).contains('Why does the school want to join this trust in particular?')
     cy.get('.govuk-body').eq(17).contains('You have not added any information')
 
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(1).should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(1).should('be.visible').contains('Start section')
 
     // HR PART OF START SECTION COMPONENT SECTION
 
@@ -1230,7 +1218,7 @@ Cypress.Commands.add('aboutTheConversionMainContactsCompleteElementsVisible', ()
     cy.get('.govuk-body').eq(18).contains('Is the school planning to change its name when it becomes an academy?')
     cy.get('.govuk-body').eq(19).contains('You have not added any information')
 
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(2).should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(2).should('be.visible').contains('Start section')
 
     // HR PART OF START SECTION COMPONENT SECTION
 
@@ -1249,10 +1237,10 @@ Cypress.Commands.add('conversionTargetDateElementsVisible', ():void => {
     cy.get('.govuk-body-l').contains('Conversion usually takes around 6 months. It may take longer if the school is part of a private finance initiative (PFI) contract.')
     cy.get('.govuk-heading-s').contains('Do you want the conversion to happen on a particular date?')
     cy.get('#selectoptionYes').should('not.be.checked')
-    cy.get('label[for="selectoptionYes"]').contains('Yes')
+    cy.get('label[for=selectoptionYes]').contains('Yes')
     cy.get('#selectoptionNo').should('not.be.checked')
-    cy.get('label[for="selectoptionNo"]').contains('No')
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
+    cy.get('label[for=selectoptionNo]').contains('No')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and continue')
 
 })
 
@@ -1266,7 +1254,7 @@ Cypress.Commands.add('reasonsForJoiningElementsVisible', ():void => {
 
     cy.get('#ApplicationJoinTrustReason').should('be.visible')
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and continue')
 
 })
 
@@ -1276,7 +1264,7 @@ Cypress.Commands.add('reasonsForJoiningInput', (reasonsForJoining:string):void =
 })
 
 Cypress.Commands.add('submitReasonsForJoining', ():void => {
-    cy.get('input[type="submit"]').click()
+    cy.get('input[type=submit]').click()
 })
 
 Cypress.Commands.add('changingTheNameOfTheSchoolElementsVisible', ():void => {
@@ -1285,10 +1273,10 @@ Cypress.Commands.add('changingTheNameOfTheSchoolElementsVisible', ():void => {
     cy.get('h1').contains('Changing the name of the school')
     cy.get('#role-hint').contains('Is the school planning to change its name when it becomes an academy?')
     cy.get('#selectoptionYes').should('not.be.checked')
-    cy.get('label[for="selectoptionYes"]').contains('Yes')
+    cy.get('label[for=selectoptionYes]').contains('Yes')
     cy.get('#selectoptionNo').should('not.be.checked')
-    cy.get('label[for="selectoptionNo"]').contains('No')
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and return to overview')
+    cy.get('label[for=selectoptionNo]').contains('No')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and return to overview')
 
 })
 
@@ -1299,7 +1287,7 @@ Cypress.Commands.add('aboutTheConversionCompleteElementsVisible', ():void => {
     cy.get('.govuk-heading-l').contains('About the conversion')
     cy.get('.govuk-heading-m').eq(0).contains('Contact details')
 
-    cy.get('a[class="govuk-link"]').eq(1).contains('Change your answers')
+    cy.get('a[class=govuk-link]').eq(1).contains('Change your answers')
 
     cy.get('.govuk-body').eq(0).contains('Name of headteacher')
     cy.get('.govuk-body').eq(1).contains(headTeacherName)
@@ -1325,7 +1313,7 @@ Cypress.Commands.add('aboutTheConversionCompleteElementsVisible', ():void => {
    // HR PART OF START SECTION COMPONENT SECTION
 
     cy.get('.govuk-heading-m').eq(1).contains('Date for conversion')
-    cy.get('a[class="govuk-link"]').eq(2).contains('Change your answers')
+    cy.get('a[class=govuk-link]').eq(2).contains('Change your answers')
 
     cy.get('.govuk-body').eq(14).contains('Do you want the conversion to happen on a particular date?')
     cy.get('.govuk-body').eq(15).contains('No')
@@ -1337,7 +1325,7 @@ Cypress.Commands.add('aboutTheConversionCompleteElementsVisible', ():void => {
     // HR PART OF START SECTION COMPONENT SECTION
 
     cy.get('.govuk-heading-m').eq(2).contains('Reasons for joining')
-    cy.get('a[class="govuk-link"]').eq(3).contains('Change your answers')
+    cy.get('a[class=govuk-link]').eq(3).contains('Change your answers')
     cy.get('.govuk-body').eq(16).contains('Why does the school want to join this trust in particular?')
     cy.get('.govuk-body').eq(17).contains('Why does the school want to join this trust in particular? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.')
 
@@ -1349,7 +1337,7 @@ Cypress.Commands.add('aboutTheConversionCompleteElementsVisible', ():void => {
 
     cy.get('.govuk-heading-m').eq(3).contains('Changing the name of the school')
 
-    cy.get('a[class="govuk-link"]').eq(4).contains('Change your answers')
+    cy.get('a[class=govuk-link]').eq(4).contains('Change your answers')
 
     cy.get('.govuk-body').eq(18).contains('Is the school planning to change its name when it becomes an academy?')
     cy.get('.govuk-body').eq(19).contains('No')
@@ -1357,36 +1345,36 @@ Cypress.Commands.add('aboutTheConversionCompleteElementsVisible', ():void => {
 
 
 Cypress.Commands.add('yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible', ():void => {
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
     cy.get('p').eq(3).contains('Plymstock School')
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('About the conversion')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).contains('Change')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('About the conversion')
     cy.get('.govuk-grid-column-one-third').eq(0).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Further information')
     cy.get('.govuk-grid-column-one-third').eq(1).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Finances')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Finances')
     cy.get('.govuk-grid-column-one-third').eq(2).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Future pupil numbers')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Future pupil numbers')
     cy.get('.govuk-grid-column-one-third').eq(3).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Land and buildings')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Land and buildings')
     cy.get('.govuk-grid-column-one-third').eq(4).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Consultation')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Consultation')
     cy.get('.govuk-grid-column-one-third').eq(5).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Pre-opening support grant')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Pre-opening support grant')
     cy.get('.govuk-grid-column-one-third').eq(6).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Declaration')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Declaration')
     cy.get('.govuk-grid-column-one-third').eq(7).contains('Not Started')
 
     cy.get('h2').eq(1).contains('The trust the school will join')
     //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
     cy.get('h3').contains('PLYMOUTH CAST')
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
-    cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
+    cy.get(`a[href=/trust/join-amat/application-select-trust?appId=${globalApplicationId}]`).contains('Change')
+    cy.get(`a[href=/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}]`).contains('Trust details')
+    cy.get('strong[class=govuk-tag app-task-list__tag]').contains('Completed')
 
 
 })
@@ -1399,7 +1387,7 @@ Cypress.Commands.add('additionalDetailsSummaryNotStartedElementsVisible', ():voi
 
     cy.get('.govuk-heading-m').contains('Additional details')
 
-    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').should('be.visible').contains('Start section')
 
     cy.get('b').eq(0).contains('What will the school bring to the trust they are joining?')
     cy.get('p').eq(2).contains('You have not added any information')
@@ -1451,7 +1439,7 @@ Cypress.Commands.add('additionalDetailsDetailsNotStartedElementsVisible', ():voi
     cy.get('.govuk-caption-l').contains('Plymstock School')
     cy.get('.govuk-heading-l').contains('Additional details')
 
-    cy.get('label[for="TrustBenefitDetails"]').contains('What will the school bring to the trust they are joining?')
+    cy.get('label[for=TrustBenefitDetails]').contains('What will the school bring to the trust they are joining?')
     cy.get('#trust-benefit-hint').contains('Describe the contribution they will make')
 
     cy.get('#TrustBenefitDetails').should('be.enabled')
@@ -1459,81 +1447,81 @@ Cypress.Commands.add('additionalDetailsDetailsNotStartedElementsVisible', ():voi
     cy.get('legend').eq(0).contains('Have Ofsted recently inspected the school but not published the report yet?')
 
     cy.get('#ofstedInspectedOptionYes').should('not.be.checked')
-    cy.get('label[for="ofstedInspectedOptionYes"]').contains('Yes')
+    cy.get('label[for=ofstedInspectedOptionYes]').contains('Yes')
 
     cy.get('#ofstedInspectedOptionNo').should('not.be.checked')
-    cy.get('label[for="ofstedInspectedOptionNo"]').contains('No')
+    cy.get('label[for=ofstedInspectedOptionNo]').contains('No')
 
     cy.get('legend').eq(1).contains('Are there any safeguarding investigations ongoing at the school')
 
     cy.get('#safeguardingOptionYes').should('not.be.checked')
-    cy.get('label[for="safeguardingOptionYes"]').contains('Yes')
+    cy.get('label[for=safeguardingOptionYes]').contains('Yes')
 
     cy.get('#safeguardingOptionNo').should('not.be.checked')
-    cy.get('label[for="safeguardingOptionNo"]').contains('No')
+    cy.get('label[for=safeguardingOptionNo]').contains('No')
 
     cy.get('legend').eq(2).contains('Is the school part of a local authority reorganisation?')
 
     cy.get('#localAuthorityOptionYes').should('not.be.checked')
-    cy.get('label[for="localAuthorityOptionYes"]').contains('Yes')
+    cy.get('label[for=localAuthorityOptionYes]').contains('Yes')
 
     cy.get('#localAuthorityOptionNo').should('not.be.checked')
-    cy.get('label[for="localAuthorityOptionNo"]').contains('No')
+    cy.get('label[for=localAuthorityOptionNo]').contains('No')
 
 
     cy.get('legend').eq(3).contains('Is the school part of any local authority closure plans?')
 
     cy.get('#localAuthorityClosurePlanOptionYes').should('not.be.checked')
-    cy.get('label[for="localAuthorityClosurePlanOptionYes"]').contains('Yes')
+    cy.get('label[for=localAuthorityClosurePlanOptionYes]').contains('Yes')
 
     cy.get('#localAuthorityClosurePlanOptionNo').should('not.be.checked')
-    cy.get('label[for="localAuthorityClosurePlanOptionNo"]').contains('No')
+    cy.get('label[for=localAuthorityClosurePlanOptionNo]').contains('No')
 
 
     cy.get('legend').eq(4).contains('Is the school linked to a diocese?')
 
     cy.get('#dioceseOptionYes').should('not.be.checked')
-    cy.get('label[for="dioceseOptionYes"]').contains('Yes')
+    cy.get('label[for=dioceseOptionYes]').contains('Yes')
 
     cy.get('#dioceseOptionNo').should('not.be.checked')
-    cy.get('label[for="dioceseOptionNo"]').contains('No')
+    cy.get('label[for=dioceseOptionNo]').contains('No')
 
 
     cy.get('legend').eq(6).contains('Is the school part of a federation')
     cy.get('#federation-hint').contains('A federation is a group of maintained schools under one governing body (The School Governance (Federations) (England) Regulations 2012)')
-    cy.get('a[href="https://www.legislation.gov.uk/uksi/2012/1035/contents/made"]').contains('(The School Governance (Federations) (England) Regulations 2012)')
+    cy.get('a[href=https://www.legislation.gov.uk/uksi/2012/1035/contents/made]').contains('(The School Governance (Federations) (England) Regulations 2012)')
 
     cy.get('#federationOptionYes').should('not.be.checked')
-    cy.get('label[for="federationOptionYes"]').contains('Yes')
+    cy.get('label[for=federationOptionYes]').contains('Yes')
 
     cy.get('#federationOptionNo').should('not.be.checked')
-    cy.get('label[for="federationOptionNo"]').contains('No')
+    cy.get('label[for=federationOptionNo]').contains('No')
 
     cy.get('legend').eq(7).contains('Is the school supported by a foundation, trust or other body(e.g. parish council) that appoints foundation governors?')
 
     cy.get('#supportedByFoundationTrustOrBodyOptionYes').should('not.be.checked')
-    cy.get('label[for="supportedByFoundationTrustOrBodyOptionYes"]').contains('Yes')
+    cy.get('label[for=supportedByFoundationTrustOrBodyOptionYes]').contains('Yes')
 
     cy.get('#supportedByFoundationTrustOrBodyOptionNo').should('not.be.checked')
-    cy.get('label[for="supportedByFoundationTrustOrBodyOptionNo"]').contains('No')
+    cy.get('label[for=supportedByFoundationTrustOrBodyOptionNo]').contains('No')
 
 
     cy.get('legend').eq(9).contains('Does the school currently have an exemption from providing broadly Christian collective worship issued by the local Standing Committee on Religious Education (SACRE)?')
 
     cy.get('#exemptionFromSACREOptionYes').should('not.be.checked')
-    cy.get('label[for="exemptionFromSACREOptionYes"]').contains('Yes')
+    cy.get('label[for=exemptionFromSACREOptionYes]').contains('Yes')
 
     cy.get('#exemptionFromSACREOptionNo').should('not.be.checked')
-    cy.get('label[for="exemptionFromSACREOptionNo"]').contains('No')
+    cy.get('label[for=exemptionFromSACREOptionNo]').contains('No')
 
-    cy.get('label[for="MainFeederSchools"]').contains('Please provide a list of your main feeder schools')
+    cy.get('label[for=MainFeederSchools]').contains('Please provide a list of your main feeder schools')
     cy.get('#feeder-schools-hint').contains('We recognise you may have many feeder schools, therefore please just detail the top 5')
     cy.get('#MainFeederSchools').should('be.enabled')
 
     //SCHOOL'S GOVERNING BODY RESOLUTION UPLOAD QUESTION
     cy.get('legend').eq(10).contains('The school\'s Governing Body must have passed a resolution to apply to convert to academy status. Upload a copy of the school\'s consent to converting and joining the trust.')
     cy.get('#Upload-resolutionConsentFiles-hint').contains('This is normally in the form of the minutes from the Governing Body meeting at which the resolution to convert was passed')
-    cy.get('label[for="resolutionConsentFileUpload"]').contains('Upload a file')
+    cy.get('label[for=resolutionConsentFileUpload]').contains('Upload a file')
 
     //cy.get('#resolutionConsentFileUpload').contains('Choose files')
     //cy.get('#resolutionConsentFileUpload').contains('No file chosen')
@@ -1543,27 +1531,27 @@ Cypress.Commands.add('additionalDetailsDetailsNotStartedElementsVisible', ():voi
     cy.get('.govuk-label').contains('No file uploaded')
     cy.get('hr').eq(5).should('be.visible')
 
-    cy.get('p[class="govuk-body govuk-radios__conditional"]').contains('The application cannot be submitted without this. You can carry on the application and come back to this later.')
+    cy.get('p[class=govuk-body govuk-radios__conditional]').contains('The application cannot be submitted without this. You can carry on the application and come back to this later.')
     // END OF BODY RESOLUTION FILE UPLOAD BLOCK
 
     cy.get('legend').eq(12).contains('Has an equalities impact assessment been carried out and considered by the governing body?')
 
     cy.get('#equalitiesImpactAssessmentOptionYes').should('not.be.checked')
-    cy.get('label[for="equalitiesImpactAssessmentOptionYes"]').contains('Yes')
+    cy.get('label[for=equalitiesImpactAssessmentOptionYes]').contains('Yes')
 
     cy.get('#equalitiesImpactAssessmentOptionNo').should('not.be.checked')
-    cy.get('label[for="equalitiesImpactAssessmentOptionNo"]').contains('No')
+    cy.get('label[for=equalitiesImpactAssessmentOptionNo]').contains('No')
 
 
     cy.get('legend').eq(13).contains('Do you want to add any further information?')
 
     cy.get('#furtherInformationOptionYes').should('not.be.checked')
-    cy.get('label[for="furtherInformationOptionYes"]').contains('Yes')
+    cy.get('label[for=furtherInformationOptionYes]').contains('Yes')
 
     cy.get('#furtherInformationOptionNo').should('not.be.checked')
-    cy.get('label[for="furtherInformationOptionNo"]').contains('No')
+    cy.get('label[for=furtherInformationOptionNo]').contains('No')
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and return to overview')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and return to overview')
 
 
 })
@@ -1575,23 +1563,23 @@ Cypress.Commands.add('fillSchoolContribution', (schoolContribution:string):void 
 
 Cypress.Commands.add('dioceseSectionElementsVisible', ():void => {
     cy.get('#dioceseOptionYes').should('be.checked')
-    cy.get('label[for="dioceseOptionYes"]').contains('Yes')
+    cy.get('label[for=dioceseOptionYes]').contains('Yes')
     
     // TEST DIOCESE YES SECTION IS VISIBLE
     cy.get('#dioceseOption-yes').should('be.visible')
 
-    cy.get('label[for="DioceseName"]').contains('Name of diocese')
+    cy.get('label[for=DioceseName]').contains('Name of diocese')
 
     cy.get('#DioceseName').should('be.visible').should('be.enabled')
     cy.get('#dioceseOption-yes > :nth-child(1) > :nth-child(4)').contains('Upload a letter from the diocese giving permission for the school to convert.')
-    cy.get('label[for="dioceseFileUpload"]').contains('Upload a file')
+    cy.get('label[for=dioceseFileUpload]').contains('Upload a file')
     cy.get(':nth-child(5) > .govuk-hint').contains('The application cannot be submitted without this. You can carry on the application and come back to this later.')
     cy.get('#dioceseOption-yes > :nth-child(1) > .govuk-fieldset__legend').contains('Uploaded files')
     cy.get('hr').eq(0).should('be.visible')
     cy.get('.govuk-label').contains('No file uploaded')
     cy.get('hr').eq(1).should('be.visible')
     cy.get('#dioceseOptionNo').should('not.be.checked')
-    cy.get('label[for="dioceseOptionNo"]').contains('No')
+    cy.get('label[for=dioceseOptionNo]').contains('No')
 })
 
 Cypress.Commands.add('dioceseFileUpload', ():void => {
@@ -1605,8 +1593,8 @@ Cypress.Commands.add('selectYesSchoolSupportedByTrustOrFoundation', ():void => {
 
 Cypress.Commands.add('schoolSupportedByElementsVisible', ():void => {
     cy.get('#supportedByFoundationTrustOrBodyOptionYes').should('be.checked')
-    cy.get('label[for="supportedByFoundationTrustOrBodyOptionYes"]').contains('Yes')
-    cy.get('label[for="FoundationTrustOrBodyName"]').contains('Name of this body')
+    cy.get('label[for=supportedByFoundationTrustOrBodyOptionYes]').contains('Yes')
+    cy.get('label[for=FoundationTrustOrBodyName]').contains('Name of this body')
     cy.get('#FoundationTrustOrBodyName').should('be.visible').should('be.enabled')
     cy.get('#supportedByFoundationTrustOrBodyOption-yes > :nth-child(1) > :nth-child(5)').contains('Please upload their letter of consent')
    // cy.get('#FoundationConsentFiles > .govuk-label').contains('Upload a file')
@@ -1615,7 +1603,7 @@ Cypress.Commands.add('schoolSupportedByElementsVisible', ():void => {
     cy.get('#supportedByFoundationTrustOrBodyOption-yes > :nth-child(1) > :nth-child(9)').contains('No file uploaded')
     cy.get('hr').eq(4).should('be.visible')
     cy.get('#supportedByFoundationTrustOrBodyOptionNo').should('not.be.checked')
-    cy.get('label[for="supportedByFoundationTrustOrBodyOptionNo"]').contains('No')
+    cy.get('label[for=supportedByFoundationTrustOrBodyOptionNo]').contains('No')
 
 
 })
@@ -1688,70 +1676,70 @@ Cypress.Commands.add('additionalDetailsSummaryCompleteElementsVisible', ():void 
 })
 
 Cypress.Commands.add('yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible', ():void => {
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
     cy.get('p').eq(3).contains('Plymstock School')
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('About the conversion')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).contains('Change')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('About the conversion')
     cy.get('.govuk-grid-column-one-third').eq(0).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Further information')
     cy.get('.govuk-grid-column-one-third').eq(1).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Finances')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Finances')
     cy.get('.govuk-grid-column-one-third').eq(2).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Future pupil numbers')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Future pupil numbers')
     cy.get('.govuk-grid-column-one-third').eq(3).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Land and buildings')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Land and buildings')
     cy.get('.govuk-grid-column-one-third').eq(4).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Consultation')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Consultation')
     cy.get('.govuk-grid-column-one-third').eq(5).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Pre-opening support grant')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Pre-opening support grant')
     cy.get('.govuk-grid-column-one-third').eq(6).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Declaration')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Declaration')
     cy.get('.govuk-grid-column-one-third').eq(7).contains('Not Started')
 
     cy.get('h2').eq(1).contains('The trust the school will join')
     //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
     cy.get('h3').contains('PLYMOUTH CAST')
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
-    cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
+    cy.get(`a[href=/trust/join-amat/application-select-trust?appId=${globalApplicationId}]`).contains('Change')
+    cy.get(`a[href=/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}]`).contains('Trust details')
+    cy.get('strong[class=govuk-tag app-task-list__tag]').contains('Completed')
 
 })
 
 Cypress.Commands.add('yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible', ():void => {
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
     cy.get('p').eq(3).contains('Plymstock School')
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('About the conversion')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).contains('Change')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('About the conversion')
     cy.get('.govuk-grid-column-one-third').eq(0).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Further information')
     cy.get('.govuk-grid-column-one-third').eq(1).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Finances')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Finances')
     cy.get('.govuk-grid-column-one-third').eq(2).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Future pupil numbers')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Future pupil numbers')
     cy.get('.govuk-grid-column-one-third').eq(3).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Land and buildings')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Land and buildings')
     cy.get('.govuk-grid-column-one-third').eq(4).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Consultation')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Consultation')
     cy.get('.govuk-grid-column-one-third').eq(5).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Pre-opening support grant')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Pre-opening support grant')
     cy.get('.govuk-grid-column-one-third').eq(6).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Declaration')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Declaration')
     cy.get('.govuk-grid-column-one-third').eq(7).contains('Not Started')
 
     cy.get('h2').eq(1).contains('The trust the school will join')
     //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
     cy.get('h3').contains('PLYMOUTH CAST')
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
-    cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
+    cy.get(`a[href=/trust/join-amat/application-select-trust?appId=${globalApplicationId}]`).contains('Change')
+    cy.get(`a[href=/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}]`).contains('Trust details')
+    cy.get('strong[class=govuk-tag app-task-list__tag]').contains('Completed')
 
 })
 
@@ -1761,7 +1749,7 @@ Cypress.Commands.add('financeSummaryNotStartedElementsVisible', ():void => {
     cy.get('.govuk-heading-l').contains('Finances')
 
     cy.get('.govuk-heading-m').eq(0).contains('Previous financial year')
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(0).should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(0).should('be.visible').contains('Start section')
    
     //cy.get('hr').eq(0).should('be.visible')
     
@@ -1786,7 +1774,7 @@ Cypress.Commands.add('financeSummaryNotStartedElementsVisible', ():void => {
    // cy.get('hr').eq(5).should('be.visible')
 
     cy.get('.govuk-heading-m').eq(1).contains('Current financial year')
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(1).should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(1).should('be.visible').contains('Start section')
 
    // cy.get('hr').eq(6).should('be.visible')
 
@@ -1811,7 +1799,7 @@ Cypress.Commands.add('financeSummaryNotStartedElementsVisible', ():void => {
     //cy.get('hr').eq(11).should('be.visible')
 
     cy.get('.govuk-heading-m').eq(2).contains('Next financial year')
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(2).should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(2).should('be.visible').contains('Start section')
 
    // cy.get('hr').eq(12).should('be.visible')
 
@@ -1836,7 +1824,7 @@ Cypress.Commands.add('financeSummaryNotStartedElementsVisible', ():void => {
    // cy.get('hr').eq(17).should('be.visible')
 
     cy.get('.govuk-heading-m').eq(3).contains('Loans')
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(3).should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(3).should('be.visible').contains('Start section')
 
   //  cy.get('hr').eq(18).should('be.visible')
 
@@ -1845,7 +1833,7 @@ Cypress.Commands.add('financeSummaryNotStartedElementsVisible', ():void => {
    // cy.get('hr').eq(19).should('be.visible')
 
     cy.get('.govuk-heading-m').eq(4).contains('Leases')
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(4).should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(4).should('be.visible').contains('Start section')
 
    // cy.get('hr').eq(20).should('be.visible')
 
@@ -1854,7 +1842,7 @@ Cypress.Commands.add('financeSummaryNotStartedElementsVisible', ():void => {
    // cy.get('hr').eq(21).should('be.visible')
 
     cy.get('.govuk-heading-m').eq(5).contains('Financial investigations')
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(5).should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(5).should('be.visible').contains('Start section')
 
   //  cy.get('hr').eq(22).should('be.visible')
 
@@ -1874,36 +1862,36 @@ Cypress.Commands.add('previousFinancialYrElementsVisible', ():void => {
     cy.get('legend').contains('End of previous financial year')
     cy.get('#pfy-end-date-hint').contains('For example, 01 09 2022')
 
-    cy.get('label[for="sip_pfyenddate-day"]').contains('Day')
+    cy.get('label[for=sip_pfyenddate-day]').contains('Day')
     cy.get('#sip_pfyenddate-day').should('be.visible').should('be.enabled')
 
-    cy.get('label[for="sip_pfyenddate-month"]').contains('Month')
+    cy.get('label[for=sip_pfyenddate-month]').contains('Month')
     cy.get('#sip_pfyenddate-month').should('be.visible').should('be.enabled')
 
-    cy.get('label[for="sip_pfyenddate-year"]').contains('Year')
+    cy.get('label[for=sip_pfyenddate-year]').contains('Year')
     cy.get('#sip_pfyenddate-year').should('be.visible').should('be.enabled')
 
-    cy.get('label[for="Revenue"]').contains('Revenue carry forward at end of the previous financial year (31 March)')
+    cy.get('label[for=Revenue]').contains('Revenue carry forward at end of the previous financial year (31 March)')
 
     cy.get('#Revenue').should('be.visible').should('be.enabled')
 
     cy.get('#revenueRevenueTypeSurplus').should('not.be.checked')
-    cy.get('label[for="revenueRevenueTypeSurplus"]').contains('Surplus')
+    cy.get('label[for=revenueRevenueTypeSurplus]').contains('Surplus')
 
     cy.get('#revenueRevenueTypeDeficit').should('not.be.checked')
-    cy.get('label[for="revenueRevenueTypeDeficit"]').contains('Deficit')
+    cy.get('label[for=revenueRevenueTypeDeficit]').contains('Deficit')
 
-    cy.get('label[for="CapitalCarryForward"]').contains('Capital carry forward at end of the previous financial year (31 March)')
+    cy.get('label[for=CapitalCarryForward]').contains('Capital carry forward at end of the previous financial year (31 March)')
 
     cy.get('#CapitalCarryForward').should('be.visible').should('be.enabled')
 
     cy.get('#capitalRevenueTypeSurplus').should('not.be.checked')
-    cy.get('label[for="capitalRevenueTypeSurplus"]').contains('Surplus')
+    cy.get('label[for=capitalRevenueTypeSurplus]').contains('Surplus')
 
     cy.get('#capitalRevenueTypeDeficit').should('not.be.checked')
-    cy.get('label[for="capitalRevenueTypeDeficit"]').contains('Deficit')
+    cy.get('label[for=capitalRevenueTypeDeficit]').contains('Deficit')
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and continue')
     
 })
 
@@ -1920,52 +1908,52 @@ Cypress.Commands.add('currentFinancialYrElementsVisible', ():void => {
     cy.get('legend').contains('End of current financial year')
     cy.get('#pfy-end-date-hint').contains('For example, 01 09 2022')
 
-    cy.get('label[for="sip_cfyenddate-day"]').contains('Day')
+    cy.get('label[for=sip_cfyenddate-day]').contains('Day')
     cy.get('#sip_cfyenddate-day').should('be.visible').should('be.enabled')
 
-    cy.get('label[for="sip_cfyenddate-month"]').contains('Month')
+    cy.get('label[for=sip_cfyenddate-month]').contains('Month')
     cy.get('#sip_cfyenddate-month').should('be.visible').should('be.enabled')
 
-    cy.get('label[for="sip_cfyenddate-year"]').contains('Year')
+    cy.get('label[for=sip_cfyenddate-year]').contains('Year')
     cy.get('#sip_cfyenddate-year').should('be.visible').should('be.enabled')
 
-    cy.get('label[for="Revenue"]').contains('Forecasted revenue carry forward at end of the current financial year (31 March)')
+    cy.get('label[for=Revenue]').contains('Forecasted revenue carry forward at end of the current financial year (31 March)')
 
     cy.get('#Revenue').should('be.visible').should('be.enabled')
 
     cy.get('#revenueTypeSurplus').should('not.be.checked')
-    cy.get('label[for="revenueTypeSurplus"]').contains('Surplus')
+    cy.get('label[for=revenueTypeSurplus]').contains('Surplus')
 
     cy.get('#revenueTypeDeficit').should('not.be.checked')
-    cy.get('label[for="revenueTypeDeficit"]').contains('Deficit')
+    cy.get('label[for=revenueTypeDeficit]').contains('Deficit')
 
-    cy.get('label[for="CapitalCarryForward"]').contains('Forecasted capital carry forward at end of the current financial year (31 March)')
+    cy.get('label[for=CapitalCarryForward]').contains('Forecasted capital carry forward at end of the current financial year (31 March)')
 
     cy.get('#CapitalCarryForward').should('be.visible').should('be.enabled')
 
     cy.get('#capitalTypeSurplus').should('not.be.checked')
-    cy.get('label[for="capitalTypeSurplus"]').contains('Surplus')
+    cy.get('label[for=capitalTypeSurplus]').contains('Surplus')
 
     cy.get('#capitalTypeDeficit').should('not.be.checked')
-    cy.get('label[for="capitalTypeDeficit"]').contains('Deficit')
+    cy.get('label[for=capitalTypeDeficit]').contains('Deficit')
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and continue')
     
 })
 
 Cypress.Commands.add('verifyCurrentRevenueCarryForwardDeficitSelectedSectionDisplays', ():void => {
     cy.get('#revenueTypeDeficit').should('be.checked')
     
-    cy.get('label[for="CFYRevenueCarryForwardExplained"]').contains('Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.')
+    cy.get('label[for=CFYRevenueCarryForwardExplained]').contains('Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.')
     cy.get('.govuk-hint').eq(1).contains('Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority')
     cy.get('#CFYRevenueCarryForwardExplained').should('be.visible').should('be.enabled')
 
     cy.get('.govuk-label').eq(6).contains('You can upload the school\’s recovery plan.')
 
     cy.get('.govuk-hint').eq(2).contains('We prefer schools to set out their income and expenditure using the consistent financial reporting codes.')
-    cy.get('a[href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"]').contains('consistent financial reporting')
+    cy.get('a[href=https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr]').contains('consistent financial reporting')
     
-    cy.get('label[for="schoolCfyRevenueFileUpload"]').contains('Upload a file')
+    cy.get('label[for=schoolCfyRevenueFileUpload]').contains('Upload a file')
 
     cy.get('legend').eq(1).contains('Uploaded files')
     
@@ -1995,16 +1983,16 @@ Cypress.Commands.add('selectNextCapitalCarryForwardDeficit', ():void => {
 Cypress.Commands.add('verifyCurrentCapitalCarryForwardDeficitSelectedSectionDisplays', ():void => {
     cy.get('#capitalTypeDeficit').should('be.checked')
 
-    cy.get('label[for="CFYCapitalCarryForwardExplained"]').contains('Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.')
+    cy.get('label[for=CFYCapitalCarryForwardExplained]').contains('Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.')
     cy.get('.govuk-hint').eq(3).contains('Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority')
     cy.get('#CFYCapitalCarryForwardExplained').should('be.visible').should('be.enabled')
 
     cy.get('.govuk-label').eq(13).contains('You can upload the school\’s recovery plan.')
 
     cy.get('.govuk-hint').eq(4).contains('We prefer schools to set out their income and expenditure using the consistent financial reporting codes.')
-    cy.get('a[href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"]').contains('consistent financial reporting')
+    cy.get('a[href=https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr]').contains('consistent financial reporting')
     
-    cy.get('label[for="schoolCfyRevenueFileUpload"]').contains('Upload a file')
+    cy.get('label[for=schoolCfyRevenueFileUpload]').contains('Upload a file')
 
     cy.get('legend').eq(2).contains('Uploaded files')
     
@@ -2016,16 +2004,16 @@ Cypress.Commands.add('verifyCurrentCapitalCarryForwardDeficitSelectedSectionDisp
 Cypress.Commands.add('verifyNextCapitalCarryForwardDeficitSelectedSectionDisplays', ():void => {
     cy.get('#capitalRevenueTypeDeficit').should('be.checked')
 
-    cy.get('label[for="PFYCapitalCarryForwardExplained"]').contains('Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.')
+    cy.get('label[for=PFYCapitalCarryForwardExplained]').contains('Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.')
     cy.get('.govuk-hint').eq(3).contains('Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority')
     cy.get('#PFYCapitalCarryForwardExplained').should('be.visible').should('be.enabled')
 
     cy.get('.govuk-label').eq(13).contains('You can upload the school\’s recovery plan.')
 
     cy.get('.govuk-hint').eq(4).contains('We prefer schools to set out their income and expenditure using the consistent financial reporting codes.')
-    cy.get('a[href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"]').contains('consistent financial reporting')
+    cy.get('a[href=https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr]').contains('consistent financial reporting')
     
-    cy.get('label[for="schoolNfyRevenueFileUpload"]').contains('Upload a file')
+    cy.get('label[for=schoolNfyRevenueFileUpload]').contains('Upload a file')
 
     cy.get('legend').eq(2).contains('Uploaded files')
     
@@ -2042,11 +2030,11 @@ Cypress.Commands.add('uploadFileForCurrentCapitalCarryForwardDeficit', ():void =
 })
 
 Cypress.Commands.add('submitCurrentFinancialYr', ():void => {
-    cy.get('input[type="submit"]').click()
+    cy.get('input[type=submit]').click()
 })
 
 Cypress.Commands.add('selectNextFinancialYrStartSection', ():void => {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(2).click()
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(2).click()
 
 })
 
@@ -2057,36 +2045,36 @@ Cypress.Commands.add('nextFinancialYrElementsVisible', ():void => {
     cy.get('legend').contains('End of next financial year')
     cy.get('#pfy-end-date-hint').contains('For example, 01 09 2022')
 
-    cy.get('label[for="sip_nfyenddate-day"]').contains('Day')
+    cy.get('label[for=sip_nfyenddate-day]').contains('Day')
     cy.get('#sip_nfyenddate-day').should('be.visible').should('be.enabled')
 
-    cy.get('label[for="sip_nfyenddate-month"]').contains('Month')
+    cy.get('label[for=sip_nfyenddate-month]').contains('Month')
     cy.get('#sip_nfyenddate-month').should('be.visible').should('be.enabled')
 
-    cy.get('label[for="sip_nfyenddate-year"]').contains('Year')
+    cy.get('label[for=sip_nfyenddate-year]').contains('Year')
     cy.get('#sip_nfyenddate-year').should('be.visible').should('be.enabled')
 
-    cy.get('label[for="Revenue"]').contains('Forecasted revenue carry forward at end of the next financial year (31 March)')
+    cy.get('label[for=Revenue]').contains('Forecasted revenue carry forward at end of the next financial year (31 March)')
 
     cy.get('#Revenue').should('be.visible').should('be.enabled')
 
     cy.get('#revenueTypeSurplus').should('not.be.checked')
-    cy.get('label[for="revenueTypeSurplus"]').contains('Surplus')
+    cy.get('label[for=revenueTypeSurplus]').contains('Surplus')
 
     cy.get('#revenueTypeDeficit').should('not.be.checked')
-    cy.get('label[for="revenueTypeDeficit"]').contains('Deficit')
+    cy.get('label[for=revenueTypeDeficit]').contains('Deficit')
 
-    cy.get('label[for="CapitalCarryForward"]').contains('Forecasted capital carry forward at end of the next financial year (31 March)')
+    cy.get('label[for=CapitalCarryForward]').contains('Forecasted capital carry forward at end of the next financial year (31 March)')
 
     cy.get('#CapitalCarryForward').should('be.visible').should('be.enabled')
 
     cy.get('#capitalRevenueTypeSurplus').should('not.be.checked')
-    cy.get('label[for="capitalRevenueTypeSurplus"]').contains('Surplus')
+    cy.get('label[for=capitalRevenueTypeSurplus]').contains('Surplus')
 
     cy.get('#capitalRevenueTypeDeficit').should('not.be.checked')
-    cy.get('label[for="capitalRevenueTypeDeficit"]').contains('Deficit')
+    cy.get('label[for=capitalRevenueTypeDeficit]').contains('Deficit')
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and continue')
     
 })
 
@@ -2106,16 +2094,16 @@ Cypress.Commands.add('inputNextFinancialYrRevenueCarryForward', ():void => {
 Cypress.Commands.add('verifyNextRevenueCarryForwardDeficitSelectedSectionDisplays', ():void => {
     cy.get('#revenueTypeDeficit').should('be.checked')
     
-    cy.get('label[for="NFYRevenueStatusExplained"]').contains('Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.')
+    cy.get('label[for=NFYRevenueStatusExplained]').contains('Explain the reason for the deficit, how the school plan to deal with it, and the recovery plan.')
     cy.get('.govuk-hint').eq(1).contains('Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority')
     cy.get('#NFYRevenueStatusExplained').should('be.visible').should('be.enabled')
 
     cy.get('.govuk-label').eq(6).contains('You can upload the school\’s recovery plan.')
 
     cy.get('.govuk-hint').eq(2).contains('We prefer schools to set out their income and expenditure using the consistent financial reporting codes.')
-    cy.get('a[href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"]').contains('consistent financial reporting')
+    cy.get('a[href=https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr]').contains('consistent financial reporting')
     
-    cy.get('label[for="schoolNfyRevenueFileUpload"]').contains('Upload a file')
+    cy.get('label[for=schoolNfyRevenueFileUpload]').contains('Upload a file')
 
     cy.get('legend').eq(1).contains('Uploaded files')
     
@@ -2151,13 +2139,13 @@ Cypress.Commands.add('uploadFileForNextCapitalCarryForwardDeficit', ():void => {
 })
 
 Cypress.Commands.add('submitNextFinancialYr', ():void => {
-    cy.get('input[type="submit"]').click()
+    cy.get('input[type=submit]').click()
 })
 
 
 
 Cypress.Commands.add('selectLoansStartSection', ():void => {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(3).click()
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(3).click()
 
 })
 
@@ -2170,21 +2158,21 @@ Cypress.Commands.add('loansSummaryElementsVisible', ():void => {
     cy.get('legend').contains('Are there any existing loans?')
 
     cy.get('#anyLoansOptionYes').should('not.be.checked')
-    cy.get('label[for="anyLoansOptionYes"]').contains('Yes')
+    cy.get('label[for=anyLoansOptionYes]').contains('Yes')
 
     cy.get('#anyLoansOptionNo').should('not.be.checked')
-    cy.get('label[for="anyLoansOptionNo"]').contains('No')
+    cy.get('label[for=anyLoansOptionNo]').contains('No')
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Continue')
+    cy.get('input[type=submit]').should('be.visible').contains('Continue')
 })
 
 Cypress.Commands.add('submitLoansSummary', ():void => {
-    cy.get('input[type="submit"]').click()
+    cy.get('input[type=submit]').click()
 })
 
 
 Cypress.Commands.add('selectLeasesStartSection', ():void => {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(4).click()
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(4).click()
 
 })
 
@@ -2197,20 +2185,20 @@ Cypress.Commands.add('leasesSummaryElementsVisible', ():void => {
     cy.get('legend').contains('Are there any existing leases?')
 
     cy.get('#anyLeasesOptionYes').should('not.be.checked')
-    cy.get('label[for="anyLeasesOptionYes"]').contains('Yes')
+    cy.get('label[for=anyLeasesOptionYes]').contains('Yes')
 
     cy.get('#anyLeasesOptionNo').should('not.be.checked')
-    cy.get('label[for="anyLeasesOptionNo"]').contains('No')
+    cy.get('label[for=anyLeasesOptionNo]').contains('No')
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Continue')
+    cy.get('input[type=submit]').should('be.visible').contains('Continue')
 })
 
 Cypress.Commands.add('submitLeasesSummary', ():void => {
-    cy.get('input[type="submit"]').click()
+    cy.get('input[type=submit]').click()
 })
 
 Cypress.Commands.add('selectFinancialInvestigationsStartSection', ():void => {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(5).click()
+    cy.get('a[class=govuk-button govuk-button--secondary]').eq(5).click()
 
 })
 
@@ -2223,18 +2211,18 @@ Cypress.Commands.add('financialInvestigationsElementsVisible', ():void => {
     cy.get('legend').contains('Are there any financial investigations ongoing at the school?')
 
     cy.get('#selectoptionYes').should('not.be.checked')
-    cy.get('label[for="selectoptionYes"]').contains('Yes')
+    cy.get('label[for=selectoptionYes]').contains('Yes')
 
     cy.get('#selectoptionNo').should('not.be.checked')
-    cy.get('label[for="selectoptionNo"]').contains('No')
+    cy.get('label[for=selectoptionNo]').contains('No')
 
-    cy.get('input[type="submit"]')
+    cy.get('input[type=submit]')
 
 
 })
 
 Cypress.Commands.add('submitFinancialInvestigations', ():void => {
-    cy.get('input[type="submit"]').click()
+    cy.get('input[type=submit]').click()
 })
 
 Cypress.Commands.add('financeSummaryCompleteElementsVisible', ():void => {
@@ -2325,36 +2313,36 @@ Cypress.Commands.add('submitFinanceSummary', ():void => {
 
 
 Cypress.Commands.add('financeCompleteElementsVisible', ():void => {
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
     cy.get('p').eq(3).contains('Plymstock School')
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('About the conversion')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).contains('Change')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('About the conversion')
     cy.get('.govuk-grid-column-one-third').eq(0).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Further information')
     cy.get('.govuk-grid-column-one-third').eq(1).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Finances')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Finances')
     cy.get('.govuk-grid-column-one-third').eq(2).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Future pupil numbers')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Future pupil numbers')
     cy.get('.govuk-grid-column-one-third').eq(3).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Land and buildings')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Land and buildings')
     cy.get('.govuk-grid-column-one-third').eq(4).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Consultation')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Consultation')
     cy.get('.govuk-grid-column-one-third').eq(5).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Pre-opening support grant')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Pre-opening support grant')
     cy.get('.govuk-grid-column-one-third').eq(6).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Declaration')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Declaration')
     cy.get('.govuk-grid-column-one-third').eq(7).contains('Not Started')
 
     cy.get('h2').eq(1).contains('The trust the school will join')
     //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
     cy.get('h3').contains('PLYMOUTH CAST')
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
-    cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
+    cy.get(`a[href=/trust/join-amat/application-select-trust?appId=${globalApplicationId}]`).contains('Change')
+    cy.get(`a[href=/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}]`).contains('Trust details')
+    cy.get('strong[class=govuk-tag app-task-list__tag]').contains('Completed')
 
 })
 
@@ -2369,7 +2357,7 @@ Cypress.Commands.add('futurePupilNumbersSummaryElementsVisible', ():void => {
 
     cy.get('.govuk-heading-l').contains('Future pupil numbers')
 
-    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').should('be.visible').contains('Start section')
 
     cy.get('b').eq(0).contains('Projected pupil numbers on roll in the year the academy opens (year 1)')
     cy.get('p').eq(2).contains('You have not added any information')
@@ -2391,7 +2379,7 @@ Cypress.Commands.add('futurePupilNumbersSummaryElementsVisible', ():void => {
 })
 
 Cypress.Commands.add('selectFuturePupilNumbersStartSection', ():void => {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').click()
+    cy.get('a[class=govuk-button govuk-button--secondary]').click()
 })
 
 Cypress.Commands.add('futurePupilNumbersDetailsElementsVisible', ():void => {
@@ -2401,22 +2389,22 @@ Cypress.Commands.add('futurePupilNumbersDetailsElementsVisible', ():void => {
 
     cy.get('.govuk-heading-l').contains('Future pupil numbers')
 
-    cy.get('label[for="ProjectedPupilNumbersYear1"]').contains('Projected pupil numbers on roll in the year the academy opens (year 1)')
+    cy.get('label[for=ProjectedPupilNumbersYear1]').contains('Projected pupil numbers on roll in the year the academy opens (year 1)')
     cy.get('#ProjectedPupilNumbersYear1').should('be.enabled')
 
-    cy.get('label[for="ProjectedPupilNumbersYear2"]').contains('Projected pupil numbers on roll in the following year after the academy has opened (year 2)')
+    cy.get('label[for=ProjectedPupilNumbersYear2]').contains('Projected pupil numbers on roll in the following year after the academy has opened (year 2)')
     cy.get('#ProjectedPupilNumbersYear2').should('be.enabled')
 
-    cy.get('label[for="ProjectedPupilNumbersYear3"]').contains('Projected pupil numbers on roll in the following year (year 3)')
+    cy.get('label[for=ProjectedPupilNumbersYear3]').contains('Projected pupil numbers on roll in the following year (year 3)')
     cy.get('#ProjectedPupilNumbersYear3').should('be.enabled')
 
-    cy.get('label[for="SchoolCapacityAssumptions"]').contains('What do you base these projected numbers on?')
+    cy.get('label[for=SchoolCapacityAssumptions]').contains('What do you base these projected numbers on?')
     cy.get('#SchoolCapacityAssumptions').should('be.enabled')
 
-    cy.get('label[for="SchoolCapacityPublishedAdmissionsNumber"]').contains('What is the school\'s published admissions number (PAN)?')
+    cy.get('label[for=SchoolCapacityPublishedAdmissionsNumber]').contains('What is the school\'s published admissions number (PAN)?')
     cy.get('#SchoolCapacityPublishedAdmissionsNumber').should('be.enabled')
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and return to overview')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and return to overview')
 
 
 })
@@ -2431,7 +2419,7 @@ Cypress.Commands.add('fillFuturePupilNumbersDetails', ():void => {
 })
 
 Cypress.Commands.add('submitFuturePupilNumbersDetails', ():void => {
-    cy.get('input[type="submit"]').click()
+    cy.get('input[type=submit]').click()
 })
 
 Cypress.Commands.add('futurePupilNumbersSummaryCompleteElementsVisible', ():void => {
@@ -2466,36 +2454,36 @@ Cypress.Commands.add('submitFuturePupilNumbersSummary', ():void => {
 })
 
 Cypress.Commands.add('futurePupilNumbersCompleteElementsVisible', ():void => {
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
     cy.get('p').eq(3).contains('Plymstock School')
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('About the conversion')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).contains('Change')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('About the conversion')
     cy.get('.govuk-grid-column-one-third').eq(0).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Further information')
     cy.get('.govuk-grid-column-one-third').eq(1).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Finances')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Finances')
     cy.get('.govuk-grid-column-one-third').eq(2).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Future pupil numbers')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Future pupil numbers')
     cy.get('.govuk-grid-column-one-third').eq(3).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Land and buildings')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Land and buildings')
     cy.get('.govuk-grid-column-one-third').eq(4).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Consultation')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Consultation')
     cy.get('.govuk-grid-column-one-third').eq(5).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Pre-opening support grant')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Pre-opening support grant')
     cy.get('.govuk-grid-column-one-third').eq(6).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Declaration')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Declaration')
     cy.get('.govuk-grid-column-one-third').eq(7).contains('Not Started')
 
     cy.get('h2').eq(1).contains('The trust the school will join')
     //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
     cy.get('h3').contains('PLYMOUTH CAST')
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
-    cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
+    cy.get(`a[href=/trust/join-amat/application-select-trust?appId=${globalApplicationId}]`).contains('Change')
+    cy.get(`a[href=/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}]`).contains('Trust details')
+    cy.get('strong[class=govuk-tag app-task-list__tag]').contains('Completed')
 
 })
 
@@ -2510,7 +2498,7 @@ Cypress.Commands.add('landAndBuildingsSummaryElementsVisible', ():void => {
 
     cy.get('.govuk-heading-l').contains('Land and buildings')
 
-    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').should('be.visible').contains('Start section')
 
     cy.get('b').eq(0).contains('As far as you\'re aware, who owns or holds the school\'s buildings and land?')
     cy.get('p').eq(2).contains('You have not added any information')
@@ -2546,60 +2534,60 @@ Cypress.Commands.add('landAndBuildingsDetailsElementsVisible', ():void => {
 
     cy.get('.govuk-heading-l').contains('Land and buildings')
 
-    cy.get('label[for="SchoolBuildLandOwnerExplained"]').contains('As far as you\'re aware, who owns or holds the school\'s buildings and land?')
+    cy.get('label[for=SchoolBuildLandOwnerExplained]').contains('As far as you\'re aware, who owns or holds the school\'s buildings and land?')
     cy.get('#SchoolBuildLandOwnerExplained').should('be.enabled')
 
     cy.get('legend').eq(0).contains('Are there any current or planned building works?')
    
     cy.get('#buildingWorksOptionYes').should('not.be.checked')
-    cy.get('label[for="buildingWorksOptionYes"]').contains('Yes')
+    cy.get('label[for=buildingWorksOptionYes]').contains('Yes')
 
     cy.get('#buildingWorksOptionNo').should('not.be.checked')
-    cy.get('label[for="buildingWorksOptionNo"]').contains('No')
+    cy.get('label[for=buildingWorksOptionNo]').contains('No')
 
     cy.get('legend').eq(1).contains('Are there any shared facilities on site?')
 
-    cy.get('span[class="govuk-hint govuk-body govuk-!-margin-bottom-5"]').contains('For example, a nursery, children’s centre, swimming pool, leisure centre, caretaker’s house, community library or SEN unit')
+    cy.get('span[class=govuk-hint govuk-body govuk-!-margin-bottom-5]').contains('For example, a nursery, children’s centre, swimming pool, leisure centre, caretaker’s house, community library or SEN unit')
 
     cy.get('#sharedFacilitiesOptionYes').should('not.be.checked')
-    cy.get('label[for="sharedFacilitiesOptionYes"]').contains('Yes')
+    cy.get('label[for=sharedFacilitiesOptionYes]').contains('Yes')
 
     cy.get('#sharedFacilitiesOptionNo').should('not.be.checked')
-    cy.get('label[for="sharedFacilitiesOptionNo"]').contains('No')
+    cy.get('label[for=sharedFacilitiesOptionNo]').contains('No')
 
     cy.get('legend').eq(2).contains('Has the school had any grants from Sport England, the Big Lottery Fund, or the Football Federation?')
 
     cy.get('#landGrantsOptionYes').should('not.be.checked')
-    cy.get('label[for="landGrantsOptionYes"]').contains('Yes')
+    cy.get('label[for=landGrantsOptionYes]').contains('Yes')
 
     cy.get('#landGrantsOptionNo').should('not.be.checked')
-    cy.get('label[for="landGrantsOptionNo"]').contains('No')
+    cy.get('label[for=landGrantsOptionNo]').contains('No')
 
     cy.get('legend').eq(3).contains('Is the school part of a Private Finance Initiative (PFI) scheme?')
 
     cy.get('#pfiSchemeOptionYes').should('not.be.checked')
-    cy.get('label[for="pfiSchemeOptionYes"]').contains('Yes')
+    cy.get('label[for=pfiSchemeOptionYes]').contains('Yes')
 
     cy.get('#pfiSchemeOptionNo').should('not.be.checked')
-    cy.get('label[for="pfiSchemeOptionNo"]').contains('No')
+    cy.get('label[for=pfiSchemeOptionNo]').contains('No')
 
     cy.get('legend').eq(4).contains('Is the school part of the Priority School Building Programme?')
 
     cy.get('#SchoolBuildLandPriorityBuildingProgrammeYes').should('not.be.checked')
-    cy.get('label[for="SchoolBuildLandPriorityBuildingProgrammeYes"]').contains('Yes')
+    cy.get('label[for=SchoolBuildLandPriorityBuildingProgrammeYes]').contains('Yes')
 
     cy.get('#SchoolBuildLandPriorityBuildingProgrammeNo').should('not.be.checked')
-    cy.get('label[for="SchoolBuildLandPriorityBuildingProgrammeNo"]').contains('No')
+    cy.get('label[for=SchoolBuildLandPriorityBuildingProgrammeNo]').contains('No')
 
     cy.get('legend').eq(5).contains('Is the school part of the Building Schools for the Future Programme?')
 
     cy.get('#SchoolBuildLandFutureProgrammeYes').should('not.be.checked')
-    cy.get('label[for="SchoolBuildLandFutureProgrammeYes"]').contains('Yes')
+    cy.get('label[for=SchoolBuildLandFutureProgrammeYes]').contains('Yes')
 
     cy.get('#SchoolBuildLandFutureProgrammeNo').should('not.be.checked')
-    cy.get('label[for="SchoolBuildLandFutureProgrammeNo"]').contains('No')
+    cy.get('label[for=SchoolBuildLandFutureProgrammeNo]').contains('No')
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and return to overview')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and return to overview')
 
 })
 
@@ -2609,7 +2597,7 @@ landOwnerExplained = 'As far as you\'re aware, who owns or holds the school\'s b
 })
 
 Cypress.Commands.add('submitLandAndBuildingsDetails', ():void => {
-    cy.get('input[type="submit"]').click()
+    cy.get('input[type=submit]').click()
 })
 
 Cypress.Commands.add('landAndBuildingsSummaryCompleteElementsVisible', ():void => {
@@ -2649,36 +2637,36 @@ cy.get('.govuk-button').click()
 })
 
 Cypress.Commands.add('landAndBuildingsCompleteElementsVisible', ():void => {
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
     cy.get('p').eq(3).contains('Plymstock School')
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('About the conversion')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).contains('Change')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('About the conversion')
     cy.get('.govuk-grid-column-one-third').eq(0).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Further information')
     cy.get('.govuk-grid-column-one-third').eq(1).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Finances')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Finances')
     cy.get('.govuk-grid-column-one-third').eq(2).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Future pupil numbers')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Future pupil numbers')
     cy.get('.govuk-grid-column-one-third').eq(3).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Land and buildings')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Land and buildings')
     cy.get('.govuk-grid-column-one-third').eq(4).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Consultation')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Consultation')
     cy.get('.govuk-grid-column-one-third').eq(5).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Pre-opening support grant')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Pre-opening support grant')
     cy.get('.govuk-grid-column-one-third').eq(6).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Declaration')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Declaration')
     cy.get('.govuk-grid-column-one-third').eq(7).contains('Not Started')
 
     cy.get('h2').eq(1).contains('The trust the school will join')
     //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
     cy.get('h3').contains('PLYMOUTH CAST')
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
-    cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
+    cy.get(`a[href=/trust/join-amat/application-select-trust?appId=${globalApplicationId}]`).contains('Change')
+    cy.get(`a[href=/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}]`).contains('Trust details')
+    cy.get('strong[class=govuk-tag app-task-list__tag]').contains('Completed')
 
 })
 
@@ -2693,7 +2681,7 @@ Cypress.Commands.add('consultationSummaryElementsVisible', ():void => {
 
     cy.get('.govuk-heading-l').contains('Consultation')
 
-    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').should('be.visible').contains('Start section')
 
     cy.get('b').eq(0).contains('Has the governing body consulted the relevant stakeholders?')
     cy.get('p').eq(2).contains('You have not added any information')
@@ -2704,7 +2692,7 @@ Cypress.Commands.add('consultationSummaryElementsVisible', ():void => {
 })
 
 Cypress.Commands.add('selectConsultationStartSection', ():void => {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').click()
+    cy.get('a[class=govuk-button govuk-button--secondary]').click()
 })
 
 Cypress.Commands.add('consultationDetailsElementsVisible', ():void => {
@@ -2719,15 +2707,15 @@ Cypress.Commands.add('consultationDetailsElementsVisible', ():void => {
     cy.get('#role-hint').contains('Has the governing body consulted the relevant stakeholders?')
 
     cy.get('#consultationStakeholdersOptionYes').should('not.be.checked')
-    cy.get('label[for="consultationStakeholdersOptionYes"]').contains('Yes')
+    cy.get('label[for=consultationStakeholdersOptionYes]').contains('Yes')
 
     cy.get('#consultationStakeholdersOptionNo').should('not.be.checked')
-    cy.get('label[for="consultationStakeholdersOptionNo"]').contains('No')
+    cy.get('label[for=consultationStakeholdersOptionNo]').contains('No')
 
-    cy.get('label[for="SchoolConsultationStakeholdersConsult"]').contains('When does the governing body plan to consult?')
+    cy.get('label[for=SchoolConsultationStakeholdersConsult]').contains('When does the governing body plan to consult?')
     cy.get('#SchoolConsultationStakeholdersConsult').should('be.enabled')
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and return to overview')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and return to overview')
 
 
 })
@@ -2738,7 +2726,7 @@ Cypress.Commands.add('fillConsultationDetails', (consultationDetails:string):voi
 })
 
 Cypress.Commands.add('submitConsultationDetails', ():void => {
-cy.get('input[type="submit"]').click()
+cy.get('input[type=submit]').click()
 })
 
 Cypress.Commands.add('consultationSummaryCompleteElementsVisible', ():void => {
@@ -2761,36 +2749,36 @@ Cypress.Commands.add('submitConsultationSummary', ():void => {
 })
 
 Cypress.Commands.add('consultationCompleteElementsVisible', ():void => {
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
     cy.get('p').eq(3).contains('Plymstock School')
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('About the conversion')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).contains('Change')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('About the conversion')
     cy.get('.govuk-grid-column-one-third').eq(0).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Further information')
     cy.get('.govuk-grid-column-one-third').eq(1).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Finances')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Finances')
     cy.get('.govuk-grid-column-one-third').eq(2).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Future pupil numbers')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Future pupil numbers')
     cy.get('.govuk-grid-column-one-third').eq(3).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Land and buildings')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Land and buildings')
     cy.get('.govuk-grid-column-one-third').eq(4).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Consultation')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Consultation')
     cy.get('.govuk-grid-column-one-third').eq(5).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Pre-opening support grant')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Pre-opening support grant')
     cy.get('.govuk-grid-column-one-third').eq(6).contains('Not Started')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Declaration')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Declaration')
     cy.get('.govuk-grid-column-one-third').eq(7).contains('Not Started')
 
     cy.get('h2').eq(1).contains('The trust the school will join')
     //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
     cy.get('h3').contains('PLYMOUTH CAST')
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
-    cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
+    cy.get(`a[href=/trust/join-amat/application-select-trust?appId=${globalApplicationId}]`).contains('Change')
+    cy.get(`a[href=/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}]`).contains('Trust details')
+    cy.get('strong[class=govuk-tag app-task-list__tag]').contains('Completed')
 
 })
 
@@ -2805,7 +2793,7 @@ Cypress.Commands.add('preopeningSupportGrantSummaryElementsVisible', ():void => 
 
     cy.get('.govuk-heading-l').contains('Pre-opening support grant')
 
-    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').should('be.visible').contains('Start section')
 
    // cy.get('hr').eq(0).should('be.visible')
 
@@ -2831,12 +2819,12 @@ Cypress.Commands.add('preopeningSupportGrantDetailsElementsVisible', ():void => 
     cy.get('legend').contains('Do you want these funds paid to the school or the trust the school is joining?')
 
     cy.get('#pay-toSchool').should('not.be.checked')
-    cy.get('label[for="pay-toSchool"]').contains('To the school')
+    cy.get('label[for=pay-toSchool]').contains('To the school')
 
     cy.get('#pay-toTrust').should('not.be.checked')
-    cy.get('label[for="pay-toTrust"]').contains('To the trust')
+    cy.get('label[for=pay-toTrust]').contains('To the trust')
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and return to overview')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and return to overview')
 
 })
 
@@ -2869,36 +2857,36 @@ Cypress.Commands.add('preopeningSupportGrantSummaryCompleteElementsVisible', ():
 })
 
 Cypress.Commands.add('preopeningSupportGrantCompleteElementsVisible', ():void => {
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
     cy.get('h2').contains('The school applying to convert')
     cy.get('p').eq(3).contains('Plymstock School')
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('About the conversion')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).contains('Change')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('About the conversion')
     cy.get('.govuk-grid-column-one-third').eq(0).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Further information')
     cy.get('.govuk-grid-column-one-third').eq(1).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Finances')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Finances')
     cy.get('.govuk-grid-column-one-third').eq(2).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Future pupil numbers')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Future pupil numbers')
     cy.get('.govuk-grid-column-one-third').eq(3).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Land and buildings')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Land and buildings')
     cy.get('.govuk-grid-column-one-third').eq(4).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Consultation')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Consultation')
     cy.get('.govuk-grid-column-one-third').eq(5).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Pre-opening support grant')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Pre-opening support grant')
     cy.get('.govuk-grid-column-one-third').eq(6).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Declaration')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Declaration')
     cy.get('.govuk-grid-column-one-third').eq(7).contains('Not Started')
 
     cy.get('h2').eq(1).contains('The trust the school will join')
     //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
     cy.get('h3').contains('PLYMOUTH CAST')
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
-    cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
+    cy.get(`a[href=/trust/join-amat/application-select-trust?appId=${globalApplicationId}]`).contains('Change')
+    cy.get(`a[href=/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}]`).contains('Trust details')
+    cy.get('strong[class=govuk-tag app-task-list__tag]').contains('Completed')
 
 })
 
@@ -2909,7 +2897,7 @@ Cypress.Commands.add('declarationSummaryElementsVisible', ():void => {
 
     cy.get('.govuk-heading-l').contains('Declaration')
 
-    cy.get('a[class="govuk-button govuk-button--secondary"]').should('be.visible').contains('Start section')
+    cy.get('a[class=govuk-button govuk-button--secondary]').should('be.visible').contains('Start section')
 
     cy.get('b').eq(0).contains('I agree with all of these statements, and believe that the facts stated in this application are true')
     cy.get('p').eq(2).contains('You have not added any information')
@@ -2938,12 +2926,12 @@ Cypress.Commands.add('declarationElementsVisible', ():void => {
     cy.get('.govuk-fieldset__heading').contains('I confirm that:')
 
     cy.get('#SchoolDeclarationTeacherChair').should('not.be.checked')
-    cy.get('label[for="SchoolDeclarationTeacherChair"]').contains('I am the chair of governors of the applying school')
+    cy.get('label[for=SchoolDeclarationTeacherChair]').contains('I am the chair of governors of the applying school')
 
     cy.get('#SchoolDeclarationBodyAgree').should('not.be.checked')
-    cy.get('label[for="SchoolDeclarationBodyAgree"]').contains('The information in this application is true to the best of my knowledge')
+    cy.get('label[for=SchoolDeclarationBodyAgree]').contains('The information in this application is true to the best of my knowledge')
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and return')
+    cy.get('input[type=submit]').should('be.visible').contains('Save and return')
 })
 
 Cypress.Commands.add('selectAgreements', ():void => {
@@ -2973,37 +2961,37 @@ Cypress.Commands.add('declarationSummaryCompleteElementsVisible', ():void => {
 })
 
 Cypress.Commands.add('declarationCompleteElementsVisible', ():void => {
-    cy.get('a[href="/your-applications"]').contains('Back')
+    cy.get('a[href=/your-applications]').contains('Back')
     cy.get('p').contains('Application reference:')
     cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
     cy.get('h2').contains('The school applying to convert')
     cy.get('p').eq(3).contains('Plymstock School')
-    cy.get(`a[href="/school/application-select-school?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('About the conversion')
+    cy.get(`a[href=/school/application-select-school?appId=${globalApplicationId}]`).contains('Change')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('About the conversion')
     cy.get('.govuk-grid-column-one-third').eq(0).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Further information')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Further information')
     cy.get('.govuk-grid-column-one-third').eq(1).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Finances')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Finances')
     cy.get('.govuk-grid-column-one-third').eq(2).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Future pupil numbers')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Future pupil numbers')
     cy.get('.govuk-grid-column-one-third').eq(3).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Land and buildings')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Land and buildings')
     cy.get('.govuk-grid-column-one-third').eq(4).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Consultation')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Consultation')
     cy.get('.govuk-grid-column-one-third').eq(5).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Pre-opening support grant')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Pre-opening support grant')
     cy.get('.govuk-grid-column-one-third').eq(6).contains('Completed')
-    cy.get('div[class="govuk-grid-row"]').eq(2).contains('Declaration')
+    cy.get('div[class=govuk-grid-row]').eq(2).contains('Declaration')
     cy.get('.govuk-grid-column-one-third').eq(7).contains('Completed')
 
     cy.get('h2').eq(1).contains('The trust the school will join')
     //cy.get('.govuk-button.govuk-button--secondary').should('be.visible').contains('Add a trust')
     cy.get('h3').contains('PLYMOUTH CAST')
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${globalApplicationId}"]`).contains('Change')
-    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}"]`).contains('Trust details')
-    cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
+    cy.get(`a[href=/trust/join-amat/application-select-trust?appId=${globalApplicationId}]`).contains('Change')
+    cy.get(`a[href=/trust/join-amat/application-school-join-amat-trust-summary?appId=${globalApplicationId}]`).contains('Trust details')
+    cy.get('strong[class=govuk-tag app-task-list__tag]').contains('Completed')
 
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
+    cy.get('h2[class=govuk-heading-l]').contains('Contributors')
     cy.get('p').eq(4).contains('You can invite or remove contributors to this form. If you are not the chair of the school\'s governing body, you must add them so that they can submit this application.')
 
     // CHECK FOR SUBMIT APPLICATION BUTTON
@@ -3030,17 +3018,17 @@ Cypress.Commands.add('applicationSubmittedSuccessfullyElementsVisible', ():void 
 
     cy.get('.sip-application-status--row-content').eq(0).contains('Application submission')
 
-    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(1).contains('Regional schools commissioner makes a decision with advice from the Headteacher Board')
-    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(2).contains('Academy order is issued')
-    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(3).contains('School’s solicitor submits a land questionnaire, including site plan')
+    cy.get('div[class=sip-application-status--row-content-header govuk-body-m]').eq(1).contains('Regional schools commissioner makes a decision with advice from the Headteacher Board')
+    cy.get('div[class=sip-application-status--row-content-header govuk-body-m]').eq(2).contains('Academy order is issued')
+    cy.get('div[class=sip-application-status--row-content-header govuk-body-m]').eq(3).contains('School’s solicitor submits a land questionnaire, including site plan')
 
-    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(4).contains('School’s solicitor submits draft funding agreement (and memorandum and articles of association for new trusts)')
-    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(5).contains('School’s solicitor confirms that the commercial transfer agreement (CTA) and land arrangements are agreed')
-    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(6).contains('School signs and submits the funding agreement')
-    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(7).contains('School’s solicitor confirms TUPE and stakeholder consultation are complete')
-    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(8).contains('School submits the academy bank details to ESFA')
+    cy.get('div[class=sip-application-status--row-content-header govuk-body-m]').eq(4).contains('School’s solicitor submits draft funding agreement (and memorandum and articles of association for new trusts)')
+    cy.get('div[class=sip-application-status--row-content-header govuk-body-m]').eq(5).contains('School’s solicitor confirms that the commercial transfer agreement (CTA) and land arrangements are agreed')
+    cy.get('div[class=sip-application-status--row-content-header govuk-body-m]').eq(6).contains('School signs and submits the funding agreement')
+    cy.get('div[class=sip-application-status--row-content-header govuk-body-m]').eq(7).contains('School’s solicitor confirms TUPE and stakeholder consultation are complete')
+    cy.get('div[class=sip-application-status--row-content-header govuk-body-m]').eq(8).contains('School submits the academy bank details to ESFA')
 
-    cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(9).contains('Academy Opens')
+    cy.get('div[class=sip-application-status--row-content-header govuk-body-m]').eq(9).contains('Academy Opens')
 
     cy.get('p').eq(4).contains('If have any queries about the progress of your application, please contact the Department for Education.')
 

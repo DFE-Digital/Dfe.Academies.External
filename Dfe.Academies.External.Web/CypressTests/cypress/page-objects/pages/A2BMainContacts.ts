@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BMainContacts extends BasePage {
     
     static mainContactsNotStartedElementsVisible()
@@ -17,7 +17,7 @@ export default class A2BMainContacts extends BasePage {
 
         cy.fillApproverDetails()
   
-        cy.get('input[type="submit"]').click()
+        cy.get('input[type=submit]').click()
     }
 
 }

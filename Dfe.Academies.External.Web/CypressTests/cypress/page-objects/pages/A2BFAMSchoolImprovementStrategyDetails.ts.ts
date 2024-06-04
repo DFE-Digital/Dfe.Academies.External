@@ -1,4 +1,4 @@
-import BasePage from "../BasePage"
+import BasePage from ../basePage
 export default class A2BFAMSchoolImprovementStrategySummary extends BasePage {
     
 static fillSchoolImprovementStrategyAndSubmit()
@@ -12,7 +12,7 @@ static fillSchoolImprovementStrategyAndSubmit()
     cy.get('#ImprovementApprovedSponsor').click()
     cy.get('#ImprovementApprovedSponsor').type('If the trust wants to become an approved sponsor, when would it plan to apply and begin sponsoring other schools?')
 
-    cy.get('input[type="submit"]').should('be.visible').contains('Save and continue').click()
+    cy.get('input[type=submit]').should('be.visible').contains('Save and continue').click()
 }
 
 }
