@@ -79,6 +79,6 @@
 </div>
 
 @section Scripts {
-	<script src="/js/academies.schoolsearch.js" asp-append-version="true"></script>
+	<script src="/js/academies.schoolsearch.js" asp-append-version="true" asp-add-nonce></script>
 	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
