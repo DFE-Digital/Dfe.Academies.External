@@ -53,7 +53,15 @@ import { faker } from '@faker-js/faker'
 describe('Create a FAM application', () => {
   const approverName = faker.person.fullName()
   const approverEmail = faker.internet.email()
+
+  const headTeacherName = faker.person.fullName()
+  const headTeacherEmail = faker.internet.email()
+
+  const chairName = faker.person.fullName()
+  const chairEmail = faker.internet.email()
+
   const trustOpeningYear = `${new Date().getFullYear() + 1}`
+  const applicationId = '100080'
 
   beforeEach(function () {
     cy.visit(Cypress.env('URL'))
@@ -69,7 +77,7 @@ describe('Create a FAM application', () => {
   })
 
   it('should be able to create a new application', () => {
-    login.login(Cypress.env('LOGIN_USERNAME'), Cypress.env('LOGIN_PASSWORD'))
+    login.login()
 
     yourApplications.selectStartANewApplication()
 
@@ -80,10 +88,10 @@ describe('Create a FAM application', () => {
     yourApplication.FAMApplicationNotStartedElementsVisible()
       .selectAddASchool()
 
-    whatIsTheNameOfTheSchool.selectSchoolName()
+    whatIsTheNameOfTheSchool.selectSchoolName('Plym')
 
-    yourApplication.FAMApplicationNotStartedSchoolAddedElementsVisible()
-      .selectFAMSchool()
+    yourApplication.FAMApplicationNotStartedSchoolAddedElementsVisible(applicationId)
+      .selectFAMSchool(applicationId)
 
     schoolOverview.FAMSchoolOverviewPageNotStartedElementsVisible()
 
@@ -91,7 +99,7 @@ describe('Create a FAM application', () => {
 
     aboutTheConversion.selectContactDetailsStartSection()
 
-    mainContacts.fillMainContactDetailsAndSubmit()
+    mainContacts.fillMainContactDetailsAndSubmit(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
 
     conversionTargetDate.selectConversionTargetDateOptionNo()
       .conversionTargetDateSubmit()
@@ -101,7 +109,7 @@ describe('Create a FAM application', () => {
     changingTheNameOfTheSchool.changingTheNameOfTheSchoolSelectOptionNo()
       .submitChangingTheNameOfTheSchool()
 
-    aboutTheConversion.aboutTheConversionCompleteElementsVisible()
+    aboutTheConversion.aboutTheConversionCompleteElementsVisible(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
       .submitAboutTheConversion()
 
     schoolOverview.FAMSchoolOverviewPageAboutConversionCompleteElementsVisible()
@@ -151,9 +159,9 @@ describe('Create a FAM application', () => {
     futurePupilNumbersSummary.futurePupilNumbersSummaryCompleteElementsVisible()
       .submitFuturePupilNumbersSummary()
 
-    yourApplication.FAMApplicationFuturePupilNumbersSubmittedElementsVisible()
+    yourApplication.FAMApplicationFuturePupilNumbersSubmittedElementsVisible(applicationId)
 
-    yourApplication.selectFAMSchool()
+    yourApplication.selectFAMSchool(applicationId)
 
     schoolOverview.FAMSchoolOverviewPageFuturePupilNumbersCompleteElementsVisible()
 
@@ -205,13 +213,13 @@ describe('Create a FAM application', () => {
 
     schoolOverview.selectSaveAndReturn()
 
-    yourApplication.FAMApplicationSchoolCompleteElementsVisible()
-      .selectFAMAddTheTrust()
+    yourApplication.FAMApplicationSchoolCompleteElementsVisible(applicationId)
+      .selectFAMAddTheTrust(applicationId)
 
     trustname.FAMEnterTrustnameAndSubmit()
 
-    yourApplication.FAMApplicationTrustNameComplete()
-      .selectFAMTrustDetails()
+    yourApplication.FAMApplicationTrustNameComplete(applicationId)
+      .selectFAMTrustDetails(applicationId)
 
     trustOverview.FAMTrustOverviewTrustNameCompleteElementsVisible()
       .selectOpeningDate()
@@ -276,9 +284,9 @@ describe('Create a FAM application', () => {
     trustOverview.FAMTrustOverviewKeyPeopleCompleteElementsVisible()
       .selectReturnToYourApplication()
 
-    yourApplication.FAMApplicationOverviewCompleteElementsVisible()
+    yourApplication.FAMApplicationOverviewCompleteElementsVisible(applicationId)
       .submitApplication()
 
-    successfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible()
+    successfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible(applicationId)
   })
 })

@@ -7,8 +7,12 @@ import yourApplication from '../page-objects/pages/yourApplication'
 import inviteContributor from '../page-objects/pages/inviteContributor'
 import confirmInviteContributorDelete from '../page-objects/pages/confirmInviteContributorDelete'
 import footer from '../page-objects/components/footer'
+import { faker } from '@faker-js/faker'
 
 describe('Invite/remove contributor', () => {
+  const contributorFirstName = faker.person.firstName()
+  const contributorEmail = faker.internet.email()
+
   beforeEach(function () {
     cy.visit(Cypress.env('URL'))
 
@@ -23,18 +27,18 @@ describe('Invite/remove contributor', () => {
   })
 
   it('should add and remove a contributor from an application', () => {
-    login.login(Cypress.env('LOGIN_USERNAME'), Cypress.env('LOGIN_PASSWORD'))
+    login.login()
 
     yourApplications.selectApplicationForInviteContributor()
 
     yourApplication.selectInviteContributorLink()
 
-    inviteContributor.fillDetailsAndSubmit()
-      .verifySuccessBannerAndContributorList()
+    inviteContributor.fillDetailsAndSubmit(contributorFirstName, contributorEmail)
+      .verifySuccessBannerAndContributorList(contributorFirstName)
       .selectRemoveContributorLink()
 
     confirmInviteContributorDelete.confirmRemoveContributor()
 
-    inviteContributor.verifyContributorRemovedAndSuccessRemoved()
+    inviteContributor.verifyContributorRemovedAndSuccessRemoved(contributorFirstName)
   })
 })

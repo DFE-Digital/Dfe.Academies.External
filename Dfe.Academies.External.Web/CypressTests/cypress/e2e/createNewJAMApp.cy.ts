@@ -38,8 +38,20 @@ import declarationSummary from '../page-objects/pages/declarationSummary'
 import declaration from '../page-objects/pages/declaration'
 import successfulApplicationSubmitted from '../page-objects/pages/successfulApplicationSubmitted'
 import footer from '../page-objects/components/footer'
+import { faker } from '@faker-js/faker'
 
 describe('Create a JAM application', () => {
+  const approverName = faker.person.fullName()
+  const approverEmail = faker.internet.email()
+
+  const headTeacherName = faker.person.fullName()
+  const headTeacherEmail = faker.internet.email()
+
+  const chairName = faker.person.fullName()
+  const chairEmail = faker.internet.email()
+
+  const applicationId = '100080'
+
   beforeEach(function () {
     cy.visit(Cypress.env('URL'))
 
@@ -54,7 +66,7 @@ describe('Create a JAM application', () => {
   })
 
   it('should be able to create a new application', () => {
-    login.login(Cypress.env('LOGIN_USERNAME'), Cypress.env('LOGIN_PASSWORD'))
+    login.login()
 
     yourApplications.selectStartANewApplication()
 
@@ -65,13 +77,13 @@ describe('Create a JAM application', () => {
     yourApplication.yourApplicationNotStartedElementsVisible()
       .selectAddATrust()
 
-    whichTrustIsSchoolJoining.selectConfirmAndSubmitTrust()
+    whichTrustIsSchoolJoining.selectConfirmAndSubmitTrust('Plym')
 
     yourApplication.selectAddASchool()
 
-    whatIsTheNameOfTheSchool.selectSchoolName()
+    whatIsTheNameOfTheSchool.selectSchoolName('Plym')
 
-    yourApplication.selectTrustDetails()
+    yourApplication.selectTrustDetails(applicationId)
 
     trustDetailsSummary.JAMTrustDetailsSummarySelectStartSection()
 
@@ -83,14 +95,14 @@ describe('Create a JAM application', () => {
       .enterlocalGovernanceArrangementsChanges()
       .localGovernanceArrangementsSubmit()
 
-    trustDetailsSummary.JAMTrustDetailsSummarySaveAndReturnToApp()
+    trustDetailsSummary.JAMTrustDetailsSummarySaveAndReturnToApp(applicationId)
 
-    yourApplication.yourApplicationNotStartedButTrustSectionCompleteElementsVisible()
+    yourApplication.yourApplicationNotStartedButTrustSectionCompleteElementsVisible(applicationId)
       .selectAboutTheConversion()
 
     aboutTheConversion.selectContactDetailsStartSection()
 
-    mainContacts.fillMainContactDetailsAndSubmit()
+    mainContacts.fillMainContactDetailsAndSubmit(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
 
     conversionTargetDate.selectConversionTargetDateOptionNo()
       .conversionTargetDateSubmit()
@@ -100,10 +112,10 @@ describe('Create a JAM application', () => {
     changingTheNameOfTheSchool.changingTheNameOfTheSchoolSelectOptionNo()
       .submitChangingTheNameOfTheSchool()
 
-    aboutTheConversion.aboutTheConversionCompleteElementsVisible()
+    aboutTheConversion.aboutTheConversionCompleteElementsVisible(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
       .submitAboutTheConversion()
 
-    yourApplication.yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible()
+    yourApplication.yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible(applicationId)
       .selectFurtherInformation()
 
     additionalDetailsSummaryPage.selectAdditionalDetailsStartSection()
@@ -113,7 +125,7 @@ describe('Create a JAM application', () => {
     additionalDetailsSummaryPage.additionalDetailsSummaryCompleteElementsVisible()
       .submitAdditionalDetailsSummary()
 
-    yourApplication.yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible()
+    yourApplication.yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible(applicationId)
       .selectFinances()
 
     financeSummary.selectPreviousFinancialYrStartSection()
@@ -136,7 +148,7 @@ describe('Create a JAM application', () => {
     financeSummary.financeSummaryCompleteElementsVisible()
       .submitFinanceSummary()
 
-    yourApplication.financeCompleteElementsVisible()
+    yourApplication.financeCompleteElementsVisible(applicationId)
       .selectFuturePupilNumbers()
 
     futurePupilNumbersSummary.selectFuturePupilNumbersStartSection()
@@ -147,7 +159,7 @@ describe('Create a JAM application', () => {
     futurePupilNumbersSummary.futurePupilNumbersSummaryCompleteElementsVisible()
       .submitFuturePupilNumbersSummary()
 
-    yourApplication.futurePupilNumbersCompleteElementsVisible()
+    yourApplication.futurePupilNumbersCompleteElementsVisible(applicationId)
       .selectLandAndBuildings()
 
     landAndBuildingsSummary.selectLandAndBuildingsStartSection()
@@ -157,7 +169,7 @@ describe('Create a JAM application', () => {
     landAndBuildingsSummary.landAndBuildingsSummaryCompleteElementsVisible()
       .submitLandAndBuildingsSummary()
 
-    yourApplication.landAndBuildingsCompleteElementsVisible()
+    yourApplication.landAndBuildingsCompleteElementsVisible(applicationId)
       .selectConsultation()
 
     consultationSummary.selectConsultationStartSection()
@@ -169,7 +181,7 @@ describe('Create a JAM application', () => {
     consultationSummary.consultationSummaryCompleteElementsVisible()
       .submitConsultationSummary()
 
-    yourApplication.consultationCompleteElementsVisible()
+    yourApplication.consultationCompleteElementsVisible(applicationId)
       .selectPreopeningSupportGrant()
 
     preOpeningSupportGrantSummary.selectPreopeningSupportGrantStartSection()
@@ -179,7 +191,7 @@ describe('Create a JAM application', () => {
     preOpeningSupportGrantSummary.preopeningSupportGrantSummaryCompleteElementsVisible()
       .submitPreopeningSupportGrantSummary()
 
-    yourApplication.preopeningSupportGrantCompleteElementsVisible()
+    yourApplication.preopeningSupportGrantCompleteElementsVisible(applicationId)
       .selectDeclaration()
 
     declarationSummary.declarationStartSection()
@@ -189,9 +201,9 @@ describe('Create a JAM application', () => {
     declarationSummary.declarationSummaryCompleteElementsVisible()
       .submitDeclarationSummary()
 
-    yourApplication.declarationCompleteElementsVisible()
+    yourApplication.declarationCompleteElementsVisible(applicationId)
       .submitApplication()
 
-    successfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible()
+    successfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible(applicationId)
   })
 })

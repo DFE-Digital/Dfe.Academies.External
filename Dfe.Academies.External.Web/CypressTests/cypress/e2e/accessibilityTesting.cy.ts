@@ -5,19 +5,17 @@ import login from '../page-objects/pages/login'
 
 describe('Check accessibility of all A2B pages', function () {
   it('Checks accessibility', function () {
-    const login_username = Cypress.env('LOGIN_USERNAME')
-    const login_password = Cypress.env('LOGIN_PASSWORD')
-
     cy.visit(Cypress.env('URL'))
 
     cookieHeaderModal.clickAcceptAnalyticsCookies()
 
     home.clickStartNow()
 
-    login.login(login_username, login_password)
+    login.login()
 
     paths.forEach((link) => {
       cy.visit(Cypress.env('URL') + link)
+      // TODO add this to interface
       cy.excuteAccessibilityTests()
     })
   })

@@ -1,6 +1,19 @@
 class FinancialInvestigations {
   public financialInvestigationsElementsVisible(): this {
-    cy.financialInvestigationsElementsVisible()
+    cy.get('.govuk-back-link').contains('Back')
+
+    cy.get('.govuk-caption-l').contains('Finances (Step 6 of 6)')
+    cy.get('.govuk-heading-l').contains('Financial investigations')
+
+    cy.get('legend').contains('Are there any financial investigations ongoing at the school?')
+
+    cy.get('#selectoptionYes').should('not.be.checked')
+    cy.get('label[for=selectoptionYes]').contains('Yes')
+
+    cy.get('#selectoptionNo').should('not.be.checked')
+    cy.get('label[for=selectoptionNo]').contains('No')
+
+    cy.get('input[type=submit]')
 
     return this
   }
@@ -13,7 +26,7 @@ class FinancialInvestigations {
   }
 
   public submitFinancialInvestigations(): this {
-    cy.submitFinancialInvestigations()
+    cy.get('input[type=submit]').click()
 
     return this
   }

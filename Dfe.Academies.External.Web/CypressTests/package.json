@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "cy:open": "cypress open",
-    "cy:run": "cypress run --env url=$URL --env username=$LOGIN_USERNAME --env password=$LOGIN_PASSWORD",
+    "cy:run": "cypress run --env url=$URL --env username=$LOGIN_USERNAME,password=$LOGIN_PASSWORD,signinUrl=$SIGNIN_URL",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "keywords": [

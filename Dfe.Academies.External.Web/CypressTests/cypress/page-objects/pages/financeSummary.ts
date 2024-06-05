@@ -1,54 +1,207 @@
 class FinanceSummary {
   public financeSummaryNotStartedElementsVisible(): this {
-    cy.financeSummaryNotStartedElementsVisible()
+    cy.get('.govuk-back-link').contains('Back')
+    cy.get('.govuk-caption-l').contains('Plymstock School')
+    cy.get('.govuk-heading-l').contains('Finances')
+
+    cy.get('.govuk-heading-m').eq(0).contains('Previous financial year')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(0).should('be.visible').contains('Start section')
+
+    cy.get('b').eq(0).contains('End of previous financial year end date?')
+    cy.get('.govuk-body').eq(1).contains('You have not added any information')
+
+    cy.get('b').eq(1).contains('Revenue carry forward at end of the previous financial year (31 March)')
+    cy.get('.govuk-body').eq(3).contains('You have not added any information')
+
+    cy.get('b').eq(2).contains('Surplus or Deficit?')
+    cy.get('.govuk-body').eq(5).contains('You have not added any information')
+
+    cy.get('b').eq(3).contains('Capital carry forward at end of the previous financial year (31 March)')
+    cy.get('.govuk-body').eq(7).contains('You have not added any information')
+
+    cy.get('b').eq(4).contains('Surplus or Deficit')
+    cy.get('.govuk-body').eq(9).contains('You have not added any information')
+
+    cy.get('.govuk-heading-m').eq(1).contains('Current financial year')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(1).should('be.visible').contains('Start section')
+
+    cy.get('b').eq(5).contains('End of current financial year end date?')
+    cy.get('.govuk-body').eq(11).contains('You have not added any information')
+
+    cy.get('b').eq(6).contains('Revenue carry forward at end of the current financial year (31 March)')
+    cy.get('.govuk-body').eq(13).contains('You have not added any information')
+
+    cy.get('b').eq(7).contains('Surplus or Deficit?')
+    cy.get('.govuk-body').eq(15).contains('You have not added any information')
+
+    cy.get('b').eq(8).contains('Capital carry forward at end of the current financial year (31 March)')
+    cy.get('.govuk-body').eq(17).contains('You have not added any information')
+
+    cy.get('b').eq(9).contains('Surplus or Deficit')
+    cy.get('.govuk-body').eq(19).contains('You have not added any information')
+
+    cy.get('.govuk-heading-m').eq(2).contains('Next financial year')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(2).should('be.visible').contains('Start section')
+
+    cy.get('b').eq(10).contains('End of next financial year end date?')
+    cy.get('.govuk-body').eq(21).contains('You have not added any information')
+
+    cy.get('b').eq(11).contains('Revenue carry forward at end of the next financial year (31 March)')
+    cy.get('.govuk-body').eq(23).contains('You have not added any information')
+
+    cy.get('b').eq(12).contains('Surplus or Deficit?')
+    cy.get('.govuk-body').eq(25).contains('You have not added any information')
+
+    cy.get('b').eq(13).contains('Capital carry forward at end of the next financial year (31 March)')
+    cy.get('.govuk-body').eq(27).contains('You have not added any information')
+
+    cy.get('b').eq(14).contains('Surplus or Deficit')
+    cy.get('.govuk-body').eq(29).contains('You have not added any information')
+
+    cy.get('.govuk-heading-m').eq(3).contains('Loans')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(3).should('be.visible').contains('Start section')
+
+    cy.get('b').eq(15).contains('Are there any existing loans?')
+    cy.get('.govuk-body').eq(31).contains('You have not added any information')
+
+    cy.get('.govuk-heading-m').eq(4).contains('Leases')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(4).should('be.visible').contains('Start section')
+
+    cy.get('b').eq(16).contains('Are there any existing leases?')
+    cy.get('.govuk-body').eq(33).contains('You have not added any information')
+
+    cy.get('.govuk-heading-m').eq(5).contains('Financial investigations')
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(5).should('be.visible').contains('Start section')
+
+    cy.get('b').eq(17).contains('Finance ongoing investigations?')
+    cy.get('.govuk-body').eq(35).contains('You have not added any information')
+
+    cy.get('.govuk-button').should('be.visible').contains('Back to application overview')
 
     return this
   }
 
   public selectPreviousFinancialYrStartSection(): this {
-    cy.get('a[class=govuk-button govuk-button--secondary]').eq(0).click()
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(0).click()
 
     return this
   }
 
   public selectCurrentFinancialYrStartSection(): this {
-    cy.get('a[class=govuk-button govuk-button--secondary]').eq(1).click()
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(1).click()
 
     return this
   }
 
   public selectNextFinancialYrStartSection(): this {
-    cy.selectNextFinancialYrStartSection()
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(2).click()
 
     return this
   }
 
   public selectLoansStartSection(): this {
-    cy.selectLoansStartSection()
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(3).click()
 
     return this
   }
 
   public selectLeasesStartSection(): this {
-    cy.selectLeasesStartSection()
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(4).click()
 
     return this
   }
 
   public selectFinancialInvestigationsStartSection(): this {
-    cy.selectFinancialInvestigationsStartSection()
+    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(5).click()
 
     return this
   }
 
   public financeSummaryCompleteElementsVisible(): this {
-    cy.financeSummaryCompleteElementsVisible()
+    cy.get('.govuk-back-link').contains('Back')
+    cy.get('.govuk-caption-l').contains('Plymstock School')
+    cy.get('.govuk-heading-l').contains('Finances')
+
+    cy.get('.govuk-heading-m').eq(0).contains('Previous financial year')
+    cy.get('.govuk-link').eq(1).contains('Change your answers')
+
+    cy.get('b').eq(0).contains('End of previous financial year end date?')
+    cy.get('.govuk-body').eq(1).contains('31/03/2022')
+
+    cy.get('b').eq(1).contains('Revenue carry forward at end of the previous financial year (31 March)')
+    cy.get('.govuk-body').eq(3).contains('4999.99')
+
+    cy.get('b').eq(2).contains('Surplus or Deficit?')
+    cy.get('.govuk-body').eq(5).contains('Surplus')
+
+    cy.get('b').eq(3).contains('Capital carry forward at end of the previous financial year (31 March)')
+    cy.get('.govuk-body').eq(7).contains('4998.98')
+
+    cy.get('b').eq(4).contains('Surplus or Deficit')
+    cy.get('.govuk-body').eq(9).contains('Surplus')
+
+    cy.get('.govuk-heading-m').eq(1).contains('Current financial year')
+    cy.get('.govuk-link').eq(2).contains('Change your answers')
+
+    cy.get('b').eq(5).contains('End of current financial year end date?')
+    cy.get('.govuk-body').eq(11).contains('31/03/2023')
+
+    cy.get('b').eq(6).contains('Revenue carry forward at end of the current financial year (31 March)')
+    cy.get('.govuk-body').eq(13).contains('99999.99')
+    cy.get('hr').eq(8).should('be.visible')
+
+    cy.get('b').eq(7).contains('Surplus or Deficit?')
+    cy.get('.govuk-body').eq(15).contains('Deficit')
+
+    cy.get('b').contains('Capital carry forward at end of the current financial year (31 March)')
+    cy.get('.govuk-body').eq(17).contains('A) plain the reason for the deficit, how the school plan to deal with it, and the recovery plan. Provide details of the financial forecast and/or the deficit recovery plan agreed with the local author')
+
+    cy.get('b').contains('Surplus or Deficit')
+    cy.get('.govuk-body').eq(21).contains('Deficit')
+
+    cy.get('.govuk-heading-m').eq(2).contains('Next financial year')
+    cy.get('.govuk-link').eq(3).contains('Change your answers')
+
+    cy.get('b').contains('End of next financial year end date?')
+    cy.get('.govuk-body').eq(25).contains('31/03/2024')
+
+    cy.get('b').contains('Revenue carry forward at end of the next financial year (31 March)')
+    cy.get('.govuk-body').eq(27).contains('199999.99')
+
+    cy.get('b').contains('Surplus or Deficit?')
+    cy.get('.govuk-body').eq(29).contains('Deficit')
+
+    cy.get('b').contains('Capital carry forward at end of the next financial year (31 March)')
+    cy.get('.govuk-body').eq(33).contains('199998.98')
+
+    cy.get('b').contains('Surplus or Deficit')
+    cy.get('.govuk-body').eq(35).contains('Deficit')
+
+    cy.get('.govuk-heading-m').eq(3).contains('Loans')
+    cy.get('.govuk-link').eq(4).contains('Change your answers')
+
+    cy.get('b').contains('Are there any existing loans?')
+    cy.get('.govuk-body').eq(39).contains('No')
+
+    cy.get('.govuk-heading-m').eq(4).contains('Leases')
+    cy.get('.govuk-link').eq(5).contains('Change your answers')
+
+    cy.get('b').contains('Are there any existing leases?')
+    cy.get('.govuk-body').eq(41).contains('No')
+
+    cy.get('.govuk-heading-m').eq(5).contains('Financial investigations')
+    cy.get('.govuk-link').eq(6).contains('Change your answers')
+
+    cy.get('b').contains('Finance ongoing investigations?')
+    cy.get('.govuk-body').eq(43).contains('No')
+
+    cy.get('.govuk-button').should('be.visible').contains('Back')
 
     return this
   }
 
   public submitFinanceSummary(): this {
-    cy.submitFinanceSummary()
+    cy.get('.govuk-button').click()
 
     return this
   }

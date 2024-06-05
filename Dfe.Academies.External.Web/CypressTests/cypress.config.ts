@@ -9,6 +9,7 @@ export default defineConfig({
     URL: process.env.URL,
     LOGIN_USERNAME: process.env.LOGIN_USERNAME,
     LOGIN_PASSWORD: process.env.LOGIN_PASSWORD,
+    SIGNIN_URL: process.env.SIGNIN_URL,
   },
   video: false,
   userAgent: 'DfEAcademiesExternal/1.0 Cypress',

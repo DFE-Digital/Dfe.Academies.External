@@ -10,6 +10,8 @@ import confirmApplicationDelete from '../page-objects/pages/confirmApplicationDe
 import footer from '../page-objects/components/footer'
 
 describe('Delete application', () => {
+  const applicationId = 100080
+
   beforeEach(function () {
     cy.visit(Cypress.env('URL'))
 
@@ -24,7 +26,7 @@ describe('Delete application', () => {
   })
 
   it('should be able to delete a JAM application', () => {
-    login.login(Cypress.env('LOGIN_USERNAME'), Cypress.env('LOGIN_PASSWORD'))
+    login.login()
 
     yourApplications.selectStartANewApplication()
 
@@ -35,8 +37,8 @@ describe('Delete application', () => {
     yourApplication.yourApplicationNotStartedElementsVisible()
       .selectCancelApplication()
 
-    confirmApplicationDelete.checkAppIDIsCorrectAndselectConfirmDelete()
+    confirmApplicationDelete.checkAppIDIsCorrectAndselectConfirmDelete(`${applicationId}`)
 
-    yourApplications.verifyApplicationDeleted()
+    yourApplications.verifyApplicationDeleted(`${applicationId}`)
   })
 })

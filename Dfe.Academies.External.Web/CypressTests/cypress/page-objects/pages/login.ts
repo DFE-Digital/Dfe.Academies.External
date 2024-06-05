@@ -1,26 +1,17 @@
 class Login {
-  public login(username, password): this {
-    cy.login(username, password)
+  public login(): this {
+    const signinUrl = Cypress.env('SIGNIN_URL')
+    cy.origin(signinUrl, () => {
+      const username = Cypress.env('LOGIN_USERNAME')
+      const password = Cypress.env('LOGIN_PASSWORD')
+
+      cy.get('#username').type(username)
+      cy.get('#password').type(password, { log: false })
+      cy.contains('Sign in').click()
+    })
+    // TODO remove reliance on this wait
     // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(7000)
-
-    return this
-  }
-
-  public loginToUnauthApplication(username, password): this {
-    cy.loginToUnauthApplication(username, password)
-
-    return this
-  }
-
-  public createAccount(): this {
-    cy.createAccount()
-
-    return this
-  }
-
-  public forgotPassword(): this {
-    cy.forgotPassword()
+    cy.wait(15000)
 
     return this
   }
