@@ -8,6 +8,15 @@ Cypress.on('uncaught:exception', (err) => {
   return false
 })
 
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Cypress {
+    interface Chainable {
+      excuteAccessibilityTests(): Chainable<Element>
+    }
+  }
+}
+
 /**
 * Cypress Grep module for filtering tests
 */
