@@ -26,13 +26,13 @@ class Footer {
   }
 
   public termsAndConditionsLinkVisible(): this {
-    cy.get('a[href=/terms]').should('be.visible').contains('Terms and Conditions')
+    cy.get('a[href="/terms"]').should('be.visible').contains('Terms and Conditions')
 
     return this
   }
 
   public privacyLinkVisible(): this {
-    cy.get('a[href=/privacy]').should('be.visible').contains('Privacy')
+    cy.get('a[href="/privacy"]').should('be.visible').contains('Privacy')
 
     return this
   }
@@ -50,7 +50,7 @@ class Footer {
   }
 
   public openGovernmentLicence3LinkVisible(): this {
-    cy.get('a[href=https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/]').should('be.visible').contains('Open Government Licence v3.0')
+    cy.get('a[href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"]').should('be.visible').contains('Open Government Licence v3.0')
 
     return this
   }

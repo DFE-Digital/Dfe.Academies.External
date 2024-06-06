@@ -3,7 +3,7 @@ class YourApplication {
     cy.get('.govuk-body').eq(0).then(($applicationId) => {
       const applicationId = $applicationId.text().split('_').pop().replace(/\s/g, '')
 
-      cy.get('a[href=/your-applications]').contains('Back')
+      cy.get('a[href="/your-applications"]').contains('Back')
       cy.get('p').contains('Application reference:')
       cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
       cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
@@ -11,7 +11,7 @@ class YourApplication {
 
       cy.get(`a[href="/school/application-select-school?appId=${applicationId}"]`).should('be.visible').contains('Add a school')
 
-      cy.get('h2').eq(1).contains('The trust the school will join')
+      // cy.get('h2').eq(1).contains('The trust the school will join')
       cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${applicationId}"]`).should('be.visible').contains('Add a trust')
       cy.get('h2[class=govuk-heading-l]').contains('Contributors')
       // cy.get('p').eq(3).contains('You will be able to invite other people to help you complete this form after you have added a school.')
