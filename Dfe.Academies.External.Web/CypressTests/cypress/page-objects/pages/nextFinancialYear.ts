@@ -1,45 +1,4 @@
 class NextFinancialYear {
-  public nextFinancialYrElementsVisible(): this {
-    cy.get('.govuk-back-link').contains('Back')
-    cy.get('.govuk-caption-l').contains('Finances (Step 3 of 6)')
-    cy.get('.govuk-heading-l').contains('Next financial year')
-    cy.get('legend').contains('End of next financial year')
-    cy.get('#pfy-end-date-hint').contains('For example, 01 09 2022')
-
-    cy.get('label[for=sip_nfyenddate-day]').contains('Day')
-    cy.get('#sip_nfyenddate-day').should('be.visible').should('be.enabled')
-
-    cy.get('label[for=sip_nfyenddate-month]').contains('Month')
-    cy.get('#sip_nfyenddate-month').should('be.visible').should('be.enabled')
-
-    cy.get('label[for=sip_nfyenddate-year]').contains('Year')
-    cy.get('#sip_nfyenddate-year').should('be.visible').should('be.enabled')
-
-    cy.get('label[for=Revenue]').contains('Forecasted revenue carry forward at end of the next financial year (31 March)')
-
-    cy.get('#Revenue').should('be.visible').should('be.enabled')
-
-    cy.get('#revenueTypeSurplus').should('not.be.checked')
-    cy.get('label[for=revenueTypeSurplus]').contains('Surplus')
-
-    cy.get('#revenueTypeDeficit').should('not.be.checked')
-    cy.get('label[for=revenueTypeDeficit]').contains('Deficit')
-
-    cy.get('label[for=CapitalCarryForward]').contains('Forecasted capital carry forward at end of the next financial year (31 March)')
-
-    cy.get('#CapitalCarryForward').should('be.visible').should('be.enabled')
-
-    cy.get('#capitalRevenueTypeSurplus').should('not.be.checked')
-    cy.get('label[for=capitalRevenueTypeSurplus]').contains('Surplus')
-
-    cy.get('#capitalRevenueTypeDeficit').should('not.be.checked')
-    cy.get('label[for=capitalRevenueTypeDeficit]').contains('Deficit')
-
-    cy.get('input[type=submit]').should('be.visible').contains('Save and continue')
-
-    return this
-  }
-
   public inputNextFinancialYrDataAndSubmit(): this {
     cy.get('#sip_nfyenddate-day').type('31')
     cy.get('#sip_nfyenddate-month').type('03')

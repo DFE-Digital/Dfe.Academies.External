@@ -20,43 +20,6 @@ class YourApplication {
     return this
   }
 
-  public yourApplicationNotStartedButSchoolAddedElementsVisible(applicationId: string): this {
-    cy.get('a[href="/your-applications"]').contains('Back')
-    cy.get('p').contains('Application reference:')
-    cy.get('.govuk-heading-l').contains('Join a multi-academy trust')
-    cy.get('.govuk-body.govuk-radios__conditional').contains('Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application.')
-    cy.get('h2').contains('The school applying to convert')
-    cy.get('p').eq(3).contains('Plymstock School')
-    cy.get(`a[href="/school/application-select-school?appId=${applicationId}"]`).contains('Change')
-    cy.get('div[class=govuk-grid-row]').eq(2).contains('About the conversion')
-    cy.get('.govuk-grid-column-one-third').eq(0).contains('Not Started')
-    cy.get('div[class=govuk-grid-row]').eq(2).contains('Further information')
-    cy.get('.govuk-grid-column-one-third').eq(1).contains('Not Started')
-    cy.get('div[class=govuk-grid-row]').eq(2).contains('Finances')
-    cy.get('.govuk-grid-column-one-third').eq(2).contains('Not Started')
-    cy.get('div[class=govuk-grid-row]').eq(2).contains('Future pupil numbers')
-    cy.get('.govuk-grid-column-one-third').eq(3).contains('Not Started')
-    cy.get('div[class=govuk-grid-row]').eq(2).contains('Land and buildings')
-    cy.get('.govuk-grid-column-one-third').eq(4).contains('Not Started')
-    cy.get('div[class=govuk-grid-row]').eq(2).contains('Consultation')
-    cy.get('.govuk-grid-column-one-third').eq(5).contains('Not Started')
-    cy.get('div[class=govuk-grid-row]').eq(2).contains('Pre-opening support grant')
-    cy.get('.govuk-grid-column-one-third').eq(6).contains('Not Started')
-    cy.get('div[class=govuk-grid-row]').eq(2).contains('Declaration')
-    cy.get('.govuk-grid-column-one-third').eq(7).contains('Not Started')
-
-    cy.get('h2').eq(1).contains('The trust the school will join')
-    cy.get('h3').contains('PLYMOUTH CAST')
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${applicationId}"]`).contains('Change')
-    cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${applicationId}"]`).contains('Trust details')
-    cy.get('strong[class=govuk-tag app-task-list__tag govuk-tag--blue]').contains('In Progress')
-
-    cy.get('h2[class=govuk-heading-l]').contains('Contributors')
-    // cy.get('p').eq(4).contains('You can invite or remove contributors to this form. If you are not the chair of the school\'s governing body, you must add them so that they can submit this application.')
-
-    return this
-  }
-
   public yourApplicationNotStartedButTrustSectionCompleteElementsVisible(applicationId: string): this {
     cy.get('a[href="/your-applications"]').contains('Back')
     cy.get('p').contains('Application reference:')
@@ -114,18 +77,6 @@ class YourApplication {
   public selectTrustDetails(applicationId: string): this {
     cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${applicationId}"]`).contains('Trust details')
     cy.get(`a[href="/trust/join-amat/application-school-join-amat-trust-summary?appId=${applicationId}"]`).click()
-
-    return this
-  }
-
-  public selectChangeSchool(applicationId: string): this {
-    cy.get(`a[href="/school/application-select-school?appId=${applicationId}"]`).click()
-
-    return this
-  }
-
-  public selectChangeTrust(applicationId: string): this {
-    cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${applicationId}"]`).click()
 
     return this
   }
