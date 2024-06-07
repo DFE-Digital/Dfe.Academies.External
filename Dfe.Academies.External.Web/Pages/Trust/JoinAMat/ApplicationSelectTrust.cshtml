@@ -79,12 +79,14 @@
 @section Scripts {
 	<script src="/js/academies.trustsearch.js" asp-append-version="true" asp-add-nonce></script>
 	@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+	
+	@* Add Event listeners as inline scripts do not comply with CSP *@
 	<script asp-add-nonce>
-	document.addEventListener('DOMContentLoaded', function () {
-		document.getElementById('ConfirmSelection')
-			.addEventListener('click', academies.clearTrustConfirmCheckboxValidation(this.checked));
-		document.getElementById('btnAdd')
-			.addEventListener('click', academies.trustSearchClientSideValidation());
-	});
-</script>
+		document.addEventListener('DOMContentLoaded', function () {
+			document.getElementById('ConfirmSelection')
+				.addEventListener('click', academies.clearTrustConfirmCheckboxValidation(this.checked));
+			document.getElementById('btnAdd')
+				.addEventListener('click', academies.trustSearchClientSideValidation());
+		});
+	</script>
 }
