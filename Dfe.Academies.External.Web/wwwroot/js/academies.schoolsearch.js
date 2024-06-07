@@ -220,7 +220,7 @@ academies.addConfirmValidationMessage = function () {
 };
 
 academies.clientSideValidation = function () {
-    academies.addcomplexCustomerValidators();
+    // academies.addcomplexCustomerValidators();
 
 	var form = $("#search-form");
 	form.validate();
