@@ -6,7 +6,7 @@
 
 @section BeforeMain
 {
-    <a asp-page="../../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back</a>
+	<a asp-page="../../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-back-link">Back</a>
 }
 
 <div class="ccms-loader govuk-!-display-none"></div>
@@ -19,8 +19,8 @@
 
 		<form method="post" id="search-form" novalidate>
 			@Html.AntiForgeryToken()
-                <input type="hidden" id="applicationId" asp-for="ApplicationId" />
-                <input type="hidden" id="trustReference" asp-for="TrustReference" />
+			<input type="hidden" id="applicationId" asp-for="ApplicationId"/>
+			<input type="hidden" id="trustReference" asp-for="TrustReference"/>
 			<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 
 				<h2 class="govuk-heading-m">Trust details</h2>
@@ -32,12 +32,14 @@
 							</h2>
 						</legend>
 						<label class="govuk-hint"
-						       for="schoolSelect">Enter the name of the trust, its Companies House number, or its group Id</label>
+						       for="schoolSelect">
+							Enter the name of the trust, its Companies House number, or its group Id
+						</label>
 						<span asp-validation-for="SearchQuery" class="govuk-error-message"></span>
 						<input id='SearchQueryInput' asp-for="@Model.SearchQuery"
 						       class="govuk-input govuk-input--width-20"
 						       maxlength="100"
-						       type="search" aria-valuetext="" 
+						       type="search" aria-valuetext=""
 						       aria-describedby="search-hint search-error"/>
 						<div id="autocomplete-container"></div>
 					</div>
@@ -51,8 +53,7 @@
 							<div class="govuk-checkboxes__item">
 								<input id='ConfirmSelection'
 								       asp-for="@Model.CorrectTrustConfirmation"
-								       class='hideElement govuk-checkboxes__input'
-								       onclick="academies.clearTrustConfirmCheckboxValidation(this.checked);">
+								       class='hideElement govuk-checkboxes__input'>
 								<label id='confirm-trust-label' for='ConfirmSelection'
 								       class='hideElement govuk-label govuk-checkboxes__label'>
 									This is the correct trust
@@ -65,8 +66,7 @@
 			<br/>
 			<div class="js-show">
 				<input type="submit" asp-page-handler="AddTrust" id="btnAdd" value="Save and continue"
-				       class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"
-				       onclick="academies.trustSearchClientSideValidation()"/>
+				       class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 			</div>
 			<noscript>
 				<input type="submit" asp-page-handler="Find" id="btnFind" value="Search"
@@ -77,6 +77,16 @@
 </div>
 
 @section Scripts {
-	<script src="/js/academies.trustsearch.js" asp-append-version="true"></script>
-	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	<script src="/js/academies.trustsearch.js" asp-append-version="true" asp-add-nonce></script>
+	@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+	
+	@* Add Event listeners as inline scripts do not comply with CSP *@
+	<script asp-add-nonce>
+		document.addEventListener('DOMContentLoaded', function () {
+			document.getElementById('ConfirmSelection')
+				.addEventListener('click', () => { academies.clearTrustConfirmCheckboxValidation(document.getElementById('ConfirmSelection').checked) });
+			document.getElementById('btnAdd')
+				.addEventListener('click', academies.clientSideValidation);
+		});
+	</script>
 }

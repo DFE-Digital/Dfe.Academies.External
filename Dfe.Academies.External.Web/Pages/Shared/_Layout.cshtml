@@ -13,7 +13,7 @@
 	@if (canTrack)
 	{
 		<!-- Google Tag Manager -->
-		<script>
+		<script asp-add-nonce>
 			(function (w, d, s, l, i) {
 				w[l] = w[l] || []; w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
 				var f = d.getElementsByTagName(s)[0],
@@ -56,7 +56,7 @@
 	<!-- End Google Tag Manager (noscript) -->
 }
 
-<script>
+<script asp-add-nonce>
         document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
 </script>
 <partial name="_CookieConsentPartial"/>
@@ -65,23 +65,23 @@
 
 
 <div class="container body-content">
-	@if (User.Identity.IsAuthenticated)
-		{
-	<div class=" govuk-width-container govuk-phase-banner print-hide">
-		<p class="govuk-phase-banner__content">
-			<strong class="govuk-tag govuk-phase-banner__content__tag ">
-				beta
-			</strong>
-			<span class="govuk-phase-banner__text">
-				<a class="govuk-link" asp-page="/Help/HowCanWeHelp" target  = "_blank">Get help or give feedback on this service (opens in a new tab)</a>
-			</span>
-		</p>
-	</div>
-		}
+	@if (User.Identity is not null && User.Identity.IsAuthenticated)
+	{
+		<div class=" govuk-width-container govuk-phase-banner print-hide">
+			<p class="govuk-phase-banner__content">
+				<strong class="govuk-tag govuk-phase-banner__content__tag ">
+					beta
+				</strong>
+				<span class="govuk-phase-banner__text">
+					<a class="govuk-link" asp-page="/Help/HowCanWeHelp" target="_blank">Get help or give feedback on this service (opens in a new tab)</a>
+				</span>
+			</p>
+		</div>
+	}
 
 	<div class="govuk-width-container">
-        @await RenderSectionAsync("BeforeMain", required: false)
-        <main class="govuk-main-wrapper " id="main-content" role="main">
+		@await RenderSectionAsync("BeforeMain", required: false)
+		<main class="govuk-main-wrapper " id="main-content" role="main">
 			<div class="govuk-grid-row">
 				<partial name="_ErrorMessages"/>
 				@RenderBody()
@@ -93,8 +93,8 @@
 </div>
 
 <environment include="Development">
-	<script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/lib/jquery/dist/jquery.js" asp-add-nonce></script>
+	<script src="~/js/site.js" asp-append-version="true" asp-add-nonce></script>
 </environment>
 <environment exclude="Development">
 	@*<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.4.1.min.js"
@@ -103,12 +103,12 @@
 	        crossorigin="anonymous"
 	        integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh">
         </script>*@
-	<script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <script src="~/assets/application-39beab6507cd50944edb58ab76ca9a393e09d467cba25003fbd3104c8a02514b.js"></script>
+	<script src="~/lib/jquery/dist/jquery.js" asp-add-nonce></script>
+	<script src="~/js/site.js" asp-append-version="true" asp-add-nonce></script>
+</environment>
+<script src="~/assets/application-39beab6507cd50944edb58ab76ca9a393e09d467cba25003fbd3104c8a02514b.js"></script>
 @*    <script src="~/js/all.js"></script>*@
-    <script>
+<script asp-add-nonce>
         window.GOVUKFrontend.initAll();
         @if (canTrack)
         {
@@ -121,8 +121,8 @@
         }
 
     </script>
-    @await RenderSectionAsync("scripts", required: false)
+@await RenderSectionAsync("scripts", required: false)
 
-<script src="~/assets/accessible-autocomplete.min.js"></script>
+<script src="~/assets/accessible-autocomplete.min.js" asp-add-nonce></script>
 </body>
 </html>

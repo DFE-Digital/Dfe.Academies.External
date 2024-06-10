@@ -31,15 +31,17 @@
 							</h2>
 						</legend>
 						<label class="govuk-hint"
-						       for="schoolSelect">Enter the name of the school, or its 6 digit unique reference number (URN)</label>
+						       for="schoolSelect">
+							Enter the name of the school, or its 6 digit unique reference number (URN)
+						</label>
 						<span asp-validation-for="SearchQuery" class="govuk-error-message"></span>
 						<input id='SearchQueryInput' asp-for="@Model.SearchQuery"
 						       class="govuk-input govuk-input--width-20"
 						       maxlength="100"
-						       type="search" aria-valuetext="" 
+						       type="search" aria-valuetext=""
 						       aria-describedby="search-hint search-error"/>
 						<div id="autocomplete-container"></div>
-@*						<ul class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden" id="search__listbox" role="listbox">
+						@*						<ul class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden" id="search__listbox" role="listbox">
 							<li class="autocomplete__option autocomplete__option--no-results">No results found.</li>
 						</ul>*@
 					</div>
@@ -53,8 +55,7 @@
 							<div class="govuk-checkboxes__item">
 								<input id='ConfirmSelection'
 								       asp-for="@Model.CorrectSchoolConfirmation"
-								       class='hideElement govuk-checkboxes__input'
-								       onclick="academies.clearCheckboxValidation(this.checked);">
+								       class='hideElement govuk-checkboxes__input'>
 								<label id='confirm-school-label' for='ConfirmSelection'
 								       class='hideElement govuk-label govuk-checkboxes__label'>
 									This is the correct school
@@ -67,8 +68,7 @@
 			<br/>
 			<div class="js-show">
 				<input type="submit" asp-page-handler="AddSchool" id="btnAdd" value="Save and continue"
-				       class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"
-				       onclick="academies.clientSideValidation()"/>
+				       class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
 			</div>
 			<noscript>
 				<input type="submit" asp-page-handler="Find" id="btnFind" value="Search"
@@ -79,6 +79,16 @@
 </div>
 
 @section Scripts {
-	<script src="/js/academies.schoolsearch.js" asp-append-version="true"></script>
-	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	<script src="/js/academies.schoolsearch.js" asp-append-version="true" asp-add-nonce></script>
+	@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+	@* Add Event listeners as inline scripts do not comply with CSP *@
+	<script asp-add-nonce>
+		document.addEventListener('DOMContentLoaded', function () {
+			document.getElementById('ConfirmSelection')
+				.addEventListener('click', () => { academies.clearCheckboxValidation(document.getElementById('ConfirmSelection').checked) });
+			document.getElementById('btnAdd')
+				.addEventListener('click', academies.clientSideValidation);
+		});
+	</script>
 }
