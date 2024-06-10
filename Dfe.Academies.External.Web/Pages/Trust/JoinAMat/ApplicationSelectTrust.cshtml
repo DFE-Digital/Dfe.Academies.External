@@ -84,9 +84,9 @@
 	<script asp-add-nonce>
 		document.addEventListener('DOMContentLoaded', function () {
 			document.getElementById('ConfirmSelection')
-				.addEventListener('click', academies.clearTrustConfirmCheckboxValidation(this.checked));
+				.addEventListener('click', () => { academies.clearTrustConfirmCheckboxValidation(document.getElementById('ConfirmSelection').checked) });
 			document.getElementById('btnAdd')
-				.addEventListener('click', academies.trustSearchClientSideValidation());
+				.addEventListener('click', academies.clientSideValidation);
 		});
 	</script>
 }
