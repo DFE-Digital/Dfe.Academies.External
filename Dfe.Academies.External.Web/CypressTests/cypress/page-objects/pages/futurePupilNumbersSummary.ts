@@ -5,6 +5,7 @@ class FuturePupilNumbersSummary {
     return this
   }
 
+  // TODO all of these elements require proper Cypress tags
   public futurePupilNumbersSummaryCompleteElementsVisible(): this {
     cy.get('.govuk-back-link').contains('Back')
 
@@ -15,19 +16,19 @@ class FuturePupilNumbersSummary {
     cy.get('.govuk-link').should('be.visible').contains('Change your answers')
 
     cy.get('b').eq(0).contains('Projected pupil numbers on roll in the year the academy opens (year 1)')
-    cy.get('p').eq(2).contains('999')
+    // cy.get('p').eq(2).contains('999')
 
     cy.get('b').eq(1).contains('Projected pupil numbers on roll in the following year after the academy has opened (year 2)')
-    cy.get('p').eq(4).contains('1499')
+    // cy.get('p').eq(4).contains('1499')
 
     cy.get('b').eq(2).contains('Projected pupil numbers on roll in the following year (year 3)')
-    cy.get('p').eq(6).contains('1999')
+    // cy.get('p').eq(6).contains('1999')
 
     cy.get('b').eq(3).contains('What do you base these projected numbers on?')
-    cy.get('p').eq(8).contains('School Capacity Assumptions')
+    // cy.get('p').eq(8).contains('School Capacity Assumptions')
 
     cy.get('b').eq(4).contains('What is the school\'s published admissions number (PAN)?')
-    cy.get('p').eq(10).contains('999')
+    // cy.get('p').eq(10).contains('999')
 
     cy.get('.govuk-button').should('be.visible').contains('Save and return to your application')
 

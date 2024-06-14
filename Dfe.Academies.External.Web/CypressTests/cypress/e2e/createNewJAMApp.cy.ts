@@ -97,7 +97,7 @@ describe('Create a JAM application', () => {
 
     trustDetailsSummary.JAMTrustDetailsSummarySaveAndReturnToApp(applicationId)
 
-    yourApplication.yourApplicationNotStartedButTrustSectionCompleteElementsVisible(applicationId)
+    yourApplication.yourApplicationNotStartedButTrustSectionCompleteElementsVisible()
       .selectAboutTheConversion()
 
     aboutTheConversion.selectContactDetailsStartSection()
@@ -115,7 +115,7 @@ describe('Create a JAM application', () => {
     aboutTheConversion.aboutTheConversionCompleteElementsVisible(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
       .submitAboutTheConversion()
 
-    yourApplication.yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible(applicationId)
+    yourApplication.yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible()
       .selectFurtherInformation()
 
     additionalDetailsSummaryPage.selectAdditionalDetailsStartSection()
@@ -125,7 +125,7 @@ describe('Create a JAM application', () => {
     additionalDetailsSummaryPage.additionalDetailsSummaryCompleteElementsVisible()
       .submitAdditionalDetailsSummary()
 
-    yourApplication.yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible(applicationId)
+    yourApplication.yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible()
       .selectFinances()
 
     financeSummary.selectPreviousFinancialYrStartSection()
@@ -148,7 +148,7 @@ describe('Create a JAM application', () => {
     financeSummary.financeSummaryCompleteElementsVisible()
       .submitFinanceSummary()
 
-    yourApplication.financeCompleteElementsVisible(applicationId)
+    yourApplication.financeCompleteElementsVisible()
       .selectFuturePupilNumbers()
 
     futurePupilNumbersSummary.selectFuturePupilNumbersStartSection()
@@ -159,7 +159,7 @@ describe('Create a JAM application', () => {
     futurePupilNumbersSummary.futurePupilNumbersSummaryCompleteElementsVisible()
       .submitFuturePupilNumbersSummary()
 
-    yourApplication.futurePupilNumbersCompleteElementsVisible(applicationId)
+    yourApplication.futurePupilNumbersCompleteElementsVisible()
       .selectLandAndBuildings()
 
     landAndBuildingsSummary.selectLandAndBuildingsStartSection()
@@ -169,7 +169,7 @@ describe('Create a JAM application', () => {
     landAndBuildingsSummary.landAndBuildingsSummaryCompleteElementsVisible()
       .submitLandAndBuildingsSummary()
 
-    yourApplication.landAndBuildingsCompleteElementsVisible(applicationId)
+    yourApplication.landAndBuildingsCompleteElementsVisible()
       .selectConsultation()
 
     consultationSummary.selectConsultationStartSection()
@@ -181,7 +181,7 @@ describe('Create a JAM application', () => {
     consultationSummary.consultationSummaryCompleteElementsVisible()
       .submitConsultationSummary()
 
-    yourApplication.consultationCompleteElementsVisible(applicationId)
+    yourApplication.consultationCompleteElementsVisible()
       .selectPreopeningSupportGrant()
 
     preOpeningSupportGrantSummary.selectPreopeningSupportGrantStartSection()
@@ -191,7 +191,7 @@ describe('Create a JAM application', () => {
     preOpeningSupportGrantSummary.preopeningSupportGrantSummaryCompleteElementsVisible()
       .submitPreopeningSupportGrantSummary()
 
-    yourApplication.preopeningSupportGrantCompleteElementsVisible(applicationId)
+    yourApplication.preopeningSupportGrantCompleteElementsVisible()
       .selectDeclaration()
 
     declarationSummary.declarationStartSection()
@@ -201,9 +201,9 @@ describe('Create a JAM application', () => {
     declarationSummary.declarationSummaryCompleteElementsVisible()
       .submitDeclarationSummary()
 
-    yourApplication.declarationCompleteElementsVisible(applicationId)
+    yourApplication.declarationCompleteElementsVisible()
       .submitApplication()
 
-    successfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible(applicationId)
+    successfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible()
   })
 })

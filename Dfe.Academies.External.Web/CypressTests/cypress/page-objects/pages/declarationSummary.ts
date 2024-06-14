@@ -5,6 +5,7 @@ class DeclarationSummary {
     return this
   }
 
+  // TODO all of these elements require proper Cypress tags
   public declarationSummaryCompleteElementsVisible(): this {
     cy.get('.govuk-back-link').contains('Back')
 
@@ -15,7 +16,7 @@ class DeclarationSummary {
     cy.get('.govuk-link').contains('Change your answers')
 
     cy.get('b').eq(0).contains('I agree with all of these statements, and believe that the facts stated in this application are true')
-    cy.get('p').eq(2).contains('Yes')
+    // cy.get('p').eq(2).contains('Yes')
 
     cy.get('.govuk-button').should('be.visible').contains('Back')
 

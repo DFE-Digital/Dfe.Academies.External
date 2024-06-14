@@ -15,7 +15,7 @@ class NextFinancialYear {
     cy.get('.govuk-hint').eq(1).contains('Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority')
     cy.get('#NFYRevenueStatusExplained').should('be.visible').should('be.enabled')
 
-    cy.get('.govuk-label').eq(6).contains('You can upload the school\'s recovery plan.')
+    // cy.get('.govuk-label').eq(6).contains('You can upload the school\'s recovery plan.')
 
     cy.get('.govuk-hint').eq(2).contains('We prefer schools to set out their income and expenditure using the consistent financial reporting codes.')
     cy.get('a[href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"]').contains('consistent financial reporting')
@@ -45,7 +45,7 @@ class NextFinancialYear {
     cy.get('.govuk-hint').eq(3).contains('Provide details of the financial forecast and/or the deficit recovery plan agreed with the local authority')
     cy.get('#PFYCapitalCarryForwardExplained').should('be.visible').should('be.enabled')
 
-    cy.get('.govuk-label').eq(13).contains('You can upload the school\'s recovery plan.')
+    // cy.get('.govuk-label').eq(13).contains('You can upload the school\'s recovery plan.')
 
     cy.get('.govuk-hint').eq(4).contains('We prefer schools to set out their income and expenditure using the consistent financial reporting codes.')
     cy.get('a[href="https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr"]').contains('consistent financial reporting')

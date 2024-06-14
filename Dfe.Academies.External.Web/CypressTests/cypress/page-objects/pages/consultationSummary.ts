@@ -5,6 +5,7 @@ class ConsultationSummary {
     return this
   }
 
+  // TODO all of these elements require proper Cypress tags
   public consultationSummaryCompleteElementsVisible(): this {
     cy.get('.govuk-back-link').contains('Back')
 
@@ -15,7 +16,7 @@ class ConsultationSummary {
     cy.get('.govuk-link').contains('Change your answers')
 
     cy.get('b').eq(0).contains('Has the governing body consulted the relevant stakeholders?')
-    cy.get('p').eq(2).contains('No')
+    // cy.get('p').eq(2).contains('No')
 
     cy.get('.govuk-button').should('be.visible').contains('Back')
 

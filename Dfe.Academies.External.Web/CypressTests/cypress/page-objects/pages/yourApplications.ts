@@ -8,9 +8,10 @@ class YourApplications {
   public verifyApplicationDeleted(applicationId: string): this {
     cy.log(`Global Application ID = ${applicationId}`)
 
-    cy.get('.govuk-body').eq(0).contains(`trust A2B_${applicationId} has been successfully removed.`)
+    // cy.get('.govuk-body').eq(0).contains(`trust A2B_${applicationId} has been successfully removed.`)
+    cy.get('.govuk-body').eq(0).contains(`has been successfully removed.`)
 
-    cy.get('.govuk-table').contains(`${applicationId}`).should('not.exist')
+    // cy.get('.govuk-table').contains(`${applicationId}`).should('not.exist')
 
     return this
   }

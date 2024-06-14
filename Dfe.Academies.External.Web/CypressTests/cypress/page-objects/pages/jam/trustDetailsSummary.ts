@@ -6,7 +6,13 @@ class TrustDetailsSummary {
   }
 
   public JAMTrustDetailsSummarySaveAndReturnToApp(applicationId: string): this {
-    cy.get(`a[href="/application-overview?appId=${applicationId}"]`).eq(1).click()
+    cy.url().then((url) => {
+      applicationId = url.substring(
+        url.indexOf('=') + 1,
+        url.lastIndexOf('&'),
+      )
+      cy.get(`a[href="/application-overview?appId=${applicationId}"]`).eq(1).click()
+    })
 
     return this
   }

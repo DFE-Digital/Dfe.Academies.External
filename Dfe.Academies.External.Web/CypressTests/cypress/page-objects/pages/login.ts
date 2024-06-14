@@ -11,7 +11,7 @@ class Login {
     })
     // TODO remove reliance on this wait
     // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(15000)
+    // cy.wait(15000)
 
     return this
   }

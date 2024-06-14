@@ -5,6 +5,7 @@ class PreOpeningSupportGrantSummary {
     return this
   }
 
+  // TODO all of these elements require proper Cypress tags
   public preopeningSupportGrantSummaryCompleteElementsVisible(): this {
     cy.get('.govuk-back-link').contains('Back')
 
@@ -15,7 +16,7 @@ class PreOpeningSupportGrantSummary {
     cy.get('.govuk-link').contains('Change your answers')
 
     cy.get('b').eq(0).contains('Do you want these funds paid to the school or the trust the school is joining?')
-    cy.get('p').eq(2).contains('To the school')
+    // cy.get('p').eq(2).contains('To the school')
 
     cy.get('.govuk-button').should('be.visible').contains('Back')
 

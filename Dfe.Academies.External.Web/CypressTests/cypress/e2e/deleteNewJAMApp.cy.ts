@@ -10,7 +10,7 @@ import confirmApplicationDelete from '../page-objects/pages/confirmApplicationDe
 import footer from '../page-objects/components/footer'
 
 describe('Delete application', () => {
-  const applicationId = 100080
+  let applicationId
 
   beforeEach(function () {
     cy.visit(Cypress.env('URL'))
@@ -37,7 +37,7 @@ describe('Delete application', () => {
     yourApplication.yourApplicationNotStartedElementsVisible()
       .selectCancelApplication()
 
-    confirmApplicationDelete.checkAppIDIsCorrectAndselectConfirmDelete(`${applicationId}`)
+    confirmApplicationDelete.checkAppIDIsCorrectAndselectConfirmDelete()
 
     yourApplications.verifyApplicationDeleted(`${applicationId}`)
   })
