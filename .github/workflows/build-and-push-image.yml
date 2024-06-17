@@ -54,6 +54,7 @@ jobs:
       docker-image-name: 'a2bext-app'
       docker-build-file-name: './Dockerfile'
       environment: ${{ needs.set-env.outputs.environment }}
+      annotate-release: ${{ needs.set-env.outputs.environment == 'development' }}
     secrets:
       azure-acr-credentials: ${{ secrets.ACR_CREDENTIALS }}
       azure-acr-name: ${{ secrets.ACR_NAME }}
