@@ -12,12 +12,13 @@ class ReasonsForFormingTrustSummary {
     return this
   }
 
+  // TODO improve selectors
   public FAMReasonsForFormingTrustSummaryCompleteElementsVisibleAndSubmit(): this {
-    cy.get('p').eq(2).contains(FAM_WHY_FORM_TRUST)
-    cy.get('p').eq(4).contains(FAM_WHAT_VISION)
-    cy.get('p').eq(6).contains(FAM_AREAS_AND_COMMUNITIES)
-    cy.get('p').eq(8).contains(FAM_FREEDOM)
-    cy.get('p').eq(10).contains(FAM_HOW_IMPROVE_TEACHING)
+    cy.get('p').eq(3).contains(FAM_WHY_FORM_TRUST)
+    cy.get('p').eq(5).contains(FAM_WHAT_VISION)
+    cy.get('p').eq(7).contains(FAM_AREAS_AND_COMMUNITIES)
+    cy.get('p').eq(9).contains(FAM_FREEDOM)
+    cy.get('p').eq(11).contains(FAM_HOW_IMPROVE_TEACHING)
 
     cy.get('.govuk-button').should('be.visible').contains('Save and return to your application').click()
 

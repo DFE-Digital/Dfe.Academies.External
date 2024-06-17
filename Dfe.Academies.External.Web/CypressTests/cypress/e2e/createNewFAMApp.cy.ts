@@ -51,13 +51,13 @@ import keyPersonDetails from '../page-objects/pages/fam/keyPersonDetails'
 import { faker } from '@faker-js/faker'
 
 describe('Create a FAM application', () => {
-  const approverName = faker.person.fullName()
+  const approverName = `${faker.person.firstName()} ${faker.person.lastName()}`
   const approverEmail = faker.internet.email()
 
-  const headTeacherName = faker.person.fullName()
+  const headTeacherName = `${faker.person.firstName()} ${faker.person.lastName()}`
   const headTeacherEmail = faker.internet.email()
 
-  const chairName = faker.person.fullName()
+  const chairName = `${faker.person.firstName()} ${faker.person.lastName()}`
   const chairEmail = faker.internet.email()
 
   const trustOpeningYear = `${new Date().getFullYear() + 1}`
@@ -90,7 +90,7 @@ describe('Create a FAM application', () => {
 
     whatIsTheNameOfTheSchool.selectSchoolName('Plym')
 
-    yourApplication.FAMApplicationNotStartedSchoolAddedElementsVisible(applicationId)
+    yourApplication.FAMApplicationNotStartedSchoolAddedElementsVisible()
       .selectFAMSchool(applicationId)
 
     schoolOverview.FAMSchoolOverviewPageNotStartedElementsVisible()
@@ -159,7 +159,7 @@ describe('Create a FAM application', () => {
     futurePupilNumbersSummary.futurePupilNumbersSummaryCompleteElementsVisible()
       .submitFuturePupilNumbersSummary()
 
-    yourApplication.FAMApplicationFuturePupilNumbersSubmittedElementsVisible(applicationId)
+    yourApplication.FAMApplicationFuturePupilNumbersSubmittedElementsVisible()
 
     yourApplication.selectFAMSchool(applicationId)
 
@@ -213,12 +213,12 @@ describe('Create a FAM application', () => {
 
     schoolOverview.selectSaveAndReturn()
 
-    yourApplication.FAMApplicationSchoolCompleteElementsVisible(applicationId)
+    yourApplication.FAMApplicationSchoolCompleteElementsVisible()
       .selectFAMAddTheTrust(applicationId)
 
     trustname.FAMEnterTrustnameAndSubmit()
 
-    yourApplication.FAMApplicationTrustNameComplete(applicationId)
+    yourApplication.FAMApplicationTrustNameComplete()
       .selectFAMTrustDetails(applicationId)
 
     trustOverview.FAMTrustOverviewTrustNameCompleteElementsVisible()
@@ -284,9 +284,9 @@ describe('Create a FAM application', () => {
     trustOverview.FAMTrustOverviewKeyPeopleCompleteElementsVisible()
       .selectReturnToYourApplication()
 
-    yourApplication.FAMApplicationOverviewCompleteElementsVisible(applicationId)
+    yourApplication.FAMApplicationOverviewCompleteElementsVisible()
       .submitApplication()
 
-    successfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible(applicationId)
+    successfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible()
   })
 })

@@ -41,13 +41,13 @@ import footer from '../page-objects/components/footer'
 import { faker } from '@faker-js/faker'
 
 describe('Create a JAM application', () => {
-  const approverName = faker.person.fullName()
+  const approverName = `${faker.person.firstName()} ${faker.person.lastName()}`
   const approverEmail = faker.internet.email()
 
-  const headTeacherName = faker.person.fullName()
+  const headTeacherName = `${faker.person.firstName()} ${faker.person.lastName()}`
   const headTeacherEmail = faker.internet.email()
 
-  const chairName = faker.person.fullName()
+  const chairName = `${faker.person.firstName()} ${faker.person.lastName()}`
   const chairEmail = faker.internet.email()
 
   const applicationId = '100080'
