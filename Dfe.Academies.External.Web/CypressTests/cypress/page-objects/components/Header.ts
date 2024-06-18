@@ -1,12 +1,17 @@
-import BasePage from "../BasePage"
-export default class Header extends BasePage {
+class Header {
+  public govUkHeaderVisible(): this {
+    cy.get('.govuk-header__logotype').should('be.visible')
 
-    static govUkHeaderVisible():void {
-        cy.get('.govuk-header__logotype').should('be.visible')
-    }
+    return this
+  }
 
-    static applyToBecomeAnAcademyHeaderLinkVisible():void {
-        cy.get('.govuk-header__content').contains('Apply to become an Academy')
-    }
+  public applyToBecomeAnAcademyHeaderLinkVisible(): this {
+    cy.get('.govuk-header__content').contains('Apply to become an Academy')
 
+    return this
+  }
 }
+
+const header = new Header()
+
+export default header

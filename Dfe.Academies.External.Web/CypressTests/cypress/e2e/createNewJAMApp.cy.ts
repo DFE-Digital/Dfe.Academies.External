@@ -1,227 +1,209 @@
+import header from '../page-objects/components/header'
+import cookieHeaderModal from '../page-objects/components/cookieHeaderModal'
+import home from '../page-objects/pages/home'
+import login from '../page-objects/pages/login'
+import yourApplications from '../page-objects/pages/yourApplications'
+import whatAreYouApplyingToDo from '../page-objects/pages/whatAreYouApplyingToDo'
+import whatIsYourRole from '../page-objects/pages/whatIsYourRole'
+import whatIsTheNameOfTheSchool from '../page-objects/pages/whatIsTheNameOfTheSchool'
+import whichTrustIsSchoolJoining from '../page-objects/pages/whichTrustIsSchoolJoining'
+import trustDetailsSummary from '../page-objects/pages/jam/trustDetailsSummary'
+import trustConsent from '../page-objects/pages/jam/trustConsent'
+import changesToTheTrust from '../page-objects/pages/changesToTheTrust'
+import localGovernanceArrangements from '../page-objects/pages/localGovernanceArrangements'
+import yourApplication from '../page-objects/pages/yourApplication'
+import aboutTheConversion from '../page-objects/pages/aboutTheConversion'
+import mainContacts from '../page-objects/pages/mainContacts'
+import conversionTargetDate from '../page-objects/pages/conversionTargetDate'
+import reasonsForJoining from '../page-objects/pages/reasonsForJoining'
+import changingTheNameOfTheSchool from '../page-objects/pages/changingTheNameOfTheSchool'
+import additionalDetailsSummaryPage from '../page-objects/pages/additionalDetailsSummaryPage'
+import additionalDetailsDetails from '../page-objects/pages/additionalDetailsDetails'
+import financeSummary from '../page-objects/pages/financeSummary'
+import previousFinancialYear from '../page-objects/pages/previousFinancialYear'
+import currentFinancialYear from '../page-objects/pages/currentFinancialYear'
+import nextFinancialYear from '../page-objects/pages/nextFinancialYear'
+import loansSummary from '../page-objects/pages/loansSummary'
+import leasesSummary from '../page-objects/pages/leasesSummary'
+import financialInvestigations from '../page-objects/pages/financialInvestigations'
+import futurePupilNumbersSummary from '../page-objects/pages/futurePupilNumbersSummary'
+import futurePupilNumbersDetails from '../page-objects/pages/futurePupilNumbersDetails'
+import landAndBuildingsSummary from '../page-objects/pages/landAndBuildingsSummary'
+import landAndBuildingsDetails from '../page-objects/pages/landAndBuildingsDetails'
+import consultationSummary from '../page-objects/pages/consultationSummary'
+import consultationDetails from '../page-objects/pages/consultationDetails'
+import preOpeningSupportGrantSummary from '../page-objects/pages/preOpeningSupportGrantSummary'
+import preopeningSupportGrantDetails from '../page-objects/pages/preOpeningSupportGrantDetails'
+import declarationSummary from '../page-objects/pages/declarationSummary'
+import declaration from '../page-objects/pages/declaration'
+import successfulApplicationSubmitted from '../page-objects/pages/successfulApplicationSubmitted'
+import footer from '../page-objects/components/footer'
+import { faker } from '@faker-js/faker'
 
-import Header from "../page-objects/components/Header";
-import CookieHeaderModal from "../page-objects/components/CookieHeaderModal";
-import A2BHome from "../page-objects/pages/A2BHome";
-import A2BLogin from "../page-objects/pages/A2BLogin";
-import A2BYourApplications from "../page-objects/pages/A2BYourApplications";
-import A2BWhatAreYouApplyingToDo from "../page-objects/pages/A2BWhatAreYouApplyingToDo";
-import A2BWhatIsYourRole from "../page-objects/pages/A2BWhatIsYourRole";
-import A2BWhatIsTheNameOfTheSchool from "../page-objects/pages/A2BWhatIsTheNameOfTheSchool";
-import A2BWhichTrustIsSchoolJoining from "../page-objects/pages/A2BWhichTrustIsSchoolJoining";
-import A2BJAMTrustDetailsSummary from "../page-objects/pages/A2BJAMTrustDetailsSummary";
-import A2BJAMTrustConsent from "../page-objects/pages/A2BJAMTrustConsent";
-import A2BChangesToTheTrust from "../page-objects/pages/A2BChangesToTheTrust";
-import A2BLocalGovernanceArrangements from "../page-objects/pages/A2BLocalGovernanceArrangements";
-import A2BYourApplication from "../page-objects/pages/A2BYourApplication";
-import A2BAboutTheConversion from "../page-objects/pages/A2BAboutTheConversion";
-import A2BMainContacts from "../page-objects/pages/A2BMainContacts";
-import A2BConversionTargetDate from "../page-objects/pages/A2BConversionTargetDate";
-import A2BReasonsForJoining from "../page-objects/pages/A2BReasonsForJoining";
-import A2BChangingTheNameOfTheSchool from "../page-objects/pages/A2BChangingTheNameOfTheSchool";
-import A2BAdditionalDetailsSummaryPage from "../page-objects/pages/A2BAdditionalDetailsSummaryPage";
-import A2BAdditionalDetailsDetails from "../page-objects/pages/A2BAdditionalDetailsDetails";
-import A2BFinanceSummary from "../page-objects/pages/A2BFinanceSummary";
-import A2BPreviousFinancialYear from "../page-objects/pages/A2BPreviousFinancialYear";
-import A2BCurrentFinancialYear from "../page-objects/pages/A2BCurrentFinancialYear";
-import A2BNextFinancialYear from "../page-objects/pages/A2BNextFinancialYear";
-import A2BLoansSummary from "../page-objects/pages/A2BLoansSummary";
-import A2BLeasesSummary from "../page-objects/pages/A2BLeasesSummary";
-import A2BFinancialInvestigations from "../page-objects/pages/A2BFinancialInvestigations";
-import A2BFuturePupilNumbersSummary from "../page-objects/pages/A2BFuturePupilNumbersSummary";
-import A2BFuturePupilNumbersDetails from "../page-objects/pages/A2BFuturePupilNumbersDetails";
-import A2BLandAndBuildingsSummary from "../page-objects/pages/A2BLandAndBuildingsSummary";
-import A2BLandAndBuildingsDetails from "../page-objects/pages/A2BLandAndBuildingsDetails";
-import A2BConsultationSummary from "../page-objects/pages/A2BConsultationSummary";
-import A2BConsultationDetails from "../page-objects/pages/A2BConsultationDetails";
-import A2BPreOpeningSupportGrantSummary from "../page-objects/pages/A2BPre-openingSupportGrantSummary";
-import A2BPreopeningSupportGrantDetails from "../page-objects/pages/A2BPre-openingSupportGrantDetails";
-import A2BDeclarationSummary from "../page-objects/pages/A2BDeclarationSummary";
-import A2BDeclaration from "../page-objects/pages/A2BDeclaration";
-import A2BSuccessfulApplicationSubmitted from "../page-objects/pages/A2BSuccessfulApplicationSubmitted";
-import Footer from "../page-objects/components/Footer";
+describe('Create a JAM application', () => {
+  const approverName = `${faker.person.firstName()} ${faker.person.lastName()}`
+  const approverEmail = faker.internet.email()
 
-describe("View Application Tests", () => {
+  const headTeacherName = `${faker.person.firstName()} ${faker.person.lastName()}`
+  const headTeacherEmail = faker.internet.email()
+
+  const chairName = `${faker.person.firstName()} ${faker.person.lastName()}`
+  const chairEmail = faker.internet.email()
+
+  const applicationId = '100080'
+
   beforeEach(function () {
-    cy.visit(Cypress.env('URL'));
+    cy.visit(Cypress.env('URL'))
 
-    Header.govUkHeaderVisible();
-    Header.applyToBecomeAnAcademyHeaderLinkVisible();
+    header.govUkHeaderVisible()
+      .applyToBecomeAnAcademyHeaderLinkVisible()
 
-    A2BHome.homePageElementsVisible();
+    footer.checkFooterLinksVisible()
 
-    Footer.checkFooterLinksVisible();
+    cookieHeaderModal.clickAcceptAnalyticsCookies()
 
-    CookieHeaderModal.clickAcceptAnalyticsCookies();
-    A2BHome.clickStartNow();
-  });
+    home.clickStartNow()
+  })
 
-  it("should be able to create a New Application", () => {
-    A2BLogin.login(Cypress.env('LOGIN_USERNAME'), Cypress.env('LOGIN_PASSWORD'));
-    
-    A2BYourApplications.selectStartANewApplication();
+  it('should be able to create a new application', () => {
+    login.login()
 
-    A2BWhatAreYouApplyingToDo.selectJAMRadioButtonVerifyAndSubmit();
+    yourApplications.selectStartANewApplication()
 
-    A2BWhatIsYourRole.selectChairOfGovernorsRadioButtonVerifyAndSubmit();
+    whatAreYouApplyingToDo.selectJAMRadioButtonVerifyAndSubmit()
 
-    A2BYourApplication.yourApplicationNotStartedElementsVisible();
+    whatIsYourRole.selectChairOfGovernorsRadioButtonVerifyAndSubmit()
 
-    A2BYourApplication.selectAddATrust();
+    yourApplication.yourApplicationNotStartedElementsVisible()
+      .selectAddATrust()
 
-    A2BWhichTrustIsSchoolJoining.selectConfirmAndSubmitTrust();
+    whichTrustIsSchoolJoining.selectConfirmAndSubmitTrust('Plym')
 
-    A2BYourApplication.selectAddASchool();
+    yourApplication.selectAddASchool()
 
-    A2BWhatIsTheNameOfTheSchool.selectSchoolName();
+    whatIsTheNameOfTheSchool.selectSchoolName('Plym')
 
-    A2BYourApplication.selectTrustDetails();
+    yourApplication.selectTrustDetails(applicationId)
 
-    A2BJAMTrustDetailsSummary.JAMTrustDetailsSummarySelectStartSection();
+    trustDetailsSummary.JAMTrustDetailsSummarySelectStartSection()
 
-    A2BJAMTrustConsent.JAMTrustConsentFileUploadAndSubmit();
+    trustConsent.JAMTrustConsentFileUploadAndSubmit()
 
-    A2BChangesToTheTrust.changesToTheTrustClickYesEnterChangesAndSubmit();
+    changesToTheTrust.changesToTheTrustClickYesEnterChangesAndSubmit()
 
-    A2BLocalGovernanceArrangements.localGovernanceArrangementsClickYes();
+    localGovernanceArrangements.localGovernanceArrangementsClickYes()
+      .enterlocalGovernanceArrangementsChanges()
+      .localGovernanceArrangementsSubmit()
 
-    A2BLocalGovernanceArrangements.enterlocalGovernanceArrangementsChanges();
+    trustDetailsSummary.JAMTrustDetailsSummarySaveAndReturnToApp(applicationId)
 
-    A2BLocalGovernanceArrangements.localGovernanceArrangementsSubmit();
+    yourApplication.yourApplicationNotStartedButTrustSectionCompleteElementsVisible()
+      .selectAboutTheConversion()
 
-    A2BJAMTrustDetailsSummary.JAMTrustDetailsSummarySaveAndReturnToApp();
+    aboutTheConversion.selectContactDetailsStartSection()
 
-    A2BYourApplication.yourApplicationNotStartedButTrustSectionCompleteElementsVisible();
+    mainContacts.fillMainContactDetailsAndSubmit(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
 
-    A2BYourApplication.selectAboutTheConversion();
+    conversionTargetDate.selectConversionTargetDateOptionNo()
+      .conversionTargetDateSubmit()
 
-    A2BAboutTheConversion.selectContactDetailsStartSection();
+    reasonsForJoining.reasonsForJoiningInputAndSubmit()
 
-    A2BMainContacts.fillMainContactDetailsAndSubmit();
+    changingTheNameOfTheSchool.changingTheNameOfTheSchoolSelectOptionNo()
+      .submitChangingTheNameOfTheSchool()
 
-    A2BConversionTargetDate.selectConversionTargetDateOptionNo();
+    aboutTheConversion.aboutTheConversionCompleteElementsVisible(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
+      .submitAboutTheConversion()
 
-    A2BConversionTargetDate.conversionTargetDateSubmit();
+    yourApplication.yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible()
+      .selectFurtherInformation()
 
-    A2BReasonsForJoining.reasonsForJoiningInputAndSubmit();
+    additionalDetailsSummaryPage.selectAdditionalDetailsStartSection()
 
-    A2BChangingTheNameOfTheSchool.changingTheNameOfTheSchoolSelectOptionNo();
+    additionalDetailsDetails.fillAdditionalDetailsDetailsAndSubmit()
 
-    A2BChangingTheNameOfTheSchool.submitChangingTheNameOfTheSchool();
+    additionalDetailsSummaryPage.additionalDetailsSummaryCompleteElementsVisible()
+      .submitAdditionalDetailsSummary()
 
-    A2BAboutTheConversion.aboutTheConversionCompleteElementsVisible();
+    yourApplication.yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible()
+      .selectFinances()
 
-    A2BAboutTheConversion.submitAboutTheConversion();
+    financeSummary.selectPreviousFinancialYrStartSection()
 
-    A2BYourApplication.yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible();
+    previousFinancialYear.inputPreviousFinancialYrDataAndSubmit()
 
-    A2BYourApplication.selectFurtherInformation();
+    currentFinancialYear.inputCurrentFinancialYrDataAndSubmit()
 
-    A2BAdditionalDetailsSummaryPage.selectAdditionalDetailsStartSection();
+    nextFinancialYear.inputNextFinancialYrDataAndSubmit()
 
-    A2BAdditionalDetailsDetails.fillAdditionalDetailsDetailsAndSubmit();
+    loansSummary.selectLoansOptionNo()
+      .submitLoansSummary()
 
-    A2BAdditionalDetailsSummaryPage.additionalDetailsSummaryCompleteElementsVisible();
+    leasesSummary.leasesSelectOptionNo()
+      .submitLeasesSummary()
 
-    A2BAdditionalDetailsSummaryPage.submitAdditionalDetailsSummary();
+    financialInvestigations.selectFinancialInvestigationsOptionNo()
+      .submitFinancialInvestigations()
 
-    A2BYourApplication.yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible();
+    financeSummary.financeSummaryCompleteElementsVisible()
+      .submitFinanceSummary()
 
-    A2BYourApplication.selectFinances();
+    yourApplication.financeCompleteElementsVisible()
+      .selectFuturePupilNumbers()
 
-    A2BFinanceSummary.selectPreviousFinancialYrStartSection();
+    futurePupilNumbersSummary.selectFuturePupilNumbersStartSection()
 
-    A2BPreviousFinancialYear.inputPreviousFinancialYrDataAndSubmit();
+    futurePupilNumbersDetails.fillFuturePupilNumbersDetails()
+      .submitFuturePupilNumbersDetails()
 
-    A2BCurrentFinancialYear.inputCurrentFinancialYrDataAndSubmit();
+    futurePupilNumbersSummary.futurePupilNumbersSummaryCompleteElementsVisible()
+      .submitFuturePupilNumbersSummary()
 
-    A2BNextFinancialYear.inputNextFinancialYrDataAndSubmit();
+    yourApplication.futurePupilNumbersCompleteElementsVisible()
+      .selectLandAndBuildings()
 
-    A2BLoansSummary.selectLoansOptionNo();
+    landAndBuildingsSummary.selectLandAndBuildingsStartSection()
 
-    A2BLoansSummary.submitLoansSummary();
+    landAndBuildingsDetails.fillLandAndBuildingsDetailsDataAndSubmit()
 
-    A2BLeasesSummary.leasesSelectOptionNo();
+    landAndBuildingsSummary.landAndBuildingsSummaryCompleteElementsVisible()
+      .submitLandAndBuildingsSummary()
 
-    A2BLeasesSummary.submitLeasesSummary();
+    yourApplication.landAndBuildingsCompleteElementsVisible()
+      .selectConsultation()
 
-    A2BFinancialInvestigations.selectFinancialInvestigationsOptionNo();
+    consultationSummary.selectConsultationStartSection()
 
-    A2BFinancialInvestigations.submitFinancialInvestigations();
+    consultationDetails.selectHasGovBodyConsultedStakeholdersOptionNo()
+      .fillConsultationDetails()
+      .submitConsultationDetails()
 
-    A2BFinanceSummary.financeSummaryCompleteElementsVisible();
+    consultationSummary.consultationSummaryCompleteElementsVisible()
+      .submitConsultationSummary()
 
-    A2BFinanceSummary.submitFinanceSummary();
+    yourApplication.consultationCompleteElementsVisible()
+      .selectPreopeningSupportGrant()
 
-    A2BYourApplication.financeCompleteElementsVisible();
+    preOpeningSupportGrantSummary.selectPreopeningSupportGrantStartSection()
 
-    A2BYourApplication.selectFuturePupilNumbers();
+    preopeningSupportGrantDetails.selectToTheSchoolVerifyAndSubmitPreopeningSupportGrantDetails()
 
-    A2BFuturePupilNumbersSummary.selectFuturePupilNumbersStartSection();
+    preOpeningSupportGrantSummary.preopeningSupportGrantSummaryCompleteElementsVisible()
+      .submitPreopeningSupportGrantSummary()
 
-    A2BFuturePupilNumbersDetails.fillFuturePupilNumbersDetails();
+    yourApplication.preopeningSupportGrantCompleteElementsVisible()
+      .selectDeclaration()
 
-    A2BFuturePupilNumbersDetails.submitFuturePupilNumbersDetails();
+    declarationSummary.declarationStartSection()
 
-    A2BFuturePupilNumbersSummary.futurePupilNumbersSummaryCompleteElementsVisible();
+    declaration.selectAgreementsVerifyAndSubmit()
 
-    A2BFuturePupilNumbersSummary.submitFuturePupilNumbersSummary();
+    declarationSummary.declarationSummaryCompleteElementsVisible()
+      .submitDeclarationSummary()
 
-    A2BYourApplication.futurePupilNumbersCompleteElementsVisible();
+    yourApplication.declarationCompleteElementsVisible()
+      .submitApplication()
 
-    A2BYourApplication.selectLandAndBuildings();
-
-    A2BLandAndBuildingsSummary.selectLandAndBuildingsStartSection();
-
-    A2BLandAndBuildingsDetails.fillLandAndBuildingsDetailsDataAndSubmit();
-
-    A2BLandAndBuildingsSummary.landAndBuildingsSummaryCompleteElementsVisible();
-
-    A2BLandAndBuildingsSummary.submitLandAndBuildingsSummary();
-
-    A2BYourApplication.landAndBuildingsCompleteElementsVisible();
-
-    A2BYourApplication.selectConsultation();
-
-    A2BConsultationSummary.selectConsultationStartSection();
-
-    A2BConsultationDetails.selectHasGovBodyConsultedStakeholdersOptionNo();
-
-    A2BConsultationDetails.fillConsultationDetails();
-
-    A2BConsultationDetails.submitConsultationDetails();
-
-    A2BConsultationSummary.consultationSummaryCompleteElementsVisible();
-
-    A2BConsultationSummary.submitConsultationSummary();
-
-    A2BYourApplication.consultationCompleteElementsVisible();
-
-    A2BYourApplication.selectPreopeningSupportGrant();
-
-    A2BPreOpeningSupportGrantSummary.selectPreopeningSupportGrantStartSection();
-
-    A2BPreopeningSupportGrantDetails.selectToTheSchoolVerifyAndSubmitPreopeningSupportGrantDetails();
-
-    A2BPreOpeningSupportGrantSummary.preopeningSupportGrantSummaryCompleteElementsVisible();
-
-    A2BPreOpeningSupportGrantSummary.submitPreopeningSupportGrantSummary();
-
-    A2BYourApplication.preopeningSupportGrantCompleteElementsVisible();
-
-    A2BYourApplication.selectDeclaration();
-
-    A2BDeclarationSummary.declarationStartSection();
-
-    A2BDeclaration.selectAgreementsVerifyAndSubmit();
-
-    A2BDeclarationSummary.declarationSummaryCompleteElementsVisible();
-
-    A2BDeclarationSummary.submitDeclarationSummary();
-
-    A2BYourApplication.declarationCompleteElementsVisible();
-
-    A2BYourApplication.submitApplication();
-
-    A2BSuccessfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible();
-  });
-});
+    successfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible()
+  })
+})

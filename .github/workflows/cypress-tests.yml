@@ -13,6 +13,8 @@ on:
         required: true
       LOGIN_PASSWORD:
         required: true
+      SIGNIN_URL:
+        required: true
   workflow_dispatch:
     inputs:
       environment:
@@ -51,6 +53,7 @@ jobs:
           URL: ${{ secrets.URL }}
           LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
           LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
+          SIGNIN_URL: ${{ secrets.SIGNIN_URL }}
         run: npm run cy:run
 
       - name: upload report

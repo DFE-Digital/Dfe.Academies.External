@@ -1,47 +1,44 @@
+import header from '../page-objects/components/header'
+import cookieHeaderModal from '../page-objects/components/cookieHeaderModal'
+import home from '../page-objects/pages/home'
+import login from '../page-objects/pages/login'
+import yourApplications from '../page-objects/pages/yourApplications'
+import yourApplication from '../page-objects/pages/yourApplication'
+import inviteContributor from '../page-objects/pages/inviteContributor'
+import confirmInviteContributorDelete from '../page-objects/pages/confirmInviteContributorDelete'
+import footer from '../page-objects/components/footer'
+import { faker } from '@faker-js/faker'
 
-import Header from "../page-objects/components/Header";
-import CookieHeaderModal from "../page-objects/components/CookieHeaderModal";
-import A2BHome from "../page-objects/pages/A2BHome";
-import A2BLogin from "../page-objects/pages/A2BLogin";
-import A2BYourApplications from "../page-objects/pages/A2BYourApplications";
-import A2BYourApplication from "../page-objects/pages/A2BYourApplication";
-import A2BInviteContributor from "../page-objects/pages/A2BInviteContributor";
-import A2BConfirmInviteContributorDelete from "../page-objects/pages/A2BConfirmInviteContributorDelete";
-import Footer from "../page-objects/components/Footer";
+describe('Invite/remove contributor', () => {
+  const contributorFirstName = faker.person.firstName()
+  const contributorEmail = faker.internet.email()
 
-describe("Invite / Remove Contributor", () => {
-    beforeEach(function () {
-        cy.visit(Cypress.env('URL'));
+  beforeEach(function () {
+    cy.visit(Cypress.env('URL'))
 
-        Header.govUkHeaderVisible();
-        Header.applyToBecomeAnAcademyHeaderLinkVisible();
+    header.govUkHeaderVisible()
+      .applyToBecomeAnAcademyHeaderLinkVisible()
 
-        A2BHome.homePageElementsVisible();
+    footer.checkFooterLinksVisible()
 
-        Footer.checkFooterLinksVisible();
+    cookieHeaderModal.clickAcceptAnalyticsCookies()
 
-        CookieHeaderModal.clickAcceptAnalyticsCookies();
-        A2BHome.clickStartNow();
-  });
+    home.clickStartNow()
+  })
 
-  it("should add and remove a contributor to a JAM application", () => {
-        
-        A2BLogin.login(Cypress.env('LOGIN_USERNAME'), Cypress.env('LOGIN_PASSWORD'));
+  it('should add and remove a contributor from an application', () => {
+    login.login()
 
-        A2BYourApplications.selectApplicationForInviteContributor()
+    yourApplications.selectApplicationForInviteContributor()
 
-        A2BYourApplication.selectInviteContributorLink()
+    yourApplication.selectInviteContributorLink()
 
-        A2BInviteContributor.fillDetailsAndSubmit()
+    inviteContributor.fillDetailsAndSubmit(contributorFirstName, contributorEmail)
+      .verifySuccessBannerAndContributorList(contributorFirstName)
+      .selectRemoveContributorLink()
 
-        A2BInviteContributor.verifySuccessBannerAndContributorList()
+    confirmInviteContributorDelete.confirmRemoveContributor()
 
-        A2BInviteContributor.selectRemoveContributorLink()
-
-        A2BConfirmInviteContributorDelete.confirmRemoveContributor()
-
-        A2BInviteContributor.verifyContributorRemovedAndSuccessRemoved()
+    inviteContributor.verifyContributorRemovedAndSuccessRemoved(contributorFirstName)
   })
 })
-
-
