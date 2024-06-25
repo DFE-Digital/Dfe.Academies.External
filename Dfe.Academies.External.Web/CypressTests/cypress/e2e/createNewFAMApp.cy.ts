@@ -99,7 +99,7 @@ describe('Create a FAM application', () => {
     aboutTheConversion.checkAboutTheConversion(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
       .saveAndReturnToApp()
 
-    schoolOverview.checkAboutConversionCompleted()
+    schoolOverview.checkSectionCompleted('About the conversion')
 
     application.startFurtherInformation()
 
@@ -110,7 +110,7 @@ describe('Create a FAM application', () => {
     additionalDetailsSummaryPage.checkAdditionalDetails()
       .saveAndReturnToApp()
 
-    schoolOverview.checkFurtherInformationCompleted()
+    schoolOverview.checkSectionCompleted('Further information')
 
     application.startFinances()
 
@@ -131,7 +131,7 @@ describe('Create a FAM application', () => {
     financeSummary.checkFinanceSummaryCompleted()
       .saveAndReturnToApp()
 
-    schoolOverview.checkFinancesCompleted()
+    schoolOverview.checkSectionCompleted('Finances')
 
     application.startFuturePupilNumbers()
 

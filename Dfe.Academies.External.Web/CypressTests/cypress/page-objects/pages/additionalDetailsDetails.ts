@@ -1,7 +1,6 @@
 import 'cypress-file-upload'
 
 class AdditionalDetailsDetails {
-  // TODO update strings for methods
   public enterAdditionalDetails(): this {
     cy.get('#TrustBenefitDetails').type('What will the school bring to the trust they are joining?')
 

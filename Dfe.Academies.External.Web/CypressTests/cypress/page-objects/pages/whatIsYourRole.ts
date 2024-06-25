@@ -1,9 +1,8 @@
 class WhatIsYourRole {
-  // TODO get better selectors
   public chooseRole(roleType: string): this {
-    const radio = roleType === 'Governor' ? 0 : 1
-    cy.get('input[type=radio]').eq(radio).click()
-    cy.get('input[type=radio]').eq(radio).should('be.checked')
+    roleType = roleType === 'Governor' ? 'ChairOfGovernors' : 'Other'
+    cy.get(`[id=RoleType${roleType}]`).click()
+    cy.get(`[id=RoleType${roleType}]`).should('be.checked')
     cy.get('input[type=submit]').click()
 
     return this

@@ -34,7 +34,7 @@ class AboutTheConversion {
     cy.get('.govuk-body').eq(15).contains('No')
 
     cy.get('.govuk-body').eq(16).contains('Why does the school want to join this trust in particular?')
-    cy.get('.govuk-body').eq(17).contains('Why does the school want to join this trust in particular?')
+    cy.get('.govuk-body').eq(17).contains('Reason to join this trust')
 
     cy.get('.govuk-body').eq(18).contains('Is the school planning to change its name when it becomes an academy?')
     cy.get('.govuk-body').eq(19).contains('No')
@@ -42,9 +42,8 @@ class AboutTheConversion {
     return this
   }
 
-  // TODO get better selector for element
   public saveAndReturnToApp(): this {
-    cy.get('.govuk-button').click()
+    cy.get('[data-cy="saveAndReturnButton"]').click()
 
     return this
   }

@@ -1,8 +1,5 @@
 import { defineConfig } from 'cypress'
-import * as dotenv from 'dotenv'
 import { generateZapReport } from './cypress/plugins/generateZapReport'
-
-dotenv.config()
 
 export default defineConfig({
   video: false,

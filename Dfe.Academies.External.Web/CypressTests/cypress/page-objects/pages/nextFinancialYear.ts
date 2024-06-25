@@ -1,6 +1,5 @@
 class NextFinancialYear {
   // TODO make date input a parameter
-  // TODO fix commented lines
   // TODO fix selectors in this method
   public enterNextFinancialYearDetails(): this {
     const filepath = '../fixtures/fiftyk.pdf'

@@ -6,9 +6,8 @@ class PlansForGrowthSummary {
   }
 
   // TODO get better selector for element
-  // TODO fix commented lines
   public checkPlansForGrowthSummaryCompleted(): this {
-    // cy.get('p').eq(2).contains('Yes')
+    cy.get('p').eq(2).contains('Yes')
 
     cy.get('.govuk-button').should('be.visible').contains('Save and return to your application').click()
 

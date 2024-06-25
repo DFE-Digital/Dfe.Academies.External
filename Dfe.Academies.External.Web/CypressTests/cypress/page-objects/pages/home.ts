@@ -1,7 +1,6 @@
 class Home {
   public start(): this {
-    // TODO get proper selector for this element
-    cy.get('a').contains('Start now').click()
+    cy.get('[data-cy="startNowButton"]').click()
 
     return this
   }

@@ -6,9 +6,8 @@ class GovernanceStructureSummary {
   }
 
   // TODO get better selector for element
-  // TODO fix commented line
   public checkGovernanceStructureSummaryCompleted(): this {
-    // cy.get('p').eq(2).contains('fiftyk.docx')
+    cy.get('p').eq(2).contains('fiftyk.docx')
 
     cy.get('.govuk-button').should('be.visible').contains('Save and return to your application').click()
 

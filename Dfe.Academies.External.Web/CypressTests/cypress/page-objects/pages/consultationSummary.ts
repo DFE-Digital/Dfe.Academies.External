@@ -6,17 +6,15 @@ class ConsultationSummary {
     return this
   }
 
-  // TODO fix commented lines
   // TODO all of these elements require proper Cypress tags
   public checkConsultationSummaryCompleted(): this {
-    // cy.get('p').eq(2).contains('No')
+    cy.get('p').eq(2).contains('No')
 
     return this
   }
 
-  // TODO get better selector for element
   public saveAndReturnToApp(): this {
-    cy.get('.govuk-button').click()
+    cy.get('[data-cy="saveAndReturnButton"]').click()
 
     return this
   }

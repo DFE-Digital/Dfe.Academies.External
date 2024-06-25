@@ -2,15 +2,37 @@
 // TODO get better selector for elements
 
 class SchoolOverview {
-  public checkAboutConversionCompleted(): this {
-    cy.get('strong').eq(1).contains('Completed')
-
-    return this
-  }
-
-  public checkFurtherInformationCompleted(): this {
-    cy.get('strong').eq(2).contains('Completed')
-
+  public checkSectionCompleted(sectionName: string): this {
+    switch (sectionName) {
+      case 'About the conversion':
+        cy.get('strong').eq(1).contains('Completed')
+        break
+      case 'Further information':
+        cy.get('strong').eq(2).contains('Completed')
+        break
+      case 'Finances':
+        cy.get('strong').eq(3).contains('Completed')
+        break
+      case 'Future pupil numbers':
+        cy.get('strong').eq(4).contains('Completed')
+        break
+      case 'Land and buildings':
+        cy.get('strong').eq(5).contains('Completed')
+        break
+      case 'Consultation':
+        cy.get('strong').eq(6).contains('Completed')
+        break
+      case 'Pre-opening support grant':
+        cy.get('strong').eq(7).contains('Completed')
+        break
+      case 'Declaration':
+        cy.get('strong').eq(8).contains('Completed')
+        break
+      default:
+        cy.log('Invalid option given, failing the test')
+        throw new Error('Invalid option provided to method')
+        break
+    }
     return this
   }
 

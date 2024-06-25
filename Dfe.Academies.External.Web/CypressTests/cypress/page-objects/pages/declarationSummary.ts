@@ -5,16 +5,15 @@ class DeclarationSummary {
     return this
   }
 
-  // TODO fix commented lines
   // TODO all of these elements require proper Cypress tags
   public checkDeclarationSummaryCompleted(): this {
-    // cy.get('p').eq(2).contains('Yes')
+    cy.get('p').eq(2).contains('Yes')
 
     return this
   }
 
   public saveAndReturnToApp(): this {
-    cy.get('.govuk-button').click()
+    cy.get('[data-cy="saveAndReturnButton"]').click()
 
     return this
   }
