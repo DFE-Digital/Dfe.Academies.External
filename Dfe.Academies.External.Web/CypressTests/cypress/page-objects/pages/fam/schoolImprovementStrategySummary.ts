@@ -5,6 +5,7 @@ class SchoolImprovementStrategySummary {
     return this
   }
 
+  // TODO get better selector for element
   public schoolImprovementStrategyCompleteElementsVisibleAndSubmit(): this {
     cy.get('.govuk-link').eq(1).contains('Change your answers')
 

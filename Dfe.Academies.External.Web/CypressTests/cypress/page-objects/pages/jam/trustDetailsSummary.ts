@@ -1,13 +1,14 @@
 class TrustDetailsSummary {
-  public JAMTrustDetailsSummarySelectStartSection(): this {
+  // TODO get better selector for element
+  public startTrustDetails(): this {
     cy.get('a[class="govuk-button govuk-button--secondary"]').click()
 
     return this
   }
 
-  public JAMTrustDetailsSummarySaveAndReturnToApp(applicationId: string): this {
+  public saveAndReturnToApp(): this {
     cy.url().then((url) => {
-      applicationId = url.substring(
+      const applicationId = url.substring(
         url.indexOf('=') + 1,
         url.lastIndexOf('&'),
       )

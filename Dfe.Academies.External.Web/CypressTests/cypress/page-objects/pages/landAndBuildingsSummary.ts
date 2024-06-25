@@ -5,6 +5,7 @@ class LandAndBuildingsSummary {
     return this
   }
 
+  // TODO fix commented lines
   // TODO all of these elements require proper Cypress tags
   public landAndBuildingsSummaryCompleteElementsVisible(): this {
     cy.get('.govuk-back-link').contains('Back')

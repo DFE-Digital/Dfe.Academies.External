@@ -1,6 +1,7 @@
 class Home {
-  public clickStartNow(): this {
-    cy.get('.govuk-grid-column-two-thirds > .govuk-button').click()
+  public start(): this {
+    // TODO get proper selector for this element
+    cy.get('a').contains('Start now').click()
 
     return this
   }

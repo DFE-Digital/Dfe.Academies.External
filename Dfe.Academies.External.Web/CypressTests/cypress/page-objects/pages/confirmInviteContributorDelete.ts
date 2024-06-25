@@ -1,4 +1,5 @@
 class ConfirmInviteContributorDelete {
+  // TODO get better selector for element
   public confirmRemoveContributor(): this {
     cy.get('.govuk-button').eq(0).click()
 

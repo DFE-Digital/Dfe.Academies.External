@@ -1,26 +1,13 @@
 class TrustOverview {
+  // TODO refactor methods down
+  // TODO get better selector for element
   public FAMTrustOverviewTrustNameCompleteElementsVisible(): this {
-    cy.get('.govuk-back-link').contains('Back')
-
-    cy.get('.govuk-caption-l').contains('Form a new multi-academy trust')
-
-    cy.get('.govuk-heading-l').contains('Plymouth')
-
-    cy.get('.govuk-body').contains('Complete all sections.')
-
     cy.get('strong').eq(1).contains('Completed')
-    cy.get('strong').eq(2).contains('Not Started')
-    cy.get('strong').eq(3).contains('Not Started')
-    cy.get('strong').eq(4).contains('Not Started')
-    cy.get('strong').eq(5).contains('Not Started')
-    cy.get('strong').eq(6).contains('Not Started')
-    cy.get('strong').eq(7).contains('Not Started')
-
-    cy.get('.govuk-button').should('be.visible').contains('Return to your application')
 
     return this
   }
 
+  // TODO get better selector for element
   public selectOpeningDate(): this {
     cy.contains('Opening date').click()
 
@@ -28,27 +15,12 @@ class TrustOverview {
   }
 
   public FAMTrustOverviewOpeningDateCompleteElementsVisible(): this {
-    cy.get('.govuk-back-link').contains('Back')
-
-    cy.get('.govuk-caption-l').contains('Form a new multi-academy trust')
-
-    cy.get('.govuk-heading-l').contains('Plymouth')
-
-    cy.get('.govuk-body').contains('Complete all sections.')
-
-    cy.get('strong').eq(1).contains('Completed')
     cy.get('strong').eq(2).contains('Completed')
-    cy.get('strong').eq(3).contains('Not Started')
-    cy.get('strong').eq(4).contains('Not Started')
-    cy.get('strong').eq(5).contains('Not Started')
-    cy.get('strong').eq(6).contains('Not Started')
-    cy.get('strong').eq(7).contains('Not Started')
-
-    cy.get('.govuk-button').should('be.visible').contains('Return to your application')
 
     return this
   }
 
+  // TODO get better selector for element
   public selectReasonsForFormingTheTrust(): this {
     cy.contains('Reasons for forming the trust').click()
 
@@ -56,27 +28,12 @@ class TrustOverview {
   }
 
   public FAMTrustOverviewReasonsForFormingTrustCompleteElementsVisible(): this {
-    cy.get('.govuk-back-link').contains('Back')
-
-    cy.get('.govuk-caption-l').contains('Form a new multi-academy trust')
-
-    cy.get('.govuk-heading-l').contains('Plymouth')
-
-    cy.get('.govuk-body').contains('Complete all sections.')
-
-    cy.get('strong').eq(1).contains('Completed')
-    cy.get('strong').eq(2).contains('Completed')
     cy.get('strong').eq(3).contains('Completed')
-    cy.get('strong').eq(4).contains('Not Started')
-    cy.get('strong').eq(5).contains('Not Started')
-    cy.get('strong').eq(6).contains('Not Started')
-    cy.get('strong').eq(7).contains('Not Started')
-
-    cy.get('.govuk-button').should('be.visible').contains('Return to your application')
 
     return this
   }
 
+  // TODO get better selector for element
   public selectPlansForGrowth(): this {
     cy.contains('Plans for growth').click()
 
@@ -84,27 +41,12 @@ class TrustOverview {
   }
 
   public FAMTrustOverviewPlansForGrowthCompleteElementsVisible(): this {
-    cy.get('.govuk-back-link').contains('Back')
-
-    cy.get('.govuk-caption-l').contains('Form a new multi-academy trust')
-
-    cy.get('.govuk-heading-l').contains('Plymouth')
-
-    cy.get('.govuk-body').contains('Complete all sections.')
-
-    cy.get('strong').eq(1).contains('Completed')
-    cy.get('strong').eq(2).contains('Completed')
-    cy.get('strong').eq(3).contains('Completed')
     cy.get('strong').eq(4).contains('Completed')
-    cy.get('strong').eq(5).contains('Not Started')
-    cy.get('strong').eq(6).contains('Not Started')
-    cy.get('strong').eq(7).contains('Not Started')
-
-    cy.get('.govuk-button').should('be.visible').contains('Return to your application')
 
     return this
   }
 
+  // TODO get better selector for element
   public selectSchoolImprovementStrategy(): this {
     cy.contains('School improvement strategy').click()
 
@@ -112,27 +54,12 @@ class TrustOverview {
   }
 
   public FAMTrustOverviewSchoolImprovementStrategyCompleteElementsVisible(): this {
-    cy.get('.govuk-back-link').contains('Back')
-
-    cy.get('.govuk-caption-l').contains('Form a new multi-academy trust')
-
-    cy.get('.govuk-heading-l').contains('Plymouth')
-
-    cy.get('.govuk-body').contains('Complete all sections.')
-
-    cy.get('strong').eq(1).contains('Completed')
-    cy.get('strong').eq(2).contains('Completed')
-    cy.get('strong').eq(3).contains('Completed')
-    cy.get('strong').eq(4).contains('Completed')
     cy.get('strong').eq(5).contains('Completed')
-    cy.get('strong').eq(6).contains('Not Started')
-    cy.get('strong').eq(7).contains('Not Started')
-
-    cy.get('.govuk-button').should('be.visible').contains('Return to your application')
 
     return this
   }
 
+  // TODO get better selector for element
   public selectGovernanceStructure(): this {
     cy.contains('Governance structure').click()
 
@@ -140,27 +67,12 @@ class TrustOverview {
   }
 
   public FAMTrustOverviewGovernanceStructureCompleteElementsVisible(): this {
-    cy.get('.govuk-back-link').contains('Back')
-
-    cy.get('.govuk-caption-l').contains('Form a new multi-academy trust')
-
-    cy.get('.govuk-heading-l').contains('Plymouth')
-
-    cy.get('.govuk-body').contains('Complete all sections.')
-
-    cy.get('strong').eq(1).contains('Completed')
-    cy.get('strong').eq(2).contains('Completed')
-    cy.get('strong').eq(3).contains('Completed')
-    cy.get('strong').eq(4).contains('Completed')
-    cy.get('strong').eq(5).contains('Completed')
     cy.get('strong').eq(6).contains('Completed')
-    cy.get('strong').eq(7).contains('Not Started')
-
-    cy.get('.govuk-button').should('be.visible').contains('Return to your application')
 
     return this
   }
 
+  // TODO get better selector for element
   public selectKeyPeople(): this {
     cy.contains('Key people').click()
 
@@ -168,27 +80,12 @@ class TrustOverview {
   }
 
   public FAMTrustOverviewKeyPeopleCompleteElementsVisible(): this {
-    cy.get('.govuk-back-link').contains('Back')
-
-    cy.get('.govuk-caption-l').contains('Form a new multi-academy trust')
-
-    cy.get('.govuk-heading-l').contains('Plymouth')
-
-    cy.get('.govuk-body').contains('Complete all sections.')
-
-    cy.get('strong').eq(1).contains('Completed')
-    cy.get('strong').eq(2).contains('Completed')
-    cy.get('strong').eq(3).contains('Completed')
-    cy.get('strong').eq(4).contains('Completed')
-    cy.get('strong').eq(5).contains('Completed')
-    cy.get('strong').eq(6).contains('Completed')
     cy.get('strong').eq(7).contains('Completed')
-
-    cy.get('.govuk-button').should('be.visible').contains('Return to your application')
 
     return this
   }
 
+  // TODO get better selector for element
   public selectReturnToYourApplication(): this {
     cy.get('.govuk-button').click()
 

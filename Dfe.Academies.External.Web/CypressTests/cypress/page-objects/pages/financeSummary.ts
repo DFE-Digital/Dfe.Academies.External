@@ -1,10 +1,12 @@
 class FinanceSummary {
-  public selectPreviousFinancialYrStartSection(): this {
+  // TODO get better selector for element
+  public startPreviousFinancialYear(): this {
     cy.get('a[class="govuk-button govuk-button--secondary"]').eq(0).click()
 
     return this
   }
 
+  // TODO get better selectors for elements
   public financeSummaryCompleteElementsVisible(): this {
     cy.get('.govuk-back-link').contains('Back')
     cy.get('.govuk-caption-l').contains('Plymstock School')
@@ -88,6 +90,7 @@ class FinanceSummary {
     return this
   }
 
+  // TODO get better selector for element
   public submitFinanceSummary(): this {
     cy.get('.govuk-button').click()
 

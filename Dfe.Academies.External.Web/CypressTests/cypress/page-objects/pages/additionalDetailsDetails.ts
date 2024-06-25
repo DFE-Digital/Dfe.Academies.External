@@ -1,9 +1,9 @@
 import 'cypress-file-upload'
 
 class AdditionalDetailsDetails {
-  public fillAdditionalDetailsDetailsAndSubmit(): this {
-    const schoolContribution = 'What will the school bring to the trust they are joining? Describe the contribution they will make Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore '
-    cy.get('#TrustBenefitDetails').type(schoolContribution)
+  // TODO update strings for methods
+  public enterAdditionalDetails(): this {
+    cy.get('#TrustBenefitDetails').type('What will the school bring to the trust they are joining?')
 
     cy.get('#ofstedInspectedOptionNo').click()
     cy.get('#ofstedInspectedOptionNo').should('be.checked')
@@ -21,8 +21,7 @@ class AdditionalDetailsDetails {
 
     cy.get('#DioceseName').type('Mr Diocese')
 
-    const docxFilepath = '../fixtures/fifty-k.docx'
-    cy.get('#dioceseFileUpload').attachFile(docxFilepath)
+    cy.get('#dioceseFileUpload').attachFile('../fixtures/fifty-k.docx')
 
     cy.get('#federationOptionNo').click()
     cy.get('#federationOptionNo').should('be.checked')
@@ -31,17 +30,14 @@ class AdditionalDetailsDetails {
 
     cy.get('#FoundationTrustOrBodyName').type('Mr Body')
 
-    const pptxFilepath = '../fixtures/fifty-k.pptx'
-    cy.get('#foundationConsentFileUpload').attachFile(pptxFilepath)
+    cy.get('#foundationConsentFileUpload').attachFile('../fixtures/fifty-k.pptx')
 
     cy.get('#exemptionFromSACREOptionNo').click()
     cy.get('#exemptionFromSACREOptionNo').should('be.checked')
 
-    const feederSchools = 'Please provide a list of your main feeder schools We recognise you may have many feeder schools, therefore please just detail the top 5 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do '
-    cy.get('#MainFeederSchools').type(feederSchools)
+    cy.get('#MainFeederSchools').type('Please provide a list of your main feeder schools')
 
-    const pdfFilepath = '../fixtures/fiftyk.pdf'
-    cy.get('#resolutionConsentFileUpload').attachFile(pdfFilepath)
+    cy.get('#resolutionConsentFileUpload').attachFile('../fixtures/fiftyk.pdf')
 
     cy.get('#equalitiesImpactAssessmentOptionNo').click()
     cy.get('#equalitiesImpactAssessmentOptionNo').should('be.checked')

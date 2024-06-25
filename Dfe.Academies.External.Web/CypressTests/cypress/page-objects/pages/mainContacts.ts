@@ -1,5 +1,6 @@
 class MainContacts {
-  public fillMainContactDetailsAndSubmit(headTeacherName: string, headTeacherEmail: string,
+  // TODO get better selectors for elements
+  public enterMainContactDetails(headTeacherName: string, headTeacherEmail: string,
     chairName: string, chairEmail: string, approverName: string, approverEmail: string): this {
     cy.get('#ViewModel\\.ContactHeadName').type(headTeacherName)
     cy.get('#ViewModel\\.ContactHeadEmail').type(headTeacherEmail)

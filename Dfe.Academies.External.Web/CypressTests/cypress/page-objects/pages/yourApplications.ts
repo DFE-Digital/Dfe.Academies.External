@@ -1,23 +1,26 @@
 class YourApplications {
-  public selectStartANewApplication(): this {
+  public startNewApplication(): this {
+    // TODO get better selector for this
     cy.get('a[href="/what-are-you-applying-to-do"]').click()
 
     return this
   }
 
-  public verifyApplicationDeleted(applicationId: string): this {
-    cy.log(`Global Application ID = ${applicationId}`)
+  // TODO fix commented lines
+  // TODO fix selectors in this method
+  public verifyApplicationDeleted(): this {
+    cy.url().then((url) => {
+      const applicationId = url.substring(url.indexOf('=') + 1, url.lastIndexOf('&'))
 
-    // cy.get('.govuk-body').eq(0).contains(`trust A2B_${applicationId} has been successfully removed.`)
-    cy.get('.govuk-body').eq(0).contains(`has been successfully removed.`)
-
-    // cy.get('.govuk-table').contains(`${applicationId}`).should('not.exist')
+      cy.get('.govuk-body').eq(0).contains(`${applicationId} has been successfully removed.`)
+      cy.get('.govuk-table').contains(`${applicationId}`).should('not.exist')
+    })
 
     return this
   }
 
-  public selectApplicationForInviteContributor(): this {
-    cy.contains('10280').click()
+  public selectApplication(applicationId: string): this {
+    cy.contains(applicationId).click()
 
     return this
   }

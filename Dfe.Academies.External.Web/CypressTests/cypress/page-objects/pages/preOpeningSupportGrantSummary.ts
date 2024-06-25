@@ -5,6 +5,7 @@ class PreOpeningSupportGrantSummary {
     return this
   }
 
+  // TODO fix commented lines
   // TODO all of these elements require proper Cypress tags
   public preopeningSupportGrantSummaryCompleteElementsVisible(): this {
     cy.get('.govuk-back-link').contains('Back')

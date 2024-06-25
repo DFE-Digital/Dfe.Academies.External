@@ -1,10 +1,12 @@
 class ConsultationSummary {
+  // TODO get better selector for element
   public selectConsultationStartSection(): this {
     cy.get('a[class="govuk-button govuk-button--secondary"]').click()
 
     return this
   }
 
+  // TODO fix commented lines
   // TODO all of these elements require proper Cypress tags
   public consultationSummaryCompleteElementsVisible(): this {
     cy.get('.govuk-back-link').contains('Back')
@@ -23,6 +25,7 @@ class ConsultationSummary {
     return this
   }
 
+  // TODO get better selector for element
   public submitConsultationSummary(): this {
     cy.get('.govuk-button').click()
 

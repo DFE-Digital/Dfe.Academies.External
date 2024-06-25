@@ -5,6 +5,8 @@ class GovernanceStructureSummary {
     return this
   }
 
+  // TODO get better selector for element
+  // TODO fix commented line
   public FAMGovernanceStructureSummaryCompleteElementsVisibleAndSubmit(): this {
     cy.get('.govuk-link').eq(1).contains('Change your answers')
     // cy.get('p').eq(2).contains('fiftyk.docx')

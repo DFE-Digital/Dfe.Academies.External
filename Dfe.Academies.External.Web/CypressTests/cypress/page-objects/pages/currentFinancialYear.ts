@@ -1,6 +1,9 @@
 import 'cypress-file-upload'
 
 class CurrentFinancialYear {
+  // TODO get better selectors for elements
+  // TODO make date input a parameter
+  // TODO update strings for methods
   public inputCurrentFinancialYrDataAndSubmit(): this {
     cy.get('#sip_cfyenddate-day').type('31')
     cy.get('#sip_cfyenddate-month').type('03')

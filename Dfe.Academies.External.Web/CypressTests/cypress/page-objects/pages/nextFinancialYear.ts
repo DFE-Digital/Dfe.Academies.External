@@ -1,4 +1,7 @@
 class NextFinancialYear {
+  // TODO make date input a parameter
+  // TODO fix commented lines
+  // TODO fix selectors in this method
   public inputNextFinancialYrDataAndSubmit(): this {
     cy.get('#sip_nfyenddate-day').type('31')
     cy.get('#sip_nfyenddate-month').type('03')

@@ -1,4 +1,5 @@
 class LandAndBuildingsDetails {
+  // TODO update string used in method
   public fillLandAndBuildingsDetailsDataAndSubmit(): this {
     const landOwnerExplained = 'As far as you\'re aware, who owns or holds the school\'s buildings and land?'
     cy.get('#SchoolBuildLandOwnerExplained').type(landOwnerExplained)

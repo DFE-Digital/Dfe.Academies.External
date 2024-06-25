@@ -5,6 +5,8 @@ class PlansForGrowthSummary {
     return this
   }
 
+  // TODO get better selector for element
+  // TODO fix commented lines
   public FAMPlansForGrowthSummaryCompleteElementsVisibleAndSubmit(): this {
     cy.get('.govuk-link').contains('Change your answers')
     cy.get('b').eq(0).contains('Do you plan to grow the trust over the next 5 years?')

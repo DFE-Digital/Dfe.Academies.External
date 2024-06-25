@@ -1,4 +1,6 @@
 class SuccessfulApplicationSubmitted {
+  // TODO fix commented lines
+  // TODO get better selectors
   public applicationSubmittedSuccessfullyElementsVisible(): this {
     cy.get('.govuk-panel__title').contains('Your application has been submitted')
 

@@ -1,4 +1,5 @@
 class WhichTrustIsSchoolJoining {
+  // TODO get better selectors
   public selectConfirmAndSubmitTrust(trustName: string): this {
     cy.get('.autocomplete__wrapper > #SearchQueryInput').click()
     cy.get('.autocomplete__wrapper > #SearchQueryInput').type(trustName)
