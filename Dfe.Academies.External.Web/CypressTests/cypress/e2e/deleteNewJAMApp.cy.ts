@@ -1,44 +1,34 @@
-import header from '../page-objects/components/header'
 import cookieHeaderModal from '../page-objects/components/cookieHeaderModal'
 import home from '../page-objects/pages/home'
 import login from '../page-objects/pages/login'
 import yourApplications from '../page-objects/pages/yourApplications'
 import whatAreYouApplyingToDo from '../page-objects/pages/whatAreYouApplyingToDo'
 import whatIsYourRole from '../page-objects/pages/whatIsYourRole'
-import yourApplication from '../page-objects/pages/yourApplication'
+import application from '../page-objects/pages/application'
 import confirmApplicationDelete from '../page-objects/pages/confirmApplicationDelete'
-import footer from '../page-objects/components/footer'
 
 describe('Delete application', () => {
-  let applicationId
-
   beforeEach(function () {
     cy.visit(Cypress.env('URL'))
 
-    header.govUkHeaderVisible()
-      .applyToBecomeAnAcademyHeaderLinkVisible()
+    cookieHeaderModal.acceptAnalyticsCookies()
 
-    footer.checkFooterLinksVisible()
+    home.start()
 
-    cookieHeaderModal.clickAcceptAnalyticsCookies()
-
-    home.clickStartNow()
+    login.login()
   })
 
   it('should be able to delete a JAM application', () => {
-    login.login()
+    yourApplications.startNewApplication()
 
-    yourApplications.selectStartANewApplication()
+    whatAreYouApplyingToDo.startApplication('Join A MAT')
 
-    whatAreYouApplyingToDo.selectJAMRadioButtonVerifyAndSubmit()
+    whatIsYourRole.chooseRole('Governor')
 
-    whatIsYourRole.selectChairOfGovernorsRadioButtonVerifyAndSubmit()
+    application.selectCancelApplication()
 
-    yourApplication.yourApplicationNotStartedElementsVisible()
-      .selectCancelApplication()
+    confirmApplicationDelete.confirmDelete()
 
-    confirmApplicationDelete.checkAppIDIsCorrectAndselectConfirmDelete()
-
-    yourApplications.verifyApplicationDeleted(`${applicationId}`)
+    yourApplications.verifyApplicationDeleted()
   })
 })

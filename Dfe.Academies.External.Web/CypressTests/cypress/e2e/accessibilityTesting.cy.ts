@@ -6,7 +6,7 @@ describe('Check accessibility of all A2B pages', function () {
   beforeEach(() => {
     cy.visit(Cypress.env('URL'))
 
-    home.clickStartNow()
+    home.start()
 
     login.login()
   })

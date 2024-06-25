@@ -1,4 +1,3 @@
-import header from '../page-objects/components/header'
 import cookieHeaderModal from '../page-objects/components/cookieHeaderModal'
 import home from '../page-objects/pages/home'
 import login from '../page-objects/pages/login'
@@ -11,7 +10,7 @@ import trustDetailsSummary from '../page-objects/pages/jam/trustDetailsSummary'
 import trustConsent from '../page-objects/pages/jam/trustConsent'
 import changesToTheTrust from '../page-objects/pages/changesToTheTrust'
 import localGovernanceArrangements from '../page-objects/pages/localGovernanceArrangements'
-import yourApplication from '../page-objects/pages/yourApplication'
+import application from '../page-objects/pages/application'
 import aboutTheConversion from '../page-objects/pages/aboutTheConversion'
 import mainContacts from '../page-objects/pages/mainContacts'
 import conversionTargetDate from '../page-objects/pages/conversionTargetDate'
@@ -37,7 +36,6 @@ import preopeningSupportGrantDetails from '../page-objects/pages/preOpeningSuppo
 import declarationSummary from '../page-objects/pages/declarationSummary'
 import declaration from '../page-objects/pages/declaration'
 import successfulApplicationSubmitted from '../page-objects/pages/successfulApplicationSubmitted'
-import footer from '../page-objects/components/footer'
 import { faker } from '@faker-js/faker'
 
 describe('Create a JAM application', () => {
@@ -50,87 +48,76 @@ describe('Create a JAM application', () => {
   const chairName = `${faker.person.firstName()} ${faker.person.lastName()}`
   const chairEmail = faker.internet.email()
 
-  const applicationId = '100080'
-
   beforeEach(function () {
     cy.visit(Cypress.env('URL'))
 
-    header.govUkHeaderVisible()
-      .applyToBecomeAnAcademyHeaderLinkVisible()
+    cookieHeaderModal.acceptAnalyticsCookies()
 
-    footer.checkFooterLinksVisible()
+    home.start()
 
-    cookieHeaderModal.clickAcceptAnalyticsCookies()
-
-    home.clickStartNow()
+    login.login()
   })
 
   it('should be able to create a new application', () => {
-    login.login()
+    yourApplications.startNewApplication()
 
-    yourApplications.selectStartANewApplication()
+    whatAreYouApplyingToDo.startApplication('Join A MAT')
 
-    whatAreYouApplyingToDo.selectJAMRadioButtonVerifyAndSubmit()
+    whatIsYourRole.chooseRole('Governor')
 
-    whatIsYourRole.selectChairOfGovernorsRadioButtonVerifyAndSubmit()
-
-    yourApplication.yourApplicationNotStartedElementsVisible()
-      .selectAddATrust()
+    application.addTrust()
 
     whichTrustIsSchoolJoining.selectConfirmAndSubmitTrust('Plym')
 
-    yourApplication.selectAddASchool()
+    application.addSchool()
 
     whatIsTheNameOfTheSchool.selectSchoolName('Plym')
 
-    yourApplication.selectTrustDetails(applicationId)
+    application.selectTrustDetails()
 
-    trustDetailsSummary.JAMTrustDetailsSummarySelectStartSection()
+    trustDetailsSummary.startTrustDetails()
 
-    trustConsent.JAMTrustConsentFileUploadAndSubmit()
+    trustConsent.uploadConsentDoc()
 
-    changesToTheTrust.changesToTheTrustClickYesEnterChangesAndSubmit()
+    changesToTheTrust.enterChangesToTheTrust()
 
-    localGovernanceArrangements.localGovernanceArrangementsClickYes()
-      .enterlocalGovernanceArrangementsChanges()
-      .localGovernanceArrangementsSubmit()
+    localGovernanceArrangements.addGovernanceArragements()
 
-    trustDetailsSummary.JAMTrustDetailsSummarySaveAndReturnToApp(applicationId)
+    trustDetailsSummary.saveAndReturnToApp()
 
-    yourApplication.yourApplicationNotStartedButTrustSectionCompleteElementsVisible()
-      .selectAboutTheConversion()
+    application.checkTrustSectionComplete()
+      .startAboutTheConversion()
 
-    aboutTheConversion.selectContactDetailsStartSection()
+    aboutTheConversion.startContactDetails()
 
-    mainContacts.fillMainContactDetailsAndSubmit(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
+    mainContacts.enterMainContactDetails(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
 
-    conversionTargetDate.selectConversionTargetDateOptionNo()
-      .conversionTargetDateSubmit()
+    conversionTargetDate.enterConversionTargetDate('No')
 
-    reasonsForJoining.reasonsForJoiningInputAndSubmit()
+    reasonsForJoining.enterReasonsForJoining()
 
-    changingTheNameOfTheSchool.changingTheNameOfTheSchoolSelectOptionNo()
-      .submitChangingTheNameOfTheSchool()
+    changingTheNameOfTheSchool.enterChangingTheNameOfTheSchool('No')
 
-    aboutTheConversion.aboutTheConversionCompleteElementsVisible(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
-      .submitAboutTheConversion()
+    aboutTheConversion.checkAboutTheConversion(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
+      .saveAndReturnToApp()
 
-    yourApplication.yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible()
-      .selectFurtherInformation()
+    application.checkAboutConversionCompleted()
+      .startFurtherInformation()
 
-    additionalDetailsSummaryPage.selectAdditionalDetailsStartSection()
+    additionalDetailsSummaryPage.startAdditionalDetails()
 
-    additionalDetailsDetails.fillAdditionalDetailsDetailsAndSubmit()
+    additionalDetailsDetails.enterAdditionalDetails()
 
-    additionalDetailsSummaryPage.additionalDetailsSummaryCompleteElementsVisible()
-      .submitAdditionalDetailsSummary()
+    additionalDetailsSummaryPage.checkAdditionalDetails()
+      .saveAndReturnToApp()
 
-    yourApplication.yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible()
-      .selectFinances()
+    application.checkFurtherInformationCompleted()
+      .startFinances()
 
-    financeSummary.selectPreviousFinancialYrStartSection()
+    financeSummary.startPreviousFinancialYear()
 
-    previousFinancialYear.inputPreviousFinancialYrDataAndSubmit()
+    previousFinancialYear.enterPreviousFinancialYear()
+    // THIS IS AS FAR AS I'VE GOT
 
     currentFinancialYear.inputCurrentFinancialYrDataAndSubmit()
 
@@ -148,8 +135,8 @@ describe('Create a JAM application', () => {
     financeSummary.financeSummaryCompleteElementsVisible()
       .submitFinanceSummary()
 
-    yourApplication.financeCompleteElementsVisible()
-      .selectFuturePupilNumbers()
+    application.checkFinanceCompleted()
+      .startFuturePupilNumbers()
 
     futurePupilNumbersSummary.selectFuturePupilNumbersStartSection()
 
@@ -159,8 +146,8 @@ describe('Create a JAM application', () => {
     futurePupilNumbersSummary.futurePupilNumbersSummaryCompleteElementsVisible()
       .submitFuturePupilNumbersSummary()
 
-    yourApplication.futurePupilNumbersCompleteElementsVisible()
-      .selectLandAndBuildings()
+    application.checkFuturePupilNumbersCompleted()
+      .startLandAndBuildings()
 
     landAndBuildingsSummary.selectLandAndBuildingsStartSection()
 
@@ -169,8 +156,8 @@ describe('Create a JAM application', () => {
     landAndBuildingsSummary.landAndBuildingsSummaryCompleteElementsVisible()
       .submitLandAndBuildingsSummary()
 
-    yourApplication.landAndBuildingsCompleteElementsVisible()
-      .selectConsultation()
+    application.checkLandAndBuildingsCompleted()
+      .startConsultation()
 
     consultationSummary.selectConsultationStartSection()
 
@@ -181,8 +168,8 @@ describe('Create a JAM application', () => {
     consultationSummary.consultationSummaryCompleteElementsVisible()
       .submitConsultationSummary()
 
-    yourApplication.consultationCompleteElementsVisible()
-      .selectPreopeningSupportGrant()
+    application.checkConsultationCompleted()
+      .startPreopeningSupportGrant()
 
     preOpeningSupportGrantSummary.selectPreopeningSupportGrantStartSection()
 
@@ -191,8 +178,8 @@ describe('Create a JAM application', () => {
     preOpeningSupportGrantSummary.preopeningSupportGrantSummaryCompleteElementsVisible()
       .submitPreopeningSupportGrantSummary()
 
-    yourApplication.preopeningSupportGrantCompleteElementsVisible()
-      .selectDeclaration()
+    application.checkPreopeningSupportGrantCompleted()
+      .startDeclaration()
 
     declarationSummary.declarationStartSection()
 
@@ -201,7 +188,7 @@ describe('Create a JAM application', () => {
     declarationSummary.declarationSummaryCompleteElementsVisible()
       .submitDeclarationSummary()
 
-    yourApplication.declarationCompleteElementsVisible()
+    application.checkDeclarationCompleted()
       .submitApplication()
 
     successfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible()
