@@ -8,7 +8,8 @@ class PreopeningSupportGrantDetails {
     return this
   }
 
-  public FAMSelectToTheSchoolVerifyAndSubmitPreopeningSupportGrantDetails(): this {
+  // FAM-Specific
+  public confirmPreopeningSupportGrantDetails(): this {
     cy.get('#ConfirmSchoolPay').click()
     cy.get('#ConfirmSchoolPay').should('be.checked')
     cy.get('input[type=submit]').click()

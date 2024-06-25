@@ -77,15 +77,12 @@ describe('Create a FAM application', () => {
 
     whatIsYourRole.chooseRole('Governor')
 
-    application.FAMApplicationNotStartedElementsVisible()
-      .addSchool()
+    application.addSchool()
 
     whatIsTheNameOfTheSchool.selectSchoolName('Plym')
 
-    application.FAMApplicationNotStartedSchoolAddedElementsVisible()
+    application.checkSchoolAdded()
       .selectFAMSchool()
-
-    schoolOverview.FAMSchoolOverviewPageNotStartedElementsVisible()
 
     application.startAboutTheConversion()
 
@@ -102,7 +99,7 @@ describe('Create a FAM application', () => {
     aboutTheConversion.checkAboutTheConversion(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
       .saveAndReturnToApp()
 
-    schoolOverview.FAMSchoolOverviewPageAboutConversionCompleteElementsVisible()
+    schoolOverview.checkAboutConversionCompleted()
 
     application.startFurtherInformation()
 
@@ -113,7 +110,7 @@ describe('Create a FAM application', () => {
     additionalDetailsSummaryPage.checkAdditionalDetails()
       .saveAndReturnToApp()
 
-    schoolOverview.FAMSchoolOverviewPageFurtherInformationCompleteElementsVisible()
+    schoolOverview.checkFurtherInformationCompleted()
 
     application.startFinances()
 
@@ -134,7 +131,7 @@ describe('Create a FAM application', () => {
     financeSummary.checkFinanceSummaryCompleted()
       .saveAndReturnToApp()
 
-    schoolOverview.FAMSchoolOverviewPageFinancesCompleteElementsVisible()
+    schoolOverview.checkFinancesCompleted()
 
     application.startFuturePupilNumbers()
 
@@ -145,11 +142,10 @@ describe('Create a FAM application', () => {
     futurePupilNumbersSummary.checkFuturePupilNumbersSummaryCompleted()
       .saveAndReturnToApp()
 
-    application.FAMApplicationFuturePupilNumbersSubmittedElementsVisible()
+    application.checkSchoolStatus()
+      .selectFAMSchool()
 
-    application.selectFAMSchool()
-
-    schoolOverview.FAMSchoolOverviewPageFuturePupilNumbersCompleteElementsVisible()
+    schoolOverview.checkFuturePupilNumbersCompleted()
 
     application.startLandAndBuildings()
 
@@ -160,7 +156,7 @@ describe('Create a FAM application', () => {
     landAndBuildingsSummary.checkLandAndBuildingsSummaryCompleted()
       .saveAndReturnToApp()
 
-    schoolOverview.FAMSchoolOverviewPageLandAndBuildingsCompleteElementsVisible()
+    schoolOverview.checkLandAndBuildingsCompleted()
 
     application.startConsultation()
 
@@ -171,18 +167,18 @@ describe('Create a FAM application', () => {
     consultationSummary.checkConsultationSummaryCompleted()
       .saveAndReturnToApp()
 
-    schoolOverview.FAMSchoolOverviewPageConsultationCompleteElementsVisible()
+    schoolOverview.checkConsultationCompleted()
 
     application.startPreopeningSupportGrant()
 
     preOpeningSupportGrantSummary.startPreopeningSupportGrant()
 
-    preopeningSupportGrantDetails.FAMSelectToTheSchoolVerifyAndSubmitPreopeningSupportGrantDetails()
+    preopeningSupportGrantDetails.confirmPreopeningSupportGrantDetails()
 
     preOpeningSupportGrantSummary.checkPreopeningSupportGrantSummaryCompleted()
       .saveAndReturnToApp()
 
-    schoolOverview.FAMSchoolOverviewPagePreopeningSupportGrantCompleteElementsVisible()
+    schoolOverview.checkPreopeningSupportGrantCompleted()
 
     application.startDeclaration()
 
@@ -193,49 +189,45 @@ describe('Create a FAM application', () => {
     declarationSummary.checkDeclarationSummaryCompleted()
       .saveAndReturnToApp()
 
-    schoolOverview.FAMSchoolOverviewPageDeclarationCompleteElementsVisible()
+    schoolOverview.checkDeclarationCompleted()
+      .saveAndReturn()
 
-    schoolOverview.selectSaveAndReturn()
+    application.checkSchoolCompleted()
+      .addFAMTrust()
 
-    application.FAMApplicationSchoolCompleteElementsVisible()
-      .selectFAMAddTheTrust()
+    trustname.enterTrustName()
 
-    trustname.FAMEnterTrustnameAndSubmit()
+    application.checkTrustNameCompleted()
+      .selectFAMTrust()
 
-    application.FAMApplicationTrustNameComplete()
-      .selectFAMTrustDetails()
-
-    trustOverview.FAMTrustOverviewTrustNameCompleteElementsVisible()
+    trustOverview.checkTrustNameCompleted()
       .selectOpeningDate()
 
     trustOpeningDateSummary.selectStartSection()
 
-    trustOpeningDateDetails.selectDayAndInput()
-      .selectMonthAndInput()
-      .selectYearAndInput(trustOpeningYear)
-      .FAMTrustOpeningDateInputApproverDetailsAndSubmit(approverName, approverEmail)
+    trustOpeningDateDetails.enterOpeningDateDetails(trustOpeningYear, approverName, approverEmail)
 
-    trustOpeningDateSummary.FAMOpeningDateSummaryCompleteElementsVisibleAndSubmit(trustOpeningYear, approverName, approverEmail)
+    trustOpeningDateSummary.checkOpeningDateSummaryCompleted(trustOpeningYear, approverName, approverEmail)
 
-    trustOverview.FAMTrustOverviewOpeningDateCompleteElementsVisible()
+    trustOverview.checkOpeningDateCompleted()
       .selectReasonsForFormingTheTrust()
 
     reasonsForFormingTrustSummary.selectStartSection()
 
-    reasonsForFormingTrustDetails.FAMFillReasonsForFormingTrustAndSubmit()
+    reasonsForFormingTrustDetails.enterReasonsForFormingTrust()
 
-    reasonsForFormingTrustSummary.FAMReasonsForFormingTrustSummaryCompleteElementsVisibleAndSubmit()
+    reasonsForFormingTrustSummary.checkReasonsForFormingTrustSummaryCompleted()
 
-    trustOverview.FAMTrustOverviewReasonsForFormingTrustCompleteElementsVisible()
+    trustOverview.checkReasonsForFormingTrustCompleted()
       .selectPlansForGrowth()
 
     trustPlansForGrowthSummary.selectStartSection()
 
     trustPlansForGrowthDetails.inputPlansForGrowthAndSubmit()
 
-    trustPlansForGrowthSummary.FAMPlansForGrowthSummaryCompleteElementsVisibleAndSubmit()
+    trustPlansForGrowthSummary.checkPlansForGrowthSummaryCompleted()
 
-    trustOverview.FAMTrustOverviewPlansForGrowthCompleteElementsVisible()
+    trustOverview.checkPlansForGrowthCompleted()
 
     trustOverview.selectSchoolImprovementStrategy()
 
@@ -245,7 +237,7 @@ describe('Create a FAM application', () => {
 
     schoolImprovementStrategySummary.schoolImprovementStrategyCompleteElementsVisibleAndSubmit()
 
-    trustOverview.FAMTrustOverviewSchoolImprovementStrategyCompleteElementsVisible()
+    trustOverview.checkSchoolImprovementStrategyCompleted()
 
     trustOverview.selectGovernanceStructure()
 
@@ -253,9 +245,9 @@ describe('Create a FAM application', () => {
 
     governanceStructureDetails.uploadFileAndSubmit()
 
-    governanceStructureSummary.FAMGovernanceStructureSummaryCompleteElementsVisibleAndSubmit()
+    governanceStructureSummary.checkGovernanceStructureSummaryCompleted()
 
-    trustOverview.FAMTrustOverviewGovernanceStructureCompleteElementsVisible()
+    trustOverview.checkGovernanceStructureCompleted()
 
     trustOverview.selectKeyPeople()
 
@@ -263,12 +255,12 @@ describe('Create a FAM application', () => {
 
     keyPersonDetails.fillKeyPersonDetailsAndSubmit(approverName)
 
-    keyPeopleSummary.FAMKeyPeopleSummaryCompleteElementsVisibleAndSubmit(approverName)
+    keyPeopleSummary.checkKeyPeopleSummaryCompleted(approverName)
 
-    trustOverview.FAMTrustOverviewKeyPeopleCompleteElementsVisible()
+    trustOverview.checkKeyPeopleCompleted()
       .selectReturnToYourApplication()
 
-    application.FAMApplicationOverviewCompleteElementsVisible()
+    application.checkApplicationOverviewCompleted()
       .submitApplication()
 
     successfulApplicationSubmitted.checkApplicationSubmitted()

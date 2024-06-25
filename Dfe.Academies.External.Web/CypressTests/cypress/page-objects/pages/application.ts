@@ -150,128 +150,33 @@ class Application {
   }
 
   // Form A MAT specific
-  public FAMApplicationNotStartedElementsVisible(): this {
-    cy.get('.govuk-body').eq(0).then(() => {
-      // const applicationId = $applicationId.text().split('_').pop().replace(/\s/g, '')
+  public checkSchoolAdded(): this {
+    cy.url().then((url) => {
+      const applicationId = url.split('=').pop()
 
-      cy.get('a[href="/your-applications"]').contains('Back')
-      cy.get('p').contains('Application reference:')
-      cy.get('.govuk-heading-l').contains('Form a new multi-academy trust')
-
-      cy.get('p[class="govuk-body govuk-radios__conditional"]').contains('All school and trust details must be given before this application can be submitted.')
-
-      cy.get('.govuk-heading-m').eq(0).contains('Give details of schools in the trust')
-
-      // cy.get(`a[href="/school/application-select-school?appId=${applicationId}"]`).should('be.visible').contains('Add a school')
-      // cy.get(`a[href="/remove-school-selection?appId=${applicationId}"]`).contains('Remove a school')
-
-      cy.get('.govuk-heading-m').eq(1).contains('Give details of the trust')
-
-      // cy.get(`a[href="/trust/form-amat/application-new-trust-name?appId=${applicationId}"]`).should('be.visible').contains('Add the trust')
-      cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-      // cy.get('p').eq(3).contains('You will be able to invite other people to help you complete this form after you have added a school.')
+      cy.get(`a[href="/school/school-overview?appId=${applicationId}&urn=113537"]`).contains('Plymstock School')
+      cy.get('strong').eq(1).contains('Not Started')
     })
 
     return this
   }
 
-  public FAMApplicationNotStartedSchoolAddedElementsVisible(): this {
-    cy.get('a[href="/your-applications"]').contains('Back')
-    cy.get('p').contains('Application reference:')
-    cy.get('.govuk-heading-l').contains('Form a new multi-academy trust')
-
-    cy.get('p[class="govuk-body govuk-radios__conditional"]').contains('All school and trust details must be given before this application can be submitted.')
-
-    cy.get('.govuk-heading-m').eq(0).contains('Give details of schools in the trust')
-
-    // cy.get(`a[href="/school/school-overview?appId=${applicationId}&urn=113537"]`).contains('Plymstock School')
-    // cy.get('strong').eq(1).contains('Not Started')
-
-    // cy.get(`a[href="/school/application-select-school?appId=${applicationId}"]`).should('be.visible').contains('Add a school')
-    // cy.get(`a[href="/remove-school-selection?appId=${applicationId}"]`).contains('Remove a school')
-
-    cy.get('.govuk-heading-m').eq(1).contains('Give details of the trust')
-
-    // cy.get(`a[href="/trust/form-amat/application-new-trust-name?appId=${applicationId}"]`).should('be.visible').contains('Add the trust')
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-    // cy.get('p').eq(3).contains('You can invite or remove contributors to this form. If you are not the chair of the school\'s governing body, you must add them so that they can submit this application.')
+  public checkSchoolCompleted(): this {
+    cy.get('strong').eq(1).contains('Completed')
 
     return this
   }
 
-  public FAMApplicationSchoolCompleteElementsVisible(): this {
-    cy.get('a[href="/your-applications"]').contains('Back')
-    cy.get('p').contains('Application reference:')
-    cy.get('.govuk-heading-l').contains('Form a new multi-academy trust')
-
-    cy.get('p[class="govuk-body govuk-radios__conditional"]').contains('All school and trust details must be given before this application can be submitted.')
-
-    cy.get('.govuk-heading-m').eq(0).contains('Give details of schools in the trust')
-
-    // cy.get(`a[href="/school/school-overview?appId=${applicationId}&urn=113537"]`).contains('Plymstock School')
-    cy.get('strong').eq(1).contains('Completed')
-
-    // cy.get(`a[href="/school/application-select-school?appId=${applicationId}"]`).should('be.visible').contains('Add a school')
-    // cy.get(`a[href="/remove-school-selection?appId=${applicationId}"]`).contains('Remove a school')
-
-    cy.get('.govuk-heading-m').eq(1).contains('Give details of the trust')
-
-    // cy.get(`a[href="/trust/form-amat/application-new-trust-name?appId=${applicationId}"]`).should('be.visible').contains('Add the trust')
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-    // cy.get('p').eq(3).contains('You can invite or remove contributors to this form. If you are not the chair of the school\'s governing body, you must add them so that they can submit this application.')
-
-    return this
-  }
-
-  public FAMApplicationTrustNameComplete(): this {
-    cy.get('a[href="/your-applications"]').contains('Back')
-    cy.get('p').contains('Application reference:')
-    cy.get('.govuk-heading-l').contains('Form a new multi-academy trust')
-
-    cy.get('p[class="govuk-body govuk-radios__conditional"]').contains('All school and trust details must be given before this application can be submitted.')
-
-    cy.get('.govuk-heading-m').eq(0).contains('Give details of schools in the trust')
-
-    // cy.get(`a[href="/school/school-overview?appId=${applicationId}&urn=113537"]`).contains('Plymstock School')
-    cy.get('strong').eq(1).contains('Completed')
-
-    // cy.get(`a[href="/school/application-select-school?appId=${applicationId}"]`).should('be.visible').contains('Add a school')
-    // cy.get(`a[href="/remove-school-selection?appId=${applicationId}"]`).contains('Remove a school')
-
-    cy.get('.govuk-heading-m').eq(1).contains('Give details of the trust')
-
+  public checkTrustNameCompleted(): this {
     cy.get('h3').contains('Plymouth')
-    // cy.get(`a[href="/trust/form-amat/application-new-trust-name?appId=${applicationId}"]`).contains('Change')
 
-    // cy.get(`a[href="/trust/form-amat/application-new-trust-summary?appId=${applicationId}"]`).contains('Trust details')
     cy.get('strong').eq(2).contains('In Progress')
 
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-    // cy.get('p').eq(3).contains('You can invite or remove contributors to this form. If you are not the chair of the school\'s governing body, you must add them so that they can submit this application.')
-
     return this
   }
 
-  public FAMApplicationFuturePupilNumbersSubmittedElementsVisible(): this {
-    cy.get('a[href="/your-applications"]').contains('Back')
-    cy.get('p').contains('Application reference:')
-    cy.get('.govuk-heading-l').contains('Form a new multi-academy trust')
-
-    cy.get('p[class="govuk-body govuk-radios__conditional"]').contains('All school and trust details must be given before this application can be submitted.')
-
-    cy.get('.govuk-heading-m').eq(0).contains('Give details of schools in the trust')
-
-    // cy.get(`a[href="/school/school-overview?appId=${applicationId}&urn=113537"]`).contains('Plymstock School')
+  public checkSchoolStatus(): this {
     cy.get('strong').eq(1).contains('In Progress')
-
-    // cy.get(`a[href="/school/application-select-school?appId=${applicationId}"]`).should('be.visible').contains('Add a school')
-    // cy.get(`a[href="/remove-school-selection?appId=${applicationId}"]`).contains('Remove a school')
-
-    cy.get('.govuk-heading-m').eq(1).contains('Give details of the trust')
-
-    // cy.get(`a[href="/trust/form-amat/application-new-trust-name?appId=${applicationId}"]`).should('be.visible').contains('Add the trust')
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-    // cy.get('p').eq(3).contains('You can invite or remove contributors to this form. If you are not the chair of the school\'s governing body, you must add them so that they can submit this application.')
 
     return this
   }
@@ -285,7 +190,7 @@ class Application {
     return this
   }
 
-  public selectFAMAddTheTrust(): this {
+  public addFAMTrust(): this {
     cy.url().then((url) => {
       const applicationId = url.split('=').pop()
       cy.get(`a[href="/trust/form-amat/application-new-trust-name?appId=${applicationId}"]`).click()
@@ -294,7 +199,7 @@ class Application {
     return this
   }
 
-  public selectFAMTrustDetails(): this {
+  public selectFAMTrust(): this {
     cy.url().then((url) => {
       const applicationId = url.split('=').pop()
       cy.get(`a[href="/trust/form-amat/application-new-trust-summary?appId=${applicationId}"]`).click()
@@ -303,31 +208,8 @@ class Application {
     return this
   }
 
-  public FAMApplicationOverviewCompleteElementsVisible(): this {
-    cy.get('a[href="/your-applications"]').contains('Back')
-    cy.get('p').contains('Application reference:')
-    cy.get('.govuk-heading-l').contains('Form a new multi-academy trust')
-
-    cy.get('.govuk-heading-m').eq(0).contains('Give details of schools in the trust')
-
-    // cy.get(`a[href="/school/school-overview?appId=${applicationId}&urn=113537"]`).contains('Plymstock School')
-    cy.get('strong').eq(1).contains('Completed')
-
-    // cy.get(`a[href="/school/application-select-school?appId=${applicationId}"]`).should('be.visible').contains('Add a school')
-    // cy.get(`a[href="/remove-school-selection?appId=${applicationId}"]`).contains('Remove a school')
-
-    cy.get('.govuk-heading-m').eq(1).contains('Give details of the trust')
-
-    cy.get('h3').contains('Plymouth')
-    // cy.get(`a[href="/trust/form-amat/application-new-trust-name?appId=${applicationId}"]`).contains('Change')
-
-    // cy.get(`a[href="/trust/form-amat/application-new-trust-summary?appId=${applicationId}"]`).contains('Trust details')
+  public checkApplicationOverviewCompleted(): this {
     cy.get('strong').eq(2).contains('Completed')
-
-    cy.get('h2[class="govuk-heading-l"]').contains('Contributors')
-    // cy.get('p').eq(3).contains('You can invite or remove contributors to this form. If you are not the chair of the school\'s governing body, you must add them so that they can submit this application.')
-
-    cy.get('input[type=submit]').should('be.visible').contains('Submit application')
 
     return this
   }

@@ -1,7 +1,7 @@
 class TrustOverview {
   // TODO refactor methods down
   // TODO get better selector for element
-  public FAMTrustOverviewTrustNameCompleteElementsVisible(): this {
+  public checkTrustNameCompleted(): this {
     cy.get('strong').eq(1).contains('Completed')
 
     return this
@@ -14,7 +14,7 @@ class TrustOverview {
     return this
   }
 
-  public FAMTrustOverviewOpeningDateCompleteElementsVisible(): this {
+  public checkOpeningDateCompleted(): this {
     cy.get('strong').eq(2).contains('Completed')
 
     return this
@@ -27,7 +27,7 @@ class TrustOverview {
     return this
   }
 
-  public FAMTrustOverviewReasonsForFormingTrustCompleteElementsVisible(): this {
+  public checkReasonsForFormingTrustCompleted(): this {
     cy.get('strong').eq(3).contains('Completed')
 
     return this
@@ -40,7 +40,7 @@ class TrustOverview {
     return this
   }
 
-  public FAMTrustOverviewPlansForGrowthCompleteElementsVisible(): this {
+  public checkPlansForGrowthCompleted(): this {
     cy.get('strong').eq(4).contains('Completed')
 
     return this
@@ -53,7 +53,7 @@ class TrustOverview {
     return this
   }
 
-  public FAMTrustOverviewSchoolImprovementStrategyCompleteElementsVisible(): this {
+  public checkSchoolImprovementStrategyCompleted(): this {
     cy.get('strong').eq(5).contains('Completed')
 
     return this
@@ -66,7 +66,7 @@ class TrustOverview {
     return this
   }
 
-  public FAMTrustOverviewGovernanceStructureCompleteElementsVisible(): this {
+  public checkGovernanceStructureCompleted(): this {
     cy.get('strong').eq(6).contains('Completed')
 
     return this
@@ -79,7 +79,7 @@ class TrustOverview {
     return this
   }
 
-  public FAMTrustOverviewKeyPeopleCompleteElementsVisible(): this {
+  public checkKeyPeopleCompleted(): this {
     cy.get('strong').eq(7).contains('Completed')
 
     return this
