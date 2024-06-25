@@ -390,3 +390,4 @@ Brewfile.lock.json
 # Cypress
 
 **/cypress/screenshots
+cypress.env.json

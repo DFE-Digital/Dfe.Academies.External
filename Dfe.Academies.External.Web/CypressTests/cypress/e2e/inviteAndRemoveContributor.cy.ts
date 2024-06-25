@@ -13,7 +13,7 @@ describe('Invite/remove contributor', () => {
   const applicationId = '10280'
 
   beforeEach(function () {
-    cy.visit(Cypress.env('URL'))
+    cy.visit(Cypress.env('url'))
 
     cookieHeaderModal.acceptAnalyticsCookies()
 

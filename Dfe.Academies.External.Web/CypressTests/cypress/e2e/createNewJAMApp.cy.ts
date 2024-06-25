@@ -49,7 +49,7 @@ describe('Create a JAM application', () => {
   const chairEmail = faker.internet.email()
 
   beforeEach(function () {
-    cy.visit(Cypress.env('URL'))
+    cy.visit(Cypress.env('url'))
 
     cookieHeaderModal.acceptAnalyticsCookies()
 
