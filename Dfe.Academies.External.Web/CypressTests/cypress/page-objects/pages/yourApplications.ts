@@ -1,19 +1,16 @@
 class YourApplications {
   public startNewApplication(): this {
-    // TODO get better selector for this
-    cy.get('a[href="/what-are-you-applying-to-do"]').click()
+    cy.get('[data-cy="startNewApplicationButton"]').click()
 
     return this
   }
 
-  // TODO fix commented lines
-  // TODO fix selectors in this method
   public verifyApplicationDeleted(): this {
     cy.url().then((url) => {
       const applicationId = url.substring(url.indexOf('=') + 1, url.lastIndexOf('&'))
 
-      cy.get('.govuk-body').eq(0).contains(`${applicationId} has been successfully removed.`)
-      cy.get('.govuk-table').contains(`${applicationId}`).should('not.exist')
+      cy.get('[data-cy="successBanner"]').contains(`${applicationId} has been successfully removed.`)
+      cy.get('[data-cy="yourApplications"]').contains(`${applicationId}`).should('not.exist')
     })
 
     return this

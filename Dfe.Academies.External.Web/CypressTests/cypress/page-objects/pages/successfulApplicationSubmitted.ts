@@ -1,5 +1,4 @@
 class SuccessfulApplicationSubmitted {
-  // TODO fix commented lines
   // TODO get better selectors
   public checkApplicationSubmitted(): this {
     cy.url().then((url) => {
@@ -15,7 +14,7 @@ class SuccessfulApplicationSubmitted {
 
       cy.get('.govuk-heading-m').eq(1).contains('What happens next')
 
-      // cy.get('.govuk-body-m').eq(0).contains('It takes us 2 to 6 weeks to assess your application and grant your academy order, if you\'re successful.')
+      cy.get('.govuk-body-m').eq(0).contains('It takes us 2 to 6 weeks to assess your application and grant your academy order, if you\'re successful.')
 
       cy.get('.govuk-body-m').eq(1).contains('Your project lead will contact you if they need to check anything.')
 
@@ -35,13 +34,13 @@ class SuccessfulApplicationSubmitted {
 
       cy.get('div[class="sip-application-status--row-content-header govuk-body-m"]').eq(9).contains('Academy Opens')
 
-      // cy.get('p').eq(4).contains('If have any queries about the progress of your application, please contact the Department for Education.')
+      cy.get('p').eq(4).contains('If have any queries about the progress of your application, please contact the Department for Education.')
 
-      // cy.get('p').eq(5).contains('If you have any questions or comments about this service, e-mail regionalservices.rg@education.gov.uk')
+      cy.get('p').eq(5).contains('If you have any questions or comments about this service, e-mail regionalservices.rg@education.gov.uk')
 
-      // cy.get('p').eq(6).contains('As we continue to develop this service we would value your feedback on your experience. Please complete our short survey. The survey takes around 10 minutes to complete')
+      cy.get('p').eq(6).contains('As we continue to develop this service we would value your feedback on your experience. Please complete our short survey. The survey takes around 10 minutes to complete')
 
-      // cy.get('h2').eq(1).contains('If your application is successful')
+      cy.get('h2').eq(1).contains('If your application is successful')
 
       cy.contains('Prepare for conversion').should('be.visible')
 

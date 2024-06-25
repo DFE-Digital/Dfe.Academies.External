@@ -67,7 +67,7 @@ describe('Create a JAM application', () => {
 
     application.addTrust()
 
-    whichTrustIsSchoolJoining.selectConfirmAndSubmitTrust('Plym')
+    whichTrustIsSchoolJoining.selectTrustName('Plym')
 
     application.addSchool()
 

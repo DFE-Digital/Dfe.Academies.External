@@ -1,4 +1,3 @@
-// TODO fix commented lines
 // TODO get better selectors
 class Application {
   public checkTrustSectionComplete(): this {
@@ -8,7 +7,7 @@ class Application {
   }
 
   public addTrust(): this {
-    cy.get('.govuk-body').eq(0).then(($applicationId) => {
+    cy.get('[data-cy="applicationReference"]').then(($applicationId) => {
       const applicationId = $applicationId.text().split('_').pop().replace(/\s/g, '')
       cy.get(`a[href="/trust/join-amat/application-select-trust?appId=${applicationId}"]`).click()
     })
@@ -17,7 +16,7 @@ class Application {
   }
 
   public addSchool(): this {
-    cy.get('.govuk-body').eq(0).then(($applicationId) => {
+    cy.get('[data-cy="applicationReference"]').then(($applicationId) => {
       const applicationId = $applicationId.text().split('_').pop().replace(/\s/g, '')
       cy.get(`a[href="/school/application-select-school?appId=${applicationId}"]`).click()
     })
@@ -138,7 +137,7 @@ class Application {
   }
 
   public selectCancelApplication(): this {
-    cy.contains('Cancel application').click()
+    cy.get('[data-cy="cancelApplication"]').click()
 
     return this
   }

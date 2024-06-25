@@ -51,7 +51,7 @@ class FinanceSummary {
 
   // TODO get better selector for element
   public saveAndReturnToApp(): this {
-    cy.get('.govuk-button').click()
+    cy.get('[data-cy="saveAndReturnButton"]').click()
 
     return this
   }
