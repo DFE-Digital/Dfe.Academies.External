@@ -116,81 +116,74 @@ describe('Create a JAM application', () => {
 
     financeSummary.startPreviousFinancialYear()
 
-    previousFinancialYear.enterPreviousFinancialYear()
-    // THIS IS AS FAR AS I'VE GOT
+    previousFinancialYear.enterPreviousFinancialYearDetails()
 
-    currentFinancialYear.inputCurrentFinancialYrDataAndSubmit()
+    currentFinancialYear.enterCurrentFinancialYearDetails()
 
-    nextFinancialYear.inputNextFinancialYrDataAndSubmit()
+    nextFinancialYear.enterNextFinancialYearDetails()
 
-    loansSummary.selectLoansOptionNo()
-      .submitLoansSummary()
+    loansSummary.enterLoansDetails()
 
-    leasesSummary.leasesSelectOptionNo()
-      .submitLeasesSummary()
+    leasesSummary.enterLeasesDetails()
 
-    financialInvestigations.selectFinancialInvestigationsOptionNo()
-      .submitFinancialInvestigations()
+    financialInvestigations.enterFinancialInvestigationsDetails()
 
-    financeSummary.financeSummaryCompleteElementsVisible()
-      .submitFinanceSummary()
+    financeSummary.checkFinanceSummaryCompleted()
+      .saveAndReturnToApp()
 
     application.checkFinanceCompleted()
       .startFuturePupilNumbers()
 
-    futurePupilNumbersSummary.selectFuturePupilNumbersStartSection()
+    futurePupilNumbersSummary.startFuturePupilNumbers()
 
-    futurePupilNumbersDetails.fillFuturePupilNumbersDetails()
-      .submitFuturePupilNumbersDetails()
+    futurePupilNumbersDetails.enterFuturePupilNumbersDetails()
 
-    futurePupilNumbersSummary.futurePupilNumbersSummaryCompleteElementsVisible()
-      .submitFuturePupilNumbersSummary()
+    futurePupilNumbersSummary.checkFuturePupilNumbersSummaryCompleted()
+      .saveAndReturnToApp()
 
     application.checkFuturePupilNumbersCompleted()
       .startLandAndBuildings()
 
-    landAndBuildingsSummary.selectLandAndBuildingsStartSection()
+    landAndBuildingsSummary.startLandAndBuildings()
 
-    landAndBuildingsDetails.fillLandAndBuildingsDetailsDataAndSubmit()
+    landAndBuildingsDetails.enterLandAndBuildingsDetailsDetails()
 
-    landAndBuildingsSummary.landAndBuildingsSummaryCompleteElementsVisible()
-      .submitLandAndBuildingsSummary()
+    landAndBuildingsSummary.checkLandAndBuildingsSummaryCompleted()
+      .saveAndReturnToApp()
 
     application.checkLandAndBuildingsCompleted()
       .startConsultation()
 
-    consultationSummary.selectConsultationStartSection()
+    consultationSummary.startConsultation()
 
-    consultationDetails.selectHasGovBodyConsultedStakeholdersOptionNo()
-      .fillConsultationDetails()
-      .submitConsultationDetails()
+    consultationDetails.enterConsultationDetails()
 
-    consultationSummary.consultationSummaryCompleteElementsVisible()
-      .submitConsultationSummary()
+    consultationSummary.checkConsultationSummaryCompleted()
+      .saveAndReturnToApp()
 
     application.checkConsultationCompleted()
       .startPreopeningSupportGrant()
 
-    preOpeningSupportGrantSummary.selectPreopeningSupportGrantStartSection()
+    preOpeningSupportGrantSummary.startPreopeningSupportGrant()
 
-    preopeningSupportGrantDetails.selectToTheSchoolVerifyAndSubmitPreopeningSupportGrantDetails()
+    preopeningSupportGrantDetails.enterPreopeningSupportGrantDetails()
 
-    preOpeningSupportGrantSummary.preopeningSupportGrantSummaryCompleteElementsVisible()
-      .submitPreopeningSupportGrantSummary()
+    preOpeningSupportGrantSummary.checkPreopeningSupportGrantSummaryCompleted()
+      .saveAndReturnToApp()
 
     application.checkPreopeningSupportGrantCompleted()
       .startDeclaration()
 
-    declarationSummary.declarationStartSection()
+    declarationSummary.startDeclaration()
 
-    declaration.selectAgreementsVerifyAndSubmit()
+    declaration.selectAgreements()
 
-    declarationSummary.declarationSummaryCompleteElementsVisible()
-      .submitDeclarationSummary()
+    declarationSummary.checkDeclarationSummaryCompleted()
+      .saveAndReturnToApp()
 
     application.checkDeclarationCompleted()
       .submitApplication()
 
-    successfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible()
+    successfulApplicationSubmitted.checkApplicationSubmitted()
   })
 })

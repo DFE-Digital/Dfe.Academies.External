@@ -276,27 +276,27 @@ class Application {
     return this
   }
 
-  public selectFAMSchool(applicationId: string): this {
+  public selectFAMSchool(): this {
     cy.url().then((url) => {
-      applicationId = url.split('=').pop()
+      const applicationId = url.split('=').pop()
       cy.get(`a[href="/school/school-overview?appId=${applicationId}&urn=113537"]`).click()
     })
 
     return this
   }
 
-  public selectFAMAddTheTrust(applicationId: string): this {
+  public selectFAMAddTheTrust(): this {
     cy.url().then((url) => {
-      applicationId = url.split('=').pop()
+      const applicationId = url.split('=').pop()
       cy.get(`a[href="/trust/form-amat/application-new-trust-name?appId=${applicationId}"]`).click()
     })
 
     return this
   }
 
-  public selectFAMTrustDetails(applicationId: string): this {
+  public selectFAMTrustDetails(): this {
     cy.url().then((url) => {
-      applicationId = url.split('=').pop()
+      const applicationId = url.split('=').pop()
       cy.get(`a[href="/trust/form-amat/application-new-trust-summary?appId=${applicationId}"]`).click()
     })
 

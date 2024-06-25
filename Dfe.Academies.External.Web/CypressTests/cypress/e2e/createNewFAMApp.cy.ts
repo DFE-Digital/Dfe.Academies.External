@@ -59,7 +59,6 @@ describe('Create a FAM application', () => {
   const chairEmail = faker.internet.email()
 
   const trustOpeningYear = `${new Date().getFullYear() + 1}`
-  const applicationId = '100080'
 
   beforeEach(function () {
     cy.visit(Cypress.env('URL'))
@@ -84,7 +83,7 @@ describe('Create a FAM application', () => {
     whatIsTheNameOfTheSchool.selectSchoolName('Plym')
 
     application.FAMApplicationNotStartedSchoolAddedElementsVisible()
-      .selectFAMSchool(applicationId)
+      .selectFAMSchool()
 
     schoolOverview.FAMSchoolOverviewPageNotStartedElementsVisible()
 
@@ -120,97 +119,91 @@ describe('Create a FAM application', () => {
 
     financeSummary.startPreviousFinancialYear()
 
-    previousFinancialYear.enterPreviousFinancialYear()
+    previousFinancialYear.enterPreviousFinancialYearDetails()
 
-    currentFinancialYear.inputCurrentFinancialYrDataAndSubmit()
+    currentFinancialYear.enterCurrentFinancialYearDetails()
 
-    nextFinancialYear.inputNextFinancialYrDataAndSubmit()
+    nextFinancialYear.enterNextFinancialYearDetails()
 
-    loansSummary.selectLoansOptionNo()
-      .submitLoansSummary()
+    loansSummary.enterLoansDetails()
 
-    leasesSummary.leasesSelectOptionNo()
-      .submitLeasesSummary()
+    leasesSummary.enterLeasesDetails()
 
-    financialInvestigations.selectFinancialInvestigationsOptionNo()
-      .submitFinancialInvestigations()
+    financialInvestigations.enterFinancialInvestigationsDetails()
 
-    financeSummary.financeSummaryCompleteElementsVisible()
-      .submitFinanceSummary()
+    financeSummary.checkFinanceSummaryCompleted()
+      .saveAndReturnToApp()
 
     schoolOverview.FAMSchoolOverviewPageFinancesCompleteElementsVisible()
 
     application.startFuturePupilNumbers()
 
-    futurePupilNumbersSummary.selectFuturePupilNumbersStartSection()
+    futurePupilNumbersSummary.startFuturePupilNumbers()
 
-    futurePupilNumbersDetails.fillFuturePupilNumbersDetails()
-      .submitFuturePupilNumbersDetails()
+    futurePupilNumbersDetails.enterFuturePupilNumbersDetails()
 
-    futurePupilNumbersSummary.futurePupilNumbersSummaryCompleteElementsVisible()
-      .submitFuturePupilNumbersSummary()
+    futurePupilNumbersSummary.checkFuturePupilNumbersSummaryCompleted()
+      .saveAndReturnToApp()
 
     application.FAMApplicationFuturePupilNumbersSubmittedElementsVisible()
 
-    application.selectFAMSchool(applicationId)
+    application.selectFAMSchool()
 
     schoolOverview.FAMSchoolOverviewPageFuturePupilNumbersCompleteElementsVisible()
 
     application.startLandAndBuildings()
 
-    landAndBuildingsSummary.selectLandAndBuildingsStartSection()
+    landAndBuildingsSummary.startLandAndBuildings()
 
-    landAndBuildingsDetails.fillLandAndBuildingsDetailsDataAndSubmit()
+    landAndBuildingsDetails.enterLandAndBuildingsDetailsDetails()
 
-    landAndBuildingsSummary.landAndBuildingsSummaryCompleteElementsVisible()
-      .submitLandAndBuildingsSummary()
+    landAndBuildingsSummary.checkLandAndBuildingsSummaryCompleted()
+      .saveAndReturnToApp()
 
     schoolOverview.FAMSchoolOverviewPageLandAndBuildingsCompleteElementsVisible()
 
     application.startConsultation()
 
-    consultationSummary.selectConsultationStartSection()
+    consultationSummary.startConsultation()
 
-    consultationDetails.selectHasGovBodyConsultedStakeholdersOptionNo()
-      .fillConsultationDetails()
-      .submitConsultationDetails()
+    consultationDetails.enterConsultationDetails()
 
-    consultationSummary.consultationSummaryCompleteElementsVisible()
-      .submitConsultationSummary()
+    consultationSummary.checkConsultationSummaryCompleted()
+      .saveAndReturnToApp()
 
     schoolOverview.FAMSchoolOverviewPageConsultationCompleteElementsVisible()
 
     application.startPreopeningSupportGrant()
 
-    preOpeningSupportGrantSummary.selectPreopeningSupportGrantStartSection()
+    preOpeningSupportGrantSummary.startPreopeningSupportGrant()
 
     preopeningSupportGrantDetails.FAMSelectToTheSchoolVerifyAndSubmitPreopeningSupportGrantDetails()
 
-    preOpeningSupportGrantSummary.preopeningSupportGrantSummaryCompleteElementsVisible()
-      .submitPreopeningSupportGrantSummary()
+    preOpeningSupportGrantSummary.checkPreopeningSupportGrantSummaryCompleted()
+      .saveAndReturnToApp()
 
     schoolOverview.FAMSchoolOverviewPagePreopeningSupportGrantCompleteElementsVisible()
 
     application.startDeclaration()
 
-    declarationSummary.declarationStartSection()
+    declarationSummary.startDeclaration()
 
-    declaration.selectAgreementsVerifyAndSubmit()
+    declaration.selectAgreements()
 
-    declarationSummary.declarationSummaryCompleteElementsVisible()
-      .submitDeclarationSummary()
+    declarationSummary.checkDeclarationSummaryCompleted()
+      .saveAndReturnToApp()
 
     schoolOverview.FAMSchoolOverviewPageDeclarationCompleteElementsVisible()
 
     schoolOverview.selectSaveAndReturn()
 
     application.FAMApplicationSchoolCompleteElementsVisible()
-      .selectFAMAddTheTrust(applicationId)
+      .selectFAMAddTheTrust()
 
     trustname.FAMEnterTrustnameAndSubmit()
 
     application.FAMApplicationTrustNameComplete()
-      .selectFAMTrustDetails(applicationId)
+      .selectFAMTrustDetails()
 
     trustOverview.FAMTrustOverviewTrustNameCompleteElementsVisible()
       .selectOpeningDate()
@@ -278,6 +271,6 @@ describe('Create a FAM application', () => {
     application.FAMApplicationOverviewCompleteElementsVisible()
       .submitApplication()
 
-    successfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible()
+    successfulApplicationSubmitted.checkApplicationSubmitted()
   })
 })

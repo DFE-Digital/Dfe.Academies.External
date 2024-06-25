@@ -1,7 +1,6 @@
 class PreopeningSupportGrantDetails {
-  public selectToTheSchoolVerifyAndSubmitPreopeningSupportGrantDetails(): this {
+  public enterPreopeningSupportGrantDetails(): this {
     cy.get('#pay-toSchool').click()
-
     cy.get('#pay-toSchool').should('be.checked')
 
     cy.get('input[type=submit]').click()
