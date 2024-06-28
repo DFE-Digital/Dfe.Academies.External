@@ -1,0 +1,17 @@
+name: Docker build
+
+on:
+  pull_request:
+    paths:
+      - Dockerfile
+    types: [opened, synchronize]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: build docker image
+        run: docker build -f ./Dockerfile . -t a2bext-app:latest --force-rm
