@@ -1,5 +1,5 @@
 ﻿# Stage 1
-ARG ASPNET_IMAGE_TAG=8.0.0-bookworm-slim
+ARG ASPNET_IMAGE_TAG=8.0-bookworm-slim
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /build
 
