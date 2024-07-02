@@ -1,12 +1,14 @@
 class ChangingTheNameOfTheSchool {
-  public changingTheNameOfTheSchoolSelectOptionNo(): this {
-    cy.get('#selectoptionNo').click()
-    cy.get('#selectoptionNo').should('be.checked')
+  public enterChangingTheNameOfTheSchool(choice: string): this {
+    const selector = `#selectoption${choice === 'Yes' ? 'Yes' : 'No'}`
 
-    return this
-  }
+    cy.get(selector).click()
+    cy.get(selector).should('be.checked')
 
-  public submitChangingTheNameOfTheSchool(): this {
+    if (choice === 'Yes') {
+      cy.get('[id="ChangeSchoolName"').type('New Name')
+    }
+
     cy.get('input[type=submit]').click()
 
     return this

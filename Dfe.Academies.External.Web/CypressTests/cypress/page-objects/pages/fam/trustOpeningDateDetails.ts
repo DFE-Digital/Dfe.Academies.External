@@ -1,26 +1,14 @@
 class TrustOpeningDateDetails {
-  public selectDayAndInput(): this {
+  public enterOpeningDateDetails(trustOpeningYear: string, approverName: string, approverEmail: string): this {
     cy.get('#sip_formtrustopeningdate-day').click()
     cy.get('#sip_formtrustopeningdate-day').type('1')
 
-    return this
-  }
-
-  public selectMonthAndInput(): this {
     cy.get('#sip_formtrustopeningdate-month').click()
     cy.get('#sip_formtrustopeningdate-month').type('9')
 
-    return this
-  }
-
-  public selectYearAndInput(trustOpeningDateYear: string): this {
     cy.get('#sip_formtrustopeningdate-year').click()
-    cy.get('#sip_formtrustopeningdate-year').type(trustOpeningDateYear)
+    cy.get('#sip_formtrustopeningdate-year').type(trustOpeningYear)
 
-    return this
-  }
-
-  public FAMTrustOpeningDateInputApproverDetailsAndSubmit(approverName: string, approverEmail: string): this {
     if (approverName.includes('.')) {
       approverName = approverName.replace('.', '')
     }

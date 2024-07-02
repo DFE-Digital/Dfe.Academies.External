@@ -10,23 +10,25 @@ You will need to install all dependencies by running `npm install` in the `Dfe.A
 
 ### Environment setup
 
-The Cypress tests rely on some secrets being set. These can be added to a `.env` file within the CypressTests folder, or in your terminal session:
+The Cypress tests rely on some secrets being set. These can be added to a `cypress.env.json` file within the CypressTests folder, or in your terminal session:
 
 ```
-URL
-LOGIN_USERNAME
-LOGIN_PASSWORD
-SIGNIN_URL
+{
+  "url": <value>,
+  loginUsername: <value>,
+  loginPassword: <value>,
+  signinUrl: <value>
+}
 ```
 
 Replace the values as required based on the below:
 
 | Key | Description | Example |
 |--|--|--|
-| `URL` | The base url for the application | `https://localhost:5005` |
-| `LOGIN_USERNAME` | The username for logging in via DfE Sign-In | `foobar` |
-| `LOGIN_PASSWORD` | The password for logging in via DfE Sign-In | `abc123` |
-| `SIGNIN_URL` | The url for DfE Sign-In | `https://localhost:5005/signin` |
+| `url` | The base url for the application | `https://localhost:5005` |
+| `loginUsername` | The username for logging in via DfE Sign-In | `foobar` |
+| `loginPassword` | The password for logging in via DfE Sign-In | `abc123` |
+| `signinUrl` | The url for DfE Sign-In | `https://localhost:5005/signin` |
 
 ## Test Execution
 

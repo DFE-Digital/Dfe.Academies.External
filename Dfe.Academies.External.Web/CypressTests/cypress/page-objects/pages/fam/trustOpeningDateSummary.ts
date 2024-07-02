@@ -5,14 +5,8 @@ class TrustOpeningDateSummary {
     return this
   }
 
-  public FAMOpeningDateSummaryCompleteElementsVisibleAndSubmit(trustOpeningDateYear: string, approverName: string, approverEmail: string): this {
-    cy.get('.govuk-back-link').contains('Back')
-    cy.get('.govuk-caption-l').contains('Plymouth')
-    cy.get('.govuk-heading-l').contains('Opening date')
-
+  public checkOpeningDateSummaryCompleted(trustOpeningDateYear: string, approverName: string, approverEmail: string): this {
     // TODO need better selectors for these
-    cy.get('.govuk-link').contains('Change your answers')
-    cy.get('p').eq(2).contains('When do the schools plan to establish the new multi-academy trust?')
     cy.get('p').eq(3).contains(`01/09/${trustOpeningDateYear}`)
     cy.get('p').eq(5).contains(approverName)
     cy.get('p').eq(7).contains(approverEmail)

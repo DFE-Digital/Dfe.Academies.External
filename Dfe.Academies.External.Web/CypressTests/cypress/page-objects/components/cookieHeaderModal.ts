@@ -1,5 +1,5 @@
 class CookieHeaderModal {
-  public clickAcceptAnalyticsCookies(): this {
+  public acceptAnalyticsCookies(): this {
     cy.get('[value=accept]').click()
 
     return this

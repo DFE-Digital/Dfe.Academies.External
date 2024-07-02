@@ -1,9 +1,3 @@
-// TODO Migrate from dotenv to cypress.env.json
-import * as dotenv from 'dotenv'
-
-dotenv.config()
-
-// TODO add this to interface
 Cypress.Commands.add('excuteAccessibilityTests', () => {
   const wcagStandards = ['wcag22aa', 'wcag21aa']
   const impactLevel = ['critical', 'minor', 'moderate', 'serious']

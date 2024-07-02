@@ -1,30 +1,19 @@
 class DeclarationSummary {
-  public declarationStartSection(): this {
+  public startDeclaration(): this {
     cy.contains('Start section').click()
 
     return this
   }
 
   // TODO all of these elements require proper Cypress tags
-  public declarationSummaryCompleteElementsVisible(): this {
-    cy.get('.govuk-back-link').contains('Back')
-
-    cy.get('.govuk-caption-l').contains('Plymstock School')
-
-    cy.get('.govuk-heading-l').contains('Declaration')
-
-    cy.get('.govuk-link').contains('Change your answers')
-
-    cy.get('b').eq(0).contains('I agree with all of these statements, and believe that the facts stated in this application are true')
-    // cy.get('p').eq(2).contains('Yes')
-
-    cy.get('.govuk-button').should('be.visible').contains('Back')
+  public checkDeclarationSummaryCompleted(): this {
+    cy.get('p').eq(2).contains('Yes')
 
     return this
   }
 
-  public submitDeclarationSummary(): this {
-    cy.get('.govuk-button').click()
+  public saveAndReturnToApp(): this {
+    cy.get('[data-cy="saveAndReturnButton"]').click()
 
     return this
   }

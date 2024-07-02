@@ -24,7 +24,7 @@
 		<input type="hidden" asp-for="ApplicationId"/>
 		<partial name="_HiddenFields"/>
 		<div class="govuk-button-group">
-			<input type="submit" value="Confirm" class="govuk-button"/>
+			<input type="submit" value="Confirm" class="govuk-button" data-cy="confirmRemove"/>
             <a asp-page="AddAContributor" asp-route-appId="@Model.ApplicationId" class="govuk-button govuk-button--secondary">Cancel</a>
 		</div>
 	</form>

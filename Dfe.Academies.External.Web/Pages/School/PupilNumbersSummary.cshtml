@@ -49,6 +49,6 @@
 			<partial name="_SchoolConversionComponentPartial" model="@conversionComponent"/>
 		}
 	}
-    <a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+    <a asp-page="../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button" data-cy="saveAndReturnButton">Save and return to your application</a>
 </div>
 <input type="hidden" asp-for="Urn" />

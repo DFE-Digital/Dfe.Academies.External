@@ -49,12 +49,7 @@ jobs:
         run: npm install
 
       - name: Run cypress
-        env:
-          URL: ${{ secrets.URL }}
-          LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
-          LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
-          SIGNIN_URL: ${{ secrets.SIGNIN_URL }}
-        run: npm run cy:run
+        run: npm run cy:run -- --env url='${{ secrets.URL }}',loginUsername=${{ secrets.LOGIN_USERNAME }},loginPassword=${{ secrets.LOGIN_PASSWORD }},signinUrl=${{ secrets.SIGNIN_URL }}
 
       - name: upload report
         uses: actions/upload-artifact@v4
