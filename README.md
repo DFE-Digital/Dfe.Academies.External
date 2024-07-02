@@ -45,6 +45,8 @@ This is all that is required to run this project.
 ### User Secrets
 
 You will need to configure user secrets to be able to run / contribute to the project. It will look similar to below:-
+
+```json
 {
   "SignIn": {
     "OneLoginUrl": "",
@@ -53,17 +55,18 @@ You will need to configure user secrets to be able to run / contribute to the pr
     "OneloginOpenIdConnectClientSecret": ""
   },
   "academies_api": {
-    "endpoint": "https://trams-external-api.azurewebsites.net/",
-    "key": ""
+    "endpoint": "https://<url to academies api>",
+    "key": "<api key>"
   },
   "academisation_api": {
-    "endpoint": "https://s184d01-aca-aca-app.nicedesert-a691fec6.westeurope.azurecontainerapps.io/",
-    "key": ""
+    "endpoint": "https://<url to academisation api>",
+    "key": "<api key>"
   },
   "emailnotifications": {
     "key": ""
   }
 }
+```
 
 ### Installing
 
