@@ -7,7 +7,7 @@ public sealed class ApplicationMilestonesViewModel
 		ApplicationMilestones = new()
 			{
 				new ApplicationMilestoneViewModel("ApplicationSubmission", "Application submission"),
-				new ApplicationMilestoneViewModel("RSCDecision","Regional schools commissioner makes a decision with advice from the Headteacher Board"),
+				new ApplicationMilestoneViewModel("RSCDecision","Regional director makes a decision with advice from the Advisory Board"),
 				new ApplicationMilestoneViewModel("AcademyOrder","Academy order is issued"),
 				new ApplicationMilestoneViewModel("SubmitLandQuestionnaire","School’s solicitor submits a land questionnaire, including site plan"),
 				new ApplicationMilestoneViewModel("SubmitDraftFundingAgreement","School’s solicitor submits draft funding agreement (and memorandum and articles of association for new trusts)"),
