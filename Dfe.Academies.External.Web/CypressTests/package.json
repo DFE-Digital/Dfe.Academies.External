@@ -6,7 +6,7 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run --env url=$URL --env username=$LOGIN_USERNAME,password=$LOGIN_PASSWORD,signinUrl=$SIGNIN_URL",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint ."
   },
   "keywords": [
     "regression",
