@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Options;
 using NetEscapades.AspNetCore.SecurityHeaders;
 using Notify.Client;
@@ -29,7 +30,7 @@ using StackExchange.Redis;
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
-//https://github.com/gunndabad/govuk-frontend-aspnetcore  
+//https://github.com/gunndabad/govuk-frontend-aspnetcore
 builder.Services.AddGovUkFrontend(options =>
 {
 	options.GetCspNonceForRequest = context => context.GetNonce();
@@ -266,10 +267,18 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
+// Ensure we do not lose X-Forwarded-* Headers when behind a Proxy
+var forwardOptions = new ForwardedHeadersOptions {
+	ForwardedHeaders = ForwardedHeaders.All,
+	RequireHeaderSymmetry = false
+};
+forwardOptions.KnownNetworks.Clear();
+forwardOptions.KnownProxies.Clear();
+app.UseForwardedHeaders(forwardOptions);
+
 if (!app.Environment.IsDevelopment())
 {
 	app.UseExceptionHandler("/Error");
-	app.UseHsts();
 }
 else
 {
@@ -314,6 +323,7 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 
 // add OWASP top 10 response headers
 app.UseSecurityHeaders(SecureHeadersDefinitions.GetHeaderPolicyCollection());
+app.UseHsts();
 app.UseMiddleware<CorrelationIdMiddleware>();
 
 // possible redis fix
