@@ -315,15 +315,16 @@ app.MapControllers();
 app.UseSession();
 app.UseCookiePolicy();
 
-// culture
+// add OWASP top 10 response headers
+app.UseSecurityHeaders(SecureHeadersDefinitions.GetHeaderPolicyCollection());
+app.UseHsts();
+
+// Add Content-Language response header
 app.UseRequestLocalization(new RequestLocalizationOptions
 {
 	ApplyCurrentCultureToResponseHeaders = true
 });
 
-// add OWASP top 10 response headers
-app.UseSecurityHeaders(SecureHeadersDefinitions.GetHeaderPolicyCollection());
-app.UseHsts();
 app.UseMiddleware<CorrelationIdMiddleware>();
 
 // possible redis fix
