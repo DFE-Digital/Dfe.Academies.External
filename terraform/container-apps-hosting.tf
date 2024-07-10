@@ -34,18 +34,19 @@ module "azure_container_apps_hosting" {
   dns_a_records        = local.dns_a_records
   dns_mx_records       = local.dns_mx_records
 
-  enable_cdn_frontdoor                        = local.enable_cdn_frontdoor
-  cdn_frontdoor_forwarding_protocol           = local.cdn_frontdoor_forwarding_protocol
-  cdn_frontdoor_enable_rate_limiting          = local.cdn_frontdoor_enable_rate_limiting
-  cdn_frontdoor_rate_limiting_threshold       = local.cdn_frontdoor_rate_limiting_threshold
-  cdn_frontdoor_host_add_response_headers     = local.cdn_frontdoor_host_add_response_headers
-  cdn_frontdoor_custom_domains                = local.cdn_frontdoor_custom_domains
-  cdn_frontdoor_host_redirects                = local.cdn_frontdoor_host_redirects
-  cdn_frontdoor_origin_fqdn_override          = local.cdn_frontdoor_origin_fqdn_override
-  cdn_frontdoor_origin_host_header_override   = local.cdn_frontdoor_origin_host_header_override
-  restrict_container_apps_to_cdn_inbound_only = local.restrict_container_apps_to_cdn_inbound_only
-  container_apps_allow_ips_inbound            = local.container_apps_allow_ips_inbound
-  enable_cdn_frontdoor_health_probe           = local.enable_cdn_frontdoor_health_probe
+  enable_cdn_frontdoor                            = local.enable_cdn_frontdoor
+  cdn_frontdoor_forwarding_protocol               = local.cdn_frontdoor_forwarding_protocol
+  cdn_frontdoor_enable_rate_limiting              = local.cdn_frontdoor_enable_rate_limiting
+  cdn_frontdoor_rate_limiting_threshold           = local.cdn_frontdoor_rate_limiting_threshold
+  cdn_frontdoor_rate_limiting_duration_in_minutes = local.cdn_frontdoor_rate_limiting_duration_in_minutes
+  cdn_frontdoor_host_add_response_headers         = local.cdn_frontdoor_host_add_response_headers
+  cdn_frontdoor_custom_domains                    = local.cdn_frontdoor_custom_domains
+  cdn_frontdoor_host_redirects                    = local.cdn_frontdoor_host_redirects
+  cdn_frontdoor_origin_fqdn_override              = local.cdn_frontdoor_origin_fqdn_override
+  cdn_frontdoor_origin_host_header_override       = local.cdn_frontdoor_origin_host_header_override
+  restrict_container_apps_to_cdn_inbound_only     = local.restrict_container_apps_to_cdn_inbound_only
+  container_apps_allow_ips_inbound                = local.container_apps_allow_ips_inbound
+  enable_cdn_frontdoor_health_probe               = local.enable_cdn_frontdoor_health_probe
 
   enable_monitoring             = local.enable_monitoring
   monitor_email_receivers       = local.monitor_email_receivers
