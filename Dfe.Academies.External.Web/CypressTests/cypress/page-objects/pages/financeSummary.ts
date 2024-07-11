@@ -1,7 +1,6 @@
 class FinanceSummary {
-  // TODO get better selector for element
   public startPreviousFinancialYear(): this {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').eq(0).click()
+    cy.get('[data-cy="startSectionButton"]').eq(0).click()
 
     return this
   }
@@ -49,7 +48,6 @@ class FinanceSummary {
     return this
   }
 
-  // TODO get better selector for element
   public saveAndReturnToApp(): this {
     cy.get('[data-cy="saveAndReturnButton"]').click()
 

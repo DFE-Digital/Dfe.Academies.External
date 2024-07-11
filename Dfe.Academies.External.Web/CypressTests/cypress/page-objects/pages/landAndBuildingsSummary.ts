@@ -1,13 +1,13 @@
 class LandAndBuildingsSummary {
   public startLandAndBuildings(): this {
-    cy.contains('Start section').click()
+    cy.get('[data-cy="startSectionButton"]').click()
 
     return this
   }
 
   // TODO all of these elements require proper Cypress tags
   public checkLandAndBuildingsSummaryCompleted(): this {
-    cy.get('p').eq(2).contains('As far as you\'re aware, who owns or holds the school\'s buildings and land?')
+    cy.get('p').eq(2).contains('Land owners')
 
     cy.get('p').eq(4).contains('No')
 

@@ -1,5 +1,4 @@
 class InviteContributor {
-  // TODO get better selectors for elements
   public inviteContributor(contributorFirstName: string, contributorEmail: string): this {
     cy.get('#EmailAddress').click()
     cy.get('#EmailAddress').type(contributorEmail)
@@ -35,7 +34,6 @@ class InviteContributor {
     return this
   }
 
-  // TODO get better selectors for elements
   public selectRemoveContributorLink(): this {
     cy.contains('Remove contributor').click()
 

@@ -216,7 +216,7 @@
 
 		@if (!Model.HideDeleteButton && Model.ApplicationStatus == ApplicationStatus.InProgress)
 			{
-				<p class="govuk-body"> <a asp-page="DeleteApplication" asp-route-appId="@Model.ApplicationId" class="govuk-link">Cancel application</a></p>
+				<p class="govuk-body"> <a asp-page="DeleteApplication" asp-route-appId="@Model.ApplicationId" class="govuk-link" data-cy="cancelApplication">Cancel application</a></p>
 			}
 </div>
 

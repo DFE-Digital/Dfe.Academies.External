@@ -1,5 +1,4 @@
 class LandAndBuildingsDetails {
-  // TODO update string used in method
   public enterLandAndBuildingsDetailsDetails(): this {
     cy.get('#SchoolBuildLandOwnerExplained').type('Land owners')
 

@@ -1,5 +1,4 @@
 class PreviousFinancialYear {
-  // TODO make date a parameter
   public enterPreviousFinancialYearDetails(): this {
     cy.get('#sip_pfyenddate-day').type('31')
     cy.get('#sip_pfyenddate-month').type('03')

@@ -1,6 +1,6 @@
 class PreOpeningSupportGrantSummary {
   public startPreopeningSupportGrant(): this {
-    cy.contains('Start section').click()
+    cy.get('[data-cy="startSectionButton"]').click()
 
     return this
   }

@@ -1,7 +1,6 @@
 class AdditionalDetailsSummaryPage {
-  // TODO get better selector for element
   public startAdditionalDetails(): this {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').click()
+    cy.get('[data-cy="startSectionButton"]').click()
 
     return this
   }

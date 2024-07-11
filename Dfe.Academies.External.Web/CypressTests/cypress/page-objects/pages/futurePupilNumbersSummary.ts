@@ -1,6 +1,6 @@
 class FuturePupilNumbersSummary {
   public startFuturePupilNumbers(): this {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').click()
+    cy.get('[data-cy="startSectionButton"]').click()
 
     return this
   }
