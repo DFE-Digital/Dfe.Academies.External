@@ -22,7 +22,7 @@ public static class SecureHeadersDefinitions
 	{
 		HeaderPolicyCollection policy = new HeaderPolicyCollection()
 			.AddFrameOptionsDeny()
-			.AddXssProtectionBlock()
+			.AddXssProtectionDisabled()
 			.AddContentTypeOptionsNoSniff()
 			.AddReferrerPolicyNoReferrer()
 			.RemoveServerHeader()
