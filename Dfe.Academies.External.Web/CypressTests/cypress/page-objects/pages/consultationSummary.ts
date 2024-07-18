@@ -5,9 +5,8 @@ class ConsultationSummary {
     return this
   }
 
-  // TODO all of these elements require proper Cypress tags
   public checkConsultationSummaryCompleted(): this {
-    cy.get('p').eq(2).contains('No')
+    cy.get('[data-cy="response"]').contains('No')
 
     return this
   }

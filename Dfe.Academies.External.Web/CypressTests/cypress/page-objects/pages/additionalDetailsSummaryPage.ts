@@ -5,33 +5,32 @@ class AdditionalDetailsSummaryPage {
     return this
   }
 
-  // TODO all of these elements require proper Cypress tags
   public checkAdditionalDetails(): this {
-    cy.get('p').eq(2).contains('What will the school bring to the trust they are joining?')
+    cy.get('[data-cy="response"]').eq(0).contains('What will the school bring to the trust they are joining?')
 
-    cy.get('p').eq(4).contains('No')
+    cy.get('[data-cy="response"]').eq(1).contains('No')
 
-    cy.get('p').eq(6).contains('No')
+    cy.get('[data-cy="response"]').eq(2).contains('No')
 
-    cy.get('p').eq(8).contains('No')
+    cy.get('[data-cy="response"]').eq(3).contains('No')
 
-    cy.get('p').eq(10).contains('No')
+    cy.get('[data-cy="response"]').eq(4).contains('No')
 
-    cy.get('p').eq(12).contains('Yes')
+    cy.get('[data-cy="response"]').eq(5).contains('Yes')
 
-    cy.get('p').eq(14).contains('No')
+    cy.get('[data-cy="response"]').eq(6).contains('No')
 
-    cy.get('p').eq(16).contains('Yes')
+    cy.get('[data-cy="response"]').eq(7).contains('Yes')
 
-    cy.get('p').eq(18).contains('No')
+    cy.get('[data-cy="response"]').eq(8).contains('No')
 
-    cy.get('p').eq(20).contains('Please provide a list of your main feeder schools')
+    cy.get('[data-cy="response"]').eq(9).contains('Please provide a list of your main feeder schools')
 
-    cy.get('p').eq(22).contains('fiftyk.pdf')
+    cy.get('[data-cy="response"]').eq(10).contains('fiftyk.pdf')
 
-    cy.get('p').eq(24).contains('No')
+    cy.get('[data-cy="response"]').eq(11).contains('No')
 
-    cy.get('p').eq(26).contains('No')
+    cy.get('[data-cy="response"]').eq(12).contains('No')
 
     cy.get('.govuk-button').should('be.visible').contains('Back')
 

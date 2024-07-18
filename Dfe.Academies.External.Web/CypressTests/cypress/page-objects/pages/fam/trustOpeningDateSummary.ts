@@ -6,10 +6,9 @@ class TrustOpeningDateSummary {
   }
 
   public checkOpeningDateSummaryCompleted(trustOpeningDateYear: string, approverName: string, approverEmail: string): this {
-    // TODO need better selectors for these
-    cy.get('p').eq(2).contains(`01/09/${trustOpeningDateYear}`)
-    cy.get('p').eq(4).contains(approverName)
-    cy.get('p').eq(6).contains(approverEmail)
+    cy.get('[data-cy="response"]').eq(0).contains(`01/09/${trustOpeningDateYear}`)
+    cy.get('[data-cy="response"]').eq(1).contains(approverName)
+    cy.get('[data-cy="response"]').eq(2).contains(approverEmail)
 
     cy.get('.govuk-button').should('be.visible').contains('Save and return to your application').click()
 

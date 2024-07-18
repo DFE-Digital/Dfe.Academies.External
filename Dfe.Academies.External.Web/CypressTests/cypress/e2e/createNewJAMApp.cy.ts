@@ -101,7 +101,7 @@ describe('Create a JAM application', () => {
     aboutTheConversion.checkAboutTheConversion(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
       .saveAndReturnToApp()
 
-    application.checkAboutConversionCompleted()
+    application.checkSectionComplete('About the conversion')
       .startFurtherInformation()
 
     additionalDetailsSummaryPage.startAdditionalDetails()
@@ -111,7 +111,7 @@ describe('Create a JAM application', () => {
     additionalDetailsSummaryPage.checkAdditionalDetails()
       .saveAndReturnToApp()
 
-    application.checkFurtherInformationCompleted()
+    application.checkSectionComplete('Further information')
       .startFinances()
 
     financeSummary.startPreviousFinancialYear()
@@ -131,7 +131,7 @@ describe('Create a JAM application', () => {
     financeSummary.checkFinanceSummaryCompleted()
       .saveAndReturnToApp()
 
-    application.checkFinanceCompleted()
+    application.checkSectionComplete('Finances')
       .startFuturePupilNumbers()
 
     futurePupilNumbersSummary.startFuturePupilNumbers()
@@ -141,7 +141,7 @@ describe('Create a JAM application', () => {
     futurePupilNumbersSummary.checkFuturePupilNumbersSummaryCompleted()
       .saveAndReturnToApp()
 
-    application.checkFuturePupilNumbersCompleted()
+    application.checkSectionComplete('Future pupil numbers')
       .startLandAndBuildings()
 
     landAndBuildingsSummary.startLandAndBuildings()
@@ -151,7 +151,7 @@ describe('Create a JAM application', () => {
     landAndBuildingsSummary.checkLandAndBuildingsSummaryCompleted()
       .saveAndReturnToApp()
 
-    application.checkLandAndBuildingsCompleted()
+    application.checkSectionComplete('Land and buildings')
       .startConsultation()
 
     consultationSummary.startConsultation()
@@ -161,7 +161,7 @@ describe('Create a JAM application', () => {
     consultationSummary.checkConsultationSummaryCompleted()
       .saveAndReturnToApp()
 
-    application.checkConsultationCompleted()
+    application.checkSectionComplete('Consultation')
       .startPreopeningSupportGrant()
 
     preOpeningSupportGrantSummary.startPreopeningSupportGrant()
@@ -171,7 +171,7 @@ describe('Create a JAM application', () => {
     preOpeningSupportGrantSummary.checkPreopeningSupportGrantSummaryCompleted()
       .saveAndReturnToApp()
 
-    application.checkPreopeningSupportGrantCompleted()
+    application.checkSectionComplete('Pre-opening support grant')
       .startDeclaration()
 
     declarationSummary.startDeclaration()
@@ -181,7 +181,7 @@ describe('Create a JAM application', () => {
     declarationSummary.checkDeclarationSummaryCompleted()
       .saveAndReturnToApp()
 
-    application.checkDeclarationCompleted()
+    application.checkSectionComplete('Declaration')
       .submitApplication()
 
     successfulApplicationSubmitted.checkApplicationSubmitted()

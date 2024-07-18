@@ -5,21 +5,20 @@ class LandAndBuildingsSummary {
     return this
   }
 
-  // TODO all of these elements require proper Cypress tags
   public checkLandAndBuildingsSummaryCompleted(): this {
-    cy.get('p').eq(2).contains('Land owners')
+    cy.get('[data-cy="response"]').eq(0).contains('Land owners')
 
-    cy.get('p').eq(4).contains('No')
+    cy.get('[data-cy="response"]').eq(1).contains('No')
 
-    cy.get('p').eq(6).contains('No')
+    cy.get('[data-cy="response"]').eq(2).contains('No')
 
-    cy.get('p').eq(8).contains('No')
+    cy.get('[data-cy="response"]').eq(3).contains('No')
 
-    cy.get('p').eq(10).contains('No')
+    cy.get('[data-cy="response"]').eq(4).contains('No')
 
-    cy.get('p').eq(12).contains('No')
+    cy.get('[data-cy="response"]').eq(5).contains('No')
 
-    cy.get('p').eq(14).contains('No')
+    cy.get('[data-cy="response"]').eq(6).contains('No')
 
     return this
   }

@@ -5,7 +5,7 @@
 		<p class="govuk-body"><b>@Model.Name</b></p>
 	</div>
 	<div class="govuk-grid-column-one-third">
-		<p class="govuk-body">@Model.Answer</p>
+		<p class="govuk-body" data-cy="response">@Model.Answer</p>
 	</div>
 </div>
 @foreach (var additionalInfo in Model.SubQuestionAndAnswers.ToList().Where(additionalInfo => @additionalInfo.QuestionAnswered))

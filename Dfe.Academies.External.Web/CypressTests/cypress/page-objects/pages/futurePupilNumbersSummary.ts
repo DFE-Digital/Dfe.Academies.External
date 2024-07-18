@@ -5,17 +5,16 @@ class FuturePupilNumbersSummary {
     return this
   }
 
-  // TODO all of these elements require proper Cypress tags
   public checkFuturePupilNumbersSummaryCompleted(): this {
-    cy.get('p').eq(2).contains('999')
+    cy.get('[data-cy="response"]').eq(0).contains('999')
 
-    cy.get('p').eq(4).contains('1499')
+    cy.get('[data-cy="response"]').eq(1).contains('1499')
 
-    cy.get('p').eq(6).contains('1999')
+    cy.get('[data-cy="response"]').eq(2).contains('1999')
 
-    cy.get('p').eq(8).contains('School Capacity Assumptions')
+    cy.get('[data-cy="response"]').eq(3).contains('School Capacity Assumptions')
 
-    cy.get('p').eq(10).contains('999')
+    cy.get('[data-cy="response"]').eq(4).contains('999')
 
     return this
   }

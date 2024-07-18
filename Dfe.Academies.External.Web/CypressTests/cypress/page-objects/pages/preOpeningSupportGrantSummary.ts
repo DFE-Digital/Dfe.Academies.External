@@ -5,9 +5,8 @@ class PreOpeningSupportGrantSummary {
     return this
   }
 
-  // TODO all of these elements require proper Cypress tags
   public checkPreopeningSupportGrantSummaryCompleted(): this {
-    cy.get('p').eq(2).contains('To the school')
+    cy.get('[data-cy="response"]').contains('To the school')
 
     return this
   }

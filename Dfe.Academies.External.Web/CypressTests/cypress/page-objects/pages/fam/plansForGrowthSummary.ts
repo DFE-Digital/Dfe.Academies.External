@@ -5,9 +5,8 @@ class PlansForGrowthSummary {
     return this
   }
 
-  // TODO get better selector for element
   public checkPlansForGrowthSummaryCompleted(): this {
-    cy.get('p').eq(2).contains('Yes')
+    cy.get('[data-cy="response"]').contains('Yes')
 
     cy.get('.govuk-button').should('be.visible').contains('Save and return to your application').click()
 

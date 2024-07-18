@@ -1,7 +1,39 @@
-// TODO get better selectors
 class Application {
+  public checkSectionComplete(section: string): this {
+    switch (section) {
+      case 'About the conversion':
+        cy.get('[data-cy="sectionStatus"]').eq(0).contains('Completed')
+        break
+      case 'Further information':
+        cy.get('[data-cy="sectionStatus"]').eq(1).contains('Completed')
+        break
+      case 'Finances':
+        cy.get('[data-cy="sectionStatus"]').eq(2).contains('Completed')
+        break
+      case 'Future pupil numbers':
+        cy.get('[data-cy="sectionStatus"]').eq(3).contains('Completed')
+        break
+      case 'Land and buildings':
+        cy.get('[data-cy="sectionStatus"]').eq(4).contains('Completed')
+        break
+      case 'Consultation':
+        cy.get('[data-cy="sectionStatus"]').eq(5).contains('Completed')
+        break
+      case 'Pre-opening support grant':
+        cy.get('[data-cy="sectionStatus"]').eq(6).contains('Completed')
+        break
+      case 'Declaration':
+        cy.get('[data-cy="sectionStatus"]').eq(7).contains('Completed')
+        break
+      default:
+        cy.log('Invalid option given')
+        break
+    }
+    return this
+  }
+
   public checkTrustSectionComplete(): this {
-    cy.get('strong[class="govuk-tag app-task-list__tag"]').contains('Completed')
+    cy.get('[data-cy="sectionStatus"]').contains('Completed')
 
     return this
   }
@@ -40,20 +72,8 @@ class Application {
     return this
   }
 
-  public checkAboutConversionCompleted(): this {
-    cy.get('.govuk-grid-column-one-third').eq(0).contains('Completed')
-
-    return this
-  }
-
   public startFurtherInformation(): this {
     cy.contains('Further information').click()
-
-    return this
-  }
-
-  public checkFurtherInformationCompleted(): this {
-    cy.get('.govuk-grid-column-one-third').eq(1).contains('Completed')
 
     return this
   }
@@ -64,20 +84,8 @@ class Application {
     return this
   }
 
-  public checkFinanceCompleted(): this {
-    cy.get('.govuk-grid-column-one-third').eq(2).contains('Completed')
-
-    return this
-  }
-
   public startFuturePupilNumbers(): this {
     cy.contains('Future pupil numbers').click()
-
-    return this
-  }
-
-  public checkFuturePupilNumbersCompleted(): this {
-    cy.get('.govuk-grid-column-one-third').eq(3).contains('Completed')
 
     return this
   }
@@ -88,20 +96,8 @@ class Application {
     return this
   }
 
-  public checkLandAndBuildingsCompleted(): this {
-    cy.get('.govuk-grid-column-one-third').eq(4).contains('Completed')
-
-    return this
-  }
-
   public startConsultation(): this {
     cy.contains('Consultation').click()
-
-    return this
-  }
-
-  public checkConsultationCompleted(): this {
-    cy.get('.govuk-grid-column-one-third').eq(5).contains('Completed')
 
     return this
   }
@@ -112,20 +108,8 @@ class Application {
     return this
   }
 
-  public checkPreopeningSupportGrantCompleted(): this {
-    cy.get('.govuk-grid-column-one-third').eq(6).contains('Completed')
-
-    return this
-  }
-
   public startDeclaration(): this {
     cy.contains('Declaration').click()
-
-    return this
-  }
-
-  public checkDeclarationCompleted(): this {
-    cy.get('.govuk-grid-column-one-third').eq(7).contains('Completed')
 
     return this
   }
@@ -154,28 +138,28 @@ class Application {
       const applicationId = url.split('=').pop()
 
       cy.get(`a[href="/school/school-overview?appId=${applicationId}&urn=113537"]`).contains('Plymstock School')
-      cy.get('strong').eq(1).contains('Not Started')
+      cy.get('[data-cy="sectionStatus"]').eq(0).contains('Not Started')
     })
 
     return this
   }
 
   public checkSchoolCompleted(): this {
-    cy.get('strong').eq(1).contains('Completed')
+    cy.get('[data-cy="sectionStatus"]').eq(0).contains('Completed')
 
     return this
   }
 
-  public checkTrustNameCompleted(): this {
-    cy.get('h3').contains('Plymouth')
+  public checkTrustAdded(): this {
+    cy.get('[data-cy="trustName"]').contains('Plymouth')
 
-    cy.get('strong').eq(2).contains('In Progress')
+    cy.get('[data-cy="sectionStatus"]').eq(1).contains('In Progress')
 
     return this
   }
 
   public checkSchoolStatus(): this {
-    cy.get('strong').eq(1).contains('In Progress')
+    cy.get('[data-cy="sectionStatus"]').eq(0).contains('In Progress')
 
     return this
   }
@@ -208,7 +192,8 @@ class Application {
   }
 
   public checkApplicationOverviewCompleted(): this {
-    cy.get('strong').eq(2).contains('Completed')
+    cy.get('[data-cy="sectionStatus"]').eq(0).contains('Completed')
+    cy.get('[data-cy="sectionStatus"]').eq(1).contains('Completed')
 
     return this
   }

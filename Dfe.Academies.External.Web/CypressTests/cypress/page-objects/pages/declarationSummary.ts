@@ -5,9 +5,8 @@ class DeclarationSummary {
     return this
   }
 
-  // TODO all of these elements require proper Cypress tags
   public checkDeclarationSummaryCompleted(): this {
-    cy.get('p').eq(2).contains('Yes')
+    cy.get('[data-cy="response"]').contains('Yes')
 
     return this
   }

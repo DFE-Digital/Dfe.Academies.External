@@ -16,7 +16,6 @@ class InviteContributor {
     return this
   }
 
-  // TODO get better selectors for elements
   public hasSuccessBanner(contributorFirstName: string): this {
     cy.get('div[role=alert]').contains('Success')
     cy.get('div[role=alert]').contains('Contributor added')
@@ -25,11 +24,10 @@ class InviteContributor {
     return this
   }
 
-  // TODO get better selectors for elements
   public hasContributor(contributorFirstName: string): this {
-    cy.get('.govuk-form-group').contains(`${contributorFirstName}`)
-    cy.get('.govuk-form-group').contains('Headmaster')
-    cy.get('.govuk-form-group').contains('Remove contributor')
+    cy.get('[data-cy="contributors"]').contains(`${contributorFirstName}`)
+    cy.get('[data-cy="contributors"]').contains('Headmaster')
+    cy.get('[data-cy="contributors"]').contains('Remove contributor')
 
     return this
   }
@@ -40,7 +38,6 @@ class InviteContributor {
     return this
   }
 
-  // TODO get better selectors for elements
   public contributorRemoved(contributorFirstName: string): this {
     cy.get('div[role=alert]').contains('Success')
     cy.get('div[role=alert]').contains('Contributor removed')

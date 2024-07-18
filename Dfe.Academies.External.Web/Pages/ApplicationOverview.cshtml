@@ -54,7 +54,7 @@
 							@school.Name
 						</a>
 					</div>
-					<div class="govuk-grid-column-two-thirds">
+					<div class="govuk-grid-column-two-thirds" data-cy="sectionStatus">
 						@{
 							var statusValue = (int)school.Status;
 						}
@@ -129,7 +129,7 @@
 	{
 		<div class="govuk-grid-row">
 			<div class="govuk-grid-column-one-quarter">
-				<h3 class="govuk-body govuk-!-font-weight-bold govuk-!-padding-right-5">@Model.NameOfTrustToJoin</h3>
+				<h3 class="govuk-body govuk-!-font-weight-bold govuk-!-padding-right-5" data-cy="trustName">@Model.NameOfTrustToJoin</h3>
 			</div>
 			<div class="govuk-grid-column-three-quarters">
 							@if (Model.ApplicationType == ApplicationTypes.JoinAMat && Model.ApplicationStatus != ApplicationStatus.Submitted)
@@ -166,7 +166,7 @@
 					</a>
 				}
 			</div>
-			<div class="govuk-grid-column-one-third">
+			<div class="govuk-grid-column-one-third" data-cy="sectionStatus">
 				@{
 					var trustConversionStatusValue = (int)Model.TrustConversionStatus;
 				}
