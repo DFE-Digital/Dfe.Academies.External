@@ -1,30 +1,18 @@
 class ConsultationSummary {
-  public selectConsultationStartSection(): this {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').click()
+  public startConsultation(): this {
+    cy.get('[data-cy="startSectionButton"]').click()
 
     return this
   }
 
-  // TODO all of these elements require proper Cypress tags
-  public consultationSummaryCompleteElementsVisible(): this {
-    cy.get('.govuk-back-link').contains('Back')
-
-    cy.get('.govuk-caption-l').contains('Plymstock School')
-
-    cy.get('.govuk-heading-l').contains('Consultation')
-
-    cy.get('.govuk-link').contains('Change your answers')
-
-    cy.get('b').eq(0).contains('Has the governing body consulted the relevant stakeholders?')
-    // cy.get('p').eq(2).contains('No')
-
-    cy.get('.govuk-button').should('be.visible').contains('Back')
+  public checkConsultationSummaryCompleted(): this {
+    cy.get('[data-cy="response"]').contains('No')
 
     return this
   }
 
-  public submitConsultationSummary(): this {
-    cy.get('.govuk-button').click()
+  public saveAndReturnToApp(): this {
+    cy.get('[data-cy="saveAndReturnButton"]').click()
 
     return this
   }

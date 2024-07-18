@@ -1,6 +1,6 @@
 class Home {
-  public clickStartNow(): this {
-    cy.get('.govuk-grid-column-two-thirds > .govuk-button').click()
+  public start(): this {
+    cy.get('[data-cy="startNowButton"]').click()
 
     return this
   }

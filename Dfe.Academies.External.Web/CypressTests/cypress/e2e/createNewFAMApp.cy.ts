@@ -1,4 +1,3 @@
-import header from '../page-objects/components/header'
 import cookieHeaderModal from '../page-objects/components/cookieHeaderModal'
 import home from '../page-objects/pages/home'
 import login from '../page-objects/pages/login'
@@ -6,7 +5,7 @@ import yourApplications from '../page-objects/pages/yourApplications'
 import whatAreYouApplyingToDo from '../page-objects/pages/whatAreYouApplyingToDo'
 import whatIsYourRole from '../page-objects/pages/whatIsYourRole'
 import whatIsTheNameOfTheSchool from '../page-objects/pages/whatIsTheNameOfTheSchool'
-import yourApplication from '../page-objects/pages/yourApplication'
+import application from '../page-objects/pages/application'
 import aboutTheConversion from '../page-objects/pages/aboutTheConversion'
 import mainContacts from '../page-objects/pages/mainContacts'
 import conversionTargetDate from '../page-objects/pages/conversionTargetDate'
@@ -32,7 +31,6 @@ import preopeningSupportGrantDetails from '../page-objects/pages/preOpeningSuppo
 import declarationSummary from '../page-objects/pages/declarationSummary'
 import declaration from '../page-objects/pages/declaration'
 import successfulApplicationSubmitted from '../page-objects/pages/successfulApplicationSubmitted'
-import footer from '../page-objects/components/footer'
 import schoolOverview from '../page-objects/pages/fam/schoolOverview'
 import trustname from '../page-objects/pages/fam/trustName'
 import trustOverview from '../page-objects/pages/fam/trustOverview'
@@ -61,197 +59,175 @@ describe('Create a FAM application', () => {
   const chairEmail = faker.internet.email()
 
   const trustOpeningYear = `${new Date().getFullYear() + 1}`
-  const applicationId = '100080'
 
   beforeEach(function () {
-    cy.visit(Cypress.env('URL'))
+    cy.visit(Cypress.env('url'))
 
-    header.govUkHeaderVisible()
-      .applyToBecomeAnAcademyHeaderLinkVisible()
+    cookieHeaderModal.acceptAnalyticsCookies()
 
-    footer.checkFooterLinksVisible()
+    home.start()
 
-    cookieHeaderModal.clickAcceptAnalyticsCookies()
-
-    home.clickStartNow()
+    login.login()
   })
 
   it('should be able to create a new application', () => {
-    login.login()
+    yourApplications.startNewApplication()
 
-    yourApplications.selectStartANewApplication()
+    whatAreYouApplyingToDo.startApplication('Form A MAT')
 
-    whatAreYouApplyingToDo.selectFAMRadioButtonVerifyAndSubmit()
+    whatIsYourRole.chooseRole('Governor')
 
-    whatIsYourRole.selectChairOfGovernorsRadioButtonVerifyAndSubmit()
-
-    yourApplication.FAMApplicationNotStartedElementsVisible()
-      .selectAddASchool()
+    application.addSchool()
 
     whatIsTheNameOfTheSchool.selectSchoolName('Plym')
 
-    yourApplication.FAMApplicationNotStartedSchoolAddedElementsVisible()
-      .selectFAMSchool(applicationId)
+    application.checkSchoolAdded()
+      .selectFAMSchool()
 
-    schoolOverview.FAMSchoolOverviewPageNotStartedElementsVisible()
+    application.startAboutTheConversion()
 
-    yourApplication.selectAboutTheConversion()
+    aboutTheConversion.startContactDetails()
 
-    aboutTheConversion.selectContactDetailsStartSection()
+    mainContacts.enterMainContactDetails(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
 
-    mainContacts.fillMainContactDetailsAndSubmit(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
+    conversionTargetDate.enterConversionTargetDate('No')
 
-    conversionTargetDate.selectConversionTargetDateOptionNo()
-      .conversionTargetDateSubmit()
+    reasonsForJoining.enterReasonsForJoining()
 
-    reasonsForJoining.reasonsForJoiningInputAndSubmit()
+    changingTheNameOfTheSchool.enterChangingTheNameOfTheSchool('No')
 
-    changingTheNameOfTheSchool.changingTheNameOfTheSchoolSelectOptionNo()
-      .submitChangingTheNameOfTheSchool()
+    aboutTheConversion.checkAboutTheConversion(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
+      .saveAndReturnToApp()
 
-    aboutTheConversion.aboutTheConversionCompleteElementsVisible(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
-      .submitAboutTheConversion()
+    schoolOverview.checkSectionCompleted('About the conversion')
 
-    schoolOverview.FAMSchoolOverviewPageAboutConversionCompleteElementsVisible()
+    application.startFurtherInformation()
 
-    yourApplication.selectFurtherInformation()
+    additionalDetailsSummaryPage.startAdditionalDetails()
 
-    additionalDetailsSummaryPage.selectAdditionalDetailsStartSection()
+    additionalDetailsDetails.enterAdditionalDetails()
 
-    additionalDetailsDetails.fillAdditionalDetailsDetailsAndSubmit()
+    additionalDetailsSummaryPage.checkAdditionalDetails()
+      .saveAndReturnToApp()
 
-    additionalDetailsSummaryPage.additionalDetailsSummaryCompleteElementsVisible()
-      .submitAdditionalDetailsSummary()
+    schoolOverview.checkSectionCompleted('Further information')
 
-    schoolOverview.FAMSchoolOverviewPageFurtherInformationCompleteElementsVisible()
+    application.startFinances()
 
-    yourApplication.selectFinances()
+    financeSummary.startPreviousFinancialYear()
 
-    financeSummary.selectPreviousFinancialYrStartSection()
+    previousFinancialYear.enterPreviousFinancialYearDetails()
 
-    previousFinancialYear.inputPreviousFinancialYrDataAndSubmit()
+    currentFinancialYear.enterCurrentFinancialYearDetails()
 
-    currentFinancialYear.inputCurrentFinancialYrDataAndSubmit()
+    nextFinancialYear.enterNextFinancialYearDetails()
 
-    nextFinancialYear.inputNextFinancialYrDataAndSubmit()
+    loansSummary.enterLoansDetails()
 
-    loansSummary.selectLoansOptionNo()
-      .submitLoansSummary()
+    leasesSummary.enterLeasesDetails()
 
-    leasesSummary.leasesSelectOptionNo()
-      .submitLeasesSummary()
+    financialInvestigations.enterFinancialInvestigationsDetails()
 
-    financialInvestigations.selectFinancialInvestigationsOptionNo()
-      .submitFinancialInvestigations()
+    financeSummary.checkFinanceSummaryCompleted()
+      .saveAndReturnToApp()
 
-    financeSummary.financeSummaryCompleteElementsVisible()
-      .submitFinanceSummary()
+    schoolOverview.checkSectionCompleted('Finances')
 
-    schoolOverview.FAMSchoolOverviewPageFinancesCompleteElementsVisible()
+    application.startFuturePupilNumbers()
 
-    yourApplication.selectFuturePupilNumbers()
+    futurePupilNumbersSummary.startFuturePupilNumbers()
 
-    futurePupilNumbersSummary.selectFuturePupilNumbersStartSection()
+    futurePupilNumbersDetails.enterFuturePupilNumbersDetails()
 
-    futurePupilNumbersDetails.fillFuturePupilNumbersDetails()
-      .submitFuturePupilNumbersDetails()
+    futurePupilNumbersSummary.checkFuturePupilNumbersSummaryCompleted()
+      .saveAndReturnToApp()
 
-    futurePupilNumbersSummary.futurePupilNumbersSummaryCompleteElementsVisible()
-      .submitFuturePupilNumbersSummary()
+    application.checkSchoolStatus()
+      .selectFAMSchool()
 
-    yourApplication.FAMApplicationFuturePupilNumbersSubmittedElementsVisible()
+    schoolOverview.checkSectionCompleted('Future pupil numbers')
 
-    yourApplication.selectFAMSchool(applicationId)
+    application.startLandAndBuildings()
 
-    schoolOverview.FAMSchoolOverviewPageFuturePupilNumbersCompleteElementsVisible()
+    landAndBuildingsSummary.startLandAndBuildings()
 
-    yourApplication.selectLandAndBuildings()
+    landAndBuildingsDetails.enterLandAndBuildingsDetailsDetails()
 
-    landAndBuildingsSummary.selectLandAndBuildingsStartSection()
+    landAndBuildingsSummary.checkLandAndBuildingsSummaryCompleted()
+      .saveAndReturnToApp()
 
-    landAndBuildingsDetails.fillLandAndBuildingsDetailsDataAndSubmit()
+    schoolOverview.checkSectionCompleted('Land and buildings')
 
-    landAndBuildingsSummary.landAndBuildingsSummaryCompleteElementsVisible()
-      .submitLandAndBuildingsSummary()
+    application.startConsultation()
 
-    schoolOverview.FAMSchoolOverviewPageLandAndBuildingsCompleteElementsVisible()
+    consultationSummary.startConsultation()
 
-    yourApplication.selectConsultation()
+    consultationDetails.enterConsultationDetails()
 
-    consultationSummary.selectConsultationStartSection()
+    consultationSummary.checkConsultationSummaryCompleted()
+      .saveAndReturnToApp()
 
-    consultationDetails.selectHasGovBodyConsultedStakeholdersOptionNo()
-      .fillConsultationDetails()
-      .submitConsultationDetails()
+    schoolOverview.checkSectionCompleted('Consultation')
 
-    consultationSummary.consultationSummaryCompleteElementsVisible()
-      .submitConsultationSummary()
+    application.startPreopeningSupportGrant()
 
-    schoolOverview.FAMSchoolOverviewPageConsultationCompleteElementsVisible()
+    preOpeningSupportGrantSummary.startPreopeningSupportGrant()
 
-    yourApplication.selectPreopeningSupportGrant()
+    preopeningSupportGrantDetails.confirmPreopeningSupportGrantDetails()
 
-    preOpeningSupportGrantSummary.selectPreopeningSupportGrantStartSection()
+    preOpeningSupportGrantSummary.checkPreopeningSupportGrantSummaryCompleted()
+      .saveAndReturnToApp()
 
-    preopeningSupportGrantDetails.FAMSelectToTheSchoolVerifyAndSubmitPreopeningSupportGrantDetails()
+    schoolOverview.checkSectionCompleted('Pre-opening support grant')
 
-    preOpeningSupportGrantSummary.preopeningSupportGrantSummaryCompleteElementsVisible()
-      .submitPreopeningSupportGrantSummary()
+    application.startDeclaration()
 
-    schoolOverview.FAMSchoolOverviewPagePreopeningSupportGrantCompleteElementsVisible()
+    declarationSummary.startDeclaration()
 
-    yourApplication.selectDeclaration()
+    declaration.selectAgreements()
 
-    declarationSummary.declarationStartSection()
+    declarationSummary.checkDeclarationSummaryCompleted()
+      .saveAndReturnToApp()
 
-    declaration.selectAgreementsVerifyAndSubmit()
+    schoolOverview.checkSectionCompleted('Declaration')
+      .saveAndReturn()
 
-    declarationSummary.declarationSummaryCompleteElementsVisible()
-      .submitDeclarationSummary()
+    application.checkSchoolCompleted()
+      .addFAMTrust()
 
-    schoolOverview.FAMSchoolOverviewPageDeclarationCompleteElementsVisible()
+    trustname.enterTrustName()
 
-    schoolOverview.selectSaveAndReturn()
+    application.checkTrustAdded()
+      .selectFAMTrust()
 
-    yourApplication.FAMApplicationSchoolCompleteElementsVisible()
-      .selectFAMAddTheTrust(applicationId)
-
-    trustname.FAMEnterTrustnameAndSubmit()
-
-    yourApplication.FAMApplicationTrustNameComplete()
-      .selectFAMTrustDetails(applicationId)
-
-    trustOverview.FAMTrustOverviewTrustNameCompleteElementsVisible()
+    trustOverview.checkSectionCompleted('Trust name')
       .selectOpeningDate()
 
     trustOpeningDateSummary.selectStartSection()
 
-    trustOpeningDateDetails.selectDayAndInput()
-      .selectMonthAndInput()
-      .selectYearAndInput(trustOpeningYear)
-      .FAMTrustOpeningDateInputApproverDetailsAndSubmit(approverName, approverEmail)
+    trustOpeningDateDetails.enterOpeningDateDetails(trustOpeningYear, approverName, approverEmail)
 
-    trustOpeningDateSummary.FAMOpeningDateSummaryCompleteElementsVisibleAndSubmit(trustOpeningYear, approverName, approverEmail)
+    trustOpeningDateSummary.checkOpeningDateSummaryCompleted(trustOpeningYear, approverName, approverEmail)
 
-    trustOverview.FAMTrustOverviewOpeningDateCompleteElementsVisible()
+    trustOverview.checkSectionCompleted('Opening date')
       .selectReasonsForFormingTheTrust()
 
     reasonsForFormingTrustSummary.selectStartSection()
 
-    reasonsForFormingTrustDetails.FAMFillReasonsForFormingTrustAndSubmit()
+    reasonsForFormingTrustDetails.enterReasonsForFormingTrust()
 
-    reasonsForFormingTrustSummary.FAMReasonsForFormingTrustSummaryCompleteElementsVisibleAndSubmit()
+    reasonsForFormingTrustSummary.checkReasonsForFormingTrustSummaryCompleted()
 
-    trustOverview.FAMTrustOverviewReasonsForFormingTrustCompleteElementsVisible()
+    trustOverview.checkSectionCompleted('Reasons for forming the trust')
       .selectPlansForGrowth()
 
     trustPlansForGrowthSummary.selectStartSection()
 
     trustPlansForGrowthDetails.inputPlansForGrowthAndSubmit()
 
-    trustPlansForGrowthSummary.FAMPlansForGrowthSummaryCompleteElementsVisibleAndSubmit()
+    trustPlansForGrowthSummary.checkPlansForGrowthSummaryCompleted()
 
-    trustOverview.FAMTrustOverviewPlansForGrowthCompleteElementsVisible()
+    trustOverview.checkSectionCompleted('Plans for growth')
 
     trustOverview.selectSchoolImprovementStrategy()
 
@@ -261,7 +237,7 @@ describe('Create a FAM application', () => {
 
     schoolImprovementStrategySummary.schoolImprovementStrategyCompleteElementsVisibleAndSubmit()
 
-    trustOverview.FAMTrustOverviewSchoolImprovementStrategyCompleteElementsVisible()
+    trustOverview.checkSectionCompleted('School improvement strategy')
 
     trustOverview.selectGovernanceStructure()
 
@@ -269,9 +245,9 @@ describe('Create a FAM application', () => {
 
     governanceStructureDetails.uploadFileAndSubmit()
 
-    governanceStructureSummary.FAMGovernanceStructureSummaryCompleteElementsVisibleAndSubmit()
+    governanceStructureSummary.checkGovernanceStructureSummaryCompleted()
 
-    trustOverview.FAMTrustOverviewGovernanceStructureCompleteElementsVisible()
+    trustOverview.checkSectionCompleted('Governance structure')
 
     trustOverview.selectKeyPeople()
 
@@ -279,14 +255,14 @@ describe('Create a FAM application', () => {
 
     keyPersonDetails.fillKeyPersonDetailsAndSubmit(approverName)
 
-    keyPeopleSummary.FAMKeyPeopleSummaryCompleteElementsVisibleAndSubmit(approverName)
+    keyPeopleSummary.checkKeyPeopleSummaryCompleted(approverName)
 
-    trustOverview.FAMTrustOverviewKeyPeopleCompleteElementsVisible()
+    trustOverview.checkSectionCompleted('Key people')
       .selectReturnToYourApplication()
 
-    yourApplication.FAMApplicationOverviewCompleteElementsVisible()
+    application.checkApplicationOverviewCompleted()
       .submitApplication()
 
-    successfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible()
+    successfulApplicationSubmitted.checkApplicationSubmitted()
   })
 })

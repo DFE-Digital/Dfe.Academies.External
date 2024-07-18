@@ -43,11 +43,11 @@
             @foreach (var keyPerson in Model.NewTrustKeyPeople)
             {
 	            <li class="app-task-list__item">
-                    <h3 class="govuk-heading-s">
+                    <h3 class="govuk-heading-s" data-cy="keyPersonNameRole">
                         @keyPerson.Name
                         (@string.Join(", ", keyPerson.Roles.Select(x => x.Role.GetDescription())))
                     </h3>
-                    <p>
+                    <p data-cy="keyPersonInformation">
                         <strong>Date of birth: </strong>@(keyPerson.DateOfBirth.ToString("dd/MM/yyyy"))<br>
                         <strong>Biography: </strong>@(keyPerson.Biography)
                     </p>
@@ -74,5 +74,5 @@
     <div class="govuk-!-margin-6"></div>
 
 
-    <a asp-page="ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+    <a asp-page="ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button" data-cy="saveAndReturnButton">Save and return to your application</a>
 </div>

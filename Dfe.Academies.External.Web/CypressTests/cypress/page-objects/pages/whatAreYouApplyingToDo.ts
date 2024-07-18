@@ -1,17 +1,9 @@
 class WhatAreYouApplyingToDo {
-  public selectJAMRadioButtonVerifyAndSubmit(): this {
-    cy.get('input[type=radio]').eq(0).click()
-    cy.get('input[type=radio]').eq(0).should('be.checked')
+  public startApplication(applicationType: string): this {
+    applicationType = applicationType === 'Form A MAT' ? 'FormAMat' : 'JoinAMat'
+    cy.get(`[id=ApplicationType${applicationType}]`).click()
+    cy.get(`[id=ApplicationType${applicationType}]`).should('be.checked')
     cy.get('input[type=submit]').click()
-
-    return this
-  }
-
-  public selectFAMRadioButtonVerifyAndSubmit(): this {
-    cy.get('input[type=radio]').eq(1).click()
-    cy.get('input[type=radio]').eq(1).should('be.checked')
-    cy.get('input[type=submit]').click()
-
     return this
   }
 }

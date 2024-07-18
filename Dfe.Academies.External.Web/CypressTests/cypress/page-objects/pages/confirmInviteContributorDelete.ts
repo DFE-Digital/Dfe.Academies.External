@@ -1,6 +1,6 @@
 class ConfirmInviteContributorDelete {
   public confirmRemoveContributor(): this {
-    cy.get('.govuk-button').eq(0).click()
+    cy.get('[data-cy="confirmRemove"]').click()
 
     return this
   }

@@ -1,7 +1,7 @@
 import 'cypress-file-upload'
 
 class TrustConsent {
-  public JAMTrustConsentFileUploadAndSubmit(): this {
+  public uploadConsentDoc(): this {
     const filepath = '../fixtures/fifty-k.docx'
     cy.get('#trustConsentFileUpload').attachFile(filepath)
     cy.get('input[type=submit]').click()

@@ -1,9 +1,9 @@
 class Login {
   public login(): this {
-    const username = Cypress.env('LOGIN_USERNAME')
-    const password = Cypress.env('LOGIN_PASSWORD')
+    const username = Cypress.env('loginUsername')
+    const password = Cypress.env('loginPassword')
     const args = { username, password }
-    const signinUrl = Cypress.env('SIGNIN_URL')
+    const signinUrl = Cypress.env('signinUrl')
     cy.origin(signinUrl, { args }, (args) => {
       cy.get('#username').type(args.username)
       cy.get('#password').type(args.password, { log: false })

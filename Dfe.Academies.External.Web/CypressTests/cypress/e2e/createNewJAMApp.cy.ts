@@ -1,4 +1,3 @@
-import header from '../page-objects/components/header'
 import cookieHeaderModal from '../page-objects/components/cookieHeaderModal'
 import home from '../page-objects/pages/home'
 import login from '../page-objects/pages/login'
@@ -11,7 +10,7 @@ import trustDetailsSummary from '../page-objects/pages/jam/trustDetailsSummary'
 import trustConsent from '../page-objects/pages/jam/trustConsent'
 import changesToTheTrust from '../page-objects/pages/changesToTheTrust'
 import localGovernanceArrangements from '../page-objects/pages/localGovernanceArrangements'
-import yourApplication from '../page-objects/pages/yourApplication'
+import application from '../page-objects/pages/application'
 import aboutTheConversion from '../page-objects/pages/aboutTheConversion'
 import mainContacts from '../page-objects/pages/mainContacts'
 import conversionTargetDate from '../page-objects/pages/conversionTargetDate'
@@ -37,7 +36,6 @@ import preopeningSupportGrantDetails from '../page-objects/pages/preOpeningSuppo
 import declarationSummary from '../page-objects/pages/declarationSummary'
 import declaration from '../page-objects/pages/declaration'
 import successfulApplicationSubmitted from '../page-objects/pages/successfulApplicationSubmitted'
-import footer from '../page-objects/components/footer'
 import { faker } from '@faker-js/faker'
 
 describe('Create a JAM application', () => {
@@ -50,160 +48,142 @@ describe('Create a JAM application', () => {
   const chairName = `${faker.person.firstName()} ${faker.person.lastName()}`
   const chairEmail = faker.internet.email()
 
-  const applicationId = '100080'
-
   beforeEach(function () {
-    cy.visit(Cypress.env('URL'))
+    cy.visit(Cypress.env('url'))
 
-    header.govUkHeaderVisible()
-      .applyToBecomeAnAcademyHeaderLinkVisible()
+    cookieHeaderModal.acceptAnalyticsCookies()
 
-    footer.checkFooterLinksVisible()
+    home.start()
 
-    cookieHeaderModal.clickAcceptAnalyticsCookies()
-
-    home.clickStartNow()
+    login.login()
   })
 
   it('should be able to create a new application', () => {
-    login.login()
+    yourApplications.startNewApplication()
 
-    yourApplications.selectStartANewApplication()
+    whatAreYouApplyingToDo.startApplication('Join A MAT')
 
-    whatAreYouApplyingToDo.selectJAMRadioButtonVerifyAndSubmit()
+    whatIsYourRole.chooseRole('Governor')
 
-    whatIsYourRole.selectChairOfGovernorsRadioButtonVerifyAndSubmit()
+    application.addTrust()
 
-    yourApplication.yourApplicationNotStartedElementsVisible()
-      .selectAddATrust()
+    whichTrustIsSchoolJoining.selectTrustName('Plym')
 
-    whichTrustIsSchoolJoining.selectConfirmAndSubmitTrust('Plym')
-
-    yourApplication.selectAddASchool()
+    application.addSchool()
 
     whatIsTheNameOfTheSchool.selectSchoolName('Plym')
 
-    yourApplication.selectTrustDetails(applicationId)
+    application.selectTrustDetails()
 
-    trustDetailsSummary.JAMTrustDetailsSummarySelectStartSection()
+    trustDetailsSummary.startTrustDetails()
 
-    trustConsent.JAMTrustConsentFileUploadAndSubmit()
+    trustConsent.uploadConsentDoc()
 
-    changesToTheTrust.changesToTheTrustClickYesEnterChangesAndSubmit()
+    changesToTheTrust.enterChangesToTheTrust()
 
-    localGovernanceArrangements.localGovernanceArrangementsClickYes()
-      .enterlocalGovernanceArrangementsChanges()
-      .localGovernanceArrangementsSubmit()
+    localGovernanceArrangements.addGovernanceArragements()
 
-    trustDetailsSummary.JAMTrustDetailsSummarySaveAndReturnToApp(applicationId)
+    trustDetailsSummary.saveAndReturnToApp()
 
-    yourApplication.yourApplicationNotStartedButTrustSectionCompleteElementsVisible()
-      .selectAboutTheConversion()
+    application.checkTrustSectionComplete()
+      .startAboutTheConversion()
 
-    aboutTheConversion.selectContactDetailsStartSection()
+    aboutTheConversion.startContactDetails()
 
-    mainContacts.fillMainContactDetailsAndSubmit(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
+    mainContacts.enterMainContactDetails(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
 
-    conversionTargetDate.selectConversionTargetDateOptionNo()
-      .conversionTargetDateSubmit()
+    conversionTargetDate.enterConversionTargetDate('No')
 
-    reasonsForJoining.reasonsForJoiningInputAndSubmit()
+    reasonsForJoining.enterReasonsForJoining()
 
-    changingTheNameOfTheSchool.changingTheNameOfTheSchoolSelectOptionNo()
-      .submitChangingTheNameOfTheSchool()
+    changingTheNameOfTheSchool.enterChangingTheNameOfTheSchool('No')
 
-    aboutTheConversion.aboutTheConversionCompleteElementsVisible(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
-      .submitAboutTheConversion()
+    aboutTheConversion.checkAboutTheConversion(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
+      .saveAndReturnToApp()
 
-    yourApplication.yourApplicationTrustSectionAndAboutConversionCompleteElementsVisible()
-      .selectFurtherInformation()
+    application.checkSectionComplete('About the conversion')
+      .startFurtherInformation()
 
-    additionalDetailsSummaryPage.selectAdditionalDetailsStartSection()
+    additionalDetailsSummaryPage.startAdditionalDetails()
 
-    additionalDetailsDetails.fillAdditionalDetailsDetailsAndSubmit()
+    additionalDetailsDetails.enterAdditionalDetails()
 
-    additionalDetailsSummaryPage.additionalDetailsSummaryCompleteElementsVisible()
-      .submitAdditionalDetailsSummary()
+    additionalDetailsSummaryPage.checkAdditionalDetails()
+      .saveAndReturnToApp()
 
-    yourApplication.yourApplicationTrustSectionAboutConversionFurtherInformationCompleteElementsVisible()
-      .selectFinances()
+    application.checkSectionComplete('Further information')
+      .startFinances()
 
-    financeSummary.selectPreviousFinancialYrStartSection()
+    financeSummary.startPreviousFinancialYear()
 
-    previousFinancialYear.inputPreviousFinancialYrDataAndSubmit()
+    previousFinancialYear.enterPreviousFinancialYearDetails()
 
-    currentFinancialYear.inputCurrentFinancialYrDataAndSubmit()
+    currentFinancialYear.enterCurrentFinancialYearDetails()
 
-    nextFinancialYear.inputNextFinancialYrDataAndSubmit()
+    nextFinancialYear.enterNextFinancialYearDetails()
 
-    loansSummary.selectLoansOptionNo()
-      .submitLoansSummary()
+    loansSummary.enterLoansDetails()
 
-    leasesSummary.leasesSelectOptionNo()
-      .submitLeasesSummary()
+    leasesSummary.enterLeasesDetails()
 
-    financialInvestigations.selectFinancialInvestigationsOptionNo()
-      .submitFinancialInvestigations()
+    financialInvestigations.enterFinancialInvestigationsDetails()
 
-    financeSummary.financeSummaryCompleteElementsVisible()
-      .submitFinanceSummary()
+    financeSummary.checkFinanceSummaryCompleted()
+      .saveAndReturnToApp()
 
-    yourApplication.financeCompleteElementsVisible()
-      .selectFuturePupilNumbers()
+    application.checkSectionComplete('Finances')
+      .startFuturePupilNumbers()
 
-    futurePupilNumbersSummary.selectFuturePupilNumbersStartSection()
+    futurePupilNumbersSummary.startFuturePupilNumbers()
 
-    futurePupilNumbersDetails.fillFuturePupilNumbersDetails()
-      .submitFuturePupilNumbersDetails()
+    futurePupilNumbersDetails.enterFuturePupilNumbersDetails()
 
-    futurePupilNumbersSummary.futurePupilNumbersSummaryCompleteElementsVisible()
-      .submitFuturePupilNumbersSummary()
+    futurePupilNumbersSummary.checkFuturePupilNumbersSummaryCompleted()
+      .saveAndReturnToApp()
 
-    yourApplication.futurePupilNumbersCompleteElementsVisible()
-      .selectLandAndBuildings()
+    application.checkSectionComplete('Future pupil numbers')
+      .startLandAndBuildings()
 
-    landAndBuildingsSummary.selectLandAndBuildingsStartSection()
+    landAndBuildingsSummary.startLandAndBuildings()
 
-    landAndBuildingsDetails.fillLandAndBuildingsDetailsDataAndSubmit()
+    landAndBuildingsDetails.enterLandAndBuildingsDetailsDetails()
 
-    landAndBuildingsSummary.landAndBuildingsSummaryCompleteElementsVisible()
-      .submitLandAndBuildingsSummary()
+    landAndBuildingsSummary.checkLandAndBuildingsSummaryCompleted()
+      .saveAndReturnToApp()
 
-    yourApplication.landAndBuildingsCompleteElementsVisible()
-      .selectConsultation()
+    application.checkSectionComplete('Land and buildings')
+      .startConsultation()
 
-    consultationSummary.selectConsultationStartSection()
+    consultationSummary.startConsultation()
 
-    consultationDetails.selectHasGovBodyConsultedStakeholdersOptionNo()
-      .fillConsultationDetails()
-      .submitConsultationDetails()
+    consultationDetails.enterConsultationDetails()
 
-    consultationSummary.consultationSummaryCompleteElementsVisible()
-      .submitConsultationSummary()
+    consultationSummary.checkConsultationSummaryCompleted()
+      .saveAndReturnToApp()
 
-    yourApplication.consultationCompleteElementsVisible()
-      .selectPreopeningSupportGrant()
+    application.checkSectionComplete('Consultation')
+      .startPreopeningSupportGrant()
 
-    preOpeningSupportGrantSummary.selectPreopeningSupportGrantStartSection()
+    preOpeningSupportGrantSummary.startPreopeningSupportGrant()
 
-    preopeningSupportGrantDetails.selectToTheSchoolVerifyAndSubmitPreopeningSupportGrantDetails()
+    preopeningSupportGrantDetails.enterPreopeningSupportGrantDetails()
 
-    preOpeningSupportGrantSummary.preopeningSupportGrantSummaryCompleteElementsVisible()
-      .submitPreopeningSupportGrantSummary()
+    preOpeningSupportGrantSummary.checkPreopeningSupportGrantSummaryCompleted()
+      .saveAndReturnToApp()
 
-    yourApplication.preopeningSupportGrantCompleteElementsVisible()
-      .selectDeclaration()
+    application.checkSectionComplete('Pre-opening support grant')
+      .startDeclaration()
 
-    declarationSummary.declarationStartSection()
+    declarationSummary.startDeclaration()
 
-    declaration.selectAgreementsVerifyAndSubmit()
+    declaration.selectAgreements()
 
-    declarationSummary.declarationSummaryCompleteElementsVisible()
-      .submitDeclarationSummary()
+    declarationSummary.checkDeclarationSummaryCompleted()
+      .saveAndReturnToApp()
 
-    yourApplication.declarationCompleteElementsVisible()
+    application.checkSectionComplete('Declaration')
       .submitApplication()
 
-    successfulApplicationSubmitted.applicationSubmittedSuccessfullyElementsVisible()
+    successfulApplicationSubmitted.checkApplicationSubmitted()
   })
 })

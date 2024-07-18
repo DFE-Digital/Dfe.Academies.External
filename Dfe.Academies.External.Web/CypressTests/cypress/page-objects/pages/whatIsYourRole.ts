@@ -1,7 +1,8 @@
 class WhatIsYourRole {
-  public selectChairOfGovernorsRadioButtonVerifyAndSubmit(): this {
-    cy.get('input[type=radio]').eq(0).click()
-    cy.get('input[type=radio]').eq(0).should('be.checked')
+  public chooseRole(roleType: string): this {
+    roleType = roleType === 'Governor' ? 'ChairOfGovernors' : 'Other'
+    cy.get(`[id=RoleType${roleType}]`).click()
+    cy.get(`[id=RoleType${roleType}]`).should('be.checked')
     cy.get('input[type=submit]').click()
 
     return this

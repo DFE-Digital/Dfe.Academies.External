@@ -1,11 +1,11 @@
 class MainContacts {
-  public fillMainContactDetailsAndSubmit(headTeacherName: string, headTeacherEmail: string,
+  public enterMainContactDetails(headTeacherName: string, headTeacherEmail: string,
     chairName: string, chairEmail: string, approverName: string, approverEmail: string): this {
-    cy.get('#ViewModel\\.ContactHeadName').type(headTeacherName)
-    cy.get('#ViewModel\\.ContactHeadEmail').type(headTeacherEmail)
+    cy.get('[data-cy="contactHeadName"]').type(headTeacherName)
+    cy.get('[data-cy="contactHeadEmail"]').type(headTeacherEmail)
 
-    cy.get('#ViewModel\\.ContactChairName').type(chairName)
-    cy.get('#ViewModel\\.ContactChairEmail').type(chairEmail)
+    cy.get('[data-cy="contactChairName"]').type(chairName)
+    cy.get('[data-cy="contactChairEmail"]').type(chairEmail)
 
     cy.get('#ContactTypeChairOfGoverningBody').click()
     cy.get('#ContactTypeChairOfGoverningBody').should('be.checked')

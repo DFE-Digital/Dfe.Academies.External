@@ -1,42 +1,26 @@
 class FuturePupilNumbersSummary {
-  public selectFuturePupilNumbersStartSection(): this {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').click()
+  public startFuturePupilNumbers(): this {
+    cy.get('[data-cy="startSectionButton"]').click()
 
     return this
   }
 
-  // TODO all of these elements require proper Cypress tags
-  public futurePupilNumbersSummaryCompleteElementsVisible(): this {
-    cy.get('.govuk-back-link').contains('Back')
+  public checkFuturePupilNumbersSummaryCompleted(): this {
+    cy.get('[data-cy="response"]').eq(0).contains('999')
 
-    cy.get('.govuk-caption-l').contains('Plymstock School')
+    cy.get('[data-cy="response"]').eq(1).contains('1499')
 
-    cy.get('.govuk-heading-l').contains('Future pupil numbers')
+    cy.get('[data-cy="response"]').eq(2).contains('1999')
 
-    cy.get('.govuk-link').should('be.visible').contains('Change your answers')
+    cy.get('[data-cy="response"]').eq(3).contains('School Capacity Assumptions')
 
-    cy.get('b').eq(0).contains('Projected pupil numbers on roll in the year the academy opens (year 1)')
-    // cy.get('p').eq(2).contains('999')
-
-    cy.get('b').eq(1).contains('Projected pupil numbers on roll in the following year after the academy has opened (year 2)')
-    // cy.get('p').eq(4).contains('1499')
-
-    cy.get('b').eq(2).contains('Projected pupil numbers on roll in the following year (year 3)')
-    // cy.get('p').eq(6).contains('1999')
-
-    cy.get('b').eq(3).contains('What do you base these projected numbers on?')
-    // cy.get('p').eq(8).contains('School Capacity Assumptions')
-
-    cy.get('b').eq(4).contains('What is the school\'s published admissions number (PAN)?')
-    // cy.get('p').eq(10).contains('999')
-
-    cy.get('.govuk-button').should('be.visible').contains('Save and return to your application')
+    cy.get('[data-cy="response"]').eq(4).contains('999')
 
     return this
   }
 
-  public submitFuturePupilNumbersSummary(): this {
-    cy.get('.govuk-button').click()
+  public saveAndReturnToApp(): this {
+    cy.get('[data-cy="saveAndReturnButton"]').click()
 
     return this
   }

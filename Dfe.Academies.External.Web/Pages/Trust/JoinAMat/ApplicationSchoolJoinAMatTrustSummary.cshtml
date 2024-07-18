@@ -29,9 +29,10 @@
 			    <td class="govuk-table__cell">
 				    @if (heading.Status == SchoolConversionComponentStatus.NotStarted)
 				    {
-					    <a asp-page="@heading.URI" class="govuk-button govuk-button--secondary"
+					    <a asp-page="@heading.URI" class="govuk-button govuk-button--secondary" data-cy="startSectionButton"
 					       asp-route-appId="@Model.ApplicationId"
-					       asp-route-urn="@Model.Urn">
+					       asp-route-urn="@Model.Urn"
+                 data-cy="startSectionButton">
 						    Start section
 					    </a>
 				    }
@@ -55,5 +56,5 @@
         <div class="govuk-!-margin-6"></div>
     }
 
-    <a asp-page="../../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+    <a asp-page="../../ApplicationOverview" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button" data-cy="saveAndReturnButton">Save and return to your application</a>
 </div>

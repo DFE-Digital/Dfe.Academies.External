@@ -1,18 +1,12 @@
 class TrustDetailsSummary {
-  public JAMTrustDetailsSummarySelectStartSection(): this {
-    cy.get('a[class="govuk-button govuk-button--secondary"]').click()
+  public startTrustDetails(): this {
+    cy.get('[data-cy="startSectionButton"]').click()
 
     return this
   }
 
-  public JAMTrustDetailsSummarySaveAndReturnToApp(applicationId: string): this {
-    cy.url().then((url) => {
-      applicationId = url.substring(
-        url.indexOf('=') + 1,
-        url.lastIndexOf('&'),
-      )
-      cy.get(`a[href="/application-overview?appId=${applicationId}"]`).eq(1).click()
-    })
+  public saveAndReturnToApp(): this {
+    cy.get(`[data-cy="saveAndReturnButton"]`).click()
 
     return this
   }

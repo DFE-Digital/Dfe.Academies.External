@@ -8,11 +8,11 @@
 
 <div class="govuk-grid-column-full">
 	<div class="govuk-panel govuk-panel--confirmation">
-		<h1 class="govuk-panel__title">
+		<h1 class="govuk-panel__title" data-cy="applicationSubmittedTitle">
 			Your application has been submitted
 		</h1>
-		<div class="govuk-panel__body">
-			Your reference number is<br><strong>@Model.ApplicationReferenceNumber</strong>
+		<div class="govuk-panel__body" data-cy="applicationReferenceInformation">
+			Your reference number is<br><strong data-cy="applicationReferenceNumber">@Model.ApplicationReferenceNumber</strong>
 		</div>
 	</div>
 

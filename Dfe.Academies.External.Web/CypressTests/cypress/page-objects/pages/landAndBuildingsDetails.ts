@@ -1,7 +1,6 @@
 class LandAndBuildingsDetails {
-  public fillLandAndBuildingsDetailsDataAndSubmit(): this {
-    const landOwnerExplained = 'As far as you\'re aware, who owns or holds the school\'s buildings and land?'
-    cy.get('#SchoolBuildLandOwnerExplained').type(landOwnerExplained)
+  public enterLandAndBuildingsDetailsDetails(): this {
+    cy.get('#SchoolBuildLandOwnerExplained').type('Land owners')
 
     cy.get('#buildingWorksOptionNo').click()
     cy.get('#buildingWorksOptionNo').should('be.checked')

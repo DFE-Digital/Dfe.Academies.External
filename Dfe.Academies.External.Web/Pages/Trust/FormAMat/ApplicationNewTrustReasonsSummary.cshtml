@@ -24,7 +24,8 @@
     				@if (question.Status == SchoolConversionComponentStatus.NotStarted)
     				{
     					<a asp-page="@question.URI" class="govuk-button govuk-button--secondary"
-    					   asp-route-appId="@Model.ApplicationId">
+    					   asp-route-appId="@Model.ApplicationId"
+                 data-cy="startSectionButton">
     						Start section
     					</a>
     				}
@@ -43,5 +44,5 @@
     			<partial name="_SchoolConversionComponentPartial" model="@conversionComponent"/>
     		}
     	}
-	<a asp-page="ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button">Save and return to your application</a>
+	<a asp-page="ApplicationNewTrustSummary" asp-route-appId="@Model.ApplicationId" class="govuk-button" data-module="govuk-button" data-cy="saveAndReturnButton">Save and return to your application</a>
 </div>

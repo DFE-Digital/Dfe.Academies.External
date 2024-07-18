@@ -1,5 +1,5 @@
 class InviteContributor {
-  public fillDetailsAndSubmit(contributorFirstName: string, contributorEmail: string): this {
+  public inviteContributor(contributorFirstName: string, contributorEmail: string): this {
     cy.get('#EmailAddress').click()
     cy.get('#EmailAddress').type(contributorEmail)
 
@@ -16,14 +16,18 @@ class InviteContributor {
     return this
   }
 
-  public verifySuccessBannerAndContributorList(contributorFirstName: string): this {
+  public hasSuccessBanner(contributorFirstName: string): this {
     cy.get('div[role=alert]').contains('Success')
     cy.get('div[role=alert]').contains('Contributor added')
     cy.get('div[role=alert]').contains(`${contributorFirstName} has been sent an invitation to help with this application.`)
 
-    cy.get('.govuk-form-group').contains(`${contributorFirstName}`)
-    cy.get('.govuk-form-group').contains('Headmaster')
-    cy.get('.govuk-form-group').contains('Remove contributor')
+    return this
+  }
+
+  public hasContributor(contributorFirstName: string): this {
+    cy.get('[data-cy="contributors"]').contains(`${contributorFirstName}`)
+    cy.get('[data-cy="contributors"]').contains('Headmaster')
+    cy.get('[data-cy="contributors"]').contains('Remove contributor')
 
     return this
   }
@@ -34,7 +38,7 @@ class InviteContributor {
     return this
   }
 
-  public verifyContributorRemovedAndSuccessRemoved(contributorFirstName: string): this {
+  public contributorRemoved(contributorFirstName: string): this {
     cy.get('div[role=alert]').contains('Success')
     cy.get('div[role=alert]').contains('Contributor removed')
     cy.get('div[role=alert]').contains(`${contributorFirstName} can no longer contribute to this application.`)

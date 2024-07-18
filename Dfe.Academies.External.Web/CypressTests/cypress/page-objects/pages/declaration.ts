@@ -1,5 +1,5 @@
 class Declaration {
-  public selectAgreementsVerifyAndSubmit(): this {
+  public selectAgreements(): this {
     cy.get('#SchoolDeclarationTeacherChair').click()
     cy.get('#SchoolDeclarationBodyAgree').click()
 

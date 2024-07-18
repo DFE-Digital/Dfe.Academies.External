@@ -5,9 +5,9 @@ class GovernanceStructureSummary {
     return this
   }
 
-  public FAMGovernanceStructureSummaryCompleteElementsVisibleAndSubmit(): this {
-    cy.get('.govuk-link').eq(1).contains('Change your answers')
-    // cy.get('p').eq(2).contains('fiftyk.docx')
+  public checkGovernanceStructureSummaryCompleted(): this {
+    cy.get('[data-cy="response"]').contains('fiftyk.docx')
+
     cy.get('.govuk-button').should('be.visible').contains('Save and return to your application').click()
 
     return this
