@@ -296,6 +296,12 @@ variable "enable_container_app_blob_storage" {
   type        = bool
 }
 
+variable "create_container_app_blob_storage_sas" {
+  description = "Generate a SAS connection string that is exposed to your App as an environment variable so that it can connect to the Storage Account"
+  type        = bool
+  default     = false
+}
+
 variable "enable_container_app_file_share" {
   description = "Create an Azure Storage Account and File Share to be mounted to the Container Apps"
   type        = bool
