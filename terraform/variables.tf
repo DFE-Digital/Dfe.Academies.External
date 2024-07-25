@@ -136,6 +136,7 @@ variable "cdn_frontdoor_enable_rate_limiting" {
 variable "cdn_frontdoor_rate_limiting_threshold" {
   description = "Maximum number of concurrent requests per minute threshold before rate limiting is applied"
   type        = number
+  default     = 300
 }
 
 variable "cdn_frontdoor_waf_custom_rules" {
