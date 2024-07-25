@@ -136,6 +136,7 @@ variable "cdn_frontdoor_enable_rate_limiting" {
 variable "cdn_frontdoor_rate_limiting_threshold" {
   description = "Maximum number of concurrent requests per minute threshold before rate limiting is applied"
   type        = number
+  default     = 300
 }
 
 variable "cdn_frontdoor_waf_custom_rules" {
@@ -294,6 +295,12 @@ variable "enable_container_health_probe" {
 variable "enable_container_app_blob_storage" {
   description = "Create an Azure Storage Account and Storage Container to be accessed by the Container App"
   type        = bool
+}
+
+variable "create_container_app_blob_storage_sas" {
+  description = "Generate a SAS connection string that is exposed to your App as an environment variable so that it can connect to the Storage Account"
+  type        = bool
+  default     = false
 }
 
 variable "enable_container_app_file_share" {
