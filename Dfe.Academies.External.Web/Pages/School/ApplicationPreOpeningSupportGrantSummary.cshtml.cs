@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Dtos;
+﻿using System.Reflection;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
@@ -13,7 +14,7 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BaseSchoolSummaryPa
 	//// MR:- VM props to show school conversion data
 	public List<ApplicationPreOpeningSupportGrantHeadingViewModel> ViewModel { get; set; } = new();
 
-	public ApplicationStatus ApplicationStatus { get; private set;}
+	public ApplicationStatus ApplicationStatus { get; private set; }
 
 	public ApplicationPreOpeningSupportGrantSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		IReferenceDataRetrievalService referenceDataRetrievalService)
@@ -45,20 +46,47 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BaseSchoolSummaryPa
 	public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
 		var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
-		    ApplicationStatus = applicationDetails.ApplicationStatus;
+		ApplicationStatus = applicationDetails.ApplicationStatus;
+		ApplicationPreOpeningSupportGrantHeadingViewModel heading1;
 
-		ApplicationPreOpeningSupportGrantHeadingViewModel heading1 = new(ApplicationPreOpeningSupportGrantHeadingViewModel.Heading,
-			"/school/ApplicationPreOpeningSupportGrant"){
-			Status = !string.IsNullOrEmpty(selectedSchool.SchoolSupportGrantFundsPaidTo.ToString()) ?
-				SchoolConversionComponentStatus.Complete
-				: SchoolConversionComponentStatus.NotStarted
-		};
-		
-		heading1.Sections.Add(new(
-			ApplicationPreOpeningSupportGrantSectionViewModel.FundsSchoolOrTrust,
-			(string.IsNullOrWhiteSpace(selectedSchool.SchoolSupportGrantFundsPaidTo.ToString()) ?
-				QuestionAndAnswerConstants.NoInfoAnswer : selectedSchool.SchoolSupportGrantFundsPaidTo?.GetDescription()) ?? string.Empty
-		));
+		if (ApplicationType == ApplicationTypes.JoinAMat)
+		{
+			heading1 = new(ApplicationPreOpeningSupportGrantHeadingViewModel.Heading, "/school/ApplicationPreOpeningSupportGrantInAGroup")
+			{
+				Status = !string.IsNullOrEmpty(selectedSchool.SchoolSupportGrantJoiningInAGroup.ToString()) ?
+					SchoolConversionComponentStatus.Complete
+					: SchoolConversionComponentStatus.NotStarted
+			};
+
+			heading1.Sections.Add(new(
+				ApplicationPreOpeningSupportGrantSectionViewModel.WillYouJoinTheTrustInAGroup,
+				(!selectedSchool.SchoolSupportGrantJoiningInAGroup.HasValue ?
+					QuestionAndAnswerConstants.NoInfoAnswer : selectedSchool.SchoolSupportGrantJoiningInAGroup.GetStringDescription()) ?? string.Empty));
+
+			if (selectedSchool.SchoolSupportGrantJoiningInAGroup.HasValue && selectedSchool.SchoolSupportGrantJoiningInAGroup.Value) {
+				heading1.Sections.Add(new(
+					ApplicationPreOpeningSupportGrantSectionViewModel.FundsSchoolOrTrust,
+					(string.IsNullOrWhiteSpace(selectedSchool.SchoolSupportGrantFundsPaidTo.ToString()) ?
+						QuestionAndAnswerConstants.NoInfoAnswer : selectedSchool.SchoolSupportGrantFundsPaidTo?.GetDescription()) ?? string.Empty));
+			}
+		}
+		else
+		{
+			// if application type is form a mat maintain current funtionality
+			heading1 = new(ApplicationPreOpeningSupportGrantHeadingViewModel.Heading, "/school/ApplicationPreOpeningSupportGrant")
+			{
+				Status = !string.IsNullOrEmpty(selectedSchool.SchoolSupportGrantFundsPaidTo.ToString()) ?
+					SchoolConversionComponentStatus.Complete
+					: SchoolConversionComponentStatus.NotStarted
+			};
+
+			heading1.Sections.Add(new(
+				ApplicationPreOpeningSupportGrantSectionViewModel.FundsSchoolOrTrust,
+				(string.IsNullOrWhiteSpace(selectedSchool.SchoolSupportGrantFundsPaidTo.ToString()) ?
+					QuestionAndAnswerConstants.NoInfoAnswer : selectedSchool.SchoolSupportGrantFundsPaidTo?.GetDescription()) ?? string.Empty));
+		}
+
+
 
 		var vm = new List<ApplicationPreOpeningSupportGrantHeadingViewModel> { heading1 };
 

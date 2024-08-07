@@ -19,7 +19,31 @@
 	<h1 class="govuk-heading-l">
 		Pre-opening support grant
 	</h1>
-
+    @if (Model.ApplicationType == ApplicationTypes.JoinAMat)
+    {
+        <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+                <span class="govuk-visually-hidden">Warning</span>
+                Your school is not yet eligible for a pre-opening support grant.
+            </strong>
+        </div>
+        <div id="changedName-hint" class="govuk-hint">
+            A school must join a trust with at least 2 other converting schools or transfering acadamies to be eligible for the pre-opening support grant. 
+        </div>
+        <details class="govuk-details">
+            <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+                Grant eligibility
+            </span>
+        </summary>
+        <div class="govuk-details__text">
+            <p>
+                Schools that apply to become an academy can get a grant up to £25,000 to help with the cost of converting, if they join the trust in a group of at least 2 other schools or academies.
+            </p><p>You can <a href="#">read details about support grant eligibility</a> on GOV.UK.</p>
+           </div>
+    </details>
+    }
 	@foreach (var question in Model.ViewModel)
 	{
 		<div class="govuk-grid-row">
