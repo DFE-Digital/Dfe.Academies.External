@@ -1,0 +1,59 @@
+﻿@page
+@using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Dfe.Academies.External.Web.Pages.School.ApplicationPreOpeningSupportGrantBankDetailsModel
+@{
+    ViewData["Title"] = "Apply to become an academy - pre-opening support grant";
+}
+
+@section BeforeMain
+{
+    <a asp-page="ApplicationPreOpeningSupportGrantSummary" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">Back</a>
+}
+
+<div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">
+        Pre-opening support grant
+    </span>
+    <form method="post" name="frmApplicationPreOpeningSupportGrant" novalidate="">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Urn" />
+        <input type="hidden" asp-for="ApplicationId" />
+        <input type="hidden" asp-for="ApplicationType" />
+        <partial name="_HiddenFields" />
+        <div class="govuk-form-group @(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+            <fieldset class="govuk-fieldset" aria-describedby="changedName-hint">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                    <h1 class="govuk-fieldset__heading">
+                        Provide bank details
+                    </h1>
+                </legend>
+                <p class="govuk-body">
+                    Give Dfe the details of the bank account you want us to send the pre-opening support grant to.
+                </p>
+                <p class="govuk-body">
+                    You can submit your application without sharing these bank details. We will ask for them later if necessary.
+                </p>
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item">
+                        <input asp-for="ConfirmBankDetails" type="checkbox"
+                               class="govuk-checkboxes__input">
+                        <label id="confirm-bank-details" for="ConfirmBankDetails"
+                               class="govuk-label govuk-checkboxes__label govuk-!-font-weight-bold">
+                            Enter your bank details
+                        </label>
+                        <div id="nationality-item-hint" class="govuk-hint govuk-checkboxes__hint">
+                            Use the <a href="" class="govuk-link" rel="noreferrer noopener" target="_blank">Provide information about your banking and payments form (opens in a new tab)</a>
+                            to share the account details.
+                        </div>
+                    </div>
+                </div>
+
+
+            </fieldset>
+        </div>
+        <br />
+        <input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
+    </form>
+</div>

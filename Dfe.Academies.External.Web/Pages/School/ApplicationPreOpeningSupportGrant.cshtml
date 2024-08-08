@@ -13,116 +13,111 @@
 }
 
 <div class="govuk-grid-column-two-thirds">
-	<span class="govuk-caption-l">
-		@Model.SchoolName
-	</span>
-	<h1 class="govuk-heading-l">
-		Academy pre-opening support grant
-	</h1>
-    
-	<p class="govuk-body">
-        If your application is successful you will be issued with an academy order. Once issued,
-			the Department for Education will pay the pre-opening support grant into a nominated bank account.
-			@if (Model.ApplicationType != ApplicationTypes.JoinAMat)
-			{
-				<p class="govuk-body">Please go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' 
-				                                      class="govuk-link"
-														target='_blank' rel="noopener"> provide information about your banking payments to DfE </a> to add your bank details.
+    @if (Model.ApplicationType == ApplicationTypes.JoinAMat)
+    {
+        <span class="govuk-caption-l">
+            Pre-opening support grant
+        </span>
+    }
+    else
+    {
+        <span class="govuk-caption-l">
+            @Model.SchoolName
+        </span>
+        <h1 class="govuk-heading-l">
+            Academy pre-opening support grant
+        </h1>
+
+        <p class="govuk-body">
+            If your application is successful you will be issued with an academy order. Once issued,
+            the Department for Education will pay the pre-opening support grant into a nominated bank account.
+        </p>
+        <p class="govuk-body">
+            Please go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe'
+                            class="govuk-link"
+                            target='_blank' rel="noopener"> provide information about your banking payments to DfE </a> to add your bank details.
         </p>
 
-				<span id="funds-paid-to-school-hint" class="govuk-hint">
-					Your application can be submitted without completing this action now, however please provide your bank details either before or shortly after submission of your application.
-				</span>
-			}
-    </p>
-
-	<form method="post" name="frmApplicationPreOpeningSupportGrant" novalidate="">
-		@Html.AntiForgeryToken()
-		<input type="hidden" asp-for="Urn"/>
-		<input type="hidden" asp-for="ApplicationId"/>
+        <span id="funds-paid-to-school-hint" class="govuk-hint">
+            Your application can be submitted without completing this action now, however please provide your bank details either before or shortly after submission of your application.
+        </span>
+    }
+    <form method="post" name="frmApplicationPreOpeningSupportGrant" novalidate="">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Urn" />
+        <input type="hidden" asp-for="ApplicationId" />
         <input type="hidden" asp-for="ApplicationType" />
-        <partial name="_HiddenFields"/>
-		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
-			<fieldset class="govuk-fieldset">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Do you want these funds paid to the school or the trust the school is joining?</legend>
-				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
-					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
-				</div>
+        <partial name="_HiddenFields" />
+        <div class="govuk-form-group @(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+            <fieldset class="govuk-fieldset">
+                @if (Model.ApplicationType == ApplicationTypes.JoinAMat)
+                {
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading">
+                            Do you want the grant to be paid to your school or trust?
+                        </h1>
+                    </legend>
+                    <div id="joinInAGroupOption-hint" class="govuk-hint">
+                        Tell us where you would like us to send the pre-opening support grant.
+                    </div>
+                    <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+                        <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel" />
+                    </div>
+                    <div class="govuk-form-group">
+                        <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+                            @foreach (var payFundsToOption in Enum.GetValues(typeof(PayFundsTo)).OfType<PayFundsTo>())
+                            {
+                                <div class="govuk-radios__item">
+                                    <input type="radio"
+                                           asp-for="SchoolSupportGrantFundsPaidTo"
+                                           value="@Convert.ToInt32(payFundsToOption)"
+                                           id="pay-to@(payFundsToOption)"
+                                           class="govuk-radios__input"
+                                           data-aria-controls="payto-@(payFundsToOption.ToString().ToLower())"
+                                           checked="@(payFundsToOption.Equals(Model.SchoolSupportGrantFundsPaidTo))"
+                                           aria-expanded="False" />
+                                    <label for="pay-to@(payFundsToOption)" class="govuk-label govuk-radios__label">
+                                        @(payFundsToOption == PayFundsTo.School ? "Pay your school" : "Pay the trust")
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Do you want these funds paid to the school or the trust the school is joining?</legend>
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                <h1 class="govuk-fieldset__heading">
+                                    I confirm that:
+                                </h1>
+                            </legend>
+                            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                                <div class="govuk-checkboxes__item">
+                                    <input asp-for="ConfirmSchoolPay" type="checkbox"
+                                           class="govuk-checkboxes__input">
+                                    <label id='confirm-school-pay' for='ConfirmSchoolPay'
+                                           class="govuk-label govuk-checkboxes__label">
+                                        I would like the grant paying to the school
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                }
 
-				@if (Model.ApplicationType == ApplicationTypes.JoinAMat)
-				{
-					<div class="govuk-form-group">
-						<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-							@foreach (var payFundsToOption in Enum.GetValues(typeof(PayFundsTo)).OfType<PayFundsTo>())
-							{
-								<div class="govuk-radios__item">
-									<input type="radio"
-									       asp-for="SchoolSupportGrantFundsPaidTo"
-									       value="@Convert.ToInt32(payFundsToOption)"
-									       id="pay-to@(payFundsToOption)"
-									       class="govuk-radios__input"
-									       data-aria-controls="payto-@(payFundsToOption.ToString().ToLower())"
-									       checked="@(payFundsToOption.Equals(Model.SchoolSupportGrantFundsPaidTo))"
-									       aria-expanded="False"/>
-									<label for="pay-to@(payFundsToOption)" class="govuk-label govuk-radios__label">
-										@payFundsToOption.GetDescription()
-									</label>
-								</div>
-
-								@if (payFundsToOption == PayFundsTo.School)
-								{
-									<div class="@(payFundsToOption == PayFundsTo.School ? "govuk-radios__conditional" : "govuk-radios__conditional--hidden")"
-									     id="payto-school" aria-expanded="false">
-										<div class="govuk-form-group">
-                                            <p class="govuk-body">Go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' class="govuk-link" target='_blank' rel="noopener">provide information about your banking payments to DfE</a> to add the school’s bank details.</p>
-											<span id="funds-paid-to-school-hint" class="govuk-hint">
-												Your application can be submitted without completing this action now, however please provide your bank details either before or shortly after submission of your application.
-											</span>
-										</div>
-									</div>
-								}
-								else
-								{
-									<div class="@(payFundsToOption == PayFundsTo.Trust ? "govuk-radios__conditional" : "govuk-radios__conditional--hidden")"
-									     id="payto-trust" aria-expanded="false">
-										<div class="govuk-form-group">
-                                            <p class="govuk-body">Advise the trust to go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' class="govuk-link" target='_blank' rel="noopener">provide information about your banking payments to DfE</a> to check their bank details are up to date.</p>
-											<span id="funds-paid-to-trust-hint" class="govuk-hint">
-												Your application can be submitted without completing this action now.
-											</span>
-										</div>
-									</div>
-								}
-							}
-						</div>
-					</div>
-				}
-				else
-				{
-					<div class="govuk-form-group">
-						<fieldset class="govuk-fieldset">
-							<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-								<h1 class="govuk-fieldset__heading">
-									I confirm that:
-								</h1>
-							</legend>
-							<div class="govuk-checkboxes" data-module="govuk-checkboxes">
-								<div class="govuk-checkboxes__item">
-									<input asp-for="ConfirmSchoolPay" type="checkbox"
-									       class="govuk-checkboxes__input">
-									<label id='confirm-school-pay' for='ConfirmSchoolPay'
-									       class="govuk-label govuk-checkboxes__label">
-										I would like the grant paying to the school
-									</label>
-								</div>
-							</div>
-						</fieldset>
-					</div>
-				}
-
-			</fieldset>
-		</div>
-		<br/>
-		<input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
-	</form>
+            </fieldset>
+        </div>
+        <br />
+        @if (Model.ApplicationType == ApplicationTypes.JoinAMat)
+        {
+            <input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
+        }
+        else
+        {
+            <input type="submit" value="Save and return to overview" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
+        }
+    </form>
 </div>

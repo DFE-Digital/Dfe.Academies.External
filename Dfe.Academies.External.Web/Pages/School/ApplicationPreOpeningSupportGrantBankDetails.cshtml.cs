@@ -8,19 +8,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School;
 
-public class ApplicationPreOpeningSupportGrantInAGroupModel : BaseSchoolPageEditModel
+public class ApplicationPreOpeningSupportGrantBankDetailsModel : BaseSchoolPageEditModel
 {
 	[BindProperty]
-	[RequiredEnum(ErrorMessage = "You must provide details")]
-	public SelectOption? JoinInAGroup { get; set; }
+	public bool ConfirmBankDetails { get; set; }
 
-	public ApplicationPreOpeningSupportGrantInAGroupModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+	public ApplicationPreOpeningSupportGrantBankDetailsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		IReferenceDataRetrievalService referenceDataRetrievalService,
 		IConversionApplicationService academisationCreationService)
 		: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
-			academisationCreationService, "ApplicationPreOpeningSupportGrant")
-	{
-	}
+			academisationCreationService, "ApplicationPreOpeningSupportGrantSummary")
+	{}
 
 	/// <summary>
 	/// Consuming different PopulateUiModel() NOT from base, so need an overload
@@ -54,7 +52,7 @@ public class ApplicationPreOpeningSupportGrantInAGroupModel : BaseSchoolPageEdit
 
 		return Page();
 	}
-
+	
 	///<inheritdoc/>
 	public override bool RunUiValidation()
 	{
@@ -76,29 +74,15 @@ public class ApplicationPreOpeningSupportGrantInAGroupModel : BaseSchoolPageEdit
 	///<inheritdoc/>
 	public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 	{
-		// override next page if not joining in a group and return to summary
-		if (JoinInAGroup == SelectOption.No)
+		return new Dictionary<string, dynamic>
 		{
-			NextStepPage = "ApplicationPreOpeningSupportGrantSummary";
-		}
-
-		var updateDictionary = new Dictionary<string, dynamic>(){
-			{ nameof(SchoolApplyingToConvert.SchoolSupportGrantJoiningInAGroup), JoinInAGroup == SelectOption.Yes},
+			{ nameof(SchoolApplyingToConvert.SchoolSupportGrantBankDetailsProvided), ConfirmBankDetails},
 		};
-
-		if (JoinInAGroup == SelectOption.No)
-		{
-			// reset values for next stages
-			updateDictionary.Add(nameof(SchoolApplyingToConvert.SchoolSupportGrantFundsPaidTo), null);
-			updateDictionary.Add(nameof(SchoolApplyingToConvert.SchoolSupportGrantBankDetailsProvided), null);
-		}
-
-		return updateDictionary;
 	}
 
 	public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
-		JoinInAGroup = selectedSchool.SchoolSupportGrantJoiningInAGroup.GetEnumValue();
+		ConfirmBankDetails = selectedSchool.SchoolSupportGrantBankDetailsProvided ?? false;
 	}
 }
 

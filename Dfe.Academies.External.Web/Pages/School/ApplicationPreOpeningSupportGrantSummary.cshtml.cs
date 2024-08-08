@@ -63,11 +63,16 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BaseSchoolSummaryPa
 				(!selectedSchool.SchoolSupportGrantJoiningInAGroup.HasValue ?
 					QuestionAndAnswerConstants.NoInfoAnswer : selectedSchool.SchoolSupportGrantJoiningInAGroup.GetStringDescription()) ?? string.Empty));
 
-			if (selectedSchool.SchoolSupportGrantJoiningInAGroup.HasValue && selectedSchool.SchoolSupportGrantJoiningInAGroup.Value) {
+			if (selectedSchool.SchoolSupportGrantJoiningInAGroup.HasValue && selectedSchool.SchoolSupportGrantJoiningInAGroup.Value)
+			{
 				heading1.Sections.Add(new(
 					ApplicationPreOpeningSupportGrantSectionViewModel.FundsSchoolOrTrust,
 					(string.IsNullOrWhiteSpace(selectedSchool.SchoolSupportGrantFundsPaidTo.ToString()) ?
 						QuestionAndAnswerConstants.NoInfoAnswer : selectedSchool.SchoolSupportGrantFundsPaidTo?.GetDescription()) ?? string.Empty));
+				heading1.Sections.Add(new(
+					ApplicationPreOpeningSupportGrantSectionViewModel.BankAccountDetails,
+					(!selectedSchool.SchoolSupportGrantBankDetailsProvided.HasValue ?
+						QuestionAndAnswerConstants.NoInfoAnswer : selectedSchool.SchoolSupportGrantBankDetailsProvided.GetStringDescription()) ?? string.Empty));
 			}
 		}
 		else
@@ -81,12 +86,10 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BaseSchoolSummaryPa
 			};
 
 			heading1.Sections.Add(new(
-				ApplicationPreOpeningSupportGrantSectionViewModel.FundsSchoolOrTrust,
+				ApplicationPreOpeningSupportGrantSectionViewModel.FundsSchoolOrTrustFormAMat,
 				(string.IsNullOrWhiteSpace(selectedSchool.SchoolSupportGrantFundsPaidTo.ToString()) ?
 					QuestionAndAnswerConstants.NoInfoAnswer : selectedSchool.SchoolSupportGrantFundsPaidTo?.GetDescription()) ?? string.Empty));
 		}
-
-
 
 		var vm = new List<ApplicationPreOpeningSupportGrantHeadingViewModel> { heading1 };
 

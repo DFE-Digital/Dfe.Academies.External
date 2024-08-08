@@ -16,7 +16,7 @@ public abstract class BaseSchoolPageEditModel : BasePageEditModel
 
 	public string SchoolName { get; private set; } = string.Empty;
 
-	public string NextStepPage { get; private set; }
+	public string NextStepPage { get; protected set; }
 
 	protected BaseSchoolPageEditModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
 									IReferenceDataRetrievalService referenceDataRetrievalService,

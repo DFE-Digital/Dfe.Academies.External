@@ -42,7 +42,13 @@ public class ApplicationPreOpeningSupportGrantModel : BaseSchoolPageEditModel
 		IConversionApplicationService academisationCreationService)
 		: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
 			academisationCreationService, "ApplicationPreOpeningSupportGrantSummary")
-	{}
+	{
+		// Overide next page if join a mat
+		if (ApplicationType == ApplicationTypes.JoinAMat)
+		{
+			NextStepPage = "ApplicationPreOpeningSupportGrantBankDetails";
+		}
+	}
 
 	/// <summary>
 	/// Consuming different PopulateUiModel() NOT from base, so need an overload
@@ -150,7 +156,7 @@ public class ApplicationPreOpeningSupportGrantModel : BaseSchoolPageEditModel
 		else
 		{
 			SchoolSupportGrantFundsPaidTo = selectedSchool.SchoolSupportGrantFundsPaidTo;
-			ConfirmSchoolPay = selectedSchool.ConfirmPaySupportGrantToSchool ?? false;
+			ConfirmSchoolPay = selectedSchool.ConfirmPaySupportGrantToSchool ?? false;			
 		}
 	}
 }
