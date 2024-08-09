@@ -46,7 +46,14 @@
     }
 	@foreach (var question in Model.ViewModel)
 	{
-		<div class="govuk-grid-row">
+        if (question.Title == ApplicationPreOpeningSupportGrantHeadingViewModel.GroupsHeading)
+        {
+            <h1 class="govuk-heading-m">
+                @question.Title
+            </h1>
+
+        }
+        <div class="govuk-grid-row">
 			<div class="govuk-grid-column-full">
 				@if (question.Status == SchoolConversionComponentStatus.NotStarted)
 				{

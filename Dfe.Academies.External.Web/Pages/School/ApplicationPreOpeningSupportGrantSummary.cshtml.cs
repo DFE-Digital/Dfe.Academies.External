@@ -93,6 +93,15 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BaseSchoolSummaryPa
 
 		var vm = new List<ApplicationPreOpeningSupportGrantHeadingViewModel> { heading1 };
 
+		if (heading1.Sections.Count() > 1) {
+			vm.Add(new(ApplicationPreOpeningSupportGrantHeadingViewModel.GroupsHeading, "/school/ApplicationPreOpeningSupportGrantInAGroup")
+			{
+				Status = selectedSchool.SchoolsInGroup != null && selectedSchool.SchoolsInGroup.Any() ?
+						SchoolConversionComponentStatus.Complete
+						: SchoolConversionComponentStatus.NotStarted
+			});
+		}
+
 		ViewModel = vm;
 	}
 }

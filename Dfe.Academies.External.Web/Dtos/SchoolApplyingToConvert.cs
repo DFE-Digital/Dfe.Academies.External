@@ -81,9 +81,10 @@ public class SchoolApplyingToConvert
 		public bool? SchoolSupportGrantBankDetailsProvided { get; set; }
 		public PayFundsTo? SchoolSupportGrantFundsPaidTo { get; set; }
 		public bool? ConfirmPaySupportGrantToSchool { get; set; }
+		public IEnumerable<SchoolInGroup>? SchoolsInGroup { get; set; }
 
-		// Finances Investigations
-		public bool? FinanceOngoingInvestigations { get; set; }
+	// Finances Investigations
+	public bool? FinanceOngoingInvestigations { get; set; }
 		public string? FinancialInvestigationsExplain { get; set; }
 		public bool? FinancialInvestigationsTrustAware { get; set; }
 
