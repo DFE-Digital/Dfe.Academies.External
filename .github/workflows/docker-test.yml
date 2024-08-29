@@ -21,15 +21,17 @@ jobs:
         id: build
         with:
           secrets: github_token=${{ secrets.GITHUB_TOKEN }}
-          outputs: type=tar,dest=/github/workspace/${{ github.ref_name }}.tar
           cache-from: type=gha
           cache-to: type=gha
           push: false
 
+      - name: Export docker image as tar
+        run: docker save -o ${{ github.ref_name }}.tar ${{ steps.build.outputs.imageid }}
+
       - name: Scan Docker image for CVEs
         uses: aquasecurity/trivy-action@0.20.0
         with:
-          input: /github/workspace/${{ github.ref_name }}.tar
+          input: ${{ github.ref_name }}.tar
           format: 'sarif'
           output: 'trivy-results.sarif'
           limit-severities-for-sarif: true
