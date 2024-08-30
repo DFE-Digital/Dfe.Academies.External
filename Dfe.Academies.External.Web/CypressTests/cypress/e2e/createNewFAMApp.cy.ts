@@ -178,7 +178,7 @@ describe('Create a FAM application', () => {
     preOpeningSupportGrantSummary.checkPreopeningSupportGrantSummaryCompleted()
       .saveAndReturnToApp()
 
-    schoolOverview.checkSectionCompleted('Pre-opening support grant')
+	schoolOverview.checkSectionCompleted('Conversion support grant')
 
     application.startDeclaration()
 

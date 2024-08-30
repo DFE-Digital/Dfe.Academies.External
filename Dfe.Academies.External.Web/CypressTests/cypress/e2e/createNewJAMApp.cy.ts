@@ -171,7 +171,7 @@ describe('Create a JAM application', () => {
     preOpeningSupportGrantSummary.checkPreopeningSupportGrantSummaryCompleted()
       .saveAndReturnToApp()
 
-    application.checkSectionComplete('Pre-opening support grant')
+	application.checkSectionComplete('Conversion support grant')
       .startDeclaration()
 
     declarationSummary.startDeclaration()

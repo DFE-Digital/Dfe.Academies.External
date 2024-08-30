@@ -4,7 +4,7 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.ApplicationPreOpeningSupportGrantModel
 @{
-    ViewData["Title"] = "Apply to become an academy - pre-opening support grant";
+    ViewData["Title"] = "Apply to become an academy - conversion support grant";
 }
 
 @section BeforeMain
@@ -17,12 +17,12 @@
 		@Model.SchoolName
 	</span>
 	<h1 class="govuk-heading-l">
-		Academy pre-opening support grant
+        Academy conversion support grant
 	</h1>
     
 	<p class="govuk-body">
         If your application is successful you will be issued with an academy order. Once issued,
-			the Department for Education will pay the pre-opening support grant into a nominated bank account.
+        the Department for Education will pay the conversion support grant into a nominated bank account.
 			@if (Model.ApplicationType != ApplicationTypes.JoinAMat)
 			{
 				<p class="govuk-body">Please go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' 

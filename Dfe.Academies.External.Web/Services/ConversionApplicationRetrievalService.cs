@@ -136,7 +136,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			    new("Future pupil numbers", UriFormatter.SetSchoolApplicationComponentUriFromName("Future pupil numbers"), CalculateFuturePupilNumbersSectionStatus(school)),
 				new("Land and buildings", UriFormatter.SetSchoolApplicationComponentUriFromName("Land and buildings"),CalculateLandAndBuildingsSectionStatus(school)),
 				new("Consultation", UriFormatter.SetSchoolApplicationComponentUriFromName("Consultation"),CalculateConsultationSectionStatus(school)),
-				new("Pre-opening support grant", UriFormatter.SetSchoolApplicationComponentUriFromName("Pre-opening support grant"),CalculatePreOpeningSupportGrantSectionStatus(school)),
+				new("Conversion support grant", UriFormatter.SetSchoolApplicationComponentUriFromName("Conversion support grant"),CalculatePreOpeningSupportGrantSectionStatus(school)),
 				new("Declaration", UriFormatter.SetSchoolApplicationComponentUriFromName("Declaration"),CalculateDeclarationSectionStatus(school))
 		    };
 
@@ -445,7 +445,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
 	/// <summary>
 	/// Will only return Completed or NotStarted as only one logic check !
-	/// Same logic in here as Pre-opening support grant summary page. Should we re-factor?
+	/// Same logic in here as Conversion support grant summary page. Should we re-factor?
 	/// </summary>
 	/// <param name="selectedSchool"></param>
 	/// <returns></returns>

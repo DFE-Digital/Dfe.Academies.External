@@ -76,7 +76,7 @@ public class SchoolApplyingToConvert
         public string? SchoolCapacityAssumptions { get; set; }
         public int? SchoolCapacityPublishedAdmissionsNumber { get; set; }
 
-		// Pre-opening support grants
+		// Conversion support grants
 		public PayFundsTo? SchoolSupportGrantFundsPaidTo { get; set; }
 		public bool? ConfirmPaySupportGrantToSchool { get; set; }
 
