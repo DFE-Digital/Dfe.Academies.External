@@ -6,7 +6,7 @@ class Login {
     const signinUrl = Cypress.env('signinUrl')
     cy.origin(signinUrl, { args }, (args) => {
       cy.get('#username').type(args.username)
-      cy.get('#submit').click()
+      cy.get('button[type="submit"]').click()
       cy.get('#password').type(args.password, { log: false })
       cy.contains('Sign in').click()
     })
