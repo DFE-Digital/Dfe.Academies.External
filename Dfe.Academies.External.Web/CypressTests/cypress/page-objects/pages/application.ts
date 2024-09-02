@@ -19,7 +19,7 @@ class Application {
       case 'Consultation':
         cy.get('[data-cy="sectionStatus"]').eq(5).contains('Completed')
         break
-      case 'Pre-opening support grant':
+	  case 'Conversion support grant':
         cy.get('[data-cy="sectionStatus"]').eq(6).contains('Completed')
         break
       case 'Declaration':
@@ -103,7 +103,7 @@ class Application {
   }
 
   public startPreopeningSupportGrant(): this {
-    cy.contains('Pre-opening support grant').click()
+	  cy.contains('Conversion support grant').click()
 
     return this
   }

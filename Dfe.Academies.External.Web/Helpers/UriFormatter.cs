@@ -13,7 +13,7 @@
 				"future pupil numbers" => "/school/PupilNumbersSummary",
 				"land and buildings" => "/school/LandAndBuildingsSummary",
 				"consultation" => "/school/ApplicationSchoolConsultationSummary",
-				"pre-opening support grant" => "/school/ApplicationPreOpeningSupportGrantSummary",
+				"conversion support grant" => "/school/ApplicationPreOpeningSupportGrantSummary",
 				"declaration" => "/school/DeclarationSummary",
 				_ => string.Empty
 			};

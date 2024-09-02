@@ -2,7 +2,7 @@
 
 public class ApplicationPreOpeningSupportGrantHeadingViewModel : SchoolQuestionAndAnswerSectionViewModel
 {
-	public const string Heading = "Pre-opening support grant";
+	public const string Heading = "Conversion support grant";
 
 	public ApplicationPreOpeningSupportGrantHeadingViewModel(string title, string uRi) : base(title, uRi)
 	{
