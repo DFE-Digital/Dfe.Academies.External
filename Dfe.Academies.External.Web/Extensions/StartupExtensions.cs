@@ -26,6 +26,7 @@ public static class StartupExtension
 			client.BaseAddress = new Uri(academiesApiEndpoint);
 			client.DefaultRequestHeaders.Add("ApiKey", academiesApiKey);
 			client.DefaultRequestHeaders.Add("ContentType", MediaTypeNames.Application.Json);
+			client.DefaultRequestHeaders.Add("User-Agent", "ApplyToBecome/1.0");
 		});
 	}
 
@@ -48,6 +49,7 @@ public static class StartupExtension
 			client.BaseAddress = new Uri(academisationApiEndpoint);
 			client.DefaultRequestHeaders.Add("x-api-key", academisationApiKey);
 			client.DefaultRequestHeaders.Add("ContentType", MediaTypeNames.Application.Json);
+			client.DefaultRequestHeaders.Add("User-Agent", "ApplyToBecome/1.0");
 		});
 	}
 
