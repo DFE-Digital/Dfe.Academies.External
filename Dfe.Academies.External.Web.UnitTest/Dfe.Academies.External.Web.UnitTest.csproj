@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -49,6 +48,7 @@
     <PackageReference Include="AutoFixture" Version="4.18.1" />
     <PackageReference Include="AutoFixture.AutoMoq" Version="4.18.1" />
     <PackageReference Include="Bogus" Version="35.6.1" />
+    <PackageReference Include="DfE.CoreLibs.Testing" Version="1.1.9" />
     <PackageReference Include="FluentAssertions" Version="6.12.1" />
     <PackageReference Include="FluentValidation" Version="11.9.2" />
     <PackageReference Include="IdGen" Version="3.0.7" />
@@ -72,4 +72,9 @@
     <Folder Include="Validators\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="ExpectedSecurityConfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

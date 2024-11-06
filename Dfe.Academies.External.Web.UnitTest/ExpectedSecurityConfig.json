@@ -1,0 +1,36 @@
+﻿{
+	"Endpoints": [
+		{
+			"Route": "/Accessibility-Statement",
+			"ExpectedSecurity": "AllowAnonymous"
+		},
+		{
+			"Route": "/Cookies",
+			"ExpectedSecurity": "AllowAnonymous"
+		},
+		{
+			"Route": "/Terms",
+			"ExpectedSecurity": "AllowAnonymous"
+		},
+		{
+			"Route": "/Privacy",
+			"ExpectedSecurity": "AllowAnonymous"
+		},
+		{
+			"Route": "/Error",
+			"ExpectedSecurity": "AllowAnonymous"
+		},
+		{
+			"Route": "/NotFound",
+			"ExpectedSecurity": "AllowAnonymous"
+		},
+		{
+			"Route": "/WhatYouWillNeed",
+			"ExpectedSecurity": "AllowAnonymous"
+		},
+		{
+			"Route": "/Maintenance",
+			"ExpectedSecurity": "AllowAnonymous"
+		}
+	]
+}
