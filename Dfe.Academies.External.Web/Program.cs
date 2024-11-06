@@ -29,7 +29,7 @@ using StackExchange.Redis;
 
 namespace Dfe.Academies.External.Web
 {
-	public class Program
+	public static class Program
 	{
 		public static void Main(string[] args)
 		{
@@ -75,45 +75,45 @@ namespace Dfe.Academies.External.Web
 				.AddSessionStateTempDataProvider();
 
 			builder.Services.AddAuthentication(options =>
-				{
-					options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-					options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-				})
+			{
+				options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+			})
 				.AddCookie()
 				.AddOpenIdConnect(options =>
+				{
+					options.ClientId = configuration["SignIn:OneloginOpenIdConnectClientId"];
+					options.ClientSecret = configuration["SignIn:OneloginOpenIdConnectClientSecret"];
+					options.RequireHttpsMetadata = true;
+					options.ResponseType = "code";
+
+					options.Authority = configuration["SignIn:OneLoginUrl"];
+					options.GetClaimsFromUserInfoEndpoint = true;
+					options.TokenValidationParameters.NameClaimType = "email";
+					options.SaveTokens = true;
+					options.Scope.Add("openid");
+					options.Scope.Add("email");
+					options.Scope.Add("given");
+					options.Scope.Add("surname");
+					options.Scope.Add("organisation");
+
+					options.UseTokenLifetime = true;
+					options.SaveTokens = true;
+					options.GetClaimsFromUserInfoEndpoint = true;
+
+					options.Events.OnRedirectToIdentityProvider = context =>
 					{
-						options.ClientId = configuration["SignIn:OneloginOpenIdConnectClientId"];
-						options.ClientSecret = configuration["SignIn:OneloginOpenIdConnectClientSecret"];
-						options.RequireHttpsMetadata = true;
-						options.ResponseType = "code";
-
-						options.Authority = configuration["SignIn:OneLoginUrl"];
-						options.GetClaimsFromUserInfoEndpoint = true;
-						options.TokenValidationParameters.NameClaimType = "email";
-						options.SaveTokens = true;
-						options.Scope.Add("openid");
-						options.Scope.Add("email");
-						options.Scope.Add("given");
-						options.Scope.Add("surname");
-						options.Scope.Add("organisation");
-
-						options.UseTokenLifetime = true;
-						options.SaveTokens = true;
-						options.GetClaimsFromUserInfoEndpoint = true;
-
-						options.Events.OnRedirectToIdentityProvider = context =>
+						// check for a redirect uri override
+						string? redirectUri = configuration["SignIn:RedirectUri"];
+						if (!string.IsNullOrEmpty(redirectUri))
 						{
-							// check for a redirect uri override
-							string? redirectUri = configuration["SignIn:RedirectUri"];
-							if (!string.IsNullOrEmpty(redirectUri))
-							{
-								context.ProtocolMessage.RedirectUri = redirectUri;
-							}
+							context.ProtocolMessage.RedirectUri = redirectUri;
+						}
 
-							context.ProtocolMessage.Prompt = "login";
-							return Task.CompletedTask;
-						};
-					}
+						context.ProtocolMessage.Prompt = "login";
+						return Task.CompletedTask;
+					};
+				}
 				);
 
 			builder.Services.AddAuthorization(options =>
@@ -171,12 +171,12 @@ namespace Dfe.Academies.External.Web
 			});
 
 			builder.Services.AddSession(options =>
-				{
-					options.Cookie.HttpOnly = true;
-					options.Cookie.SameSite = SameSiteMode.Strict;
-					options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-					options.Cookie.IsEssential = true;
-				}
+			{
+				options.Cookie.HttpOnly = true;
+				options.Cookie.SameSite = SameSiteMode.Strict;
+				options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+				options.Cookie.IsEssential = true;
+			}
 			);
 			builder.Services.AddSingleton<IAadAuthorisationHelper, AadAuthorisationHelper>();
 
@@ -193,9 +193,9 @@ namespace Dfe.Academies.External.Web
 			builder.Services.AddScoped<ICorrelationContext, CorrelationContext>();
 
 			builder.Services.AddHttpClient<IFileUploadService, FileUploadService>(client =>
-				{
-					client.BaseAddress = new Uri(configuration["Sharepoint:ApiUrl"]);
-				})
+			{
+				client.BaseAddress = new Uri(configuration["Sharepoint:ApiUrl"]);
+			})
 				.AddPolicyHandler(GetRetryPolicy());
 
 			static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()

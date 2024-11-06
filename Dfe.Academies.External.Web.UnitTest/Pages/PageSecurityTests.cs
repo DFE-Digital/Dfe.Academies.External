@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Routing;
 using DfE.CoreLibs.Testing.Authorization;
 using DfE.CoreLibs.Testing.Mocks.WebApplicationFactory;
 using Microsoft.Extensions.DependencyInjection;
-using DfE.CoreLibs.Testing.Authorization.Helpers;
-using NUnit.Framework;
-using Microsoft.IdentityModel.Tokens;
+using DfE.CoreLibs.Testing.Authorization.Helpers; 
+using Xunit;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages
 {
@@ -23,11 +22,11 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages
 		}
 
 		[Theory]
-		[TestCaseSource(nameof(GetPageSecurityTestData))]
+		[MemberData(nameof(GetPageSecurityTestData))]
 		public void ValidatePageSecurity(string route, string expectedSecurity)
 		{
 			var result = _validator.ValidatePageSecurity(route, expectedSecurity, _endpoints.Value);
-			result.Message.IsNullOrEmpty();
+			Assert.Null(result.Message);
 		}
 
 		public static IEnumerable<object[]> GetPageSecurityTestData()
