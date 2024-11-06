@@ -27,8 +27,6 @@ using Quartz;
 using Serilog;
 using StackExchange.Redis;
 
-namespace Dfe.Academies.External.Web;
-
 public class Program
 {
 	public static void Main(string[] args)
