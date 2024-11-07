@@ -40,7 +40,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages
 		private static IEnumerable<RouteEndpoint> InitializeEndpoints()
 		{
 			// Using a temporary factory to access the EndpointDataSource for lazy initialization
-			var factory = new CustomWebApplicationFactory<Program>();
+			var factory = new CustomWebApplicationFactory<Startup>();
 			var endpointDataSource = factory.Services.GetRequiredService<EndpointDataSource>();
 
 			var endpoints = endpointDataSource.Endpoints
