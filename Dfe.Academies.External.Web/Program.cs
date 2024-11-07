@@ -29,7 +29,7 @@ using StackExchange.Redis;
 
 namespace Dfe.Academies.External.Web
 {
-	public static class Program
+	public class Program
 	{
 		public static void Main(string[] args)
 		{
