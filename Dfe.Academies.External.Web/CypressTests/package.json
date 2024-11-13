@@ -4,8 +4,8 @@
   "description": "Cypress tests for the core journeys of the A2B service",
   "main": "index.js",
   "scripts": {
-    "cy:open": "cypress open",
-    "cy:run": "cypress run --env URL=$URL,LOGIN_USERNAME=$LOGIN_USERNAME,LOGIN_PASSWORD=$LOGIN_PASSWORD",
+    "cy:open": "cypress open --env URL=$URL,LOGIN_USERNAME=$LOGIN_USERNAME,LOGIN_PASSWORD=$LOGIN_PASSWORD,SigninUrl=$SigninUrl",
+    "cy:run": "cypress run --env URL=$URL,LOGIN_USERNAME=$LOGIN_USERNAME,LOGIN_PASSWORD=$LOGIN_PASSWORD,SigninUrl=$SigninUrl",
     "lint": "eslint ."
   },
   "keywords": [
