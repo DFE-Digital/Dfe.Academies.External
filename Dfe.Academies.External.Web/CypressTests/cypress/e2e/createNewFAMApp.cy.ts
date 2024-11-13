@@ -61,7 +61,7 @@ describe('Create a FAM application', () => {
   const trustOpeningYear = `${new Date().getFullYear() + 1}`
 
   beforeEach(function () {
-    cy.visit(Cypress.env('url'))
+    cy.visit(Cypress.env('URL'))
 
     cookieHeaderModal.acceptAnalyticsCookies()
 
