@@ -1,9 +1,9 @@
 class Login {
   public login(): this {
-    const username = Cypress.env('loginUsername')
-    const password = Cypress.env('loginPassword')
+    const username = Cypress.env('LOGIN_USERNAME')
+    const password = Cypress.env('LOGIN_PASSWORD')
     const args = { username, password }
-    const signinUrl = Cypress.env('signinUrl')
+    const signinUrl = Cypress.env('SigninUrl')
     cy.origin(signinUrl, { args }, (args) => {
       cy.get('#username').type(args.username)
       cy.get('button[type="submit"]').click()
