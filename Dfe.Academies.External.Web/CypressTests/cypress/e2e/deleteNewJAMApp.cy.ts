@@ -9,7 +9,7 @@ import confirmApplicationDelete from '../page-objects/pages/confirmApplicationDe
 
 describe('Delete application', () => {
   beforeEach(function () {
-    cy.visit(Cypress.env('url'))
+    cy.visit(Cypress.env('URL'))
 
     cookieHeaderModal.acceptAnalyticsCookies()
 
