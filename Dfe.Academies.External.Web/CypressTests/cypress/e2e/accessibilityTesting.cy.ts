@@ -13,7 +13,7 @@ describe('Check accessibility of all A2B pages', function () {
 
   it('Checks accessibility', function () {
     paths.forEach((link) => {
-      cy.visit(Cypress.env('url') + link)
+      cy.visit(Cypress.env('URL') + link)
       cy.excuteAccessibilityTests()
     })
   })
