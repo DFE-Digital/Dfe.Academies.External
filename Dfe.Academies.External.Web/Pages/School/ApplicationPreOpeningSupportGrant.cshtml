@@ -19,10 +19,14 @@
 	<h1 class="govuk-heading-l">
         Academy conversion support grant
 	</h1>
-    
+    <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            The deadline to apply for the conversion support grant is 11:55pm Friday 20 December 2024
+        </strong>
+    </div>
 	<p class="govuk-body">
-        If your application is successful you will be issued with an academy order. Once issued,
-        the Department for Education will pay the conversion support grant into a nominated bank account.
 			@if (Model.ApplicationType != ApplicationTypes.JoinAMat)
 			{
 				<p class="govuk-body">Please go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' 
