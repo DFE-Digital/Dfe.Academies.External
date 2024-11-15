@@ -191,31 +191,9 @@ namespace Dfe.Academies.External.Web.Pages
 				}
 				else // JAM
 				{
-					if (ConversionStatus != Status.Completed)
-					{
-						// Also check UserHasSubmitApplicationRole - chair / non-chair !!
-						HeaderText = UserHasSubmitApplicationRole
-							? "Your answers will be saved after each question. Once all sections are complete, you will be able to submit the application."
-							: "Your answers will be saved after each question. Once all sections are complete, the school's chair will be able to submit the application.";
-					}
-
 					TrustHeaderText = "The trust the school will join";
 					SchoolHeaderText = "The school applying to convert";
-				//	SchoolName = school?.SchoolName;
 				}
-
-				//// submit button should NOT be available unless ConversionStatus == Completed &&&&&&& TrustConversionStatus = Completed !!
-				//// logic is now contained within ConversionApplicationRetrievalService.CalculateApplicationStatus(conversionApplication);
-
-				//// Convert from List<ConversionApplicationAuditEntry> -> List<ViewModels.ApplicationAuditViewModel>
-				////Audits = auditEntries.Select(e =>
-				//// new ViewModels.ApplicationAuditViewModel
-				//// {
-				////  What =
-				////   $"{e.CreatedBy} {e.TypeOfChange} the {e.PropertyChanged}",
-				////  When = e.DateCreated,
-				////  Who = e.CreatedBy
-				//// }).ToList();
 			}
 		}
 

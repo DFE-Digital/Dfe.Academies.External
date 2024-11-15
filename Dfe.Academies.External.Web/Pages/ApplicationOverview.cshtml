@@ -20,6 +20,18 @@
 
 	<h1 class="govuk-heading-l">@Model.ApplicationType.GetDescription()</h1>
 
+    <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner__header">
+            <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                Important
+            </h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+            <p class="govuk-notification-banner__heading">
+                You must submit the application by 11:55pm Friday 20 December 2024 to be eligible for the <a class="govuk-link" href="https://www.gov.uk/guidance/claim-the-academy-conversion-support-grant" rel="noopener">conversion support grant</a>
+            </p>
+        </div>
+    </div>
 	<p class="govuk-body govuk-radios__conditional">
 		@Model.HeaderText
 	</p>

@@ -128,9 +128,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 				throw new ArgumentException("School not found");
 			}
 
-			List<ApplicationComponentViewModel> conversionApplicationComponents = new()
-			{
-			    new("About the conversion", UriFormatter.SetSchoolApplicationComponentUriFromName("About the conversion"), CalculateAboutTheConversionSectionStatus(school)),
+			List<ApplicationComponentViewModel> conversionApplicationComponents =
+			[
+				new("About the conversion", UriFormatter.SetSchoolApplicationComponentUriFromName("About the conversion"), CalculateAboutTheConversionSectionStatus(school)),
 				new("Further information", UriFormatter.SetSchoolApplicationComponentUriFromName("Further information"), CalculateFurtherInformationSectionStatus(school, application.ApplicationReference)),
 				new("Finances", UriFormatter.SetSchoolApplicationComponentUriFromName("Finances"), CalculateFinanceSectionStatus(school)),
 			    new("Future pupil numbers", UriFormatter.SetSchoolApplicationComponentUriFromName("Future pupil numbers"), CalculateFuturePupilNumbersSectionStatus(school)),
@@ -138,7 +138,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 				new("Consultation", UriFormatter.SetSchoolApplicationComponentUriFromName("Consultation"),CalculateConsultationSectionStatus(school)),
 				new("Conversion support grant", UriFormatter.SetSchoolApplicationComponentUriFromName("Conversion support grant"),CalculatePreOpeningSupportGrantSectionStatus(school)),
 				new("Declaration", UriFormatter.SetSchoolApplicationComponentUriFromName("Declaration"),CalculateDeclarationSectionStatus(school))
-		    };
+		    ];
 
 			return conversionApplicationComponents;
 		}
