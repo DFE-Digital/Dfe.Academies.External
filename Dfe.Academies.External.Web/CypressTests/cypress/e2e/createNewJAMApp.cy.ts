@@ -59,130 +59,240 @@ describe('Create a JAM application', () => {
   })
 
   it('should be able to create a new application', () => {
+
+    cy.executeAccessibilityTests()
+
     yourApplications.startNewApplication()
+
+    cy.executeAccessibilityTests()
 
     whatAreYouApplyingToDo.startApplication('Join A MAT')
 
+    cy.executeAccessibilityTests()
+
     whatIsYourRole.chooseRole('Governor')
+
+    cy.executeAccessibilityTests()
 
     application.addTrust()
 
+    cy.executeAccessibilityTests()
+
     whichTrustIsSchoolJoining.selectTrustName('Plym')
+
+    cy.executeAccessibilityTests()
 
     application.addSchool()
 
+    // TAKING OUT CALLS TO EXECUTEACCESSIBILITYTESTS ON WHAT IS NAME OF SCHOOL PAGE DUE TO KNOWN LIVE ACCESSIBLITY BUG
+    //cy.executeAccessibilityTests()
+
     whatIsTheNameOfTheSchool.selectSchoolName('Plym')
+
+    //cy.executeAccessibilityTests() - SEE COMMENT ABOVE ON LINE 87
 
     application.selectTrustDetails()
 
+    cy.executeAccessibilityTests()
+
     trustDetailsSummary.startTrustDetails()
+
+    cy.executeAccessibilityTests()
 
     trustConsent.uploadConsentDoc()
 
+    cy.executeAccessibilityTests()
+
     changesToTheTrust.enterChangesToTheTrust()
+
+    cy.executeAccessibilityTests()
 
     localGovernanceArrangements.addGovernanceArragements()
 
+    cy.executeAccessibilityTests()
+
     trustDetailsSummary.saveAndReturnToApp()
+
+    cy.executeAccessibilityTests()
 
     application.checkTrustSectionComplete()
       .startAboutTheConversion()
 
+    cy.executeAccessibilityTests()
+
     aboutTheConversion.startContactDetails()
+
+    cy.executeAccessibilityTests()
 
     mainContacts.enterMainContactDetails(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
 
     conversionTargetDate.enterConversionTargetDate('No')
 
+    cy.executeAccessibilityTests()
+
     reasonsForJoining.enterReasonsForJoining()
 
+    cy.executeAccessibilityTests()
+
     changingTheNameOfTheSchool.enterChangingTheNameOfTheSchool('No')
+
+    cy.executeAccessibilityTests()
 
     aboutTheConversion.checkAboutTheConversion(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
       .saveAndReturnToApp()
 
+    cy.executeAccessibilityTests()
+
     application.checkSectionComplete('About the conversion')
       .startFurtherInformation()
+    
+    cy.executeAccessibilityTests()
 
     additionalDetailsSummaryPage.startAdditionalDetails()
 
+    cy.executeAccessibilityTests()
+
     additionalDetailsDetails.enterAdditionalDetails()
+
+    cy.executeAccessibilityTests()
 
     additionalDetailsSummaryPage.checkAdditionalDetails()
       .saveAndReturnToApp()
+    
+    cy.executeAccessibilityTests()
 
     application.checkSectionComplete('Further information')
       .startFinances()
+    
+    cy.executeAccessibilityTests()
 
     financeSummary.startPreviousFinancialYear()
 
+    cy.executeAccessibilityTests()
+
     previousFinancialYear.enterPreviousFinancialYearDetails()
+
+    cy.executeAccessibilityTests()
 
     currentFinancialYear.enterCurrentFinancialYearDetails()
 
+    cy.executeAccessibilityTests()
+
     nextFinancialYear.enterNextFinancialYearDetails()
+
+    cy.executeAccessibilityTests()
 
     loansSummary.enterLoansDetails()
 
+    cy.executeAccessibilityTests()
+
     leasesSummary.enterLeasesDetails()
+
+    cy.executeAccessibilityTests()
 
     financialInvestigations.enterFinancialInvestigationsDetails()
 
+    cy.executeAccessibilityTests()
+
     financeSummary.checkFinanceSummaryCompleted()
       .saveAndReturnToApp()
+    
+    cy.executeAccessibilityTests()
 
     application.checkSectionComplete('Finances')
       .startFuturePupilNumbers()
+    
+    cy.executeAccessibilityTests()
 
     futurePupilNumbersSummary.startFuturePupilNumbers()
 
+    cy.executeAccessibilityTests()
+
     futurePupilNumbersDetails.enterFuturePupilNumbersDetails()
+
+    cy.executeAccessibilityTests()
 
     futurePupilNumbersSummary.checkFuturePupilNumbersSummaryCompleted()
       .saveAndReturnToApp()
+    
+    cy.executeAccessibilityTests()
 
     application.checkSectionComplete('Future pupil numbers')
       .startLandAndBuildings()
+    
+    cy.executeAccessibilityTests()
 
     landAndBuildingsSummary.startLandAndBuildings()
 
+    cy.executeAccessibilityTests()
+
     landAndBuildingsDetails.enterLandAndBuildingsDetailsDetails()
+
+    cy.executeAccessibilityTests()
 
     landAndBuildingsSummary.checkLandAndBuildingsSummaryCompleted()
       .saveAndReturnToApp()
+    
+    cy.executeAccessibilityTests()
 
     application.checkSectionComplete('Land and buildings')
       .startConsultation()
+    
+    cy.executeAccessibilityTests()
 
     consultationSummary.startConsultation()
 
+    cy.executeAccessibilityTests()
+
     consultationDetails.enterConsultationDetails()
+
+    cy.executeAccessibilityTests()
 
     consultationSummary.checkConsultationSummaryCompleted()
       .saveAndReturnToApp()
+    
+    cy.executeAccessibilityTests()
 
     application.checkSectionComplete('Consultation')
       .startPreopeningSupportGrant()
+    
+    cy.executeAccessibilityTests()
 
     preOpeningSupportGrantSummary.startPreopeningSupportGrant()
 
+    cy.executeAccessibilityTests()
+
     preopeningSupportGrantDetails.enterPreopeningSupportGrantDetails()
+
+    cy.executeAccessibilityTests()
 
     preOpeningSupportGrantSummary.checkPreopeningSupportGrantSummaryCompleted()
       .saveAndReturnToApp()
+    
+    cy.executeAccessibilityTests()
 
-	application.checkSectionComplete('Conversion support grant')
-      .startDeclaration()
+	  application.checkSectionComplete('Conversion support grant')
+        .startDeclaration()
+    
+    cy.executeAccessibilityTests()
 
     declarationSummary.startDeclaration()
 
+    cy.executeAccessibilityTests
+
     declaration.selectAgreements()
+
+    cy.executeAccessibilityTests()
 
     declarationSummary.checkDeclarationSummaryCompleted()
       .saveAndReturnToApp()
+    
+    cy.executeAccessibilityTests()
 
     application.checkSectionComplete('Declaration')
       .submitApplication()
+    
+    cy.executeAccessibilityTests()
 
     successfulApplicationSubmitted.checkApplicationSubmitted()
   })
