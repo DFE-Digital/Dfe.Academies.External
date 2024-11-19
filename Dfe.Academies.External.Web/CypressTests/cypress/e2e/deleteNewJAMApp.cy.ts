@@ -19,16 +19,30 @@ describe('Delete application', () => {
   })
 
   it('should be able to delete a JAM application', () => {
+    
+    cy.executeAccessibilityTests()
+
     yourApplications.startNewApplication()
+
+    cy.executeAccessibilityTests()
 
     whatAreYouApplyingToDo.startApplication('Join A MAT')
 
+    cy.executeAccessibilityTests()
+
     whatIsYourRole.chooseRole('Governor')
+
+    cy.executeAccessibilityTests()
 
     application.selectCancelApplication()
 
+    cy.executeAccessibilityTests()
+
     confirmApplicationDelete.confirmDelete()
 
+    cy.executeAccessibilityTests()
+
     yourApplications.verifyApplicationDeleted()
+    
   })
 })

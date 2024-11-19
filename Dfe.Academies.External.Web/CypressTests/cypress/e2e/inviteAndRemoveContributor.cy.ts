@@ -23,16 +23,27 @@ describe('Invite/remove contributor', () => {
   })
 
   it('should add and remove a contributor from an application', () => {
+
+    cy.executeAccessibilityTests()
+
     yourApplications.selectApplication(applicationId)
 
+    cy.executeAccessibilityTests()
+
     application.inviteContributor()
+
+    cy.executeAccessibilityTests()
 
     inviteContributor.inviteContributor(contributorFirstName, contributorEmail)
       .hasSuccessBanner(contributorFirstName)
       .hasContributor(contributorFirstName)
       .selectRemoveContributorLink()
 
+    cy.executeAccessibilityTests()
+
     confirmInviteContributorDelete.confirmRemoveContributor()
+
+    cy.executeAccessibilityTests()
 
     inviteContributor.contributorRemoved(contributorFirstName)
   })

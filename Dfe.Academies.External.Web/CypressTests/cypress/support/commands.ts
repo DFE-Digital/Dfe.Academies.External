@@ -1,4 +1,4 @@
-Cypress.Commands.add('excuteAccessibilityTests', () => {
+Cypress.Commands.add('executeAccessibilityTests', () => {
   const wcagStandards = ['wcag22aa', 'wcag21aa']
   const impactLevel = ['critical', 'minor', 'moderate', 'serious']
   const continueOnFail = false
