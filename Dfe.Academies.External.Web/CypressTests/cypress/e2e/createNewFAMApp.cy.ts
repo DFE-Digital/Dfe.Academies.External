@@ -71,197 +71,352 @@ describe('Create a FAM application', () => {
   })
 
   it('should be able to create a new application', () => {
+    
+    cy.executeAccessibilityTests()
+
     yourApplications.startNewApplication()
+
+    cy.executeAccessibilityTests()
 
     whatAreYouApplyingToDo.startApplication('Form A MAT')
 
+    cy.executeAccessibilityTests()
+
     whatIsYourRole.chooseRole('Governor')
+
+    cy.executeAccessibilityTests()
 
     application.addSchool()
 
+    // COMMENTED OUT - PLEASE SEE WORK ITEM 18999 - BUG: LIVE: Legacy A2B Accessibility Issues On JAM/FAM Name of school Page and JAM Name of Trust page
+    //cy.executeAccessibilityTests()
+
     whatIsTheNameOfTheSchool.selectSchoolName('Plym')
+   
+    // COMMENTED OUT - PLEASE SEE WORK ITEM 18999 - BUG: LIVE: Legacy A2B Accessibility Issues On JAM/FAM Name of school Page and JAM Name of Trust page
+    // cy.executeAccessibilityTests()
 
     application.checkSchoolAdded()
       .selectFAMSchool()
+    
+    cy.executeAccessibilityTests()
 
     application.startAboutTheConversion()
 
+    cy.executeAccessibilityTests()
+
     aboutTheConversion.startContactDetails()
+
+    cy.executeAccessibilityTests()
 
     mainContacts.enterMainContactDetails(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
 
+    cy.executeAccessibilityTests()
+
     conversionTargetDate.enterConversionTargetDate('No')
+
+    cy.executeAccessibilityTests()
 
     reasonsForJoining.enterReasonsForJoining()
 
+    cy.executeAccessibilityTests()
+
     changingTheNameOfTheSchool.enterChangingTheNameOfTheSchool('No')
+
+    cy.executeAccessibilityTests()
 
     aboutTheConversion.checkAboutTheConversion(headTeacherName, headTeacherEmail, chairName, chairEmail, approverName, approverEmail)
       .saveAndReturnToApp()
+    
+    cy.executeAccessibilityTests()
 
     schoolOverview.checkSectionCompleted('About the conversion')
 
     application.startFurtherInformation()
 
+    cy.executeAccessibilityTests()
+
     additionalDetailsSummaryPage.startAdditionalDetails()
+
+    cy.executeAccessibilityTests()
 
     additionalDetailsDetails.enterAdditionalDetails()
 
+    cy.executeAccessibilityTests()
+
     additionalDetailsSummaryPage.checkAdditionalDetails()
       .saveAndReturnToApp()
+    
+    cy.executeAccessibilityTests()
 
     schoolOverview.checkSectionCompleted('Further information')
 
     application.startFinances()
 
+    cy.executeAccessibilityTests()
+
     financeSummary.startPreviousFinancialYear()
+
+    cy.executeAccessibilityTests()
 
     previousFinancialYear.enterPreviousFinancialYearDetails()
 
+    cy.executeAccessibilityTests()
+
     currentFinancialYear.enterCurrentFinancialYearDetails()
+
+    cy.executeAccessibilityTests()
 
     nextFinancialYear.enterNextFinancialYearDetails()
 
+    cy.executeAccessibilityTests()
+
     loansSummary.enterLoansDetails()
+
+    cy.executeAccessibilityTests()
 
     leasesSummary.enterLeasesDetails()
 
+    cy.executeAccessibilityTests()
+
     financialInvestigations.enterFinancialInvestigationsDetails()
+
+    cy.executeAccessibilityTests()
 
     financeSummary.checkFinanceSummaryCompleted()
       .saveAndReturnToApp()
+    
+    cy.executeAccessibilityTests()
 
     schoolOverview.checkSectionCompleted('Finances')
 
     application.startFuturePupilNumbers()
 
+    cy.executeAccessibilityTests()
+
     futurePupilNumbersSummary.startFuturePupilNumbers()
+
+    cy.executeAccessibilityTests()
 
     futurePupilNumbersDetails.enterFuturePupilNumbersDetails()
 
+    cy.executeAccessibilityTests()
+
     futurePupilNumbersSummary.checkFuturePupilNumbersSummaryCompleted()
       .saveAndReturnToApp()
+    
+    cy.executeAccessibilityTests()
 
     application.checkSchoolStatus()
       .selectFAMSchool()
+
+    cy.executeAccessibilityTests()
 
     schoolOverview.checkSectionCompleted('Future pupil numbers')
 
     application.startLandAndBuildings()
 
+    cy.executeAccessibilityTests()
+
     landAndBuildingsSummary.startLandAndBuildings()
+
+    cy.executeAccessibilityTests()
 
     landAndBuildingsDetails.enterLandAndBuildingsDetailsDetails()
 
+    cy.executeAccessibilityTests()
+
     landAndBuildingsSummary.checkLandAndBuildingsSummaryCompleted()
       .saveAndReturnToApp()
+    
+    cy.executeAccessibilityTests()
 
     schoolOverview.checkSectionCompleted('Land and buildings')
 
     application.startConsultation()
 
+    cy.executeAccessibilityTests()
+
     consultationSummary.startConsultation()
+
+    cy.executeAccessibilityTests()
 
     consultationDetails.enterConsultationDetails()
 
+    cy.executeAccessibilityTests()
+
     consultationSummary.checkConsultationSummaryCompleted()
       .saveAndReturnToApp()
+    
+    cy.executeAccessibilityTests()
 
     schoolOverview.checkSectionCompleted('Consultation')
 
     application.startPreopeningSupportGrant()
 
+    cy.executeAccessibilityTests()
+
     preOpeningSupportGrantSummary.startPreopeningSupportGrant()
+
+    cy.executeAccessibilityTests()
 
     preopeningSupportGrantDetails.confirmPreopeningSupportGrantDetails()
 
+    cy.executeAccessibilityTests()
+
     preOpeningSupportGrantSummary.checkPreopeningSupportGrantSummaryCompleted()
       .saveAndReturnToApp()
+    
+    cy.executeAccessibilityTests()
 
-	schoolOverview.checkSectionCompleted('Conversion support grant')
+	  schoolOverview.checkSectionCompleted('Conversion support grant')
 
     application.startDeclaration()
 
+    cy.executeAccessibilityTests()
+
     declarationSummary.startDeclaration()
 
+    cy.executeAccessibilityTests()
+
     declaration.selectAgreements()
+
+    cy.executeAccessibilityTests()
 
     declarationSummary.checkDeclarationSummaryCompleted()
       .saveAndReturnToApp()
 
+    cy.executeAccessibilityTests()
+
     schoolOverview.checkSectionCompleted('Declaration')
       .saveAndReturn()
 
+    cy.executeAccessibilityTests()
+
     application.checkSchoolCompleted()
       .addFAMTrust()
+    
+    cy.executeAccessibilityTests()
 
     trustname.enterTrustName()
+
+    cy.executeAccessibilityTests()
 
     application.checkTrustAdded()
       .selectFAMTrust()
 
+    cy.executeAccessibilityTests()
+
     trustOverview.checkSectionCompleted('Trust name')
       .selectOpeningDate()
 
+    cy.executeAccessibilityTests()
+
     trustOpeningDateSummary.selectStartSection()
 
+    cy.executeAccessibilityTests()
+
     trustOpeningDateDetails.enterOpeningDateDetails(trustOpeningYear, approverName, approverEmail)
+
+    cy.executeAccessibilityTests()
 
     trustOpeningDateSummary.checkOpeningDateSummaryCompleted(trustOpeningYear, approverName, approverEmail)
 
     trustOverview.checkSectionCompleted('Opening date')
       .selectReasonsForFormingTheTrust()
+    
+    cy.executeAccessibilityTests()
 
     reasonsForFormingTrustSummary.selectStartSection()
 
+    cy.executeAccessibilityTests()
+
     reasonsForFormingTrustDetails.enterReasonsForFormingTrust()
+
+    cy.executeAccessibilityTests()
 
     reasonsForFormingTrustSummary.checkReasonsForFormingTrustSummaryCompleted()
 
     trustOverview.checkSectionCompleted('Reasons for forming the trust')
       .selectPlansForGrowth()
 
+    cy.executeAccessibilityTests()
+
     trustPlansForGrowthSummary.selectStartSection()
+
+    cy.executeAccessibilityTests()
 
     trustPlansForGrowthDetails.inputPlansForGrowthAndSubmit()
 
+    cy.executeAccessibilityTests()
+
     trustPlansForGrowthSummary.checkPlansForGrowthSummaryCompleted()
+
+    cy.executeAccessibilityTests()
 
     trustOverview.checkSectionCompleted('Plans for growth')
 
+    cy.executeAccessibilityTests()
+
     trustOverview.selectSchoolImprovementStrategy()
+
+    cy.executeAccessibilityTests()
 
     schoolImprovementStrategySummary.selectStartSection()
 
+    cy.executeAccessibilityTests()
+
     schoolImprovementStrategyDetails.fillSchoolImprovementStrategyAndSubmit()
 
+    cy.executeAccessibilityTests()
+
     schoolImprovementStrategySummary.schoolImprovementStrategyCompleteElementsVisibleAndSubmit()
+
+    cy.executeAccessibilityTests()
 
     trustOverview.checkSectionCompleted('School improvement strategy')
 
     trustOverview.selectGovernanceStructure()
 
+    cy.executeAccessibilityTests()
+
     governanceStructureSummary.selectStartSection()
 
+    cy.executeAccessibilityTests()
+
     governanceStructureDetails.uploadFileAndSubmit()
+
+    cy.executeAccessibilityTests()
 
     governanceStructureSummary.checkGovernanceStructureSummaryCompleted()
 
     trustOverview.checkSectionCompleted('Governance structure')
 
+    cy.executeAccessibilityTests()
+
     trustOverview.selectKeyPeople()
+
+    cy.executeAccessibilityTests()
 
     keyPeopleSummary.selectAddKeyPerson()
 
+    cy.executeAccessibilityTests()
+
     keyPersonDetails.fillKeyPersonDetailsAndSubmit(approverName)
+
+    cy.executeAccessibilityTests()
 
     keyPeopleSummary.checkKeyPeopleSummaryCompleted(approverName)
 
     trustOverview.checkSectionCompleted('Key people')
       .selectReturnToYourApplication()
 
+    cy.executeAccessibilityTests()
+
     application.checkApplicationOverviewCompleted()
       .submitApplication()
+
+    cy.executeAccessibilityTests()
 
     successfulApplicationSubmitted.checkApplicationSubmitted()
   })
