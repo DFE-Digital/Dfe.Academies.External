@@ -65,11 +65,12 @@ jobs:
           LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
           LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
           URL: ${{ secrets.URL }}
+          SIGNIN_URL: ${{ secrets.SIGNIN_URL }}
           ZAP: true
           ZAP_API_KEY: ${{ secrets.ZAP_API_KEY }}
           ZAP_ADDRESS: ${{ env.ZAP_ADDRESS }}
           ZAP_PORT: ${{ env.ZAP_PORT }}
-        run: npm run cy:run
+        run: npm run cy:run -- --env URL='${{ secrets.URL }}',LOGIN_USERNAME=${{ secrets.LOGIN_USERNAME }},LOGIN_PASSWORD=${{ secrets.LOGIN_PASSWORD }},SIGNIN_URL=${{ secrets.SIGNIN_URL }}
 
       - name: Get git sha
         if: '!cancelled()'
