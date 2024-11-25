@@ -15,6 +15,7 @@ locals {
   container_secret_environment_variables          = var.container_secret_environment_variables
   container_min_replicas                          = var.container_min_replicas
   container_max_replicas                          = var.container_max_replicas
+  container_port                                  = var.container_port
   enable_cdn_frontdoor                            = var.enable_cdn_frontdoor
   enable_event_hub                                = var.enable_event_hub
   enable_logstash_consumer                        = var.enable_logstash_consumer
