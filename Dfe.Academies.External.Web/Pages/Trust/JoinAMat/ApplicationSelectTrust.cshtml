@@ -24,7 +24,7 @@
 			<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
 
 				<h2 class="govuk-heading-m">Trust details</h2>
-				<fieldset class="govuk-fieldset" data-required data-error="Search cannot be blank" aria-required="true">
+				<fieldset class="govuk-fieldset" data-required data-error="Search cannot be blank">
 					<div id="SearchQueryContainer" class="govuk-form-group">
 						<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
 							<h2 class="govuk-fieldset__heading govuk-heading-m">
@@ -39,7 +39,7 @@
 						<input id='SearchQueryInput' asp-for="@Model.SearchQuery"
 						       class="govuk-input govuk-input--width-20"
 						       maxlength="100"
-						       type="search" aria-valuetext=""
+						       type="search"
 						       aria-describedby="search-hint search-error"/>
 						<div id="autocomplete-container" data-cy="trustSearchBox"></div>
 					</div>
