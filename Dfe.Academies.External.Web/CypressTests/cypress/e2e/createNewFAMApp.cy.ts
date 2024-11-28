@@ -88,13 +88,11 @@ describe('Create a FAM application', () => {
 
     application.addSchool()
 
-    // COMMENTED OUT - PLEASE SEE WORK ITEM 18999 - BUG: LIVE: Legacy A2B Accessibility Issues On JAM/FAM Name of school Page and JAM Name of Trust page
-    //cy.executeAccessibilityTests()
+    cy.executeAccessibilityTests()
 
     whatIsTheNameOfTheSchool.selectSchoolName('Plym')
    
-    // COMMENTED OUT - PLEASE SEE WORK ITEM 18999 - BUG: LIVE: Legacy A2B Accessibility Issues On JAM/FAM Name of school Page and JAM Name of Trust page
-    // cy.executeAccessibilityTests()
+    cy.executeAccessibilityTests()
 
     application.checkSchoolAdded()
       .selectFAMSchool()

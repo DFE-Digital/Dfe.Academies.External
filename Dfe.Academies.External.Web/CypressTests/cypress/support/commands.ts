@@ -6,6 +6,7 @@ Cypress.Commands.add('executeAccessibilityTests', () => {
   cy.checkA11y(
     null,
     {
+      retries: 3,
       runOnly: {
         type: 'tag',
         values: wcagStandards,
