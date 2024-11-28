@@ -88,7 +88,7 @@ describe('Create a FAM application', () => {
 
     application.addSchool()
 
-    cy.wait(2000).executeAccessibilityTests()
+    cy.executeAccessibilityTests()
 
     whatIsTheNameOfTheSchool.selectSchoolName('Plym')
    

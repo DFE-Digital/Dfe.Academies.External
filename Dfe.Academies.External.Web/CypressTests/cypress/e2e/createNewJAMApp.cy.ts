@@ -76,7 +76,7 @@ describe('Create a JAM application', () => {
 
     application.addTrust()
 
-    cy.wait(2000).executeAccessibilityTests()
+    cy.executeAccessibilityTests()
 
     whichTrustIsSchoolJoining.selectTrustName('Plym')
 
@@ -84,7 +84,7 @@ describe('Create a JAM application', () => {
 
     application.addSchool()
 
-    cy.wait(2000).executeAccessibilityTests()
+    cy.executeAccessibilityTests()
 
     whatIsTheNameOfTheSchool.selectSchoolName('Plym')
 
