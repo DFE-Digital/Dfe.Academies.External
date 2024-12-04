@@ -53,6 +53,12 @@ jobs:
       - name: Run cypress
         run: npm run cy:run -- --env URL='${{ secrets.URL }}',LOGIN_USERNAME=${{ secrets.LOGIN_USERNAME }},LOGIN_PASSWORD=${{ secrets.LOGIN_PASSWORD }},SIGNIN_URL=${{ secrets.SIGNIN_URL }}
 
+      - name: Generate report
+        if: always()
+        run: |
+          mkdir mochareports
+          npm run generate:html:report
+
       - name: upload report
         uses: actions/upload-artifact@v4
         if: failure()
