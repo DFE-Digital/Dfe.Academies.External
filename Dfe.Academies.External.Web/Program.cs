@@ -18,7 +18,6 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Options;
-using NetEscapades.AspNetCore.SecurityHeaders;
 using Notify.Client;
 using Notify.Interfaces;
 using Polly;
@@ -26,6 +25,7 @@ using Polly.Extensions.Http;
 using Quartz;
 using Serilog;
 using StackExchange.Redis;
+using NetEscapades.AspNetCore.SecurityHeaders;
 
 namespace Dfe.Academies.External.Web
 {
