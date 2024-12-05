@@ -1,6 +1,5 @@
 ﻿@using Microsoft.Extensions.Configuration
 @using Microsoft.AspNetCore.Http.Features
-@using GovUk.Frontend.AspNetCore
 @using System.Security.Claims;
 @inject IConfiguration _configuration
 
@@ -48,7 +47,7 @@
 					} },
 				}
 			});
-
+			
 			// Set Authenticated User Context
 			window.appInsights.setAuthenticatedUserContext("@authenticatedUserId", null, true);
 		</script>
@@ -59,78 +58,98 @@
 	<title>@ViewData["Title"] &ndash; Apply to become an academy</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="theme-color" content="blue"/>
+
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-	<meta property="og:image" content="/assets/images/govuk-opengraph-image.png">
-	<link rel="icon" sizes="48x48" href="/assets/images/favicon.ico">
-	<link rel="icon" sizes="any" href="/assets/images/favicon.svg" type="image/svg+xml">
-	<link rel="mask-icon" href="/assets/images/govuk-icon-mask.svg" color="#0b0c0c">
-	<link rel="apple-touch-icon" href="/assets/images/govuk-icon-180.png">
-	@Html.GovUkFrontendStyleImports()
+
+    <link rel="icon" sizes="48x48" href="/assets/images/favicon.ico">
+    <link rel="icon" sizes="any" href="/assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="mask-icon" href="/assets/images/govuk-icon-mask.svg" color="#0b0c0c">
+    <link rel="apple-touch-icon" href="/assets/images/govuk-icon-180.png">
+
+    <meta property="og:image" content="/assets/images/govuk-opengraph-image.png">
 	<link href="/css/site.css" rel="stylesheet" media="all"/>
 	<link href="/assets/accessible-autocomplete.min.css" rel="stylesheet" media="all"/>
 </head>
 
 <body class="govuk-template__body app-body-class">
-	@Html.GovUkFrontendJsEnabledScript()
+@if (canTrack)
+{
+	<!-- Google Tag Manager (noscript) -->
+	<noscript>
+		<iframe src="https://www.googletagmanager.com/ns.html?id=@_configuration["Google:TagManagerId"]"
+		        height="0" width="0" style="display:none;visibility:hidden">
+		</iframe>
+	</noscript>
+	<!-- End Google Tag Manager (noscript) -->
+}
 
-	@if (canTrack)
+<script asp-add-nonce>
+        document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+</script>
+<partial name="_CookieConsentPartial"/>
+<partial name="_NotificationBanner"/>
+<partial name="_Header"/>
+
+
+<div class="container body-content">
+	@if (User.Identity is not null && User.Identity.IsAuthenticated)
 	{
-		<!-- Google Tag Manager (noscript) -->
-		<noscript>
-			<iframe src="https://www.googletagmanager.com/ns.html?id=@_configuration["Google:TagManagerId"]"
-							height="0" width="0" style="display:none;visibility:hidden">
-			</iframe>
-		</noscript>
-		<!-- End Google Tag Manager (noscript) -->
+		<div class=" govuk-width-container govuk-phase-banner print-hide">
+			<p class="govuk-phase-banner__content">
+				<strong class="govuk-tag govuk-phase-banner__content__tag ">
+					beta
+				</strong>
+				<span class="govuk-phase-banner__text">
+					<a class="govuk-link" asp-page="/Help/HowCanWeHelp" target="_blank">Get help or give feedback on this service (opens in a new tab)</a>
+				</span>
+			</p>
+		</div>
 	}
 
-	<partial name="_CookieConsentPartial"/>
-	<partial name="_NotificationBanner"/>
-	<partial name="_Header"/>
-
-	<div class="container body-content">
-		@if (User.Identity is not null && User.Identity.IsAuthenticated)
-		{
-			<div class=" govuk-width-container govuk-phase-banner print-hide">
-				<p class="govuk-phase-banner__content">
-					<strong class="govuk-tag govuk-phase-banner__content__tag ">
-						beta
-					</strong>
-					<span class="govuk-phase-banner__text">
-						<a class="govuk-link" asp-page="/Help/HowCanWeHelp" target="_blank">Get help or give feedback on this service (opens in a new tab)</a>
-					</span>
-				</p>
+	<div class="govuk-width-container">
+		@await RenderSectionAsync("BeforeMain", required: false)
+		<main class="govuk-main-wrapper " id="main-content" role="main">
+			<div class="govuk-grid-row">
+				<partial name="_ErrorMessages"/>
+				@RenderBody()
 			</div>
-		}
-
-		<div class="govuk-width-container">
-			@await RenderSectionAsync("BeforeMain", required: false)
-			<main class="govuk-main-wrapper " id="main-content" role="main">
-				<div class="govuk-grid-row">
-					<partial name="_ErrorMessages"/>
-					@RenderBody()
-				</div>
-			</main>
-		</div>
-
-		<partial name="_Footer"/>
+		</main>
 	</div>
 
+	<partial name="_Footer"/>
+</div>
+
+<environment include="Development">
 	<script src="~/lib/jquery/dist/jquery.js" asp-add-nonce></script>
 	<script src="~/js/site.js" asp-append-version="true" asp-add-nonce></script>
-	<script src="~/assets/application-39beab6507cd50944edb58ab76ca9a393e09d467cba25003fbd3104c8a02514b.js" asp-add-nonce></script>
-	<script src="~/assets/accessible-autocomplete.min.js" asp-add-nonce></script>
-	<script asp-add-nonce>
-		@if (canTrack)
-		{
-			<text>
-				window.addEventListener('load', function () {
-						idlechecks('@_configuration["Google:AnalyticsKey"]',
-						@_configuration["SessionidleSecondsMax:Value"]);
-				}, false);
-				</text>
-		}
-	</script>
-	@Html.GovUkFrontendScriptImports()
+</environment>
+<environment exclude="Development">
+	@*<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.4.1.min.js"
+	        asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+	        asp-fallback-test="window.jQuery"
+	        crossorigin="anonymous"
+	        integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh">
+        </script>*@
+	<script src="~/lib/jquery/dist/jquery.js" asp-add-nonce></script>
+	<script src="~/js/site.js" asp-append-version="true" asp-add-nonce></script>
+</environment>
+<script src="~/assets/application-39beab6507cd50944edb58ab76ca9a393e09d467cba25003fbd3104c8a02514b.js"></script>
+@*    <script src="~/js/all.js"></script>*@
+<script asp-add-nonce>
+        window.GOVUKFrontend.initAll();
+        @if (canTrack)
+        {
+	        <text>
+            window.addEventListener('load', function () {
+                idlechecks('@_configuration["Google:AnalyticsKey"]',
+                @_configuration["SessionidleSecondsMax:Value"]);
+            }, false);
+            </text>
+        }
+
+    </script>
+@await RenderSectionAsync("scripts", required: false)
+
+<script src="~/assets/accessible-autocomplete.min.js" asp-add-nonce></script>
 </body>
 </html>
