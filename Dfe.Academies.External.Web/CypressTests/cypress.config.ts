@@ -2,6 +2,17 @@ import { defineConfig } from 'cypress'
 import { generateZapReport } from './cypress/plugins/generateZapReport'
 
 export default defineConfig({
+  reporter: 'cypress-multi-reporters',
+  reporterOptions: {
+    reporterEnabled: 'mochawesome',
+    mochawesomeReporterOptions: {
+      reportDir: 'cypress/reports/mocha',
+      quite: true,
+      overwrite: false,
+      html: false,
+      json: true,
+    },
+  },
   video: false,
   userAgent: 'DfEAcademiesExternal/1.0 Cypress',
   e2e: {

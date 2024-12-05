@@ -6,6 +6,7 @@
   "scripts": {
     "cy:open": "cypress open --env URL=$URL,LOGIN_USERNAME=$LOGIN_USERNAME,LOGIN_PASSWORD=$LOGIN_PASSWORD,SIGNIN_URL=$SIGNIN_URL",
     "cy:run": "cypress run --env URL=$URL,LOGIN_USERNAME=$LOGIN_USERNAME,LOGIN_PASSWORD=$LOGIN_PASSWORD,SIGNIN_URL=$SIGNIN_URL",
+    "cy:notify": "cypress-slack-reporter",
     "lint": "eslint ."
   },
   "keywords": [
@@ -30,6 +31,7 @@
     "@types/node": "^20.2.5",
     "cypress": "^13.0.0",
     "cypress-file-upload": "^5.0.8",
+    "cypress-slack-reporter": "^1.5.4",
     "typescript": "^5.1.6"
   },
   "devDependencies": {
