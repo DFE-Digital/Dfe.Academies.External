@@ -2,17 +2,19 @@ import { defineConfig } from 'cypress'
 import { generateZapReport } from './cypress/plugins/generateZapReport'
 
 export default defineConfig({
-  reporter: 'cypress-multi-reporters',
+  reporter: 'cypress-multi-reporters', // added this for slack messaging plugin
   reporterOptions: {
     reporterEnabled: 'mochawesome',
     mochawesomeReporterOptions: {
-      reportDir: 'cypress/reports/mocha',
-      quite: true,
+      reportDir: 'cypress/reports/mocha', // added this for slack messaging plugin
+      quiet: true, // Fixed typo
       overwrite: false,
       html: false,
       json: true,
     },
   },
+
+
   video: false,
   userAgent: 'DfEAcademiesExternal/1.0 Cypress',
   e2e: {
