@@ -4,8 +4,8 @@
   "description": "Cypress tests for the core journeys of the A2B service",
   "main": "index.js",
   "scripts": {
-    "cy:open": "cypress open --env URL=$URL,LOGIN_USERNAME=$LOGIN_USERNAME,LOGIN_PASSWORD=$LOGIN_PASSWORD,SIGNIN_URL=$SIGNIN_URL",
-    "cy:run": "cypress run --env URL=$URL,LOGIN_USERNAME=$LOGIN_USERNAME,LOGIN_PASSWORD=$LOGIN_PASSWORD,SIGNIN_URL=$SIGNIN_URL",
+    "cy:open": "cypress open --browser electron",
+    "cy:run": "cypress run --browser electron" ,
     "cy:notify": "cypress-slack-reporter",
     "lint": "eslint ."
   },
