@@ -9,6 +9,7 @@ using NUnit.Framework;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academisation.CorrelationIdMiddleware;
+using Dfe.Academies.External.Web.FeatureManagement;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
 
@@ -29,7 +30,8 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
+		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 		// act
 		var trustStatus = applicationRetrievalService.CalculateTrustStatus(null);
@@ -52,7 +54,8 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
+		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 		
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationNoRoles();
 
@@ -80,7 +83,8 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
+		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithMinimalJoinTrustDetails();
 
@@ -105,7 +109,8 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
+		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithMinimalAndTrustChangesJoinTrustDetails(null);
 
@@ -130,7 +135,8 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
+		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithMinimalAndChangesToLaGovernanceJoinTrustDetails();
 
@@ -155,7 +161,8 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
+		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithCompleteJoinTrustDetails(null);
 

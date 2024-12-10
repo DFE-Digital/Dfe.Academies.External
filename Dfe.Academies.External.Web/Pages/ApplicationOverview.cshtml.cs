@@ -1,7 +1,6 @@
 ﻿using System.Security.Claims;
 using Dfe.Academies.External.Web.Dtos;
-using Dfe.Academies.External.Web.Enums;
-using Dfe.Academies.External.Web.Models;
+using Dfe.Academies.External.Web.Enums; 
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
@@ -9,11 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages
 {
-	public class ApplicationOverviewModel : BasePageEditModel
+	public class ApplicationOverviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+									IReferenceDataRetrievalService referenceDataRetrievalService,
+									IConversionApplicationService conversionApplicationCreationService,
+									ILogger<ApplicationOverviewModel> logger
+		) : BasePageEditModel(conversionApplicationRetrievalService, referenceDataRetrievalService)
 	{
-		private readonly IConversionApplicationService _conversionApplicationCreationService;
-		private readonly ILogger<ApplicationOverviewModel> logger;
-
 		[BindProperty]
 		public int ApplicationId { get; set; }
 
@@ -70,18 +70,8 @@ namespace Dfe.Academies.External.Web.Pages
 		/// <summary>
 		/// UI text, set within here ONLY dependent on ApplicationType &&& user role !!!
 		/// </summary>
-		public string HeaderText { get; private set; } = string.Empty;
-
-
-		public ApplicationOverviewModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-										IReferenceDataRetrievalService referenceDataRetrievalService,
-										IConversionApplicationService conversionApplicationCreationService,
-										ILogger<ApplicationOverviewModel> logger
-		) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-		{
-			_conversionApplicationCreationService = conversionApplicationCreationService;
-			this.logger = logger;
-		}
+		public string HeaderText { get; private set; } = string.Empty; 
+		public DateTime? ApplicationCreatedOn { get; set; }
 
 		public async Task<ActionResult> OnGetAsync(int appId)
 		{
@@ -126,22 +116,22 @@ namespace Dfe.Academies.External.Web.Pages
 			HideDeleteButton = (email != firstContributorEmail);
 				
 		
-			this.logger.LogInformation($"Populating application overview for user | Email: { email }");
+			logger.LogInformation($"Populating application overview for user | Email: { email }");
 
 			// look up user in contributors collection to find their role !!!
 			if (!string.IsNullOrWhiteSpace(email))
 			{
-				foreach (var contributor in conversionApplication.Contributors)
+				foreach (var contributor in conversionApplication!.Contributors)
 				{
-					this.logger.LogInformation($"Contrubutor email: {contributor.EmailAddress} | role: {contributor.Role}");
+					logger.LogInformation($"Contrubutor email: {contributor.EmailAddress} | role: {contributor.Role}");
 				}
 
 				// possible fix for not finding right user
 				var currentUser =
 					conversionApplication.Contributors.FirstOrDefault(x => x.EmailAddress.ToLower() == email.ToLower());
 
-				this.logger.LogInformation($"User found, Id: { currentUser?.ContributorId } | Name: {currentUser?.FullName} | Email: {email}");
-				this.logger.LogInformation($"User role: {currentUser?.Role } | Email: {email}");
+				logger.LogInformation($"User found, Id: { currentUser?.ContributorId } | Name: {currentUser?.FullName} | Email: {email}");
+				logger.LogInformation($"User role: {currentUser?.Role } | Email: {email}");
 
 				// set users role
 				if (currentUser is { Role: SchoolRoles.ChairOfGovernors })
@@ -150,7 +140,7 @@ namespace Dfe.Academies.External.Web.Pages
 				}
 			}
 
-			this.logger.LogInformation($"Can user submit | UserHasSubmitApplicationRole: {UserHasSubmitApplicationRole}");
+			logger.LogInformation($"Can user submit | UserHasSubmitApplicationRole: {UserHasSubmitApplicationRole}");
 
 			if (conversionApplication != null)
 			{
@@ -162,6 +152,7 @@ namespace Dfe.Academies.External.Web.Pages
 				ApplicationType = conversionApplication.ApplicationType;
 				ApplicationReferenceNumber = conversionApplication.ApplicationReference;
 				ApplicationStatus = conversionApplication.ApplicationStatus;
+				ApplicationCreatedOn = conversionApplication.CreatedOn;
 				SchoolOrSchoolsApplyingToConvert = new List<SchoolComponentsViewModel>();
 				
 				foreach (var school in conversionApplication.Schools)
@@ -229,7 +220,7 @@ namespace Dfe.Academies.External.Web.Pages
 
 			draftConversionApplication.ApplicationStatus = ApplicationStatus.Submitted;
 
-			await _conversionApplicationCreationService.SubmitApplication(ApplicationId);
+			await conversionApplicationCreationService.SubmitApplication(ApplicationId);
 
 			// update temp store for next step
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, TempData, draftConversionApplication);

@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
 using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.FeatureManagement;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
@@ -98,7 +99,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
+		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 		// act
 		var conversionApplicationCreationService = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
@@ -130,7 +132,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
+		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 		// act
 		var conversionApplicationCreationService = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
@@ -159,7 +162,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
+		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 		// act
 		var conversionApplicationCreationService = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
@@ -275,7 +279,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
+		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 		// act
 		var conversionApplicationCreationService = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
@@ -307,7 +312,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
+		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 		
 		// act
 		var conversionApplicationCreationService = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
@@ -341,7 +347,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
+		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 		
 		// act
 		var conversionApplicationCreationService = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
@@ -373,7 +380,8 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var mockLoggerCreationService = new Mock<ILogger<ConversionApplicationService>>();
 		var mockLoggerRetrievalService = new Mock<ILogger<ConversionApplicationRetrievalService>>();
 		var mockFileUploadService = new Mock<IFileUploadService>();
-		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()));
+		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
+		var mockConversionApplicationRetrievalService = new ConversionApplicationRetrievalService(mockRetrievalHttpClientFactory.Object, mockLoggerRetrievalService.Object, mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 		
 		// act
 		var conversionApplicationCreationService = new ConversionApplicationService(mockCreationHttpClientFactory.Object,
