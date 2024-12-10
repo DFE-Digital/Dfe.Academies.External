@@ -10,7 +10,6 @@ using Dfe.Academies.External.Web.Security;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academisation.CorrelationIdMiddleware;
 using GovUk.Frontend.AspNetCore;
-using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.DataProtection;
@@ -26,6 +25,8 @@ using Polly.Extensions.Http;
 using Quartz;
 using Serilog;
 using StackExchange.Redis;
+using Microsoft.FeatureManagement;
+using Dfe.Academies.External.Web.FeatureManagement;
 
 namespace Dfe.Academies.External.Web
 {
@@ -73,6 +74,8 @@ namespace Dfe.Academies.External.Web
 					options.Filters.Add(new MaintenancePageFilter(configuration));
 				})
 				.AddSessionStateTempDataProvider();
+
+			builder.Services.AddFeatureManagement();
 
 			builder.Services.AddAuthentication(options =>
 			{
@@ -179,7 +182,7 @@ namespace Dfe.Academies.External.Web
 			}
 			);
 			builder.Services.AddSingleton<IAadAuthorisationHelper, AadAuthorisationHelper>();
-
+			builder.Services.AddSingleton<IConversionGrantExpiryFeature, ConversionGrantExpiryFeature>();
 			builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 			builder.Services.AddTransient<IAsyncNotificationClient, NotificationClient>(x => new NotificationClient(builder.Configuration["emailnotifications:key"]));
 			builder.Services.Configure<NotifyTemplateSettings>(builder.Configuration.GetSection("govuk-notify"));
@@ -221,7 +224,6 @@ namespace Dfe.Academies.External.Web
 				options.SupportedUICultures = supportedCultures;
 			});
 
-
 			builder.Services.AddApplicationInsightsTelemetry(builder.Configuration);
 			//var aiOptions = new Microsoft.ApplicationInsights.AspNetCore.Extensions.ApplicationInsightsServiceOptions();
 
@@ -235,7 +237,7 @@ namespace Dfe.Academies.External.Web
 
 			builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfiguration
 							.WriteTo.ApplicationInsights(
-						services.GetRequiredService<TelemetryConfiguration>(),
+						services.GetRequiredService<Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration>(),
 						TelemetryConverter.Traces));
 
 			var localDevelopment = builder.Configuration.GetValue<bool>("local_development");

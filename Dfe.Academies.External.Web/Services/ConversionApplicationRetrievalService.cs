@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.FeatureManagement;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.ViewModels;
 using Dfe.Academisation.CorrelationIdMiddleware;
@@ -14,14 +15,17 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	private readonly ILogger<ConversionApplicationRetrievalService> _logger;
 	private readonly ResilientRequestProvider _resilientRequestProvider;
 	private readonly IFileUploadService _fileUploadService;
+	private readonly IConversionGrantExpiryFeature _conversionGrantExpiryFeature;
 	public ConversionApplicationRetrievalService(IHttpClientFactory httpClientFactory, 
 		ILogger<ConversionApplicationRetrievalService> logger, 
 		IFileUploadService fileUploadService,
-		ICorrelationContext correlationContext) : base(httpClientFactory, correlationContext, AcademisationAPIHttpClientName)
+		ICorrelationContext correlationContext,
+		IConversionGrantExpiryFeature conversionGrantExpiryFeature) : base(httpClientFactory, correlationContext, AcademisationAPIHttpClientName)
 	{
 		_logger = logger;
 		_fileUploadService = fileUploadService;
 		_resilientRequestProvider = new ResilientRequestProvider(HttpClient, _logger);
+		_conversionGrantExpiryFeature = conversionGrantExpiryFeature;
 	}
 
 	///<inheritdoc/>
@@ -116,7 +120,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		try
 		{
 			var application = await GetApplication(applicationId);
-
+			
 			if (application?.ApplicationId != applicationId)
 			{
 				throw new ArgumentException("Application not found");
@@ -135,10 +139,19 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 				new("Finances", UriFormatter.SetSchoolApplicationComponentUriFromName("Finances"), CalculateFinanceSectionStatus(school)),
 			    new("Future pupil numbers", UriFormatter.SetSchoolApplicationComponentUriFromName("Future pupil numbers"), CalculateFuturePupilNumbersSectionStatus(school)),
 				new("Land and buildings", UriFormatter.SetSchoolApplicationComponentUriFromName("Land and buildings"),CalculateLandAndBuildingsSectionStatus(school)),
-				new("Consultation", UriFormatter.SetSchoolApplicationComponentUriFromName("Consultation"),CalculateConsultationSectionStatus(school)),
-				new("Conversion support grant", UriFormatter.SetSchoolApplicationComponentUriFromName("Conversion support grant"),CalculatePreOpeningSupportGrantSectionStatus(school)),
-				new("Declaration", UriFormatter.SetSchoolApplicationComponentUriFromName("Declaration"),CalculateDeclarationSectionStatus(school))
+				new("Consultation", UriFormatter.SetSchoolApplicationComponentUriFromName("Consultation"),CalculateConsultationSectionStatus(school))
+				
 		    ];
+			var conversionSupportGrantTask = "Conversion support grant";
+			if (!await _conversionGrantExpiryFeature.IsEnabledAsync())
+			{
+				conversionApplicationComponents.Add(new(conversionSupportGrantTask, UriFormatter.SetSchoolApplicationComponentUriFromName(conversionSupportGrantTask), CalculatePreOpeningSupportGrantSectionStatus(school)));
+			}
+			if (await _conversionGrantExpiryFeature.IsEnabledAsync() && !_conversionGrantExpiryFeature.IsNewApplication(application.CreatedOn))
+			{
+				conversionApplicationComponents.Add(new(conversionSupportGrantTask, UriFormatter.SetSchoolApplicationComponentUriFromName(conversionSupportGrantTask), CalculatePreOpeningSupportGrantSectionStatus(school)));
+			}
+			conversionApplicationComponents.Add(new("Declaration", UriFormatter.SetSchoolApplicationComponentUriFromName("Declaration"), CalculateDeclarationSectionStatus(school)));
 
 			return conversionApplicationComponents;
 		}
@@ -364,9 +377,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculateFurtherInformationSectionStatus(SchoolApplyingToConvert? selectedSchool, string applicationReference)
 	{
-		var dioceseFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.DioceseFilePrefixFieldName).Result ?? new();
-		var foundationConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName).Result ?? new();
-		var resolutionConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result ?? new();
+		var dioceseFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool!.EntityId.ToString(),  applicationReference, FileUploadConstants.DioceseFilePrefixFieldName).Result ?? [];
+		var foundationConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName).Result ?? [];
+		var resolutionConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result ?? [];
 		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) &&
 		    ((selectedSchool?.DioceseName == null) == (!dioceseFileNames.Any()) &&
 		     (selectedSchool?.FoundationTrustOrBodyName == null) == (!foundationConsentFileNames.Any())) &&

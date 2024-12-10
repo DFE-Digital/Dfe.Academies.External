@@ -1,8 +1,10 @@
 ﻿@page
 @using Dfe.Academies.External.Web.Enums
+@using Dfe.Academies.External.Web.FeatureManagement
 @using Dfe.Academies.External.Web.ViewModels
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.ApplicationPreOpeningSupportGrantSummaryModel
+@inject IConversionGrantExpiryFeature ConversionGrantExpiryFeature;
 @{
 	ViewData["Title"] = "Apply to become an academy - About the conversion";
 }
@@ -19,6 +21,18 @@
 	<h1 class="govuk-heading-l">
         Conversion support grant
 	</h1>
+    @if (await ConversionGrantExpiryFeature.IsEnabledAsync())
+    {
+        <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+                <span class="govuk-visually-hidden">Warning</span>
+                The <a class="govuk-link" href="https://www.gov.uk/guidance/claim-the-academy-conversion-support-grant" rel="noopener">conversion support grant</a> has ended
+                <br />
+                <p>You are no longer eligible for this grant</p>
+            </strong>
+        </div>
+    }
 
 	@foreach (var question in Model.ViewModel)
 	{

@@ -1,7 +1,9 @@
 ﻿@page
+@using Dfe.Academies.External.Web.FeatureManagement;
+@inject IConversionGrantExpiryFeature ConversionGrantExpiryFeature;
 @model IndexModel
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Home"; 
 }
 
 <div class="govuk-grid-column-two-thirds">
@@ -44,15 +46,17 @@
             complete an Equality Impact Assessment (EIA)
         </li>
 	</ul>
-
-    <div class="govuk-warning-text">
-        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-        <strong class="govuk-warning-text__text">
-            <span class="govuk-visually-hidden">Warning</span>
-            The <a class="govuk-link" href="https://www.gov.uk/guidance/claim-the-academy-conversion-support-grant" rel="noopener">conversion support grant</a> is ending soon<br /> 
-            <p class="govuk-body-xl  govuk-!-margin-bottom-1">To be eligible for funding you must submit the application by 11:55pm Friday 20 December 2024</p>
-        </strong>
-    </div>
+    @if (!await ConversionGrantExpiryFeature.IsEnabledAsync())
+    {
+        <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+                <span class="govuk-visually-hidden">Warning</span>
+                The <a class="govuk-link" href="https://www.gov.uk/guidance/claim-the-academy-conversion-support-grant" rel="noopener">conversion support grant</a> is ending soon<br />
+                <p class="govuk-body-xl  govuk-!-margin-bottom-1">The chair of governors must submit the application by 11:55pm Friday 20 December 2024 to be eligible for funding</p>
+            </strong>
+        </div>
+    }
 
 	<a asp-page="YourApplications" class="govuk-button govuk-button--start govuk-!-margin-bottom-8" data-cy="startNowButton">
 		Start now

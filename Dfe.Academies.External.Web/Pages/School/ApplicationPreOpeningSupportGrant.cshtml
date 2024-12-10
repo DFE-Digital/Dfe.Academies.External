@@ -1,8 +1,10 @@
 ﻿@page
 @using Dfe.Academies.External.Web.Enums
 @using Dfe.Academies.External.Web.Extensions
+@using Dfe.Academies.External.Web.FeatureManagement
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.ApplicationPreOpeningSupportGrantModel
+@inject IConversionGrantExpiryFeature ConversionGrantExpiryFeature;
 @{
     ViewData["Title"] = "Apply to become an academy - conversion support grant";
 }
@@ -19,20 +21,36 @@
 	<h1 class="govuk-heading-l">
         Academy conversion support grant
 	</h1>
-    <div class="govuk-warning-text">
-        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-        <strong class="govuk-warning-text__text">
-            <span class="govuk-visually-hidden">Warning</span>
-            The deadline to apply for the conversion support grant is 11:55pm Friday 20 December 2024
-        </strong>
-    </div>
+    @if (await ConversionGrantExpiryFeature.IsEnabledAsync())
+    {
+        <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+                <span class="govuk-visually-hidden">Warning</span>
+                    The <a class="govuk-link" href="https://www.gov.uk/guidance/claim-the-academy-conversion-support-grant" rel="noopener">conversion support grant</a> has ended
+                <br />
+                <p>You are no longer eligible for this grant</p>
+            </strong>
+        </div>
+    }
+    else
+    {
+        <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+                <span class="govuk-visually-hidden">Warning</span>
+                The deadline to apply for the conversion support grant is 11:55pm Friday 20 December 2024
+            </strong>
+        </div>
+    }
+    
 	<p class="govuk-body">
 			@if (Model.ApplicationType != ApplicationTypes.JoinAMat)
 			{
 				<p class="govuk-body">Please go to <a href='https://www.gov.uk/guidance/provide-information-about-your-banking-and-payments-to-dfe' 
 				                                      class="govuk-link"
 														target='_blank' rel="noopener"> provide information about your banking payments to DfE </a> to add your bank details.
-        </p>
+                </p>
 
 				<span id="funds-paid-to-school-hint" class="govuk-hint">
 					Your application can be submitted without completing this action now, however please provide your bank details either before or shortly after submission of your application.
