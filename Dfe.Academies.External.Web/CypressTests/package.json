@@ -6,7 +6,7 @@
   "scripts": {
     "cy:open": "cypress open --browser electron",
     "cy:run": "cypress run --browser electron",
-    "cy:notify": "node ./sendSlackNotification.js",
+    "cy:notify": "cypress-slack-reporter",
     "lint": "eslint .",
     "generate:html:report": "mochawesome-merge ./cypress/reports/*.json > mochareports/report.json && mochawesome-report-generator mochareports/report.json"
   },
