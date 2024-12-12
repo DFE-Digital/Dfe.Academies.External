@@ -19,11 +19,8 @@ class SchoolOverview {
       case 'Consultation':
         cy.get('[data-cy="sectionStatus"]').eq(5).contains('Completed')
         break
-	  case 'Conversion support grant':
-        cy.get('[data-cy="sectionStatus"]').eq(6).contains('Completed')
-        break
       case 'Declaration':
-        cy.get('[data-cy="sectionStatus"]').eq(7).contains('Completed')
+        cy.get('[data-cy="sectionStatus"]').eq(6).contains('Completed')
         break
       default:
         cy.log('Invalid option given')
