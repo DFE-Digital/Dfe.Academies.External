@@ -65,3 +65,9 @@ jobs:
         run: npm run cy:notify -- --custom-text="Environment ${{ inputs.environment }}, See more information https://github.com/DFE-Digital/Dfe.Academies.External/actions/runs/${{github.run_id}}"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Generate report
+        if: always()
+        run: |
+            mkdir mochareports
+            npm run generate:html:report
+            
