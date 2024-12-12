@@ -7,7 +7,7 @@ export default defineConfig({
     reporterEnabled: 'mochawesome',
     mochawesomeReporterOptions: {
       reportDir: 'cypress/reports/mocha', // added this for slack messaging plugin
-      quiet: true, // Fixed typo
+      quiet: true, 
       overwrite: false,
       html: false,
       json: true,
