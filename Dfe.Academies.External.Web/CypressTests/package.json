@@ -7,6 +7,10 @@
     "cy:open": "cypress open --browser electron",
     "cy:run": "cypress run --browser electron",
     "cy:notify": "cypress-slack-reporter",
+    "clean:reports": "rm -rf cypress/reports/mocha/*.json",
+    "combine:reports": "mochawesome-merge  cypress/reports/mocha/*.json> mochareports/report.json",
+    "create:html:report": "marge  mochareports/report.json -f report -o mochareports",
+    "generate:html:report": "npm run combine:reports && npm run create:html:report",
     "lint": "eslint .",
     "generate:html:report": "mochawesome-merge ./cypress/reports/*.json > mochareports/report.json && mochawesome-report-generator mochareports/report.json"
   },
