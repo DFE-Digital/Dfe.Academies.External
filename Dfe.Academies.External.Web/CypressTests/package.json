@@ -7,12 +7,11 @@
     "cy:open": "cypress open --browser electron",
     "cy:run": "cypress run --browser electron",
     "cy:notify": "cypress-slack-reporter",
-    "clean:reports": "rm -rf cypress/reports/mocha/*.json",
-    "combine:reports": "mochawesome-merge  cypress/reports/mocha/*.json> mochareports/report.json",
+    "clean:reports": "rm -rf CypressTests/cypress/reports/mocha/*.json",
+    "combine:reports": "mochawesome-merge  CypressTests/cypress/reports/mocha/*.json> mochareports/report.json",
     "create:html:report": "marge  mochareports/report.json -f report -o mochareports",
     "generate:html:report": "npm run combine:reports && npm run create:html:report",
-    "lint": "eslint .",
-    "generate:html:report": "mochawesome-merge ./cypress/reports/*.json > mochareports/report.json && mochawesome-report-generator mochareports/report.json"
+    "lint": "eslint ."
   },
   "keywords": [
     "regression",
@@ -39,6 +38,7 @@
     "cypress": "^13.0.0",
     "cypress-file-upload": "^5.0.8",
     "cypress-slack-reporter": "^1.5.4",
+    "mochawesome-merge": "^4.3.0",
     "typescript": "^5.1.6"
   },
   "devDependencies": {
@@ -48,9 +48,9 @@
     "@typescript-eslint/eslint-plugin": "^8.0.0-alpha.10",
     "@typescript-eslint/parser": "^8.0.0-alpha.10",
     "cypress-axe": "^1.4.0",
+    "cypress-multi-reporters": "^1.6.1",
     "eslint": "^9.6.0",
     "eslint-plugin-cypress": "^3.0.0",
-    "zaproxy": "^2.0.0-rc.1",
-    "cypress-multi-reporters": "^1.6.1"
+    "zaproxy": "^2.0.0-rc.1"
   }
 }
