@@ -5,9 +5,14 @@
   "main": "index.js",
   "scripts": {
     "cy:open": "cypress open --browser electron",
-    "cy:run": "cypress run --browser electron" ,
+    "cy:run": "cypress run --browser electron",
     "cy:notify": "cypress-slack-reporter",
-    "lint": "eslint ."
+    "clean:reports": "rm -rf cypress/reports/mocha/*.json",
+    "combine:reports": "mochawesome-merge  cypress/reports/mocha/*.json> mochareports/report.json",
+    "create:html:report": "marge  mochareports/report.json -f report -o mochareports",
+    "generate:html:report": "npm run combine:reports && npm run create:html:report",
+    "lint": "eslint .",
+    "generate:html:report": "mochawesome-merge ./cypress/reports/*.json > mochareports/report.json && mochawesome-report-generator mochareports/report.json"
   },
   "keywords": [
     "regression",
@@ -20,7 +25,9 @@
   },
   "contributors": [
     "Dan Good",
-    "Chris Sherlock"
+    "Chris Sherlock",
+    "Fahad Darwish",
+    "Richika Dogra"
   ],
   "license": "ISC",
   "bugs": {
@@ -43,6 +50,7 @@
     "cypress-axe": "^1.4.0",
     "eslint": "^9.6.0",
     "eslint-plugin-cypress": "^3.0.0",
-    "zaproxy": "^2.0.0-rc.1"
+    "zaproxy": "^2.0.0-rc.1",
+    "cypress-multi-reporters": "^1.6.1"
   }
 }
