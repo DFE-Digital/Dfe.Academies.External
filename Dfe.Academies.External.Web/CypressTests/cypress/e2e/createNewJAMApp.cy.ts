@@ -253,25 +253,8 @@ describe('Create a JAM application', () => {
     cy.executeAccessibilityTests()
 
     application.checkSectionComplete('Consultation')
-      .startPreopeningSupportGrant()
-    
-    cy.executeAccessibilityTests()
 
-    preOpeningSupportGrantSummary.startPreopeningSupportGrant()
-
-    cy.executeAccessibilityTests()
-
-    preopeningSupportGrantDetails.enterPreopeningSupportGrantDetails()
-
-    cy.executeAccessibilityTests()
-
-    preOpeningSupportGrantSummary.checkPreopeningSupportGrantSummaryCompleted()
-      .saveAndReturnToApp()
-    
-    cy.executeAccessibilityTests()
-
-	  application.checkSectionComplete('Conversion support grant')
-        .startDeclaration()
+	  application.startDeclaration()
     
     cy.executeAccessibilityTests()
 

@@ -250,25 +250,6 @@ describe('Create a FAM application', () => {
 
     schoolOverview.checkSectionCompleted('Consultation')
 
-    application.startPreopeningSupportGrant()
-
-    cy.executeAccessibilityTests()
-
-    preOpeningSupportGrantSummary.startPreopeningSupportGrant()
-
-    cy.executeAccessibilityTests()
-
-    preopeningSupportGrantDetails.confirmPreopeningSupportGrantDetails()
-
-    cy.executeAccessibilityTests()
-
-    preOpeningSupportGrantSummary.checkPreopeningSupportGrantSummaryCompleted()
-      .saveAndReturnToApp()
-    
-    cy.executeAccessibilityTests()
-
-	  schoolOverview.checkSectionCompleted('Conversion support grant')
-
     application.startDeclaration()
 
     cy.executeAccessibilityTests()
