@@ -16,6 +16,18 @@ class PreopeningSupportGrantDetails {
 
     return this
   }
+
+  public warningIcon(): this {
+    cy.get('span[class="govuk-warning-text__icon"]')
+
+    return this
+  }
+
+  public warningText(): this {
+    cy.get('strong[class="govuk-warning-text__text"]')
+
+    return this
+  }
 }
 
 const preopeningSupportGrantDetails = new PreopeningSupportGrantDetails()
