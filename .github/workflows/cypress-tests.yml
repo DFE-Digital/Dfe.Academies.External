@@ -1,4 +1,4 @@
-name: Run Cypress tests
+name: Cypress Tests using Cypress Docker Image
 
 on:
   workflow_call:
@@ -27,31 +27,37 @@ on:
 concurrency:
   group: ${{ github.workflow }}
 
-env:
-  NODE_VERSION: 18.x
-
 jobs:
   cypress-tests:
-    if: inputs.environment == 'test' || inputs.environment == 'development'
-    environment: ${{ inputs.environment }}
+    name: Run Cypress Tests
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    strategy:
+      matrix:
+        browser: [
+          "edge"
+        ]
+    container:
+      image: cypress/browsers:22.12.0
     defaults:
       run:
         working-directory: Dfe.Academies.External.Web/CypressTests
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          ref: ${{ github.ref }}
 
-      - name: Npm install
-        run: npm install
-
-      - name: Run cypress
-        run: npm run cy:run -- --env URL='${{ secrets.URL }}',LOGIN_USERNAME=${{ secrets.LOGIN_USERNAME }},LOGIN_PASSWORD=${{ secrets.LOGIN_PASSWORD }},SIGNIN_URL=${{ secrets.SIGNIN_URL }}
+      - name: Run
+        uses: cypress-io/github-action@v6
+        env:
+          CYPRESS_URL: ${{ secrets.URL }}
+          CYPRESS_LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
+          CYPRESS_LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
+          CYPRESS_SIGNIN_URL: ${{ secrets.SIGNIN_URL }}
+        with:
+          browser: ${{ matrix.browser }}
+          working-directory: ./Dfe.Academies.External.Web/CypressTests
+          wait-on: ${{ secrets.URL }}
 
       - name: Generate report
         if: always()
@@ -59,11 +65,11 @@ jobs:
           mkdir mochareports
           npm run generate:html:report
 
-      - name: upload report
+      - name: Upload report
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: screenshots
+          name: screenshots-${{ inputs.environment }}-${{ matrix.browser }}
           path: Dfe.Academies.External.Web/CypressTests/cypress/screenshots
 
       - name: Report results
