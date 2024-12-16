@@ -53,7 +53,7 @@ jobs:
       contents: read
       packages: write
     needs: [ set-env ]
-    uses: DFE-Digital/deploy-azure-container-apps-action/.github/workflows/build-push-deploy.yml@v3.0.0
+    uses: DFE-Digital/deploy-azure-container-apps-action/.github/workflows/build-push-deploy.yml@v3.1.0
     with:
       docker-image-name: 'a2bext-app'
       docker-build-file-name: './Dockerfile'
