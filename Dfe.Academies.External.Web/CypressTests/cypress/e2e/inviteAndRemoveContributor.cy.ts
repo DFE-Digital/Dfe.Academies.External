@@ -12,10 +12,20 @@ describe('Invite/remove contributor', () => {
   const contributorEmail = faker.internet.email()
   const applicationId = '10280'
 
+  const home = {
+    warningIcon: () => cy.get('span[class="govuk-warning-text__icon"]'),
+    warningText: () => cy.get('strong[class="govuk-warning-text__text"]'),
+    start: () => cy.get('[data-cy="startNowButton"]').click()
+  }
+
   beforeEach(function () {
     cy.visit(Cypress.env('URL'))
 
     cookieHeaderModal.acceptAnalyticsCookies()
+
+    home.warningIcon().should('not.exist')
+
+    home.warningText().should('not.exist')
 
     home.start()
 

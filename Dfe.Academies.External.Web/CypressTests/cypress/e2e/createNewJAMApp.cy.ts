@@ -48,10 +48,20 @@ describe('Create a JAM application', () => {
   const chairName = `${faker.person.firstName()} ${faker.person.lastName()}`
   const chairEmail = faker.internet.email()
 
+  const home = {
+    warningIcon: () => cy.get('span[class="govuk-warning-text__icon"]'),
+    warningText: () => cy.get('strong[class="govuk-warning-text__text"]'),
+    start: () => cy.get('[data-cy="startNowButton"]').click()
+  }
+
   beforeEach(function () {
     cy.visit(Cypress.env('URL'))
 
     cookieHeaderModal.acceptAnalyticsCookies()
+
+    home.warningIcon().should('not.exist')
+
+    home.warningText().should('not.exist')
 
     home.start()
 
