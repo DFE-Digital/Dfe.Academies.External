@@ -12,10 +12,9 @@ describe('Invite/remove contributor', () => {
   const contributorEmail = faker.internet.email()
   const applicationId = '10280'
 
-  const home = {
+  const homeAssertions = {
     warningIcon: () => cy.get('span[class="govuk-warning-text__icon"]'),
     warningText: () => cy.get('strong[class="govuk-warning-text__text"]'),
-    start: () => cy.get('[data-cy="startNowButton"]').click()
   }
 
   beforeEach(function () {
@@ -23,9 +22,9 @@ describe('Invite/remove contributor', () => {
 
     cookieHeaderModal.acceptAnalyticsCookies()
 
-    home.warningIcon().should('not.exist')
+    homeAssertions.warningIcon().should('not.exist')
 
-    home.warningText().should('not.exist')
+    homeAssertions.warningText().should('not.exist')
 
     home.start()
 

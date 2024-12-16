@@ -9,10 +9,9 @@ import confirmApplicationDelete from '../page-objects/pages/confirmApplicationDe
 
 describe('Delete application', () => {
 
-  const home = {
+  const homeAssertions = {
     warningIcon: () => cy.get('span[class="govuk-warning-text__icon"]'),
     warningText: () => cy.get('strong[class="govuk-warning-text__text"]'),
-    start: () => cy.get('[data-cy="startNowButton"]').click()
   }
 
   beforeEach(function () {
@@ -20,9 +19,9 @@ describe('Delete application', () => {
 
     cookieHeaderModal.acceptAnalyticsCookies()
 
-    home.warningIcon().should('not.exist')
+    homeAssertions.warningIcon().should('not.exist')
 
-    home.warningText().should('not.exist')
+    homeAssertions.warningText().should('not.exist')
 
     home.start()
 

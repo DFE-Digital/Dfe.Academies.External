@@ -60,10 +60,9 @@ describe('Create a FAM application', () => {
 
   const trustOpeningYear = `${new Date().getFullYear() + 1}`
 
-  const home = {
+  const homeAssertions = {
     warningIcon: () => cy.get('span[class="govuk-warning-text__icon"]'),
     warningText: () => cy.get('strong[class="govuk-warning-text__text"]'),
-    start: () => cy.get('[data-cy="startNowButton"]').click()
   }
 
   beforeEach(function () {
@@ -71,9 +70,9 @@ describe('Create a FAM application', () => {
 
     cookieHeaderModal.acceptAnalyticsCookies()
 
-    home.warningIcon().should('not.exist')
+    homeAssertions.warningIcon().should('not.exist')
 
-    home.warningText().should('not.exist')
+    homeAssertions.warningText().should('not.exist')
 
     home.start()
 
@@ -81,6 +80,15 @@ describe('Create a FAM application', () => {
   })
 
   it('should be able to create a new application', () => {
+  
+    const applicationAssertionCheck = {
+      applicationOverviewBanner: () => cy.get('.govuk-notification-banner')
+      
+    }
+
+    const famSchoolOverviewAssertionCheck = {
+      conversionSupportGrantLink: () => cy.contains('Conversion support grant')
+    }
     
     cy.executeAccessibilityTests()
 
@@ -96,6 +104,8 @@ describe('Create a FAM application', () => {
 
     cy.executeAccessibilityTests()
 
+    applicationAssertionCheck.applicationOverviewBanner().should('not.exist')
+
     application.addSchool()
 
     cy.executeAccessibilityTests()
@@ -108,6 +118,8 @@ describe('Create a FAM application', () => {
       .selectFAMSchool()
     
     cy.executeAccessibilityTests()
+
+    famSchoolOverviewAssertionCheck.conversionSupportGrantLink().should('not.exist')
 
     application.startAboutTheConversion()
 

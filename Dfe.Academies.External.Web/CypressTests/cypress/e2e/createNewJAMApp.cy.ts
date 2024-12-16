@@ -48,10 +48,9 @@ describe('Create a JAM application', () => {
   const chairName = `${faker.person.firstName()} ${faker.person.lastName()}`
   const chairEmail = faker.internet.email()
 
-  const home = {
+  const homeAssertions = {
     warningIcon: () => cy.get('span[class="govuk-warning-text__icon"]'),
     warningText: () => cy.get('strong[class="govuk-warning-text__text"]'),
-    start: () => cy.get('[data-cy="startNowButton"]').click()
   }
 
   beforeEach(function () {
@@ -59,9 +58,9 @@ describe('Create a JAM application', () => {
 
     cookieHeaderModal.acceptAnalyticsCookies()
 
-    home.warningIcon().should('not.exist')
+    homeAssertions.warningIcon().should('not.exist')
 
-    home.warningText().should('not.exist')
+    homeAssertions.warningText().should('not.exist')
 
     home.start()
 
@@ -69,6 +68,11 @@ describe('Create a JAM application', () => {
   })
 
   it('should be able to create a new application', () => {
+
+    const applicationAssertionCheck = {
+      applicationOverviewBanner: () => cy.get('.govuk-notification-banner'),
+      conversionSupportGrantLink: () => cy.contains('Conversion support grant')
+    }
 
     cy.executeAccessibilityTests()
 
@@ -83,6 +87,9 @@ describe('Create a JAM application', () => {
     whatIsYourRole.chooseRole('Governor')
 
     cy.executeAccessibilityTests()
+
+    applicationAssertionCheck.applicationOverviewBanner().should('not.exist')
+    applicationAssertionCheck.conversionSupportGrantLink().should('not.exist')
 
     application.addTrust()
 
