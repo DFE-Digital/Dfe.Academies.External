@@ -4,6 +4,7 @@ class Home {
 
     return this
   }
+
 }
 
 const home = new Home()

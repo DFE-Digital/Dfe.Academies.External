@@ -197,6 +197,12 @@ class Application {
 
     return this
   }
+
+  public applicationOverviewBanner(): this {
+    cy.get('div[class="govuk-notification-banner"]')
+
+    return this
+  }
 }
 
 const application = new Application()

@@ -8,10 +8,20 @@ import application from '../page-objects/pages/application'
 import confirmApplicationDelete from '../page-objects/pages/confirmApplicationDelete'
 
 describe('Delete application', () => {
+
+  const homeAssertions = {
+    warningIcon: () => cy.get('span[class="govuk-warning-text__icon"]'),
+    warningText: () => cy.get('strong[class="govuk-warning-text__text"]'),
+  }
+
   beforeEach(function () {
     cy.visit(Cypress.env('URL'))
 
     cookieHeaderModal.acceptAnalyticsCookies()
+
+    homeAssertions.warningIcon().should('not.exist')
+
+    homeAssertions.warningText().should('not.exist')
 
     home.start()
 

@@ -16,6 +16,7 @@ class PreopeningSupportGrantDetails {
 
     return this
   }
+
 }
 
 const preopeningSupportGrantDetails = new PreopeningSupportGrantDetails()
