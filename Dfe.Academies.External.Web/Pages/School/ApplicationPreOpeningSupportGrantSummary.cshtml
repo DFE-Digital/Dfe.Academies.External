@@ -21,7 +21,7 @@
 	<h1 class="govuk-heading-l">
         Conversion support grant
 	</h1>
-    @if (await ConversionGrantExpiryFeature.IsEnabledAsync())
+    @if (Model.ApplicationStatus == ApplicationStatus.InProgress && await ConversionGrantExpiryFeature.IsEnabledAsync())
     {
         <div class="govuk-warning-text">
             <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
