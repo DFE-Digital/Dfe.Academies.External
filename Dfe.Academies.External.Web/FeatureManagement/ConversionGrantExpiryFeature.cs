@@ -8,30 +8,21 @@ namespace Dfe.Academies.External.Web.FeatureManagement
 		public bool IsNewApplication(DateTime? applicationCreatedOn);
 		public Task<bool> IsEnabledAsync();
 	}
-	public class ConversionGrantExpiryFeature(IConfiguration configuration, IFeatureManager featureManager) : IConversionGrantExpiryFeature
+	public class ConversionGrantExpiryFeature : IConversionGrantExpiryFeature
 	{
-		private const string _forceToEnableFeatureName = "IsConversionGrantExpired";
 		public async Task<bool> IsEnabledAsync()
 		{
-			if(await featureManager.IsEnabledAsync(_forceToEnableFeatureName))
-			{
-				return true;
-			}
-
-			if (DateTime.TryParse(configuration["FeatureManagement:ConversionGrantExpiry"], new CultureInfo("en-GB"), out DateTime activationDate))
-			{
-				return DateTime.UtcNow >= activationDate;
-			}
-			return false;
+			return DateTime.UtcNow >= GetActivateDate();
 		}
 
 		public bool IsNewApplication(DateTime? applicationCreatedOn)
 		{
-			if (DateTime.TryParse(configuration["FeatureManagement:ConversionGrantExpiry"], new CultureInfo("en-GB"), out DateTime activationDate))
-			{
-				return applicationCreatedOn >= activationDate;
-			}
-			return false;
+			return applicationCreatedOn >= GetActivateDate();
+		}
+
+		private static DateTime GetActivateDate()
+		{
+			return DateTime.Parse("2024-12-21T00:00:00Z");
 		}
 	}
 }
