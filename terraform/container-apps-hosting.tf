@@ -1,5 +1,5 @@
 module "azure_container_apps_hosting" {
-  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v1.16.3"
+  source = "github.com/DFE-Digital/terraform-azurerm-container-apps-hosting?ref=v1.16.5"
 
   environment    = local.environment
   project_name   = local.project_name
@@ -38,6 +38,7 @@ module "azure_container_apps_hosting" {
   dns_ns_records       = local.dns_ns_records
   dns_txt_records      = local.dns_txt_records
   dns_a_records        = local.dns_a_records
+  dns_alias_records    = local.dns_alias_records
   dns_mx_records       = local.dns_mx_records
 
   enable_cdn_frontdoor                            = local.enable_cdn_frontdoor
@@ -57,10 +58,11 @@ module "azure_container_apps_hosting" {
   enable_cdn_frontdoor_vdp_redirects              = local.enable_cdn_frontdoor_vdp_redirects
   cdn_frontdoor_vdp_destination_hostname          = local.cdn_frontdoor_vdp_destination_hostname
 
-  enable_monitoring             = local.enable_monitoring
-  monitor_email_receivers       = local.monitor_email_receivers
-  existing_logic_app_workflow   = local.existing_logic_app_workflow
-  enable_container_health_probe = local.enable_container_health_probe
+  enable_monitoring              = local.enable_monitoring
+  monitor_email_receivers        = local.monitor_email_receivers
+  existing_logic_app_workflow    = local.existing_logic_app_workflow
+  enable_container_health_probe  = local.enable_container_health_probe
+  monitor_http_availability_fqdn = local.monitor_http_availability_fqdn
 
   enable_container_app_blob_storage     = local.enable_container_app_blob_storage
   create_container_app_blob_storage_sas = local.create_container_app_blob_storage_sas
