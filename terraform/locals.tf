@@ -26,6 +26,7 @@ locals {
   dns_txt_records                                 = var.dns_txt_records
   dns_a_records                                   = var.dns_a_records
   dns_mx_records                                  = var.dns_mx_records
+  dns_alias_records                               = var.dns_alias_records
   restrict_container_apps_to_cdn_inbound_only     = var.restrict_container_apps_to_cdn_inbound_only
   container_apps_allow_ips_inbound                = var.container_apps_allow_ips_inbound
   cdn_frontdoor_enable_rate_limiting              = var.cdn_frontdoor_enable_rate_limiting
@@ -64,4 +65,5 @@ locals {
   health_insights_api_ipv4_allow_list             = var.health_insights_api_ipv4_allow_list
   enable_cdn_frontdoor_vdp_redirects              = var.enable_cdn_frontdoor_vdp_redirects
   cdn_frontdoor_vdp_destination_hostname          = var.cdn_frontdoor_vdp_destination_hostname
+  monitor_http_availability_fqdn                  = var.monitor_http_availability_fqdn
 }

@@ -409,7 +409,7 @@ variable "health_insights_api_ipv4_allow_list" {
 variable "enable_cdn_frontdoor_vdp_redirects" {
   description = "Deploy redirects for security.txt and thanks.txt to an external Vulnerability Disclosure Program service"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "cdn_frontdoor_vdp_destination_hostname" {
@@ -422,4 +422,21 @@ variable "container_port" {
   description = "Container port"
   type        = number
   default     = 8080
+}
+
+variable "dns_alias_records" {
+  description = "DNS ALIAS records to add to the DNS Zone"
+  type = map(
+    object({
+      ttl : optional(number, 300),
+      target_resource_id : string
+    })
+  )
+  default = {}
+}
+
+variable "monitor_http_availability_fqdn" {
+  description = "Specify a FQDN to monitor for HTTP Availability. Leave unset to dynamically calculate the correct FQDN"
+  type        = string
+  default     = ""
 }

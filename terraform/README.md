@@ -137,7 +137,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_azure_container_apps_hosting"></a> [azure\_container\_apps\_hosting](#module\_azure\_container\_apps\_hosting) | github.com/DFE-Digital/terraform-azurerm-container-apps-hosting | v1.16.3 |
+| <a name="module_azure_container_apps_hosting"></a> [azure\_container\_apps\_hosting](#module\_azure\_container\_apps\_hosting) | github.com/DFE-Digital/terraform-azurerm-container-apps-hosting | v1.16.5 |
 | <a name="module_azurerm_key_vault"></a> [azurerm\_key\_vault](#module\_azurerm\_key\_vault) | github.com/DFE-Digital/terraform-azurerm-key-vault-tfvars | v0.5.1 |
 | <a name="module_data_protection"></a> [data\_protection](#module\_data\_protection) | github.com/DFE-Digital/terraform-azurerm-aspnet-data-protection | v1.2.0 |
 | <a name="module_statuscake-tls-monitor"></a> [statuscake-tls-monitor](#module\_statuscake-tls-monitor) | github.com/dfe-digital/terraform-statuscake-tls-monitor | v0.1.5 |
@@ -176,13 +176,14 @@ No resources.
 | <a name="input_container_secret_environment_variables"></a> [container\_secret\_environment\_variables](#input\_container\_secret\_environment\_variables) | Container secret environment variables | `map(string)` | n/a | yes |
 | <a name="input_create_container_app_blob_storage_sas"></a> [create\_container\_app\_blob\_storage\_sas](#input\_create\_container\_app\_blob\_storage\_sas) | Generate a SAS connection string that is exposed to your App as an environment variable so that it can connect to the Storage Account | `bool` | `false` | no |
 | <a name="input_dns_a_records"></a> [dns\_a\_records](#input\_dns\_a\_records) | DNS A records to add to the DNS Zone | <pre>map(<br/>    object({<br/>      ttl : optional(number, 300),<br/>      records : list(string)<br/>    })<br/>  )</pre> | n/a | yes |
+| <a name="input_dns_alias_records"></a> [dns\_alias\_records](#input\_dns\_alias\_records) | DNS ALIAS records to add to the DNS Zone | <pre>map(<br/>    object({<br/>      ttl : optional(number, 300),<br/>      target_resource_id : string<br/>    })<br/>  )</pre> | `{}` | no |
 | <a name="input_dns_mx_records"></a> [dns\_mx\_records](#input\_dns\_mx\_records) | DNS MX records to add to the DNS Zone | <pre>map(<br/>    object({<br/>      ttl : optional(number, 300),<br/>      records : list(<br/>        object({<br/>          preference : number,<br/>          exchange : string<br/>        })<br/>      )<br/>    })<br/>  )</pre> | `{}` | no |
 | <a name="input_dns_ns_records"></a> [dns\_ns\_records](#input\_dns\_ns\_records) | DNS NS records to add to the DNS Zone | <pre>map(<br/>    object({<br/>      ttl : optional(number, 300),<br/>      records : list(string)<br/>    })<br/>  )</pre> | n/a | yes |
 | <a name="input_dns_txt_records"></a> [dns\_txt\_records](#input\_dns\_txt\_records) | DNS TXT records to add to the DNS Zone | <pre>map(<br/>    object({<br/>      ttl : optional(number, 300),<br/>      records : list(string)<br/>    })<br/>  )</pre> | n/a | yes |
 | <a name="input_dns_zone_domain_name"></a> [dns\_zone\_domain\_name](#input\_dns\_zone\_domain\_name) | DNS zone domain name. If created, records will automatically be created to point to the CDN. | `string` | n/a | yes |
 | <a name="input_enable_cdn_frontdoor"></a> [enable\_cdn\_frontdoor](#input\_enable\_cdn\_frontdoor) | Enable Azure CDN Front Door. This will use the Container Apps endpoint as the origin. | `bool` | n/a | yes |
 | <a name="input_enable_cdn_frontdoor_health_probe"></a> [enable\_cdn\_frontdoor\_health\_probe](#input\_enable\_cdn\_frontdoor\_health\_probe) | Enable CDN Front Door health probe | `bool` | `false` | no |
-| <a name="input_enable_cdn_frontdoor_vdp_redirects"></a> [enable\_cdn\_frontdoor\_vdp\_redirects](#input\_enable\_cdn\_frontdoor\_vdp\_redirects) | Deploy redirects for security.txt and thanks.txt to an external Vulnerability Disclosure Program service | `bool` | `true` | no |
+| <a name="input_enable_cdn_frontdoor_vdp_redirects"></a> [enable\_cdn\_frontdoor\_vdp\_redirects](#input\_enable\_cdn\_frontdoor\_vdp\_redirects) | Deploy redirects for security.txt and thanks.txt to an external Vulnerability Disclosure Program service | `bool` | `false` | no |
 | <a name="input_enable_container_app_blob_storage"></a> [enable\_container\_app\_blob\_storage](#input\_enable\_container\_app\_blob\_storage) | Create an Azure Storage Account and Storage Container to be accessed by the Container App | `bool` | n/a | yes |
 | <a name="input_enable_container_app_file_share"></a> [enable\_container\_app\_file\_share](#input\_enable\_container\_app\_file\_share) | Create an Azure Storage Account and File Share to be mounted to the Container Apps | `bool` | n/a | yes |
 | <a name="input_enable_container_health_probe"></a> [enable\_container\_health\_probe](#input\_enable\_container\_health\_probe) | Enable liveness probes for the Container | `bool` | `true` | no |
@@ -203,6 +204,7 @@ No resources.
 | <a name="input_image_name"></a> [image\_name](#input\_image\_name) | Image name | `string` | n/a | yes |
 | <a name="input_key_vault_access_ipv4"></a> [key\_vault\_access\_ipv4](#input\_key\_vault\_access\_ipv4) | List of IPv4 Addresses that are permitted to access the Key Vault | `list(string)` | n/a | yes |
 | <a name="input_monitor_email_receivers"></a> [monitor\_email\_receivers](#input\_monitor\_email\_receivers) | A list of email addresses that should be notified by monitoring alerts | `list(string)` | n/a | yes |
+| <a name="input_monitor_http_availability_fqdn"></a> [monitor\_http\_availability\_fqdn](#input\_monitor\_http\_availability\_fqdn) | Specify a FQDN to monitor for HTTP Availability. Leave unset to dynamically calculate the correct FQDN | `string` | `""` | no |
 | <a name="input_project_name"></a> [project\_name](#input\_project\_name) | Project name. Will be used along with `environment` as a prefix for all resources. | `string` | n/a | yes |
 | <a name="input_redis_cache_sku"></a> [redis\_cache\_sku](#input\_redis\_cache\_sku) | Redis Cache SKU | `string` | `"Basic"` | no |
 | <a name="input_registry_admin_enabled"></a> [registry\_admin\_enabled](#input\_registry\_admin\_enabled) | Do you want to enable access key based authentication for your Container Registry? | `bool` | `true` | no |
