@@ -440,3 +440,15 @@ variable "monitor_http_availability_fqdn" {
   type        = string
   default     = ""
 }
+
+variable "container_health_probe_path" {
+  description = "Specifies the path that is used to determine the liveness of the Container"
+  type        = string
+  default     = "/"
+}
+
+variable "monitor_endpoint_healthcheck" {
+  description = "Specify a route that should be monitored for a 200 OK status"
+  type        = string
+  default     = "/"
+}
