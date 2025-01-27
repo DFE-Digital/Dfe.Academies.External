@@ -271,6 +271,8 @@ namespace Dfe.Academies.External.Web
 				options.MaxAge = TimeSpan.FromDays(365);
 			});
 
+			builder.Services.AddHealthChecks();
+
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
@@ -338,6 +340,8 @@ namespace Dfe.Academies.External.Web
 
 			// possible redis fix
 			ThreadPool.SetMinThreads(400, 400);
+
+			app.UseHealthChecks("/health");
 
 			app.Run();
 		}
