@@ -63,6 +63,8 @@ module "azure_container_apps_hosting" {
   existing_logic_app_workflow    = local.existing_logic_app_workflow
   enable_container_health_probe  = local.enable_container_health_probe
   monitor_http_availability_fqdn = local.monitor_http_availability_fqdn
+  container_health_probe_path    = local.container_health_probe_path
+  monitor_endpoint_healthcheck   = local.monitor_endpoint_healthcheck
 
   enable_container_app_blob_storage     = local.enable_container_app_blob_storage
   create_container_app_blob_storage_sas = local.create_container_app_blob_storage_sas
