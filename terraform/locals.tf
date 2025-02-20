@@ -68,4 +68,5 @@ locals {
   monitor_http_availability_fqdn                  = var.monitor_http_availability_fqdn
   container_health_probe_path                     = var.container_health_probe_path
   monitor_endpoint_healthcheck                    = var.monitor_endpoint_healthcheck
+  enable_monitoring_traces                        = var.enable_monitoring_traces
 }

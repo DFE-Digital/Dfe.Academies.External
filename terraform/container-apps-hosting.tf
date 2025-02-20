@@ -75,4 +75,6 @@ module "azure_container_apps_hosting" {
 
   existing_network_watcher_name                = local.existing_network_watcher_name
   existing_network_watcher_resource_group_name = local.existing_network_watcher_resource_group_name
+
+  enable_monitoring_traces = local.enable_monitoring_traces
 }
