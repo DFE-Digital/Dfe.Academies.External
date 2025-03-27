@@ -198,6 +198,7 @@ namespace Dfe.Academies.External.Web
 			builder.Services.AddHttpClient<IFileUploadService, FileUploadService>(client =>
 			{
 				client.BaseAddress = new Uri(configuration["Sharepoint:ApiUrl"]);
+				client.DefaultRequestHeaders.Add("User-Agent", "ApplyToBecome/1.0");
 			})
 				.AddPolicyHandler(GetRetryPolicy());
 
