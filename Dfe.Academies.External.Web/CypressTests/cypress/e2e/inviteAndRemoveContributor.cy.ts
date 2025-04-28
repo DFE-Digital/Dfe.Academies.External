@@ -10,7 +10,7 @@ import { faker } from '@faker-js/faker'
 describe('Invite/remove contributor', () => {
   const contributorFirstName = faker.person.firstName()
   const contributorEmail = faker.internet.email()
-  const applicationId = Cypress.env('URL').includes('test') ? '10492' : '10280'
+  const applicationId = Cypress.env('URL').includes('test') ? '10531' : '10280'
 
   const homeAssertions = {
     warningIcon: () => cy.get('span[class="govuk-warning-text__icon"]'),
