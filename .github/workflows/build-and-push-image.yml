@@ -65,7 +65,7 @@ jobs:
       id-token: write
       attestations: write
     steps:
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/build@v5.2.0
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/build@feature/docker-image-metadata
         with:
           build-file-name: ./Dockerfile
           build-args: CI=true
