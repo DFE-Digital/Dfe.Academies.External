@@ -63,15 +63,16 @@ jobs:
     permissions:
       packages: write
       id-token: write
+      attestations: write
     steps:
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/build@v5.1.0
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/build@v5.2.0
         with:
           build-file-name: ./Dockerfile
           build-args: CI=true
           image-name: ${{ needs.set-env.outputs.image-name }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/import@v5.1.0
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/import@v5.2.0
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
@@ -84,7 +85,7 @@ jobs:
           AZURE_SUBSCRIPTION: ${{ secrets.AZURE_SUBSCRIPTION_ID || '' }}
           AZURE_ACR_CLIENT_ID: ${{ secrets.ACR_CLIENT_ID || '' }}
 
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/deploy@v5.1.0
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/deploy@v5.2.0
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
