@@ -63,8 +63,9 @@ jobs:
     permissions:
       packages: write
       id-token: write
+      attestations: write
     steps:
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/build@v5.1.0
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/build@feature/artifact-attestation
         with:
           build-file-name: ./Dockerfile
           build-args: CI=true
