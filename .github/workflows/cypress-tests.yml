@@ -17,6 +17,8 @@ on:
         required: true
       SLACK_WEBHOOK_URL:
         required: true
+      ZAP_API_KEY:
+        required: true
   workflow_dispatch:
     inputs:
       environment:
@@ -28,9 +30,49 @@ concurrency:
   group: ${{ github.workflow }}
 
 jobs:
+  get-zap-version:
+    name: Get ZAP Version
+    runs-on: ubuntu-24.04
+    outputs:
+      zap_version: ${{ steps.zap-version.outputs.zap_version }}
+    steps:
+      - name: Get ZAP version
+        id: zap-version
+        run: |
+          ZAPROXY_VERSION="$(curl -sL "https://api.github.com/repos/zaproxy/zaproxy/releases/latest" | jq -r ".tag_name" | cut -c 2-)"
+          echo "zap_version=${ZAPROXY_VERSION}" >> $GITHUB_OUTPUT
+          echo "$ZAPROXY_VERSION"
+
+  refresh-zap-cache:
+    name: Refresh ZAP Cache
+    needs: get-zap-version
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Restore ZAP installer from cache if exists
+        id: cache-zap
+        uses: actions/cache@v4
+        with:
+          path: zap-stable-${{ needs.get-zap-version.outputs.zap_version }}
+          key: cache-zap-${{ needs.get-zap-version.outputs.zap_version }}
+          lookup-only: true
+
+      - name: Pull installer if no cache hit
+        if: steps.cache-zap.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p zap-stable-${{ needs.get-zap-version.outputs.zap_version }}
+          safe_tag_name=$(echo "${{ needs.get-zap-version.outputs.zap_version }}" | tr '.' '_')
+          curl -sL -o "zap-stable-${{ needs.get-zap-version.outputs.zap_version }}/zaproxy-installer.sh" "https://github.com/zaproxy/zaproxy/releases/download/v${{ needs.get-zap-version.outputs.zap_version }}/ZAP_${safe_tag_name}_unix.sh" -H "Accept: application/octet-stream"
+          if [ $? -ne 0 ]; then
+            echo "::error Error: Failed to download zaproxy installer"
+            exit 1
+          fi
+          echo "Downloaded zaproxy installer"
+          chmod +x zap-stable-${{ needs.get-zap-version.outputs.zap_version }}/zaproxy-installer.sh
+
   cypress-tests:
     name: Run Cypress Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    needs: [ get-zap-version, refresh-zap-cache ]
     environment: ${{ inputs.environment }}
     strategy:
       matrix:
@@ -39,41 +81,104 @@ jobs:
         ]
     container:
       image: cypress/browsers:22.13.1
-    defaults:
-      run:
-        working-directory: Dfe.Academies.External.Web/CypressTests
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
 
-      - name: Run
+      - name: Restore ZAP installer from cache
+        id: cache-zap
+        uses: actions/cache@v4
+        with:
+          path: zap-stable-${{ needs.get-zap-version.outputs.zap_version }}
+          key: cache-zap-${{ needs.get-zap-version.outputs.zap_version }}
+
+      - name: Install JDK
+        run: |
+          apt-get update && apt-get install -y openjdk-17-jdk
+          java -version
+
+      - name: Install ZAP
+        run: |
+          chmod +x zap-stable-${{ needs.get-zap-version.outputs.zap_version }}/zaproxy-installer.sh
+          ./zap-stable-${{ needs.get-zap-version.outputs.zap_version }}/zaproxy-installer.sh -q -dir /usr/share/zaproxy
+          if [ $? -ne 0 ]; then
+            echo "::error Error: Failed to install zaproxy"
+            exit 1
+          fi
+          echo "Installed zaproxy"
+
+      - name: Start ZAP
+        env:
+          ZAP_API_KEY: ${{ secrets.ZAP_API_KEY }}
+        run: |
+          /usr/share/zaproxy/zap.sh \
+            -daemon \
+            -silent \
+            -nostdout \
+            -port 9876 \
+            -host 0.0.0.0 \
+            -config api.key=$ZAP_API_KEY \
+            -config api.addrs.addr.name=.\* \
+            -config api.addrs.addr.regex=true \
+            -config network.localServers.mainProxy.alpn.enabled=false \
+            -config network.localServers.mainProxy.address=0.0.0.0 &
+
+      - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         env:
           CYPRESS_URL: ${{ secrets.URL }}
           CYPRESS_LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
           CYPRESS_LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
           CYPRESS_SIGNIN_URL: ${{ secrets.SIGNIN_URL }}
+          CYPRESS_ZAP_API_KEY: ${{ secrets.ZAP_API_KEY }}
+          CYPRESS_ZAP_ADDRESS: localhost
+          CYPRESS_ZAP_PORT: 9876
+          CYPRESS_ZAP: true
         with:
           browser: ${{ matrix.browser }}
           working-directory: ./Dfe.Academies.External.Web/CypressTests
           wait-on: ${{ secrets.URL }}
 
-      - name: Generate report
+      - name: Generate HTML report
         if: always()
+        working-directory: Dfe.Academies.External.Web/CypressTests
         run: |
           mkdir mochareports
           npm run generate:html:report
 
-      - name: Upload report
+      - name: Upload Cypress screenshots
         uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: screenshots-${{ inputs.environment }}-${{ matrix.browser }}
           path: Dfe.Academies.External.Web/CypressTests/cypress/screenshots
 
-      - name: Report results
+      - name: Report Cypress results
         if: always()
+        working-directory: Dfe.Academies.External.Web/CypressTests
         run: npm run cy:notify -- --custom-text="Environment ${{ inputs.environment }}, See more information https://github.com/DFE-Digital/Dfe.Academies.External/actions/runs/${{github.run_id}}"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Azure login with SPN
+        if: '!cancelled()'
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.OWASP_AZ_CREDENTIALS }}
+
+      - name: Push OWASP report to blob storage
+        if: '!cancelled()'
+        uses: azure/cli@v2
+        id: azure
+        with:
+          azcliversion: 2.71.0
+          inlineScript: |
+            az storage blob upload \
+              --container-name ${{ secrets.OWASP_STORAGE_CONTAINER_NAME }} \
+              --account-name ${{ secrets.OWASP_STORAGE_ACCOUNT_NAME }} \
+              --file "Dfe.Academies.External.Web/CypressTests/zapoutput/ZAP-Report.html" \
+              --name "Dfe.Academies.External.Web/${{ github.ref_name }}/ZAP-Report.html" \
+              --auth-mode login \
+              --overwrite
