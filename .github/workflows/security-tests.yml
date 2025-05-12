@@ -1,104 +1,72 @@
-name: Security scanner tests
+name: Weekly OWASP ZAP Baseline Scan
 
 on:
+  schedule:
+    - cron: '0 0 * * 0' # Runs every Sunday at 00:00 UTC
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Deploy to environment"]
-    types:
-      - completed
-
-env:
-  ZAP_ADDRESS: localhost
-  ZAP_PORT: 9876
+    inputs:
+      environment:
+        description: 'Environment to scan'
+        required: true
+        default: 'development'
+        type: string
 
 jobs:
-  run-tests-with-zap:
-    name: Run Cypress tests with OWASP ZAP
-    environment: development
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: Dfe.Academies.External.Web/CypressTests
+  zap_scan:
+    if: github.event_name == 'workflow_dispatch' && inputs.environment != 'production' || github.event_name == 'schedule'
+    runs-on: ubuntu-24.04
+    name: OWASP ZAP Baseline Scan
+    environment: ${{ github.event_name == 'schedule' && 'development' || inputs.environment }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Create directory on runner
-        run: |
-          mkdir -m 777 ${{ github.workspace }}/zapoutput
-
-      - name: Get latest ZAP container version
-        run: |
-          ZAP_VERSION="$(wget -q -O - "https://hub.docker.com/v2/repositories/softwaresecurityproject/zap-stable/tags?page_size=2" | grep -o '"name": *"[^"]*' | grep -o '[^"]*$' | tail -n 1)"
-          echo "ZAP_VERSION=${ZAP_VERSION}">> $GITHUB_ENV
-
-      - name: Restore ZAP container from cache if exists
-        id: cache-docker-zap
-        uses: actions/cache@v4
-        with:
-          path: ~/ci/cache/docker/softwaresecurityproject
-          key: cache-docker-zap-${{ env.ZAP_VERSION }}
-
-      - name: Use cached image if hit
-        if: steps.cache-docker-zap.outputs.cache-hit == 'true'
-        run: docker image load --input ~/ci/cache/docker/softwaresecurityproject/zap-stable-${{ env.ZAP_VERSION }}.tar
-
-      - name: Pull image if no cache hit
-        if: steps.cache-docker-zap.outputs.cache-hit != 'true'
-        run: docker pull softwaresecurityproject/zap-stable:latest && mkdir -p ~/ci/cache/docker/softwaresecurityproject && docker image save softwaresecurityproject/zap-stable:latest --output ~/ci/cache/docker/softwaresecurityproject/zap-stable-${{ env.ZAP_VERSION }}.tar
-
-      - name: Start ZAP container
-        run: docker run --name zap_container --rm -d -v ${{ github.workspace }}/zapoutput/:/zap/wrk:rw -u zap -p ${{ env.ZAP_PORT }}:${{ env.ZAP_PORT }} -i softwaresecurityproject/zap-stable zap.sh -daemon -port ${{ env.ZAP_PORT }} -host 0.0.0.0 -config api.key=${{ secrets.ZAP_API_KEY }} -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config network.localServers.mainProxy.alpn.enabled=false -config network.localServers.mainProxy.address=0.0.0.0
-
-      - name: Set up NodeJS
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 'lts/*'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm ci
+        working-directory: ./Dfe.Academies.External.Web/CypressTests
 
-      - name: Run Cypress tests through scanner
-        env:
-          HTTP_PROXY: "http://${{ env.ZAP_ADDRESS }}:${{ env.ZAP_PORT }}"
-          NO_PROXY: "google-analytics.com,googletagmanager.com,microsoftonline.com,gvt1.com"
-          LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
-          LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
-          URL: ${{ secrets.URL }}
-          SIGNIN_URL: ${{ secrets.SIGNIN_URL }}
-          ZAP: true
-          ZAP_API_KEY: ${{ secrets.ZAP_API_KEY }}
-          ZAP_ADDRESS: ${{ env.ZAP_ADDRESS }}
-          ZAP_PORT: ${{ env.ZAP_PORT }}
-        run: npm run cy:run -- --env URL='${{ secrets.URL }}',LOGIN_USERNAME=${{ secrets.LOGIN_USERNAME }},LOGIN_PASSWORD=${{ secrets.LOGIN_PASSWORD }},SIGNIN_URL=${{ secrets.SIGNIN_URL }}
+      - name: Install Cypress
+        run: npx cypress install
+        working-directory: ./Dfe.Academies.External.Web/CypressTests
 
-      - name: Get git sha
-        if: '!cancelled()'
+      - name: Run Cypress Login and Extract Session
+        id: cypress_login
         run: |
-          CHECKED_OUT_SHA="$(git log -1 '--format=format:%H')"
-          echo "checked_out_sha=${CHECKED_OUT_SHA}" >> $GITHUB_ENV
+          npx cypress run --spec 'cypress/e2e/login.cy.ts' --headless
+          COOKIE_JSON=$(cat ./cypress/fixtures/session_cookies.json)
+          ASP_NET_CORE_COOKIE=$(echo "$COOKIE_JSON" | jq -r '.cookies' | grep -oE '\.AspNetCore\.Cookies=[^;]+')
+          echo "ZAP_COOKIES=$ASP_NET_CORE_COOKIE" >> $GITHUB_OUTPUT
+        env:
+          CYPRESS_URL: ${{ secrets.URL }}
+          CYPRESS_LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
+          CYPRESS_LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
+          CYPRESS_SIGNIN_URL: ${{ secrets.SIGNIN_URL }}
+          CYPRESS_CI: true # Ensure Cypress knows it's in a CI environment
+        working-directory: ./Dfe.Academies.External.Web/CypressTests
 
-      - name: Azure login with SPN
-        if: '!cancelled()'
-        uses: azure/login@v2
+      - name: Create ZAP Configuration File
+        run: |
+          echo "::add-mask::${{ steps.cypress_login.outputs.ZAP_COOKIES }}"
+          ZAP_COOKIES="${{ steps.cypress_login.outputs.ZAP_COOKIES }}"
+          echo "auth.loginRequest.authType	=	cookieBasedAuthentication" >> zap_config.ini
+          echo "auth.loginRequest.cookieString	=	'$ZAP_COOKIES'" >> zap_config.ini
+          cat zap_config.ini
+
+      - name: Set up ZAP
+        uses: zaproxy/action-baseline@v0.14.0
         with:
-          creds: ${{ secrets.OWASP_AZ_CREDENTIALS }}
+          target: ${{ secrets.URL }}
+          fail_action: true
+          cmd_options: -c zap_config.ini
+          allow_issue_writing: false # This line prevents issue creation
 
-      - name: Push report to blob storage
-        if: '!cancelled()'
-        uses: azure/cli@v2
-        id: azure
-        with:
-          azcliversion: 2.49.0
-          inlineScript: |
-            az storage blob upload \
-              --container-name ${{ secrets.OWASP_STORAGE_CONTAINER_NAME }} \
-              --account-name ${{ secrets.OWASP_STORAGE_ACCOUNT_NAME }} \
-              --file "${{ github.workspace }}/zapoutput/ZAP-Report.html" \
-              --name "Dfe.Academies.External.Web/${{ env.checked_out_sha }}/ZAP-Report.html" \
-              --auth-mode login \
-              --overwrite
-
-      - name: Stop ZAP container
-        if: always()
-        run: docker stop zap_container
+      # - name: Upload ZAP Report (Optional)
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: zap-report
+      #     path: ${{ github.workspace }}/zap_report.html

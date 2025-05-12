@@ -393,3 +393,4 @@ Brewfile.lock.json
 cypress.env.json
 **/cypress/videos
 **/cypress/reports
+**/cypress/fixtures/session_cookies.json
