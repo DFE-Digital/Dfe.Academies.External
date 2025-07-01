@@ -72,7 +72,9 @@
     <link rel="manifest" href="/assets/rebrand/manifest.json">
     <meta property="og:image" content="/assets/rebrand/images/govuk-opengraph-image.png">
 
-    @* <link rel="canonical" href="https://design-system.service.gov.uk/components/header/default/"> *@
+    <link href="/assets/css/govuk-frontend-5.10.0.min.css" rel="stylesheet" media="all">
+
+    <link rel="canonical" href="https://design-system.service.gov.uk/components/header/default/">
     @* <link href="/stylesheets/govuk-frontend-f50922d88ed75f8aa6a48172a9b4704f.min.css" rel="stylesheet" media="all"> *@
     @* <link href="/stylesheets/example-28cf8f56ce3cba62d258b5725b59ecd7.css" rel="stylesheet" media="all"> *@
 </head>
@@ -157,5 +159,6 @@
 @await RenderSectionAsync("scripts", required: false)
 
 <script src="~/assets/accessible-autocomplete.min.js" asp-add-nonce></script>
+<script src="~/assets/js/govuk-frontend-5.10.0.min.js" asp-add-nonce></script>
 </body>
 </html>
