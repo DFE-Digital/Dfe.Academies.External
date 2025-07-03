@@ -1,3 +1,7 @@
+.govuk-footer {
+	border-top: 10px solid #1d70b8 !important;
+}
+
 .govuk-padding-left-override {
     padding-left: 0;
 }
