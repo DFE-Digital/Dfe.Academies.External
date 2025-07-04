@@ -27,6 +27,7 @@ using Serilog;
 using StackExchange.Redis;
 using Microsoft.FeatureManagement;
 using Dfe.Academies.External.Web.FeatureManagement;
+using GovUk.Frontend.AspNetCore;
 
 namespace Dfe.Academies.External.Web
 {
@@ -76,6 +77,8 @@ namespace Dfe.Academies.External.Web
 				.AddSessionStateTempDataProvider();
 
 			builder.Services.AddFeatureManagement();
+
+			builder.Services.AddGovUkFrontend(options => options.Rebrand = true);
 
 			builder.Services.AddAuthentication(options =>
 			{
@@ -338,6 +341,9 @@ namespace Dfe.Academies.External.Web
 			});
 
 			app.UseMiddleware<CorrelationIdMiddleware>();
+
+			// Govuk design
+			app.UseGovUkFrontend();
 
 			// possible redis fix
 			ThreadPool.SetMinThreads(400, 400);
