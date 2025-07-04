@@ -1,0 +1,99 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Microsoft.AspNetCore.Http.Features
+@using System.Security.Claims;
+@inject IConfiguration _configuration
+
+@{
+    var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
+    var canTrack = consentFeature?.CanTrack ?? false;
+    var authenticatedUserId = User.Identity is not null && User.Identity.IsAuthenticated ? User.FindFirst(ClaimTypes.Email)?.Value ?? "Unknown" : "Anonymous";
+}
+
+@{
+    Layout = "_GovUkPageTemplate";
+    ViewData["Title"] = $"{ViewData["Title"]} - Apply to become an academy";
+}
+
+@section Header {
+    <govuk-header home-page-url="https://gov.uk/" product-name="Apply to become an Academy" />
+
+    <govuk-service-navigation service-name="Service name" service-url="#">
+        <govuk-service-navigation-nav>
+            <govuk-service-navigation-nav-item href="#">Navigation item 1</govuk-service-navigation-nav-item>
+            <govuk-service-navigation-nav-item href="#" active="true">Navigation item 2</govuk-service-navigation-nav-item>
+            <govuk-service-navigation-nav-item href="#">Navigation item 3</govuk-service-navigation-nav-item>
+        </govuk-service-navigation-nav>
+    </govuk-service-navigation>
+}
+
+@section BodyStart {
+    <govuk-cookie-banner aria-label="Cookie on [name of service]">
+        <govuk-cookie-banner-message>
+            <govuk-cookie-banner-message-heading>Cookies on Apply to become an Academy</govuk-cookie-banner-message-heading>
+            <govuk-cookie-banner-message-content>
+                <p class="govuk-body">We use some essential cookies to make this service work.</p>
+                <p class="govuk-body">We’d also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
+            </govuk-cookie-banner-message-content>
+            <govuk-cookie-banner-message-actions>
+                <govuk-cookie-banner-message-action text="Accept analytics cookies" type="button" />
+                <govuk-cookie-banner-message-action text="Reject analytics cookies" type="button" />
+                <govuk-cookie-banner-message-action-link text="View cookies" href="#" />
+            </govuk-cookie-banner-message-actions>
+        </govuk-cookie-banner-message>
+    </govuk-cookie-banner>
+}
+
+<div class="govuk-width-container">
+    @await RenderSectionAsync("BeforeMain", required: false)
+
+    <main class="govuk-main-wrapper " id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <partial name="_ErrorMessages" />
+            @RenderBody()
+        </div>
+    </main>
+</div>
+
+@section BodyEnd {
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js" asp-add-nonce></script>
+        <script src="~/js/site.js" asp-append-version="true" asp-add-nonce></script>
+    </environment>
+
+    <environment exclude="Development">
+        <script src="~/lib/jquery/dist/jquery.js" asp-add-nonce></script>
+        <script src="~/js/site.js" asp-append-version="true" asp-add-nonce></script>
+    </environment>
+
+    <script src="~/assets/application-39beab6507cd50944edb58ab76ca9a393e09d467cba25003fbd3104c8a02514b.js"></script>
+
+    <script asp-add-nonce>
+        window.GOVUKFrontend.initAll();
+        @if (canTrack)
+        {
+            <text>
+                window.addEventListener('load', function () {
+                    idlechecks('@_configuration["Google:AnalyticsKey"]',
+                @_configuration["SessionidleSecondsMax:Value"]);
+                }, false);
+            </text>
+        }
+
+    </script>
+
+    @await RenderSectionAsync("scripts", required: false)
+
+    <script src="~/assets/accessible-autocomplete.min.js" asp-add-nonce></script>
+}
+
+@section Footer {
+    <govuk-footer>
+        <govuk-footer-meta>
+            <govuk-footer-meta-items>
+                <govuk-footer-meta-item href="/Cookies">Cookie policy</govuk-footer-meta-item>
+                <govuk-footer-meta-item href="/Terms">Terms and Conditions</govuk-footer-meta-item>
+                <govuk-footer-meta-item href="/Privacy">Privacy</govuk-footer-meta-item>
+            </govuk-footer-meta-items>
+        </govuk-footer-meta>
+    </govuk-footer>
+}
