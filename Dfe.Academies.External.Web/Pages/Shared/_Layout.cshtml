@@ -7,7 +7,6 @@
     var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
     var canTrack = consentFeature?.CanTrack ?? false;
     var authenticatedUserId = User.Identity is not null && User.Identity.IsAuthenticated ? User.FindFirst(ClaimTypes.Email)?.Value ?? "Unknown" : "Anonymous";
-    var returnPath = Context.Request.Path;
 }
 
 @{

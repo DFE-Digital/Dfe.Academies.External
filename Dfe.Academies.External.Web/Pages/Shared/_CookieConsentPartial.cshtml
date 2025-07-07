@@ -31,9 +31,10 @@
 
 @{
     var cookieSaved = (bool)(TempData["cookiePreferenceSaved"] ?? false);
+    var containsCookies = returnPath != null && returnPath!.Value!.Contains("cookies");
 }
 
-@if (cookieSaved && !showBanner && !returnPath.Value.Contains("cookies"))
+@if (cookieSaved && !showBanner && !containsCookies)
 {
     <form asp-controller="Cookies" asp-action="HideCookieMessage">
         <input type="hidden" name="redirectPath" value="@returnPath">

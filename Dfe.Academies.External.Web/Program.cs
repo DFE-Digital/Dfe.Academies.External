@@ -27,7 +27,6 @@ using Serilog;
 using StackExchange.Redis;
 using Microsoft.FeatureManagement;
 using Dfe.Academies.External.Web.FeatureManagement;
-using GovUk.Frontend.AspNetCore;
 
 namespace Dfe.Academies.External.Web
 {
