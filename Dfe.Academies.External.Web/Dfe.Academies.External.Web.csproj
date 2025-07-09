@@ -22,7 +22,7 @@
     <PackageReference Include="Dfe.Academies.Contracts" Version="1.0.10" />
     <PackageReference Include="Dfe.Academisation.CorrelationIdMiddleware" Version="2.0.2" />
     <PackageReference Include="FluentValidation" Version="11.11.0" />
-    <PackageReference Include="GovUk.Frontend.AspNetCore" Version="1.5.0" />
+    <PackageReference Include="GovUk.Frontend.AspNetCore" Version="3.2.2" />
     <PackageReference Include="GovukNotify" Version="7.2.0" />
     <PackageReference Include="jQuery.Validation" Version="1.21.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />

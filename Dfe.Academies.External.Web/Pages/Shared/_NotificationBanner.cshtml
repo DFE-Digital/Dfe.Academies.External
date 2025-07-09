@@ -6,18 +6,12 @@
 
 @if (!string.IsNullOrWhiteSpace(notificationBannerMessage))
 {
-    <div class="govuk-width-container">
-        <section class="govuk-notification-banner govuk-!-margin-bottom-0" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-            <div class="govuk-notification-banner__header">
-                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-                    Important
-                </h2>
-            </div>
-            <div class="govuk-notification-banner__content">
-                <p>
-                    @notificationBannerMessage
-                </p>
-            </div>
-        </section>
-    </div>
+    <govuk-notification-banner>
+        <govuk-notification-banner-title heading-level="2" id="banner-title">
+            Important
+        </govuk-notification-banner-title>
+        <p class="govuk-notification-banner__heading">
+            @notificationBannerMessage
+        </p>
+    </govuk-notification-banner>
 }

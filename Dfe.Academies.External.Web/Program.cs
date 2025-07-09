@@ -77,6 +77,8 @@ namespace Dfe.Academies.External.Web
 
 			builder.Services.AddFeatureManagement();
 
+			builder.Services.AddGovUkFrontend(options => options.Rebrand = true);
+
 			builder.Services.AddAuthentication(options =>
 			{
 				options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -338,6 +340,9 @@ namespace Dfe.Academies.External.Web
 			});
 
 			app.UseMiddleware<CorrelationIdMiddleware>();
+
+			// Govuk design
+			app.UseGovUkFrontend();
 
 			// possible redis fix
 			ThreadPool.SetMinThreads(400, 400);
