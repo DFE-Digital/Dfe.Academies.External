@@ -38,12 +38,12 @@ jobs:
           "edge"
         ]
     container:
-      image: cypress/browsers:22.13.1
+      image: cypress/browsers:22.13.1@sha256:914c9814a9567f32660203db7ecd610b8f8fede6e9103885728b3bd3f6dca4ff
     defaults:
       run:
         working-directory: Dfe.Academies.External.Web/CypressTests
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           ref: ${{ github.ref }}
 
@@ -66,7 +66,7 @@ jobs:
           npm run generate:html:report
 
       - name: Upload report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: failure()
         with:
           name: screenshots-${{ inputs.environment }}-${{ matrix.browser }}
