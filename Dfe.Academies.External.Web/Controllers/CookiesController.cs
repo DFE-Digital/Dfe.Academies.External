@@ -50,7 +50,7 @@ public class CookiesController : Controller
 		Response.Cookies.Append(
 			".AspNet.Consent",
 			value,
-			new CookieOptions { Expires = DateTimeOffset.Now + TimeSpan.FromDays(365), Path = "/", Secure = true, SameSite = SameSiteMode.Lax, IsEssential = true }
+			new CookieOptions { Expires = DateTimeOffset.Now + TimeSpan.FromDays(365), Path = "/", Secure = true, HttpOnly = true, SameSite = SameSiteMode.Lax, IsEssential = true }
 			);
 	}
 
