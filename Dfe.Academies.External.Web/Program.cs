@@ -39,7 +39,7 @@ namespace Dfe.Academies.External.Web
 
 			builder.WebHost.ConfigureKestrel(options =>
 			{
-				options.Limits.MaxRequestBodySize = 101 * 1024 * 1024; // 101 MB
+				options.Limits.MaxRequestBodySize = 100 * 1024 * 1024; // 100 MB
 			});
 
 			//https://github.com/gunndabad/govuk-frontend-aspnetcore

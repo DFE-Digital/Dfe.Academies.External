@@ -151,7 +151,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 				return false;
 			}
 
-			foreach (var file in GovernanceStructureDetailsFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+			foreach (var file in GovernanceStructureDetailsFiles.Where(file => file.Length >= FileUploadConstants.MaxFileUploadSizeInBytes))
 			{
 				ModelState.AddModelError(nameof(GovernanceStructureDetailsFileSizeError), $"File: {file.FileName} is too large");
 				PopulateValidationMessages();

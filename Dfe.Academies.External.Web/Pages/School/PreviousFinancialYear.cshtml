@@ -115,7 +115,7 @@
 											</div>
 	                                        <div id="SchoolPFYRevenueFileSizeError">
 		                                    <p id="file-upload-schoolPFYRevenueFileSize-error" class="govuk-error-message @(!Model.SchoolPFYRevenueFileSizeError ? "govuk-visually-hidden" : "")">
-			                                    <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+                                                    <span class="govuk-visually-hidden">Error:</span> @(FileUploadConstants.MaxFileUploadErrorMessage)
 		                                    </p>
 											</div>
 		                                    <p id="file-upload-schoolPFYRevenueFile-genericError" class="govuk-error-message @(!Model.SchoolPFYRevenueFileGenericError ? "govuk-visually-hidden" : "")">
@@ -198,7 +198,7 @@
 											</div>
                                            <div id="SchoolPFYCapitalFileSizeError">
 		                                    <p id="file-upload-schoolPFYCapitalFileSize-error" class="govuk-error-message @(!Model.SchoolPFYCapitalFileSizeError ? "govuk-visually-hidden" : "")">
-			                                    <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+                                                    <span class="govuk-visually-hidden">Error:</span> @(FileUploadConstants.MaxFileUploadErrorMessage)
 		                                    </p>
 											</div>
 		                                    <p id="file-upload-schoolPFYCapitalFile-genericError" class="govuk-error-message @(!Model.SchoolPFYCapitalFileGenericError ? "govuk-visually-hidden" : "")">

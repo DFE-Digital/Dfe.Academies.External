@@ -130,7 +130,7 @@
 		                                    <br/>
 											<div id="SchoolCFYRevenueFileSizeError">
 		                                    <p id="file-upload-schoolCFYRevenueFileSize-error" class="govuk-error-message @(!Model.SchoolCFYRevenueFileSizeError ? "govuk-visually-hidden" : "")">
-			                                    <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+                                                <span class="govuk-visually-hidden">Error:</span> @(FileUploadConstants.MaxFileUploadErrorMessage)
 		                                    </p>
 											</div>
 		                                    <p id="file-upload-schoolCFYRevenueFile-genericError" class="govuk-error-message @(!Model.SchoolCFYRevenueFileGenericError ? "govuk-visually-hidden" : "")">
@@ -218,7 +218,7 @@
 											</div>
 											<div id="SchoolCFYCapitalFileSizeError">
 		                                    <p id="file-upload-schoolCFYCapitalFileSize-error" class="govuk-error-message @(!Model.SchoolCFYCapitalFileSizeError ? "govuk-visually-hidden" : "")">
-			                                    <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+                                                <span class="govuk-visually-hidden">Error:</span> @(FileUploadConstants.MaxFileUploadErrorMessage)
 		                                    </p>
 											</div>
 											<div id="SchoolCFYCapitalForwardFiles">

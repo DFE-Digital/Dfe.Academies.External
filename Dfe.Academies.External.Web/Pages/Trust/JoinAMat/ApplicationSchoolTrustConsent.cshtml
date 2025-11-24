@@ -52,7 +52,7 @@
 			</div>
 			<!--<div id="TrustConsentFileSizeError">-->
 			<p id="file-upload-trustConsentFileSize-error" class="govuk-error-message @(!Model.TrustConsentFileSizeError ? "govuk-visually-hidden" : "")">
-				<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+                <span class="govuk-visually-hidden">Error:</span> @(FileUploadConstants.MaxFileUploadErrorMessage)
 			</p>
 			<!--</div>-->
 			<p id="file-upload-trustConsentFile-genericError" class="govuk-error-message @(!Model.TrustConsentFileGenericError ? "govuk-visually-hidden" : "")">

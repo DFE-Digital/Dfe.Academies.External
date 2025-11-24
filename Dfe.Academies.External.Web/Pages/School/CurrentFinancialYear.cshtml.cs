@@ -274,7 +274,7 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 		
 		if (SchoolCfyRevenueStatusFiles != null)
 		{
-			foreach (var file in SchoolCfyRevenueStatusFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+			foreach (var file in SchoolCfyRevenueStatusFiles.Where(file => file.Length >= FileUploadConstants.MaxFileUploadSizeInBytes))
 			{
 				ModelState.AddModelError(nameof(SchoolCFYRevenueFileSizeError), $"File: {file.FileName} is too large");
 				PopulateValidationMessages();
@@ -284,7 +284,7 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 
 		if (SchoolCFYCapitalForwardFiles != null)
 		{
-			foreach (var file in SchoolCFYCapitalForwardFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+			foreach (var file in SchoolCFYCapitalForwardFiles.Where(file => file.Length >= FileUploadConstants.MaxFileUploadSizeInBytes))
 			{
 				ModelState.AddModelError(nameof(SchoolCFYCapitalFileSizeError), $"File: {file.FileName} is too large");
 				PopulateValidationMessages();

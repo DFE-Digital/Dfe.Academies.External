@@ -244,7 +244,7 @@
                                         </span>
 
                                         <p id="file-upload-dioceseFiles-error" class="govuk-error-message @(!Model.DioceseFileSizeError ? "govuk-visually-hidden" : "")">
-                                            <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+                                            <span class="govuk-visually-hidden">Error:</span> @(FileUploadConstants.MaxFileUploadErrorMessage)
                                         </p>
 
                                         <p id="file-upload-dioceseFiles-genericError" class="govuk-error-message @(!Model.DioceseFileGenericError ? "govuk-visually-hidden" : "")">
@@ -350,7 +350,7 @@
                                         <label for="foundationConsentFileUpload" class="govuk-label"> Upload a file</label>
                                         <br />
                                         <p id="file-upload-foundationConsentFiles-error" class="govuk-error-message @(!Model.FoundationConsentFileSizeError ? "govuk-visually-hidden" : "")">
-                                            <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+                                            <span class="govuk-visually-hidden">Error:</span> @(FileUploadConstants.MaxFileUploadErrorMessage)
                                         </p>
                                         <p id="file-upload-foundationConsentFiles-genericError" class="govuk-error-message @(!Model.FoundationConsentFileGenericError ? "govuk-visually-hidden" : "")">
                                             <span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
@@ -457,7 +457,7 @@
                         </label>
                         <br />
                         <p id="file-upload-resolutionConsentFiles-error" class="govuk-error-message @(!Model.ResolutionConsentFileSizeError ? "govuk-visually-hidden" : "")">
-                            <span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+                            <span class="govuk-visually-hidden">Error:</span> @(FileUploadConstants.MaxFileUploadErrorMessage)
                         </p>
                         <p id="file-upload-resolutionConsentFilesGeneric-Error" class="govuk-error-message @(!Model.ResolutionConsentFileGenericError ? "govuk-visually-hidden" : "")">
                             <span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again

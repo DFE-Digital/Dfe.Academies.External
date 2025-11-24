@@ -280,14 +280,14 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 		    return false;
 	    }
 
-	    foreach (var file in ForecastedRevenueFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+	    foreach (var file in ForecastedRevenueFiles.Where(file => file.Length >= FileUploadConstants.MaxFileUploadSizeInBytes))
 	    {
 		    ModelState.AddModelError("ForecastedRevenueFileSizeError", $"File: {file.FileName} is too large");
 		    PopulateValidationMessages();
 		    return false;
 	    }
 	    
-	    foreach (var file in ForecastedCapitalFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+	    foreach (var file in ForecastedCapitalFiles.Where(file => file.Length >= FileUploadConstants.MaxFileUploadSizeInBytes))
 	    {
 		   ModelState.AddModelError("ForecastedCapitalFileSizeError", $"File: {file.FileName} is too large");
 		   PopulateValidationMessages();
