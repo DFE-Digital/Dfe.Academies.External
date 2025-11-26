@@ -74,6 +74,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 				PopulateValidationMessages();
 				return false;
 			}
+
 			foreach (var file in TrustConsentFiles.Where(file => file.Length >= FileUploadConstants.MaxFileUploadSizeInBytes))
 			{
 				ModelState.AddModelError(nameof(TrustConsentFileSizeError), $"File: {file.FileName} is too large");
