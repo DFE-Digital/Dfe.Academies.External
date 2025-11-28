@@ -15,4 +15,6 @@ public static class FileUploadConstants
 	public const string NFYForecastedCapitalFilePrefixFieldName = "sip_nfyforecastcapitalcarriedforwardfile";
 	public const string JoinAMatTrustConsentFilePrefixFieldName = "sip_changestotrustconsent";
 	public const string JoinAMatTrustGovernanceFilePrefixFieldName = "sip_formtrustgovernancefile";
+	public const int MaxFileUploadSizeInBytes = 8 * 1024 * 1024; // 8 MB
+	public const string MaxFileUploadErrorMessage = "The file must be smaller than 8MB";
 }

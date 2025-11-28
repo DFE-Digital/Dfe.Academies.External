@@ -37,6 +37,11 @@ namespace Dfe.Academies.External.Web
 			var builder = WebApplication.CreateBuilder(args);
 			ConfigurationManager configuration = builder.Configuration;
 
+			builder.WebHost.ConfigureKestrel(options =>
+			{
+				options.Limits.MaxRequestBodySize = 100 * 1024 * 1024; // 100 MB
+			});
+
 			//https://github.com/gunndabad/govuk-frontend-aspnetcore
 			builder.Services.AddGovUkFrontend(options =>
 			{

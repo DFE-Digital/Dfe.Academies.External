@@ -279,7 +279,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (SchoolPFYRevenueStatusFiles != null)
 			{
-				foreach (var file in SchoolPFYRevenueStatusFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+				foreach (var file in SchoolPFYRevenueStatusFiles.Where(file => file.Length >= FileUploadConstants.MaxFileUploadSizeInBytes))
 				{
 					ModelState.AddModelError(nameof(SchoolPFYRevenueFileSizeError), $"File: {file.FileName} is too large");
 					PopulateValidationMessages();
@@ -289,7 +289,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (SchoolPFYCapitalForwardStatusFiles != null)
 			{
-				foreach (var file in SchoolPFYCapitalForwardStatusFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+				foreach (var file in SchoolPFYCapitalForwardStatusFiles.Where(file => file.Length >= FileUploadConstants.MaxFileUploadSizeInBytes))
 				{
 					ModelState.AddModelError(nameof(SchoolPFYCapitalFileSizeError), $"File: {file.FileName} is too large");
 					PopulateValidationMessages();

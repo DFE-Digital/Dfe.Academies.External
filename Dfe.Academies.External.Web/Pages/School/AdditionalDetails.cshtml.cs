@@ -337,14 +337,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 				ModelState.AddModelError("furtherInformationDetailsNotAdded", "You must provide details");
 			}
 
-			foreach (var file in ResolutionConsentFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+			foreach (var file in ResolutionConsentFiles.Where(file => file.Length >= FileUploadConstants.MaxFileUploadSizeInBytes))
 			{
 				ModelState.AddModelError(nameof(ResolutionConsentFileSizeError), $"File: {file.FileName} is too large");
 			}
 
 			if (FoundationConsentFiles != null)
 			{
-				foreach (var file in FoundationConsentFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+				foreach (var file in FoundationConsentFiles.Where(file => file.Length >= FileUploadConstants.MaxFileUploadSizeInBytes))
 				{
 					ModelState.AddModelError(nameof(FoundationConsentFileSizeError), $"File: {file.FileName} is too large");
 				}
@@ -352,7 +352,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (DioceseFiles != null)
 			{
-				foreach (var file in DioceseFiles.Where(file => file.Length >= 5 * 1024 * 1024))
+				foreach (var file in DioceseFiles.Where(file => file.Length >= FileUploadConstants.MaxFileUploadSizeInBytes))
 				{
 					ModelState.AddModelError(nameof(DioceseFileSizeError), $"File: {file.FileName} is too large");
 				}

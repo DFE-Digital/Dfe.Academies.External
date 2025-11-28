@@ -69,7 +69,7 @@
 					<div class="govuk-form-group @(Model.GovernanceStructureDetailsFileSizeError || Model.GovernanceStructureDetailsFileGenericError ? "govuk-form-group--error" : "")">
 						<label for="governanceDetailsFileUpload" class="govuk-label"> Upload a file</label>
 						<p class="govuk-error-message @(!Model.GovernanceStructureDetailsFileSizeError ? "govuk-visually-hidden" : "")">
-							<span class="govuk-visually-hidden">Error:</span> The file must be smaller than 5MB
+                            <span class="govuk-visually-hidden">Error:</span> @(FileUploadConstants.MaxFileUploadErrorMessage)
 						</p>
 						<p class="govuk-error-message @(!Model.GovernanceStructureDetailsFileGenericError ? "govuk-visually-hidden" : "")">
 							<span class="govuk-visually-hidden">Error:</span> The selected file could not be uploaded – try again
