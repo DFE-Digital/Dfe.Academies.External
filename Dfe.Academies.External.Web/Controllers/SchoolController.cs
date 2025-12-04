@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
@@ -27,30 +28,68 @@ namespace Dfe.Academies.External.Web.Controllers
 			{
 				_logger.LogInformation("SchoolController::Search::OnGetSchoolsSearchResult");
 
-				// Double check search query.
-				if (string.IsNullOrEmpty(searchQuery) || searchQuery.Length < SearchQueryMinLength)
+			// Double check search query.
+			if (string.IsNullOrEmpty(searchQuery) || searchQuery.Length < SearchQueryMinLength)
+			{
+				return Enumerable.Empty<string>();
+			}
+
+			// If searchQuery is numeric (6 digits), treat it as a URN search
+			string name = string.Empty;
+			string urn = string.Empty;
+			
+			if (int.TryParse(searchQuery, out int urnValue) && searchQuery.Length == 6)
+			{
+				// It's a 6-digit number, treat as URN
+				urn = searchQuery;
+			}
+			else
+			{
+				// It's a text search, treat as name
+				name = searchQuery;
+			}
+
+			var schoolSearch = new SchoolSearch(name, urn, string.Empty);
+			var schoolSearchResponse = await ReferenceDataRetrievalService.SearchSchools(schoolSearch);
+
+			if (!schoolSearchResponse.Any())
+			{
+				return Enumerable.Empty<string>();
+			}
+
+			// Format results and optimize ordering for better search relevance
+			var results = schoolSearchResponse
+				.Select(x => new { 
+					DisplayText = $"{x.Name} ({x.Urn})", 
+					Name = x.Name ?? string.Empty,
+					Urn = x.Urn ?? string.Empty,
+					SearchQuery = searchQuery.ToLowerInvariant()
+				})
+				.OrderBy(x => 
 				{
-					// TODO MR:- ?? concerns casework returns a JSON array, should we do this?
-					// return new JsonResult(Array.Empty<SchoolSearchResultViewModel>());
-					return Enumerable.Empty<string>();
-				}
+					// Prioritize exact matches
+					if (x.Name.Equals(searchQuery, StringComparison.OrdinalIgnoreCase))
+						return 0;
+					// Then URN exact matches
+					if (x.Urn.Equals(searchQuery, StringComparison.OrdinalIgnoreCase))
+						return 1;
+					// Then name starts with query
+					if (x.Name.StartsWith(searchQuery, StringComparison.OrdinalIgnoreCase))
+						return 2;
+					// Then name contains query
+					if (x.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+						return 3;
+					// Then URN contains query
+					if (x.Urn.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+						return 4;
+					// Everything else
+					return 5;
+				})
+				.ThenBy(x => x.Name) // Secondary sort by name for consistent ordering
+				.Select(x => x.DisplayText)
+				.ToList();
 
-				// TODO MR:- if searchQuery = numeric it's a urn ?
-
-				var schoolSearch = new SchoolSearch(searchQuery, string.Empty, string.Empty);
-				var schoolSearchResponse = await ReferenceDataRetrievalService.SearchSchools(schoolSearch);
-
-				// TODO MR:- ?? concerns casework returns a JSON array, should we do this?
-				// return new JsonResult(schoolSearchResponse);
-
-				if (schoolSearchResponse.Any())
-				{
-					return schoolSearchResponse.Select(x => $"{x.Name} ({x.Urn})").AsEnumerable();
-				}
-				else
-				{
-					return Enumerable.Empty<string>();
-				}
+			return results;
 			}
 			catch (Exception ex)
 			{
