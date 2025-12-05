@@ -38,7 +38,7 @@ namespace Dfe.Academies.External.Web.Controllers
 			string name = string.Empty;
 			string urn = string.Empty;
 			
-			if (int.TryParse(searchQuery, out int urnValue) && searchQuery.Length == 6)
+			if (int.TryParse(searchQuery, out _) && searchQuery.Length == 6)
 			{
 				// It's a 6-digit number, treat as URN
 				urn = searchQuery;
@@ -65,26 +65,7 @@ namespace Dfe.Academies.External.Web.Controllers
 					Urn = x.Urn ?? string.Empty,
 					SearchQuery = searchQuery.ToLowerInvariant()
 				})
-				.OrderBy(x => 
-				{
-					// Prioritize exact matches
-					if (x.Name.Equals(searchQuery, StringComparison.OrdinalIgnoreCase))
-						return 0;
-					// Then URN exact matches
-					if (x.Urn.Equals(searchQuery, StringComparison.OrdinalIgnoreCase))
-						return 1;
-					// Then name starts with query
-					if (x.Name.StartsWith(searchQuery, StringComparison.OrdinalIgnoreCase))
-						return 2;
-					// Then name contains query
-					if (x.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
-						return 3;
-					// Then URN contains query
-					if (x.Urn.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
-						return 4;
-					// Everything else
-					return 5;
-				})
+				.OrderBy(x => GetSearchRelevanceOrder(x.Name, x.Urn, searchQuery))
 				.ThenBy(x => x.Name) // Secondary sort by name for consistent ordering
 				.Select(x => x.DisplayText)
 				.ToList();
@@ -100,6 +81,27 @@ namespace Dfe.Academies.External.Web.Controllers
 				// return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
 				return Enumerable.Empty<string>();
 			}
+		}
+
+		private static int GetSearchRelevanceOrder(string name, string urn, string searchQuery)
+		{
+			// Prioritize exact matches
+			if (name.Equals(searchQuery, StringComparison.OrdinalIgnoreCase))
+				return 0;
+			// Then URN exact matches
+			if (urn.Equals(searchQuery, StringComparison.OrdinalIgnoreCase))
+				return 1;
+			// Then name starts with query
+			if (name.StartsWith(searchQuery, StringComparison.OrdinalIgnoreCase))
+				return 2;
+			// Then name contains query
+			if (name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+				return 3;
+			// Then URN contains query
+			if (urn.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+				return 4;
+			// Everything else
+			return 5;
 		}
 
 		[HttpGet]
