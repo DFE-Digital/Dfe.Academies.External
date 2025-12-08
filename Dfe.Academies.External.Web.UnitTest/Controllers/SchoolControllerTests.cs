@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Dfe.Academies.Contracts.V4.Establishments;
+using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 using Dfe.Academies.External.Web.Controllers;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
@@ -47,6 +50,278 @@ internal sealed class SchoolControllerTests
 		var searchResults = result.ToList();
 		Assert.That(searchResults, Is.Not.Null);
 		Assert.That(searchResults.Count, Is.EqualTo(expectedCount));
+	}
+
+	[Test]
+	public async Task Search___NullSearchQuery___ReturnsEmpty()
+	{
+		// arrange
+		string? searchQuery = null;
+		var mockLogger = new Mock<ILogger<SchoolController>>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var schoolController = new SchoolController(mockLogger.Object, mockReferenceDataRetrievalService.Object);
+
+		// act
+		var result = await schoolController.Search(searchQuery!);
+
+		// assert
+		Assert.That(result, Is.Not.Null);
+		Assert.That(result, Is.Empty);
+		mockReferenceDataRetrievalService.Verify(x => x.SearchSchools(It.IsAny<SchoolSearch>()), Times.Never);
+	}
+
+	[Test]
+	public async Task Search___EmptySearchQuery___ReturnsEmpty()
+	{
+		// arrange
+		string searchQuery = string.Empty;
+		var mockLogger = new Mock<ILogger<SchoolController>>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var schoolController = new SchoolController(mockLogger.Object, mockReferenceDataRetrievalService.Object);
+
+		// act
+		var result = await schoolController.Search(searchQuery);
+
+		// assert
+		Assert.That(result, Is.Not.Null);
+		Assert.That(result, Is.Empty);
+		mockReferenceDataRetrievalService.Verify(x => x.SearchSchools(It.IsAny<SchoolSearch>()), Times.Never);
+	}
+
+	[Test]
+	public async Task Search___SearchQueryTooShort___ReturnsEmpty()
+	{
+		// arrange
+		string searchQuery = "ab"; // Less than SearchQueryMinLength (3)
+		var mockLogger = new Mock<ILogger<SchoolController>>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var schoolController = new SchoolController(mockLogger.Object, mockReferenceDataRetrievalService.Object);
+
+		// act
+		var result = await schoolController.Search(searchQuery);
+
+		// assert
+		Assert.That(result, Is.Not.Null);
+		Assert.That(result, Is.Empty);
+		mockReferenceDataRetrievalService.Verify(x => x.SearchSchools(It.IsAny<SchoolSearch>()), Times.Never);
+	}
+
+	[Test]
+	public async Task Search___SixDigitNumericQuery___SearchesByUrn()
+	{
+		// arrange
+		string searchQuery = "123456";
+		var mockLogger = new Mock<ILogger<SchoolController>>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var schoolController = new SchoolController(mockLogger.Object, mockReferenceDataRetrievalService.Object);
+
+		var mockResults = new List<EstablishmentDto>
+		{
+			new EstablishmentDto { Urn = "123456", Name = "Test School" }
+		};
+		mockReferenceDataRetrievalService
+			.Setup(x => x.SearchSchools(It.Is<SchoolSearch>(s => s.Urn == searchQuery && s.Name == string.Empty)))
+			.ReturnsAsync(mockResults);
+
+		// act
+		var result = await schoolController.Search(searchQuery);
+
+		// assert
+		Assert.That(result, Is.Not.Null);
+		Assert.That(result.Count(), Is.EqualTo(1));
+		Assert.That(result.First(), Is.EqualTo("Test School (123456)"));
+		mockReferenceDataRetrievalService.Verify(x => x.SearchSchools(It.Is<SchoolSearch>(s => s.Urn == searchQuery && s.Name == string.Empty)), Times.Once);
+	}
+
+	[Test]
+	public async Task Search___TextQuery___SearchesByName()
+	{
+		// arrange
+		string searchQuery = "Test School";
+		var mockLogger = new Mock<ILogger<SchoolController>>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var schoolController = new SchoolController(mockLogger.Object, mockReferenceDataRetrievalService.Object);
+
+		var mockResults = new List<EstablishmentDto>
+		{
+			new EstablishmentDto { Urn = "123456", Name = "Test School" }
+		};
+		mockReferenceDataRetrievalService
+			.Setup(x => x.SearchSchools(It.Is<SchoolSearch>(s => s.Name == searchQuery && s.Urn == string.Empty)))
+			.ReturnsAsync(mockResults);
+
+		// act
+		var result = await schoolController.Search(searchQuery);
+
+		// assert
+		Assert.That(result, Is.Not.Null);
+		Assert.That(result.Count(), Is.EqualTo(1));
+		Assert.That(result.First(), Is.EqualTo("Test School (123456)"));
+		mockReferenceDataRetrievalService.Verify(x => x.SearchSchools(It.Is<SchoolSearch>(s => s.Name == searchQuery && s.Urn == string.Empty)), Times.Once);
+	}
+
+	[Test]
+	public async Task Search___NoResultsFound___ReturnsEmpty()
+	{
+		// arrange
+		string searchQuery = "Nonexistent School";
+		var mockLogger = new Mock<ILogger<SchoolController>>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var schoolController = new SchoolController(mockLogger.Object, mockReferenceDataRetrievalService.Object);
+
+		mockReferenceDataRetrievalService
+			.Setup(x => x.SearchSchools(It.IsAny<SchoolSearch>()))
+			.ReturnsAsync(new List<EstablishmentDto>());
+
+		// act
+		var result = await schoolController.Search(searchQuery);
+
+		// assert
+		Assert.That(result, Is.Not.Null);
+		Assert.That(result, Is.Empty);
+	}
+
+	[Test]
+	public async Task Search___ResultsOrderedByRelevance___ExactMatchFirst()
+	{
+		// arrange
+		string searchQuery = "Test School";
+		var mockLogger = new Mock<ILogger<SchoolController>>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var schoolController = new SchoolController(mockLogger.Object, mockReferenceDataRetrievalService.Object);
+
+		var mockResults = new List<EstablishmentDto>
+		{
+			new EstablishmentDto { Urn = "111111", Name = "Another Test School" }, // Contains query
+			new EstablishmentDto { Urn = "222222", Name = "Test School" }, // Exact match - should be first
+			new EstablishmentDto { Urn = "333333", Name = "Test School Name" } // Starts with query
+		};
+		mockReferenceDataRetrievalService
+			.Setup(x => x.SearchSchools(It.IsAny<SchoolSearch>()))
+			.ReturnsAsync(mockResults);
+
+		// act
+		var result = await schoolController.Search(searchQuery);
+
+		// assert
+		var resultsList = result.ToList();
+		Assert.That(resultsList, Is.Not.Null);
+		Assert.That(resultsList.Count, Is.EqualTo(3));
+		// Exact match should be first
+		Assert.That(resultsList[0], Is.EqualTo("Test School (222222)"));
+		// Starts with should be second
+		Assert.That(resultsList[1], Is.EqualTo("Test School Name (333333)"));
+		// Contains should be third
+		Assert.That(resultsList[2], Is.EqualTo("Another Test School (111111)"));
+	}
+
+	[Test]
+	public async Task Search___ResultsOrderedByRelevance___UrnExactMatchSecond()
+	{
+		// arrange
+		string searchQuery = "123456";
+		var mockLogger = new Mock<ILogger<SchoolController>>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var schoolController = new SchoolController(mockLogger.Object, mockReferenceDataRetrievalService.Object);
+
+		var mockResults = new List<EstablishmentDto>
+		{
+			new EstablishmentDto { Urn = "123456", Name = "Different Name" }, // URN exact match - should be first
+			new EstablishmentDto { Urn = "123457", Name = "School 123456" }, // Name contains URN
+			new EstablishmentDto { Urn = "123458", Name = "Another School" } // No match
+		};
+		mockReferenceDataRetrievalService
+			.Setup(x => x.SearchSchools(It.IsAny<SchoolSearch>()))
+			.ReturnsAsync(mockResults);
+
+		// act
+		var result = await schoolController.Search(searchQuery);
+
+		// assert
+		var resultsList = result.ToList();
+		Assert.That(resultsList, Is.Not.Null);
+		Assert.That(resultsList.Count, Is.EqualTo(3));
+		// URN exact match should be first
+		Assert.That(resultsList[0], Is.EqualTo("Different Name (123456)"));
+	}
+
+	[Test]
+	public async Task Search___ExceptionThrown___ReturnsEmpty()
+	{
+		// arrange
+		string searchQuery = "Test";
+		var mockLogger = new Mock<ILogger<SchoolController>>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var schoolController = new SchoolController(mockLogger.Object, mockReferenceDataRetrievalService.Object);
+
+		mockReferenceDataRetrievalService
+			.Setup(x => x.SearchSchools(It.IsAny<SchoolSearch>()))
+			.ThrowsAsync(new Exception("Test exception"));
+
+		// act
+		var result = await schoolController.Search(searchQuery);
+
+		// assert
+		Assert.That(result, Is.Not.Null);
+		Assert.That(result, Is.Empty);
+	}
+
+	[Test]
+	public async Task Search___ResultsWithNullNameOrUrn___HandlesGracefully()
+	{
+		// arrange
+		string searchQuery = "Test";
+		var mockLogger = new Mock<ILogger<SchoolController>>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var schoolController = new SchoolController(mockLogger.Object, mockReferenceDataRetrievalService.Object);
+
+		var mockResults = new List<EstablishmentDto>
+		{
+			new EstablishmentDto { Urn = "123456", Name = null! },
+			new EstablishmentDto { Urn = null!, Name = "Test School" },
+			new EstablishmentDto { Urn = "789012", Name = "Another School" }
+		};
+		mockReferenceDataRetrievalService
+			.Setup(x => x.SearchSchools(It.IsAny<SchoolSearch>()))
+			.ReturnsAsync(mockResults);
+
+		// act
+		var result = await schoolController.Search(searchQuery);
+
+		// assert
+		var resultsList = result.ToList();
+		Assert.That(resultsList, Is.Not.Null);
+		Assert.That(resultsList.Count, Is.EqualTo(3));
+		// Should handle null values gracefully
+		Assert.That(resultsList.Any(r => r.Contains("123456")), Is.True);
+		Assert.That(resultsList.Any(r => r.Contains("Test School")), Is.True);
+		Assert.That(resultsList.Any(r => r.Contains("Another School")), Is.True);
+	}
+
+	[Test]
+	public async Task Search___NumericQueryNotSixDigits___SearchesByName()
+	{
+		// arrange
+		string searchQuery = "12345"; // 5 digits, not 6
+		var mockLogger = new Mock<ILogger<SchoolController>>();
+		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
+		var schoolController = new SchoolController(mockLogger.Object, mockReferenceDataRetrievalService.Object);
+
+		var mockResults = new List<EstablishmentDto>
+		{
+			new EstablishmentDto { Urn = "123456", Name = "School 12345" }
+		};
+		mockReferenceDataRetrievalService
+			.Setup(x => x.SearchSchools(It.Is<SchoolSearch>(s => s.Name == searchQuery && s.Urn == string.Empty)))
+			.ReturnsAsync(mockResults);
+
+		// act
+		var result = await schoolController.Search(searchQuery);
+
+		// assert
+		Assert.That(result, Is.Not.Null);
+		Assert.That(result.Count(), Is.EqualTo(1));
+		mockReferenceDataRetrievalService.Verify(x => x.SearchSchools(It.Is<SchoolSearch>(s => s.Name == searchQuery && s.Urn == string.Empty)), Times.Once);
 	}
 
 	[Test]
