@@ -1,6 +1,9 @@
 
 ## NEXT
 
+## 2.0.1
+* incorrect Text font on step 3 of Finance 
+
 ## 2.0.0
 * Improve search functionality
 
