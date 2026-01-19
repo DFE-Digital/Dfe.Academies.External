@@ -55,12 +55,12 @@ public class FileUploadService : IFileUploadService
             var parseResult = ParseJResponse(content);
             _logger.LogInformation("FileUploadService.GetFiles -> Result {ParseResult}", parseResult);
 
-			return parseResult;
-		}
+            return parseResult;
+        }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "FileUploadService.GetFiles -> Unhandled exception occurred.");
-            throw;
+            _logger.LogError(ex, "FileUploadService.GetFiles -> Unhandled exception occurred while fetching files for entityName: {EntityName}, recordId: {RecordId}, recordName: {RecordName}, fieldName: {FieldName}.", entityName, recordId, recordName, fieldName);
+            throw new FileUploadException("An error occurred while uploading.", ex);
         }
     }
 		
