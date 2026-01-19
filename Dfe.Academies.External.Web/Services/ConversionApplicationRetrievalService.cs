@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Security.Policy;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Dfe.Academies.External.Web.Dtos;
@@ -119,8 +120,9 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	{
 		try
 		{
+			_logger.LogInformation("ConversionApplicationRetrievalService.GetSchoolApplicationComponents -> applicationId: {ApplicationId}", applicationId);
 			var application = await GetApplication(applicationId);
-			
+			_logger.LogInformation("ConversionApplicationRetrievalService.GetSchoolApplicationComponents -> application: {Application}", application);
 			if (application?.ApplicationId != applicationId)
 			{
 				throw new ArgumentException("Application not found");
