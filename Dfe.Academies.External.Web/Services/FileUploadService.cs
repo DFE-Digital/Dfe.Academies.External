@@ -43,21 +43,18 @@ public class FileUploadService : IFileUploadService
     {
         try
         {
-            var url = $"?entityName={entityName}&recordName={recordName}&recordId={recordId}&fieldName={fieldName}";
-            _logger.LogInformation("FileUploadService.GetFiles -> URL: {Url}", url);
+			var url = $"?entityName={entityName}&recordName={recordName}&recordId={recordId}&fieldName={fieldName}";
 
-            using var request = new HttpRequestMessage(HttpMethod.Get, url);
-            _logger.LogInformation("FileUploadService.GetFiles -> Request URI: {RequestUri}", request.RequestUri?.ToString());
+			using var request = new HttpRequestMessage(HttpMethod.Get, url);
 
-            var content = await DoHttpRequest(request);
-            _logger.LogInformation("FileUploadService.GetFiles -> ApiUnparsedResult {Content}", content);
+			var content = await DoHttpRequest(request);
 
-            var parseResult = ParseJResponse(content);
-            _logger.LogInformation("FileUploadService.GetFiles -> Result {ParseResult}", parseResult);
+			var parseResult = ParseJResponse(content);
 
-            return parseResult;
-        }
-        catch (Exception ex)
+			return parseResult;
+
+		}
+		catch (Exception ex)
         {
             _logger.LogError(ex, "FileUploadService.GetFiles -> Unhandled exception occurred while fetching files for entityName: {EntityName}, recordId: {RecordId}, recordName: {RecordName}, fieldName: {FieldName}.", entityName, recordId, recordName, fieldName);
             throw new FileUploadException("An error occurred while uploading.", ex);

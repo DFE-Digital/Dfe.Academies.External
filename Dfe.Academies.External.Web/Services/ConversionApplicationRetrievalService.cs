@@ -114,9 +114,8 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
     {
         try
         {
-            _logger.LogInformation("ConversionApplicationRetrievalService.GetSchoolApplicationComponents -> applicationId: {ApplicationId}", applicationId);
             var application = await GetApplication(applicationId);
-            _logger.LogInformation("ConversionApplicationRetrievalService.GetSchoolApplicationComponents -> application: {Application}", application);
+
             if (application?.ApplicationId != applicationId)
             {
                 throw new ArgumentException("Application not found");
