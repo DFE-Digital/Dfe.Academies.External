@@ -44,16 +44,12 @@ public class FileUploadService : IFileUploadService
         try
         {
 			var url = $"?entityName={entityName}&recordName={recordName}&recordId={recordId}&fieldName={fieldName}";
-			_logger.LogInformation("FileUploadService.GetFiles -> URL: {Url}", url);
 
 			using var request = new HttpRequestMessage(HttpMethod.Get, url);
-			_logger.LogInformation("FileUploadService.GetFiles -> Request URI: {RequestUri}", request.RequestUri?.ToString());
 
 			var content = await DoHttpRequest(request);
-			_logger.LogInformation("FileUploadService.GetFiles -> ApiUnparsedResult {Content}", content);
 
 			var parseResult = ParseJResponse(content);
-			_logger.LogInformation("FileUploadService.GetFiles -> Result {ParseResult}", parseResult);
 
 			return parseResult;
 
