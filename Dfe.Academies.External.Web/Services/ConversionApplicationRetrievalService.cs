@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Security.Policy;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Dfe.Academies.External.Web.Dtos;
@@ -28,139 +29,134 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		_conversionGrantExpiryFeature = conversionGrantExpiryFeature;
 	}
 
-	///<inheritdoc/>
-	public async Task<List<ConversionApplication>> GetCompletedApplications(string? email)
-	{
-		try
-		{
-			string apiurl = $"{HttpClient.BaseAddress}application/contributor/{email}?api-version=V1";
+    // Updated the logging statements in catch blocks to pass the caught exception as a parameter.
 
-			JsonSerializerOptions options = new JsonSerializerOptions
-			{
-				PropertyNameCaseInsensitive = true,
-				Converters = {
-					new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-				}
-			};
+    public async Task<List<ConversionApplication>> GetCompletedApplications(string? email)
+    {
+        try
+        {
+            string apiurl = $"{HttpClient.BaseAddress}application/contributor/{email}?api-version=V1";
 
-			// Get data from Academisation API
-			var existingApplications = await _resilientRequestProvider.GetAsync<List<ConversionApplication>>(apiurl, options);
+            JsonSerializerOptions options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                Converters = {
+                                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+                            }
+            };
 
-			return existingApplications.Where(a => a.ApplicationStatus == ApplicationStatus.Submitted).ToList();
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("ConversionApplicationRetrievalService::GetCompletedApplications::Exception - {Message}", ex.Message);
-			return new List<ConversionApplication>();
-		}
-	}
+            // Get data from Academisation API
+            var existingApplications = await _resilientRequestProvider.GetAsync<List<ConversionApplication>>(apiurl, options);
 
-	///<inheritdoc/>
-	public async Task<List<ConversionApplication>> GetPendingApplications(string? email)
-	{
-		try
-		{
-			// baseaddress has a backslash at the end to be a valid URI !!!
-			// https://academies-academisation-api-dev.azurewebsites.net/application/99
-			// endpoint will return 404 if id NOT found !
-			string apiurl = $"{HttpClient.BaseAddress}application/contributor/{email}?api-version=V1";
-
-			JsonSerializerOptions options = new JsonSerializerOptions
-			{
-				PropertyNameCaseInsensitive = true,
-				Converters = {
-					new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-				}
-			};
-
-			// Get data from Academisation API
-			var existingApplications = await _resilientRequestProvider.GetAsync<List<ConversionApplication>>(apiurl, options);
-
-			return existingApplications.Where(a => a.ApplicationStatus == ApplicationStatus.InProgress).ToList();
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("ConversionApplicationRetrievalService::GetPendingApplications::Exception - {Message}", ex.Message);
-			return new List<ConversionApplication>();
-		}
-	}
+            return existingApplications.Where(a => a.ApplicationStatus == ApplicationStatus.Submitted).ToList();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "ConversionApplicationRetrievalService::GetCompletedApplications::Exception - {Message}", ex.Message);
+            return new List<ConversionApplication>();
+        }
+    }
 
 	///<inheritdoc/>
-	public async Task<List<ConversionApplicationAuditEntry>> GetConversionApplicationAuditEntries(int applicationId)
-	{
-		try
-		{
-			// TODO: Get data from Academisation API - concept doesn't exist yet (12/08/2022)
-			//// var applicationAudits = await _resilientRequestProvider.GetAsync();
+	  public async Task<List<ConversionApplication>> GetPendingApplications(string? email)
+    {
+        try
+        {
+            string apiurl = $"{HttpClient.BaseAddress}application/contributor/{email}?api-version=V1";
 
-			// **** Mock Demo Data - as per Figma - for now ****
-			DateTimeFormatInfo dtfi = CultureInfo.GetCultureInfo("en-GB").DateTimeFormat;
-			List<ConversionApplicationAuditEntry> auditEntries = new()
-			{
-				new(createdBy:"Phillip Frond", typeOfChange: "change", entityChanged: "Application", propertyChanged: "school")
-					{Id = 99, ApplicationId = applicationId, DateCreated = Convert.ToDateTime("25/05/2022", dtfi)},
-				new(createdBy: "Peter Parker", typeOfChange: "change", entityChanged: "Application", propertyChanged: "trust")
-					{Id = 98, ApplicationId = applicationId, DateCreated = Convert.ToDateTime("20/05/2022", dtfi)},
-				new(createdBy: "Richard Dickenson", typeOfChange: "add", entityChanged: "Application", propertyChanged: "started")
-					{Id = 97, ApplicationId = applicationId, DateCreated = Convert.ToDateTime("15/05/2022", dtfi)},
-			};
+            JsonSerializerOptions options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                Converters = {
+                                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+                            }
+            };
 
-			return auditEntries;
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("ConversionApplicationRetrievalService::GetConversionApplicationAuditEntries::Exception - {Message}", ex.Message);
-			return new List<ConversionApplicationAuditEntry>();
-		}
-	}
+            // Get data from Academisation API
+            var existingApplications = await _resilientRequestProvider.GetAsync<List<ConversionApplication>>(apiurl, options);
+
+            return existingApplications.Where(a => a.ApplicationStatus == ApplicationStatus.InProgress).ToList();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "ConversionApplicationRetrievalService::GetPendingApplications::Exception - {Message}", ex.Message);
+            return new List<ConversionApplication>();
+        }
+    }
 
 	///<inheritdoc/>
-	public async Task<List<ApplicationComponentViewModel>> GetSchoolApplicationComponents(int applicationId, int schoolId)
-	{
-		try
-		{
-			var application = await GetApplication(applicationId);
-			
-			if (application?.ApplicationId != applicationId)
-			{
-				throw new ArgumentException("Application not found");
-			}
+	  public async Task<List<ConversionApplicationAuditEntry>> GetConversionApplicationAuditEntries(int applicationId)
+    {
+        try
+        {
+            DateTimeFormatInfo dtfi = CultureInfo.GetCultureInfo("en-GB").DateTimeFormat;
+            List<ConversionApplicationAuditEntry> auditEntries = new()
+                        {
+                            new(createdBy:"Phillip Frond", typeOfChange: "change", entityChanged: "Application", propertyChanged: "school")
+                                {Id = 99, ApplicationId = applicationId, DateCreated = Convert.ToDateTime("25/05/2022", dtfi)},
+                            new(createdBy: "Peter Parker", typeOfChange: "change", entityChanged: "Application", propertyChanged: "trust")
+                                {Id = 98, ApplicationId = applicationId, DateCreated = Convert.ToDateTime("20/05/2022", dtfi)},
+                            new(createdBy: "Richard Dickenson", typeOfChange: "add", entityChanged: "Application", propertyChanged: "started")
+                                {Id = 97, ApplicationId = applicationId, DateCreated = Convert.ToDateTime("15/05/2022", dtfi)},
+                        };
 
-			var school = application.Schools.FirstOrDefault(s => s.URN == schoolId);
-			if (school == null)
-			{
-				throw new ArgumentException("School not found");
-			}
+            return auditEntries;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "ConversionApplicationRetrievalService::GetConversionApplicationAuditEntries::Exception - {Message}", ex.Message);
+            return new List<ConversionApplicationAuditEntry>();
+        }
+    }
 
-			List<ApplicationComponentViewModel> conversionApplicationComponents =
-			[
-				new("About the conversion", UriFormatter.SetSchoolApplicationComponentUriFromName("About the conversion"), CalculateAboutTheConversionSectionStatus(school)),
-				new("Further information", UriFormatter.SetSchoolApplicationComponentUriFromName("Further information"), CalculateFurtherInformationSectionStatus(school, application.ApplicationReference)),
-				new("Finances", UriFormatter.SetSchoolApplicationComponentUriFromName("Finances"), CalculateFinanceSectionStatus(school)),
-			    new("Future pupil numbers", UriFormatter.SetSchoolApplicationComponentUriFromName("Future pupil numbers"), CalculateFuturePupilNumbersSectionStatus(school)),
-				new("Land and buildings", UriFormatter.SetSchoolApplicationComponentUriFromName("Land and buildings"),CalculateLandAndBuildingsSectionStatus(school)),
-				new("Consultation", UriFormatter.SetSchoolApplicationComponentUriFromName("Consultation"),CalculateConsultationSectionStatus(school))
-				
-		    ];
-			var conversionSupportGrantTask = "Conversion support grant";
-			if (!await _conversionGrantExpiryFeature.IsEnabledAsync())
-			{
-				conversionApplicationComponents.Add(new(conversionSupportGrantTask, UriFormatter.SetSchoolApplicationComponentUriFromName(conversionSupportGrantTask), CalculatePreOpeningSupportGrantSectionStatus(school)));
-			}
-			if (await _conversionGrantExpiryFeature.IsEnabledAsync() && !_conversionGrantExpiryFeature.IsNewApplication(application.CreatedOn))
-			{
-				conversionApplicationComponents.Add(new(conversionSupportGrantTask, UriFormatter.SetSchoolApplicationComponentUriFromName(conversionSupportGrantTask), CalculatePreOpeningSupportGrantSectionStatus(school)));
-			}
-			conversionApplicationComponents.Add(new("Declaration", UriFormatter.SetSchoolApplicationComponentUriFromName("Declaration"), CalculateDeclarationSectionStatus(school)));
+	///<inheritdoc/>
+	  public async Task<List<ApplicationComponentViewModel>> GetSchoolApplicationComponents(int applicationId, int schoolId)
+    {
+        try
+        {
+            _logger.LogInformation("ConversionApplicationRetrievalService.GetSchoolApplicationComponents -> applicationId: {ApplicationId}", applicationId);
+            var application = await GetApplication(applicationId);
+            _logger.LogInformation("ConversionApplicationRetrievalService.GetSchoolApplicationComponents -> application: {Application}", application);
+            if (application?.ApplicationId != applicationId)
+            {
+                throw new ArgumentException("Application not found");
+            }
 
-			return conversionApplicationComponents;
-		}
-		catch (Exception ex)
-		{
-			_logger.LogError("ConversionApplicationRetrievalService::GetSchoolApplicationComponents::Exception - {Message}", ex.Message);
-			return new List<ApplicationComponentViewModel>();
-		}
-	}
+            var school = application.Schools.FirstOrDefault(s => s.URN == schoolId);
+            if (school == null)
+            {
+                throw new ArgumentException("School not found");
+            }
+
+            List<ApplicationComponentViewModel> conversionApplicationComponents = new()
+                        {
+                            new("About the conversion", UriFormatter.SetSchoolApplicationComponentUriFromName("About the conversion"), CalculateAboutTheConversionSectionStatus(school)),
+                            new("Further information", UriFormatter.SetSchoolApplicationComponentUriFromName("Further information"), CalculateFurtherInformationSectionStatus(school, application.ApplicationReference)),
+                            new("Finances", UriFormatter.SetSchoolApplicationComponentUriFromName("Finances"), CalculateFinanceSectionStatus(school)),
+                            new("Future pupil numbers", UriFormatter.SetSchoolApplicationComponentUriFromName("Future pupil numbers"), CalculateFuturePupilNumbersSectionStatus(school)),
+                            new("Land and buildings", UriFormatter.SetSchoolApplicationComponentUriFromName("Land and buildings"),CalculateLandAndBuildingsSectionStatus(school)),
+                            new("Consultation", UriFormatter.SetSchoolApplicationComponentUriFromName("Consultation"),CalculateConsultationSectionStatus(school))
+                        };
+
+            var conversionSupportGrantTask = "Conversion support grant";
+            if (!await _conversionGrantExpiryFeature.IsEnabledAsync())
+            {
+                conversionApplicationComponents.Add(new(conversionSupportGrantTask, UriFormatter.SetSchoolApplicationComponentUriFromName(conversionSupportGrantTask), CalculatePreOpeningSupportGrantSectionStatus(school)));
+            }
+            if (await _conversionGrantExpiryFeature.IsEnabledAsync() && !_conversionGrantExpiryFeature.IsNewApplication(application.CreatedOn))
+            {
+                conversionApplicationComponents.Add(new(conversionSupportGrantTask, UriFormatter.SetSchoolApplicationComponentUriFromName(conversionSupportGrantTask), CalculatePreOpeningSupportGrantSectionStatus(school)));
+            }
+            conversionApplicationComponents.Add(new("Declaration", UriFormatter.SetSchoolApplicationComponentUriFromName("Declaration"), CalculateDeclarationSectionStatus(school)));
+
+            return conversionApplicationComponents;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "ConversionApplicationRetrievalService::GetSchoolApplicationComponents::Exception - {Message}", ex.Message);
+            return new List<ApplicationComponentViewModel>();
+        }
+    }
 	
 	public async Task<List<ApplicationComponentViewModel>> GetFormAMatTrustComponents(int applicationId)
 	{
