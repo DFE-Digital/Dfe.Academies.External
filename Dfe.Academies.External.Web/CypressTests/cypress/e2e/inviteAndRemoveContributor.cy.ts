@@ -18,6 +18,13 @@ describe('Invite/remove contributor', () => {
   }
 
   beforeEach(function () {
+    // If using bypass authentication, authenticate BEFORE visiting
+    // This ensures cookies are set before accessing any pages
+    const bypassOpenId = Cypress.env('BYPASS_OPENID') === true
+    if (bypassOpenId) {
+      cy.loginBypassOpenId()
+    }
+
     cy.visit(Cypress.env('URL'))
 
     cookieHeaderModal.acceptAnalyticsCookies()
