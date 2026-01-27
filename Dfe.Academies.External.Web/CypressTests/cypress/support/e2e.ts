@@ -6,6 +6,7 @@ declare global {
   namespace Cypress {
     interface Chainable {
       executeAccessibilityTests(): Chainable<Element>
+      loginBypassOpenId(): Chainable<void>
     }
   }
 }

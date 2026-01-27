@@ -3,6 +3,7 @@ using Azure.Identity;
 using Dfe.Academies.External.Web.AutoMapper;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Factories;
+using Dfe.Academies.External.Web.FeatureManagement;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Models.EmailTemplates;
 using Dfe.Academies.External.Web.Routing;
@@ -10,13 +11,17 @@ using Dfe.Academies.External.Web.Security;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academisation.CorrelationIdMiddleware;
 using GovUk.Frontend.AspNetCore;
+using GovUK.Dfe.CoreLibs.Security.Antiforgery;
+using GovUK.Dfe.CoreLibs.Security.Cypress;
+using GovUK.Dfe.CoreLibs.Security.Enums;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Options;
+using Microsoft.FeatureManagement;
 using NetEscapades.AspNetCore.SecurityHeaders;
 using Notify.Client;
 using Notify.Interfaces;
@@ -25,8 +30,6 @@ using Polly.Extensions.Http;
 using Quartz;
 using Serilog;
 using StackExchange.Redis;
-using Microsoft.FeatureManagement;
-using Dfe.Academies.External.Web.FeatureManagement;
 
 namespace Dfe.Academies.External.Web
 {
@@ -48,6 +51,16 @@ namespace Dfe.Academies.External.Web
 				options.GetCspNonceForRequest = context => context.GetNonce();
 			});
 
+			// Add controllers explicitly to ensure API controllers are registered
+			builder.Services.AddControllers().AddCustomAntiForgeryHandling(opts =>
+			{
+				opts.CheckerGroups = [new()
+				{
+					TypeNames = [nameof(CypressRequestChecker)],
+					CheckerOperator = CheckerOperator.Or
+				}];
+			});
+
 			builder.Services
 				.AddRazorPages(options =>
 				{
@@ -60,7 +73,7 @@ namespace Dfe.Academies.External.Web
 						.AllowAnonymousToPage("/Privacy")
 						.AllowAnonymousToPage("/Error")
 						.AllowAnonymousToPage("/NotFound")
-						.AllowAnonymousToPage("/WhatYouWillNeed")
+						.AllowAnonymousToPage("/WhatYouWillNeed") 
 						.AllowAnonymousToPage("/Maintenance");
 					options.Conventions.AddPageRoute("/notfound", "/error/404");
 					options.Conventions.AddPageRoute("/notfound", "/error/{code:int}");
@@ -120,11 +133,11 @@ namespace Dfe.Academies.External.Web
 							context.ProtocolMessage.RedirectUri = redirectUri;
 						}
 
-						context.ProtocolMessage.Prompt = "login";
-						return Task.CompletedTask;
-					};
-				}
-				);
+					context.ProtocolMessage.Prompt = "login";
+					return Task.CompletedTask;
+				};
+			}
+			).AddCypressMultiAuthentication();
 
 			builder.Services.AddAuthorization(options =>
 			{
