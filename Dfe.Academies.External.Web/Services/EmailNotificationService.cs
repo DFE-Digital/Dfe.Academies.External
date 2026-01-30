@@ -34,8 +34,8 @@ public class EmailNotificationService : IEmailNotificationService
 
 	public async Task SendAsync(MessageDto message)
 	{
-		if (this.TestMode && !message.EmailAddress.ToLower().EndsWith("@education.gov.uk")) {
-			// if in test mode only send emails to accounts that end with @education.gov.uk
+		if (TestMode) {
+			 // Don't send email if test mode is true
 			return;
 		}
 
