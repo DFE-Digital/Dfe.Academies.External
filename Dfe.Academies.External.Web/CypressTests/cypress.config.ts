@@ -2,6 +2,7 @@ import { defineConfig } from 'cypress'
 import { generateZapReport } from './cypress/plugins/generateZapReport'
 
 export default defineConfig({
+	watchForFileChanges: false,
   reporter: 'cypress-multi-reporters', // added this for slack messaging plugin
   reporterOptions: {
     reporterEnabled: 'mochawesome',
@@ -27,6 +28,15 @@ export default defineConfig({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setupNodeEvents(on, config) {
       // implement node event listeners here
+
+
+		on("task", {
+			log(message) {
+				console.log(message);
+
+				return null;
+			},
+		});
 
       on('after:run', async () => {
         if (process.env.ZAP) {
