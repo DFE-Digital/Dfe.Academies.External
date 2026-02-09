@@ -7,10 +7,10 @@ class MainContacts {
     cy.get('[data-cy="contactChairName"]').type(chairName)
     cy.get('[data-cy="contactChairEmail"]').type(chairEmail)
 
-    cy.get('#ContactTypeOther').click()
-    cy.get('#ContactTypeOther').should('be.checked')
+    cy.get('#ContactTypeChairOfGoverningBody').click()
+    cy.get('#ContactTypeChairOfGoverningBody').should('be.checked')
 
-    cy.get('#ApproverContactName').type(approverName)
+	cy.get('#ApproverContactName').type(approverName)
     cy.get('#ApproverContactEmail').type(approverEmail)
     cy.get('input[type=submit]').click()
 
