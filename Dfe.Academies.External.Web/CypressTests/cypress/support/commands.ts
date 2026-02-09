@@ -9,7 +9,7 @@ Cypress.Commands.add('executeAccessibilityTests', () => {
     'wcag22aa',
   ]
   const impactLevel = ['critical', 'minor', 'moderate', 'serious']
-  const continueOnFail = true
+  const continueOnFail = false
   Logger.log("Injecting Axe and checking accessibility");
   cy.injectAxe()
   cy.checkA11y(
