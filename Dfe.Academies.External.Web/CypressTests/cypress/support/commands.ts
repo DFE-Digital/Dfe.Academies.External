@@ -1,4 +1,22 @@
 import {Logger} from "../common/logger";
+import { Result } from 'axe-core';
+
+function formatViolation(violation: Result): string {
+  const nodes = violation.nodes.map((node) => node.target.join(', ')).join('\n    ')
+  return (
+    `\n[${violation.impact?.toUpperCase()}] ${violation.id}: ${violation.description}\n` +
+    `  Help: ${violation.helpUrl}\n` +
+    `  Affected nodes:\n    ${nodes}`
+  )
+}
+
+function logViolations(violations: Result[]): void {
+  cy.url().then((url) => {
+    violations.forEach((violation) => {
+      Logger.log(`A11y violation on ${url}: ${formatViolation(violation)}`)
+    })
+  })
+}
 
 Cypress.Commands.add('executeAccessibilityTests', () => {
   const wcagStandards = [
@@ -28,18 +46,7 @@ Cypress.Commands.add('executeAccessibilityTests', () => {
       },
       includedImpacts: impactLevel,
     },
-    (violations) => {
-      cy.url().then((url) => {
-        violations.forEach((violation) => {
-          const nodes = violation.nodes.map((node) => node.target.join(', ')).join('\n    ')
-          const message =
-            `\n[${violation.impact?.toUpperCase()}] ${violation.id}: ${violation.description}\n` +
-            `  Help: ${violation.helpUrl}\n` +
-            `  Affected nodes:\n    ${nodes}`
-          Logger.log(`A11y violation on ${url}: ${message}`)
-        })
-      })
-    },
+    logViolations,
     continueOnFail,
   )
 
