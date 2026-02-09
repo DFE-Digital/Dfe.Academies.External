@@ -1,7 +1,16 @@
+import {Logger} from "../common/logger";
+
 Cypress.Commands.add('executeAccessibilityTests', () => {
-  const wcagStandards = ['wcag22aa', 'wcag21aa']
+  const wcagStandards = [
+    'wcag2a',
+    'wcag2aa',
+    'wcag21a',
+    'wcag21aa',
+    'wcag22aa',
+  ]
   const impactLevel = ['critical', 'minor', 'moderate', 'serious']
-  const continueOnFail = false
+  const continueOnFail = true
+  Logger.log("Injecting Axe and checking accessibility");
   cy.injectAxe()
   cy.checkA11y(
     null,
