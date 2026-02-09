@@ -26,8 +26,6 @@ import landAndBuildingsSummary from '../page-objects/pages/landAndBuildingsSumma
 import landAndBuildingsDetails from '../page-objects/pages/landAndBuildingsDetails'
 import consultationSummary from '../page-objects/pages/consultationSummary'
 import consultationDetails from '../page-objects/pages/consultationDetails'
-import preOpeningSupportGrantSummary from '../page-objects/pages/preOpeningSupportGrantSummary'
-import preopeningSupportGrantDetails from '../page-objects/pages/preOpeningSupportGrantDetails'
 import declarationSummary from '../page-objects/pages/declarationSummary'
 import declaration from '../page-objects/pages/declaration'
 import successfulApplicationSubmitted from '../page-objects/pages/successfulApplicationSubmitted'
@@ -110,7 +108,7 @@ describe('Create a FAM application', () => {
 
     cy.executeAccessibilityTests()
 
-    whatIsTheNameOfTheSchool.selectSchoolName('Plym')
+    whatIsTheNameOfTheSchool.selectSchoolName('Plymstock')
    
     cy.executeAccessibilityTests()
 

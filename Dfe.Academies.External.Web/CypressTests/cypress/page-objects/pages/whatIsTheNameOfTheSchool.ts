@@ -3,7 +3,7 @@ class WhatIsTheNameOfTheSchool {
     cy.get('[data-cy="schoolSearchBox"]').click()
     cy.get('[data-cy="schoolSearchBox"]').type(schoolNameSearchPartial)
     // Choose item in the list
-    cy.get('#SearchQueryInput__option--9').click()
+    cy.get('#SearchQueryInput__option--0').click()
     cy.get('#ConfirmSelection').click()
     cy.get('#btnAdd').click()
 
