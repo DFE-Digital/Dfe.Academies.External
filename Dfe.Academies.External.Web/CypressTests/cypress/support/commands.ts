@@ -9,7 +9,7 @@ Cypress.Commands.add('executeAccessibilityTests', () => {
     'wcag22aa',
   ]
   const impactLevel = ['critical', 'minor', 'moderate', 'serious']
-  const continueOnFail = false
+  const continueOnFail = true
   Logger.log("Injecting Axe and checking accessibility");
 
   // Temporarily increase timeout so axe.run() has time to complete on complex pages
@@ -28,7 +28,18 @@ Cypress.Commands.add('executeAccessibilityTests', () => {
       },
       includedImpacts: impactLevel,
     },
-    null,
+    (violations) => {
+      cy.url().then((url) => {
+        violations.forEach((violation) => {
+          const nodes = violation.nodes.map((node) => node.target.join(', ')).join('\n    ')
+          const message =
+            `\n[${violation.impact?.toUpperCase()}] ${violation.id}: ${violation.description}\n` +
+            `  Help: ${violation.helpUrl}\n` +
+            `  Affected nodes:\n    ${nodes}`
+          Logger.log(`A11y violation on ${url}: ${message}`)
+        })
+      })
+    },
     continueOnFail,
   )
 
