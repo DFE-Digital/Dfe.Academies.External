@@ -137,7 +137,7 @@ class Application {
     cy.url().then((url) => {
       const applicationId = url.split('=').pop()
 
-      cy.get(`a[href="/school/school-overview?appId=${applicationId}&urn=113537"]`).contains('Plymstock School')
+      cy.get(`a[href="/school/school-overview?appId=${applicationId}&urn=142116"]`).contains('Plymouth Studio School')
       cy.get('[data-cy="sectionStatus"]').eq(0).contains('Not Started')
     })
 
@@ -167,7 +167,7 @@ class Application {
   public selectFAMSchool(): this {
     cy.url().then((url) => {
       const applicationId = url.split('=').pop()
-      cy.get(`a[href="/school/school-overview?appId=${applicationId}&urn=113537"]`).click()
+      cy.get(`a[href="/school/school-overview?appId=${applicationId}&urn=142116"]`).click()
     })
 
     return this

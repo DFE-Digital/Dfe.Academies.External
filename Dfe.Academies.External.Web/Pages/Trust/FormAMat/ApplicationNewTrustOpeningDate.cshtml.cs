@@ -35,7 +35,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		public string? OpeningDateYear { get; set; }
 
 		[BindProperty]
-		[RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$", ErrorMessage = "You must input a valid name")]
+		[RegularExpression(@"^[A-ZÀ-ÖØ-Þ][a-zà-öø-ÿA-ZÀ-ÖØ-Þ'’-]*(\s[A-ZÀ-ÖØ-Þ][a-zà-öø-ÿA-ZÀ-ÖØ-Þ'’-]*)*$", ErrorMessage = "You must input a valid name")]
 		[Required(ErrorMessage = "Name is required")]
 		public string? TrustApproverName { get; set; }
 
