@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased](https://github.com/DFE-Digital/Dfe.Academies.External/compare/production-2026-02-10.657...HEAD)
 
+---
+
 ## [1.29.0][1.29.0] - 2026-01-21
 
 ### Fixed
