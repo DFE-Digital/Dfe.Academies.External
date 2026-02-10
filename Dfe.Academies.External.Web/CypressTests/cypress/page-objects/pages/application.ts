@@ -1,4 +1,6 @@
 class Application {
+
+  private readonly urn = '113537';
   public checkSectionComplete(section: string): this {
     switch (section) {
       case 'About the conversion':
@@ -137,7 +139,7 @@ class Application {
     cy.url().then((url) => {
       const applicationId = url.split('=').pop()
 
-      cy.get(`a[href="/school/school-overview?appId=${applicationId}&urn=142116"]`).contains('Plymouth Studio School')
+      cy.get(`a[href="/school/school-overview?appId=${applicationId}&urn=${this.urn}"]`).contains('Plymstock School')
       cy.get('[data-cy="sectionStatus"]').eq(0).contains('Not Started')
     })
 
@@ -167,7 +169,7 @@ class Application {
   public selectFAMSchool(): this {
     cy.url().then((url) => {
       const applicationId = url.split('=').pop()
-      cy.get(`a[href="/school/school-overview?appId=${applicationId}&urn=142116"]`).click()
+      cy.get(`a[href="/school/school-overview?appId=${applicationId}&urn=${this.urn}"]`).click()
     })
 
     return this

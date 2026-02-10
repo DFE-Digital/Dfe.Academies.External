@@ -10,7 +10,7 @@ class MainContacts {
     cy.get('#ContactTypeChairOfGoverningBody').click()
     cy.get('#ContactTypeChairOfGoverningBody').should('be.checked')
 
-    cy.get('#ApproverContactName').type(approverName)
+	cy.get('#ApproverContactName').type(approverName)
     cy.get('#ApproverContactEmail').type(approverEmail)
     cy.get('input[type=submit]').click()
 
