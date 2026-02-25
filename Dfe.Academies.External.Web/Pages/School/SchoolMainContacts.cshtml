@@ -73,13 +73,25 @@
                             @foreach (var conversionContactType in Enum.GetValues(typeof(MainConversionContact)).OfType<MainConversionContact>())
                             {
                                 <div class="govuk-radios__item">
+                                @if (conversionContactType == MainConversionContact.Other)
+                                {
+                                    <input type="radio" value="@Convert.ToInt32(conversionContactType)"
+                                           id="ContactTypeOther"
+                                           class="govuk-radios__input" 
+                                            name="ViewModel.ContactRole"
+                                            data-aria-controls="conditional-contacttype-@(conversionContactType.ToString().ToLower())"
+                                            checked="@(conversionContactType.Equals(Model.ViewModel.ContactRole))">
+                                }
+                                else
+                                {
                                     <input type="radio"
-                                           asp-for="ViewModel.ContactRole"
-                                           value="@Convert.ToInt32(conversionContactType)"
-                                           id="ContactType@(conversionContactType)"
-                                           class="govuk-radios__input"
-                                           data-aria-controls="conditional-contacttype-@(conversionContactType.ToString().ToLower())"
-                                           checked="@(conversionContactType.Equals(Model.ViewModel.ContactRole))" />
+                                            asp-for="ViewModel.ContactRole"
+                                            value="@Convert.ToInt32(conversionContactType)"
+                                            id="ContactType@(conversionContactType)"
+                                            class="govuk-radios__input"
+                                            data-aria-controls="conditional-contacttype-@(conversionContactType.ToString().ToLower())"
+                                            checked="@(conversionContactType.Equals(Model.ViewModel.ContactRole))" />
+                                }
                                     <label for="ContactType@(conversionContactType)" class="govuk-label govuk-radios__label">
                                         @conversionContactType.GetDescription()
                                     </label>
