@@ -45,12 +45,12 @@
     "@cypress/grep": "4.1.0",
     "@faker-js/faker": "8.4.1",
     "@stylistic/eslint-plugin": "2.13.0",
-    "@typescript-eslint/eslint-plugin": "8.27.0",
-    "@typescript-eslint/parser": "8.27.0",
+    "@typescript-eslint/eslint-plugin": "8.56.1",
+    "@typescript-eslint/parser": "8.56.1",
     "axe-core": "4.11.1",
     "cypress-axe": "1.6.0",
     "cypress-multi-reporters": "1.6.4",
-    "eslint": "9.23.0",
+    "eslint": "9.39.3",
     "eslint-plugin-cypress": "3.6.0",
     "zaproxy": "2.0.0-rc.6"
   }
