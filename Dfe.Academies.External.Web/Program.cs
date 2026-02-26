@@ -352,6 +352,10 @@ namespace Dfe.Academies.External.Web
 			// possible redis fix
 			ThreadPool.SetMinThreads(400, 400);
 
+			// Just for thesame of the PR
+			var message = "Test message";
+			Console.WriteLine(message);
+
 			app.UseHealthChecks("/health");
 
 			app.Run();
