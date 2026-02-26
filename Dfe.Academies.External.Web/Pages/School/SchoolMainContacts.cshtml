@@ -4,147 +4,154 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.Academies.External.Web.Pages.School.SchoolMainContactsModel
 @{
-	ViewData["Title"] = "School Main contacts";
+    ViewData["Title"] = "School Main contacts";
 }
 
 @section BeforeMain
 {
-	<a asp-page="SchoolConversionKeyDetails" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">
-		Back
-	</a>
+    <a asp-page="SchoolConversionKeyDetails" asp-route-appId="@Model.ApplicationId" asp-route-urn="@Model.Urn" class="govuk-back-link">
+        Back
+    </a>
 }
 
 <div class="govuk-grid-column-two-thirds">
-	<span class="govuk-caption-l">
-		Conversion key details
-	</span>
-	<h1 class="govuk-heading-l">
-		Main contacts
-	</h1>
+    <span class="govuk-caption-l">
+        Conversion key details
+    </span>
+    <h1 class="govuk-heading-l">
+        Main contacts
+    </h1>
 
-	<form method="post" name="frmMainContacts" novalidate="">
-		@Html.AntiForgeryToken()
-		<input type="hidden" asp-for="Urn"/>
-		<input type="hidden" asp-for="ApplicationId"/>		
-		<partial name="_HiddenFields"/>
-		
-		<div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
-			<fieldset class="govuk-fieldset">
-				<legend class="govuk-fieldset__legend govuk-fieldset__legend--s"></legend>
-				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
-					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
-				</div>
+    <form method="post" name="frmMainContacts" novalidate="">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Urn" />
+        <input type="hidden" asp-for="ApplicationId" />
+        <partial name="_HiddenFields" />
 
-				<div class="govuk-form-group">
-					<label for="ViewModel.ContactHeadName" class="govuk-label">Name of headteacher</label>
-					<input type="text" asp-for="ViewModel.ContactHeadName" id="ViewModel.ContactHeadName"
-					       class="govuk-input govuk-input--width-20" data-cy="contactHeadName"/>
-				</div>
+        <div class="@(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
+            <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s"></legend>
+                <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
+                    <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel" />
+                </div>
 
-				<div class="govuk-form-group">
-					<label for="ViewModel.ContactHeadEmail" class="govuk-label">Headteacher's email address</label>
-					<span class="govuk-hint">
-						We will only use this to contact you regarding your application
-					</span>
-					<input type="email" asp-for="ViewModel.ContactHeadEmail" id="ViewModel.ContactHeadEmail"
-					       class="govuk-input govuk-input--width-20" data-cy="contactHeadEmail"/>
-				</div>
+                <div class="govuk-form-group">
+                    <label for="ViewModel.ContactHeadName" class="govuk-label">Name of headteacher</label>
+                    <input type="text" asp-for="ViewModel.ContactHeadName" id="ViewModel.ContactHeadName"
+                           class="govuk-input govuk-input--width-20" data-cy="contactHeadName" />
+                </div>
 
-				<div class="govuk-form-group">
-					<label for="ViewModel.ContactChairName" class="govuk-label">Name of the chair of the governing body</label>
-					<input type="text" asp-for="ViewModel.ContactChairName" id="ViewModel.ContactChairName"
-					       class="govuk-input govuk-input--width-20" data-cy="contactChairName"/>
-				</div>
+                <div class="govuk-form-group">
+                    <label for="ViewModel.ContactHeadEmail" class="govuk-label">Headteacher's email address</label>
+                    <span class="govuk-hint">
+                        We will only use this to contact you regarding your application
+                    </span>
+                    <input type="email" asp-for="ViewModel.ContactHeadEmail" id="ViewModel.ContactHeadEmail"
+                           class="govuk-input govuk-input--width-20" data-cy="contactHeadEmail" />
+                </div>
 
-				<div class="govuk-form-group">
-					<label for="ViewModel.ContactChairEmail" class="govuk-label">Chair's email address</label>
-					<span class="govuk-hint">
-						We will only use this to contact you regarding your application
-					</span>
-					<input type="email" asp-for="ViewModel.ContactChairEmail" id="ViewModel.ContactChairEmail"
-					       class="govuk-input govuk-input--width-20" data-cy="contactChairEmail"/>
-				</div>
-				<div class="govuk-form-group">
-					<span class="govuk-fieldset__legend govuk-fieldset__legend--s">
-						Who is the main contact for the conversion?
-					</span>
-					<div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-						<div id="ViewModel.ContactRole">
-						@foreach (var conversionContactType in Enum.GetValues(typeof(MainConversionContact)).OfType<MainConversionContact>())
-						{
-							<div class="govuk-radios__item">
-								<input type="radio"
-								       asp-for="ViewModel.ContactRole"
-								       value="@Convert.ToInt32(conversionContactType)"
-								       id="ContactType@(conversionContactType)"
-								       class="govuk-radios__input"
-								       data-aria-controls="conditional-contacttype-@(conversionContactType.ToString().ToLower())"
-								       checked="@(conversionContactType.Equals(Model.ViewModel.ContactRole))"
-								       aria-expanded="False"/>
-								<label for="ContactType@(conversionContactType)" class="govuk-label govuk-radios__label">
-									@conversionContactType.GetDescription()
-								</label>
-							</div>
-							@if (conversionContactType == MainConversionContact.Other)
-							{
+                <div class="govuk-form-group">
+                    <label for="ViewModel.ContactChairName" class="govuk-label">Name of the chair of the governing body</label>
+                    <input type="text" asp-for="ViewModel.ContactChairName" id="ViewModel.ContactChairName"
+                           class="govuk-input govuk-input--width-20" data-cy="contactChairName" />
+                </div>
 
-								<div class="@(Model.OtherContactError ? "govuk-form-group--error" : "govuk-radios__conditional")
-	                                            @(Model.ViewModel.ContactRole != MainConversionContact.Other ? "govuk-radios__conditional--hidden" : "")"
-								     id="conditional-contacttype-other" aria-expanded="false">
-									<div class="govuk-form-group govuk-error-summary__list">
-										<div id ="MainContactOtherNameNotEntered">
-										<label for="conditional-contacttype-other" class="govuk-label">Name</label>
-										<label for="MainContactOtherNamey" class="govuk-label">
-										<input type="text" asp-for="@Model.ViewModel.MainContactOtherName" id="MainContactOtherName"
-										       class="govuk-input govuk-input--width-20"/>
-                                        </label>
-										</div>
-										<div id ="MainContactOtherEmailNotEntered">
-										<label for="conditional-contacttype-other" class="govuk-label">Email address</label>
-										<span class="govuk-hint">
-											We will only use this to contact you regarding your application
-										</span>
-									    </div>
-										<label for="MainContactOtherEmail" class="govuk-label">
-										<input type="email" asp-for="@Model.ViewModel.MainContactOtherEmail" id="MainContactOtherEmail"
-										       class="govuk-input govuk-input--width-20"/>
-											   </label>
+                <div class="govuk-form-group">
+                    <label for="ViewModel.ContactChairEmail" class="govuk-label">Chair's email address</label>
+                    <span class="govuk-hint">
+                        We will only use this to contact you regarding your application
+                    </span>
+                    <input type="email" asp-for="ViewModel.ContactChairEmail" id="ViewModel.ContactChairEmail"
+                           class="govuk-input govuk-input--width-20" data-cy="contactChairEmail" />
+                </div>
+                <div class="govuk-form-group">
+                    <span class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                        Who is the main contact for the conversion?
+                    </span>
+                    <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+                        <div id="ViewModel.ContactRole">
+                            @foreach (var conversionContactType in Enum.GetValues(typeof(MainConversionContact)).OfType<MainConversionContact>())
+                            {
+                                <div class="govuk-radios__item">
+                                @if (conversionContactType == MainConversionContact.Other)
+                                {
+                                    <input type="radio" value="@Convert.ToInt32(conversionContactType)"
+                                           id="ContactTypeOther"
+                                           class="govuk-radios__input" 
+                                            name="ViewModel.ContactRole"
+                                            data-aria-controls="conditional-contacttype-@(conversionContactType.ToString().ToLower())"
+                                            checked="@(conversionContactType.Equals(Model.ViewModel.ContactRole))">
+                                }
+                                else
+                                {
+                                    <input type="radio"
+                                            asp-for="ViewModel.ContactRole"
+                                            value="@Convert.ToInt32(conversionContactType)"
+                                            id="ContactType@(conversionContactType)"
+                                            class="govuk-radios__input"
+                                            data-aria-controls="conditional-contacttype-@(conversionContactType.ToString().ToLower())"
+                                            checked="@(conversionContactType.Equals(Model.ViewModel.ContactRole))" />
+                                }
+                                    <label for="ContactType@(conversionContactType)" class="govuk-label govuk-radios__label">
+                                        @conversionContactType.GetDescription()
+                                    </label>
+                                </div>
+                                @if (conversionContactType == MainConversionContact.Other)
+                                {
+
+                                    <div class="@(Model.OtherContactError ? "govuk-form-group--error" : "govuk-radios__conditional")
+                                                     @(Model.ViewModel.ContactRole != MainConversionContact.Other ? "govuk-radios__conditional--hidden" : "")"
+                                         id="conditional-contacttype-other">
+                                        <div class="govuk-form-group govuk-error-summary__list">
+                                            <div id="MainContactOtherNameNotEntered">
+                                                <label for="MainContactOtherName" class="govuk-label">Name</label>
+                                                <input type="text" asp-for="ViewModel.MainContactOtherName" id="MainContactOtherName"
+                                                       class="govuk-input govuk-input--width-20" />
+                                            </div>
+                                            <div id="MainContactOtherEmailNotEntered">
+                                                <label for="MainContactOtherEmail" class="govuk-label">Email address</label>
+                                                <span class="govuk-hint">
+                                                    We will only use this to contact you regarding your application
+                                                </span>
+                                                <input type="email" asp-for="ViewModel.MainContactOtherEmail" id="MainContactOtherEmail"
+                                                       class="govuk-input govuk-input--width-20" />
+                                            </div>
+                                        </div>
+
                                     </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
 
-								</div>
-							}
-						}
-					</div >
-					</div>
-				</div>
+                <div class="govuk-form-group">
+                    <div class="govuk-fieldset__legend govuk-fieldset__legend--xs">
+                        <h1 class="govuk-fieldset__heading">
+                            @Model.SigninApproverQuestionText
+                        </h1>
+                        <span class="govuk-hint">
+                            For more details on the approvers role and responsibilities please see <a href="https://help.signin.education.gov.uk/contact/approver">the approver guide</a>.
+                        </span>
+                    </div>
+                    <div class="govuk-form-group">
+                        <label for="ApproverContactName" class="govuk-label">Full Name</label>
+                        <input type="text" asp-for="ViewModel.ApproverContactName" id="ApproverContactName"
+                               class="govuk-input govuk-input--width-20" />
+                    </div>
+                    <div class="govuk-form-group">
+                        <label for="ApproverContactEmail" class="govuk-label">Email address</label>
+                        <span class="govuk-hint">
+                            We will only use this to contact you regarding your application
+                        </span>
+                        <input type="email" asp-for="ViewModel.ApproverContactEmail" id="ApproverContactEmail"
+                               class="govuk-input govuk-input--width-20" />
+                    </div>
+                </div>
+            </fieldset>
+        </div>
 
-				<div class="govuk-form-group">
-					<div class="govuk-fieldset__legend govuk-fieldset__legend--xs">
-						<h1 class="govuk-fieldset__heading">
-							@Model.SigninApproverQuestionText
-						</h1>
-						<span class="govuk-hint">
-							For more details on the approvers role and responsibilities please see <a href="https://help.signin.education.gov.uk/contact/approver">the approver guide</a>.
-						</span>
-					</div>
-					<div class="govuk-form-group">
-						<label for="ApproverContactName" class="govuk-label">Full Name</label>
-						<input type="text" asp-for="ViewModel.ApproverContactName" id="ApproverContactName"
-						       class="govuk-input govuk-input--width-20"/>
-					</div>
-					<div class="govuk-form-group">
-						<label for="ApproverContactEmail" class="govuk-label">Email address</label>
-						<span class="govuk-hint">
-							We will only use this to contact you regarding your application
-						</span>
-						<input type="email" asp-for="ViewModel.ApproverContactEmail" id="ApproverContactEmail"
-						       class="govuk-input govuk-input--width-20"/>
-					</div>
-				</div>
-			</fieldset>
-		</div>
-
-		<br/>
-		<input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>
-	</form>
+        <br />
+        <input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8" />
+    </form>
 </div>
