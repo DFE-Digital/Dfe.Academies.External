@@ -1,4 +1,5 @@
 ﻿@page
+@using Dfe.Academies.External.Web.Constants
 @using Dfe.Academies.External.Web.Enums
 @using Dfe.Academies.External.Web.Extensions
 @using Dfe.Academies.External.Web.TagHelpers
@@ -38,7 +39,7 @@
                     Do you want the conversion to happen on a particular date?
                 </h2>
                 <p id="TargetDateDifferent-error" class="govuk-error-message @(!Model.IsPropertyInvalid("TargetDateDifferent") ? "govuk-visually-hidden" : "")">
-                    <span class="govuk-visually-hidden">Error:</span> You must provide details
+                <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.TargetDateDifferentDetails
                 </p>
 
                 <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios" id="TargetDateDifferent">
@@ -70,7 +71,7 @@
                                         For example, 1 9 2022
                                     </div>
                                     <label class="@(Model.SchoolConversionTargetDateError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                        You must select a conversion date
+                                        @ValidationMessageConstants.MustHaveConversionDate
                                     </label>
                                     <div id="SchoolConversionTargetDateNotEntered">
                                         <govuk-date field-name="@Model.SchoolConversionTargetDateDate"
@@ -85,7 +86,7 @@
                             <div id="TargetDateExplainedNotEntered" class="govuk-form-group @(Model.TargetDateExplainedError ? "govuk-form-group--error" : "")">
                                 <div class="govuk-!-margin-6"></div>
                                 <label class="@(Model.TargetDateExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                    You must explain why you want to convert on this date
+                                    @ValidationMessageConstants.MustHaveConversionDateExplained
                                 </label>
                                 <label for="TargetDateExplained" class="govuk-label">Explain why you want to convert on this date</label>
                                 <textarea asp-for="TargetDateExplained" id="TargetDateExplained" class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>

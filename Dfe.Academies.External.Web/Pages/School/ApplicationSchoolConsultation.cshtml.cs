@@ -1,4 +1,5 @@
 ﻿using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.Constants;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
@@ -55,7 +56,7 @@ public class ApplicationSchoolConsultationModel : BaseSchoolPageEditModel
 
 		if (SchoolConsultationStakeholders == SelectOption.No && string.IsNullOrWhiteSpace(SchoolConsultationStakeholdersConsult))
 		{
-			ModelState.AddModelError("SchoolConsultationStakeholdersConsultNotEntered", "You must provide details");
+			ModelState.AddModelError("SchoolConsultationStakeholdersConsultNotEntered", ValidationMessageConstants.SchoolConsultationStakeholdersConsultDetails);
 			PopulateValidationMessages();
 			return false;
 		}
@@ -86,7 +87,7 @@ public class ApplicationSchoolConsultationModel : BaseSchoolPageEditModel
 			return new Dictionary<string, dynamic>
 			{
 				{ nameof(SchoolApplyingToConvert.SchoolHasConsultedStakeholders), true },
-				{ nameof(SchoolApplyingToConvert.SchoolPlanToConsultStakeholders), null }
+				{ nameof(SchoolApplyingToConvert.SchoolPlanToConsultStakeholders), null! }
 			};
 		}
 	}

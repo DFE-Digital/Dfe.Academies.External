@@ -14,8 +14,9 @@ internal static class ValidationMessageConstants
 	public const string ExemptionFromSACREDetails = "You must provide exemption from SACRE details";
 	public const string EqualityAssessmentDetails = "You must provide equality assessment details";
 	public const string FurtherInformationDetails = "You must provide further information details";
-	public const string MustHaveConversionDate = "You must select a conversion date";
+	public const string MustHaveConversionDate = "You must enter a conversion date";
 	public const string MustHaveConversionDateExplained = "You must explain why you want to convert on this date";
-	public const string MainFeederSchoolDetails = "You must provide main feeder school details";
-
+	public const string MainFeederSchoolDetails = "You must provide main feeder school details"; 
+	public const string SchoolConsultationStakeholdersConsultDetails = "You must provide details when the governing body plans to consult.";
+	public const string TargetDateDifferentDetails = "you must provide target date different details";
 }

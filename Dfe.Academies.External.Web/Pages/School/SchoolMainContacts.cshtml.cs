@@ -1,4 +1,4 @@
-﻿using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
@@ -45,6 +45,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return !ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherEmailNotEntered");
 			}
 		}
+
+		public bool OtherEmailInvalidError
+		{
+			get
+			{
+				return !ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherEmailInvalid");
+			}
+		}
 		
 		public SchoolMainContactsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
@@ -80,7 +88,18 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData);
 
-				PopulateUiModel(selectedSchool, draftConversionApplication.ApplicationType);
+				if (draftConversionApplication != null)
+				{
+					PopulateUiModel(selectedSchool, draftConversionApplication.ApplicationType);
+				}
+				else
+				{
+					ViewModel = new ApplicationSchoolContactsViewModel(ApplicationId, urn);
+				}
+			}
+			else
+			{
+				ViewModel = new ApplicationSchoolContactsViewModel(ApplicationId, urn);
 			}
 
 			return Page();
