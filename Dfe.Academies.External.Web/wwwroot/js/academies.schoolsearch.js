@@ -168,7 +168,7 @@ academies.addCustomerClientSideValidators = function() {
 	                    return true;
                     }
                 } else {
-	                academies.addSearchQueryValidationMessage("Search must be more than 4 characters");
+					academies.addSearchQueryValidationMessage("You must give the name of the school");
 		            return false;
 	            }
             } else {
@@ -183,11 +183,37 @@ academies.addCustomerClientSideValidators = function() {
 	    });
 };
 
+academies.clearClientErrorSummary = function () {
+    const summary = document.getElementById("client-error-summary");
+    const list = document.getElementById("client-error-summary-list");
+    if (summary && list) {
+        list.innerHTML = "";
+        summary.classList.add("govuk-!-display-none");
+    }
+};
+
+academies.showClientErrorSummaryItem = function (fieldSelector, errorMessage) {
+    const summary = document.getElementById("client-error-summary");
+    const list = document.getElementById("client-error-summary-list");
+    if (!summary || !list) return;
+
+    const li = document.createElement("li");
+    const link = document.createElement("a");
+    link.setAttribute("href", fieldSelector);
+    link.className = "govuk-error-summary__link";
+    link.textContent = errorMessage;
+    li.appendChild(link);
+    list.appendChild(li);
+
+    summary.classList.remove("govuk-!-display-none");
+    summary.focus();
+};
+
 academies.clearErrorBars = function () {
     if (document.getElementById("SearchQueryContainer").classList.contains("govuk-form-group--error")) {
 	    document.getElementById("SearchQueryContainer").classList.remove("govuk-form-group--error");
     }
-
+	 
     if (document.getElementById("ConfirmationErrorContainer").classList.contains("govuk-form-group--error")) {
         document.getElementById("ConfirmationErrorContainer").classList.remove("govuk-form-group--error");
     }
@@ -195,39 +221,33 @@ academies.clearErrorBars = function () {
     if (document.getElementById("confirm-school-checkbox").classList.contains("govuk-form-group--error")) {
         document.getElementById("confirm-school-checkbox").classList.remove("govuk-form-group--error");
     }
+
+    academies.clearClientErrorSummary();
 };
 
 academies.addSearchQueryValidationMessage = function (errorMessage) {
 	academies.clearErrorBars();
+	academies.showClientErrorSummaryItem("#SearchQueryInput", errorMessage);
 
-    // TODO MR:- this always errors, but no idea why at this point !!!!!
-    //id="SearchQueryInput-error" = span
-    //const span = document.getElementById('SearchQueryInput-error');
-    //span.textContent = errorMessage;
-
-    // MR:- add left bar
-    const elementToManipulate = document.getElementById("SearchQueryContainer");
-    elementToManipulate.classList.add("govuk-form-group--error");
+	const elementToManipulate = document.getElementById("SearchQueryContainer");
+	elementToManipulate.classList.add("govuk-form-group--error");
 };
 
 academies.addConfirmValidationMessage = function () {
 	academies.clearErrorBars();
-
+	console.log("addConfirmValidationMessage");
+	academies.showClientErrorSummaryItem("#ConfirmSelection", "You must confirm that this is the correct school");
     academies.unhideElement("ConfirmationErrorContainer");
-    // MR:- add left bar
     const elementToManipulate = document.getElementById("confirm-school-checkbox");
     elementToManipulate.classList.add("govuk-form-group--error");
 };
 
 academies.clientSideValidation = function () {
-    // academies.addcomplexCustomerValidators();
-
 	var form = $("#search-form");
 	form.validate();
-
-	if ($(this).valid()) {
-	    // MR:- carry on - run server side code
-	} else {
+	console.log("clientSideValidation");
+	// Use form.valid() so ConfirmSelection checkbox is validated when school is selected
+	if (!form.valid()) {
 		event.preventDefault();
 	}
 };

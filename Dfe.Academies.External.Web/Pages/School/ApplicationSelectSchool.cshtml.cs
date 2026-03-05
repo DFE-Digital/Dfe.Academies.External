@@ -1,6 +1,5 @@
-﻿using Dfe.Academies.External.Web.CustomValidators;
+using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Dtos;
-using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +9,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	public class ApplicationSelectSchoolModel : BaseApplicationPageEditModel
 	{
 		[BindProperty]
-		[MinimumLengthAttribute(ErrorMessage = "You must give the name of the school")]
+		[MinimumLength(ErrorMessage = "You must give the name of the school")]
 		public string? SearchQuery { get; set; } = string.Empty;
 
 		[BindProperty]
@@ -100,7 +99,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				// so, currently get the 'You must give the trust of the school' validation warning
 				// rather than the "You must choose a trust from the list" (code below)
 
-				// 2nd phase validation - check selected trust
+				// 2nd phase validation - check selected school
 				if (string.IsNullOrWhiteSpace(SearchQuery))
 				{
 					ModelState.AddModelError("InvalidSchool", "You must give the name of the school");
@@ -116,7 +115,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
 		{
 			// does not apply on this page
-			return new();
+			return [];
 		}
 	}
 }

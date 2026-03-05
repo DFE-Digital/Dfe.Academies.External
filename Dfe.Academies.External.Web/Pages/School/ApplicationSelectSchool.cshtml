@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model ApplicationSelectSchoolModel
 @{
 	ViewData["Title"] = "School Details";
@@ -12,10 +12,9 @@
 <div class="ccms-loader govuk-!-display-none"></div>
 
 <div class="govuk-grid-column-two-thirds">
-	<div id="divApplyingToDo" class="govuk-form-group">
-		<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
-			<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
-		</div>
+	<div id="divApplyingToDo" class="govuk-form-group"> 
+
+        <partial name="_ErrorSummary" /> 
 
 		<form method="post" id="search-form" novalidate>
 			@Html.AntiForgeryToken()
@@ -40,6 +39,7 @@
                                maxlength="100"
                                type="search"
                                aria-describedby="search-hint search-error" />
+                        <p id="search-error" class="govuk-error-message govuk-visually-hidden" role="alert"></p>
                         <div id="autocomplete-container" data-cy="schoolSearchBox"></div>
                     </div>
 

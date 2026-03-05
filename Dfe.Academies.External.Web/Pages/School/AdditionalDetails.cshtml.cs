@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.Constants;
 using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
@@ -13,61 +14,58 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
-	public class AdditionalDetails : BaseSchoolPageEditModel
+	public class AdditionalDetails(IFileUploadService fileUploadService, IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationService conversionApplicationCreationService) : BaseSchoolPageEditModel(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "FurtherInformationSummary")
 	{
-		private readonly IFileUploadService _fileUploadService;
-		private readonly IConversionApplicationService _conversionApplicationCreationService;
-		
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = ValidationMessageConstants.TrustBenefitDetails)]
 		public string? TrustBenefitDetails { get; set; }
 		
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.OfstedInspectedDetails)]
 		public SelectOption? OfstedInspected { get; set; }
 		
 		[BindProperty]
 		public string? OfstedInspectionDetails { get; set; }
 		
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.SafeguardingInvestigationsDetails)]
 		public SelectOption? SafeguardingInvestigations { get; set; }
 		
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.LocalAuthorityReorganisationDetails)]
 		public SelectOption? LocalAuthorityReorganisation { get; set; }
 		
 		[BindProperty]
 		public string? LocalAuthorityReorganisationDetails { get; set; }
 		
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.LocalAuthorityClosurePlanDetails)]
 		public SelectOption? LocalAuthorityClosurePlans { get; set; }
 		
 		[BindProperty]
 		public string? LocalAuthorityClosurePlanDetails { get; set; }
 		
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.LinkedToDioceseDetails)]
 		public SelectOption? LinkedToDiocese { get; set; }
 		
 		[BindProperty]
 		public string? DioceseName { get; set; }
 
 		[DataType(DataType.Upload)]
-		[AllowedExtensions(new[] { ".doc", ".docx", ".ppt", ".pptx", ".pdf" })]
-		public List<IFormFile>? DioceseFiles { get; set; } = new();
-		
+		[AllowedExtensions([".doc", ".docx", ".ppt", ".pptx", ".pdf"])]
+		public List<IFormFile>? DioceseFiles { get; set; } = [];
+
 		[BindProperty]
-		public List<string> DioceseFileNames { get; set; }
+		public List<string> DioceseFileNames { get; set; } = [];
 		
 		//No additional text box
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.PartOfFederationDetails)]
 		public SelectOption? PartOfFederation { get; set; }
 		
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.SupportedByFoundationTrustOrBodyDetails)]
 		public SelectOption? SupportedByFoundationTrustOrBody { get; set; }
 		
 		[BindProperty]
@@ -75,19 +73,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		[DataType(DataType.Upload)]
 		[AllowedExtensions(new[] { ".doc", ".docx", ".ppt", ".pptx", ".pdf" })]
-		public List<IFormFile>? FoundationConsentFiles { get; set; } = new();
+		public List<IFormFile>? FoundationConsentFiles { get; set; } = [];
 		
 		[BindProperty]
-		public List<string> FoundationConsentFileNames { get; set; }
-		
+		public List<string> FoundationConsentFileNames { get; set; } = [];
+
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.ExemptionFromSACREDetails)]
 		public SelectOption? ExemptionFromSACRE { get; set; }
 		
 		[BindProperty]
 		public DateTimeOffset? ExemptionEndDate { get; set; }
-		
-		public string ExemptionEndDateFormInputName = "exemptionenddate";
  
 		[BindProperty]
 		public string? ExemptionEndDateName { get; set; }
@@ -104,25 +100,25 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		[Required(ErrorMessage = "Please provide a list of your main feeder schools")]
 
-		public string MainFeederSchools { get; set; }
+		public string MainFeederSchools { get; set; } = string.Empty;
 
 		[DataType(DataType.Upload)]
-		[AllowedExtensions(new[] { ".doc", ".docx", ".ppt", ".pptx", ".pdf" })]
+		[AllowedExtensions([".doc", ".docx", ".ppt", ".pptx", ".pdf"])]
 		[BindProperty]
-		public List<IFormFile> ResolutionConsentFiles { get; set; }
-		
-		[BindProperty]
-		public List<string> ResolutionConsentFileNames { get; set; }
+		public List<IFormFile> ResolutionConsentFiles { get; set; } = new();
 
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		public List<string> ResolutionConsentFileNames { get; set; } = [];
+
+		[BindProperty]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.EqualityAssessmentDetails)]
 		public SelectOption? EqualityAssessment { get; set; }
 		
 		[BindProperty]
 		public SchoolEqualitiesProtectedCharacteristics? DisproportionateProtectedCharacteristics { get; set; }
 		
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.FurtherInformationDetails)]
 		public SelectOption? FurtherInformation { get; set; }
 		
 		[BindProperty]
@@ -134,13 +130,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public Guid EntityId { get; set; }
 	
 		[BindProperty]
-		public string ApplicationReference { get; set; }
-		
+		public string ApplicationReference { get; set; } = string.Empty;
+
 		public bool HasError
 		{
 			get
 			{
-				var bools = new[] {
+				bool[] bools = [
 					TrustBenefitDetailsError,
 					OfstedInspectedDetailsError,
 					ExemptionEndDateNotEntered,
@@ -153,7 +149,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 					ExemptionFromSACREError,
 					EqualityAssessmentError,
 					FurtherInformationError
-				};
+				];
 
 				return bools.Any(b => b);
 			}
@@ -183,7 +179,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelSchoolFolderName, entityId, applicationReference, section, fileName);
+			await fileUploadService.DeleteFile(FileUploadConstants.TopLevelSchoolFolderName, entityId, applicationReference, section, fileName);
 			return RedirectToPage("AdditionalDetails", new { Urn = urn, AppId = appId });
 		}
 		public override async Task<ActionResult> OnGetAsync(int urn, int appId)
@@ -201,13 +197,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				PopulateUiModel(selectedSchool);
 			}
-			ApplicationReference = applicationDetails.ApplicationReference;
+			ApplicationReference = applicationDetails!.ApplicationReference;
 			
-			DioceseFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.DioceseFilePrefixFieldName);
+			DioceseFileNames = await fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.DioceseFilePrefixFieldName);
 			TempDataHelper.StoreSerialisedValue($"{EntityId}-dioceseFiles", TempData, DioceseFileNames);
-			FoundationConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName);
+			FoundationConsentFileNames = await fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName);
 			TempDataHelper.StoreSerialisedValue($"{EntityId}-foundationConsentFiles", TempData, FoundationConsentFileNames);
-			ResolutionConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName);
+			ResolutionConsentFileNames = await fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName);
 			TempDataHelper.StoreSerialisedValue($"{EntityId}-resolutionConsentFiles", TempData, ResolutionConsentFileNames);
 			return Page();
 		}
@@ -216,7 +212,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(ApplicationId);
 			var selectedSchool = applicationDetails?.Schools.FirstOrDefault(x => x.URN == Urn);
-			var exemptionEndDateComponents = RetrieveDateTimeComponentsFromDatePicker(Request.Form, ExemptionEndDateName);
+			var exemptionEndDateComponents = RetrieveDateTimeComponentsFromDatePicker(Request.Form, ExemptionEndDateName!);
 			string ExemptionEndDateComponentDay = exemptionEndDateComponents.FirstOrDefault(x => x.Key == "day").Value;
 			string ExemptionEndDateComponentMonth = exemptionEndDateComponents.FirstOrDefault(x => x.Key == "month").Value;
 			string ExemptionEndDateComponentYear = exemptionEndDateComponents.FirstOrDefault(x => x.Key == "year").Value;
@@ -247,22 +243,22 @@ namespace Dfe.Academies.External.Web.Pages.School
 			
 			SetBindedProperties();
 
-			var dioceseFolderIdentifier = (DioceseFileNames.Any() || DioceseFiles.Any())
+			var dioceseFolderIdentifier = (DioceseFileNames.Count != 0)
 				? FileUploadConstants.DioceseFilePrefixFieldName
 				: null;
 
-			var foundationConsentFolderIdentifier = (FoundationConsentFileNames.Any() || FoundationConsentFiles.Any())
+			var foundationConsentFolderIdentifier = (FoundationConsentFileNames.Count != 0 || FoundationConsentFiles!.Count != 0)
 				? FileUploadConstants.FoundationConsentFilePrefixFieldName
 				: null;
 
-			var resolutionConsentFolderIdentifier = (ResolutionConsentFileNames.Any() || ResolutionConsentFiles.Any())
+			var resolutionConsentFolderIdentifier = (ResolutionConsentFileNames.Count != 0 || ResolutionConsentFiles.Count != 0)
 				? FileUploadConstants.ResolutionConsentfilePrefixFieldName
 				: null;
 			
-			await _conversionApplicationCreationService.SetAdditionalDetails(
+			await conversionApplicationCreationService.SetAdditionalDetails(
 				ApplicationId,
-				selectedSchool.id,
-				TrustBenefitDetails,
+				selectedSchool!.id,
+				TrustBenefitDetails!,
 				OfstedInspectionDetails,
 				SafeguardingInvestigations == SelectOption.Yes,
 				LocalAuthorityReorganisationDetails,
@@ -285,13 +281,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			
 			return RedirectToPage(NextStepPage, new { appId = ApplicationId, urn = Urn });
 		}
-		
-		public AdditionalDetails(IFileUploadService fileUploadService, IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationService conversionApplicationCreationService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "FurtherInformationSummary")
-		{
-			_fileUploadService = fileUploadService;
-			_conversionApplicationCreationService = conversionApplicationCreationService;
-		}
-		
+
 		public override void PopulateValidationMessages()
 		{
 			PopulateViewDataErrorsWithModelStateErrors();
@@ -445,7 +435,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				foreach (var file in DioceseFiles)
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
+					await fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
 						ApplicationReference, FileUploadConstants.DioceseFilePrefixFieldName, file);
 				}
 			}
@@ -461,7 +451,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				foreach (var file in FoundationConsentFiles)
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
+					await fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
 						ApplicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName, file);
 				}
 			}
@@ -476,7 +466,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				foreach (var file in ResolutionConsentFiles)
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
+					await fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
 						ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName, file);
 				}
 			}
