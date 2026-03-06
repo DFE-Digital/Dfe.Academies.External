@@ -1,5 +1,5 @@
 import {Logger} from "../common/logger";
-import { Result } from 'axe-core';
+import {Result, RuleObject} from 'axe-core';
 
 function formatViolation(violation: Result): string {
   const nodes = violation.nodes.map((node) => node.target.join(', ')).join('\n    ')
@@ -26,6 +26,15 @@ Cypress.Commands.add('executeAccessibilityTests', () => {
     'wcag21aa',
     'wcag22aa',
   ]
+
+  const ruleConfiguration: RuleObject = {
+	region: { enabled: false },
+	// govuk-frontend v5.x adds aria-expanded to radio inputs with conditional
+	// reveals, which is not yet permitted by the ARIA spec on the radio role.
+	// Tracked upstream: https://github.com/w3c/aria/issues/1404
+	'aria-allowed-attr': { enabled: false },
+  };
+
   const impactLevel = ['critical', 'minor', 'moderate', 'serious']
   const continueOnFail = true
   Logger.log("Injecting Axe and checking accessibility");
@@ -44,6 +53,7 @@ Cypress.Commands.add('executeAccessibilityTests', () => {
         type: 'tag',
         values: wcagStandards,
       },
+	  rules: ruleConfiguration,
       includedImpacts: impactLevel,
     },
     logViolations,
