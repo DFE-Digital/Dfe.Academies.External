@@ -36,7 +36,7 @@ Cypress.Commands.add('executeAccessibilityTests', () => {
   };
 
   const impactLevel = ['critical', 'minor', 'moderate', 'serious']
-  const continueOnFail = true
+  const continueOnFail = false
   Logger.log("Injecting Axe and checking accessibility");
 
   // Temporarily increase timeout so axe.run() has time to complete on complex pages
