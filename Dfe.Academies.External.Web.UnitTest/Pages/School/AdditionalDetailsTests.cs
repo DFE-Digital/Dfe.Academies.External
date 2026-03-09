@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Pages.School;
@@ -257,6 +259,257 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 
 			Assert.That(model.HasError, Is.True);
 			Assert.That(model.TrustBenefitDetailsError, Is.True);
+		}
+
+		[Test]
+		public void RunUiValidation_WhenAllConditionalValidationsPass_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.TrustBenefitDetails = "Some benefit";
+			model.OfstedInspected = SelectOption.No;
+			model.LocalAuthorityReorganisation = SelectOption.No;
+			model.LocalAuthorityClosurePlans = SelectOption.No;
+			model.LinkedToDiocese = SelectOption.No;
+			model.SupportedByFoundationTrustOrBody = SelectOption.No;
+			model.ExemptionFromSACRE = SelectOption.No;
+			model.EqualityAssessment = SelectOption.No;
+			model.FurtherInformation = SelectOption.No;
+			model.MainFeederSchools = "Feeder school list";
+			model.ResolutionConsentFiles = new List<IFormFile>();
+			model.ModelState.Clear();
+
+			var isValid = model.RunUiValidation();
+
+			Assert.That(isValid, Is.True);
+		}
+
+		[Test]
+		public void RunUiValidation_LocalAuthorityClosurePlansYesAndDetailsEmpty_AddsModelError()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.LocalAuthorityClosurePlans = SelectOption.Yes;
+			model.LocalAuthorityClosurePlanDetails = null;
+			model.ModelState.Clear();
+
+			var isValid = model.RunUiValidation();
+
+			Assert.That(isValid, Is.False);
+			Assert.That(model.ModelState.ContainsKey("localAuthorityClosurePlanDetailsNotAdded"), Is.True);
+		}
+
+		[Test]
+		public void PopulateUpdateDictionary_ThrowsNotImplementedException()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+
+			Assert.That(() => model.PopulateUpdateDictionary(), Throws.TypeOf<System.NotImplementedException>());
+		}
+
+		[Test]
+		public async Task OnGetRemoveFileAsync_CallsDeleteFileAndRedirects()
+		{
+			const int appId = 5;
+			const int urn = 100;
+			var entityId = System.Guid.NewGuid().ToString();
+			var applicationReference = "APP-001";
+			var section = "diocese";
+			var fileName = "doc.pdf";
+
+			var fileUploadMock = new Mock<IFileUploadService>();
+			fileUploadMock
+				.Setup(x => x.DeleteFile(FileUploadConstants.TopLevelSchoolFolderName, entityId, applicationReference, section, fileName))
+				.Returns(Task.CompletedTask);
+
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				fileUploadMock.Object);
+
+			var result = await model.OnGetRemoveFileAsync(appId, urn, entityId, applicationReference, section, fileName);
+
+			fileUploadMock.Verify(
+				x => x.DeleteFile(FileUploadConstants.TopLevelSchoolFolderName, entityId, applicationReference, section, fileName),
+				Times.Once);
+			Assert.That(result, Is.InstanceOf<RedirectToPageResult>());
+			var redirect = (RedirectToPageResult)result;
+			Assert.That(redirect.PageName, Is.EqualTo("AdditionalDetails"));
+			Assert.That(redirect.RouteValues["Urn"], Is.EqualTo(urn));
+			Assert.That(redirect.RouteValues["AppId"], Is.EqualTo(appId));
+		}
+
+		[Test]
+		public void PopulateUiModel_WhenSchoolHasData_PopulatesModel()
+		{
+			var entityId = System.Guid.NewGuid();
+			var school = new SchoolApplyingToConvert("Test School", 200, null)
+			{
+				EntityId = entityId,
+				TrustBenefitDetails = "Trust benefits",
+				OfstedInspectionDetails = "Ofsted details",
+				Safeguarding = true,
+				LocalAuthorityReorganisationDetails = "LA reorg",
+				LocalAuthorityClosurePlanDetails = "Closure plan",
+				DioceseName = "Diocese A",
+				PartOfFederation = false,
+				FoundationTrustOrBodyName = null,
+				ExemptionEndDate = null,
+				MainFeederSchools = "Feeder 1, Feeder 2",
+				ProtectedCharacteristics = SchoolEqualitiesProtectedCharacteristics.Unlikely,
+				FurtherInformation = "More info"
+			};
+
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+
+			model.PopulateUiModel(school);
+
+			Assert.That(model.SchoolName, Is.EqualTo("Test School"));
+			Assert.That(model.TrustBenefitDetails, Is.EqualTo("Trust benefits"));
+			Assert.That(model.OfstedInspectionDetails, Is.EqualTo("Ofsted details"));
+			Assert.That(model.OfstedInspected, Is.EqualTo(SelectOption.Yes));
+			Assert.That(model.SafeguardingInvestigations, Is.EqualTo(SelectOption.Yes));
+			Assert.That(model.LocalAuthorityReorganisationDetails, Is.EqualTo("LA reorg"));
+			Assert.That(model.LocalAuthorityClosurePlans, Is.EqualTo(SelectOption.Yes));
+			Assert.That(model.LocalAuthorityClosurePlanDetails, Is.EqualTo("Closure plan"));
+			Assert.That(model.DioceseName, Is.EqualTo("Diocese A"));
+			Assert.That(model.LinkedToDiocese, Is.EqualTo(SelectOption.Yes));
+			Assert.That(model.PartOfFederation, Is.EqualTo(SelectOption.No));
+			Assert.That(model.MainFeederSchools, Is.EqualTo("Feeder 1, Feeder 2"));
+			Assert.That(model.DisproportionateProtectedCharacteristics, Is.EqualTo(SchoolEqualitiesProtectedCharacteristics.Unlikely));
+			Assert.That(model.EqualityAssessment, Is.EqualTo(SelectOption.Yes));
+			Assert.That(model.FurtherInformation, Is.EqualTo(SelectOption.Yes));
+			Assert.That(model.FurtherInformationDetails, Is.EqualTo("More info"));
+			Assert.That(model.EntityId, Is.EqualTo(entityId));
+		}
+
+		[Test]
+		public void PopulateUiModel_WhenSchoolSectionNotStarted_SetsNullsAndNoForDefaults()
+		{
+			var school = new SchoolApplyingToConvert("New School", 300, null)
+			{
+				TrustBenefitDetails = null,
+				OfstedInspectionDetails = null,
+				Safeguarding = null,
+				LocalAuthorityReorganisationDetails = null,
+				DioceseName = null,
+				FoundationTrustOrBodyName = null,
+				FurtherInformation = null
+			};
+
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+
+			model.PopulateUiModel(school);
+
+			Assert.That(model.SchoolName, Is.EqualTo("New School"));
+			Assert.That(model.TrustBenefitDetails, Is.Null);
+			Assert.That(model.OfstedInspected, Is.Null);
+			Assert.That(model.SafeguardingInvestigations, Is.Null);
+			Assert.That(model.LinkedToDiocese, Is.Null);
+			Assert.That(model.SupportedByFoundationTrustOrBody, Is.Null);
+			Assert.That(model.FurtherInformation, Is.Null);
+		}
+
+		[Test]
+		public void HasError_WhenOfstedInspectedDetailsError_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("OfstedInspectionDetailsNotAdded", "Error");
+
+			Assert.That(model.HasError, Is.True);
+			Assert.That(model.OfstedInspectedDetailsError, Is.True);
+		}
+
+		[Test]
+		public void HasError_WhenExemptionFromSACREError_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("exemptionFromSACREEndDateNotAdded", "Error");
+
+			Assert.That(model.HasError, Is.True);
+			Assert.That(model.ExemptionFromSACREError, Is.True);
+		}
+
+		[Test]
+		public void HasError_WhenFurtherInformationError_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("furtherInformationDetailsNotAdded", "Error");
+
+			Assert.That(model.HasError, Is.True);
+			Assert.That(model.FurtherInformationError, Is.True);
+		}
+
+		[Test]
+		public void DioceseFileSizeError_WhenModelStateContainsKey_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("DioceseFileSizeError", "File too large");
+
+			Assert.That(model.DioceseFileSizeError, Is.True);
+		}
+
+		[Test]
+		public void MainFeederSchoolsError_WhenModelStateContainsKey_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("MainFeederSchoolsDetailsNotAdded", "Error");
+
+			Assert.That(model.MainFeederSchoolsError, Is.True);
+		}
+
+		[Test]
+		public void PopulateValidationMessages_CallsPopulateViewDataErrorsWithModelStateErrors()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("TrustBenefitDetails", "Required");
+
+			model.PopulateValidationMessages();
+
+			Assert.That(model.ViewData["Errors"], Is.Not.Null);
 		}
 
 		private static AdditionalDetails SetupAdditionalDetails(

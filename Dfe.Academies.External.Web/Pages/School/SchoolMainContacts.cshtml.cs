@@ -1,4 +1,4 @@
-﻿using Dfe.Academies.External.Web.Constants;
+using Dfe.Academies.External.Web.Constants;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
@@ -24,7 +24,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				var bools = new[] { OtherNameError, OtherEmailError, OtherEmailFormatError };
+				var bools = new[] { OtherNameError, OtherEmailError, OtherEmailFormatError, OtherEmailInvalidError };
 
 				return bools.Any(b => b);
 			}
