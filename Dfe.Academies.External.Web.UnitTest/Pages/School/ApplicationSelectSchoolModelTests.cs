@@ -341,7 +341,10 @@ internal sealed class ApplicationSelectSchoolModelTests
 		Assert.That(result, Is.InstanceOf<RedirectToPageResult>());
 		var redirect = (RedirectToPageResult)result;
 		Assert.That(redirect.PageName, Is.EqualTo("/ApplicationOverview"));
-		Assert.That(redirect.RouteValues["appId"], Is.EqualTo(appId));
+		Assert.That(redirect.RouteValues, Is.Not.Null); 
+		var routeValues = redirect.RouteValues!;
+		Assert.That(routeValues["appId"], Is.Not.Null);
+		Assert.That(routeValues["appId"], Is.EqualTo(appId));
 	}
 
 	[Test]

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
@@ -346,8 +346,10 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			Assert.That(result, Is.InstanceOf<RedirectToPageResult>());
 			var redirect = (RedirectToPageResult)result;
 			Assert.That(redirect.PageName, Is.EqualTo("AdditionalDetails"));
-			Assert.That(redirect.RouteValues["Urn"], Is.EqualTo(urn));
-			Assert.That(redirect.RouteValues["AppId"], Is.EqualTo(appId));
+			var routeValues = redirect.RouteValues!;
+			Assert.That(routeValues["Urn"], Is.Not.Null);
+			Assert.That(routeValues["Urn"], Is.EqualTo(urn));
+			Assert.That(routeValues["AppId"], Is.EqualTo(appId));
 		}
 
 		[Test]
@@ -403,7 +405,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 		{
 			var school = new SchoolApplyingToConvert("New School", 300, null)
 			{
-				TrustBenefitDetails = null,
+				TrustBenefitDetails = null!,
 				OfstedInspectionDetails = null,
 				Safeguarding = null,
 				LocalAuthorityReorganisationDetails = null,

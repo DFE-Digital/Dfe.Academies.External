@@ -199,16 +199,17 @@ academies.clearClientErrorSummary = function () {
 	}
 };
 
-academies.showClientErrorSummaryItem = function (fieldSelector, errorMessage) {
+academies.showErrorSummaryItem = function (fieldSelector, errorMessage) {
 	const summary = document.getElementById("client-error-summary");
 	const list = document.getElementById("client-error-summary-list");
 	if (!summary || !list) return;
 
-	const li = document.createElement("li");
 	const link = document.createElement("a");
-	link.setAttribute("href", fieldSelector);
+	link.href = fieldSelector;
 	link.className = "govuk-error-summary__link";
 	link.textContent = errorMessage;
+
+	const li = document.createElement("li");
 	li.appendChild(link);
 	list.appendChild(li);
 
@@ -232,7 +233,7 @@ academies.clearTrustSearchErrorBars = function () {
 
 academies.addSearchQueryValidationMessage = function (errorMessage) {
 	academies.clearTrustSearchErrorBars();
-	academies.showClientErrorSummaryItem("#SearchQueryInput", errorMessage);
+	academies.showErrorSummaryItem("#SearchQueryInput", errorMessage);
 
 	const elementToManipulate = document.getElementById("SearchQueryContainer");
 	elementToManipulate.classList.add("govuk-form-group--error");
@@ -240,7 +241,7 @@ academies.addSearchQueryValidationMessage = function (errorMessage) {
 
 academies.addConfirmValidationMessage = function () {
 	academies.clearTrustSearchErrorBars();
-	academies.showClientErrorSummaryItem("#ConfirmSelection", "You must confirm that this is the correct trust");
+	academies.showErrorSummaryItem("#ConfirmSelection", "You must confirm that this is the correct trust");
 	academies.unhideElement("ConfirmationErrorContainer");
 	const elementToManipulate = document.getElementById("confirm-trust-checkbox");
 	elementToManipulate.classList.add("govuk-form-group--error");
