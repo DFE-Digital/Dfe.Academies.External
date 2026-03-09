@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Exceptions;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
@@ -11,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Primitives;
 using Moq;
 using NUnit.Framework;
 
@@ -512,6 +515,611 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			model.PopulateValidationMessages();
 
 			Assert.That(model.ViewData["Errors"], Is.Not.Null);
+		}
+
+		[Test]
+		public void HasError_WhenNoErrors_ReturnsFalse()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+
+			Assert.That(model.HasError, Is.False);
+		}
+
+		[Test]
+		public void HasError_WhenSafeguardingInvestigationsError_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("SafeguardingDetailsNotAdded", "Error");
+
+			Assert.That(model.HasError, Is.True);
+			Assert.That(model.SafeguardingInvestigationsError, Is.True);
+		}
+
+		[Test]
+		public void HasError_WhenDioceseNameError_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("DioceseNameNotAdded", "Error");
+
+			Assert.That(model.HasError, Is.True);
+			Assert.That(model.DioceseNameError, Is.True);
+		}
+
+		[Test]
+		public void HasError_WhenDioceseFileNotAddedError_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("DioceseFileNotAddedError", "Error");
+
+			Assert.That(model.HasError, Is.True);
+			Assert.That(model.DioceseFileNotAddedError, Is.True);
+		}
+
+		[Test]
+		public void HasError_WhenLocalAuthorityReorganisationDetailsError_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("LocalAuthorityReorganisationDetailsNotAdded", "Error");
+
+			Assert.That(model.HasError, Is.True);
+			Assert.That(model.LocalAuthorityReorganisationDetailsError, Is.True);
+		}
+
+		[Test]
+		public void HasError_WhenLocalAuthorityClosurePlanDetailsError_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("localAuthorityClosurePlanDetailsNotAdded", "Error");
+
+			Assert.That(model.HasError, Is.True);
+			Assert.That(model.LocalAuthorityClosurePlanDetailsError, Is.True);
+		}
+
+		[Test]
+		public void HasError_WhenSupportedByFoundationTrustOrBodyError_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("FoundationTrustOrBodyNameNotAdded", "Error");
+
+			Assert.That(model.HasError, Is.True);
+			Assert.That(model.SupportedByFoundationTrustOrBodyError, Is.True);
+		}
+
+		[Test]
+		public void HasError_WhenExemptionEndDateNotEntered_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("ExemptionEndDateNotEntered", "Error");
+
+			Assert.That(model.HasError, Is.True);
+			Assert.That(model.ExemptionEndDateNotEntered, Is.True);
+		}
+
+		[Test]
+		public void HasError_WhenEqualityAssessmentError_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("equalitiesImpactAssessmentOptionNoOptionSelected", "Error");
+
+			Assert.That(model.HasError, Is.True);
+			Assert.That(model.EqualityAssessmentError, Is.True);
+		}
+
+		[Test]
+		public void FoundationConsentFileError_WhenModelStateContainsKey_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("FoundationConsentFileNotAddedError", "Error");
+
+			Assert.That(model.FoundationConsentFileError, Is.True);
+		}
+
+		[Test]
+		public void FoundationConsentFileSizeError_WhenModelStateContainsKey_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("FoundationConsentFileSizeError", "Error");
+
+			Assert.That(model.FoundationConsentFileSizeError, Is.True);
+		}
+
+		[Test]
+		public void ResolutionConsentFileSizeError_WhenModelStateContainsKey_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("ResolutionConsentFileSizeError", "Error");
+
+			Assert.That(model.ResolutionConsentFileSizeError, Is.True);
+		}
+
+		[Test]
+		public void DioceseFileNotAddedError_WhenModelStateContainsKey_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("DioceseFileNotAddedError", "Error");
+
+			Assert.That(model.DioceseFileNotAddedError, Is.True);
+		}
+
+		[Test]
+		public void DioceseFileGenericError_WhenModelStateContainsKey_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError(nameof(AdditionalDetails.DioceseFileGenericError), "Error");
+
+			Assert.That(model.DioceseFileGenericError, Is.True);
+		}
+
+		[Test]
+		public void FoundationConsentFileGenericError_WhenModelStateContainsKey_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError(nameof(AdditionalDetails.FoundationConsentFileGenericError), "Error");
+
+			Assert.That(model.FoundationConsentFileGenericError, Is.True);
+		}
+
+		[Test]
+		public void ResolutionConsentFileGenericError_WhenModelStateContainsKey_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError(nameof(AdditionalDetails.ResolutionConsentFileGenericError), "Error");
+
+			Assert.That(model.ResolutionConsentFileGenericError, Is.True);
+		}
+
+		[Test]
+		public void RunUiValidation_ExemptionFromSACREYesAndExemptionEndDateMinValue_AddsModelError()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ExemptionFromSACRE = SelectOption.Yes;
+			model.ExemptionEndDate = DateTimeOffset.MinValue;
+			model.ModelState.Clear();
+
+			var isValid = model.RunUiValidation();
+
+			Assert.That(isValid, Is.False);
+			Assert.That(model.ModelState.ContainsKey("exemptionFromSACREEndDateNotAdded"), Is.True);
+		}
+
+		[Test]
+		public async Task OnGetAsync_WhenApplicationAndSchoolExist_LoadsPageAndPopulatesFileNames()
+		{
+			const int appId = 10;
+			const int urn = 200;
+			var entityId = System.Guid.NewGuid();
+			var application = new ConversionApplication
+			{
+				ApplicationId = appId,
+				ApplicationReference = "APP-REF",
+				Schools = new List<SchoolApplyingToConvert>
+				{
+					new SchoolApplyingToConvert("Test School", urn, null) { id = 1, EntityId = entityId, TrustBenefitDetails = "Benefits" }
+				}
+			};
+
+			var retrievalMock = new Mock<IConversionApplicationRetrievalService>();
+			retrievalMock.Setup(x => x.GetApplication(appId)).ReturnsAsync(application);
+
+			var fileUploadMock = new Mock<IFileUploadService>();
+			fileUploadMock.Setup(x => x.GetFiles(It.IsAny<string>(), entityId.ToString(), "APP-REF", FileUploadConstants.DioceseFilePrefixFieldName))
+				.ReturnsAsync(new List<string>());
+			fileUploadMock.Setup(x => x.GetFiles(It.IsAny<string>(), entityId.ToString(), "APP-REF", FileUploadConstants.FoundationConsentFilePrefixFieldName))
+				.ReturnsAsync(new List<string>());
+			fileUploadMock.Setup(x => x.GetFiles(It.IsAny<string>(), entityId.ToString(), "APP-REF", FileUploadConstants.ResolutionConsentfilePrefixFieldName))
+				.ReturnsAsync(new List<string>());
+
+			var model = SetupAdditionalDetails(
+				retrievalMock.Object,
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				fileUploadMock.Object);
+
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, model.TempData, new ConversionApplication());
+
+			var result = await model.OnGetAsync(urn, appId);
+
+			Assert.That(result, Is.InstanceOf<PageResult>());
+			Assert.That(model.ApplicationId, Is.EqualTo(appId));
+			Assert.That(model.Urn, Is.EqualTo(urn));
+			Assert.That(model.SchoolName, Is.EqualTo("Test School"));
+			Assert.That(model.TrustBenefitDetails, Is.EqualTo("Benefits"));
+			fileUploadMock.Verify(x => x.GetFiles(It.IsAny<string>(), entityId.ToString(), "APP-REF", FileUploadConstants.DioceseFilePrefixFieldName), Times.Once);
+			fileUploadMock.Verify(x => x.GetFiles(It.IsAny<string>(), entityId.ToString(), "APP-REF", FileUploadConstants.FoundationConsentFilePrefixFieldName), Times.Once);
+			fileUploadMock.Verify(x => x.GetFiles(It.IsAny<string>(), entityId.ToString(), "APP-REF", FileUploadConstants.ResolutionConsentfilePrefixFieldName), Times.Once);
+		}
+
+		[Test]
+		public async Task OnPostAsync_WhenValidationFails_ReturnsPage()
+		{
+			var application = new ConversionApplication
+			{
+				ApplicationId = 1,
+				ApplicationReference = "APP-REF",
+				Schools = new List<SchoolApplyingToConvert>
+				{
+					new SchoolApplyingToConvert("School", 100, null) { id = 1, EntityId = System.Guid.NewGuid() }
+				}
+			};
+			var retrievalMock = new Mock<IConversionApplicationRetrievalService>();
+			retrievalMock.Setup(x => x.GetApplication(1)).ReturnsAsync(application);
+
+			var formMock = new Mock<IFormCollection>();
+			formMock.Setup(x => x.TryGetValue(It.IsAny<string>(), out It.Ref<StringValues>.IsAny!)).Returns(false);
+
+			var model = SetupAdditionalDetails(
+				retrievalMock.Object,
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ApplicationId = 1;
+			model.Urn = 100;
+			model.EntityId = application.Schools[0].EntityId;
+			model.ApplicationReference = "APP-REF";
+			model.ExemptionEndDateName = "ExemptionEndDate";
+			model.Request.Form = formMock.Object;
+			model.TrustBenefitDetails = null;
+			model.OfstedInspected = SelectOption.Yes;
+			model.OfstedInspectionDetails = null;
+			model.DioceseFileNames = new List<string>();
+			model.FoundationConsentFileNames = new List<string>();
+			model.ResolutionConsentFileNames = new List<string>();
+
+			var result = await model.OnPostAsync();
+
+			Assert.That(result, Is.InstanceOf<PageResult>());
+			Assert.That(model.ModelState.ContainsKey("OfstedInspectionDetailsNotAdded"), Is.True);
+		}
+
+		[Test]
+		public async Task OnPostAsync_WhenUploadFilesFails_DioceseFile_ReturnsPageAndAddsError()
+		{
+			var entityId = System.Guid.NewGuid();
+			var application = new ConversionApplication
+			{
+				ApplicationId = 1,
+				ApplicationReference = "APP-REF",
+				Schools = new List<SchoolApplyingToConvert>
+				{
+					new SchoolApplyingToConvert("School", 100, null) { id = 1, EntityId = entityId }
+				}
+			};
+			var retrievalMock = new Mock<IConversionApplicationRetrievalService>();
+			retrievalMock.Setup(x => x.GetApplication(1)).ReturnsAsync(application);
+
+			var formMock = new Mock<IFormCollection>();
+			formMock.Setup(x => x.TryGetValue(It.IsAny<string>(), out It.Ref<StringValues>.IsAny!)).Returns(false);
+
+			var fileUploadMock = new Mock<IFileUploadService>();
+			fileUploadMock.Setup(x => x.UploadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), FileUploadConstants.DioceseFilePrefixFieldName, It.IsAny<IFormFile>()))
+				.ThrowsAsync(new FileUploadException("Upload failed"));
+
+			var model = SetupAdditionalDetails(
+				retrievalMock.Object,
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				fileUploadMock.Object);
+			model.ApplicationId = 1;
+			model.Urn = 100;
+			model.EntityId = entityId;
+			model.ApplicationReference = "APP-REF";
+			model.ExemptionEndDateName = "ExemptionEndDate";
+			model.Request.Form = formMock.Object;
+			model.TrustBenefitDetails = "Benefit";
+			model.OfstedInspected = SelectOption.No;
+			model.LocalAuthorityReorganisation = SelectOption.No;
+			model.LocalAuthorityClosurePlans = SelectOption.No;
+			model.LinkedToDiocese = SelectOption.Yes;
+			model.DioceseName = "Diocese";
+			model.PartOfFederation = SelectOption.No;
+			model.SupportedByFoundationTrustOrBody = SelectOption.No;
+			model.ExemptionFromSACRE = SelectOption.No;
+			model.MainFeederSchools = "Feeder";
+			model.EqualityAssessment = SelectOption.No;
+			model.FurtherInformation = SelectOption.No;
+			model.DioceseFileNames = new List<string>();
+			model.FoundationConsentFileNames = new List<string>();
+			model.ResolutionConsentFileNames = new List<string>();
+			model.DioceseFiles = new List<IFormFile> { new Mock<IFormFile>().Object };
+			model.FoundationConsentFiles = new List<IFormFile>();
+			model.ResolutionConsentFiles = new List<IFormFile>();
+			TempDataHelper.StoreSerialisedValue($"{entityId}-dioceseFiles", model.TempData, new List<string>());
+			TempDataHelper.StoreSerialisedValue($"{entityId}-foundationConsentFiles", model.TempData, new List<string>());
+			TempDataHelper.StoreSerialisedValue($"{entityId}-resolutionConsentFiles", model.TempData, new List<string>());
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, model.TempData, new ConversionApplication());
+
+			var result = await model.OnPostAsync();
+
+			Assert.That(result, Is.InstanceOf<PageResult>());
+			Assert.That(model.ModelState.ContainsKey(nameof(AdditionalDetails.DioceseFileGenericError)), Is.True);
+		}
+
+		[Test]
+		public async Task OnPostAsync_WhenUploadFilesFails_FoundationFile_ReturnsPageAndAddsError()
+		{
+			var entityId = System.Guid.NewGuid();
+			var application = new ConversionApplication
+			{
+				ApplicationId = 1,
+				ApplicationReference = "APP-REF",
+				Schools = new List<SchoolApplyingToConvert>
+				{
+					new SchoolApplyingToConvert("School", 100, null) { id = 1, EntityId = entityId }
+				}
+			};
+			var retrievalMock = new Mock<IConversionApplicationRetrievalService>();
+			retrievalMock.Setup(x => x.GetApplication(1)).ReturnsAsync(application);
+
+			var formMock = new Mock<IFormCollection>();
+			formMock.Setup(x => x.TryGetValue(It.IsAny<string>(), out It.Ref<StringValues>.IsAny!)).Returns(false);
+
+			var fileUploadMock = new Mock<IFileUploadService>();
+			fileUploadMock.Setup(x => x.UploadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), FileUploadConstants.DioceseFilePrefixFieldName, It.IsAny<IFormFile>()))
+				.ReturnsAsync("diocese-file-id");
+			fileUploadMock.Setup(x => x.UploadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), FileUploadConstants.FoundationConsentFilePrefixFieldName, It.IsAny<IFormFile>()))
+				.ThrowsAsync(new FileUploadException("Upload failed"));
+
+			var model = SetupAdditionalDetails(
+				retrievalMock.Object,
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				fileUploadMock.Object);
+			model.ApplicationId = 1;
+			model.Urn = 100;
+			model.EntityId = entityId;
+			model.ApplicationReference = "APP-REF";
+			model.ExemptionEndDateName = "ExemptionEndDate";
+			model.Request.Form = formMock.Object;
+			model.TrustBenefitDetails = "Benefit";
+			model.OfstedInspected = SelectOption.No;
+			model.LocalAuthorityReorganisation = SelectOption.No;
+			model.LocalAuthorityClosurePlans = SelectOption.No;
+			model.LinkedToDiocese = SelectOption.No;
+			model.PartOfFederation = SelectOption.No;
+			model.SupportedByFoundationTrustOrBody = SelectOption.No;
+			model.ExemptionFromSACRE = SelectOption.No;
+			model.MainFeederSchools = "Feeder";
+			model.EqualityAssessment = SelectOption.No;
+			model.FurtherInformation = SelectOption.No;
+			model.DioceseFileNames = new List<string>();
+			model.FoundationConsentFileNames = new List<string>();
+			model.ResolutionConsentFileNames = new List<string>();
+			model.DioceseFiles = new List<IFormFile>();
+			model.FoundationConsentFiles = new List<IFormFile> { new Mock<IFormFile>().Object };
+			model.ResolutionConsentFiles = new List<IFormFile>();
+			TempDataHelper.StoreSerialisedValue($"{entityId}-dioceseFiles", model.TempData, new List<string>());
+			TempDataHelper.StoreSerialisedValue($"{entityId}-foundationConsentFiles", model.TempData, new List<string>());
+			TempDataHelper.StoreSerialisedValue($"{entityId}-resolutionConsentFiles", model.TempData, new List<string>());
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, model.TempData, new ConversionApplication());
+
+			var result = await model.OnPostAsync();
+
+			Assert.That(result, Is.InstanceOf<PageResult>());
+			Assert.That(model.ModelState.ContainsKey(nameof(AdditionalDetails.FoundationConsentFileGenericError)), Is.True);
+		}
+
+		[Test]
+		public async Task OnPostAsync_WhenUploadFilesFails_ResolutionFile_ReturnsPageAndAddsError()
+		{
+			var entityId = System.Guid.NewGuid();
+			var application = new ConversionApplication
+			{
+				ApplicationId = 1,
+				ApplicationReference = "APP-REF",
+				Schools = new List<SchoolApplyingToConvert>
+				{
+					new SchoolApplyingToConvert("School", 100, null) { id = 1, EntityId = entityId }
+				}
+			};
+			var retrievalMock = new Mock<IConversionApplicationRetrievalService>();
+			retrievalMock.Setup(x => x.GetApplication(1)).ReturnsAsync(application);
+
+			var formMock = new Mock<IFormCollection>();
+			formMock.Setup(x => x.TryGetValue(It.IsAny<string>(), out It.Ref<StringValues>.IsAny!)).Returns(false);
+
+			var fileUploadMock = new Mock<IFileUploadService>();
+			fileUploadMock.Setup(x => x.UploadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), FileUploadConstants.DioceseFilePrefixFieldName, It.IsAny<IFormFile>()))
+				.ReturnsAsync("diocese-file-id");
+			fileUploadMock.Setup(x => x.UploadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), FileUploadConstants.FoundationConsentFilePrefixFieldName, It.IsAny<IFormFile>()))
+				.ReturnsAsync("foundation-file-id");
+			fileUploadMock.Setup(x => x.UploadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), FileUploadConstants.ResolutionConsentfilePrefixFieldName, It.IsAny<IFormFile>()))
+				.ThrowsAsync(new FileUploadException("Upload failed"));
+
+			var model = SetupAdditionalDetails(
+				retrievalMock.Object,
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				fileUploadMock.Object);
+			model.ApplicationId = 1;
+			model.Urn = 100;
+			model.EntityId = entityId;
+			model.ApplicationReference = "APP-REF";
+			model.ExemptionEndDateName = "ExemptionEndDate";
+			model.Request.Form = formMock.Object;
+			model.TrustBenefitDetails = "Benefit";
+			model.OfstedInspected = SelectOption.No;
+			model.LocalAuthorityReorganisation = SelectOption.No;
+			model.LocalAuthorityClosurePlans = SelectOption.No;
+			model.LinkedToDiocese = SelectOption.No;
+			model.PartOfFederation = SelectOption.No;
+			model.SupportedByFoundationTrustOrBody = SelectOption.No;
+			model.ExemptionFromSACRE = SelectOption.No;
+			model.MainFeederSchools = "Feeder";
+			model.EqualityAssessment = SelectOption.No;
+			model.FurtherInformation = SelectOption.No;
+			model.DioceseFileNames = new List<string>();
+			model.FoundationConsentFileNames = new List<string>();
+			model.ResolutionConsentFileNames = new List<string>();
+			model.DioceseFiles = new List<IFormFile>();
+			model.FoundationConsentFiles = new List<IFormFile>();
+			model.ResolutionConsentFiles = new List<IFormFile> { new Mock<IFormFile>().Object };
+			TempDataHelper.StoreSerialisedValue($"{entityId}-dioceseFiles", model.TempData, new List<string>());
+			TempDataHelper.StoreSerialisedValue($"{entityId}-foundationConsentFiles", model.TempData, new List<string>());
+			TempDataHelper.StoreSerialisedValue($"{entityId}-resolutionConsentFiles", model.TempData, new List<string>());
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, model.TempData, new ConversionApplication());
+
+			var result = await model.OnPostAsync();
+
+			Assert.That(result, Is.InstanceOf<PageResult>());
+			Assert.That(model.ModelState.ContainsKey(nameof(AdditionalDetails.ResolutionConsentFileGenericError)), Is.True);
+		}
+
+		[Test]
+		public async Task OnPostAsync_WhenValid_SucceedsAndRedirects()
+		{
+			var entityId = System.Guid.NewGuid();
+			var application = new ConversionApplication
+			{
+				ApplicationId = 1,
+				ApplicationReference = "APP-REF",
+				Schools = new List<SchoolApplyingToConvert>
+				{
+					new SchoolApplyingToConvert("School", 100, null) { id = 1, EntityId = entityId }
+				}
+			};
+			var retrievalMock = new Mock<IConversionApplicationRetrievalService>();
+			retrievalMock.Setup(x => x.GetApplication(1)).ReturnsAsync(application);
+
+			var formMock = new Mock<IFormCollection>();
+			formMock.Setup(x => x.TryGetValue(It.IsAny<string>(), out It.Ref<StringValues>.IsAny!)).Returns(false);
+
+			var fileUploadMock = new Mock<IFileUploadService>();
+			fileUploadMock.Setup(x => x.UploadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IFormFile>()))
+				.ReturnsAsync("file-id");
+
+			var conversionAppServiceMock = new Mock<IConversionApplicationService>();
+			conversionAppServiceMock.Setup(x => x.SetAdditionalDetails(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string?>(), It.IsAny<bool>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<bool>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<DateTimeOffset?>(), It.IsAny<string>(), It.IsAny<string?>(), It.IsAny<SchoolEqualitiesProtectedCharacteristics?>(), It.IsAny<string?>()))
+				.Returns(Task.CompletedTask);
+
+			var model = SetupAdditionalDetails(
+				retrievalMock.Object,
+				Mock.Of<IReferenceDataRetrievalService>(),
+				conversionAppServiceMock.Object,
+				fileUploadMock.Object);
+			model.ApplicationId = 1;
+			model.Urn = 100;
+			model.EntityId = entityId;
+			model.ApplicationReference = "APP-REF";
+			model.ExemptionEndDateName = "ExemptionEndDate";
+			model.Request.Form = formMock.Object;
+			model.TrustBenefitDetails = "Benefit";
+			model.OfstedInspected = SelectOption.No;
+			model.LocalAuthorityReorganisation = SelectOption.No;
+			model.LocalAuthorityClosurePlans = SelectOption.No;
+			model.LinkedToDiocese = SelectOption.No;
+			model.PartOfFederation = SelectOption.No;
+			model.SupportedByFoundationTrustOrBody = SelectOption.No;
+			model.ExemptionFromSACRE = SelectOption.No;
+			model.MainFeederSchools = "Feeder";
+			model.EqualityAssessment = SelectOption.No;
+			model.FurtherInformation = SelectOption.No;
+			model.DioceseFileNames = new List<string>();
+			model.FoundationConsentFileNames = new List<string>();
+			model.ResolutionConsentFileNames = new List<string>();
+			model.DioceseFiles = new List<IFormFile>();
+			model.FoundationConsentFiles = new List<IFormFile>();
+			model.ResolutionConsentFiles = new List<IFormFile>();
+			TempDataHelper.StoreSerialisedValue($"{entityId}-dioceseFiles", model.TempData, new List<string>());
+			TempDataHelper.StoreSerialisedValue($"{entityId}-foundationConsentFiles", model.TempData, new List<string>());
+			TempDataHelper.StoreSerialisedValue($"{entityId}-resolutionConsentFiles", model.TempData, new List<string>());
+			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, model.TempData, new ConversionApplication());
+
+			var result = await model.OnPostAsync();
+
+			Assert.That(result, Is.InstanceOf<RedirectToPageResult>());
+			var redirect = (RedirectToPageResult)result;
+			Assert.That(redirect.PageName, Is.EqualTo("FurtherInformationSummary"));
+			conversionAppServiceMock.Verify(x => x.SetAdditionalDetails(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string?>(), It.IsAny<bool>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<bool>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<DateTimeOffset?>(), It.IsAny<string>(), It.IsAny<string?>(), It.IsAny<SchoolEqualitiesProtectedCharacteristics?>(), It.IsAny<string?>()), Times.Once);
+		}
+
+		[Test]
+		public void PopulateUiModel_WhenSectionStartedWithExemptionEndDate_SetsExemptionFromSACREYes()
+		{
+			var exemptionDate = new DateTimeOffset(2025, 6, 1, 0, 0, 0, TimeSpan.Zero);
+			var school = new SchoolApplyingToConvert("School", 300, null)
+			{
+				TrustBenefitDetails = "Started",
+				ExemptionEndDate = exemptionDate
+			};
+
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+
+			model.PopulateUiModel(school);
+
+			Assert.That(model.ExemptionFromSACRE, Is.EqualTo(SelectOption.Yes));
+			Assert.That(model.ExemptionEndDate, Is.EqualTo(exemptionDate));
 		}
 
 		private static AdditionalDetails SetupAdditionalDetails(
