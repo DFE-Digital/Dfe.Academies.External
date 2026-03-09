@@ -217,23 +217,15 @@ academies.showClientErrorSummaryItem = function (fieldSelector, errorMessage) {
 };
 
 academies.clearTrustSearchErrorBars = function () {
-	const searchQueryContainer = document.getElementById("SearchQueryContainer");
-	if (searchQueryContainer && searchQueryContainer.classList.contains("govuk-form-group--error")) {
-		searchQueryContainer.classList.remove("govuk-form-group--error");
-	}
+	document.getElementById("SearchQueryContainer")?.classList.remove("govuk-form-group--error");
 
 	const confirmationErrorContainer = document.getElementById("ConfirmationErrorContainer");
 	if (confirmationErrorContainer) {
-		if (confirmationErrorContainer.classList.contains("govuk-form-group--error")) {
-			confirmationErrorContainer.classList.remove("govuk-form-group--error");
-		}
+		confirmationErrorContainer.classList.remove("govuk-form-group--error");
 		academies.hideElement("ConfirmationErrorContainer");
 	}
 
-	const confirmCheckbox = document.getElementById("confirm-trust-checkbox");
-	if (confirmCheckbox && confirmCheckbox.classList.contains("govuk-form-group--error")) {
-		confirmCheckbox.classList.remove("govuk-form-group--error");
-	}
+	document.getElementById("confirm-trust-checkbox")?.classList.remove("govuk-form-group--error");
 
 	academies.clearClientErrorSummary();
 };

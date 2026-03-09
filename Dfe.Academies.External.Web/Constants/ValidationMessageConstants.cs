@@ -1,6 +1,6 @@
 ﻿namespace Dfe.Academies.External.Web.Constants;
 
-internal static class ValidationMessageConstants
+public static class ValidationMessageConstants
 {
 	public const string TrustBenefitDetails = "You must provide trust benefit details";
 	public const string OfstedInspectedDetails = "You must provide ofsted inspected details";
