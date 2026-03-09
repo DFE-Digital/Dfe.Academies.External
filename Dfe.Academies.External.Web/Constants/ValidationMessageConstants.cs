@@ -19,4 +19,6 @@ internal static class ValidationMessageConstants
 	public const string MainFeederSchoolDetails = "You must provide main feeder school details"; 
 	public const string SchoolConsultationStakeholdersConsultDetails = "You must provide details when the governing body plans to consult.";
 	public const string TargetDateDifferentDetails = "you must provide target date different details";
+	public const string OtherContactInvalidEmail = "Other contact email is not a valid e-mail address";
+	public const string MustHaveOtherContactEmail = "You must provide the other contact’s email";
 }

@@ -1,3 +1,4 @@
+﻿using Dfe.Academies.External.Web.Constants;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
@@ -12,8 +13,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class SchoolMainContactsModel : BaseSchoolPageEditModel
 	{
-		//
-		public string SigninApproverQuestionText { get; private set; } = string.Empty;
+		public string SigninApproverQuestionText { get; private set; } = "When your schools converts, we need to create a new DfE sign-in account for the academy. Please provide the most suitable contact to manage the new academies account.";
 
 		[BindProperty]
 		public ApplicationSchoolContactsViewModel ViewModel { get; set; }
@@ -24,7 +24,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				var bools = new[] { OtherNameError, OtherEmailError };
+				var bools = new[] { OtherNameError, OtherEmailError, OtherEmailFormatError };
 
 				return bools.Any(b => b);
 			}
@@ -43,6 +43,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 			get
 			{
 				return !ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherEmailNotEntered");
+			}
+		}
+		public bool OtherEmailFormatError
+		{
+			get
+			{
+				return !ModelState.IsValid && ModelState.Keys.Contains("ViewModel.MainContactOtherEmail");
 			}
 		}
 
@@ -123,7 +130,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
 			{
-				ModelState.AddModelError("MainContactOtherEmailNotEntered", "You must provide an email");
+				ModelState.AddModelError("MainContactOtherEmailNotEntered", ValidationMessageConstants.MustHaveOtherContactEmail);
 				PopulateValidationMessages();
 				return false;
 			}
@@ -203,9 +210,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				MainContactOtherEmail = selectedSchool.SchoolConversionMainContactOtherEmail,
 				ApproverContactName = selectedSchool.SchoolConversionApproverContactName,
 				ApproverContactEmail = selectedSchool.SchoolConversionApproverContactEmail
-			};
-
-			SigninApproverQuestionText = "When your schools converts, we need to create a new DfE sign-in account for the academy. Please provide the most suitable contact to manage the new academies account.";
+			}; 
 		}
 	}
 }
