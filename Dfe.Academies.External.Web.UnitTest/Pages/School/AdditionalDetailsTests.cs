@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
@@ -116,6 +117,146 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			// Assert
 			Assert.That(isValid, Is.False);
 			Assert.That(model.ModelState.ContainsKey("DioceseFileSizeError"), Is.True);
+		}
+
+		[Test]
+		public void RunUiValidation_OfstedInspectedYesAndDetailsEmpty_AddsModelError()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.OfstedInspected = SelectOption.Yes;
+			model.OfstedInspectionDetails = null;
+			model.ModelState.Clear();
+
+			var isValid = model.RunUiValidation();
+
+			Assert.That(isValid, Is.False);
+			Assert.That(model.ModelState.ContainsKey("OfstedInspectionDetailsNotAdded"), Is.True);
+		}
+
+		[Test]
+		public void RunUiValidation_LocalAuthorityReorganisationYesAndDetailsEmpty_AddsModelError()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.LocalAuthorityReorganisation = SelectOption.Yes;
+			model.LocalAuthorityReorganisationDetails = null;
+			model.ModelState.Clear();
+
+			var isValid = model.RunUiValidation();
+
+			Assert.That(isValid, Is.False);
+			Assert.That(model.ModelState.ContainsKey("LocalAuthorityReorganisationDetailsNotAdded"), Is.True);
+		}
+
+		[Test]
+		public void RunUiValidation_LinkedToDioceseYesAndDioceseNameEmpty_AddsModelError()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.LinkedToDiocese = SelectOption.Yes;
+			model.DioceseName = null;
+			model.ModelState.Clear();
+
+			var isValid = model.RunUiValidation();
+
+			Assert.That(isValid, Is.False);
+			Assert.That(model.ModelState.ContainsKey("DioceseNameNotAdded"), Is.True);
+		}
+
+		[Test]
+		public void RunUiValidation_SupportedByFoundationYesAndNameEmpty_AddsModelError()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.SupportedByFoundationTrustOrBody = SelectOption.Yes;
+			model.FoundationTrustOrBodyName = null;
+			model.ModelState.Clear();
+
+			var isValid = model.RunUiValidation();
+
+			Assert.That(isValid, Is.False);
+			Assert.That(model.ModelState.ContainsKey("FoundationTrustOrBodyNameNotAdded"), Is.True);
+		}
+
+		[Test]
+		public void RunUiValidation_ExemptionFromSACREYesAndNoDate_AddsModelError()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ExemptionFromSACRE = SelectOption.Yes;
+			model.ExemptionEndDate = null;
+			model.ModelState.Clear();
+
+			var isValid = model.RunUiValidation();
+
+			Assert.That(isValid, Is.False);
+			Assert.That(model.ModelState.ContainsKey("exemptionFromSACREEndDateNotAdded"), Is.True);
+		}
+
+		[Test]
+		public void RunUiValidation_EqualityAssessmentYesAndNoCharacteristicsSelected_AddsModelError()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.EqualityAssessment = SelectOption.Yes;
+			model.DisproportionateProtectedCharacteristics = null;
+			model.ModelState.Clear();
+
+			var isValid = model.RunUiValidation();
+
+			Assert.That(isValid, Is.False);
+			Assert.That(model.ModelState.ContainsKey("equalitiesImpactAssessmentOptionNoOptionSelected"), Is.True);
+		}
+
+		[Test]
+		public void RunUiValidation_FurtherInformationYesAndDetailsEmpty_AddsModelError()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.FurtherInformation = SelectOption.Yes;
+			model.FurtherInformationDetails = null;
+			model.ModelState.Clear();
+
+			var isValid = model.RunUiValidation();
+
+			Assert.That(isValid, Is.False);
+			Assert.That(model.ModelState.ContainsKey("furtherInformationDetailsNotAdded"), Is.True);
+		}
+
+		[Test]
+		public void HasError_WhenTrustBenefitDetailsError_ReturnsTrue()
+		{
+			var model = SetupAdditionalDetails(
+				Mock.Of<IConversionApplicationRetrievalService>(),
+				Mock.Of<IReferenceDataRetrievalService>(),
+				Mock.Of<IConversionApplicationService>(),
+				Mock.Of<IFileUploadService>());
+			model.ModelState.AddModelError("TrustBenefitDetailsNotAdded", "Error");
+
+			Assert.That(model.HasError, Is.True);
+			Assert.That(model.TrustBenefitDetailsError, Is.True);
 		}
 
 		private static AdditionalDetails SetupAdditionalDetails(

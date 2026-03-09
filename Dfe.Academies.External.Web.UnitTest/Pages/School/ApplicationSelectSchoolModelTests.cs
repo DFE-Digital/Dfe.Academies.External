@@ -1,4 +1,4 @@
-﻿using Dfe.Academies.External.Web.Pages.School;
+using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.AspNetCore.Mvc;
@@ -150,6 +150,53 @@ internal sealed class ApplicationSelectSchoolModelTests
 
 		// assert
 		Assert.That(pageModel.SelectedSchoolName, Is.EqualTo(""));
+	}
+
+	[Test]
+	public void RunUiValidation_SearchQueryEmpty_AddsInvalidSchoolErrorAndReturnsFalse()
+	{
+		var pageModel = SetupApplicationSelectSchoolModel(
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>(),
+			Mock.Of<IConversionApplicationService>());
+		pageModel.SearchQuery = null;
+		pageModel.ModelState.AddModelError("SearchQuery", "You must give the name of the school");
+
+		var isValid = pageModel.RunUiValidation();
+
+		Assert.That(isValid, Is.False);
+		Assert.That(pageModel.ModelState.ContainsKey("InvalidSchool"), Is.True);
+	}
+
+	[Test]
+	public void RunUiValidation_ModelStateValid_ReturnsTrue()
+	{
+		var pageModel = SetupApplicationSelectSchoolModel(
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>(),
+			Mock.Of<IConversionApplicationService>());
+		pageModel.SearchQuery = "Test School (123456)";
+		pageModel.ModelState.Clear();
+
+		var isValid = pageModel.RunUiValidation();
+
+		Assert.That(isValid, Is.True);
+	}
+
+	[Test]
+	public void OnPostFind_ReturnsRedirectToSchoolSearchResults()
+	{
+		var pageModel = SetupApplicationSelectSchoolModel(
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>(),
+			Mock.Of<IConversionApplicationService>());
+		pageModel.SearchQuery = "Wise Owl";
+
+		var result = pageModel.OnPostFind();
+
+		Assert.That(result, Is.InstanceOf<RedirectToPageResult>());
+		var redirect = (RedirectToPageResult)result;
+		Assert.That(redirect.PageName, Is.EqualTo("SchoolSearchResults"));
 	}
 
 	// TODO MR:- OnPostAsync___ModelIsValid___Invalid
