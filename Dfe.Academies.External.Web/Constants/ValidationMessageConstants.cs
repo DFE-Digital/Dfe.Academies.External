@@ -18,7 +18,19 @@ public static class ValidationMessageConstants
 	public const string MustHaveConversionDateExplained = "You must explain why you want to convert on this date";
 	public const string MainFeederSchoolDetails = "You must provide main feeder school details"; 
 	public const string SchoolConsultationStakeholdersConsultDetails = "You must provide details when the governing body plans to consult.";
-	public const string TargetDateDifferentDetails = "you must provide target date different details";
+	public const string TargetDateDifferentDetails = "Please select an option for the conversion date";
 	public const string OtherContactInvalidEmail = "Other contact email is not a valid e-mail address";
 	public const string MustHaveOtherContactEmail = "You must provide the other contact’s email";
+	public const string CurrentOrPlannedBuldingWorksDetails = "You must provide current or planned building works details";
+	public const string SchoolBuildLandOwnerDetails = "You must provide the details of the owner or legal holder of the school’s land and buildings";
+	public const string SchoolSharedFacilitiesDetails = "You must provide shared facilities on site details";
+	public const string SchoolBuildLandGrantsDetails = "You must provide any school building and land grant details";
+	public const string SchoolBuildLandPFISchemeDetails = "You must provide school PFI scheme details";
+	public const string SchoolBuildLandPriorityBuildingProgrammeDetails = "You must provide priority school building programme details";
+	public const string SchoolBuildLandFutureProgrammeDetails = "You must provide school's future programme details";
+	public const string MustChooseExistingLoanOption = "Please select an option for existing loans";
+	public const string AddLoanDetails = "You must provide existing loans details";
+	public const string MustChooseChangingSchoolNameOption = "Please choose otpion if the school will change its name";
+	public const string ApplicationJoinTrustReasonDetails = "You must provide rasons for joining the trust";
 }
+

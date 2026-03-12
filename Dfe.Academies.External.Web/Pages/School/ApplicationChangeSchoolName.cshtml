@@ -1,4 +1,5 @@
 ﻿@page
+@using Dfe.Academies.External.Web.Constants
 @using Dfe.Academies.External.Web.Enums
 @using Dfe.Academies.External.Web.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
@@ -30,7 +31,7 @@
                 <fieldset class="govuk-fieldset">
                     <legend id="role-hint" class="govuk-fieldset__legend govuk-!-font-weight-bold">Is the school planning to change its name when it becomes an academy?</legend>
                     <p id="ChangeName-error" class="govuk-error-message @(!Model.IsPropertyInvalid("ChangeName") ? "govuk-visually-hidden" : "")">
-                        <span class="govuk-visually-hidden">Error:</span> You must provide details
+                    <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.MustChooseChangingSchoolNameOption
                     </p>
                     <div id="ChangeName" class=" govuk-radios govuk-radios--conditional" data-module="govuk-radios">
                     @foreach (var selectOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))

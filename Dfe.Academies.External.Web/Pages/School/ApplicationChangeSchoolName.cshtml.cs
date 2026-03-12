@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Dfe.Academies.External.Web.Constants;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
-using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +13,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	{
 		//// MR:- VM props to capture data
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = ValidationMessageConstants.MustChooseChangingSchoolNameOption)]
 		public SelectOption? ChangeName { get; set; }
 
 		[BindProperty]
@@ -66,7 +66,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return new Dictionary<string, dynamic>
 				{
 					{ nameof(SchoolApplyingToConvert.ConversionChangeNamePlanned), false},
-					{ nameof(SchoolApplyingToConvert.ProposedNewSchoolName), null }
+					{ nameof(SchoolApplyingToConvert.ProposedNewSchoolName), null! }
 				};
 			}
 			else

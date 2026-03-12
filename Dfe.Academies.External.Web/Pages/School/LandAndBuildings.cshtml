@@ -1,4 +1,5 @@
 ﻿@page
+@using Dfe.Academies.External.Web.Constants
 @using Dfe.Academies.External.Web.Enums
 @using Dfe.Academies.External.Web.Extensions
 @using Dfe.Academies.External.Web.TagHelpers
@@ -36,7 +37,7 @@
                     <div class="govuk-form-group @(Model.IsPropertyInvalid("SchoolBuildLandOwnerExplained") ? "govuk-form-group--error" : "")">
                         <label for="SchoolBuildLandOwnerExplained" class="govuk-label">As far as you're aware, who owns or holds the school's buildings and land?</label>
                         <p id="SchoolBuildLandOwnerExplained-error" class="@(Model.IsPropertyInvalid("SchoolBuildLandOwnerExplained") ? "govuk-error-message" : "govuk-visually-hidden")">
-                            <span class="govuk-visually-hidden">Error:</span> You must provide details
+                        <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.SchoolBuildLandOwnerDetails
                         </p>
                         <textarea asp-for="SchoolBuildLandOwnerExplained" id="SchoolBuildLandOwnerExplained"
                               class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
@@ -48,7 +49,7 @@
                                 Are there any current or planned building works?
                             </legend>
                             <p id="SchoolBuildLandWorksPlanned-error" class="@(Model.IsPropertyInvalid("SchoolBuildLandWorksPlanned") ? "govuk-error-message" : "govuk-visually-hidden")">
-                                <span class="govuk-visually-hidden">Error:</span> You must provide details
+                            <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.CurrentOrPlannedBuldingWorksDetails
                             </p>
                         @foreach (var buildingWorksOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                         {
@@ -111,7 +112,7 @@
                             For example, a nursery, children’s centre, swimming pool, leisure centre, caretaker’s house, community library or SEN unit
                         </span>
                         <p id="SchoolBuildLandSharedFacilities-error" class="@(Model.IsPropertyInvalid("SchoolBuildLandSharedFacilities") ? "govuk-error-message" : "govuk-visually-hidden")">
-                            <span class="govuk-visually-hidden">Error:</span> You must provide details
+                            <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.SchoolSharedFacilitiesDetails
                         </p>
                         @foreach (var sharedFacilitiesOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                         {
@@ -152,7 +153,7 @@
                             Has the school had any grants from Sport England, the Big Lottery Fund, or the Football Federation?
                         </legend>
                         <p id="SchoolBuildLandGrants-error" class="@(Model.IsPropertyInvalid("SchoolBuildLandGrants") ? "govuk-error-message" : "govuk-visually-hidden")">
-                            <span class="govuk-visually-hidden">Error:</span> You must provide details
+                            <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.SchoolBuildLandGrantsDetails
                         </p>
                         @foreach (var landGrantsOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                         {
@@ -195,7 +196,7 @@
                             Is the school part of a Private Finance Initiative (PFI) scheme?
                         </legend>
                         <p id="SchoolBuildLandPFIScheme-error" class="@(Model.IsPropertyInvalid("SchoolBuildLandPFIScheme") ? "govuk-error-message" : "govuk-visually-hidden")">
-                            <span class="govuk-visually-hidden">Error:</span> You must provide details
+                            <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.SchoolBuildLandPFISchemeDetails
                         </p>
                         @foreach (var pfiSchemeOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                         {
@@ -235,7 +236,7 @@
                             Is the school part of the Priority School Building Programme?
                         </legend>
                         <p id="SchoolBuildLandPriorityBuildingProgramme-error" class="@(Model.IsPropertyInvalid("SchoolBuildLandPriorityBuildingProgramme") ? "govuk-error-message" : "govuk-visually-hidden")">
-                            <span class="govuk-visually-hidden">Error:</span> You must provide details
+                            <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.SchoolBuildLandPriorityBuildingProgrammeDetails
                         </p>
                         @foreach (var priorityBuildingProgrammeOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                         {
@@ -261,7 +262,7 @@
                             Is the school part of the Building Schools for the Future Programme?
                         </legend>
                         <p id="SchoolBuildLandFutureProgramme-error" class="@(Model.IsPropertyInvalid("SchoolBuildLandFutureProgramme") ? "govuk-error-message" : "govuk-visually-hidden")">
-                            <span class="govuk-visually-hidden">Error:</span> You must provide details
+                            <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.SchoolBuildLandFutureProgrammeDetails
                         </p>
                         @foreach (var futureProgrammeOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                         {

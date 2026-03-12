@@ -1,4 +1,4 @@
-using Dfe.Academies.External.Web.Constants;
+﻿using Dfe.Academies.External.Web.Constants;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
@@ -8,6 +8,7 @@ using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.Validators;
 using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
@@ -121,45 +122,68 @@ namespace Dfe.Academies.External.Web.Pages.School
 				return false;
 			}
 
-			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherName))
+			if (ViewModel != null && ViewModel.ContactRole == MainConversionContact.Other)
 			{
-				ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide a contact name");
-				PopulateValidationMessages();
-				return false;
-			}
-
-			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
-			{
-				ModelState.AddModelError("MainContactOtherEmailNotEntered", ValidationMessageConstants.MustHaveOtherContactEmail);
-				PopulateValidationMessages();
-				return false;
-			}
-
-
-			// Check ViewModel.MainContactOtherEmail - is-valid email address
-			if (ViewModel.ContactRole == MainConversionContact.Other &&
-			    !string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
-			{
-				var emailAddress = new EmailAddress(ViewModel.MainContactOtherEmail);
-				var emailValidator = new EmailValidator();
-				var validationResult = emailValidator.Validate(emailAddress);
-
-				if (!validationResult.IsValid)
+				if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherName))
+					ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide a contact name");
+				if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
+					ModelState.AddModelError("MainContactOtherEmailNotEntered", ValidationMessageConstants.MustHaveOtherContactEmail);
+				else if (!string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
 				{
-					// display:- (ErrorMessage = "Main contact email is not a valid e-mail address")
-					ModelState.AddModelError("MainContactOtherEmailInvalid", "Main contact email is not a valid e-mail address");
-					PopulateValidationMessages();
-					return false;
+					var emailAddress = new EmailAddress(ViewModel.MainContactOtherEmail);
+					var emailValidator = new EmailValidator();
+					if (!emailValidator.Validate(emailAddress).IsValid)
+						ModelState.AddModelError("MainContactOtherEmailInvalid", "Main contact email is not a valid e-mail address");
 				}
-			}
+				PopulateValidationMessages();
+				return false;
+			} 
 
 			return true;
 		}
+
+		/// <summary>
+		/// Field order on the Main contacts page (matches display order for error summary).
+		/// Keys must match those added by PopulateViewDataErrorsWithModelStateErrors (with # prefix).
+		/// </summary>
+		private static readonly string[] MainContactsValidationKeyOrder =
+		[
+			"#ViewModel.ContactHeadName",
+			"#ViewModel.ContactHeadEmail",
+			"#ViewModel.ContactChairName",
+			"#ViewModel.ContactChairEmail",
+			"#ViewModel.ContactRole",
+			"#MainContactOtherNameNotEntered",
+			"#MainContactOtherEmailNotEntered",
+			"#ViewModel.MainContactOtherEmail",
+			"#MainContactOtherEmailInvalid"
+		];
 
 		///<inheritdoc/>
 		public override void PopulateValidationMessages()
 		{
 			PopulateViewDataErrorsWithModelStateErrors();
+			ReorderValidationMessagesToMatchPageOrder();
+		}
+
+		private void ReorderValidationMessagesToMatchPageOrder()
+		{
+			var current = ValidationErrorMessagesViewModel.ValidationErrorMessages;
+			if (current.Count == 0) return;
+
+			var ordered = new Dictionary<string, IEnumerable<string>?>();
+			foreach (string key in MainContactsValidationKeyOrder)
+			{
+				if (current.TryGetValue(key, out var messages))
+					ordered[key] = messages;
+			}
+
+			foreach (var kvp in current.Where(kvp => !ordered.ContainsKey(kvp.Key)))
+			{
+				ordered[kvp.Key] = kvp.Value;
+			}
+
+			ValidationErrorMessagesViewModel.ValidationErrorMessages = ordered;
 		}
 
 		///<inheritdoc/>

@@ -61,6 +61,7 @@ internal sealed class SchoolMainContactsModelTests
 		var pageModel = SetupSchoolMainContactsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
+		pageModel.ViewModel = new ApplicationSchoolContactsViewModel(1, 100);
 
 		pageModel.ModelState.AddModelError("MainContactOtherNameNotEntered", expectedErrorText);
 
@@ -86,6 +87,7 @@ internal sealed class SchoolMainContactsModelTests
 		var pageModel = SetupSchoolMainContactsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
+		pageModel.ViewModel = new ApplicationSchoolContactsViewModel(1, 100);
 
 		pageModel.ModelState.AddModelError("MainContactOtherEmailNotEntered", expectedErrorText);
 
@@ -111,6 +113,7 @@ internal sealed class SchoolMainContactsModelTests
 		var pageModel = SetupSchoolMainContactsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
+		pageModel.ViewModel = new ApplicationSchoolContactsViewModel(1, 100);
 
 		pageModel.ModelState.AddModelError("MainContactOtherTelephoneNotEntered", expectedErrorText);
 
@@ -136,6 +139,7 @@ internal sealed class SchoolMainContactsModelTests
 		var pageModel = SetupSchoolMainContactsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
+		pageModel.ViewModel = new ApplicationSchoolContactsViewModel(1, 100);
 
 		pageModel.ModelState.AddModelError("MainContactOtherNameNotEntered", expectedErrorText);
 
@@ -161,6 +165,7 @@ internal sealed class SchoolMainContactsModelTests
 		var pageModel = SetupSchoolMainContactsModel(mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
+		pageModel.ViewModel = new ApplicationSchoolContactsViewModel(1, 100);
 
 		pageModel.ModelState.AddModelError("MainContactOtherEmailNotEntered", expectedErrorText);
 
