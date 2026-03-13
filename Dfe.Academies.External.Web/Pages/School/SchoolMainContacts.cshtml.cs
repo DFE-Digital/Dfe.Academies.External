@@ -105,23 +105,27 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			return Page();
 		}
+		private void ValidateOtherContactMessages()
+		{
+			if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherName))
+				ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide a contact name");
+			if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
+				ModelState.AddModelError("MainContactOtherEmailNotEntered", ValidationMessageConstants.MustHaveOtherContactEmail);
+			else if (!string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
+			{
+				var emailAddress = new EmailAddress(ViewModel.MainContactOtherEmail);
+				var emailValidator = new EmailValidator();
+				if (!emailValidator.Validate(emailAddress).IsValid)
+					ModelState.AddModelError("MainContactOtherEmailInvalid", "Other contact email is not a valid e-mail address");
+			}
+		}
 
 		///<inheritdoc/>
 		public override bool RunUiValidation()
 		{
 			if (!ModelState.IsValid)
 			{
-				if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherName)) 
-					ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide a contact name");
-				if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
-					ModelState.AddModelError("MainContactOtherEmailNotEntered", ValidationMessageConstants.MustHaveOtherContactEmail);
-				else if (!string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
-				{
-					var emailAddress = new EmailAddress(ViewModel.MainContactOtherEmail);
-					var emailValidator = new EmailValidator();
-					if (!emailValidator.Validate(emailAddress).IsValid)
-						ModelState.AddModelError("MainContactOtherEmailInvalid", "Other contact email is not a valid e-mail address");
-				}
+				ValidateOtherContactMessages();
 				PopulateValidationMessages();
 				return false;
 			}
