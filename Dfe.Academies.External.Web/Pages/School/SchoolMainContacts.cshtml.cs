@@ -125,19 +125,29 @@ namespace Dfe.Academies.External.Web.Pages.School
 			if (ViewModel != null && ViewModel.ContactRole == MainConversionContact.Other)
 			{
 				if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherName))
+				{
 					ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide a contact name");
+					PopulateValidationMessages();
+					return false;
+				}
 				if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
+				{
 					ModelState.AddModelError("MainContactOtherEmailNotEntered", ValidationMessageConstants.MustHaveOtherContactEmail);
+					PopulateValidationMessages();
+					return false;
+				}
 				else if (!string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
 				{
 					var emailAddress = new EmailAddress(ViewModel.MainContactOtherEmail);
 					var emailValidator = new EmailValidator();
 					if (!emailValidator.Validate(emailAddress).IsValid)
+					{
 						ModelState.AddModelError("MainContactOtherEmailInvalid", "Main contact email is not a valid e-mail address");
+						PopulateValidationMessages();
+						return false;
+					}
 				}
-				PopulateValidationMessages();
-				return false;
-			} 
+			}
 
 			return true;
 		}
