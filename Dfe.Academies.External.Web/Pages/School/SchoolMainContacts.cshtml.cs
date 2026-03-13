@@ -25,7 +25,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				var bools = new[] { OtherNameError, OtherEmailError, OtherEmailFormatError, OtherEmailInvalidError };
+				var bools = new[] { OtherNameError, OtherEmailError, OtherEmailInvalidError };
 
 				return bools.Any(b => b);
 			}
@@ -45,14 +45,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				return !ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherEmailNotEntered");
 			}
-		}
-		public bool OtherEmailFormatError
-		{
-			get
-			{
-				return !ModelState.IsValid && ModelState.Keys.Contains("ViewModel.MainContactOtherEmail");
-			}
-		}
+		} 
 
 		public bool OtherEmailInvalidError
 		{
@@ -118,6 +111,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			if (!ModelState.IsValid)
 			{
+				if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherName)) 
+					ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide a contact name");
+				if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
+					ModelState.AddModelError("MainContactOtherEmailNotEntered", ValidationMessageConstants.MustHaveOtherContactEmail);
+				else if (!string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
+				{
+					var emailAddress = new EmailAddress(ViewModel.MainContactOtherEmail);
+					var emailValidator = new EmailValidator();
+					if (!emailValidator.Validate(emailAddress).IsValid)
+						ModelState.AddModelError("MainContactOtherEmailInvalid", "Other contact email is not a valid e-mail address");
+				}
 				PopulateValidationMessages();
 				return false;
 			}
@@ -142,7 +146,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 					var emailValidator = new EmailValidator();
 					if (!emailValidator.Validate(emailAddress).IsValid)
 					{
-						ModelState.AddModelError("MainContactOtherEmailInvalid", "Main contact email is not a valid e-mail address");
+						ModelState.AddModelError("MainContactOtherEmailInvalid", "Other contact email is not a valid e-mail address");
 						PopulateValidationMessages();
 						return false;
 					}

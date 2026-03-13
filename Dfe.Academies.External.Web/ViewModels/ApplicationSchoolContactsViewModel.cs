@@ -44,7 +44,6 @@ public sealed class ApplicationSchoolContactsViewModel
 
 	public string? MainContactOtherName { get; set; }
 
-	[EmailAddress(ErrorMessage = "Other contact email is not a valid e-mail address")]
 	public string? MainContactOtherEmail { get; set; }
 
 

@@ -125,7 +125,7 @@
                                             <p id="MainContactOtherEmailNotEntered-error" class="govuk-error-message @(!Model.IsPropertyInvalid("MainContactOtherEmailNotEntered") ? "govuk-visually-hidden" : "")" role="alert">
                                                     <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.MustHaveOtherContactEmail
                                             </p>
-                                                <p id="MainContactOtherEmailInvalid-error" class="govuk-error-message @(!Model.IsPropertyInvalid("ViewModel.MainContactOtherEmail") ? "govuk-visually-hidden" : "")" role="alert">
+                                                <p id="MainContactOtherEmailInvalid-error" class="govuk-error-message @(!Model.IsPropertyInvalid("MainContactOtherEmailInvalid") ? "govuk-visually-hidden" : "")" role="alert">
                                                     <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.OtherContactInvalidEmail
                                             </p>
                                             <input type="email" asp-for="ViewModel.MainContactOtherEmail" id="MainContactOtherEmail"
