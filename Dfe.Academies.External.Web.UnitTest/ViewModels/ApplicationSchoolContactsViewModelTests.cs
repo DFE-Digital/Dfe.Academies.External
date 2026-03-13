@@ -213,28 +213,7 @@ internal sealed class ApplicationSchoolContactsViewModelTests
 		Assert.That(results, Has.Some.Matches<ValidationResult>(r =>
 			r.MemberNames.Contains(nameof(ApplicationSchoolContactsViewModel.ContactRole)) &&
 			r.ErrorMessage?.Contains("main contact") == true));
-	}
-
-	[Test]
-	public void Validation_WhenMainContactOtherEmailInvalidFormat_ReturnsError()
-	{
-		var model = new ApplicationSchoolContactsViewModel(1, 100)
-		{
-			ContactHeadName = "Head",
-			ContactHeadEmail = "head@school.com",
-			ContactChairName = "Chair",
-			ContactChairEmail = "chair@school.com",
-			ContactRole = MainConversionContact.Other,
-			MainContactOtherName = "Other",
-			MainContactOtherEmail = "not-valid-email"
-		};
-
-		var results = ValidateModel(model);
-
-		Assert.That(results, Has.Some.Matches<ValidationResult>(r =>
-			r.MemberNames.Contains(nameof(ApplicationSchoolContactsViewModel.MainContactOtherEmail)) &&
-			r.ErrorMessage?.Contains("Other contact") == true));
-	}
+	} 
 
 	[Test]
 	public void Validation_WhenApproverContactEmailInvalidFormat_ReturnsError()

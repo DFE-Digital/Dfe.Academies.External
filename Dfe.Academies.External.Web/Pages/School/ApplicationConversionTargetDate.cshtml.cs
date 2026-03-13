@@ -16,7 +16,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		// MR:- VM props to capture data
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = ValidationMessageConstants.TargetDateDifferentDetails)]
 		public SelectOption? TargetDateDifferent { get; set; }
 
 		/// <summary>

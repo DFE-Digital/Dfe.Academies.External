@@ -31,6 +31,6 @@ public static class ValidationMessageConstants
 	public const string MustChooseExistingLoanOption = "Please select an option for existing loans";
 	public const string AddLoanDetails = "You must provide existing loans details";
 	public const string MustChooseChangingSchoolNameOption = "Please choose otpion if the school will change its name";
-	public const string ApplicationJoinTrustReasonDetails = "You must provide rasons for joining the trust";
+	public const string ApplicationJoinTrustReasonsDetails = "You must provide reasons for joining the trust";
 }
 

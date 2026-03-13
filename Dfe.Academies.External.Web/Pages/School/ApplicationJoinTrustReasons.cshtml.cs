@@ -11,7 +11,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	{
 		// MR:- VM props to capture pupil numbers data
 		[BindProperty]
-		[Required(ErrorMessage = ValidationMessageConstants.ApplicationJoinTrustReasonDetails)]
+		[Required(ErrorMessage = ValidationMessageConstants.ApplicationJoinTrustReasonsDetails)]
 		public string? ApplicationJoinTrustReason { get; set; } = string.Empty;
 
 		public ApplicationJoinTrustReasonsModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,

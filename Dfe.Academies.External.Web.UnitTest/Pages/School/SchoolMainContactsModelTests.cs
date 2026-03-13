@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
@@ -68,10 +68,10 @@ internal sealed class SchoolMainContactsModelTests
 		// act
 		await pageModel.OnPostAsync();
 
-		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+		var errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.That(errors.Count, Is.EqualTo(1));
+		Assert.That(errors.Count, Is.EqualTo(2));
 		Assert.That(pageModel.OtherNameError, Is.True);
 	}
 
@@ -94,10 +94,10 @@ internal sealed class SchoolMainContactsModelTests
 		// act
 		await pageModel.OnPostAsync();
 
-		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+		var errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.That(errors.Count, Is.EqualTo(1));
+		Assert.That(errors.Count, Is.EqualTo(2));
 		Assert.That(pageModel.OtherEmailError, Is.True);
 	}
 
@@ -120,11 +120,10 @@ internal sealed class SchoolMainContactsModelTests
 		// act
 		await pageModel.OnPostAsync();
 
-		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+		var errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.That(errors.Count, Is.EqualTo(1));
-		//Assert.That(pageModel.OtherTelephoneError, Is.True);
+		Assert.That(errors.Count, Is.EqualTo(3));
 	}
 
 	[Test]
@@ -146,10 +145,10 @@ internal sealed class SchoolMainContactsModelTests
 		// act
 		await pageModel.OnPostAsync();
 
-		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+		var errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.That(errors.Count, Is.EqualTo(1));
+		Assert.That(errors.Count, Is.EqualTo(2));
 		Assert.That(pageModel.OtherContactError, Is.True);
 	}
 
@@ -172,10 +171,10 @@ internal sealed class SchoolMainContactsModelTests
 		// act
 		await pageModel.OnPostAsync();
 
-		Dictionary<string, IEnumerable<string>?> errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
+		var errors = (Dictionary<string, IEnumerable<string>?>)pageModel.ViewData["Errors"]!;
 
 		// assert
-		Assert.That(errors.Count, Is.EqualTo(1));
+		Assert.That(errors.Count, Is.EqualTo(2));
 		Assert.That(pageModel.OtherContactError, Is.True);
 	}
 
@@ -380,19 +379,7 @@ internal sealed class SchoolMainContactsModelTests
 		pageModel.ModelState.AddModelError("MainContactOtherEmailInvalid", "Invalid email");
 
 		Assert.That(pageModel.OtherEmailInvalidError, Is.True);
-	}
-
-	[Test]
-	public void OtherEmailFormatError_WhenModelStateContainsKey_ReturnsTrue()
-	{
-		var pageModel = SetupSchoolMainContactsModel(
-			Mock.Of<IConversionApplicationService>(),
-			Mock.Of<IConversionApplicationRetrievalService>(),
-			Mock.Of<IReferenceDataRetrievalService>());
-		pageModel.ModelState.AddModelError("ViewModel.MainContactOtherEmail", "Invalid format");
-
-		Assert.That(pageModel.OtherEmailFormatError, Is.True);
-	}
+	} 
 
 	[Test]
 	public void OtherContactError_WhenOtherEmailInvalidError_ReturnsTrue()

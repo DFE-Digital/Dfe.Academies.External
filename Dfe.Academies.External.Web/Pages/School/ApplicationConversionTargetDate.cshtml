@@ -62,7 +62,7 @@
                     {
                         <div class="govuk-radios__conditional @(selectOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")"
                      id="selectoption-yes" aria-expanded="false">
-                            <div id="SchoolConversionTargetDateNotEntered" class=" govuk-form-group @(Model.SchoolConversionTargetDateError ? "govuk-form-group--error" : "")">
+                           <div class="govuk-form-group @(!Model.ModelState.IsValid ? "govuk-form-group--error" : "")">
                                 <fieldset class="govuk-fieldset" role="group" aria-describedby="conversion-date-different-date-hint">
                                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
                                         Preferred date
@@ -82,15 +82,14 @@
                                         </govuk-date>
                                     </div>
                                 </fieldset>
-                            </div>
-                            <div id="TargetDateExplainedNotEntered" class="govuk-form-group @(Model.TargetDateExplainedError ? "govuk-form-group--error" : "")">
+                                
                                 <div class="govuk-!-margin-6"></div>
                                 <label class="@(Model.TargetDateExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
                                     @ValidationMessageConstants.MustHaveConversionDateExplained
                                 </label>
                                 <label for="TargetDateExplained" class="govuk-label">Explain why you want to convert on this date</label>
                                 <textarea asp-for="TargetDateExplained" id="TargetDateExplained" class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
-                            </div>
+                            </div> 
                         </div>
                     }
                 }

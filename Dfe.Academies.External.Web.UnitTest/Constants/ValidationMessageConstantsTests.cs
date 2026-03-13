@@ -37,7 +37,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Constants
 			Assert.Equal("Please select an option for existing loans", ValidationMessageConstants.MustChooseExistingLoanOption);
 			Assert.Equal("You must provide existing loans details", ValidationMessageConstants.AddLoanDetails);
 			Assert.Equal("Please choose otpion if the school will change its name", ValidationMessageConstants.MustChooseChangingSchoolNameOption);
-			Assert.Equal("You must provide rasons for joining the trust", ValidationMessageConstants.ApplicationJoinTrustReasonDetails);
+			Assert.Equal("You must provide reasons for joining the trust", ValidationMessageConstants.ApplicationJoinTrustReasonsDetails);
 		}
 	}
 }
