@@ -173,7 +173,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandWorksPlannedExplained))
 			{
-				ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", "Provide details of the works, how they’ll be funded and whether the funding will be affected by the conversion");
+				ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", "You must provide details of the works");
 			}
 
 			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && WorksPlannedDateLocal == DateTime.MinValue)
@@ -183,12 +183,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (SchoolBuildLandSharedFacilities == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandSharedFacilitiesExplained))
 			{
-				ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", "You must provide list of these facilities");
+				ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", "You must provide list of these shared facilities");
 			}
 
 			if (SchoolBuildLandGrants == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandGrantsBodies))
 			{
-				ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", "You must provide list of these facilities");
+				ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", "You must provide the awarding bodies and the facilities they funded");
 			}
 
 			if (SchoolBuildLandPFIScheme == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandPFISchemeType))

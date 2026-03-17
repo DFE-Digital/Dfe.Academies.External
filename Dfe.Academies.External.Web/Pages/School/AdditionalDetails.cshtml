@@ -485,7 +485,7 @@
                                 <div class="govuk-form-group @(Model.EqualityAssessmentError ? "govuk-form-group--error" : "")">
                                     <p id="equalitiesImpactAssessmentOptionNoOptionSelected"
                                class="@(Model.EqualityAssessmentError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                        You must enter an option
+                                        You must select an equalities impact assessment option
                                     </p>
                                     @foreach (var disproportionateProtectedCharacteristicsOption in Enum.GetValues<SchoolEqualitiesProtectedCharacteristics>().OrderByDescending(x => x.ToString()))
                                     {

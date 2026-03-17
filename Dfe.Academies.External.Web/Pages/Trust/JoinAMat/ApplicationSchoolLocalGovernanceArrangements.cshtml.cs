@@ -46,7 +46,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 			
 			if (ChangesToLaGovernanceOption == SelectOption.Yes && string.IsNullOrWhiteSpace(ChangesToLaGovernanceExplained))
 			{
-				ModelState.AddModelError("ChangesToLaGovernanceExplainedNotEntered", "You must provide governance change details");
+				ModelState.AddModelError("ChangesToLaGovernanceExplainedNotEntered", "You must enter the details of the changes to the governance");
 				PopulateValidationMessages();
 				return false;
 			}

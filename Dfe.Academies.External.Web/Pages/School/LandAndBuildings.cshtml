@@ -135,7 +135,7 @@
                              id="sharedFacilitiesOption-yes" aria-expanded="false">
                                     <div id="SchoolBuildLandSharedFacilitiesExplainedNotEntered" class="govuk-form-group @(Model.IsPropertyInvalid("SchoolBuildLandSharedFacilitiesExplainedNotEntered") ? "govuk-form-group--error" : "")">
                                         <label class="@(Model.SchoolBuildLandSharedFacilitiesExplainedError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                            You must provide list of these facilities
+                                            You must provide list of these shared facilities
                                         </label>
                                         <label for="SchoolBuildLandSharedFacilitiesExplained" class="govuk-label">List these facilities and the school’s plan for them after converting</label>
                                         <textarea asp-for="SchoolBuildLandSharedFacilitiesExplained" id="SchoolBuildLandSharedFacilitiesExplained"
@@ -177,7 +177,7 @@
 
                                     <div id="SchoolBuildLandGrantsBodiesNotEntered" class="govuk-form-group @(Model.SchoolBuildLandGrantsBodiesError ? "govuk-form-group--error" : "")">
                                         <label class="@(Model.SchoolBuildLandGrantsBodiesError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                            You must provide list of these facilities
+                                            You must provide the awarding bodies and the facilities they funded
                                         </label>
                                         <label for="SchoolBuildLandGrantsBodies" class="govuk-label">Which bodies awarded the grants and what facilities did they fund?</label>
                                         <textarea asp-for="SchoolBuildLandGrantsBodies" id="SchoolBuildLandGrantsBodies"
