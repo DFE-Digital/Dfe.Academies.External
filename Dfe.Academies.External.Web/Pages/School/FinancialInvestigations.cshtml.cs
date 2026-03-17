@@ -13,7 +13,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	{
 		// MR:- VM props to capture data
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = "Please confirm if any financial investigations are ongoing at the school")]
 		public SelectOption? FinanceOngoingInvestigations { get; set; }
 
 		[BindProperty]
@@ -102,7 +102,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (FinanceOngoingInvestigations == SelectOption.Yes && !FinancialInvestigationsTrustAware.HasValue)
 			{
-				ModelState.AddModelError("FinancialInvestigationsTrustAwareNotSelected", "You must provide details");
+				ModelState.AddModelError("FinancialInvestigationsTrustAwareNotSelected", "Please confirm if any financial investigations are ongoing at the school.");
 			}			
 			
 			if (!ModelState.IsValid)

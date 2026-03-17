@@ -21,7 +21,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		}
 
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = "You must choose if there are any existing details")]
 		public SelectOption? AnyLeases { get; set; }
 
 		public List<LeaseViewModel> LeaseViewModels { get; set; }

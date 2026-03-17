@@ -18,20 +18,20 @@ namespace Dfe.Academies.External.Web.Pages.School
 		[BindProperty]
 		public int Urn { get; set; }
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide total amount")]
 
 		public decimal TotalAmount { get; set; }
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide purpose of loan details")]
 		public string Purpose { get; set; }
 		[BindProperty]
 		[Required(ErrorMessage = "You must provide details")]
 		public string Provider { get; set; }
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide loan provider details")]
 		public decimal InterestRate { get; set; }
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide schedule of repayment details")]
 		public string RepaymentSchedule { get; set; }
 
 		[BindProperty]

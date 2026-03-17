@@ -336,7 +336,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (FurtherInformation == SelectOption.Yes && string.IsNullOrWhiteSpace(FurtherInformationDetails))
 			{
-				ModelState.AddModelError("furtherInformationDetailsNotAdded", "You must provide details");
+				ModelState.AddModelError("furtherInformationDetailsNotAdded", "You must provide further information details");
 			}
 
 			foreach (var file in ResolutionConsentFiles.Where(file => file.Length >= FileUploadConstants.MaxFileUploadSizeInBytes))

@@ -173,7 +173,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandWorksPlannedExplained))
 			{
-				ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", "You must provide details");
+				ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", "Provide details of the works, how they’ll be funded and whether the funding will be affected by the conversion");
 			}
 
 			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && WorksPlannedDateLocal == DateTime.MinValue)
@@ -183,17 +183,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (SchoolBuildLandSharedFacilities == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandSharedFacilitiesExplained))
 			{
-				ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", "You must provide details");
+				ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", "You must provide list of these facilities");
 			}
 
 			if (SchoolBuildLandGrants == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandGrantsBodies))
 			{
-				ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", "You must provide details");
+				ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", "You must provide list of these facilities");
 			}
 
 			if (SchoolBuildLandPFIScheme == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandPFISchemeType))
 			{
-				ModelState.AddModelError("SchoolBuildLandPFISchemeTypeNotEntered", "You must provide details");
+				ModelState.AddModelError("SchoolBuildLandPFISchemeTypeNotEntered", "You must provide type of PFI scheme");
 			}
 
 			if (!ModelState.IsValid)
