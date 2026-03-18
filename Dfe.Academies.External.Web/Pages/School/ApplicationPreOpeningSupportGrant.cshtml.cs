@@ -88,7 +88,7 @@ public class ApplicationPreOpeningSupportGrantModel : BaseSchoolPageEditModel
 
 		if (ApplicationType == ApplicationTypes.JoinAMat && !SchoolSupportGrantFundsPaidTo.HasValue)
 		{
-			ModelState.AddModelError("SchoolSupportGrantFundsPaidToNotEntered", "You must provide details");
+			ModelState.AddModelError("SchoolSupportGrantFundsPaidToNotEntered", "You must provide school support grant funding details");
 			PopulateValidationMessages();
 			return false;
 		}

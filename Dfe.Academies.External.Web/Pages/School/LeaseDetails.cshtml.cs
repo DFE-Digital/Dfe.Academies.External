@@ -19,31 +19,31 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public int Urn { get; set; }
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide lease term details")]
 		public string LeaseTerm { get; set; }
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide repayment amount details")]
 		public decimal RepaymentAmount { get; set; }
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide interest rate details")]
 		public decimal InterestRate { get; set; }
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide payments to date details")]
 
 		public decimal PaymentsToDate { get; set; }
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide purpose of finance lease details")]
 		public string Purpose { get; set; }
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide asset value at the start of the finance lease agreement details")]
 		public string ValueOfAssets { get; set; }
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide who is responsible for insurance, repair, and maintenance of the assets details")]
 		public string ResponsibleForAssets { get; set; }
 
 		[BindProperty]

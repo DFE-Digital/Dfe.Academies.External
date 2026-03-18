@@ -55,7 +55,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 
 			if (TrustChange.HasValue && TrustChange.Value == Enums.TrustChange.Yes && string.IsNullOrWhiteSpace(TrustChangeExplained))
 			{
-				ModelState.AddModelError("TrustChangeExplainedNotEntered", "You must provide details");
+				ModelState.AddModelError("TrustChangeExplainedNotEntered", "You must enter the details of the changes to the trust");
 				PopulateValidationMessages();
 				return false;
 			}

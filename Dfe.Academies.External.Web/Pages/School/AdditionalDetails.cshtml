@@ -1,4 +1,5 @@
 ﻿@page
+@using Dfe.Academies.External.Web.Constants
 @using Dfe.Academies.External.Web.Enums
 @using Dfe.Academies.External.Web.Extensions
 @using Dfe.Academies.External.Web.Helpers
@@ -34,8 +35,7 @@
                 <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
                     <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel" />
                 </div>
-
-                <div class="govuk-form-group @(Model.IsPropertyInvalid("TrustBenefitDetails") ? "govuk-form-group--error" : "")">
+                 <div class="govuk-form-group @(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")"> 
                     <fieldset class="govuk-fieldset">
                         <label for="TrustBenefitDetails" class="govuk-fieldset__legend govuk-fieldset__legend--s">
                             What will the school bring to the trust they are joining?
@@ -44,21 +44,19 @@
                             Describe the contribution they will make
                         </span>
                         <p id="TrustBenefitDetails-error" class="@(Model.IsPropertyInvalid("TrustBenefitDetails") ? "govuk-error-message" : "govuk-visually-hidden")">
-                            <span class="govuk-visually-hidden">Error:</span> You must provide details
+                            <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.TrustBenefitDetails
                         </p>
                         <textarea asp-for="TrustBenefitDetails" id="TrustBenefitDetails"
                               class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
 
-                    </fieldset>
-                </div>
+                    </fieldset> 
 
-                <div id="OfstedInspected" class="govuk-form-group @(Model.IsPropertyInvalid("OfstedInspected") ? "govuk-form-group--error" : "") govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-                    <fieldset class="govuk-fieldset" role="group">
+                     <fieldset class="govuk-fieldset" role="group">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
                             Have Ofsted recently inspected the school but not published the report yet?
                         </legend>
-                        <p id="TrustBenefitDetails-error" class="@(Model.IsPropertyInvalid("OfstedInspected") ? "govuk-error-message" : "govuk-visually-hidden")">
-                            <span class="govuk-visually-hidden">Error:</span> You must provide details
+                        <p id="OfstedInspectionDetails-error" class="@(Model.IsPropertyInvalid("OfstedInspected") ? "govuk-error-message" : "govuk-visually-hidden")">
+                            <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.OfstedInspectedDetails
                         </p>
                     @foreach (var ofstedInspectedOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                     {
@@ -80,7 +78,7 @@
                                 <div class="govuk-form-group @(Model.OfstedInspectedDetailsError ? "govuk-form-group--error" : "")">
                                     <p id="OfstedInspectionDetailsNotAdded"
                                class="@(Model.OfstedInspectedDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                        You must provide details
+                                        @ValidationMessageConstants.OfstedInspectedDetails
                                     </p>
                                     <label for="OfstedInspectedDetails" class="govuk-label">Provide the inspection date and a short summary of the outcome</label>
                                     <textarea asp-for="OfstedInspectionDetails" id="OfstedInspectedDetails" class="govuk-textarea" cols="40" rows="5" maxlength="2000"></textarea>
@@ -88,16 +86,13 @@
                             </div>
                         }
                     }
-                </fieldset>
-            </div>
-
-            <div id="SafeguardingInvestigations" class="govuk-form-group @(Model.IsPropertyInvalid("SafeguardingInvestigations") ? "govuk-form-group--error" : "") govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-                <fieldset class="govuk-fieldset" role="group">
+                </fieldset> 
+             <fieldset class="govuk-fieldset" role="group">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
                         Are there any safeguarding investigations ongoing at the school?
                     </legend>
                     <p id="SafeguardingInvestigations-error" class="@(Model.IsPropertyInvalid("SafeguardingInvestigations") ? "govuk-error-message" : "govuk-visually-hidden")">
-                        <span class="govuk-visually-hidden">Error:</span> You must provide details
+                        <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.SafeguardingInvestigationsDetails
                     </p>
                     @foreach (var safeguardingOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                     {
@@ -115,15 +110,12 @@
                         </div>
                     }
                 </fieldset>
-            </div>
-
-            <div id="LocalAuthorityReorganisation" class="govuk-form-group @(Model.IsPropertyInvalid("LocalAuthorityReorganisation") ? "govuk-form-group--error" : "") govuk-radios govuk-radios--conditional" data-module="govuk-radios">
                 <fieldset class="govuk-fieldset" role="group">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
                         Is the school part of a local authority reorganisation?
                     </legend>
                     <p id="LocalAuthorityReorganisation-error" class="@(Model.IsPropertyInvalid("LocalAuthorityReorganisation") ? "govuk-error-message" : "govuk-visually-hidden")">
-                        <span class="govuk-visually-hidden">Error:</span> You must provide details
+                        <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.LocalAuthorityReorganisationDetails
                     </p>
                     @foreach (var localAuthorityOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                     {
@@ -146,7 +138,7 @@
                                 <div class="govuk-form-group @(Model.LocalAuthorityReorganisationDetailsError ? "govuk-form-group--error" : "")">
                                     <p id="LocalAuthorityReorganisationDetailsNotAdded"
                                class="@(Model.LocalAuthorityReorganisationDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                        You must provide details
+                                        You must provide local authority reorganisation details
                                     </p>
                                     <label for="LocalAuthorityReorganisationDetails" class="govuk-label">Details of the reorganisation</label>
                                     <textarea asp-for="LocalAuthorityReorganisationDetails" id="LocalAuthorityReorganisationDetails"
@@ -156,15 +148,12 @@
                         }
                     }
                 </fieldset>
-            </div>
-
-            <div id="LocalAuthorityClosurePlans" class="govuk-form-group @(Model.IsPropertyInvalid("LocalAuthorityClosurePlans") ? "govuk-form-group--error" : "") govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-                <fieldset class="govuk-fieldset" role="group">
+             <fieldset class="govuk-fieldset" role="group">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
                         Is the school part of any local authority closure plans?
                     </legend>
                     <p id="LocalAuthorityClosurePlans-error" class="@(Model.IsPropertyInvalid("LocalAuthorityClosurePlans") ? "govuk-error-message" : "govuk-visually-hidden")">
-                        <span class="govuk-visually-hidden">Error:</span> You must provide details
+                        <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.LocalAuthorityClosurePlanDetails
                     </p>
                     @foreach (var localAuthorityClosurePlanOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                     {
@@ -187,7 +176,7 @@
                                 <div class="govuk-form-group @(Model.LocalAuthorityClosurePlanDetailsError ? "govuk-form-group--error" : "")">
                                     <p id="localAuthorityClosurePlanDetailsNotAdded"
                                class="@(Model.LocalAuthorityClosurePlanDetailsError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                        You must provide details
+                                        @ValidationMessageConstants.LocalAuthorityClosurePlanDetails
                                     </p>
                                     <label for="LocalAuthorityClosurePlanDetails" class="govuk-label">Details of the closure plans</label>
                                     <textarea asp-for="LocalAuthorityClosurePlanDetails" id="LocalAuthorityClosurePlanDetails"
@@ -197,15 +186,12 @@
                         }
                     }
                 </fieldset>
-            </div>
-
-            <div id="LinkedToDiocese" class="govuk-form-group @(Model.IsPropertyInvalid("LinkedToDiocese") ? "govuk-form-group--error" : "") govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-                <fieldset class="govuk-fieldset" role="group">
+                 <fieldset class="govuk-fieldset" role="group">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
                         Is the school linked to a diocese?
                     </legend>
                     <p id="LinkedToDiocese-error" class="@(Model.IsPropertyInvalid("LinkedToDiocese") ? "govuk-error-message" : "govuk-visually-hidden")">
-                        <span class="govuk-visually-hidden">Error:</span> You must provide details
+                        <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.LinkedToDioceseDetails
                     </p>
                     @foreach (var dioceseOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                     {
@@ -228,7 +214,7 @@
                                 <div class="govuk-form-group @(Model.DioceseNameError ? "govuk-form-group--error" : "")">
                                     <p id="DioceseNameNotAdded"
                                class="@(Model.DioceseNameError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                        You must provide details
+                                        @ValidationMessageConstants.DioceseNameDetails
                                     </p>
                                     <label for="DioceseName" class="govuk-label">Name of diocese</label>
                                     <textarea asp-for="DioceseName" id="DioceseName" class="govuk-textarea" cols="5" rows="1" maxlength="2000"></textarea>
@@ -264,10 +250,7 @@
                         }
                     }
                 </fieldset>
-            </div>
-
-            <div id="PartOfFederation" class="govuk-form-group @(Model.IsPropertyInvalid("PartOfFederation") ? "govuk-form-group--error" : "") govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-                <fieldset class="govuk-fieldset" role="group">
+              <fieldset class="govuk-fieldset" role="group">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
                         Is the school part of a federation
                     </legend>
@@ -276,7 +259,7 @@
                         <a href="https://www.legislation.gov.uk/uksi/2012/1035/contents/made" target="_blank" class="govuk-link--no-visited-state" rel="noopener">(The School Governance (Federations) (England) Regulations 2012)</a>
                     </span>
                     <p id="PartOfFederation-error" class="@(Model.IsPropertyInvalid("PartOfFederation") ? "govuk-error-message" : "govuk-visually-hidden")">
-                        <span class="govuk-visually-hidden">Error:</span> You must provide details
+                        <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.PartOfFederationDetails
                     </p>
                     @foreach (var federationOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                     {
@@ -294,15 +277,12 @@
                         </div>
                     }
                 </fieldset>
-            </div>
-
-            <div id="SupportedByFoundationTrustOrBody" class="govuk-form-group @(Model.IsPropertyInvalid("SupportedByFoundationTrustOrBody") ? "govuk-form-group--error" : "") govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-                <fieldset class="govuk-fieldset" role="group">
+             <fieldset class="govuk-fieldset" role="group">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
                         Is the school supported by a foundation, trust or other body(e.g. parish council) that appoints foundation governors?
                     </legend>
                     <p id="SupportedByFoundationTrustOrBody-error" class="@(Model.IsPropertyInvalid("SupportedByFoundationTrustOrBody") ? "govuk-error-message" : "govuk-visually-hidden")">
-                        <span class="govuk-visually-hidden">Error:</span> You must provide details
+                        <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.SupportedByFoundationTrustOrBodyDetails
                     </p>
                     @foreach (var supportedByFoundationTrustOrBodyOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                     {
@@ -325,7 +305,7 @@
                                 <div class="govuk-form-group @(Model.SupportedByFoundationTrustOrBodyError ? "govuk-form-group--error" : "")">
                                     <p id="FoundationTrustOrBodyNameNotAdded"
                                class="@(Model.SupportedByFoundationTrustOrBodyError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                        You must provide details
+                                        @ValidationMessageConstants.SupportedByFoundationTrustOrBodyDetails
                                     </p>
                                     <label for="FoundationTrustOrBodyName" class="govuk-label">Name of this body</label>
                                     <textarea asp-for="FoundationTrustOrBodyName" id="FoundationTrustOrBodyName" class="govuk-textarea" cols="10" rows="1" maxlength="2000"></textarea>
@@ -370,15 +350,12 @@
                         }
                     }
                 </fieldset>
-            </div>
-
-            <div id="ExemptionFromSACRE" class="govuk-form-group @(Model.IsPropertyInvalid("ExemptionFromSACRE") ? "govuk-form-group--error" : "") govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-                <fieldset class="govuk-fieldset" role="group">
+              <fieldset class="govuk-fieldset" role="group">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
                         Does the school currently have an exemption from providing broadly Christian collective worship issued by the local Standing Committee on Religious Education (SACRE)?
                     </legend>
                     <p id="ExemptionFromSACRE-error" class="@(Model.IsPropertyInvalid("ExemptionFromSACRE") ? "govuk-error-message" : "govuk-visually-hidden")">
-                        <span class="govuk-visually-hidden">Error:</span> You must provide details
+                        <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.ExemptionFromSACREDetails
                     </p>
                     @foreach (var exemptionFromSACREOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                     {
@@ -405,7 +382,7 @@
                                 </div>           
                                 <p id="exemptionFromSACREEndDateNotAdded"
                                              class="@(Model.ExemptionFromSACREError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                    You must provide details
+                                    @ValidationMessageConstants.ExemptionFromSACREDetails
                                 </p>
                                 <govuk-date field-name="@Model.ExemptionEndDateName"
                                     field-data="@Model.ExemptionEndDate"
@@ -418,11 +395,7 @@
                         }
                     }
                 </fieldset>
-            </div>
-
-
-            <div class="govuk-form-group @(Model.IsPropertyInvalid("MainFeederSchools") ? "govuk-form-group--error" : "")">
-                <fieldset class="govuk-fieldset">
+              <fieldset class="govuk-fieldset">
                     <div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
                         <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel" />
                     </div>
@@ -433,10 +406,10 @@
 
                 </fieldset>
                 <p id="MainFeederSchools-error" class="@(Model.IsPropertyInvalid("MainFeederSchools") ? "govuk-error-message" : "govuk-visually-hidden")">
-                    <span class="govuk-visually-hidden">Error:</span> You must provide details
+                    <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.MainFeederSchoolDetails
                 </p>
                 <textarea asp-for="MainFeederSchools" id="MainFeederSchools" class="govuk-textarea" cols="40" rows="10" maxlength="2000"></textarea>
-            </div>
+           
 
 
             <div class="govuk-form-group">
@@ -482,13 +455,12 @@
                 <p class="govuk-body govuk-radios__conditional">The application cannot be submitted without this. You can carry on the application and come back to this later.</p>
             </div>
 
-            <div id="EqualityAssessment" class="govuk-form-group @(Model.IsPropertyInvalid("EqualityAssessment") ? "govuk-form-group--error" : "") govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-                <fieldset class="govuk-fieldset" role="group">
+             <fieldset class="govuk-fieldset" role="group">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
                         Has an equalities impact assessment been carried out and considered by the governing body?
                     </legend>
                     <p id="EqualityAssessment-error" class="@(Model.IsPropertyInvalid("EqualityAssessment") ? "govuk-error-message" : "govuk-visually-hidden")">
-                        <span class="govuk-visually-hidden">Error:</span> You must provide details
+                        <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.EqualityAssessmentDetails
                     </p>
                     @foreach (var equalitiesImpactAssessmentOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                     {
@@ -513,7 +485,7 @@
                                 <div class="govuk-form-group @(Model.EqualityAssessmentError ? "govuk-form-group--error" : "")">
                                     <p id="equalitiesImpactAssessmentOptionNoOptionSelected"
                                class="@(Model.EqualityAssessmentError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                        You must enter an option
+                                        You must select an equalities impact assessment option
                                     </p>
                                     @foreach (var disproportionateProtectedCharacteristicsOption in Enum.GetValues<SchoolEqualitiesProtectedCharacteristics>().OrderByDescending(x => x.ToString()))
                                     {
@@ -536,15 +508,12 @@
                         }
                     }
                 </fieldset>
-            </div>
-
-            <div id="FurtherInformation" class="govuk-form-group @(Model.IsPropertyInvalid("FurtherInformation") ? "govuk-form-group--error" : "") govuk-radios govuk-radios--conditional" data-module="govuk-radios">
-                <fieldset class="govuk-fieldset" role="group">
+             <fieldset class="govuk-fieldset" role="group">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
                         Do you want to add any further information?
                     </legend>
                     <p id="FurtherInformation-error" class="@(Model.IsPropertyInvalid("FurtherInformation") ? "govuk-error-message" : "govuk-visually-hidden")">
-                        <span class="govuk-visually-hidden">Error:</span> You must provide details
+                        <span class="govuk-visually-hidden">Error:</span> @ValidationMessageConstants.FurtherInformationDetails
                     </p>
                     @foreach (var furtherInformationOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                     {
@@ -567,7 +536,7 @@
                                 <div class="govuk-form-group @(Model.FurtherInformationError ? "govuk-form-group--error" : "")">
                                     <p id="furtherInformationDetailsNotAdded"
                                class="@(Model.FurtherInformationError ? "govuk-error-message" : "govuk-visually-hidden")">
-                                        You must provide details
+                                        @ValidationMessageConstants.FurtherInformationDetails
                                     </p>
                                     <label for="furtherInformationDetails" class="govuk-label">Any other information</label>
                                     <textarea asp-for="FurtherInformationDetails" id="furtherInformationDetails"

@@ -1,4 +1,5 @@
-﻿using Dfe.Academies.External.Web.Dtos;
+﻿using Dfe.Academies.External.Web.Constants;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Models;
@@ -7,13 +8,13 @@ using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.Validators;
 using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class SchoolMainContactsModel : BaseSchoolPageEditModel
 	{
-		//
-		public string SigninApproverQuestionText { get; private set; } = string.Empty;
+		public string SigninApproverQuestionText { get; private set; } = "When your schools converts, we need to create a new DfE sign-in account for the academy. Please provide the most suitable contact to manage the new academies account.";
 
 		[BindProperty]
 		public ApplicationSchoolContactsViewModel ViewModel { get; set; }
@@ -24,7 +25,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			get
 			{
-				var bools = new[] { OtherNameError, OtherEmailError };
+				var bools = new[] { OtherNameError, OtherEmailError, OtherEmailInvalidError };
 
 				return bools.Any(b => b);
 			}
@@ -43,6 +44,14 @@ namespace Dfe.Academies.External.Web.Pages.School
 			get
 			{
 				return !ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherEmailNotEntered");
+			}
+		} 
+
+		public bool OtherEmailInvalidError
+		{
+			get
+			{
+				return !ModelState.IsValid && ModelState.Keys.Contains("MainContactOtherEmailInvalid");
 			}
 		}
 		
@@ -80,10 +89,35 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				var draftConversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData);
 
-				PopulateUiModel(selectedSchool, draftConversionApplication.ApplicationType);
+				if (draftConversionApplication != null)
+				{
+					PopulateUiModel(selectedSchool, draftConversionApplication.ApplicationType);
+				}
+				else
+				{
+					ViewModel = new ApplicationSchoolContactsViewModel(ApplicationId, urn);
+				}
+			}
+			else
+			{
+				ViewModel = new ApplicationSchoolContactsViewModel(ApplicationId, urn);
 			}
 
 			return Page();
+		}
+		private void ValidateOtherContactMessages()
+		{
+			if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherName))
+				ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide a contact name");
+			if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
+				ModelState.AddModelError("MainContactOtherEmailNotEntered", ValidationMessageConstants.MustHaveOtherContactEmail);
+			else if (!string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
+			{
+				var emailAddress = new EmailAddress(ViewModel.MainContactOtherEmail);
+				var emailValidator = new EmailValidator();
+				if (!emailValidator.Validate(emailAddress).IsValid)
+					ModelState.AddModelError("MainContactOtherEmailInvalid", "Other contact email is not a valid e-mail address");
+			}
 		}
 
 		///<inheritdoc/>
@@ -91,49 +125,83 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			if (!ModelState.IsValid)
 			{
+				ValidateOtherContactMessages();
 				PopulateValidationMessages();
 				return false;
 			}
 
-			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherName))
+			if (ViewModel != null && ViewModel.ContactRole == MainConversionContact.Other)
 			{
-				ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide a contact name");
-				PopulateValidationMessages();
-				return false;
-			}
-
-			if (ViewModel.ContactRole == MainConversionContact.Other && string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
-			{
-				ModelState.AddModelError("MainContactOtherEmailNotEntered", "You must provide an email");
-				PopulateValidationMessages();
-				return false;
-			}
-
-
-			// Check ViewModel.MainContactOtherEmail - is-valid email address
-			if (ViewModel.ContactRole == MainConversionContact.Other &&
-			    !string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
-			{
-				var emailAddress = new EmailAddress(ViewModel.MainContactOtherEmail);
-				var emailValidator = new EmailValidator();
-				var validationResult = emailValidator.Validate(emailAddress);
-
-				if (!validationResult.IsValid)
+				if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherName))
 				{
-					// display:- (ErrorMessage = "Main contact email is not a valid e-mail address")
-					ModelState.AddModelError("MainContactOtherEmailInvalid", "Main contact email is not a valid e-mail address");
+					ModelState.AddModelError("MainContactOtherNameNotEntered", "You must provide a contact name");
 					PopulateValidationMessages();
 					return false;
+				}
+				if (string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
+				{
+					ModelState.AddModelError("MainContactOtherEmailNotEntered", ValidationMessageConstants.MustHaveOtherContactEmail);
+					PopulateValidationMessages();
+					return false;
+				}
+				else if (!string.IsNullOrWhiteSpace(ViewModel.MainContactOtherEmail))
+				{
+					var emailAddress = new EmailAddress(ViewModel.MainContactOtherEmail);
+					var emailValidator = new EmailValidator();
+					if (!emailValidator.Validate(emailAddress).IsValid)
+					{
+						ModelState.AddModelError("MainContactOtherEmailInvalid", "Other contact email is not a valid e-mail address");
+						PopulateValidationMessages();
+						return false;
+					}
 				}
 			}
 
 			return true;
 		}
 
+		/// <summary>
+		/// Field order on the Main contacts page (matches display order for error summary).
+		/// Keys must match those added by PopulateViewDataErrorsWithModelStateErrors (with # prefix).
+		/// </summary>
+		private static readonly string[] MainContactsValidationKeyOrder =
+		[
+			"#ViewModel.ContactHeadName",
+			"#ViewModel.ContactHeadEmail",
+			"#ViewModel.ContactChairName",
+			"#ViewModel.ContactChairEmail",
+			"#ViewModel.ContactRole",
+			"#MainContactOtherNameNotEntered",
+			"#MainContactOtherEmailNotEntered",
+			"#ViewModel.MainContactOtherEmail",
+			"#MainContactOtherEmailInvalid"
+		];
+
 		///<inheritdoc/>
 		public override void PopulateValidationMessages()
 		{
 			PopulateViewDataErrorsWithModelStateErrors();
+			ReorderValidationMessagesToMatchPageOrder();
+		}
+
+		private void ReorderValidationMessagesToMatchPageOrder()
+		{
+			var current = ValidationErrorMessagesViewModel.ValidationErrorMessages;
+			if (current.Count == 0) return;
+
+			var ordered = new Dictionary<string, IEnumerable<string>?>();
+			foreach (string key in MainContactsValidationKeyOrder)
+			{
+				if (current.TryGetValue(key, out var messages))
+					ordered[key] = messages;
+			}
+
+			foreach (var kvp in current.Where(kvp => !ordered.ContainsKey(kvp.Key)))
+			{
+				ordered[kvp.Key] = kvp.Value;
+			}
+
+			ValidationErrorMessagesViewModel.ValidationErrorMessages = ordered;
 		}
 
 		///<inheritdoc/>
@@ -184,9 +252,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 				MainContactOtherEmail = selectedSchool.SchoolConversionMainContactOtherEmail,
 				ApproverContactName = selectedSchool.SchoolConversionApproverContactName,
 				ApproverContactEmail = selectedSchool.SchoolConversionApproverContactEmail
-			};
-
-			SigninApproverQuestionText = "When your schools converts, we need to create a new DfE sign-in account for the academy. Please provide the most suitable contact to manage the new academies account.";
+			}; 
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.Constants;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
@@ -16,11 +17,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		// MR:- VM props to capture land & buildings data
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = ValidationMessageConstants.SchoolBuildLandOwnerDetails)]
 		public string SchoolBuildLandOwnerExplained { get; set; } = string.Empty;
 
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.CurrentOrPlannedBuldingWorksDetails)]
 		public SelectOption? SchoolBuildLandWorksPlanned { get; set; }
 
 		[BindProperty]
@@ -39,32 +40,32 @@ namespace Dfe.Academies.External.Web.Pages.School
 		public string? WorksPlannedDateYear { get; set; }
 
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.SchoolSharedFacilitiesDetails)]
 		public SelectOption? SchoolBuildLandSharedFacilities { get; set; }
 
 		[BindProperty]
 		public string? SchoolBuildLandSharedFacilitiesExplained { get; set; }
 
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.SchoolBuildLandGrantsDetails)]
 		public SelectOption? SchoolBuildLandGrants { get; set; }
 
 		[BindProperty]
 		public string? SchoolBuildLandGrantsBodies { get; set; }
 
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.SchoolBuildLandPFISchemeDetails)]
 		public SelectOption? SchoolBuildLandPFIScheme { get; set; }
 
 		[BindProperty]
 		public string? SchoolBuildLandPFISchemeType { get; set; }
 
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.SchoolBuildLandPriorityBuildingProgrammeDetails)]
 		public SelectOption? SchoolBuildLandPriorityBuildingProgramme { get; set; }
 
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.SchoolBuildLandFutureProgrammeDetails)]
 		public SelectOption? SchoolBuildLandFutureProgramme { get; set; }
 
 		public bool HasError
@@ -172,7 +173,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandWorksPlannedExplained))
 			{
-				ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", "You must provide details");
+				ModelState.AddModelError("SchoolBuildLandWorksPlannedExplainedNotEntered", "You must provide details of the works");
 			}
 
 			if (SchoolBuildLandWorksPlanned == SelectOption.Yes && WorksPlannedDateLocal == DateTime.MinValue)
@@ -182,17 +183,17 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 			if (SchoolBuildLandSharedFacilities == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandSharedFacilitiesExplained))
 			{
-				ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", "You must provide details");
+				ModelState.AddModelError("SchoolBuildLandSharedFacilitiesExplainedNotEntered", "You must provide list of these shared facilities");
 			}
 
 			if (SchoolBuildLandGrants == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandGrantsBodies))
 			{
-				ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", "You must provide details");
+				ModelState.AddModelError("SchoolBuildLandGrantsBodiesNotEntered", "You must provide the awarding bodies and the facilities they funded");
 			}
 
 			if (SchoolBuildLandPFIScheme == SelectOption.Yes && string.IsNullOrWhiteSpace(SchoolBuildLandPFISchemeType))
 			{
-				ModelState.AddModelError("SchoolBuildLandPFISchemeTypeNotEntered", "You must provide details");
+				ModelState.AddModelError("SchoolBuildLandPFISchemeTypeNotEntered", "You must provide type of PFI scheme");
 			}
 
 			if (!ModelState.IsValid)

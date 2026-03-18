@@ -1,4 +1,4 @@
-﻿/**
+/**
 * Copyright (c) 2022
 *
 * Trust search Javascript to wire up to a local GET endpoint which will then in turn call
@@ -169,13 +169,13 @@ academies.addCustomClientSideValidators = function () {
 				//check selected trust control
 				const selectedSchool = document.getElementById("SearchQueryInput").value;
 				if (selectedSchool.trim().length === 0) {
-					academies.addSearchQueryValidationMessage("You must choose a trust from the list");
+					academies.addSearchQueryValidationMessage("You must give the name of the trust");
 					return false;
 				} else {
 					return true;
 				}
 			} else {
-				academies.addSearchQueryValidationMessage("Search must be more than 4 characters");
+				academies.addSearchQueryValidationMessage("You must give the name of the trust");
 				return false;
 			}
 		} else {
@@ -190,50 +190,68 @@ academies.addCustomClientSideValidators = function () {
 	});
 };
 
+academies.clearClientErrorSummary = function () {
+	const summary = document.getElementById("client-error-summary");
+	const list = document.getElementById("client-error-summary-list");
+	if (summary && list) {
+		list.innerHTML = "";
+		summary.classList.add("govuk-!-display-none");
+	}
+};
+
+academies.showErrorSummaryItem = function (fieldSelector, errorMessage) {
+	const summary = document.getElementById("client-error-summary");
+	const list = document.getElementById("client-error-summary-list");
+	if (!summary || !list) return;
+
+	const link = document.createElement("a");
+	link.href = fieldSelector;
+	link.className = "govuk-error-summary__link";
+	link.textContent = errorMessage;
+
+	const li = document.createElement("li");
+	li.appendChild(link);
+	list.appendChild(li);
+
+	summary.classList.remove("govuk-!-display-none");
+	summary.focus();
+};
+
 academies.clearTrustSearchErrorBars = function () {
-	if (document.getElementById("SearchQueryContainer").classList.contains("govuk-form-group--error")) {
-		document.getElementById("SearchQueryContainer").classList.remove("govuk-form-group--error");
+	document.getElementById("SearchQueryContainer")?.classList.remove("govuk-form-group--error");
+
+	const confirmationErrorContainer = document.getElementById("ConfirmationErrorContainer");
+	if (confirmationErrorContainer) {
+		confirmationErrorContainer.classList.remove("govuk-form-group--error");
+		academies.hideElement("ConfirmationErrorContainer");
 	}
 
-	if (document.getElementById("ConfirmationErrorContainer").classList.contains("govuk-form-group--error")) {
-		document.getElementById("ConfirmationErrorContainer").classList.remove("govuk-form-group--error");
-	}
+	document.getElementById("confirm-trust-checkbox")?.classList.remove("govuk-form-group--error");
 
-	if (document.getElementById("confirm-trust-checkbox").classList.contains("govuk-form-group--error")) {
-		document.getElementById("confirm-trust-checkbox").classList.remove("govuk-form-group--error");
-	}
+	academies.clearClientErrorSummary();
 };
 
 academies.addSearchQueryValidationMessage = function (errorMessage) {
 	academies.clearTrustSearchErrorBars();
+	academies.showErrorSummaryItem("#SearchQueryInput", errorMessage);
 
-	//id="SearchQueryInput-error" = span
-	//const span = document.getElementById('SearchQueryInput-error');
-	//span.textContent = errorMessage;
-
-	// MR:- add left bar
 	const elementToManipulate = document.getElementById("SearchQueryContainer");
 	elementToManipulate.classList.add("govuk-form-group--error");
 };
 
 academies.addConfirmValidationMessage = function () {
 	academies.clearTrustSearchErrorBars();
-
+	academies.showErrorSummaryItem("#ConfirmSelection", "You must confirm that this is the correct trust");
 	academies.unhideElement("ConfirmationErrorContainer");
-	// MR:- add left bar
 	const elementToManipulate = document.getElementById("confirm-trust-checkbox");
 	elementToManipulate.classList.add("govuk-form-group--error");
 };
 
-academies.trustSearchClientSideValidation = function () {
-	//academies.addcomplexCustomValidators();
-
+academies.clientSideValidation = function () {
 	var form = $("#search-form");
 	form.validate();
-
-	if ($(this).valid()) {
-		// MR:- carry on - run server side code
-	} else {
+	// Use form.valid() so ConfirmSelection checkbox is validated when trust is selected
+	if (!form.valid()) {
 		event.preventDefault();
 	}
 };

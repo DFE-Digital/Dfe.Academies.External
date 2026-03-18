@@ -32,14 +32,14 @@
 				<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 					<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 				</div>
-
+            
                 <p class="govuk-body">
                     Converting schools should normally be in surplus or have a balanced budget.
                 </p>
                 <p class="govuk-body">
                     We may let the school carry forward a deficit, but only if they have a plan to balance their budget in a reasonable time and provide a forecast showing how they'll do this in 2 to 3 years from conversion.
                 </p>
-                
+            <div class="govuk-form-group @(!ViewData.ModelState.IsValid ? "govuk-form-group--error" : "")">
                 <div class="govuk-form-group">
 				 <div id="CFYFinancialEndDateNotEntered">
                     <fieldset class="govuk-fieldset" role="group">
@@ -243,7 +243,8 @@
 		                </div>
 	                </fieldset>
                 </div>
-			</fieldset>
+                </div>
+            </fieldset>
         <br />
 
 		<input type="submit" value="Save and continue" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"/>

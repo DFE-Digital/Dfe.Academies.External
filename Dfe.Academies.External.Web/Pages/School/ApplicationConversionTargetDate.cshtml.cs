@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Dfe.Academies.External.Web.Constants;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
@@ -15,7 +16,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		// MR:- VM props to capture data
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = ValidationMessageConstants.TargetDateDifferentDetails)]
 		public SelectOption? TargetDateDifferent { get; set; }
 
 		/// <summary>
@@ -118,12 +119,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			if (TargetDateDifferent == SelectOption.Yes && TargetDateLocal == DateTime.MinValue)
 			{
-				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", "You must input a valid date");
+				ModelState.AddModelError("SchoolConversionTargetDateNotEntered", ValidationMessageConstants.MustHaveConversionDate);
 			}
 
 			if (TargetDateDifferent == SelectOption.Yes && string.IsNullOrWhiteSpace(TargetDateExplained))
 			{
-				ModelState.AddModelError("TargetDateExplainedNotEntered", "You must explain why you want to convert on this date");
+				ModelState.AddModelError("TargetDateExplainedNotEntered", ValidationMessageConstants.MustHaveConversionDateExplained);
 			}
 
 			if (!ModelState.IsValid)

@@ -35,7 +35,7 @@
                                 Are there any existing leases?
                             </legend>
                             <p id="AnyLeases-error" class="govuk-error-message @(!Model.IsPropertyInvalid("AnyLeases") ? "govuk-visually-hidden" : "")">
-                                <span class="govuk-visually-hidden">Error:</span> You must provide details
+                            <span class="govuk-visually-hidden">Error:</span> You must choose if there are any existing details
                             </p>
                         @foreach (var anyLeasesOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                         {
@@ -56,7 +56,7 @@
                                 <div class="govuk-radios__conditional  @(anyLeasesOption == SelectOption.No ? "govuk-radios__conditional--hidden" : "")" id="anyLeasesOption-yes">
                                     <div class="govuk-form-group @(Model.IsPropertyInvalid("AddedLeasesButEmptyCollectionError") ? "govuk-form-group--error" : "")">
                                         <p id="AddedLeasesButEmptyCollection-error" class="govuk-error-message @(!Model.IsPropertyInvalid("AddedLeasesButEmptyCollectionError") ? "govuk-visually-hidden" : "")">
-                                            <span class="govuk-visually-hidden">Error:</span> You must provide details
+                                            <span class="govuk-visually-hidden">Error:</span> You must provide the details on the lease
                                         </p>
                                         @foreach (var lease in Model.LeaseViewModels)
                                         {

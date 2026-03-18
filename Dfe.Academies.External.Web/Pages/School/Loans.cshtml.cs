@@ -1,4 +1,5 @@
 ﻿using Dfe.Academies.External.Web.Attributes;
+using Dfe.Academies.External.Web.Constants;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
@@ -20,7 +21,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{ }
 
 		[BindProperty]
-		[RequiredEnum(ErrorMessage = "You must provide details")]
+		[RequiredEnum(ErrorMessage = ValidationMessageConstants.MustChooseExistingLoanOption)]
 		public SelectOption? AnyLoans { get; set; }
 
 		public List<LoanViewModel> LoanViewModels { get; set; }
@@ -119,7 +120,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		{
 			if (AnyLoans == SelectOption.Yes && !LoanViewModels.Any())
 			{
-				ModelState.AddModelError("AddedLoansButEmptyCollectionError", "You must provide the details on the loan");
+				ModelState.AddModelError("AddedLoansButEmptyCollectionError", ValidationMessageConstants.AddLoanDetails);
 				PopulateValidationMessages();
 				return false;
 			}

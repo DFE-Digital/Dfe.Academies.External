@@ -31,7 +31,7 @@
                         <partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel" />
                     </div>
                     <p id="FinanceOngoingInvestigations-error" class="govuk-error-message @(!Model.IsPropertyInvalid("FinanceOngoingInvestigations") ? "govuk-visually-hidden" : "")">
-                        <span class="govuk-visually-hidden">Error:</span> You must provide details
+                    <span class="govuk-visually-hidden">Error:</span> Please select if the trust is aware of the investigation.
                     </p>
                     <div id="FinanceOngoingInvestigations" class="govuk-form-group">
                         <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
@@ -69,7 +69,7 @@
                                                 Is the trust you are joining aware of the investigation?
                                             </legend>
                                             <p id="FinancialInvestigationsTrustAwareNotSelected-error" class="govuk-error-message @(!Model.IsPropertyInvalid("FinancialInvestigationsTrustAwareNotSelected") ? "govuk-visually-hidden" : "")">
-                                                <span class="govuk-visually-hidden">Error:</span> You must provide details
+                                                    <span class="govuk-visually-hidden">Error:</span> Please confirm if any financial investigations are ongoing at the school
                                             </p>
                                             @foreach (var trustAwareOption in Enum.GetValues(typeof(SelectOption)).OfType<SelectOption>().OrderByDescending(x => x.ToString()))
                                             {

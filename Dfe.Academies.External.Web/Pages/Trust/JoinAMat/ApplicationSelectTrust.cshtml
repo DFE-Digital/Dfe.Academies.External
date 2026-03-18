@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model ApplicationSelectTrustModel
 @{
 	ViewData["Title"] = "Trust Details";
@@ -16,6 +16,8 @@
 		<div class="@(!ViewData.ModelState.IsValid ? "govuk-visually-hidden" : "")">
 			<partial name="_ValidationSummary" model="Model.ValidationErrorMessagesViewModel"/>
 		</div>
+
+        <partial name="_ErrorSummary" /> 
 
 		<form method="post" id="search-form" novalidate>
 			@Html.AntiForgeryToken()

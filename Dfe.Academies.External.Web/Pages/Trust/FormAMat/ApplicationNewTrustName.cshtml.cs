@@ -13,7 +13,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		//// MR:- VM props to capture data -
 
 		[BindProperty]
-		[Required(ErrorMessage = "You must provide details")]
+		[Required(ErrorMessage = "You must provide proposed name of trust details")]
 		public string? ProposedNameOfTrust { get; set; }
 
 		public ApplicationStatus ApplicationStatus {get; private set;}
