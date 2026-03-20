@@ -4,9 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). To see an example from a mature product in the program [see the Complete products changelog that follows the same methodology](https://github.com/DFE-Digital/complete-conversions-transfers-changes/blob/main/CHANGELOG.md).
 
-## [Unreleased](https://github.com/DFE-Digital/Dfe.Academies.External/compare/production-2026-03-09.680...HEAD)
+## [Unreleased](https://github.com/DFE-Digital/Dfe.Academies.External/compare/production-2026-03-20.692...HEAD)
 ---
 
+## [1.30.1][1.30.1] - 2026-03-20
+### Changed
+- 262487 - accessibility -  inconsistent error messages
+
+---
 ## [1.30.0][1.30.0] - 2026-03-09
 
 ### Changed
@@ -246,6 +251,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - initial production release
 
+[1.30.1]: https://github.com/DFE-Digital/Dfe.Academies.External/releases/tag/production-2026-03-20.692
 [1.30.0]: https://github.com/DFE-Digital/Dfe.Academies.External/releases/tag/production-2026-03-09.680
 [1.29.1]: https://github.com/DFE-Digital/Dfe.Academies.External/releases/tag/production-2026-02-23.663
 [1.29.0]: https://github.com/DFE-Digital/Dfe.Academies.External/releases/tag/production-2026-02-10.657
