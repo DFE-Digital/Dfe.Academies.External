@@ -44,7 +44,6 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// assert
 		Assert.That(searchSchools, Is.Not.Null);
-		ClassicAssert.AreEqual(true, searchSchools.Any());
 		ClassicAssert.AreEqual(expectedCount, searchSchools.Count());
 		Assert.That(searchSchools?.FirstOrDefault()?.Name, Is.EqualTo("The Cardinal Wiseman Catholic School"));
 		Assert.That(searchSchools?.FirstOrDefault()?.Urn, Is.EqualTo("101934"));
@@ -205,7 +204,6 @@ internal sealed class ReferenceDataRetrievalServiceTests
 
 		// assert
 		Assert.That(trusts, Is.Not.Null);
-		ClassicAssert.AreEqual(true, trusts.Any());
 		ClassicAssert.AreEqual(expectedCount, trusts.Count());
 		ClassicAssert.AreEqual(ukprn, trusts?.FirstOrDefault()?.Ukprn);
 		ClassicAssert.AreEqual("ALCESTER GRAMMAR SCHOOL", trusts?.FirstOrDefault()?.Name);

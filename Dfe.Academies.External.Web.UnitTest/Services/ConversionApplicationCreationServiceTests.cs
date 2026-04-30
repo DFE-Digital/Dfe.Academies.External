@@ -78,8 +78,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		Assert.That(newApplication, Is.Not.Null);
 		ClassicAssert.AreEqual(newApplication.ApplicationType, conversionApplication.ApplicationType);
 		ClassicAssert.AreEqual(newApplication.ApplicationStatus, conversionApplication.ApplicationStatus);
-
-		ClassicAssert.AreNotEqual(newApplication.ApplicationId, 0);
+		ClassicAssert.AreNotEqual(0, newApplication.ApplicationId);
 	}
 
 	/// <summary>
