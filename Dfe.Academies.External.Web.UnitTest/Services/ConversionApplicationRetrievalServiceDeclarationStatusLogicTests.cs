@@ -25,7 +25,7 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 	public async Task CalculateDeclarationStatus___ConversionApplicationNullReturns___NotStarted()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
@@ -49,7 +49,7 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 	public async Task CalculateDeclarationStatus___ApplicationTypeJoinAMatAndNoSchool___Returns___NotStarted()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
@@ -75,7 +75,7 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 	public async Task CalculateDeclarationStatus___ApplicationTypeJoinAMatAndSchool___Returns___NotStarted()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
@@ -101,7 +101,7 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 	public async Task CalculateDeclarationStatus___ApplicationTypeJoinAMatAndSchoolAndDeclarationBodyAgree___Returns___Completed()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
@@ -128,7 +128,7 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 	public async Task CalculateDeclarationStatus___ApplicationTypeFormAMatAndNoSchool___Returns___NotStarted()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
@@ -154,7 +154,7 @@ internal sealed class ConversionApplicationRetrievalServiceDeclarationStatusLogi
 	public async Task CalculateDeclarationStatus___ApplicationTypeFormAMatAndSchool___Returns___NotStarted()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 

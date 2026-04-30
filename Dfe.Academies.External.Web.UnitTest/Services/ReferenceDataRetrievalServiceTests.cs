@@ -27,7 +27,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public async Task SearchSchools___ApiReturns200___Success()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/schoolSearchResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/schoolSearchResponse.json";
 		string expectedJSON = await File.ReadAllTextAsync(fullFilePath);
 		int expectedCount = 12;
 		string schoolName = "wise";
@@ -74,7 +74,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public async Task GetSchool___ApiReturns200___Success()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getSchoolResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getSchoolResponse.json";
 		string expectedJSON = await File.ReadAllTextAsync(fullFilePath);
 		int urn = 101934;
 
@@ -188,7 +188,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public async Task GetTrusts___ApiReturns200___Success()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getTrustSearchResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getTrustSearchResponse.json";
 		string expectedJSON = await File.ReadAllTextAsync(fullFilePath);
 		int expectedCount = 10;
 		string name = "grammar";
@@ -242,7 +242,7 @@ internal sealed class ReferenceDataRetrievalServiceTests
 	public async Task GetTrustByUkPrn___ApiReturns200___Success()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getTrustResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getTrustResponse.json";
 		string expectedJSON = await File.ReadAllTextAsync(fullFilePath);
 		string ukprn = "10058464";
 
