@@ -24,7 +24,7 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 	public async Task CalculateTrustStatus___ConversionApplicationNullReturns___NotStarted()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
@@ -48,7 +48,7 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 	public async Task CalculateTrustStatus___JoinTrustDetailsNullReturns___NotStarted()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
@@ -77,7 +77,7 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 	public async Task CalculateTrustStatus___JoinTrustDetailsTrustNameOnlyReturns___InProgress()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
@@ -103,7 +103,7 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 	public async Task CalculateTrustStatus___JoinTrustDetailsMinimalAndTrustChangesReturns___InProgress()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
@@ -129,7 +129,7 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 	public async Task CalculateTrustStatus___JoinTrustDetailsMinimalAndChangesToLaGovernanceReturns___InProgress()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
@@ -155,7 +155,7 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 	public async Task CalculateTrustStatus___JoinTrustDetailsReturns___Completed()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 

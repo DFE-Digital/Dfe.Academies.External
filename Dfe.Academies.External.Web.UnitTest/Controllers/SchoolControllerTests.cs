@@ -32,7 +32,7 @@ internal sealed class SchoolControllerTests
 		// arrange
 		string schoolName = "wise";
 		//int urn = 101934;
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/schoolSearchResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/schoolSearchResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		int expectedCount = 12;
 
@@ -329,7 +329,7 @@ internal sealed class SchoolControllerTests
 	{
 		// arrange
 		string selectedSchool = "Wise owl primary school (587634)"; // selected value will be in the format 'Wise owl primary school (587634)'
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getSchoolResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getSchoolResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		int urn = 101934;
 		var mockFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);

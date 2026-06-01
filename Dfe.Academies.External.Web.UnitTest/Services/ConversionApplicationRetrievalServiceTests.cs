@@ -206,7 +206,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 	public async Task GetSchoolApplicationComponents___ApiReturns200___Success()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		int expectedCount = 8;
 		int applicationId = 25;
@@ -230,7 +230,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 	public async Task GetConversionApplicationContributors___ApiReturns200___Success()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		int expectedCount = 3; 
 		int applicationId = 25; 
@@ -253,7 +253,7 @@ internal sealed class ConversionApplicationRetrievalServiceTests
 	public async Task GetApplication___JoinAMat___ApiReturns200___Success()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		int expectedCount = 1;
 		ApplicationStatus status = ApplicationStatus.InProgress;

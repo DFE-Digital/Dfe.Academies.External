@@ -28,7 +28,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatAndNoSchool___Returns___NotStarted()
 		{
 			// arrange
-			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
@@ -65,7 +65,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatAndSchool___Returns___NotStarted()
 		{
 			// arrange
-			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
@@ -107,7 +107,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatAndSchoolAndComponents___Returns___NotStarted()
 		{
 			// arrange
-			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
@@ -138,7 +138,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatAndSchoolAndComponents___Returns___InProgress()
 		{
 			// arrange
-			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
@@ -175,7 +175,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatAndSchoolAndComponents___Returns___InProgress2()
 		{
 			// arrange
-			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
@@ -212,7 +212,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatTrustStatusInProgress___ConversionStatusNotStarted___Returns___InProgress()
 		{
 			// arrange
-			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
@@ -250,7 +250,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatTrustStatusInProgress___ConversionStatusInProgress___Returns___InProgress()
 		{
 			// arrange
-			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
@@ -287,7 +287,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatTrustStatusInProgress___ConversionStatusCompleted___Returns___InProgress()
 		{
 			// arrange
-			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
@@ -324,7 +324,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatTrustStatusCompleted___ConversionStatusNotStarted___Returns___InProgress()
 		{
 			// arrange
-			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
@@ -361,7 +361,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatTrustStatusCompleted___ConversionStatusInProgress___Returns___InProgress()
 		{
 			// arrange
-			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
@@ -398,7 +398,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 		public async Task CalculateApplicationStatus___ApplicationTypeJoinAMatTrustStatusCompleted___ConversionStatusCompleted___Returns___InProgress()
 		{
 			// arrange
-			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
+			string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponseBasicJoinAMat.json";
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();

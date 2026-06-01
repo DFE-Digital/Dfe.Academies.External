@@ -34,7 +34,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	public async Task CreateNewApplication___NoContributor___ApiReturns400___BadRequest()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/createApplicationResponseInValid.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/createApplicationResponseInValid.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationNoRoles();
 
@@ -58,7 +58,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 	public async Task CreateNewApplication___Contributor___ApiReturns200___Success()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/createApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/createApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithOtherRole();
 
@@ -78,8 +78,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		Assert.That(newApplication, Is.Not.Null);
 		ClassicAssert.AreEqual(newApplication.ApplicationType, conversionApplication.ApplicationType);
 		ClassicAssert.AreEqual(newApplication.ApplicationStatus, conversionApplication.ApplicationStatus);
-
-		ClassicAssert.AreNotEqual(newApplication.ApplicationId, 0);
+		ClassicAssert.AreNotEqual(0, newApplication.ApplicationId);
 	}
 
 	/// <summary>
@@ -91,7 +90,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		// arrange
 		int urn = Fixture.Create<int>();
 		string schoolName = Fixture.Create<string>();
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
@@ -124,7 +123,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		int urn = Fixture.Create<int>();
 		string schoolName = Fixture.Create<string>();
 
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
@@ -154,7 +153,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		int applicationId = Fixture.Create<int>();
 		int urn = Fixture.Create<int>();
 		string schoolName = Fixture.Create<string>();
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
@@ -271,7 +270,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var properties = fixture.GetType().GetProperties();
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
 
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
@@ -304,7 +303,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var properties = fixture.GetType().GetProperties();
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
 
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);
@@ -339,7 +338,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var properties = fixture.GetType().GetProperties();
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
 
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.OK, string.Empty);
@@ -372,7 +371,7 @@ internal sealed class ConversionApplicationCreationServiceTests
 		var properties = fixture.GetType().GetProperties();
 		var dictionary = properties.ToDictionary<PropertyInfo?, string, dynamic>(prop => prop.Name, prop => prop.GetValue(fixture));
 
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getApplicationResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getApplicationResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 
 		var mockCreationHttpClientFactory = SetupMockHttpClientFactory(HttpStatusCode.InternalServerError, string.Empty);

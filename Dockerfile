@@ -1,5 +1,5 @@
 ﻿# Set the major version of dotnet
-ARG DOTNET_VERSION=8.0
+ARG DOTNET_VERSION=10.0
 
 # Stage 1 - Build the app using the dotnet SDK
 FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}-azurelinux3.0 AS build

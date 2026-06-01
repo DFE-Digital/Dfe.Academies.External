@@ -31,7 +31,7 @@ internal sealed class TrustControllerTests
 	{
 		// arrange
 		string trustName = "wise";
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getTrustSearchResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getTrustSearchResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		int expectedCount = 10;
 
@@ -54,7 +54,7 @@ internal sealed class TrustControllerTests
 	public async Task ReturnTrustDetailsPartialViewPopulated___ValidTrust___ReturnsPartialView()
 	{
 		// arrange
-		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}ExampleJsonResponses/getTrustResponse.json";
+		string fullFilePath = @$"{AppDomain.CurrentDomain.BaseDirectory}/ExampleJsonResponses/getTrustResponse.json";
 		string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 		var selectedTrust = JsonConvert.DeserializeObject<TrustDto>(expectedJson);
 
