@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0 # Shallow clones disabled for a better relevancy of SC analysis
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@9a946fdbda26ee23661bd64de85fa19934e803bf # v5.3.0
         with:
           dotnet-version: 8.0.x
 
@@ -28,7 +28,7 @@ jobs:
           distribution: 'microsoft'
 
       - name: Cache SonarCloud packages
-        uses: actions/cache@v4
+        uses: actions/cache@5ee40d6a033da4b46c601246fe6c001246fe6c001246 # v5.0.4
         with:
           path: ~\sonar\cache
           key: ${{ runner.os }}-sonar
