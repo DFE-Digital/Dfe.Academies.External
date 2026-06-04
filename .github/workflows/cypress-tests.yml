@@ -48,7 +48,8 @@ jobs:
           ref: ${{ github.ref }}
 
       - name: Run
-        uses: cypress-io/github-action@b7a744158dbb24a3e9c56fa76916fb296765796f
+        uses: cypress-io/github-action@8d89af9addfc8a23501c9e8581d517caa7010719
+ 
         env:
           CYPRESS_URL: ${{ secrets.URL }}
           CYPRESS_LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
@@ -66,7 +67,7 @@ jobs:
           npm run generate:html:report
 
       - name: Upload report
-        uses: actions/upload-artifact@b7c566a76332e75d38525f3abaf626f401d466f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: failure()
         with:
           name: screenshots-${{ inputs.environment }}-${{ matrix.browser }}
