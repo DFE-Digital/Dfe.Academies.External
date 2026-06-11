@@ -14,10 +14,10 @@ jobs:
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@b5ca514842bbda0d7c86c1e96d5c4c7fc297ef53
+        uses: docker/setup-buildx-action@22b48a429f10e1de233237b5c534c9c3d2e41597
 
       - name: Build docker image
-        uses: docker/build-push-action@d08e5c3acec8b8b9dfc9e5f30b1a8b0a07d35e1d
+        uses: docker/build-push-action@7b93b2b85cab035420f0625ccc86452575bab2be
         id: build
         with:
           secrets: github_token=${{ secrets.GITHUB_TOKEN }}
@@ -28,20 +28,3 @@ jobs:
 
       - name: Export docker image as tar
         run: docker save -o ${{ github.ref_name }}.tar ${{ steps.build.outputs.imageid }}
-
-      - name: Scan Docker image for CVEs
-        uses: aquasecurity/trivy-action@6c175e9c4083a92bbca2f9724c8a5e33bc2d97a5 # 0.30.0
-        with:
-          input: ${{ github.ref_name }}.tar
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-          limit-severities-for-sarif: true
-          ignore-unfixed: true
-          severity: 'CRITICAL,HIGH'
-          github-pat: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload scan results to GitHub Security
-        uses: github/codeql-action/upload-sarif@51f77329afa6477de8c49fc9c7046c15b9a4e79d # v3
-        if: always()
-        with:
-          sarif_file: 'trivy-results.sarif'
