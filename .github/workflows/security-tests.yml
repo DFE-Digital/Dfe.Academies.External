@@ -34,7 +34,7 @@ jobs:
 
       - name: Restore ZAP container from cache if exists
         id: cache-docker-zap
-        uses: actions/cache@1513bf9d27bd268e7fde1197dedbe54ff66f1e0c # v5.0.0
+        uses: actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0 # v5.0.0
         with:
           path: ~/ci/cache/docker/softwaresecurityproject
           key: cache-docker-zap-${{ env.ZAP_VERSION }}
