@@ -1,10 +1,10 @@
 ﻿using System.Web;
-using Dfe.Academies.Contracts.V4;
-using Dfe.Academies.Contracts.V4.Establishments;
-using Dfe.Academies.Contracts.V4.Trusts;
 using Dfe.Academies.External.Web.AcademiesAPIResponseModels;
 using Dfe.Academies.External.Web.ViewModels;
-using Dfe.Academisation.CorrelationIdMiddleware;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.V4;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Establishments;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.V4.Trusts;
+using GovUK.Dfe.CoreLibs.Http.Interfaces;
 
 namespace Dfe.Academies.External.Web.Services;
 

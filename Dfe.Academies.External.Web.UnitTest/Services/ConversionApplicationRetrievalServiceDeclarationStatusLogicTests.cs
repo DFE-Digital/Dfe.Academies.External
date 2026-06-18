@@ -9,7 +9,7 @@ using Moq;
 using NUnit.Framework;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Dfe.Academies.External.Web.Enums;
-using Dfe.Academisation.CorrelationIdMiddleware;
+using GovUK.Dfe.CoreLibs.Http.Interfaces;
 using Dfe.Academies.External.Web.FeatureManagement;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;

@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using Dfe.Academies.Contracts.V4;
+using GovUK.Dfe.CoreLibs.Contracts.Academies.V4;
 
 namespace Dfe.Academies.External.Web.Helpers
 {
