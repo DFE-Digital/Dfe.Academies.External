@@ -8,7 +8,6 @@ using Dfe.Academies.External.Web.Models.EmailTemplates;
 using Dfe.Academies.External.Web.Routing;
 using Dfe.Academies.External.Web.Security;
 using Dfe.Academies.External.Web.Services;
-using Dfe.Academisation.CorrelationIdMiddleware;
 using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -27,6 +26,8 @@ using Serilog;
 using StackExchange.Redis;
 using Microsoft.FeatureManagement;
 using Dfe.Academies.External.Web.FeatureManagement;
+using GovUK.Dfe.CoreLibs.Http.Interfaces;
+using GovUK.Dfe.CoreLibs.Http.Middlewares.CorrelationId;
 
 namespace Dfe.Academies.External.Web
 {

@@ -13,7 +13,7 @@ using Dfe.Academies.External.Web.FeatureManagement;
 using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
-using Dfe.Academisation.CorrelationIdMiddleware;
+using GovUK.Dfe.CoreLibs.Http.Interfaces;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;

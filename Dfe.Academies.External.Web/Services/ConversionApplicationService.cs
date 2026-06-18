@@ -2,7 +2,7 @@
 using Dfe.Academies.External.Web.Commands;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
-using Dfe.Academisation.CorrelationIdMiddleware;
+using GovUK.Dfe.CoreLibs.Http.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Services;

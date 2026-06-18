@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Routing;
-using DfE.CoreLibs.Testing.Authorization;
-using DfE.CoreLibs.Testing.Mocks.WebApplicationFactory;
 using Microsoft.Extensions.DependencyInjection;
-using DfE.CoreLibs.Testing.Authorization.Helpers; 
 using Xunit;
+using GovUK.Dfe.CoreLibs.Testing.Authorization;
+using GovUK.Dfe.CoreLibs.Testing.Authorization.Helpers;
+using GovUK.Dfe.CoreLibs.Testing.Mocks.WebApplicationFactory;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages
 {

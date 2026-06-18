@@ -12,7 +12,7 @@ using System.IO;
 using System.Linq;
 using AutoFixture;
 using Dfe.Academies.External.Web.ViewModels;
-using Dfe.Academisation.CorrelationIdMiddleware;
+using GovUK.Dfe.CoreLibs.Http.Interfaces;
 using Dfe.Academies.External.Web.FeatureManagement;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services

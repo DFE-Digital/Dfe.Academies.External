@@ -1,7 +1,6 @@
 ﻿using System.Net.Mime;
 using Dfe.Academies.External.Web.Middleware;
 using Dfe.Academies.External.Web.Services;
-using Dfe.Academisation.CorrelationIdMiddleware;
 
 namespace Dfe.Academies.External.Web.Extensions;
 
