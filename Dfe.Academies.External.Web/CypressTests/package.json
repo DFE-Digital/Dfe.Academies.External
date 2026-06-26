@@ -11,6 +11,7 @@
     "combine:reports": "mochawesome-merge  cypress/reports/mocha/*.json> mochareports/report.json",
     "create:html:report": "marge  mochareports/report.json -f report -o mochareports",
     "generate:html:report": "npm run combine:reports && npm run create:html:report",
+    "zap:report:teams": "node scripts/send-zap-teams-notification.js",
     "lint": "eslint ."
   },
   "keywords": [
@@ -41,6 +42,7 @@
     "@typescript-eslint/eslint-plugin": "^8.57.1",
     "@typescript-eslint/parser": "^8.57.1",
     "axe-core": "^4.11.1",
+    "axios": "^1.18.1",
     "cypress": "^15.12.0",
     "cypress-axe": "^1.7.0",
     "cypress-file-upload": "^5.0.8",
