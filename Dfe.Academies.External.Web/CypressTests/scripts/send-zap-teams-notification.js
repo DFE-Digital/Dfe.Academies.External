@@ -61,7 +61,7 @@ async function fetchScanResults() {
 	const zaproxy = createZapClient();
 	const {alerts} = await zaproxy.alert.alerts({});
 
-	const distinctIdsByRisk = {
+	const distinctRefsByRisk = {
 		High: new Set(),
 		Medium: new Set(),
 		Low: new Set(),
@@ -69,11 +69,11 @@ async function fetchScanResults() {
 	};
 
 	for (const alert of alerts) {
-		distinctIdsByRisk[alert.risk]?.add(alert.pluginId);
+		distinctRefsByRisk[alert.risk]?.add(alert.alertRef || alert.pluginId);
 	}
 
 	return Object.fromEntries(
-		Object.entries(distinctIdsByRisk).map(([risk, ids]) => [risk, ids.size]),
+		Object.entries(distinctRefsByRisk).map(([risk, refs]) => [risk, refs.size]),
 	);
 }
 
