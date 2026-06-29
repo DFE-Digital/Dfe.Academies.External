@@ -59,8 +59,22 @@ function createZapClient() {
 
 async function fetchScanResults() {
 	const zaproxy = createZapClient();
-	const summaryResponse = await zaproxy.alert.alertCountsByRisk({});
-	return summaryResponse.alertCountsByRisk ?? {};
+	const {alerts} = await zaproxy.alert.alerts({});
+
+	const distinctIdsByRisk = {
+		High: new Set(),
+		Medium: new Set(),
+		Low: new Set(),
+		Informational: new Set(),
+	};
+
+	for (const alert of alerts) {
+		distinctIdsByRisk[alert.risk]?.add(alert.pluginId);
+	}
+
+	return Object.fromEntries(
+		Object.entries(distinctIdsByRisk).map(([risk, ids]) => [risk, ids.size]),
+	);
 }
 
 function getAlertCount(summary, level) {
