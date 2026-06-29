@@ -59,8 +59,8 @@ function createZapClient() {
 
 async function fetchScanResults() {
 	const zaproxy = createZapClient();
-	const summaryResponse = await zaproxy.alert.alertsSummary({});
-	return summaryResponse.alertsSummary ?? {};
+	const summaryResponse = await zaproxy.alert.alertCountsByRisk({});
+	return summaryResponse.alertCountsByRisk ?? {};
 }
 
 function getAlertCount(summary, level) {
