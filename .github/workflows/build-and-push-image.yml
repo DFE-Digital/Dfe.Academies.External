@@ -143,7 +143,7 @@ jobs:
     secrets: inherit
 
   security-tests:
-    name: Run Cypress & Security Scanner Tests
+    name: Run Cypress tests with OWASP ZAP
     needs: [ set-env, build-import-deploy ]
     if: needs.set-env.outputs.environment == 'development'
     uses: ./.github/workflows/security-tests.yml
