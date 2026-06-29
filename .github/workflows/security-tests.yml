@@ -1,4 +1,4 @@
-name: Security scanner tests
+name: Security scan against Cypress tests
 
 on:
   workflow_call:
@@ -28,6 +28,8 @@ on:
       OWASP_STORAGE_ACCOUNT_NAME:
         required: true
       TEAMS_OWASP_SCAN_WEBHOOK_URL:
+        required: true
+      TEAMS_WEBHOOK_URL:
         required: true
   workflow_dispatch:
 
@@ -131,6 +133,20 @@ jobs:
           ZAP_ADDRESS: ${{ env.ZAP_ADDRESS }}
           ZAP_PORT: ${{ env.ZAP_PORT }}
         run: npm run cy:run -- --env URL=$URL,LOGIN_USERNAME=$LOGIN_USERNAME,LOGIN_PASSWORD=$LOGIN_PASSWORD,SIGNIN_URL=$SIGNIN_URL
+
+      - name: Generate Cypress report
+        if: always()
+        run: |
+          mkdir -p mochareports
+          npm run generate:html:report
+
+      - name: Report Cypress results to Teams
+        if: always()
+        run: npm run cypress:report:teams
+        env:
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          ENVIRONMENT: ${{ inputs.environment }}
+          INFORMATION_LINK: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
       - name: Azure login with OIDC
         if: ${{ !cancelled() }}
