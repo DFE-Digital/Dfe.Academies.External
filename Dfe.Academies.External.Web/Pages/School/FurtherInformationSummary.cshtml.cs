@@ -130,11 +130,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 			
 			var fileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result;
 			
-			
-			FISheading.Sections.Add(new(
-				FurtherInformationSectionViewModel.Resolution,
-				fileNames.Any() ? fileNames.First() : QuestionAndAnswerConstants.NoInfoAnswer)
-			);
+			// Disabled until file upload is re-enabled
+			// FISheading.Sections.Add(new(
+			// 	FurtherInformationSectionViewModel.Resolution,
+			// 	fileNames.Any() ? fileNames.First() : QuestionAndAnswerConstants.NoInfoAnswer)
+			// );
 			
 			FISheading.Sections.Add(new(
 				FurtherInformationSectionViewModel.EqualitiesImpactAssessment,
