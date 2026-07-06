@@ -375,9 +375,12 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		var foundationConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName).Result ?? [];
 		var resolutionConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result ?? [];
 		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) &&
-		    ((selectedSchool?.DioceseName == null) == (!dioceseFileNames.Any()) &&
-		     (selectedSchool?.FoundationTrustOrBodyName == null) == (!foundationConsentFileNames.Any())) &&
-		    resolutionConsentFileNames.Any())
+		    // Temporary due to file upload service being unavailable
+			// ((selectedSchool?.DioceseName == null) == (!dioceseFileNames.Any()) &&
+		    //  (selectedSchool?.FoundationTrustOrBodyName == null) == (!foundationConsentFileNames.Any()))) &&
+		    // resolutionConsentFileNames.Any())
+			(selectedSchool?.DioceseName == null) &&
+			(selectedSchool?.FoundationTrustOrBodyName == null))
 			return Status.Completed;
 
 		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) ||
