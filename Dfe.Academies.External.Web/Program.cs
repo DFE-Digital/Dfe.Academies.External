@@ -203,12 +203,15 @@ namespace Dfe.Academies.External.Web
 
 			builder.Services.AddScoped<ICorrelationContext, CorrelationContext>();
 
-			builder.Services.AddHttpClient<IFileUploadService, FileUploadService>(client =>
-			{
-				client.BaseAddress = new Uri(configuration["Sharepoint:ApiUrl"]);
-				client.DefaultRequestHeaders.Add("User-Agent", "ApplyToBecome/1.0");
-			})
-				.AddPolicyHandler(GetRetryPolicy());
+			// TEMPORARILY DISABLED: FileUploadService is disabled due to file store issues
+			// To re-enable, replace NoOpFileUploadService with FileUploadService below:
+			// builder.Services.AddHttpClient<IFileUploadService, FileUploadService>(client =>
+			// {
+			// 	client.BaseAddress = new Uri(configuration["Sharepoint:ApiUrl"]);
+			// 	client.DefaultRequestHeaders.Add("User-Agent", "ApplyToBecome/1.0");
+			// })
+			// 	.AddPolicyHandler(GetRetryPolicy());
+			builder.Services.AddScoped<IFileUploadService, NoOpFileUploadService>();
 
 			static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
 			{
