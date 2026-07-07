@@ -371,12 +371,15 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculateFurtherInformationSectionStatus(SchoolApplyingToConvert? selectedSchool, string applicationReference)
 	{
+		// Logic for Status has been tweaked temporarily due to file upload issues.
 		var dioceseFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool!.EntityId.ToString(),  applicationReference, FileUploadConstants.DioceseFilePrefixFieldName).Result ?? [];
 		var foundationConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName).Result ?? [];
 		var resolutionConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result ?? [];
 		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) &&
-		    (selectedSchool?.DioceseName != null &&//== (!dioceseFileNames.Any()) &&
-		     selectedSchool?.FoundationTrustOrBodyName != null)) //== (!foundationConsentFileNames.Any())) &&
+			((!string.IsNullOrEmpty(selectedSchool?.FurtherInformation)) ||
+			selectedSchool?.Safeguarding != null))
+		    // (selectedSchool?.DioceseName == null == (!dioceseFileNames.Any()) &&
+		    // selectedSchool?.FoundationTrustOrBodyName == null) == (!foundationConsentFileNames.Any()) &&
 		    // resolutionConsentFileNames.Any())
 			return Status.Completed;
 
