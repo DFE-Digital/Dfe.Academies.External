@@ -195,15 +195,17 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 
 	private Status CalculateGovernanceStructureSectionStatus(ConversionApplication application)
 	{
-		try
-		{
-			var result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelApplicationFolderName, application.EntityId.ToString(), application.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
-			return result.Any() ? Status.Completed : Status.NotStarted;
-		}
-		catch (Exception e)
-		{
-			return Status.NotStarted;
-		}
+	    // file uploads currently not working, set as complete so application can be submitted. Once file uploads are working, this will be changed back to the original logic.
+		return Status.Completed;
+	    //try
+	    //{
+	    //  var result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelApplicationFolderName, application.EntityId.ToString(), application.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
+	    //  return result.Any() ? Status.Completed : Status.NotStarted;
+	    //}
+	    //catch (Exception e)
+	    //{
+	    //  return Status.NotStarted;
+	    //}
 	}
 
 	private Status CalculateSchoolImprovementStrategyStatus(NewTrust applicationFormTrustDetails)
@@ -371,21 +373,15 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private Status CalculateFurtherInformationSectionStatus(SchoolApplyingToConvert? selectedSchool, string applicationReference)
 	{
-		// Logic for Status has been tweaked temporarily due to file upload issues.
+	    // Logic for Status has been tweaked temporarily due to file upload issues.
 		var dioceseFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool!.EntityId.ToString(),  applicationReference, FileUploadConstants.DioceseFilePrefixFieldName).Result ?? [];
 		var foundationConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName).Result ?? [];
 		var resolutionConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result ?? [];
-		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) &&
-			((!string.IsNullOrEmpty(selectedSchool?.FurtherInformation)) ||
-			(selectedSchool?.Safeguarding.HasValue == true && selectedSchool is not null)))
-		    // (selectedSchool?.DioceseName == null == (!dioceseFileNames.Any()) &&
-		    // selectedSchool?.FoundationTrustOrBodyName == null) == (!foundationConsentFileNames.Any()) &&
-		    // resolutionConsentFileNames.Any())
+
+		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails))
 			return Status.Completed;
 
-		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails) ||
-		    resolutionConsentFileNames.Any())
-			return Status.InProgress;
+	    // due to validation on the page can never show as inprogress, either not started or completed
 
 		return Status.NotStarted;
 	}
