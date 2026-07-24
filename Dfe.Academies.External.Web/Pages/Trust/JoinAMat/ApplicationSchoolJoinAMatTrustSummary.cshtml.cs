@@ -89,7 +89,10 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 			{
 				string folder = FileUploadConstants.FormatSharepointApplicationDirectory(reference, entityId.ToString());
 				var files = await _sharepointService.ListFilesAsync(folder);
-				trustConsentFileNames = files.Select(file => file.Name).ToList();
+				trustConsentFileNames = files
+					.Where(file => file.Name.StartsWith(FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName))
+					.Select(file => file.Name)
+					.ToList();
 			}
 			catch (Exception ex)
 			{
