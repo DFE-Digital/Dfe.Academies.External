@@ -2,8 +2,8 @@
 
 public static class FileUploadConstants
 {
-	public const string TopLevelApplicationFolderName = "sip_application";
-	public const string TopLevelSchoolFolderName = "sip_applyingschools";
+	public const string TopLevelApplicationFolderName = "application";
+	public const string TopLevelSchoolFolderName = "applying school";
 	public const string DioceseFilePrefixFieldName = "sip_adschoolfaithschoolfile";
 	public const string FoundationConsentFilePrefixFieldName = "sip_adschoolsupportedfoundationfile";
 	public const string ResolutionConsentfilePrefixFieldName = "sip_adschoolgoverningbodyconsent";
@@ -17,4 +17,13 @@ public static class FileUploadConstants
 	public const string JoinAMatTrustGovernanceFilePrefixFieldName = "sip_formtrustgovernancefile";
 	public const int MaxFileUploadSizeInBytes = 8 * 1024 * 1024; // 8 MB
 	public const string MaxFileUploadErrorMessage = "The file must be smaller than 8MB";
+
+	public static string FormatSharepointDirectory(string topLevelFolder, string applicationReference, string entityId)
+		=> $"{topLevelFolder}/{applicationReference}_{entityId}".ToUpper();
+
+	public static string FormatSharepointApplicationDirectory(string applicationReference, string entityId)
+		=> FormatSharepointDirectory(TopLevelApplicationFolderName, applicationReference, entityId);
+	
+	public static string FormatSharepointSchoolDirectory(string applicationReference, string entityId)
+		=> FormatSharepointDirectory(TopLevelSchoolFolderName, applicationReference, entityId);
 }

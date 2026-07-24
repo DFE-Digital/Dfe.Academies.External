@@ -28,6 +28,7 @@ using Microsoft.FeatureManagement;
 using Dfe.Academies.External.Web.FeatureManagement;
 using GovUK.Dfe.CoreLibs.Http.Interfaces;
 using GovUK.Dfe.CoreLibs.Http.Middlewares.CorrelationId;
+using GovUK.Dfe.CoreLibs.SharePoint;
 
 namespace Dfe.Academies.External.Web
 {
@@ -212,7 +213,8 @@ namespace Dfe.Academies.External.Web
 			// })
 			// 	.AddPolicyHandler(GetRetryPolicy());
 			builder.Services.AddScoped<IFileUploadService, NoOpFileUploadService>();
-
+			builder.Services.AddSharePointServices(configuration);
+			
 			static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
 			{
 				return HttpPolicyExtensions

@@ -2,17 +2,17 @@
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Helpers;
-using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
 using Dfe.Academies.External.Web.ViewModels.SummaryPages;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 {
 	public class ApplicationSchoolJoinAMatTrustSummaryModel : BaseApplicationSummaryPageModel
 	{
-		private readonly IFileUploadService _fileUploadService;
+		private readonly ISharePointService _sharepointService;
 		private readonly ILogger _logger;
 
 		//// Below are props for UI display
@@ -24,12 +24,15 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 
 		public List<ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel> ViewModel { get; set; } = new();
 
-		public ApplicationSchoolJoinAMatTrustSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-			IReferenceDataRetrievalService referenceDataRetrievalService, IFileUploadService fileUploadService,
-			ILogger<ApplicationSchoolJoinAMatTrustSummaryModel> logger)
+		public ApplicationSchoolJoinAMatTrustSummaryModel(
+			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+			IReferenceDataRetrievalService referenceDataRetrievalService, 
+			ISharePointService sharepointService,
+			ILogger<ApplicationSchoolJoinAMatTrustSummaryModel> logger
+		)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 		{
-			_fileUploadService = fileUploadService;
+			_sharepointService = sharepointService;
 			_logger = logger;
 		}
 
@@ -40,76 +43,82 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		}
 
 		///<inheritdoc/>
-		public override void PopulateUiModel(ConversionApplication? conversionApplication)
+		public override async Task PopulateUiModel(ConversionApplication? conversionApplication)
 		{
-		    ApplicationStatus = conversionApplication.ApplicationStatus;
-			
-			if (conversionApplication != null)
+			if (conversionApplication == null)
 			{
-				SelectedTrustName = conversionApplication.JoinTrustDetails?.TrustName ?? string.Empty;
+				return;
+			}
 
-				// heading 1 - the trust the school is joining
-				ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel headingChangeTrustName
-					= new(ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel.HeadingTrustSchoolIsJoining,
+			string reference = conversionApplication.ApplicationReference;
+			Guid entityId = conversionApplication.EntityId;
+			
+			ApplicationStatus = conversionApplication.ApplicationStatus;
+			SelectedTrustName = conversionApplication.JoinTrustDetails?.TrustName ?? string.Empty;
+
+			// heading 1 - the trust the school is joining
+			ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel headingChangeTrustName
+				= new(ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel.HeadingTrustSchoolIsJoining,
 					"/trust/joinamat/applicationselecttrust")
-					{
-						Status = !string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) ?
+				{
+					Status = !string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) ?
 						SchoolConversionComponentStatus.Complete
 						: SchoolConversionComponentStatus.NotStarted
-					};
+				};
 
-				// sub question - 1a) name of the trust
-				headingChangeTrustName.Sections.Add(new(ApplicationSchoolJoinAMatTrustSummarySectionViewModel.NameOfTheTrust,
-						(!string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) ?
-							conversionApplication.JoinTrustDetails?.TrustName :
-							QuestionAndAnswerConstants.NoAnswer) ?? string.Empty
-						)
-				);
+			// sub question - 1a) name of the trust
+			headingChangeTrustName.Sections.Add(new(ApplicationSchoolJoinAMatTrustSummarySectionViewModel.NameOfTheTrust,
+					(!string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) ?
+						conversionApplication.JoinTrustDetails?.TrustName :
+						QuestionAndAnswerConstants.NoAnswer) ?? string.Empty
+				)
+			);
 
-				// heading 2 - details
-				ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel headingChangeTrustDetails
-					= new(ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel.HeadingChangeTrustDetails,
+			// heading 2 - details
+			ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel headingChangeTrustDetails
+				= new(ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel.HeadingChangeTrustDetails,
 					"/trust/joinamat/applicationschooltrustconsent")
-					{
-						Status = conversionApplication.JoinTrustDetails != null && conversionApplication.JoinTrustDetails.ChangesToTrust.HasValue ?
+				{
+					Status = conversionApplication.JoinTrustDetails != null && conversionApplication.JoinTrustDetails.ChangesToTrust.HasValue ?
 						SchoolConversionComponentStatus.Complete
 						: SchoolConversionComponentStatus.NotStarted
-					};
+				};
 
-				List<string> trustConsentFileNames = new List<string>();
-				try
-				{
-					trustConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelApplicationFolderName, conversionApplication.EntityId.ToString(), conversionApplication.ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName).Result;
-				}
-				catch (Exception ex)
-				{
-					_logger.LogError("ApplicationSchoolJoinAMatTrustSummaryModel::PopulateUiModel::Exception - {Message}", ex.Message);
-				}
+			List<string> trustConsentFileNames = [];
+			try
+			{
+				string folder = FileUploadConstants.FormatSharepointApplicationDirectory(reference, entityId.ToString());
+				var files = await _sharepointService.ListFilesAsync(folder);
+				trustConsentFileNames = files.Select(file => file.Name).ToList();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("ApplicationSchoolJoinAMatTrustSummaryModel::PopulateUiModel::Exception - {Message}", ex.Message);
+			}
 				
-				// sub questions 
-				// 2a) upload evidence that the trust consents to the school joining = ApplicationSchoolJoinAMatTrustSummarySectionViewModel.TrustConsentEvidenceDoc
-				headingChangeTrustDetails.Sections.Add(new(ApplicationSchoolJoinAMatTrustSummarySectionViewModel.TrustConsentEvidenceDoc,
-					!string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) ? 
+			// sub questions 
+			// 2a) upload evidence that the trust consents to the school joining = ApplicationSchoolJoinAMatTrustSummarySectionViewModel.TrustConsentEvidenceDoc
+			headingChangeTrustDetails.Sections.Add(new(ApplicationSchoolJoinAMatTrustSummarySectionViewModel.TrustConsentEvidenceDoc,
+				!string.IsNullOrWhiteSpace(conversionApplication.JoinTrustDetails?.TrustName) ? 
 					string.Join("\n", trustConsentFileNames) : QuestionAndAnswerConstants.NoAnswer));
 
-				// 2b) will there be any changes to the governance = ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToTrustGovernance
-				headingChangeTrustDetails.Sections.Add(new(
-						ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToTrustGovernance,
-						conversionApplication.JoinTrustDetails != null && conversionApplication.JoinTrustDetails.ChangesToTrust.HasValue ? conversionApplication.JoinTrustDetails.ChangesToTrust.Value.GetDescription() : string.Empty)
-				);
+			// 2b) will there be any changes to the governance = ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToTrustGovernance
+			headingChangeTrustDetails.Sections.Add(new(
+				ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToTrustGovernance,
+				conversionApplication.JoinTrustDetails != null && conversionApplication.JoinTrustDetails.ChangesToTrust.HasValue ? conversionApplication.JoinTrustDetails.ChangesToTrust.Value.GetDescription() : string.Empty)
+			);
 
-				// 2c) will there be any changes at a local level = ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToLaGovernance
-				headingChangeTrustDetails.Sections.Add(new(
-						ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToLaGovernance,
-						conversionApplication.JoinTrustDetails is { ChangesToLaGovernance: { } }
+			// 2c) will there be any changes at a local level = ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToLaGovernance
+			headingChangeTrustDetails.Sections.Add(new(
+					ApplicationSchoolJoinAMatTrustSummarySectionViewModel.ChangesToLaGovernance,
+					conversionApplication.JoinTrustDetails is { ChangesToLaGovernance: { } }
 						? conversionApplication.JoinTrustDetails.ChangesToLaGovernance.GetStringDescription() : QuestionAndAnswerConstants.NoAnswer
-					)
-				);
+				)
+			);
 
-				var vm = new List<ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel> { headingChangeTrustName, headingChangeTrustDetails };
+			var vm = new List<ApplicationSchoolJoinAMatTrustSummaryHeadingViewModel> { headingChangeTrustName, headingChangeTrustDetails };
 
-				ViewModel = vm;
-			}
+			ViewModel = vm;
 		}
 
 		///<inheritdoc/>
