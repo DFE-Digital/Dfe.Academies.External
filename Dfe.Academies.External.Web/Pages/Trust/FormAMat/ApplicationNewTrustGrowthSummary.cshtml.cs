@@ -42,21 +42,24 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 		public override Task PopulateUiModel(ConversionApplication? conversionApplication)
 		{
+			var formTrustDetails = conversionApplication.FormTrustDetails;
 			ApplicationStatus = conversionApplication.ApplicationStatus;
-			TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
-
+			TrustName = formTrustDetails?.FormTrustProposedNameOfTrust;
+			
+			bool? growthPlans = formTrustDetails?.FormTrustGrowthPlansYesNo;
+			
 			ApplicationNewTrustGrowthHeadingViewModel heading1 = new(
 				ApplicationNewTrustGrowthHeadingViewModel.Heading, // heading = 'Details'
 				"/Trust/FormAMat/ApplicationNewTrustPlansForGrowth")
 			{
-				Status = conversionApplication.FormTrustDetails.FormTrustGrowthPlansYesNo.HasValue
+				Status = growthPlans.HasValue
 					? SchoolConversionComponentStatus.Complete
 					: SchoolConversionComponentStatus.NotStarted
 			};
 
 			heading1.Sections.Add(new(
 					ApplicationNewTrustGrowthSectionViewModel.Growth,
-					conversionApplication.FormTrustDetails.FormTrustGrowthPlansYesNo.GetStringDescription()
+					growthPlans.GetStringDescription()
 				)
 			);
 

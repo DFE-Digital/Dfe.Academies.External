@@ -7,12 +7,15 @@ using Dfe.Academies.External.Web.Exceptions;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
+using GovUK.Dfe.CoreLibs.SharePoint.Models;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Moq;
 using NUnit.Framework;
@@ -25,7 +28,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 		[Test]
 		public void RunUiValidation_ResolutionConsentFileTooLarge_AddsModelError()
 		{
-			var fileUploadServiceMock = new Mock<IFileUploadService>();
+			var sharePointServiceMock = new Mock<ISharePointService>();
 			var conversionAppRetrievalServiceMock = new Mock<IConversionApplicationRetrievalService>();
 			var referenceDataRetrievalServiceMock = new Mock<IReferenceDataRetrievalService>();
 			var conversionAppServiceMock = new Mock<IConversionApplicationService>();
@@ -34,7 +37,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				conversionAppRetrievalServiceMock.Object,
 				referenceDataRetrievalServiceMock.Object,
 				conversionAppServiceMock.Object,
-				fileUploadServiceMock.Object
+				sharePointServiceMock.Object
 			);
 
 			// Mock a file that is too large
@@ -58,7 +61,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 		[Test]
 		public void RunUiValidation_FoundationConsentFileTooLarge_AddsModelError()
 		{
-			var fileUploadServiceMock = new Mock<IFileUploadService>();
+			var sharePointServiceMock = new Mock<ISharePointService>();
 			var conversionAppRetrievalServiceMock = new Mock<IConversionApplicationRetrievalService>();
 			var referenceDataRetrievalServiceMock = new Mock<IReferenceDataRetrievalService>();
 			var conversionAppServiceMock = new Mock<IConversionApplicationService>();
@@ -67,7 +70,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				conversionAppRetrievalServiceMock.Object,
 				referenceDataRetrievalServiceMock.Object,
 				conversionAppServiceMock.Object,
-				fileUploadServiceMock.Object
+				sharePointServiceMock.Object
 			);
 
 			// Mock a file that is too large
@@ -92,7 +95,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 		[Test]
 		public void RunUiValidation_DioceseFileTooLarge_AddsModelError()
 		{
-			var fileUploadServiceMock = new Mock<IFileUploadService>();
+			var sharePointServiceMock = new Mock<ISharePointService>();
 			var conversionAppRetrievalServiceMock = new Mock<IConversionApplicationRetrievalService>();
 			var referenceDataRetrievalServiceMock = new Mock<IReferenceDataRetrievalService>();
 			var conversionAppServiceMock = new Mock<IConversionApplicationService>();
@@ -101,7 +104,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				conversionAppRetrievalServiceMock.Object,
 				referenceDataRetrievalServiceMock.Object,
 				conversionAppServiceMock.Object,
-				fileUploadServiceMock.Object
+				sharePointServiceMock.Object
 			);
 
 			// Mock a file that is too large
@@ -131,7 +134,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.OfstedInspected = SelectOption.Yes;
 			model.OfstedInspectionDetails = null;
 			model.ModelState.Clear();
@@ -149,7 +152,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.LocalAuthorityReorganisation = SelectOption.Yes;
 			model.LocalAuthorityReorganisationDetails = null;
 			model.ModelState.Clear();
@@ -167,7 +170,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.LinkedToDiocese = SelectOption.Yes;
 			model.DioceseName = null;
 			model.ModelState.Clear();
@@ -185,7 +188,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.SupportedByFoundationTrustOrBody = SelectOption.Yes;
 			model.FoundationTrustOrBodyName = null;
 			model.ModelState.Clear();
@@ -203,7 +206,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ExemptionFromSACRE = SelectOption.Yes;
 			model.ExemptionEndDate = null;
 			model.ModelState.Clear();
@@ -221,7 +224,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.EqualityAssessment = SelectOption.Yes;
 			model.DisproportionateProtectedCharacteristics = null;
 			model.ModelState.Clear();
@@ -239,7 +242,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.FurtherInformation = SelectOption.Yes;
 			model.FurtherInformationDetails = null;
 			model.ModelState.Clear();
@@ -257,7 +260,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("TrustBenefitDetailsNotAdded", "Error");
 
 			Assert.That(model.HasError, Is.True);
@@ -271,7 +274,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.TrustBenefitDetails = "Some benefit";
 			model.OfstedInspected = SelectOption.No;
 			model.LocalAuthorityReorganisation = SelectOption.No;
@@ -297,7 +300,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.LocalAuthorityClosurePlans = SelectOption.Yes;
 			model.LocalAuthorityClosurePlanDetails = null;
 			model.ModelState.Clear();
@@ -315,7 +318,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 
 			Assert.That(() => model.PopulateUpdateDictionary(), Throws.TypeOf<System.NotImplementedException>());
 		}
@@ -329,22 +332,23 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			var applicationReference = "APP-001";
 			var section = "diocese";
 			var fileName = "doc.pdf";
+			var folderPath = FileUploadConstants.FormatSharepointSchoolDirectory(applicationReference, entityId);
 
-			var fileUploadMock = new Mock<IFileUploadService>();
-			fileUploadMock
-				.Setup(x => x.DeleteFile(FileUploadConstants.TopLevelSchoolFolderName, entityId, applicationReference, section, fileName))
+			var sharePointMock = new Mock<ISharePointService>();
+			sharePointMock
+				.Setup(x => x.DeleteFileAsync(folderPath, fileName))
 				.Returns(Task.CompletedTask);
 
 			var model = SetupAdditionalDetails(
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				fileUploadMock.Object);
+				sharePointMock.Object);
 
 			var result = await model.OnGetRemoveFileAsync(appId, urn, entityId, applicationReference, section, fileName);
 
-			fileUploadMock.Verify(
-				x => x.DeleteFile(FileUploadConstants.TopLevelSchoolFolderName, entityId, applicationReference, section, fileName),
+			sharePointMock.Verify(
+				x => x.DeleteFileAsync(folderPath, fileName),
 				Times.Once);
 			Assert.That(result, Is.InstanceOf<RedirectToPageResult>());
 			var redirect = (RedirectToPageResult)result;
@@ -380,7 +384,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 
 			model.PopulateUiModel(school);
 
@@ -421,7 +425,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 
 			model.PopulateUiModel(school);
 
@@ -441,7 +445,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("OfstedInspectionDetailsNotAdded", "Error");
 
 			Assert.That(model.HasError, Is.True);
@@ -455,7 +459,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("exemptionFromSACREEndDateNotAdded", "Error");
 
 			Assert.That(model.HasError, Is.True);
@@ -469,7 +473,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("furtherInformationDetailsNotAdded", "Error");
 
 			Assert.That(model.HasError, Is.True);
@@ -483,7 +487,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("DioceseFileSizeError", "File too large");
 
 			Assert.That(model.DioceseFileSizeError, Is.True);
@@ -496,7 +500,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("MainFeederSchoolsDetailsNotAdded", "Error");
 
 			Assert.That(model.MainFeederSchoolsError, Is.True);
@@ -509,7 +513,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("TrustBenefitDetails", "Required");
 
 			model.PopulateValidationMessages();
@@ -524,7 +528,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 
 			Assert.That(model.HasError, Is.False);
 		}
@@ -536,7 +540,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("SafeguardingDetailsNotAdded", "Error");
 
 			Assert.That(model.HasError, Is.True);
@@ -550,7 +554,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("DioceseNameNotAdded", "Error");
 
 			Assert.That(model.HasError, Is.True);
@@ -564,7 +568,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("DioceseFileNotAddedError", "Error");
 
 			Assert.That(model.HasError, Is.True);
@@ -578,7 +582,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("LocalAuthorityReorganisationDetailsNotAdded", "Error");
 
 			Assert.That(model.HasError, Is.True);
@@ -592,7 +596,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("localAuthorityClosurePlanDetailsNotAdded", "Error");
 
 			Assert.That(model.HasError, Is.True);
@@ -606,7 +610,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("FoundationTrustOrBodyNameNotAdded", "Error");
 
 			Assert.That(model.HasError, Is.True);
@@ -620,7 +624,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("ExemptionEndDateNotEntered", "Error");
 
 			Assert.That(model.HasError, Is.True);
@@ -634,7 +638,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("equalitiesImpactAssessmentOptionNoOptionSelected", "Error");
 
 			Assert.That(model.HasError, Is.True);
@@ -648,7 +652,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("FoundationConsentFileNotAddedError", "Error");
 
 			Assert.That(model.FoundationConsentFileError, Is.True);
@@ -661,7 +665,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("FoundationConsentFileSizeError", "Error");
 
 			Assert.That(model.FoundationConsentFileSizeError, Is.True);
@@ -674,7 +678,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("ResolutionConsentFileSizeError", "Error");
 
 			Assert.That(model.ResolutionConsentFileSizeError, Is.True);
@@ -687,7 +691,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError("DioceseFileNotAddedError", "Error");
 
 			Assert.That(model.DioceseFileNotAddedError, Is.True);
@@ -700,7 +704,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError(nameof(AdditionalDetails.DioceseFileGenericError), "Error");
 
 			Assert.That(model.DioceseFileGenericError, Is.True);
@@ -713,7 +717,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError(nameof(AdditionalDetails.FoundationConsentFileGenericError), "Error");
 
 			Assert.That(model.FoundationConsentFileGenericError, Is.True);
@@ -726,7 +730,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ModelState.AddModelError(nameof(AdditionalDetails.ResolutionConsentFileGenericError), "Error");
 
 			Assert.That(model.ResolutionConsentFileGenericError, Is.True);
@@ -739,7 +743,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ExemptionFromSACRE = SelectOption.Yes;
 			model.ExemptionEndDate = DateTimeOffset.MinValue;
 			model.ModelState.Clear();
@@ -769,19 +773,15 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			var retrievalMock = new Mock<IConversionApplicationRetrievalService>();
 			retrievalMock.Setup(x => x.GetApplication(appId)).ReturnsAsync(application);
 
-			var fileUploadMock = new Mock<IFileUploadService>();
-			fileUploadMock.Setup(x => x.GetFiles(It.IsAny<string>(), entityId.ToString(), "APP-REF", FileUploadConstants.DioceseFilePrefixFieldName))
-				.ReturnsAsync(new List<string>());
-			fileUploadMock.Setup(x => x.GetFiles(It.IsAny<string>(), entityId.ToString(), "APP-REF", FileUploadConstants.FoundationConsentFilePrefixFieldName))
-				.ReturnsAsync(new List<string>());
-			fileUploadMock.Setup(x => x.GetFiles(It.IsAny<string>(), entityId.ToString(), "APP-REF", FileUploadConstants.ResolutionConsentfilePrefixFieldName))
-				.ReturnsAsync(new List<string>());
+			var sharePointMock = new Mock<ISharePointService>();
+			sharePointMock.Setup(x => x.ListFilesAsync(It.IsAny<string>()))
+				.ReturnsAsync(new List<SharePointFileInfo>());
 
 			var model = SetupAdditionalDetails(
 				retrievalMock.Object,
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				fileUploadMock.Object);
+				sharePointMock.Object);
 
 			TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, model.TempData, new ConversionApplication());
 
@@ -792,9 +792,9 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			Assert.That(model.Urn, Is.EqualTo(urn));
 			Assert.That(model.SchoolName, Is.EqualTo("Test School"));
 			Assert.That(model.TrustBenefitDetails, Is.EqualTo("Benefits"));
-			fileUploadMock.Verify(x => x.GetFiles(It.IsAny<string>(), entityId.ToString(), "APP-REF", FileUploadConstants.DioceseFilePrefixFieldName), Times.Once);
-			fileUploadMock.Verify(x => x.GetFiles(It.IsAny<string>(), entityId.ToString(), "APP-REF", FileUploadConstants.FoundationConsentFilePrefixFieldName), Times.Once);
-			fileUploadMock.Verify(x => x.GetFiles(It.IsAny<string>(), entityId.ToString(), "APP-REF", FileUploadConstants.ResolutionConsentfilePrefixFieldName), Times.Once);
+			sharePointMock.Verify(
+				x => x.ListFilesAsync(FileUploadConstants.FormatSharepointSchoolDirectory("APP-REF", entityId.ToString())),
+				Times.Once);
 		}
 
 		[Test]
@@ -819,7 +819,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				retrievalMock.Object,
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 			model.ApplicationId = 1;
 			model.Urn = 100;
 			model.EntityId = application.Schools[0].EntityId;
@@ -858,15 +858,19 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			var formMock = new Mock<IFormCollection>();
 			formMock.Setup(x => x.TryGetValue(It.IsAny<string>(), out It.Ref<StringValues>.IsAny!)).Returns(false);
 
-			var fileUploadMock = new Mock<IFileUploadService>();
-			fileUploadMock.Setup(x => x.UploadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), FileUploadConstants.DioceseFilePrefixFieldName, It.IsAny<IFormFile>()))
+			var sharePointMock = new Mock<ISharePointService>();
+			sharePointMock.Setup(x => x.UploadFileAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<System.IO.Stream>()))
 				.ThrowsAsync(new FileUploadException("Upload failed"));
+
+			var dioceseFileMock = new Mock<IFormFile>();
+			dioceseFileMock.Setup(f => f.FileName).Returns("diocese.pdf");
+			dioceseFileMock.Setup(f => f.OpenReadStream()).Returns(new System.IO.MemoryStream());
 
 			var model = SetupAdditionalDetails(
 				retrievalMock.Object,
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				fileUploadMock.Object);
+				sharePointMock.Object);
 			model.ApplicationId = 1;
 			model.Urn = 100;
 			model.EntityId = entityId;
@@ -888,7 +892,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			model.DioceseFileNames = new List<string>();
 			model.FoundationConsentFileNames = new List<string>();
 			model.ResolutionConsentFileNames = new List<string>();
-			model.DioceseFiles = new List<IFormFile> { new Mock<IFormFile>().Object };
+			model.DioceseFiles = new List<IFormFile> { dioceseFileMock.Object };
 			model.FoundationConsentFiles = new List<IFormFile>();
 			model.ResolutionConsentFiles = new List<IFormFile>();
 			TempDataHelper.StoreSerialisedValue($"{entityId}-dioceseFiles", model.TempData, new List<string>());
@@ -921,17 +925,19 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			var formMock = new Mock<IFormCollection>();
 			formMock.Setup(x => x.TryGetValue(It.IsAny<string>(), out It.Ref<StringValues>.IsAny!)).Returns(false);
 
-			var fileUploadMock = new Mock<IFileUploadService>();
-			fileUploadMock.Setup(x => x.UploadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), FileUploadConstants.DioceseFilePrefixFieldName, It.IsAny<IFormFile>()))
-				.ReturnsAsync("diocese-file-id");
-			fileUploadMock.Setup(x => x.UploadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), FileUploadConstants.FoundationConsentFilePrefixFieldName, It.IsAny<IFormFile>()))
+			var sharePointMock = new Mock<ISharePointService>();
+			sharePointMock.Setup(x => x.UploadFileAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<System.IO.Stream>()))
 				.ThrowsAsync(new FileUploadException("Upload failed"));
+
+			var foundationFileMock = new Mock<IFormFile>();
+			foundationFileMock.Setup(f => f.FileName).Returns("foundation.pdf");
+			foundationFileMock.Setup(f => f.OpenReadStream()).Returns(new System.IO.MemoryStream());
 
 			var model = SetupAdditionalDetails(
 				retrievalMock.Object,
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				fileUploadMock.Object);
+				sharePointMock.Object);
 			model.ApplicationId = 1;
 			model.Urn = 100;
 			model.EntityId = entityId;
@@ -953,7 +959,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			model.FoundationConsentFileNames = new List<string>();
 			model.ResolutionConsentFileNames = new List<string>();
 			model.DioceseFiles = new List<IFormFile>();
-			model.FoundationConsentFiles = new List<IFormFile> { new Mock<IFormFile>().Object };
+			model.FoundationConsentFiles = new List<IFormFile> { foundationFileMock.Object };
 			model.ResolutionConsentFiles = new List<IFormFile>();
 			TempDataHelper.StoreSerialisedValue($"{entityId}-dioceseFiles", model.TempData, new List<string>());
 			TempDataHelper.StoreSerialisedValue($"{entityId}-foundationConsentFiles", model.TempData, new List<string>());
@@ -985,19 +991,19 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			var formMock = new Mock<IFormCollection>();
 			formMock.Setup(x => x.TryGetValue(It.IsAny<string>(), out It.Ref<StringValues>.IsAny!)).Returns(false);
 
-			var fileUploadMock = new Mock<IFileUploadService>();
-			fileUploadMock.Setup(x => x.UploadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), FileUploadConstants.DioceseFilePrefixFieldName, It.IsAny<IFormFile>()))
-				.ReturnsAsync("diocese-file-id");
-			fileUploadMock.Setup(x => x.UploadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), FileUploadConstants.FoundationConsentFilePrefixFieldName, It.IsAny<IFormFile>()))
-				.ReturnsAsync("foundation-file-id");
-			fileUploadMock.Setup(x => x.UploadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), FileUploadConstants.ResolutionConsentfilePrefixFieldName, It.IsAny<IFormFile>()))
+			var sharePointMock = new Mock<ISharePointService>();
+			sharePointMock.Setup(x => x.UploadFileAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<System.IO.Stream>()))
 				.ThrowsAsync(new FileUploadException("Upload failed"));
+
+			var resolutionFileMock = new Mock<IFormFile>();
+			resolutionFileMock.Setup(f => f.FileName).Returns("resolution.pdf");
+			resolutionFileMock.Setup(f => f.OpenReadStream()).Returns(new System.IO.MemoryStream());
 
 			var model = SetupAdditionalDetails(
 				retrievalMock.Object,
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				fileUploadMock.Object);
+				sharePointMock.Object);
 			model.ApplicationId = 1;
 			model.Urn = 100;
 			model.EntityId = entityId;
@@ -1020,7 +1026,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			model.ResolutionConsentFileNames = new List<string>();
 			model.DioceseFiles = new List<IFormFile>();
 			model.FoundationConsentFiles = new List<IFormFile>();
-			model.ResolutionConsentFiles = new List<IFormFile> { new Mock<IFormFile>().Object };
+			model.ResolutionConsentFiles = new List<IFormFile> { resolutionFileMock.Object };
 			TempDataHelper.StoreSerialisedValue($"{entityId}-dioceseFiles", model.TempData, new List<string>());
 			TempDataHelper.StoreSerialisedValue($"{entityId}-foundationConsentFiles", model.TempData, new List<string>());
 			TempDataHelper.StoreSerialisedValue($"{entityId}-resolutionConsentFiles", model.TempData, new List<string>());
@@ -1051,9 +1057,9 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			var formMock = new Mock<IFormCollection>();
 			formMock.Setup(x => x.TryGetValue(It.IsAny<string>(), out It.Ref<StringValues>.IsAny!)).Returns(false);
 
-			var fileUploadMock = new Mock<IFileUploadService>();
-			fileUploadMock.Setup(x => x.UploadFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IFormFile>()))
-				.ReturnsAsync("file-id");
+			var sharePointMock = new Mock<ISharePointService>();
+			sharePointMock.Setup(x => x.UploadFileAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<System.IO.Stream>()))
+				.Returns(Task.CompletedTask);
 
 			var conversionAppServiceMock = new Mock<IConversionApplicationService>();
 			conversionAppServiceMock.Setup(x => x.SetAdditionalDetails(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string?>(), It.IsAny<bool>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<bool>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<DateTimeOffset?>(), It.IsAny<string>(), It.IsAny<string?>(), It.IsAny<SchoolEqualitiesProtectedCharacteristics?>(), It.IsAny<string?>()))
@@ -1063,7 +1069,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				retrievalMock.Object,
 				Mock.Of<IReferenceDataRetrievalService>(),
 				conversionAppServiceMock.Object,
-				fileUploadMock.Object);
+				sharePointMock.Object);
 			model.ApplicationId = 1;
 			model.Urn = 100;
 			model.EntityId = entityId;
@@ -1114,7 +1120,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				Mock.Of<IConversionApplicationRetrievalService>(),
 				Mock.Of<IReferenceDataRetrievalService>(),
 				Mock.Of<IConversionApplicationService>(),
-				Mock.Of<IFileUploadService>());
+				Mock.Of<ISharePointService>());
 
 			model.PopulateUiModel(school);
 
@@ -1126,18 +1132,18 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			IConversionApplicationRetrievalService conversionAppRetrievalServiceMock,
 			IReferenceDataRetrievalService referenceDataRetrievalServiceMock,
 			IConversionApplicationService conversionAppServiceMock,
-			IFileUploadService fileUploadServiceMock,
+			ISharePointService sharePointServiceMock,
 			bool isAuthenticated = false
 		)
 		{
 			(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(false);
 
 			var model = new AdditionalDetails(
-				fileUploadServiceMock,
+				Mock.Of<ILogger<AdditionalDetails>>(),
+				sharePointServiceMock,
 				conversionAppRetrievalServiceMock,
 				referenceDataRetrievalServiceMock,
 				conversionAppServiceMock
-				
 			)
 			{
 				PageContext = pageContext,

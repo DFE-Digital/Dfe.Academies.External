@@ -56,7 +56,6 @@ namespace Dfe.Academies.External.Web
 					options.Conventions
 						.AuthorizeFolder("/", "AcademiesExternalPolicy")
 						.AllowAnonymousToPage("/Index")
-						.AllowAnonymousToPage("/Accessibility-Statement")
 						.AllowAnonymousToPage("/Cookies")
 						.AllowAnonymousToPage("/Terms")
 						.AllowAnonymousToPage("/Privacy")
@@ -212,7 +211,7 @@ namespace Dfe.Academies.External.Web
 			// 	client.DefaultRequestHeaders.Add("User-Agent", "ApplyToBecome/1.0");
 			// })
 			// 	.AddPolicyHandler(GetRetryPolicy());
-			builder.Services.AddScoped<IFileUploadService, NoOpFileUploadService>();
+			
 			builder.Services.AddSharePointServices(configuration);
 			
 			static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()

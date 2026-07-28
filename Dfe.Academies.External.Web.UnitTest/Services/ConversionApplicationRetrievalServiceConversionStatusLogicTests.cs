@@ -1,5 +1,6 @@
-﻿using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Services;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -33,9 +34,9 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var mockFileUploadService = new Mock<IFileUploadService>();
+			var mockSharePointService = new Mock<ISharePointService>();
 			var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
 			var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationNoRoles();
@@ -50,7 +51,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			}
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
+			var applicationStatus = await applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.NotStarted));
@@ -70,9 +71,9 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var mockFileUploadService = new Mock<IFileUploadService>();
+			var mockSharePointService = new Mock<ISharePointService>();
 			var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -92,7 +93,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			}
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
+			var applicationStatus = await applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.NotStarted));
@@ -111,9 +112,9 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var mockFileUploadService = new Mock<IFileUploadService>();
+			var mockSharePointService = new Mock<ISharePointService>();
 			var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -142,9 +143,9 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var mockFileUploadService = new Mock<IFileUploadService>();
+			var mockSharePointService = new Mock<ISharePointService>();
 			var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -161,7 +162,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			}
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
+			var applicationStatus = await applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
@@ -179,9 +180,9 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var mockFileUploadService = new Mock<IFileUploadService>();
+			var mockSharePointService = new Mock<ISharePointService>();
 			var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -198,7 +199,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			}
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
+			var applicationStatus = await applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
@@ -216,9 +217,9 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var mockFileUploadService = new Mock<IFileUploadService>();
+			var mockSharePointService = new Mock<ISharePointService>();
 			var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -236,7 +237,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			}
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
+			var applicationStatus = await applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
@@ -254,9 +255,9 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var mockFileUploadService = new Mock<IFileUploadService>();
+			var mockSharePointService = new Mock<ISharePointService>();
 			var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -273,7 +274,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			}
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
+			var applicationStatus = await applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
@@ -291,9 +292,9 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var mockFileUploadService = new Mock<IFileUploadService>();
+			var mockSharePointService = new Mock<ISharePointService>();
 			var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -310,7 +311,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			}
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
+			var applicationStatus = await applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
@@ -328,9 +329,9 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var mockFileUploadService = new Mock<IFileUploadService>();
+			var mockSharePointService = new Mock<ISharePointService>();
 			var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -347,7 +348,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			}
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
+			var applicationStatus = await applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
@@ -365,9 +366,9 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var mockFileUploadService = new Mock<IFileUploadService>();
+			var mockSharePointService = new Mock<ISharePointService>();
 			var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;
@@ -384,7 +385,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			}
 
 			// act
-			var applicationStatus = applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
+			var applicationStatus = await applicationRetrievalService.CalculateApplicationStatus(conversionApplication, schoolViewModels);
 
 			// assert
 			Assert.That(applicationStatus, Is.EqualTo(Status.InProgress));
@@ -402,9 +403,9 @@ namespace Dfe.Academies.External.Web.UnitTest.Services
 			string expectedJson = await File.ReadAllTextAsync(fullFilePath);
 			var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 			var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-			var mockFileUploadService = new Mock<IFileUploadService>();
+			var mockSharePointService = new Mock<ISharePointService>();
 			var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+			var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 			int applicationId = 25; // hard coded as per example JSON
 			int URN = 113537;

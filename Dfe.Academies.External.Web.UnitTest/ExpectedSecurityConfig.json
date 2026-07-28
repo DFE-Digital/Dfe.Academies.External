@@ -1,10 +1,6 @@
 ﻿{
 	"Endpoints": [
 		{
-			"Route": "/Accessibility-Statement",
-			"ExpectedSecurity": "AllowAnonymous"
-		},
-		{
 			"Route": "/Cookies",
 			"ExpectedSecurity": "AllowAnonymous"
 		},

@@ -5,11 +5,13 @@ using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -22,13 +24,13 @@ internal sealed class NextFinancialYearModelTests
 	public void RunUiValidation_ForecastedRevenueFileTooLarge_AddsModelError()
 	{
 		// Arrange
-		var fileUploadServiceMock = new Mock<IFileUploadService>();
+		var sharePointServiceMock = new Mock<ISharePointService>();
 		var conversionAppRetrievalServiceMock = new Mock<IConversionApplicationRetrievalService>();
 		var referenceDataRetrievalServiceMock = new Mock<IReferenceDataRetrievalService>();
 		var conversionAppServiceMock = new Mock<IConversionApplicationService>();
 
 		var pageModel = SetupNextFinancialYearModel(
-			fileUploadServiceMock.Object,
+			sharePointServiceMock.Object,
 			conversionAppServiceMock.Object,
 			conversionAppRetrievalServiceMock.Object,
 			referenceDataRetrievalServiceMock.Object
@@ -54,13 +56,13 @@ internal sealed class NextFinancialYearModelTests
 	public void RunUiValidation_ForecastedCapitalFileTooLarge_AddsModelError()
 	{
 		// Arrange
-		var fileUploadServiceMock = new Mock<IFileUploadService>();
+		var sharePointServiceMock = new Mock<ISharePointService>();
 		var conversionAppRetrievalServiceMock = new Mock<IConversionApplicationRetrievalService>();
 		var referenceDataRetrievalServiceMock = new Mock<IReferenceDataRetrievalService>();
 		var conversionAppServiceMock = new Mock<IConversionApplicationService>();
 
 		var pageModel = SetupNextFinancialYearModel(
-			fileUploadServiceMock.Object,
+			sharePointServiceMock.Object,
 			conversionAppServiceMock.Object,
 			conversionAppRetrievalServiceMock.Object,
 			referenceDataRetrievalServiceMock.Object
@@ -95,7 +97,7 @@ internal sealed class NextFinancialYearModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockFileUploadService = new Mock<IFileUploadService>();
+		var mockSharePointService = new Mock<ISharePointService>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
@@ -103,7 +105,7 @@ internal sealed class NextFinancialYearModelTests
 		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(applicationId))
 			.ReturnsAsync(conversionApplication);
 		// act
-		var pageModel = SetupNextFinancialYearModel(mockFileUploadService.Object, mockConversionApplicationCreationService.Object,
+		var pageModel = SetupNextFinancialYearModel(mockSharePointService.Object, mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
@@ -117,7 +119,7 @@ internal sealed class NextFinancialYearModelTests
 
 
 	private static NextFinancialYearModel SetupNextFinancialYearModel(
-		IFileUploadService mockFileUploadService,
+		ISharePointService mockSharePointService,
 		IConversionApplicationService mockConversionApplicationCreationService,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
@@ -126,7 +128,8 @@ internal sealed class NextFinancialYearModelTests
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
 		return new NextFinancialYearModel(mockConversionApplicationRetrievalService,
-			mockReferenceDataRetrievalService, mockConversionApplicationCreationService, mockFileUploadService)
+			mockReferenceDataRetrievalService, mockConversionApplicationCreationService, mockSharePointService,
+			Mock.Of<ILogger<NextFinancialYearModel>>())
 		{
 			PageContext = pageContext,
 			TempData = tempData,

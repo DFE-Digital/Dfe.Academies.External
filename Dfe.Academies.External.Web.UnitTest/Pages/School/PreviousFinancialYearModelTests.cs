@@ -5,13 +5,14 @@ using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Logging;
 using Moq;
-using NSubstitute;
 using NUnit.Framework;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.School;
@@ -23,14 +24,14 @@ internal sealed class PreviousFinancialYearModelTests
     public void RunUiValidation_FileTooLargeInSchoolPFYRevenueStatusFiles_ReturnsError()
     {
         // Arrange
-        var mockFileUploadService = new Mock<IFileUploadService>();
+        var mockSharePointService = new Mock<ISharePointService>();
         var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
         var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
         var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 
         var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
-        var pageModel = SetupPreviousFinancialYearModel(mockFileUploadService.Object, mockConversionApplicationCreationService.Object,
+        var pageModel = SetupPreviousFinancialYearModel(mockSharePointService.Object, mockConversionApplicationCreationService.Object,
             mockConversionApplicationRetrievalService.Object,
             mockReferenceDataRetrievalService.Object);
         TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, pageModel.TempData, conversionApplication);
@@ -59,14 +60,14 @@ internal sealed class PreviousFinancialYearModelTests
 	public void RunUiValidation_FileTooLargeInSchoolPFYCapitalForwardStatusFiles_ReturnsError()
 	{
 		// Arrange
-		var mockFileUploadService = new Mock<IFileUploadService>();
+		var mockSharePointService = new Mock<ISharePointService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
-		var pageModel = SetupPreviousFinancialYearModel(mockFileUploadService.Object, mockConversionApplicationCreationService.Object,
+		var pageModel = SetupPreviousFinancialYearModel(mockSharePointService.Object, mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, pageModel.TempData, conversionApplication);
@@ -104,14 +105,14 @@ internal sealed class PreviousFinancialYearModelTests
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockFileUploadService = new Mock<IFileUploadService>();
+		var mockSharePointService = new Mock<ISharePointService>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 
 		// act
-		var pageModel = SetupPreviousFinancialYearModel(mockFileUploadService.Object, mockConversionApplicationCreationService.Object,
+		var pageModel = SetupPreviousFinancialYearModel(mockSharePointService.Object, mockConversionApplicationCreationService.Object,
 			mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
@@ -130,7 +131,7 @@ internal sealed class PreviousFinancialYearModelTests
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
 	private static PreviousFinancialYearModel SetupPreviousFinancialYearModel(
-		IFileUploadService mockFileUploadService,
+		ISharePointService mockSharePointService,
 		IConversionApplicationService mockConversionApplicationCreationService,
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
@@ -138,7 +139,7 @@ internal sealed class PreviousFinancialYearModelTests
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
-		return new PreviousFinancialYearModel(mockFileUploadService, mockConversionApplicationRetrievalService,
+		return new PreviousFinancialYearModel(mockSharePointService, Mock.Of<ILogger<PreviousFinancialYearModel>>(), mockConversionApplicationRetrievalService,
 			mockReferenceDataRetrievalService, mockConversionApplicationCreationService)
 		{
 			PageContext = pageContext,

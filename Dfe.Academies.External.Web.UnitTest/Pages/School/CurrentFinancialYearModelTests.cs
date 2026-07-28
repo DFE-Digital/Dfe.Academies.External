@@ -4,11 +4,13 @@ using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -21,13 +23,13 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 		public void RunUiValidation_ForecastedRevenueFileTooLarge_AddsModelError()
 		{
 			// Arrange
-			var fileUploadServiceMock = new Mock<IFileUploadService>();
+			var sharePointServiceMock = new Mock<ISharePointService>();
 			var conversionAppRetrievalServiceMock = new Mock<IConversionApplicationRetrievalService>();
 			var referenceDataRetrievalServiceMock = new Mock<IReferenceDataRetrievalService>();
 			var conversionAppServiceMock = new Mock<IConversionApplicationService>();
 
 			var model = SetupCurrentFinancialYearModel(
-				fileUploadServiceMock.Object,
+				sharePointServiceMock.Object,
 				conversionAppRetrievalServiceMock.Object,
 				referenceDataRetrievalServiceMock.Object,
 				conversionAppServiceMock.Object
@@ -56,13 +58,13 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 		public void RunUiValidation_ForecastedCapitalFileTooLarge_AddsModelError()
 		{
 			// Arrange
-			var fileUploadServiceMock = new Mock<IFileUploadService>();
+			var sharePointServiceMock = new Mock<ISharePointService>();
 			var conversionAppRetrievalServiceMock = new Mock<IConversionApplicationRetrievalService>();
 			var referenceDataRetrievalServiceMock = new Mock<IReferenceDataRetrievalService>();
 			var conversionAppServiceMock = new Mock<IConversionApplicationService>();
 
 			var model = SetupCurrentFinancialYearModel(
-				fileUploadServiceMock.Object,
+				sharePointServiceMock.Object,
 				conversionAppRetrievalServiceMock.Object,
 				referenceDataRetrievalServiceMock.Object,
 				conversionAppServiceMock.Object
@@ -88,7 +90,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 		}
 
 		private static CurrentFinancialYearModel SetupCurrentFinancialYearModel(
-			IFileUploadService mockFileUploadService,
+			ISharePointService mockSharePointService,
 			IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationService conversionApplicationCreationService,
@@ -98,7 +100,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
 			return new CurrentFinancialYearModel(
-				mockFileUploadService,
+				Mock.Of<ILogger<CurrentFinancialYearModel>>(),
+				mockSharePointService,
 				mockConversionApplicationRetrievalService,
 				referenceDataRetrievalService,
 				conversionApplicationCreationService

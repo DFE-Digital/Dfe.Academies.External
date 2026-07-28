@@ -4,10 +4,13 @@ using AutoFixture;
 using Dfe.Academies.External.Web.Pages.Trust.FormAMat;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
+using GovUK.Dfe.CoreLibs.SharePoint.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -31,20 +34,22 @@ internal sealed class ApplicationNewTrustGovernanceStructureDetailsTests
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
 		var mockConversionApplicationCreationService = new Mock<IConversionApplicationService>();
-		var mockFileUploadService = new Mock<IFileUploadService>();
+		var mockSharePointService = new Mock<ISharePointService>();
+		var mockLogger = new Mock<ILogger<ApplicationNewTrustGovernanceStructureDetails>>();
 		int applicationId = Fixture.Create<int>();
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
 		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(applicationId))
 			.ReturnsAsync(conversionApplication);
-		mockFileUploadService
-			.Setup(x => x.GetFiles(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-			.ReturnsAsync(new List<string>());
+		mockSharePointService
+			.Setup(x => x.ListFilesAsync(It.IsAny<string>()))
+			.ReturnsAsync(new List<SharePointFileInfo>());
 		// act
 		var pageModel = setupApplicationNewTrustGovernanceStructureDetails(mockConversionApplicationRetrievalService.Object,
 			mockReferenceDataRetrievalService.Object,
 			mockConversionApplicationCreationService.Object,
-			mockFileUploadService.Object);
+			mockSharePointService.Object,
+			mockLogger.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
 		// act
@@ -58,7 +63,8 @@ internal sealed class ApplicationNewTrustGovernanceStructureDetailsTests
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
 		IConversionApplicationService mockConversionApplicationCreationService,
-		IFileUploadService mockFileUploadService,
+		ISharePointService mockSharePointService,
+		ILogger<ApplicationNewTrustGovernanceStructureDetails> mockLogger,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
@@ -66,7 +72,8 @@ internal sealed class ApplicationNewTrustGovernanceStructureDetailsTests
 		return new ApplicationNewTrustGovernanceStructureDetails(mockConversionApplicationRetrievalService,
 			mockReferenceDataRetrievalService,
 			mockConversionApplicationCreationService,
-			mockFileUploadService
+			mockSharePointService,
+			mockLogger
 			)
 		{
 			PageContext = pageContext,
