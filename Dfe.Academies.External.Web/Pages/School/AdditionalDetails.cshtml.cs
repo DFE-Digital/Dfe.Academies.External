@@ -478,8 +478,6 @@ namespace Dfe.Academies.External.Web.Pages.School
 						$"{FileUploadConstants.DioceseFilePrefixFieldName}_{file.FileName}",
 						file.OpenReadStream()
 					);
-					// await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
-					// 	ApplicationReference, FileUploadConstants.DioceseFilePrefixFieldName, file);
 				}
 			}
 			catch (FileUploadException)

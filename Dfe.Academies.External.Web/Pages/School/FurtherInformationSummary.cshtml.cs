@@ -2,17 +2,18 @@
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Helpers;
-using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.ViewModels;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class FurtherInformationSummaryModel : BaseSchoolSummaryPageModel
 	{
-		private readonly IFileUploadService _fileUploadService;
+		private readonly ISharePointService _sharepoint;
+		
 	    public List<FurtherInformationSummaryViewModel> ViewModel { get; set; } = new();
 
 	    [BindProperty]
@@ -25,11 +26,13 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 	
 	    
-	    public FurtherInformationSummaryModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-		    IReferenceDataRetrievalService referenceDataRetrievalService, IFileUploadService fileUploadService)
-		    : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
+	    public FurtherInformationSummaryModel(
+			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		    IReferenceDataRetrievalService referenceDataRetrievalService, 
+			ISharePointService sharepointService
+		) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 	    {
-		    _fileUploadService = fileUploadService;
+		    _sharepoint = sharepointService;
 	    }
 
 		///<inheritdoc/>
@@ -53,12 +56,15 @@ namespace Dfe.Academies.External.Web.Pages.School
 		}
         
 		
-	    private FurtherInformationSummaryViewModel PopulateFurtherInformation(SchoolApplyingToConvert selectedSchool)
+	    private async Task<FurtherInformationSummaryViewModel> PopulateFurtherInformation(SchoolApplyingToConvert selectedSchool)
 	    {
 		    var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
 		    EntityId = selectedSchool.EntityId;
 		    ApplicationReference = applicationDetails.ApplicationReference;
 			ApplicationStatus = applicationDetails.ApplicationStatus;
+			
+			var folder = FileUploadConstants.FormatSharepointSchoolDirectory(ApplicationReference, EntityId.ToString());
+			
 		    var sectionStarted = !string.IsNullOrEmpty(selectedSchool.TrustBenefitDetails);
 			// Heading
 			FurtherInformationSummaryViewModel FISheading = new(FurtherInformationSummaryViewModel.AdditionalDetailsHeading,
@@ -128,13 +134,16 @@ namespace Dfe.Academies.External.Web.Pages.School
 					selectedSchool.MainFeederSchools : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 			
-			var fileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result;
+			var files = await _sharepoint.ListFilesAsync(folder);
+			var fileNames = files
+				.Where(file => file.Name.StartsWith(FileUploadConstants.ResolutionConsentfilePrefixFieldName))
+				.Select(file => file.Name)
+				.ToList();
 			
-			// Disabled until file upload is re-enabled
-			// FISheading.Sections.Add(new(
-			// 	FurtherInformationSectionViewModel.Resolution,
-			// 	fileNames.Any() ? fileNames.First() : QuestionAndAnswerConstants.NoInfoAnswer)
-			// );
+			FISheading.Sections.Add(new(
+				FurtherInformationSectionViewModel.Resolution,
+				fileNames.Any() ? fileNames.First() : QuestionAndAnswerConstants.NoInfoAnswer)
+			);
 			
 			FISheading.Sections.Add(new(
 				FurtherInformationSectionViewModel.EqualitiesImpactAssessment,
@@ -151,9 +160,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 			return FISheading;
 	    }
 
-	    public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+	    public override async Task PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	    {
-		    ViewModel = new List<FurtherInformationSummaryViewModel> { PopulateFurtherInformation(selectedSchool) };
+		    ViewModel = new List<FurtherInformationSummaryViewModel> { await PopulateFurtherInformation(selectedSchool) };
 	    }
 	}
 }

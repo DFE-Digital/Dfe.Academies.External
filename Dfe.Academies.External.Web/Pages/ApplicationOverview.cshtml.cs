@@ -101,14 +101,13 @@ namespace Dfe.Academies.External.Web.Pages
 
 			ApplicationId = appId;
 
-			PopulateUiModel(draftConversionApplication);
+			await PopulateUiModel(draftConversionApplication);
 
 			return Page();
 		}
 
-		private void PopulateUiModel(ConversionApplication? conversionApplication)
+		private async Task PopulateUiModel(ConversionApplication? conversionApplication)
 		{
-			
 			// grab current user email
 			string email = User.FindFirst(ClaimTypes.Email)?.Value ?? "";		
 			var firstContributorEmail = conversionApplication?.Contributors?.FirstOrDefault()?.EmailAddress;
@@ -145,7 +144,7 @@ namespace Dfe.Academies.External.Web.Pages
 			if (conversionApplication != null)
 			{
 				// 3 statuses required by UI !!!!
-				TrustConversionStatus = ConversionApplicationRetrievalService.CalculateTrustStatus(conversionApplication);
+				TrustConversionStatus = await ConversionApplicationRetrievalService.CalculateTrustStatus(conversionApplication);
 				DeclarationStatus =
 					ConversionApplicationRetrievalService.CalculateApplicationDeclarationStatus(conversionApplication);
 
@@ -169,7 +168,7 @@ namespace Dfe.Academies.External.Web.Pages
 						applicationComponents));
 				}
 				
-				ConversionStatus = ConversionApplicationRetrievalService.CalculateApplicationStatus(conversionApplication, SchoolOrSchoolsApplyingToConvert);
+				ConversionStatus = await ConversionApplicationRetrievalService.CalculateApplicationStatus(conversionApplication, SchoolOrSchoolsApplyingToConvert);
 				NameOfTrustToJoin = conversionApplication.TrustName;
 
 				HasSchool = conversionApplication.Schools.Any();

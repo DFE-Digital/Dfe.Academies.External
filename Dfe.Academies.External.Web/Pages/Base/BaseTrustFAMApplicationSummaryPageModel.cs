@@ -35,7 +35,7 @@ namespace Dfe.Academies.External.Web.Pages.Base
 			
 			var conversionApplication = TempDataHelper.GetSerialisedValue<ConversionApplication>(TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
 
-			PopulateUiModel(conversionApplication);
+			await PopulateUiModel(conversionApplication);
 
 			return Page();
 		}
@@ -44,6 +44,6 @@ namespace Dfe.Academies.External.Web.Pages.Base
 		/// take application data from API and populate UI controls
 		/// </summary>
 		/// <param name="conversionApplication"></param>
-		public abstract void PopulateUiModel(ConversionApplication? conversionApplication);
+		public abstract Task PopulateUiModel(ConversionApplication? conversionApplication);
 	}
 }
