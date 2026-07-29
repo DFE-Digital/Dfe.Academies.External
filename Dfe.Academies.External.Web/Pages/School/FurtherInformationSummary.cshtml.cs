@@ -13,6 +13,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 	public class FurtherInformationSummaryModel : BaseSchoolSummaryPageModel
 	{
 		private readonly ISharePointService _sharepoint;
+		private readonly ILogger<FurtherInformationSummaryModel> _logger;
 		
 	    public List<FurtherInformationSummaryViewModel> ViewModel { get; set; } = new();
 
@@ -29,10 +30,12 @@ namespace Dfe.Academies.External.Web.Pages.School
 	    public FurtherInformationSummaryModel(
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		    IReferenceDataRetrievalService referenceDataRetrievalService, 
-			ISharePointService sharepointService
+			ISharePointService sharepointService,
+			ILogger<FurtherInformationSummaryModel> logger
 		) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
 	    {
 		    _sharepoint = sharepointService;
+		    _logger = logger;
 	    }
 
 		///<inheritdoc/>
@@ -133,30 +136,40 @@ namespace Dfe.Academies.External.Web.Pages.School
 				!string.IsNullOrWhiteSpace(selectedSchool.MainFeederSchools) ?
 					selectedSchool.MainFeederSchools : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
-			
-			var files = await _sharepoint.ListFilesAsync(folder);
-			var fileNames = files
-				.Where(file => file.Name.StartsWith(FileUploadConstants.ResolutionConsentfilePrefixFieldName))
-				.Select(file => file.Name)
-				.ToList();
-			
-			FISheading.Sections.Add(new(
-				FurtherInformationSectionViewModel.Resolution,
-				fileNames.Any() ? fileNames.First() : QuestionAndAnswerConstants.NoInfoAnswer)
-			);
-			
-			FISheading.Sections.Add(new(
-				FurtherInformationSectionViewModel.EqualitiesImpactAssessment,
-				sectionStarted ?
-					((selectedSchool.ProtectedCharacteristics.HasValue) ? "Yes" : "No") : QuestionAndAnswerConstants.NoInfoAnswer)
-			);
 
-			FISheading.Sections.Add(new(
-				FurtherInformationSectionViewModel.FurtherInformation,
-				sectionStarted ?
-					(!string.IsNullOrWhiteSpace(selectedSchool.FurtherInformation) ? "Yes" : "No") : QuestionAndAnswerConstants.NoInfoAnswer)
-			);
-			
+			try
+			{
+				var files = await _sharepoint.ListFilesAsync(folder);
+				var fileNames = files
+					.Where(file => file.Name.StartsWith(FileUploadConstants.ResolutionConsentfilePrefixFieldName))
+					.Select(file => file.Name)
+					.ToList();
+
+				FISheading.Sections.Add(new(
+					FurtherInformationSectionViewModel.Resolution,
+					fileNames.Any() ? fileNames.First() : QuestionAndAnswerConstants.NoInfoAnswer)
+				);
+
+				FISheading.Sections.Add(new(
+					FurtherInformationSectionViewModel.EqualitiesImpactAssessment,
+					sectionStarted
+						? ((selectedSchool.ProtectedCharacteristics.HasValue) ? "Yes" : "No")
+						: QuestionAndAnswerConstants.NoInfoAnswer)
+				);
+
+				FISheading.Sections.Add(new(
+					FurtherInformationSectionViewModel.FurtherInformation,
+					sectionStarted
+						? (!string.IsNullOrWhiteSpace(selectedSchool.FurtherInformation) ? "Yes" : "No")
+						: QuestionAndAnswerConstants.NoInfoAnswer)
+				);
+			}
+			catch
+			{
+				_logger.LogInformation("No school file(s) directory exists yet for application: {1} :: {2}",
+					ApplicationReference, $"{ApplicationReference}_{EntityId}");
+			}
+
 			return FISheading;
 	    }
 
