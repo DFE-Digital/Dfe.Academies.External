@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Pages.School;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 using Moq;
 using NUnit.Framework;
 
@@ -228,6 +230,256 @@ internal sealed class NextFinancialYearModelTests
 		Assert.That(result, Is.InstanceOf<PageResult>());
 		Assert.That(pageModel.ApplicationId, Is.EqualTo(appId));
 		Assert.That(pageModel.Urn, Is.EqualTo(urn));
+	}
+
+	[Test]
+	public void RunUiValidation_WhenModelStateInvalid_ReturnsFalse()
+	{
+		var pageModel = SetupNextFinancialYearModel(
+			Mock.Of<ISharePointService>(),
+			Mock.Of<IConversionApplicationService>(),
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		pageModel.ModelState.AddModelError("Revenue", "Revenue is required");
+
+		var isValid = pageModel.RunUiValidation();
+
+		Assert.That(isValid, Is.False);
+	}
+
+	[Test]
+	public void RunUiValidation_WhenNFYFinancialEndDateIsMinValue_AddsModelError()
+	{
+		var pageModel = SetupNextFinancialYearModel(
+			Mock.Of<ISharePointService>(),
+			Mock.Of<IConversionApplicationService>(),
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		pageModel.NFYFinancialEndDateLocal = DateTime.MinValue;
+		pageModel.ModelState.Clear();
+
+		var isValid = pageModel.RunUiValidation();
+
+		Assert.That(isValid, Is.False);
+		Assert.That(pageModel.ModelState.ContainsKey("NFYFinancialEndDateNotEntered"), Is.True);
+	}
+
+	[Test]
+	public void RunUiValidation_WhenNFYRevenueDeficitWithoutExplanationOrFiles_AddsModelError()
+	{
+		var pageModel = SetupNextFinancialYearModel(
+			Mock.Of<ISharePointService>(),
+			Mock.Of<IConversionApplicationService>(),
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		pageModel.NFYRevenueStatus = Dfe.Academies.External.Web.Enums.RevenueType.Deficit;
+		pageModel.NFYRevenueStatusExplained = "";
+		pageModel.ForecastedRevenueFiles = new List<IFormFile>();
+		pageModel.ForecastedRevenueFileNames = new List<string>();
+		pageModel.NFYFinancialEndDateLocal = DateTime.Now;
+		pageModel.ModelState.Clear();
+
+		var isValid = pageModel.RunUiValidation();
+
+		Assert.That(isValid, Is.False);
+		Assert.That(pageModel.ModelState.ContainsKey("NFYRevenueStatusExplainedNotEntered"), Is.True);
+	}
+
+	[Test]
+	public void RunUiValidation_WhenNFYRevenueDeficitWithExplanation_ReturnsTrue()
+	{
+		var pageModel = SetupNextFinancialYearModel(
+			Mock.Of<ISharePointService>(),
+			Mock.Of<IConversionApplicationService>(),
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		pageModel.NFYRevenueStatus = Dfe.Academies.External.Web.Enums.RevenueType.Deficit;
+		pageModel.NFYRevenueStatusExplained = "Some explanation";
+		pageModel.ForecastedRevenueFiles = new List<IFormFile>();
+		pageModel.ForecastedRevenueFileNames = new List<string>();
+		pageModel.NFYFinancialEndDateLocal = DateTime.Now;
+		pageModel.ModelState.Clear();
+
+		var isValid = pageModel.RunUiValidation();
+
+		Assert.That(isValid, Is.True);
+	}
+
+	[Test]
+	public void RunUiValidation_WhenNFYRevenueDeficitWithFiles_ReturnsTrue()
+	{
+		var pageModel = SetupNextFinancialYearModel(
+			Mock.Of<ISharePointService>(),
+			Mock.Of<IConversionApplicationService>(),
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		var fileMock = new Mock<IFormFile>();
+		fileMock.Setup(f => f.FileName).Returns("revenue.pdf");
+
+		pageModel.NFYRevenueStatus = Dfe.Academies.External.Web.Enums.RevenueType.Deficit;
+		pageModel.NFYRevenueStatusExplained = "";
+		pageModel.ForecastedRevenueFiles = new List<IFormFile> { fileMock.Object };
+		pageModel.ForecastedRevenueFileNames = new List<string>();
+		pageModel.NFYFinancialEndDateLocal = DateTime.Now;
+		pageModel.ModelState.Clear();
+
+		var isValid = pageModel.RunUiValidation();
+
+		Assert.That(isValid, Is.True);
+	}
+
+	[Test]
+	public async Task OnPostAsync_WhenValidationFails_ReturnsPageWithErrorState()
+	{
+		var entityId = Guid.NewGuid();
+		var application = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+		application.Schools = new List<Dfe.Academies.External.Web.Dtos.SchoolApplyingToConvert>
+		{
+			new("Test School", 100, null) { EntityId = entityId }
+		};
+
+		var retrievalMock = new Mock<IConversionApplicationRetrievalService>();
+		retrievalMock.Setup(x => x.GetApplication(It.IsAny<int>())).ReturnsAsync(application);
+
+		var formMock = new Mock<IFormCollection>();
+		formMock.Setup(x => x.TryGetValue(It.IsAny<string>(), out It.Ref<StringValues>.IsAny!)).Returns(false);
+
+		var pageModel = SetupNextFinancialYearModel(
+			Mock.Of<ISharePointService>(),
+			Mock.Of<IConversionApplicationService>(),
+			retrievalMock.Object,
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		pageModel.ApplicationId = 1;
+		pageModel.Urn = 100;
+		pageModel.EntityId = entityId;
+		pageModel.NFYFinancialEndDateLocal = DateTime.MinValue; // This will cause validation to fail
+		pageModel.Request.Form = formMock.Object;
+		pageModel.ForecastedRevenueFileNames = new List<string>();
+		pageModel.ForecastedCapitalFileNames = new List<string>();
+
+		var result = await pageModel.OnPostAsync();
+
+		Assert.That(result, Is.InstanceOf<PageResult>());
+		Assert.That(pageModel.ModelState.ContainsKey("NFYFinancialEndDateNotEntered"), Is.True);
+	}
+
+	[Test]
+	public async Task OnPostAsync_WhenUploadFilesFails_ReturnsPageWithError()
+	{
+		var entityId = Guid.NewGuid();
+		var application = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+		application.Schools = new List<Dfe.Academies.External.Web.Dtos.SchoolApplyingToConvert>
+		{
+			new("Test School", 100, null) { EntityId = entityId }
+		};
+
+		var retrievalMock = new Mock<IConversionApplicationRetrievalService>();
+		retrievalMock.Setup(x => x.GetApplication(It.IsAny<int>())).ReturnsAsync(application);
+
+		var sharePointMock = new Mock<ISharePointService>();
+		sharePointMock.Setup(x => x.UploadFileAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Stream>()))
+			.ThrowsAsync(new Dfe.Academies.External.Web.Exceptions.FileUploadException("Upload failed"));
+
+		var formMock = new Mock<IFormCollection>();
+		formMock.Setup(x => x.TryGetValue(It.IsAny<string>(), out It.Ref<StringValues>.IsAny!)).Returns(false);
+
+		var fileMock = new Mock<IFormFile>();
+		fileMock.Setup(f => f.FileName).Returns("revenue.pdf");
+		fileMock.Setup(f => f.OpenReadStream()).Returns(new MemoryStream());
+
+		var pageModel = SetupNextFinancialYearModel(
+			sharePointMock.Object,
+			Mock.Of<IConversionApplicationService>(),
+			retrievalMock.Object,
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		SetupValidNextFinancialYearModel(pageModel, entityId);
+		pageModel.ForecastedRevenueFiles = new List<IFormFile> { fileMock.Object };
+
+		var result = await pageModel.OnPostAsync();
+
+		Assert.That(result, Is.InstanceOf<PageResult>());
+		Assert.That(pageModel.ModelState.ContainsKey(nameof(pageModel.SchoolRevenueFileGenericError)), Is.True);
+	}
+
+	[Test]
+	public async Task OnPostAsync_WhenValid_SucceedsAndRedirects()
+	{
+		var entityId = Guid.NewGuid();
+		var application = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+		application.Schools = new List<Dfe.Academies.External.Web.Dtos.SchoolApplyingToConvert>
+		{
+			new("Test School", 100, null) { EntityId = entityId }
+		};
+
+		var retrievalMock = new Mock<IConversionApplicationRetrievalService>();
+		retrievalMock.Setup(x => x.GetApplication(It.IsAny<int>())).ReturnsAsync(application);
+
+		var sharePointMock = new Mock<ISharePointService>();
+		sharePointMock.Setup(x => x.UploadFileAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Stream>()))
+			.Returns(Task.CompletedTask);
+
+		var conversionAppServiceMock = new Mock<IConversionApplicationService>();
+		conversionAppServiceMock.Setup(x => x.PutSchoolApplicationDetails(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Dictionary<string, dynamic>>()))
+			.Returns(Task.CompletedTask);
+
+		var pageModel = SetupNextFinancialYearModel(
+			sharePointMock.Object,
+			conversionAppServiceMock.Object,
+			retrievalMock.Object,
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		SetupValidNextFinancialYearModel(pageModel, entityId);
+
+		var result = await pageModel.OnPostAsync();
+
+
+		Assert.That(result, Is.InstanceOf<RedirectToPageResult>());
+		conversionAppServiceMock.Verify(x => x.PutSchoolApplicationDetails(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Dictionary<string, dynamic>>()), Times.Once);
+	}
+
+	private static void SetupValidNextFinancialYearModel(NextFinancialYearModel pageModel, Guid entityId)
+	{
+		var formMock = new Mock<IFormCollection>();
+		// Setup proper date form values
+		formMock.Setup(x => x.TryGetValue("sip_nfyenddate-day", out It.Ref<StringValues>.IsAny!))
+			.Returns((string key, out StringValues values) => {
+				values = new StringValues("31");
+				return true;
+			});
+		formMock.Setup(x => x.TryGetValue("sip_nfyenddate-month", out It.Ref<StringValues>.IsAny!))
+			.Returns((string key, out StringValues values) => {
+				values = new StringValues("03");
+				return true;
+			});
+		formMock.Setup(x => x.TryGetValue("sip_nfyenddate-year", out It.Ref<StringValues>.IsAny!))
+			.Returns((string key, out StringValues values) => {
+				values = new StringValues("2025");
+				return true;
+			});
+		// Let other form values return false by default
+
+		pageModel.ApplicationId = 1;
+		pageModel.Urn = 100;
+		pageModel.EntityId = entityId;
+		pageModel.ApplicationReference = "APP-REF";
+		pageModel.NFYEndDateFormInputName = "sip_nfyenddate";
+		pageModel.Request.Form = formMock.Object;
+		pageModel.Revenue = 100000m;
+		pageModel.NFYRevenueStatus = Dfe.Academies.External.Web.Enums.RevenueType.Surplus;
+		pageModel.CapitalCarryForward = 50000m;
+		pageModel.NFYCapitalCarryForwardStatus = Dfe.Academies.External.Web.Enums.RevenueType.Surplus;
+		pageModel.ForecastedRevenueFiles = new List<IFormFile>();
+		pageModel.ForecastedCapitalFiles = new List<IFormFile>();
+		pageModel.ForecastedRevenueFileNames = new List<string>();
+		pageModel.ForecastedCapitalFileNames = new List<string>();
+		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, pageModel.TempData, new Dfe.Academies.External.Web.Dtos.ConversionApplication());
 	}
 
 
