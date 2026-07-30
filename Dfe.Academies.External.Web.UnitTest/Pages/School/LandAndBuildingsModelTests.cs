@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
@@ -492,5 +493,96 @@ internal sealed class LandAndBuildingsModelTests
 			Url = new UrlHelper(actionContext),
 			MetadataProvider = pageContext.ViewData.ModelMetadata
 		};
+	}
+
+	[Test]
+	public void PopulateUiModel_WhenSchoolHasLandAndBuildingsData_PopulatesModel()
+	{
+		// Arrange
+		var pageModel = SetupLandAndBuildingsModel(
+			Mock.Of<IConversionApplicationService>(),
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		var worksPlannedDate = new DateTime(2025, 9, 15);
+		var school = new SchoolApplyingToConvert("Test School", 200, null)
+		{
+			LandAndBuildings = new SchoolLandAndBuildings(
+				OwnerExplained: "Local Authority owns the land",
+				WorksPlanned: true,
+				WorksPlannedExplained: "New science block construction",
+				WorksPlannedDate: worksPlannedDate,
+				FacilitiesShared: false,
+				FacilitiesSharedExplained: "No shared facilities",
+				Grants: true,
+				GrantsAwardingBodies: "DfE Capital Grant",
+				PartOfPFIScheme: false,
+				PartOfPFISchemeType: "Not applicable",
+				PartOfPrioritySchoolsBuildingProgramme: false,
+				PartOfBuildingSchoolsForFutureProgramme: true
+			)
+		};
+
+		// Act
+		pageModel.PopulateUiModel(school);
+
+		// Assert
+		Assert.That(pageModel.SchoolBuildLandOwnerExplained, Is.EqualTo("Local Authority owns the land"));
+		Assert.That(pageModel.SchoolBuildLandWorksPlanned, Is.EqualTo(SelectOption.Yes));
+		Assert.That(pageModel.SchoolBuildLandWorksPlannedExplained, Is.EqualTo("New science block construction"));
+		Assert.That(pageModel.WorksPlannedDate, Is.EqualTo("15/09/2025"));
+		Assert.That(pageModel.SchoolBuildLandSharedFacilities, Is.EqualTo(SelectOption.No));
+		Assert.That(pageModel.SchoolBuildLandSharedFacilitiesExplained, Is.EqualTo("No shared facilities"));
+		Assert.That(pageModel.SchoolBuildLandGrants, Is.EqualTo(SelectOption.Yes));
+		Assert.That(pageModel.SchoolBuildLandGrantsBodies, Is.EqualTo("DfE Capital Grant"));
+		Assert.That(pageModel.SchoolBuildLandPFIScheme, Is.EqualTo(SelectOption.No));
+		Assert.That(pageModel.SchoolBuildLandPFISchemeType, Is.EqualTo("Not applicable"));
+		Assert.That(pageModel.SchoolBuildLandPriorityBuildingProgramme, Is.EqualTo(SelectOption.No));
+		Assert.That(pageModel.SchoolBuildLandFutureProgramme, Is.EqualTo(SelectOption.Yes));
+	}
+
+	[Test]
+	public void PopulateUiModel_WhenSchoolHasEmptyLandAndBuildingsData_SetsDefaults()
+	{
+		// Arrange
+		var pageModel = SetupLandAndBuildingsModel(
+			Mock.Of<IConversionApplicationService>(),
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		var school = new SchoolApplyingToConvert("Test School", 200, null)
+		{
+			LandAndBuildings = new SchoolLandAndBuildings(
+				OwnerExplained: null,
+				WorksPlanned: null,
+				WorksPlannedExplained: null,
+				WorksPlannedDate: null,
+				FacilitiesShared: null,
+				FacilitiesSharedExplained: null,
+				Grants: null,
+				GrantsAwardingBodies: null,
+				PartOfPFIScheme: null,
+				PartOfPFISchemeType: null,
+				PartOfPrioritySchoolsBuildingProgramme: null,
+				PartOfBuildingSchoolsForFutureProgramme: null
+			)
+		};
+
+		// Act
+		pageModel.PopulateUiModel(school);
+
+		// Assert
+		Assert.That(pageModel.SchoolBuildLandOwnerExplained, Is.EqualTo(string.Empty));
+		Assert.That(pageModel.SchoolBuildLandWorksPlanned, Is.Null);
+		Assert.That(pageModel.SchoolBuildLandWorksPlannedExplained, Is.Null);
+		Assert.That(pageModel.WorksPlannedDate, Is.EqualTo(string.Empty));
+		Assert.That(pageModel.SchoolBuildLandSharedFacilities, Is.Null);
+		Assert.That(pageModel.SchoolBuildLandSharedFacilitiesExplained, Is.Null);
+		Assert.That(pageModel.SchoolBuildLandGrants, Is.Null);
+		Assert.That(pageModel.SchoolBuildLandGrantsBodies, Is.Null);
+		Assert.That(pageModel.SchoolBuildLandPFIScheme, Is.Null);
+		Assert.That(pageModel.SchoolBuildLandPFISchemeType, Is.Null);
+		Assert.That(pageModel.SchoolBuildLandPriorityBuildingProgramme, Is.Null);
+		Assert.That(pageModel.SchoolBuildLandFutureProgramme, Is.Null);
 	}
 }

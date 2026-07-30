@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
@@ -501,5 +503,70 @@ internal sealed class NextFinancialYearModelTests
 			Url = new UrlHelper(actionContext),
 			MetadataProvider = pageContext.ViewData.ModelMetadata
 		};
+	}
+
+	[Test]
+	public void PopulateUiModel_WhenSchoolHasNextFinancialYearData_PopulatesModel()
+	{
+		// Arrange
+		var pageModel = SetupNextFinancialYearModel(
+			Mock.Of<ISharePointService>(),
+			Mock.Of<IConversionApplicationService>(),
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		var endDate = new DateTime(2025, 7, 31);
+		var school = new SchoolApplyingToConvert("Test School", 200, null)
+		{
+			NextFinancialYear = new SchoolFinancialYear(
+				FinancialYearEndDate: endDate,
+				Revenue: 500000.50m,
+				RevenueStatus: RevenueType.Surplus,
+				RevenueStatusExplained: "Revenue explanation",
+				CapitalCarryForward: 75000.25m,
+				CapitalCarryForwardStatus: RevenueType.Surplus,
+				CapitalCarryForwardExplained: "Capital explanation"
+			)
+		};
+
+		// Act
+		pageModel.PopulateUiModel(school);
+
+		// Assert
+		Assert.That(pageModel.NFYEndDate, Is.EqualTo("31/07/2025"));
+		Assert.That(pageModel.Revenue, Is.EqualTo(500000.50m));
+		Assert.That(pageModel.NFYRevenueStatus, Is.EqualTo(RevenueType.Surplus));
+		Assert.That(pageModel.NFYRevenueStatusExplained, Is.EqualTo("Revenue explanation"));
+		Assert.That(pageModel.CapitalCarryForward, Is.EqualTo(75000.25m));
+		Assert.That(pageModel.NFYCapitalCarryForwardStatus, Is.EqualTo(RevenueType.Surplus));
+		Assert.That(pageModel.NFYCapitalCarryForwardExplained, Is.EqualTo("Capital explanation"));
+	}
+
+	[Test]
+	public void PopulateUiModel_WhenSchoolHasNoNextFinancialYearData_SetsDefaults()
+	{
+		// Arrange
+		var pageModel = SetupNextFinancialYearModel(
+			Mock.Of<ISharePointService>(),
+			Mock.Of<IConversionApplicationService>(),
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		var school = new SchoolApplyingToConvert("Test School", 200, null)
+		{
+			NextFinancialYear = new SchoolFinancialYear()
+		};
+
+		// Act
+		pageModel.PopulateUiModel(school);
+
+		// Assert
+		Assert.That(pageModel.NFYEndDate, Is.EqualTo(string.Empty));
+		Assert.That(pageModel.Revenue, Is.EqualTo(0m));
+		Assert.That(pageModel.NFYRevenueStatus, Is.EqualTo((RevenueType)0)); // Default enum value
+		Assert.That(pageModel.NFYRevenueStatusExplained, Is.Null);
+		Assert.That(pageModel.CapitalCarryForward, Is.EqualTo(0m));
+		Assert.That(pageModel.NFYCapitalCarryForwardStatus, Is.EqualTo((RevenueType)0)); // Default enum value
+		Assert.That(pageModel.NFYCapitalCarryForwardExplained, Is.Null);
 	}
 }

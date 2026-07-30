@@ -1,7 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
+using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -58,5 +62,97 @@ internal sealed class FinancesReviewModelTests
 			Url = new UrlHelper(actionContext),
 			MetadataProvider = pageContext.ViewData.ModelMetadata
 		};
+	}
+
+	[Test]
+	public async Task PopulateUiModel_WhenSchoolHasFinancialData_PopulatesFinancesSummaryViewModel()
+	{
+		// Arrange
+		var applicationId = 12345;
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var applicationDetails = ApplicationFactory.Create(applicationId);
+		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(applicationId))
+			.ReturnsAsync(applicationDetails);
+
+		var pageModel = SetupFinancesReviewModel(
+			mockConversionApplicationRetrievalService.Object,
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		pageModel.ApplicationId = applicationId;
+
+		var endDate = new DateTime(2025, 7, 31);
+		var school = new SchoolApplyingToConvert("Test School", 200, null)
+		{
+			PreviousFinancialYear = new SchoolFinancialYear(
+				FinancialYearEndDate: endDate,
+				Revenue: 450000.75m,
+				RevenueStatus: RevenueType.Surplus,
+				CapitalCarryForward: 25000.50m
+			),
+			CurrentFinancialYear = new SchoolFinancialYear(
+				FinancialYearEndDate: endDate,
+				Revenue: 480000.00m,
+				RevenueStatus: RevenueType.Surplus,
+				CapitalCarryForward: 30000.00m
+			),
+			NextFinancialYear = new SchoolFinancialYear(
+				FinancialYearEndDate: endDate,
+				Revenue: 500000.00m,
+				RevenueStatus: RevenueType.Surplus,
+				CapitalCarryForward: 35000.00m
+			),
+			HasLoans = true,
+			HasLeases = false,
+			FinanceOngoingInvestigations = false
+		};
+
+		// Act
+		await pageModel.PopulateUiModel(school);
+
+		// Assert
+		Assert.That(pageModel.ApplicationStatus, Is.EqualTo(applicationDetails.ApplicationStatus));
+		Assert.That(pageModel.ViewModel, Is.Not.Null);
+		Assert.That(pageModel.ViewModel, Has.Count.EqualTo(6)); // PFY, CFY, NFY, Loans, Leases, Financial Investigations
+	}
+
+	[Test]
+	public async Task PopulateUiModel_WhenSchoolHasMinimalFinancialData_PopulatesNotStartedStatuses()
+	{
+		// Arrange
+		var applicationId = 67890;
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var applicationDetails = ApplicationFactory.Create(applicationId);
+		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(applicationId))
+			.ReturnsAsync(applicationDetails);
+
+		var pageModel = SetupFinancesReviewModel(
+			mockConversionApplicationRetrievalService.Object,
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		pageModel.ApplicationId = applicationId;
+
+		var school = new SchoolApplyingToConvert("Test School", 200, null)
+		{
+			PreviousFinancialYear = new SchoolFinancialYear(),
+			CurrentFinancialYear = new SchoolFinancialYear(),
+			NextFinancialYear = new SchoolFinancialYear(),
+			HasLoans = null,
+			HasLeases = null,
+			FinanceOngoingInvestigations = null
+		};
+
+		// Act
+		await pageModel.PopulateUiModel(school);
+
+		// Assert
+		Assert.That(pageModel.ApplicationStatus, Is.EqualTo(applicationDetails.ApplicationStatus));
+		Assert.That(pageModel.ViewModel, Is.Not.Null);
+		Assert.That(pageModel.ViewModel, Has.Count.EqualTo(6));
+		
+		// All sections should have NotStarted status when data is minimal
+		foreach (var heading in pageModel.ViewModel)
+		{
+			Assert.That(heading.Status, Is.EqualTo(SchoolConversionComponentStatus.NotStarted));
+		}
 	}
 }

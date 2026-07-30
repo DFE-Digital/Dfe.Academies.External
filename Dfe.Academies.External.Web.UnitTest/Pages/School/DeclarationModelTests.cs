@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
@@ -67,6 +68,75 @@ internal sealed class DeclarationModelTests
 			Url = new UrlHelper(actionContext),
 			MetadataProvider = pageContext.ViewData.ModelMetadata
 		};
+	}
+
+	[Test]
+	public void PopulateUiModel_WhenSchoolHasDeclarationData_PopulatesModel()
+	{
+		// Arrange
+		var pageModel = SetupDeclarationModel(
+			Mock.Of<IConversionApplicationService>(),
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		var school = new SchoolApplyingToConvert("Test School", 200, null)
+		{
+			DeclarationIAmTheChairOrHeadteacher = true,
+			DeclarationBodyAgree = true
+		};
+
+		// Act
+		pageModel.PopulateUiModel(school);
+
+		// Assert
+		Assert.That(pageModel.SchoolDeclarationTeacherChair, Is.True);
+		Assert.That(pageModel.SchoolDeclarationBodyAgree, Is.True);
+	}
+
+	[Test]
+	public void PopulateUiModel_WhenSchoolHasNoDeclarationData_LeavesModelUnchanged()
+	{
+		// Arrange
+		var pageModel = SetupDeclarationModel(
+			Mock.Of<IConversionApplicationService>(),
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		var school = new SchoolApplyingToConvert("Test School", 200, null)
+		{
+			DeclarationIAmTheChairOrHeadteacher = null,
+			DeclarationBodyAgree = null
+		};
+
+		// Act
+		pageModel.PopulateUiModel(school);
+
+		// Assert - Properties should remain at their default values since we didn't populate them
+		Assert.That(pageModel.SchoolDeclarationTeacherChair, Is.False); // default bool value
+		Assert.That(pageModel.SchoolDeclarationBodyAgree, Is.False); // default bool value
+	}
+
+	[Test]
+	public void PopulateUiModel_WhenSchoolHasPartialDeclarationData_PopulatesOnlyAvailableData()
+	{
+		// Arrange
+		var pageModel = SetupDeclarationModel(
+			Mock.Of<IConversionApplicationService>(),
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		var school = new SchoolApplyingToConvert("Test School", 200, null)
+		{
+			DeclarationIAmTheChairOrHeadteacher = false,
+			DeclarationBodyAgree = null
+		};
+
+		// Act
+		pageModel.PopulateUiModel(school);
+
+		// Assert
+		Assert.That(pageModel.SchoolDeclarationTeacherChair, Is.False);
+		Assert.That(pageModel.SchoolDeclarationBodyAgree, Is.False); // default value since null
 	}
 }
 
