@@ -82,4 +82,116 @@ internal sealed class ApplicationNewTrustGovernanceStructureDetailsTests
 			MetadataProvider = pageContext.ViewData.ModelMetadata
 		};
 	}
+
+	[Test]
+	public async Task OnGetRemoveFileAsync_CallsDeleteFileAndRedirects()
+	{
+		const int appId = 5;
+		const int urn = 100;
+		var entityId = System.Guid.NewGuid().ToString();
+		var applicationReference = "APP-001";
+		var section = "governance";
+		var fileName = "governance.pdf";
+		var folderPath = Dfe.Academies.External.Web.Helpers.FileUploadConstants.FormatSharepointApplicationDirectory(applicationReference, entityId);
+
+		var sharePointMock = new Mock<ISharePointService>();
+		sharePointMock
+			.Setup(x => x.DeleteFileAsync(folderPath, fileName))
+			.Returns(Task.CompletedTask);
+
+		var conversionAppRetrievalServiceMock = new Mock<IConversionApplicationRetrievalService>();
+		var referenceDataRetrievalServiceMock = new Mock<IReferenceDataRetrievalService>();
+		var conversionAppServiceMock = new Mock<IConversionApplicationService>();
+
+		var pageModel = setupApplicationNewTrustGovernanceStructureDetails(
+			conversionAppRetrievalServiceMock.Object,
+			referenceDataRetrievalServiceMock.Object,
+			conversionAppServiceMock.Object,
+			sharePointMock.Object,
+			Mock.Of<ILogger<ApplicationNewTrustGovernanceStructureDetails>>());
+
+		var result = await pageModel.OnGetRemoveFileAsync(appId, urn, entityId, applicationReference, section, fileName);
+
+		sharePointMock.Verify(
+			x => x.DeleteFileAsync(folderPath, fileName),
+			Times.Once);
+		Assert.That(result, Is.InstanceOf<RedirectToPageResult>());
+		var redirect = (RedirectToPageResult)result;
+		Assert.That(redirect.PageName, Is.EqualTo("ApplicationNewTrustGovernanceStructureDetails"));
+		var routeValues = redirect.RouteValues!;
+		Assert.That(routeValues["Urn"], Is.Not.Null);
+		Assert.That(routeValues["Urn"], Is.EqualTo(urn));
+		Assert.That(routeValues["AppId"], Is.EqualTo(appId));
+	}
+
+	[Test]
+	public async Task OnGetRemoveFileAsync_WhenSharePointDeleteFails_ExceptionPropagates()
+	{
+		const int appId = 5;
+		const int urn = 100;
+		var entityId = System.Guid.NewGuid().ToString();
+		var applicationReference = "APP-001";
+		var section = "governance";
+		var fileName = "governance.pdf";
+		var folderPath = Dfe.Academies.External.Web.Helpers.FileUploadConstants.FormatSharepointApplicationDirectory(applicationReference, entityId);
+
+		var sharePointMock = new Mock<ISharePointService>();
+		sharePointMock
+			.Setup(x => x.DeleteFileAsync(folderPath, fileName))
+			.ThrowsAsync(new System.Exception("SharePoint delete failed"));
+
+		var conversionAppRetrievalServiceMock = new Mock<IConversionApplicationRetrievalService>();
+		var referenceDataRetrievalServiceMock = new Mock<IReferenceDataRetrievalService>();
+		var conversionAppServiceMock = new Mock<IConversionApplicationService>();
+
+		var pageModel = setupApplicationNewTrustGovernanceStructureDetails(
+			conversionAppRetrievalServiceMock.Object,
+			referenceDataRetrievalServiceMock.Object,
+			conversionAppServiceMock.Object,
+			sharePointMock.Object,
+			Mock.Of<ILogger<ApplicationNewTrustGovernanceStructureDetails>>());
+
+		var exception = Assert.ThrowsAsync<System.Exception>(
+			() => pageModel.OnGetRemoveFileAsync(appId, urn, entityId, applicationReference, section, fileName));
+
+		Assert.That(exception!.Message, Is.EqualTo("SharePoint delete failed"));
+		sharePointMock.Verify(
+			x => x.DeleteFileAsync(folderPath, fileName),
+			Times.Once);
+	}
+
+	[Test]
+	public async Task OnGetRemoveFileAsync_WithEmptyFileName_StillCallsDeleteAndRedirects()
+	{
+		const int appId = 5;
+		const int urn = 100;
+		var entityId = System.Guid.NewGuid().ToString();
+		var applicationReference = "APP-001";
+		var section = "governance";
+		var fileName = "";
+		var folderPath = Dfe.Academies.External.Web.Helpers.FileUploadConstants.FormatSharepointApplicationDirectory(applicationReference, entityId);
+
+		var sharePointMock = new Mock<ISharePointService>();
+		sharePointMock
+			.Setup(x => x.DeleteFileAsync(folderPath, fileName))
+			.Returns(Task.CompletedTask);
+
+		var conversionAppRetrievalServiceMock = new Mock<IConversionApplicationRetrievalService>();
+		var referenceDataRetrievalServiceMock = new Mock<IReferenceDataRetrievalService>();
+		var conversionAppServiceMock = new Mock<IConversionApplicationService>();
+
+		var pageModel = setupApplicationNewTrustGovernanceStructureDetails(
+			conversionAppRetrievalServiceMock.Object,
+			referenceDataRetrievalServiceMock.Object,
+			conversionAppServiceMock.Object,
+			sharePointMock.Object,
+			Mock.Of<ILogger<ApplicationNewTrustGovernanceStructureDetails>>());
+
+		var result = await pageModel.OnGetRemoveFileAsync(appId, urn, entityId, applicationReference, section, fileName);
+
+		sharePointMock.Verify(
+			x => x.DeleteFileAsync(folderPath, fileName),
+			Times.Once);
+		Assert.That(result, Is.InstanceOf<RedirectToPageResult>());
+	}
 }
