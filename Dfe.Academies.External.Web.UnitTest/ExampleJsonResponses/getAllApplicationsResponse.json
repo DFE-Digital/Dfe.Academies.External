@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "applicationReference": "A2B_1",
+    "schoolSharepointServiceModels": [
+      {
+        "id": 10,
+        "name": "Test School",
+        "entityId": "22222222-2222-2222-2222-222222222222"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "applicationReference": "A2B_2",
+    "schoolSharepointServiceModels": []
+  }
+]

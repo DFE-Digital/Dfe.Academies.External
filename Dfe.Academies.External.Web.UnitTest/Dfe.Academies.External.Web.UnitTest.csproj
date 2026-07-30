@@ -21,6 +21,9 @@
     <Content Include="ExampleJsonResponses\createApplicationResponseInValid.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ExampleJsonResponses\getAllApplicationsResponse.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ExampleJsonResponses\getApplicationResponseBasicJoinAMat.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

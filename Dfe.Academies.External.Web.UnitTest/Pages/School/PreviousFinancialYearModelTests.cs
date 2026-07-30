@@ -124,6 +124,98 @@ internal sealed class PreviousFinancialYearModelTests
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
 	}
 
+	[Test]
+	public async Task OnGetRemoveFileAsync_CallsDeleteFileAndRedirects()
+	{
+		const int appId = 5;
+		const int urn = 100;
+		var entityId = Guid.NewGuid().ToString();
+		var applicationReference = "APP-001";
+		var section = "revenue";
+		var fileName = "revenue.pdf";
+		var folderPath = FileUploadConstants.FormatSharepointSchoolDirectory(applicationReference, entityId);
+
+		var sharePointMock = new Mock<ISharePointService>();
+		sharePointMock
+			.Setup(x => x.DeleteFileAsync(folderPath, fileName))
+			.Returns(Task.CompletedTask);
+
+		var pageModel = SetupPreviousFinancialYearModel(
+			sharePointMock.Object,
+			Mock.Of<IConversionApplicationService>(),
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		var result = await pageModel.OnGetRemoveFileAsync(appId, urn, entityId, applicationReference, section, fileName);
+
+		sharePointMock.Verify(
+			x => x.DeleteFileAsync(folderPath, fileName),
+			Times.Once);
+		Assert.That(result, Is.InstanceOf<RedirectToPageResult>());
+		var redirect = (RedirectToPageResult)result;
+		Assert.That(redirect.PageName, Is.EqualTo("PreviousFinancialYear"));
+		var routeValues = redirect.RouteValues!;
+		Assert.That(routeValues["Urn"], Is.Not.Null);
+		Assert.That(routeValues["Urn"], Is.EqualTo(urn));
+		Assert.That(routeValues["AppId"], Is.EqualTo(appId));
+	}
+
+	[Test]
+	public async Task OnGetRemoveFileAsync_WhenSharePointDeleteFails_ExceptionPropagates()
+	{
+		const int appId = 5;
+		const int urn = 100;
+		var entityId = Guid.NewGuid().ToString();
+		var applicationReference = "APP-001";
+		var section = "capital";
+		var fileName = "capital.pdf";
+
+		var sharePointMock = new Mock<ISharePointService>();
+		sharePointMock
+			.Setup(x => x.DeleteFileAsync(It.IsAny<string>(), fileName))
+			.ThrowsAsync(new Exception("SharePoint delete failed"));
+
+		var pageModel = SetupPreviousFinancialYearModel(
+			sharePointMock.Object,
+			Mock.Of<IConversionApplicationService>(),
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		var exception = Assert.ThrowsAsync<Exception>(
+			() => pageModel.OnGetRemoveFileAsync(appId, urn, entityId, applicationReference, section, fileName));
+
+		Assert.That(exception!.Message, Is.EqualTo("SharePoint delete failed"));
+	}
+
+	[Test]
+	public async Task OnGetAsync_WhenSharePointThrowsException_ContinuesExecution()
+	{
+		const int appId = 10;
+		const int urn = 200;
+		var application = ConversionApplicationTestDataFactory.BuildNewConversionApplicationWithChairRole();
+
+		var retrievalMock = new Mock<IConversionApplicationRetrievalService>();
+		retrievalMock.Setup(x => x.GetApplication(appId)).ReturnsAsync(application);
+
+		var sharePointMock = new Mock<ISharePointService>();
+		sharePointMock.Setup(x => x.ListFilesAsync(It.IsAny<string>()))
+			.ThrowsAsync(new Exception("SharePoint error"));
+
+		var pageModel = SetupPreviousFinancialYearModel(
+			sharePointMock.Object,
+			Mock.Of<IConversionApplicationService>(),
+			retrievalMock.Object,
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		TempDataHelper.StoreSerialisedValue(TempDataHelper.DraftConversionApplicationKey, pageModel.TempData, application);
+
+		var result = await pageModel.OnGetAsync(urn, appId);
+
+		Assert.That(result, Is.InstanceOf<PageResult>());
+		Assert.That(pageModel.ApplicationId, Is.EqualTo(appId));
+		Assert.That(pageModel.Urn, Is.EqualTo(urn));
+	}
+
 	// TODO :- OnPostAsync___ModelIsValid___Invalid
 	// when academisation API is implemented, will need to mock ResilientRequestProvider for http client API responses
 
