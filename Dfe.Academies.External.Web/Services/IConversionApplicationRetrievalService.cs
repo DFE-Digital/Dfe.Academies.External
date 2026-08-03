@@ -56,7 +56,7 @@ public interface IConversionApplicationRetrievalService
 	/// </summary>
 	/// <param name="conversionApplication"></param>
 	/// <returns></returns>
-	Status CalculateTrustStatus(ConversionApplication? conversionApplication);
+	Task<Status> CalculateTrustStatus(ConversionApplication? conversionApplication);
 
 	/// <summary>
 	/// calc JAM trust status - JAM specific components = 6 sections - could return InProgress or Completed or NotStarted
@@ -71,7 +71,7 @@ public interface IConversionApplicationRetrievalService
 	/// </summary>
 	/// <param name="conversionApplication"></param>
 	/// <returns></returns>
-	Status CalculateFormAMatTrustStatus(ConversionApplication? conversionApplication);
+	Task<Status> CalculateFormAMatTrustStatus(ConversionApplication? conversionApplication);
 
 	/// <summary>
 	/// Calc whether school declaration has been filled in
@@ -89,7 +89,7 @@ public interface IConversionApplicationRetrievalService
 	/// </summary>
 	/// <param name="conversionApplication"></param>
 	/// <returns></returns>
-	Status CalculateApplicationStatus(ConversionApplication? conversionApplication,
+	Task<Status> CalculateApplicationStatus(ConversionApplication? conversionApplication,
 		IEnumerable<SchoolComponentsViewModel> schoolComponents);
 
 	/// <summary>

@@ -5,16 +5,18 @@ using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Exceptions;
 using Dfe.Academies.External.Web.Helpers;
-using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School;
 
 public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 {
-	private readonly IFileUploadService _fileUploadService;
+	private readonly ISharePointService _sharepoint;
+	private readonly ILogger<CurrentFinancialYearModel> _logger;
+	
 	public string CFYEndDateFormInputName = "sip_cfyenddate";
 
 	[BindProperty]
@@ -120,13 +122,20 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 
 	public DateTime CFYFinancialEndDateLocal { get; set; }
 
-	public CurrentFinancialYearModel(IFileUploadService fileUploadService, IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
-									IReferenceDataRetrievalService referenceDataRetrievalService,
-									IConversionApplicationService academisationCreationService) 
-        : base(conversionApplicationRetrievalService, referenceDataRetrievalService,
-	        academisationCreationService, "NextFinancialYear")
-	{
-		_fileUploadService = fileUploadService;
+	public CurrentFinancialYearModel(
+		ILogger<CurrentFinancialYearModel> logger,
+		ISharePointService sharepointService,  
+		IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
+		IReferenceDataRetrievalService referenceDataRetrievalService,
+		IConversionApplicationService academisationCreationService
+	) : base(
+		conversionApplicationRetrievalService, 
+		referenceDataRetrievalService,
+	    academisationCreationService,
+		"NextFinancialYear"
+	) {
+		_sharepoint = sharepointService;
+		_logger = logger;
 	}
 
 	public override async Task<ActionResult> OnGetAsync(int urn, int appId)
@@ -145,13 +154,34 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 			EntityId = selectedSchool.EntityId;
 			PopulateUiModel(selectedSchool);
 		}
+		
 		ApplicationType = applicationDetails.ApplicationType;
 		ApplicationReference = applicationDetails.ApplicationReference;
-		SchoolCFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile);
-		SchoolCFYCapitalForwardFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolCFYCapitalForwardFile);
 
-		TempDataHelper.StoreSerialisedValue($"{EntityId}-SchoolCFYRevenueStatusFileNames", TempData, SchoolCFYRevenueStatusFileNames);
-		TempDataHelper.StoreSerialisedValue($"{EntityId}-SchoolCFYCapitalForwardFileNames", TempData, SchoolCFYCapitalForwardFileNames);
+		string folder = FileUploadConstants.FormatSharepointSchoolDirectory(ApplicationReference, EntityId.ToString());
+		try
+		{
+			var files = await _sharepoint.ListFilesAsync(folder);
+			SchoolCFYRevenueStatusFileNames = files
+				.Where(file => file.Name.StartsWith(FileUploadConstants.SchoolCFYRevenueStatusFile))
+				.Select(file => file.Name)
+				.ToList();
+			
+			SchoolCFYCapitalForwardFileNames = files
+				.Where(file => file.Name.StartsWith(FileUploadConstants.SchoolCFYCapitalForwardFile))
+				.Select(file => file.Name)
+				.ToList();
+
+			TempDataHelper.StoreSerialisedValue($"{EntityId}-SchoolCFYRevenueStatusFileNames", TempData,
+				SchoolCFYRevenueStatusFileNames);
+			TempDataHelper.StoreSerialisedValue($"{EntityId}-SchoolCFYCapitalForwardFileNames", TempData,
+				SchoolCFYCapitalForwardFileNames);
+		}
+		catch
+		{
+			_logger.LogInformation("No School directory exists yet for application: {1} :: {2}", 
+				ApplicationReference, $"{ApplicationReference}_{EntityId}");
+		}
 
 		return Page();
 	}
@@ -209,13 +239,14 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 
 	private async Task<bool> UploadFiles()
 	{
+		string folder = FileUploadConstants.FormatSharepointSchoolDirectory(ApplicationReference, EntityId.ToString());
+		
 		try
 		{
 			foreach (var file in SchoolCfyRevenueStatusFiles)
 			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
-					ApplicationReference, FileUploadConstants.SchoolCFYRevenueStatusFile,
-					file);
+				string fileName = $"{FileUploadConstants.SchoolCFYRevenueStatusFile}_{file.FileName}";
+				await _sharepoint.UploadFileAsync(folder, fileName, file.OpenReadStream());
 			}
 		}
 		catch (FileUploadException)
@@ -229,8 +260,8 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 		{
 			foreach (var file in SchoolCFYCapitalForwardFiles)
 			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
-					ApplicationReference, FileUploadConstants.SchoolCFYCapitalForwardFile, file);
+				string fileName = $"{FileUploadConstants.SchoolCFYCapitalForwardFile}_{file.FileName}";
+				await _sharepoint.UploadFileAsync(folder, fileName, file.OpenReadStream());
 			}
 		}
 		catch (FileUploadException)
@@ -242,6 +273,7 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 
 		return true;
 	}
+	
 	///<inheritdoc/>
 	public override bool RunUiValidation()
 	{
@@ -296,7 +328,9 @@ public class CurrentFinancialYearModel : BaseSchoolPageEditModel
 	}
 	public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
 	{
-		await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelSchoolFolderName, entityId, applicationReference, section, fileName);
+		string folder = FileUploadConstants.FormatSharepointSchoolDirectory(applicationReference, entityId);
+		await _sharepoint.DeleteFileAsync(folder, fileName);
+
 		return RedirectToPage("CurrentFinancialYear", new { Urn = urn, AppId = appId });
 	}
 

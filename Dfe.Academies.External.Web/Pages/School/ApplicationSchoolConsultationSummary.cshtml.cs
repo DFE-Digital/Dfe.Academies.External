@@ -42,7 +42,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		}
 
 		///<inheritdoc/>
-		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		public override Task PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
 		    ApplicationStatus = applicationDetails.ApplicationStatus;
@@ -73,6 +73,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 			var vm = new List<SchoolConsultationSummaryHeadingViewModel> { heading1 };
 
 			ViewModel = vm;
+			return Task.CompletedTask;
 		}
 	}
 }

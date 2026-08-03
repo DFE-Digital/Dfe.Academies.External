@@ -5,27 +5,40 @@ using Dfe.Academies.External.Web.Exceptions;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 {
 	public class ApplicationNewTrustGovernanceStructureDetails : BaseTrustFamApplicationPageEditModel
 	{
+		private readonly ISharePointService _sharepoint;
+		private readonly ILogger<ApplicationNewTrustGovernanceStructureDetails> _logger;
+		
 		public int Urn { get; private set; }
 		public string TrustName { get; private set; } = string.Empty;
 		
 		[DataType(DataType.Upload)]
-		[AllowedExtensions(new[] { ".doc", ".docx", ".ppt", ".pptx", ".pdf" })]
+		[AllowedExtensions([".doc", ".docx", ".ppt", ".pptx", ".pdf"])]
 		[BindProperty]
 		public List<IFormFile> GovernanceStructureDetailsFiles { get; private set; } = new();
 		[BindProperty]
 		public List<string> GovernanceStructureDetailsFileNames { get; private set; } = new();
-
-		private readonly IFileUploadService _fileUploadService;
 		
-		public ApplicationNewTrustGovernanceStructureDetails(IConversionApplicationRetrievalService conversionApplicationRetrievalService, IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationService conversionApplicationCreationService, IFileUploadService fileUploadService) : base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "ApplicationNewTrustGovernanceSummary")
-		{
-			_fileUploadService = fileUploadService;
+		public ApplicationNewTrustGovernanceStructureDetails(
+			IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
+			IReferenceDataRetrievalService referenceDataRetrievalService, 
+			IConversionApplicationService conversionApplicationCreationService, 
+			ISharePointService sharepointService,
+			ILogger<ApplicationNewTrustGovernanceStructureDetails> logger
+		) : base(
+				conversionApplicationRetrievalService, 
+				referenceDataRetrievalService, 
+				conversionApplicationCreationService,
+	"ApplicationNewTrustGovernanceSummary"
+		) {
+			_sharepoint = sharepointService;
+			_logger = logger;
 		}
 		
 		public bool GovernanceStructureDetailsFileError => !ModelState.IsValid && ModelState.Keys.Contains("GovernanceStructureDetailFileNotAddedError");
@@ -61,20 +74,31 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 			// Grab other values from API
 			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(ApplicationId);
+			
 			EntityId = applicationDetails.EntityId;
 			ApplicationReference = applicationDetails.ApplicationReference;
 			TrustName = applicationDetails?.TrustName ?? string.Empty;
-			if (applicationDetails?.ApplicationReference != null)
+
+			try
 			{
-				GovernanceStructureDetailsFileNames = await _fileUploadService.GetFiles(
-					FileUploadConstants.TopLevelApplicationFolderName, EntityId.ToString(), ApplicationReference,
-					FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName);
+				string folder = FileUploadConstants.FormatSharepointApplicationDirectory(ApplicationReference, EntityId.ToString());
+				var files = await _sharepoint.ListFilesAsync(folder);
+				
+				GovernanceStructureDetailsFileNames = files
+					.Where(file => file.Name.StartsWith(FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName))
+					.Select(file => file.Name)
+					.ToList();
+				
 				TempDataHelper.StoreSerialisedValue($"{EntityId}-governanceStructureDetailsFiles", TempData,
 					GovernanceStructureDetailsFileNames);
 			}
+			catch
+			{
+				_logger.LogInformation("No Trust directory exists yet for application: {1} :: {2}",
+					ApplicationReference, $"{ApplicationReference}_{EntityId}");
 
-			EntityId = applicationDetails.EntityId;
-			ApplicationReference = applicationDetails.ApplicationReference;
+			}
+
 			return Page();
 		}
 		
@@ -88,16 +112,14 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 			if (!RunUiValidation()) 
 			{
-					return Page();
+				return Page();
 			}
-			if (applicationDetails?.ApplicationReference != null)
+			
+			if (!(await UploadFiles()))
 			{
-				if (!(await UploadFiles()))
-				{
-					return Page();
-				}
+				return Page();
 			}
-
+			
 			var draftConversionApplication =
 				TempDataHelper.GetSerialisedValue<ConversionApplication>(
 					TempDataHelper.DraftConversionApplicationKey, TempData) ?? new ConversionApplication();
@@ -110,13 +132,13 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 		private async Task<bool> UploadFiles()
 		{
+			string folder = FileUploadConstants.FormatSharepointApplicationDirectory(ApplicationReference, EntityId.ToString());
 			try
 			{
 				foreach (var file in GovernanceStructureDetailsFiles)
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelApplicationFolderName,
-						EntityId.ToString(), ApplicationReference,
-						FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName, file);
+					string fileName = $"{FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName}_{file.FileName}";
+					await _sharepoint.UploadFileAsync(folder, fileName, file.OpenReadStream());
 				}
 			}
 			catch (FileUploadException)
@@ -168,7 +190,9 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelApplicationFolderName, entityId, applicationReference, section, fileName);
+			string folder = FileUploadConstants.FormatSharepointApplicationDirectory(applicationReference, entityId);
+			await _sharepoint.DeleteFileAsync(folder, fileName);
+			
 			return RedirectToPage("ApplicationNewTrustGovernanceStructureDetails", new { Urn = urn, AppId = appId });
 		}
 	}

@@ -63,7 +63,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 		}
 
 		///<inheritdoc/>
-		public override void PopulateUiModel(ConversionApplication? conversionApplication)
+		public override Task PopulateUiModel(ConversionApplication? conversionApplication)
         {
 	        if (conversionApplication != null && conversionApplication.FormTrustDetails != null)
 	        {
@@ -80,6 +80,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 				FormAMatTrustComponents = componentsVm;
 			}
+	        
+	        return Task.CompletedTask;
         }
 	}
 }

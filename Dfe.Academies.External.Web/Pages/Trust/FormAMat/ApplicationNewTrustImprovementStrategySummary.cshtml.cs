@@ -41,7 +41,7 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			return new();
 		}
 
-		public override void PopulateUiModel(ConversionApplication? conversionApplication)
+		public override Task PopulateUiModel(ConversionApplication? conversionApplication)
 		{
 			ApplicationStatus = conversionApplication.ApplicationStatus;
 			
@@ -82,6 +82,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 
 				ViewModel = vm;
 			}
+			
+			return Task.CompletedTask;
 		}
 	}
 }

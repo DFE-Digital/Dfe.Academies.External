@@ -7,13 +7,15 @@ using Dfe.Academies.External.Web.Exceptions;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
     public class PreviousFinancialYearModel : BaseSchoolPageEditModel
 	{
-		private readonly IFileUploadService _fileUploadService;
+		private readonly ISharePointService _sharepoint;
+		private readonly ILogger<PreviousFinancialYearModel> _logger;
 
 		public string PFYEndDateFormInputName = "sip_pfyenddate";
 
@@ -123,57 +125,86 @@ namespace Dfe.Academies.External.Web.Pages.School
 		
 		public DateTime PFYFinancialEndDateLocal { get; set; }
 
-		public PreviousFinancialYearModel(IFileUploadService fileUploadService,
+		public PreviousFinancialYearModel(
+			ISharePointService sharepointService,
+			ILogger<PreviousFinancialYearModel> logger,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
-			IConversionApplicationService academisationCreationService)
-			: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
-				academisationCreationService, "CurrentFinancialYear")
-		{
-			_fileUploadService = fileUploadService;
+			IConversionApplicationService academisationCreationService
+		) : base(
+			conversionApplicationRetrievalService, 
+			referenceDataRetrievalService,
+			academisationCreationService, "CurrentFinancialYear"
+		){
+			_sharepoint = sharepointService;
+			_logger = logger;
 		}
 
 		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelSchoolFolderName, entityId, applicationReference, section, fileName);
+			string folder = FileUploadConstants.FormatSharepointSchoolDirectory(applicationReference, entityId);
+			await _sharepoint.DeleteFileAsync(folder, fileName);
+			
 			return RedirectToPage("PreviousFinancialYear", new { Urn = urn, AppId = appId });
 		}
 
 		public override async Task<ActionResult> OnGetAsync(int urn, int appId)
 		{
 			LoadAndStoreCachedConversionApplication();
-		
+
 			ApplicationId = appId;
 			Urn = urn;
 
 			// Grab other values from API
 			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
 			var selectedSchool = applicationDetails?.Schools.FirstOrDefault(x => x.URN == urn);
+			ApplicationReference = applicationDetails?.ApplicationReference;
 
 			if (selectedSchool != null)
 			{
 				EntityId = selectedSchool.EntityId;
 				PopulateUiModel(selectedSchool);
 			}
-			ApplicationReference = applicationDetails?.ApplicationReference;
-			SchoolPFYRevenueStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolPFYRevenueStatusFile);
-			SchoolPFYCapitalForwardStatusFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.SchoolPFYCapitalForwardStatusFile);
 
-			TempDataHelper.StoreSerialisedValue($"{appId}-SchoolPFYRevenueStatusFileNames", TempData, SchoolPFYRevenueStatusFileNames);
-			TempDataHelper.StoreSerialisedValue($"{appId}-SchoolPFYCapitalForwardStatusFileNames", TempData, SchoolPFYCapitalForwardStatusFileNames);
+			string folder =
+				FileUploadConstants.FormatSharepointSchoolDirectory(ApplicationReference, EntityId.ToString());
+			
+			try{
+				var files = await _sharepoint.ListFilesAsync(folder);
+
+				SchoolPFYRevenueStatusFileNames = files
+					.Where(file => file.Name.StartsWith(FileUploadConstants.SchoolPFYRevenueStatusFile))
+					.Select(file => file.Name)
+					.ToList();
+				
+				SchoolPFYCapitalForwardStatusFileNames = files
+					.Where(file => file.Name.StartsWith(FileUploadConstants.SchoolPFYCapitalForwardStatusFile))
+					.Select(file => file.Name)
+					.ToList();
+
+				TempDataHelper.StoreSerialisedValue($"{appId}-SchoolPFYRevenueStatusFileNames", TempData,
+					SchoolPFYRevenueStatusFileNames);
+				TempDataHelper.StoreSerialisedValue($"{appId}-SchoolPFYCapitalForwardStatusFileNames", TempData,
+					SchoolPFYCapitalForwardStatusFileNames);
+			}
+			catch
+			{
+				_logger.LogInformation("No School directory exists yet for application: {1} :: {2}", 
+					ApplicationReference, $"{ApplicationReference}_{EntityId}");
+			}
 
 			return Page();
 		}
 		
 		private async Task<bool> UploadFiles()
 		{
+			string folder = FileUploadConstants.FormatSharepointSchoolDirectory(ApplicationReference, EntityId.ToString());
 			try
 			{
 				foreach (var file in SchoolPFYRevenueStatusFiles)
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
-						ApplicationReference, FileUploadConstants.SchoolPFYRevenueStatusFile,
-						file);
+					string fileName = $"{FileUploadConstants.SchoolPFYRevenueStatusFile}_{file.FileName}";
+					await _sharepoint.UploadFileAsync(folder, fileName, file.OpenReadStream());
 				}
 			}
 			catch (FileUploadException)
@@ -187,8 +218,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				foreach (var file in SchoolPFYCapitalForwardStatusFiles)
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
-						ApplicationReference, FileUploadConstants.SchoolPFYCapitalForwardStatusFile, file);
+					string fileName = $"{FileUploadConstants.SchoolPFYCapitalForwardStatusFile}_{file.FileName}";
+					await _sharepoint.UploadFileAsync(folder, fileName, file.OpenReadStream());
 				}
 			}
 			catch (FileUploadException)

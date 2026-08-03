@@ -28,6 +28,7 @@ using Microsoft.FeatureManagement;
 using Dfe.Academies.External.Web.FeatureManagement;
 using GovUK.Dfe.CoreLibs.Http.Interfaces;
 using GovUK.Dfe.CoreLibs.Http.Middlewares.CorrelationId;
+using GovUK.Dfe.CoreLibs.SharePoint;
 
 namespace Dfe.Academies.External.Web
 {
@@ -55,7 +56,6 @@ namespace Dfe.Academies.External.Web
 					options.Conventions
 						.AuthorizeFolder("/", "AcademiesExternalPolicy")
 						.AllowAnonymousToPage("/Index")
-						.AllowAnonymousToPage("/Accessibility-Statement")
 						.AllowAnonymousToPage("/Cookies")
 						.AllowAnonymousToPage("/Terms")
 						.AllowAnonymousToPage("/Privacy")
@@ -150,36 +150,27 @@ namespace Dfe.Academies.External.Web
 				options.Secure = CookieSecurePolicy.Always;
 			});
 
-			// Configure Redis Based Distributed Session
-			var redisConfigurationOptions = ConfigurationOptions.Parse(builder.Configuration["ConnectionStrings:RedisCache"]);
-			redisConfigurationOptions.AsyncTimeout = 15000;
-			redisConfigurationOptions.SyncTimeout = 15000;
-
-
-			//cofig from concerns
-			//var redisConfigurationOptions = new ConfigurationOptions { Password = password, EndPoints = { $"{host}:{port}" }, Ssl = tls, AsyncTimeout = 15000, SyncTimeout = 15000 };
-
-			// https://stackexchange.github.io/StackExchange.Redis/ThreadTheft.html
-			ConnectionMultiplexer.SetFeatureFlag("preventthreadtheft", true);
-
-
-			IConnectionMultiplexer redisConnectionMultiplexer = ConnectionMultiplexer.Connect(redisConfigurationOptions);
-			//services.AddDataProtection().PersistKeysToStackExchangeRedis(redisConnectionMultiplexer, "DataProtectionKeys");
-
-			//services.AddStackExchangeRedisCache(
-			//	options =>
-			//	{
-			//		options.ConfigurationOptions = redisConfigurationOptions;
-			//		options.InstanceName = $"Redis-{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}";
-			//		options.ConnectionMultiplexerFactory = () => Task.FromResult(_redisConnectionMultiplexer);
-			//	})
-
-			builder.Services.AddStackExchangeRedisCache(redisCacheConfig =>
+			// Configure Redis Based Distributed Session when a connection is available.
+			// Otherwise, AddDistributedMemoryCache above remains the session cache provider.
+			string? redisConnectionString = builder.Configuration["ConnectionStrings:RedisCache"];
+			if (!string.IsNullOrWhiteSpace(redisConnectionString))
 			{
-				redisCacheConfig.ConfigurationOptions = redisConfigurationOptions;
-				redisCacheConfig.ConnectionMultiplexerFactory = () => Task.FromResult(redisConnectionMultiplexer);
-				redisCacheConfig.InstanceName = "redis-master";
-			});
+				var redisConfigurationOptions = ConfigurationOptions.Parse(redisConnectionString);
+				redisConfigurationOptions.AsyncTimeout = 15000;
+				redisConfigurationOptions.SyncTimeout = 15000;
+
+				// https://stackexchange.github.io/StackExchange.Redis/ThreadTheft.html
+				ConnectionMultiplexer.SetFeatureFlag("preventthreadtheft", true);
+
+				IConnectionMultiplexer redisConnectionMultiplexer = ConnectionMultiplexer.Connect(redisConfigurationOptions);
+
+				builder.Services.AddStackExchangeRedisCache(redisCacheConfig =>
+				{
+					redisCacheConfig.ConfigurationOptions = redisConfigurationOptions;
+					redisCacheConfig.ConnectionMultiplexerFactory = () => Task.FromResult(redisConnectionMultiplexer);
+					redisCacheConfig.InstanceName = "redis-master";
+				});
+			}
 
 			builder.Services.AddSession(options =>
 			{
@@ -211,8 +202,9 @@ namespace Dfe.Academies.External.Web
 			// 	client.DefaultRequestHeaders.Add("User-Agent", "ApplyToBecome/1.0");
 			// })
 			// 	.AddPolicyHandler(GetRetryPolicy());
-			builder.Services.AddScoped<IFileUploadService, NoOpFileUploadService>();
-
+			
+			builder.Services.AddSharePointServices(configuration);
+			
 			static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
 			{
 				return HttpPolicyExtensions

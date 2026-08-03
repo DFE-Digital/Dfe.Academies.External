@@ -9,23 +9,27 @@ using Dfe.Academies.External.Web.Extensions;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.School
 {
 	public class AdditionalDetails : BaseSchoolPageEditModel
 	{
-		private readonly IFileUploadService _fileUploadService;
+		private readonly ISharePointService _sharepoint;
 		private readonly IConversionApplicationService _conversionApplicationCreationService;
-
+		private readonly ILogger<AdditionalDetails> _logger;
+		
 		public AdditionalDetails(
-			IFileUploadService fileUploadService,
+			ILogger<AdditionalDetails> logger,
+			ISharePointService sharepointService,
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 			IReferenceDataRetrievalService referenceDataRetrievalService,
 			IConversionApplicationService conversionApplicationCreationService)
 			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "FurtherInformationSummary")
 		{
-			_fileUploadService = fileUploadService;
+			_logger = logger;
+			_sharepoint = sharepointService;
 			_conversionApplicationCreationService = conversionApplicationCreationService;
 		}
 
@@ -191,7 +195,8 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelSchoolFolderName, entityId, applicationReference, section, fileName);
+			string folderPath = FileUploadConstants.FormatSharepointSchoolDirectory(applicationReference, entityId);
+			await _sharepoint.DeleteFileAsync(folderPath, fileName);
 			return RedirectToPage("AdditionalDetails", new { Urn = urn, AppId = appId });
 		}
 		public override async Task<ActionResult> OnGetAsync(int urn, int appId)
@@ -210,13 +215,34 @@ namespace Dfe.Academies.External.Web.Pages.School
 				PopulateUiModel(selectedSchool);
 			}
 			ApplicationReference = applicationDetails!.ApplicationReference;
-			
-			DioceseFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.DioceseFilePrefixFieldName);
-			TempDataHelper.StoreSerialisedValue($"{EntityId}-dioceseFiles", TempData, DioceseFileNames);
-			FoundationConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName);
-			TempDataHelper.StoreSerialisedValue($"{EntityId}-foundationConsentFiles", TempData, FoundationConsentFileNames);
-			ResolutionConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName);
-			TempDataHelper.StoreSerialisedValue($"{EntityId}-resolutionConsentFiles", TempData, ResolutionConsentFileNames);
+
+			try
+			{
+				var files = await _sharepoint.ListFilesAsync(
+					FileUploadConstants.FormatSharepointSchoolDirectory(ApplicationReference, EntityId.ToString()));
+
+				DioceseFileNames = files.Where(x => x.Name.StartsWith(FileUploadConstants.DioceseFilePrefixFieldName))
+					.Select(x => x.Name).ToList();
+				TempDataHelper.StoreSerialisedValue($"{EntityId}-dioceseFiles", TempData, DioceseFileNames);
+
+				FoundationConsentFileNames = files
+					.Where(x => x.Name.StartsWith(FileUploadConstants.FoundationConsentFilePrefixFieldName))
+					.Select(x => x.Name).ToList();
+				TempDataHelper.StoreSerialisedValue($"{EntityId}-foundationConsentFiles", TempData,
+					FoundationConsentFileNames);
+
+				ResolutionConsentFileNames = files
+					.Where(x => x.Name.StartsWith(FileUploadConstants.ResolutionConsentfilePrefixFieldName))
+					.Select(x => x.Name).ToList();
+				TempDataHelper.StoreSerialisedValue($"{EntityId}-resolutionConsentFiles", TempData,
+					ResolutionConsentFileNames);
+			}
+			catch
+			{
+				_logger.LogInformation("No school file(s) directory exists yet for application: {1} :: {2}",
+					ApplicationReference, $"{ApplicationReference}_{EntityId}");
+			}
+
 			return Page();
 		}
 
@@ -447,8 +473,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				foreach (var file in DioceseFiles!)
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
-						ApplicationReference, FileUploadConstants.DioceseFilePrefixFieldName, file);
+					await _sharepoint.UploadFileAsync(
+						FileUploadConstants.FormatSharepointSchoolDirectory(ApplicationReference, EntityId.ToString()),
+						$"{FileUploadConstants.DioceseFilePrefixFieldName}_{file.FileName}",
+						file.OpenReadStream()
+					);
 				}
 			}
 			catch (FileUploadException)
@@ -465,8 +494,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 				{
 					foreach (var file in FoundationConsentFiles)
 					{
-						await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
-							ApplicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName, file);
+						await _sharepoint.UploadFileAsync(
+							FileUploadConstants.FormatSharepointSchoolDirectory(ApplicationReference, EntityId.ToString()),	
+							$"{FileUploadConstants.FoundationConsentFilePrefixFieldName}_{file.FileName}",
+							file.OpenReadStream()
+						);
 					}
 				}
 			}
@@ -481,8 +513,11 @@ namespace Dfe.Academies.External.Web.Pages.School
 			{
 				foreach (var file in ResolutionConsentFiles)
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
-						ApplicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName, file);
+					await _sharepoint.UploadFileAsync(
+						FileUploadConstants.FormatSharepointSchoolDirectory(ApplicationReference, EntityId.ToString()),
+						$"{FileUploadConstants.ResolutionConsentfilePrefixFieldName}_{file.FileName}",
+						file.OpenReadStream()
+					);
 				}
 			}
 			catch (FileUploadException)

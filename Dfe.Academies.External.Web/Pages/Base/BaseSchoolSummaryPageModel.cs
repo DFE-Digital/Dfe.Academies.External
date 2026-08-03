@@ -43,7 +43,7 @@ namespace Dfe.Academies.External.Web.Pages.Base
 
 			if (selectedSchool != null)
 			{
-				PopulateUiModel(selectedSchool);
+				await PopulateUiModel(selectedSchool);
 				SchoolName = selectedSchool.SchoolName;
 			}
 
@@ -54,6 +54,6 @@ namespace Dfe.Academies.External.Web.Pages.Base
 		/// take school data from API and populate UI controls
 		/// </summary>
 		/// <param name="selectedSchool"></param>
-		public abstract void PopulateUiModel(SchoolApplyingToConvert selectedSchool);
+		public abstract Task PopulateUiModel(SchoolApplyingToConvert selectedSchool);
 	}
 }

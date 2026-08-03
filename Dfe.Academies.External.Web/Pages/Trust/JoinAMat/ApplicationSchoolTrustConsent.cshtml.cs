@@ -4,36 +4,44 @@ using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Exceptions;
 using Dfe.Academies.External.Web.Helpers;
-using Dfe.Academies.External.Web.Models;
 using Dfe.Academies.External.Web.Pages.Base;
 using Dfe.Academies.External.Web.Services;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 {
 	public class ApplicationSchoolTrustConsent : BaseSchoolPageEditModel
 	{
-		private readonly IFileUploadService _fileUploadService;
+		private readonly ISharePointService _sharepoint;
+		private readonly ILogger<ApplicationSchoolTrustConsent> _logger;
 		
-		public ApplicationSchoolTrustConsent(IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
-			IReferenceDataRetrievalService referenceDataRetrievalService, IConversionApplicationService conversionApplicationCreationService, 
-			IFileUploadService fileUploadService) 
-			: base(conversionApplicationRetrievalService, referenceDataRetrievalService, conversionApplicationCreationService, "ApplicationSchoolChangesToATrust")
-		{
-			_fileUploadService = fileUploadService;
+		public ApplicationSchoolTrustConsent(
+			IConversionApplicationRetrievalService conversionApplicationRetrievalService, 
+			IReferenceDataRetrievalService referenceDataRetrievalService,
+			IConversionApplicationService conversionApplicationCreationService, 
+			ISharePointService sharepointService,
+			ILogger<ApplicationSchoolTrustConsent> logger
+		) : 
+		base(conversionApplicationRetrievalService, referenceDataRetrievalService,conversionApplicationCreationService, 
+			"ApplicationSchoolChangesToATrust"){
+			_sharepoint = sharepointService;
+			_logger = logger;
 		}
+		
 		public ApplicationTypes ApplicationType { get; private set; }
 
 		public string SelectedTrustName { get; private set; }
 
 		[DataType(DataType.Upload)]
-		[AllowedExtensions(new[] { ".doc", ".docx", ".ppt", ".pptx", ".pdf" })]
+		[AllowedExtensions([".doc", ".docx", ".ppt", ".pptx", ".pdf"])]
 		[BindProperty]
-		public List<IFormFile> TrustConsentFiles { get; set; } = new();
+		public List<IFormFile> TrustConsentFiles { get; set; } = [];
 
 		[BindProperty] 
-		public List<string> TrustConsentFileNames { get; set; } = new();
+		public List<string> TrustConsentFileNames { get; set; } = [];
 		public bool TrustConsentFileError => !ModelState.IsValid && ModelState.Keys.Contains("TrustConsentFileNotAddedError");
+		
 		[BindProperty]
 		public Guid EntityId { get; set; }
 		
@@ -42,14 +50,12 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		
 		public bool TrustConsentFileSizeError => !ModelState.IsValid && ModelState.ContainsKey(nameof(TrustConsentFileSizeError));
 		public bool TrustConsentFileGenericError => !ModelState.IsValid && ModelState.ContainsKey(nameof(TrustConsentFileGenericError));
-
 		
 		public bool HasError
 		{
 			get
 			{
 				var bools = new[] {TrustConsentFileError};
-
 				return bools.Any(b => b);
 			}
 		}
@@ -85,7 +91,9 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 		}
 		public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
 		{
-			await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelApplicationFolderName, entityId, applicationReference, section, fileName);
+			string folder = FileUploadConstants.FormatSharepointApplicationDirectory(applicationReference, entityId);
+			await _sharepoint.DeleteFileAsync(folder, fileName);
+			
 			return RedirectToPage("ApplicationSchoolTrustConsent", new {Urn = urn, AppId = appId});
 		}
 		
@@ -103,8 +111,8 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 
 			// Grab other values from API
 			var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(ApplicationId);
-			EntityId = applicationDetails.EntityId;
 			ApplicationReference = applicationDetails.ApplicationReference;
+			EntityId = applicationDetails.EntityId;
 			SelectedTrustName = applicationDetails.JoinTrustDetails?.TrustName ?? string.Empty;
 			
 			var selectedSchool = applicationDetails?.Schools.FirstOrDefault(x => x.URN == urn);
@@ -114,10 +122,23 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 				PopulateUiModel(selectedSchool);
 			}
 
-			EntityId = applicationDetails.EntityId;
-			ApplicationReference = applicationDetails.ApplicationReference;
-			TrustConsentFileNames = await _fileUploadService.GetFiles(FileUploadConstants.TopLevelApplicationFolderName, EntityId.ToString(), ApplicationReference, FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName);
+			string folder = FileUploadConstants.FormatSharepointApplicationDirectory(ApplicationReference, EntityId.ToString());
+			try
+			{
+				var files = await _sharepoint.ListFilesAsync(folder);
+				TrustConsentFileNames =
+					files.Where(file =>
+							file.Name.StartsWith(FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName))
+						.Select(file => file.Name).ToList();
+			}
+			catch
+			{
+				_logger.LogInformation("No Trust consent file(s) directory exists yet for application: {1} :: {2}",
+					ApplicationReference, $"{ApplicationReference}_{EntityId}");
+			}
+
 			TempDataHelper.StoreSerialisedValue($"{EntityId}-trustConsentFiles", TempData, TrustConsentFileNames);
+			
 			return Page();
 		}
 
@@ -150,24 +171,25 @@ namespace Dfe.Academies.External.Web.Pages.Trust.JoinAMat
 
 		private async Task<bool> UploadFiles()
 		{
+			string folder = FileUploadConstants.FormatSharepointApplicationDirectory(ApplicationReference, EntityId.ToString());
 			try
 			{
 				foreach (var file in TrustConsentFiles)
 				{
-					await _fileUploadService.UploadFile(FileUploadConstants.TopLevelApplicationFolderName,
-						EntityId.ToString(), ApplicationReference,
-						FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName, file);
+					string fileName = $"{FileUploadConstants.JoinAMatTrustConsentFilePrefixFieldName}_{file.FileName}";
+					await _sharepoint.UploadFileAsync(folder, fileName, file.OpenReadStream());
 				}
 			}
 			catch (FileUploadException)
 			{
-				ModelState.AddModelError(nameof(TrustConsentFileGenericError), "The selected file could not be uploaded – try again");
+				ModelState.AddModelError(nameof(TrustConsentFileGenericError), "The selected file(s) could not be uploaded – try again");
 				PopulateValidationMessages();
 				return false;
 			}
 
 			return true;
 		}
+		
 		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 		}

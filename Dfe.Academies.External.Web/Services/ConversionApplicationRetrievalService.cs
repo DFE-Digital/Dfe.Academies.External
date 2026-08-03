@@ -7,6 +7,7 @@ using Dfe.Academies.External.Web.FeatureManagement;
 using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.ViewModels;
 using GovUK.Dfe.CoreLibs.Http.Interfaces;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 
 namespace Dfe.Academies.External.Web.Services;
 
@@ -14,16 +15,17 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 {
 	private readonly ILogger<ConversionApplicationRetrievalService> _logger;
 	private readonly ResilientRequestProvider _resilientRequestProvider;
-	private readonly IFileUploadService _fileUploadService;
+	private readonly ISharePointService _sharepoint;
 	private readonly IConversionGrantExpiryFeature _conversionGrantExpiryFeature;
+	
 	public ConversionApplicationRetrievalService(IHttpClientFactory httpClientFactory, 
 		ILogger<ConversionApplicationRetrievalService> logger, 
-		IFileUploadService fileUploadService,
+		ISharePointService sharepointService,
 		ICorrelationContext correlationContext,
 		IConversionGrantExpiryFeature conversionGrantExpiryFeature) : base(httpClientFactory, correlationContext, AcademisationAPIHttpClientName)
 	{
 		_logger = logger;
-		_fileUploadService = fileUploadService;
+		_sharepoint = sharepointService;
 		_resilientRequestProvider = new ResilientRequestProvider(HttpClient, _logger);
 		_conversionGrantExpiryFeature = conversionGrantExpiryFeature;
 	}
@@ -129,7 +131,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
             List<ApplicationComponentViewModel> conversionApplicationComponents = new()
                         {
                             new("About the conversion", UriFormatter.SetSchoolApplicationComponentUriFromName("About the conversion"), CalculateAboutTheConversionSectionStatus(school)),
-                            new("Further information", UriFormatter.SetSchoolApplicationComponentUriFromName("Further information"), CalculateFurtherInformationSectionStatus(school, application.ApplicationReference)),
+                            new("Further information", UriFormatter.SetSchoolApplicationComponentUriFromName("Further information"), await CalculateFurtherInformationSectionStatus(school, application.ApplicationReference)),
                             new("Finances", UriFormatter.SetSchoolApplicationComponentUriFromName("Finances"), CalculateFinanceSectionStatus(school)),
                             new("Future pupil numbers", UriFormatter.SetSchoolApplicationComponentUriFromName("Future pupil numbers"), CalculateFuturePupilNumbersSectionStatus(school)),
                             new("Land and buildings", UriFormatter.SetSchoolApplicationComponentUriFromName("Land and buildings"),CalculateLandAndBuildingsSectionStatus(school)),
@@ -175,7 +177,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 				new("Reasons for forming the trust", UriFormatter.SetSchoolApplicationComponentUriFromName("Finances"), CalculateReasonsForFormingTrustSectionStatus(application.FormTrustDetails)),
 				new("Plans for growth", UriFormatter.SetSchoolApplicationComponentUriFromName("Future pupil numbers"), CalculatePlansForGrowthSectionStatus(application.FormTrustDetails)),
 				new("School improvement strategy", UriFormatter.SetSchoolApplicationComponentUriFromName("Land and buildings"),CalculateSchoolImprovementStrategyStatus(application.FormTrustDetails)),
-				new("Governance structure", UriFormatter.SetSchoolApplicationComponentUriFromName("Land and buildings"),CalculateGovernanceStructureSectionStatus(application)),
+				new("Governance structure", UriFormatter.SetSchoolApplicationComponentUriFromName("Land and buildings"), await CalculateGovernanceStructureSectionStatus(application)),
 				new("Key people", UriFormatter.SetSchoolApplicationComponentUriFromName("Land and buildings"),CalculateKeyPeopleSectionStatus(application.FormTrustDetails))
 			};
 
@@ -193,19 +195,25 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 		return applicationFormTrustDetails.KeyPeople.Any() ? Status.Completed : Status.NotStarted;
 	}
 
-	private Status CalculateGovernanceStructureSectionStatus(ConversionApplication application)
+	private async Task<Status> CalculateGovernanceStructureSectionStatus(ConversionApplication application)
 	{
-	    // file uploads currently not working, set as complete so application can be submitted. Once file uploads are working, this will be changed back to the original logic.
-		return Status.Completed;
-	    //try
-	    //{
-	    //  var result = _fileUploadService.GetFiles(FileUploadConstants.TopLevelApplicationFolderName, application.EntityId.ToString(), application.ApplicationReference, FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName).Result;
-	    //  return result.Any() ? Status.Completed : Status.NotStarted;
-	    //}
-	    //catch (Exception e)
-	    //{
-	    //  return Status.NotStarted;
-	    //}
+		try
+		{
+			string applicationReference = application.ApplicationReference;
+			string entityId = application.EntityId.ToString();
+			string folder = FileUploadConstants.FormatSharepointApplicationDirectory(applicationReference, entityId);
+			
+			var files = await _sharepoint.ListFilesAsync(folder);
+			
+			bool complete = files
+				.Any(x => x.Name.StartsWith(FileUploadConstants.JoinAMatTrustGovernanceFilePrefixFieldName));
+			return complete ? Status.Completed : Status.NotStarted;
+		}
+		catch (Exception e)
+		{
+			_logger.LogError("ConversionApplicationRetrievalService::CalculateGovernanceStructureSectionStatus::Exception - {Message}", e.Message);
+			return Status.NotStarted;
+		}
 	}
 
 	private Status CalculateSchoolImprovementStrategyStatus(NewTrust applicationFormTrustDetails)
@@ -371,17 +379,36 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// </summary>
 	/// <param name="selectedSchool"></param>
 	/// <returns></returns>
-	private Status CalculateFurtherInformationSectionStatus(SchoolApplyingToConvert? selectedSchool, string applicationReference)
+	private async Task<Status> CalculateFurtherInformationSectionStatus(SchoolApplyingToConvert? selectedSchool, string applicationReference)
 	{
-	    // Logic for Status has been tweaked temporarily due to file upload issues.
-		var dioceseFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool!.EntityId.ToString(),  applicationReference, FileUploadConstants.DioceseFilePrefixFieldName).Result ?? [];
-		var foundationConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.FoundationConsentFilePrefixFieldName).Result ?? [];
-		var resolutionConsentFileNames = _fileUploadService.GetFiles(FileUploadConstants.TopLevelSchoolFolderName, selectedSchool.EntityId.ToString(),  applicationReference, FileUploadConstants.ResolutionConsentfilePrefixFieldName).Result ?? [];
+		bool isDiocese = !string.IsNullOrEmpty(selectedSchool?.DioceseName);
+		bool isFoundation = !string.IsNullOrEmpty(selectedSchool?.FoundationTrustOrBodyName);
+		string entityId = selectedSchool?.EntityId.ToString() ?? string.Empty;
+		
+		try
+		{
+			string folder = FileUploadConstants.FormatSharepointSchoolDirectory(applicationReference, entityId);
+			var files = await _sharepoint.ListFilesAsync(folder);
 
-		if (!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails))
-			return Status.Completed;
+			bool hasDioceseFiles = files
+				.Any(f => f.Name.StartsWith(FileUploadConstants.DioceseFilePrefixFieldName));
 
-	    // due to validation on the page can never show as inprogress, either not started or completed
+			bool hasFoundationFiles = files
+				.Any(f => f.Name.StartsWith(FileUploadConstants.FoundationConsentFilePrefixFieldName));
+
+			bool isDioceseInvalid = isDiocese && !hasDioceseFiles;
+			bool isFoundationInvalid = isFoundation && !hasFoundationFiles;
+
+			if (!isDioceseInvalid && !isFoundationInvalid &&
+				!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails)
+			){
+				return Status.Completed;
+			}
+		}
+		catch
+		{
+			return Status.NotStarted;
+		}
 
 		return Status.NotStarted;
 	}
@@ -481,22 +508,19 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	}
 
 	///<inheritdoc/>
-	public Status CalculateTrustStatus(ConversionApplication? conversionApplication)
+	public async Task<Status> CalculateTrustStatus(ConversionApplication? conversionApplication)
 	{
-		if (conversionApplication != null)
+		if (conversionApplication == null)
 		{
-			switch (conversionApplication.ApplicationType)
-			{
-				case ApplicationTypes.JoinAMat:
-					return CalculateJoinAMatTrustStatus(conversionApplication);
-				case ApplicationTypes.FormAMat:
-					return CalculateFormAMatTrustStatus(conversionApplication);
-				default:
-					return Status.NotStarted;
-			}
+			return Status.NotStarted;
 		}
 
-		return Status.NotStarted;
+		return conversionApplication.ApplicationType switch
+		{
+			ApplicationTypes.JoinAMat => CalculateJoinAMatTrustStatus(conversionApplication),
+			ApplicationTypes.FormAMat => await CalculateFormAMatTrustStatus(conversionApplication),
+			_ => Status.NotStarted
+		};
 	}
 	
 	///<inheritdoc/>
@@ -516,7 +540,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	}
 
 	///<inheritdoc/>
-	public Status CalculateFormAMatTrustStatus(ConversionApplication? conversionApplication)
+	public async Task<Status> CalculateFormAMatTrustStatus(ConversionApplication? conversionApplication)
 	{
 		if (conversionApplication?.FormTrustDetails != null)
 		{
@@ -527,7 +551,7 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 			bool trustReasonsStatus = CalculateReasonsForFormingTrustSectionStatus(applicationFormTrustDetails) == Status.Completed;
 			bool plansForGrowthStatus = CalculatePlansForGrowthSectionStatus(applicationFormTrustDetails) == Status.Completed;
 			bool improvementStatus = CalculateSchoolImprovementStrategyStatus(applicationFormTrustDetails) == Status.Completed;
-			bool governanceStatus = CalculateGovernanceStructureSectionStatus(conversionApplication) == Status.Completed;
+			bool governanceStatus = await CalculateGovernanceStructureSectionStatus(conversionApplication) == Status.Completed;
 			bool keyPeopleStatus = CalculateKeyPeopleSectionStatus(applicationFormTrustDetails) == Status.Completed;
 
 			var boolList = new List<bool>
@@ -584,11 +608,11 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	}
 	
 	///<inheritdoc/>
-	public Status CalculateApplicationStatus(ConversionApplication? conversionApplication, IEnumerable<SchoolComponentsViewModel> schoolComponents)
+	public async Task<Status> CalculateApplicationStatus(ConversionApplication? conversionApplication, IEnumerable<SchoolComponentsViewModel> schoolComponents)
 	{
 		var allSchoolStatuses = schoolComponents.Select(schoolComponent => CalculateSchoolStatus(schoolComponent.SchoolComponents)).ToList();
 
-		var trustStatus = CalculateTrustStatus(conversionApplication);
+		var trustStatus = await CalculateTrustStatus(conversionApplication);
 
 		if (allSchoolStatuses.All(c => c == Status.Completed) && trustStatus == Status.Completed)
 			return Status.Completed;

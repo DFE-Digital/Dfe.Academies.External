@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Dfe.Academies.External.Web.CustomValidators;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Exceptions;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 
 namespace Dfe.Academies.External.Web.Pages.School;
 public class NextFinancialYearModel : BaseSchoolPageEditModel
@@ -121,64 +122,83 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 	public DateTime NFYFinancialEndDateLocal { get; set; }
 
 	
-	private readonly IFileUploadService _fileUploadService;
+	private readonly ISharePointService _sharepoint;
+	private readonly ILogger<NextFinancialYearModel> _logger;
 
-	public NextFinancialYearModel(IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+	public NextFinancialYearModel(
+		IConversionApplicationRetrievalService conversionApplicationRetrievalService,
 		IReferenceDataRetrievalService referenceDataRetrievalService,
 		IConversionApplicationService academisationCreationService,
-		IFileUploadService fileUploadService)
-		: base(conversionApplicationRetrievalService, referenceDataRetrievalService,
-			academisationCreationService, "Loans")
-	{
-		_fileUploadService = fileUploadService;
+		ISharePointService sharepointService,
+		ILogger<NextFinancialYearModel> logger)
+		: base(
+			conversionApplicationRetrievalService, 
+			referenceDataRetrievalService,
+			academisationCreationService, 
+			"Loans"
+		) {
+		_sharepoint = sharepointService;
+		_logger = logger;
 	}
 
 	public override async Task<ActionResult> OnGetAsync(int urn, int appId)
 	{
 
 		LoadAndStoreCachedConversionApplication();
-		
+
 		ApplicationId = appId;
 		Urn = urn;
-		
+
 		// Grab other values from API
 		var applicationDetails = await ConversionApplicationRetrievalService.GetApplication(appId);
 		var selectedSchool = applicationDetails?.Schools.FirstOrDefault(x => x.URN == urn);
+
 		ApplicationType = applicationDetails.ApplicationType;
+		ApplicationReference = applicationDetails.ApplicationReference;
+
 		if (selectedSchool != null)
 		{
 			EntityId = selectedSchool.EntityId;
 			PopulateUiModel(selectedSchool);
 		}
-		ApplicationReference = applicationDetails.ApplicationReference;
+
+		try{
+			string folder = FileUploadConstants.FormatSharepointSchoolDirectory(ApplicationReference, EntityId.ToString());
+			var files = await _sharepoint.ListFilesAsync(folder);
+
+			ForecastedRevenueFileNames = files
+				.Where(file => file.Name.StartsWith(FileUploadConstants.NFYForecastedRevenueFilePrefixFieldName))
+				.Select(file => file.Name)
+				.ToList();
+
+			TempDataHelper.StoreSerialisedValue($"{EntityId}-NFYforecastedRevenueFiles", TempData,
+				ForecastedRevenueFileNames);
+
+			ForecastedCapitalFileNames = files
+				.Where(file => file.Name.StartsWith(FileUploadConstants.NFYForecastedCapitalFilePrefixFieldName))
+				.Select(file => file.Name)
+				.ToList();
+
+			TempDataHelper.StoreSerialisedValue($"{EntityId}-NFYforecastedCapitalFiles", TempData,
+				ForecastedCapitalFileNames);
+		}catch{
+			_logger.LogInformation("No School directory exists yet for application: {1} :: {2}", 
+				ApplicationReference, $"{ApplicationReference}_{EntityId}");
+		}
 		
-		ForecastedRevenueFileNames = await _fileUploadService.GetFiles(
-			FileUploadConstants.TopLevelSchoolFolderName,
-			EntityId.ToString(), 
-			ApplicationReference,
-			FileUploadConstants.NFYForecastedRevenueFilePrefixFieldName);
-		
-		TempDataHelper.StoreSerialisedValue($"{EntityId}-NFYforecastedRevenueFiles", TempData, ForecastedRevenueFileNames);
-		
-		ForecastedCapitalFileNames = await _fileUploadService.GetFiles(
-			FileUploadConstants.TopLevelSchoolFolderName,
-			EntityId.ToString(), 
-			ApplicationReference,
-			FileUploadConstants.NFYForecastedCapitalFilePrefixFieldName);
-		
-		TempDataHelper.StoreSerialisedValue($"{EntityId}-NFYforecastedCapitalFiles", TempData, ForecastedCapitalFileNames);
 		return Page();
 	}
 	
 	private async Task<bool> UploadFiles()
 	{
+		string folder = FileUploadConstants.FormatSharepointSchoolDirectory(ApplicationReference, EntityId.ToString());
+		
 		try
 		{
 			foreach (var file in ForecastedRevenueFiles)
 			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
-					ApplicationReference, FileUploadConstants.NFYForecastedRevenueFilePrefixFieldName,
-					file);
+				string fileName = $"{FileUploadConstants.NFYForecastedRevenueFilePrefixFieldName}_{file.FileName}";
+				await _sharepoint.UploadFileAsync(folder, fileName, file.OpenReadStream());
 			}
 		}
 		catch (FileUploadException)
@@ -192,8 +212,8 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 		{
 			foreach (var file in ForecastedCapitalFiles)
 			{
-				await _fileUploadService.UploadFile(FileUploadConstants.TopLevelSchoolFolderName, EntityId.ToString(),
-					ApplicationReference, FileUploadConstants.NFYForecastedCapitalFilePrefixFieldName, file);
+				string fileName = $"{FileUploadConstants.NFYForecastedCapitalFilePrefixFieldName}_{file.FileName}";
+				await _sharepoint.UploadFileAsync(folder, fileName, file.OpenReadStream());
 			}
 		}
 		catch (FileUploadException)
@@ -299,7 +319,9 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 
     public async Task<IActionResult> OnGetRemoveFileAsync(int appId, int urn, string entityId, string applicationReference, string section, string fileName)
     {
-	    await _fileUploadService.DeleteFile(FileUploadConstants.TopLevelSchoolFolderName, entityId, applicationReference, section, fileName);
+	    string folder = FileUploadConstants.FormatSharepointSchoolDirectory(applicationReference, entityId);
+	    await _sharepoint.DeleteFileAsync(folder, fileName);
+	    
 	    return RedirectToPage("NextFinancialYear", new {Urn = urn, AppId = appId});
     }
     
