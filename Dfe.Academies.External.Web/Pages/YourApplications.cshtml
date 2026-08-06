@@ -3,26 +3,13 @@
 @{
     ViewData["Title"] = "Your applications";
 }
-<div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-    <div class="govuk-notification-banner__header">
-        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-            Important
-        </h2>
-    </div>
-    <div class="govuk-notification-banner__content">
-        <p class="govuk-notification-banner__heading">
-            File upload is currently experiencing issues. You will not be able to upload files until this is resolved. Please contact the DfE if you need to submit any files as part of your application.
-        </p>
-    </div>
-</div>
+<div class="govuk-grid-column-two-thirds">
 
- <div class="govuk-grid-column-two-thirds">
-
-           @if (Model.ShowApplicationRemovedConfirmationBox)
+    @if (Model.ShowApplicationRemovedConfirmationBox)
     {
         <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
-         aria-labelledby="govuk-notification-banner-title"
-         data-module="govuk-notification-banner">
+             aria-labelledby="govuk-notification-banner-title"
+             data-module="govuk-notification-banner">
             <div class="govuk-notification-banner__header">
                 <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
                     Success
@@ -32,11 +19,11 @@
                 <h3 class="govuk-notification-banner__heading">
                     Application Deleted
                 </h3>
-                <p class ="govuk-body" data-cy="successBanner">@Model.DeletedApplicationType @Model.RemovedApplicationReferenceNumber has been successfully removed.</p>
+                <p class="govuk-body" data-cy="successBanner">@Model.DeletedApplicationType @Model.RemovedApplicationReferenceNumber has been successfully removed.</p>
             </div>
         </div>
     }
- </div>
+</div>
 
 <div class="govuk-grid-column-full">
     @{
@@ -64,23 +51,23 @@
                     </tr>
                 </thead>
                 <tbody class="govuk-table__body">
-                    @if(Model.ExistingApplications.Any())
+                    @if (Model.ExistingApplications.Any())
                     {
                         @foreach (var data in Model.ExistingApplications)
                         {
                             <tr class="govuk-table__row">
-	                            <th scope="row" class="govuk-table__cell">
-		                            <a asp-page="ApplicationOverview"
-		                               asp-route-appId="@data.ApplicationId"
-		                               class="govuk-link">@data.ApplicationTitle</a>
-	                            </th>
+                                <th scope="row" class="govuk-table__cell">
+                                    <a asp-page="ApplicationOverview"
+                                       asp-route-appId="@data.ApplicationId"
+                                       class="govuk-link">@data.ApplicationTitle</a>
+                                </th>
                                 <td class="govuk-table__cell">@data.TrustName</td>
-	                            <td class="govuk-table__cell">
-		                            @foreach (var schs in data.Schools)
-		                            {
-			                            <ul><li>@Html.Raw(@schs.SchoolName)</li></ul>
-		                            }
-	                            </td>
+                                <td class="govuk-table__cell">
+                                    @foreach (var schs in data.Schools)
+                                    {
+                                        <ul><li>@Html.Raw(@schs.SchoolName)</li></ul>
+                                    }
+                                </td>
                             </tr>
                         }
                     }
@@ -103,7 +90,7 @@
             <h2 class="govuk-heading-m">Past applications (@Model.CompletedApplications.Count)</h2>
 
             @*<p id="completedApplicationsTableDescription" class="govuk-body">Past applications</p>*@
-	        <table class="govuk-table" aria-describedby="completedApplicationsTableDescription">
+            <table class="govuk-table" aria-describedby="completedApplicationsTableDescription">
                 <thead class="govuk-table__head">
                     <tr class="govuk-table__row">
                         <th scope="col" class="govuk-table__header">Application</th>
@@ -112,16 +99,16 @@
                     </tr>
                 </thead>
                 <tbody class="govuk-table__body">
-                    @if(Model.CompletedApplications.Count > 0)
+                    @if (Model.CompletedApplications.Count > 0)
                     {
                         @foreach (var data in Model.CompletedApplications)
                         {
                             <tr class="govuk-table__row">
-	                            <th scope="row" class="govuk-table__cell">
-		                            <a asp-page="ApplicationOverview"
-		                               asp-route-appId="@data.ApplicationId"
-		                               class="govuk-link">@data.ApplicationTitle</a>
-	                            </th>
+                                <th scope="row" class="govuk-table__cell">
+                                    <a asp-page="ApplicationOverview"
+                                       asp-route-appId="@data.ApplicationId"
+                                       class="govuk-link">@data.ApplicationTitle</a>
+                                </th>
                                 <td class="govuk-table__cell">@data.TrustName</td>
                                 <td class="govuk-table__cell">
                                     @foreach (var schs in data.Schools)
