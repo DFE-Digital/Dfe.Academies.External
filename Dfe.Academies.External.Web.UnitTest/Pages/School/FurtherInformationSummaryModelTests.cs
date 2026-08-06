@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dfe.Academies.External.Web.Dtos;
@@ -349,11 +349,11 @@ internal sealed class FurtherInformationSummaryModelTests
 		Assert.That(pageModel.ViewModel.Count, Is.EqualTo(1));
 		
 		var viewModel = pageModel.ViewModel[0];
+
+		// Should still have all sections populated, but resolution section will show "No info" due to SharePoint error
+		Assert.That(viewModel.Sections.Count, Is.EqualTo(13));
 		
-		// Should still have the basic sections, just without file information
-		Assert.That(viewModel.Sections.Count, Is.EqualTo(10)); // Should be 10 instead of 13 since file sections are in try/catch
-		
-		// Verify that logging occurred
+		// Verify that logging occurreds
 		loggerMock.Verify(
 			x => x.Log(
 				LogLevel.Information,
