@@ -19,7 +19,13 @@ public static class FileUploadConstants
 	public const string MaxFileUploadErrorMessage = "The file must be smaller than 8MB";
 
 	public static string FormatSharepointDirectory(string topLevelFolder, string applicationReference, string entityId)
-		=> $"{topLevelFolder}/{applicationReference}_{entityId}".ToUpper();
+	{
+		// Ensure the entityId is in uppercase and remove any hyphens
+		// This is important for SharePoint directory naming conventions
+		entityId = entityId.ToUpper().Replace("-", "");
+
+		return $"{topLevelFolder}/{applicationReference}_{entityId}".ToUpper();
+	}
 
 	public static string FormatSharepointApplicationDirectory(string applicationReference, string entityId)
 		=> FormatSharepointDirectory(TopLevelApplicationFolderName, applicationReference, entityId);
