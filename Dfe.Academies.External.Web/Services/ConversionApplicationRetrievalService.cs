@@ -381,36 +381,51 @@ public sealed class ConversionApplicationRetrievalService : BaseService, IConver
 	/// <returns></returns>
 	private async Task<Status> CalculateFurtherInformationSectionStatus(SchoolApplyingToConvert? selectedSchool, string applicationReference)
 	{
-		bool isDiocese = !string.IsNullOrEmpty(selectedSchool?.DioceseName);
-		bool isFoundation = !string.IsNullOrEmpty(selectedSchool?.FoundationTrustOrBodyName);
+		bool hasDioceseName = !string.IsNullOrEmpty(selectedSchool?.DioceseName);
+		bool hasFoundationName = !string.IsNullOrEmpty(selectedSchool?.FoundationTrustOrBodyName);
+		bool hasTrustBenefitDetails = !string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails);
+
 		string entityId = selectedSchool?.EntityId.ToString() ?? string.Empty;
-		
+
 		try
 		{
 			string folder = FileUploadConstants.FormatSharepointSchoolDirectory(applicationReference, entityId);
 			var files = await _sharepoint.ListFilesAsync(folder);
 
-			bool hasDioceseFiles = files
-				.Any(f => f.Name.StartsWith(FileUploadConstants.DioceseFilePrefixFieldName));
+			bool hasDioceseFiles = files.Any(f => f.Name.StartsWith(FileUploadConstants.DioceseFilePrefixFieldName));
+			bool hasFoundationFiles = files.Any(f => f.Name.StartsWith(FileUploadConstants.FoundationConsentFilePrefixFieldName));
+			bool hasResolutionConsentFiles = files.Any(f => f.Name.StartsWith(FileUploadConstants.ResolutionConsentfilePrefixFieldName));
 
-			bool hasFoundationFiles = files
-				.Any(f => f.Name.StartsWith(FileUploadConstants.FoundationConsentFilePrefixFieldName));
+			// Rules required for Completed
+			bool dioceseRequirementMet = !hasDioceseName || hasDioceseFiles;
+			bool foundationRequirementMet = !hasFoundationName || hasFoundationFiles;
 
-			bool isDioceseInvalid = isDiocese && !hasDioceseFiles;
-			bool isFoundationInvalid = isFoundation && !hasFoundationFiles;
+			bool isComplete =
+				hasTrustBenefitDetails &&
+				hasResolutionConsentFiles &&
+				dioceseRequirementMet &&
+				foundationRequirementMet;
 
-			if (!isDioceseInvalid && !isFoundationInvalid &&
-				!string.IsNullOrEmpty(selectedSchool?.TrustBenefitDetails)
-			){
+			if (isComplete)
+			{
 				return Status.Completed;
 			}
+
+			// Any relevant input present => InProgress
+			bool isStarted =
+				hasTrustBenefitDetails ||
+				hasResolutionConsentFiles ||
+				hasDioceseName ||
+				hasDioceseFiles ||
+				hasFoundationName ||
+				hasFoundationFiles;
+
+			return isStarted ? Status.InProgress : Status.NotStarted;
 		}
 		catch
 		{
 			return Status.NotStarted;
 		}
-
-		return Status.NotStarted;
 	}
 
 	/// <summary>

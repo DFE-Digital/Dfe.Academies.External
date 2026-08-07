@@ -14,29 +14,29 @@ namespace Dfe.Academies.External.Web.Pages.School
 	{
 		private readonly ISharePointService _sharepoint;
 		private readonly ILogger<FurtherInformationSummaryModel> _logger;
-		
-	    public List<FurtherInformationSummaryViewModel> ViewModel { get; set; } = new();
 
-	    [BindProperty]
-	    public Guid EntityId { get; set; }
-	
-	    [BindProperty]
-	    public string ApplicationReference { get; set; }
-		
-		public ApplicationStatus ApplicationStatus {get; private set;}
+		public List<FurtherInformationSummaryViewModel> ViewModel { get; set; } = new();
 
-	
-	    
-	    public FurtherInformationSummaryModel(
+		[BindProperty]
+		public Guid EntityId { get; set; }
+
+		[BindProperty]
+		public string ApplicationReference { get; set; }
+
+		public ApplicationStatus ApplicationStatus { get; private set; }
+
+
+
+		public FurtherInformationSummaryModel(
 			IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-		    IReferenceDataRetrievalService referenceDataRetrievalService, 
+			IReferenceDataRetrievalService referenceDataRetrievalService,
 			ISharePointService sharepointService,
 			ILogger<FurtherInformationSummaryModel> logger
 		) : base(conversionApplicationRetrievalService, referenceDataRetrievalService)
-	    {
-		    _sharepoint = sharepointService;
-		    _logger = logger;
-	    }
+		{
+			_sharepoint = sharepointService;
+			_logger = logger;
+		}
 
 		///<inheritdoc/>
 		public override bool RunUiValidation()
@@ -47,9 +47,9 @@ namespace Dfe.Academies.External.Web.Pages.School
 
 		///<inheritdoc/>
 		public override void PopulateValidationMessages()
-	    {
-		    PopulateViewDataErrorsWithModelStateErrors();
-	    }
+		{
+			PopulateViewDataErrorsWithModelStateErrors();
+		}
 
 		///<inheritdoc/>
 		public override Dictionary<string, dynamic> PopulateUpdateDictionary()
@@ -57,112 +57,95 @@ namespace Dfe.Academies.External.Web.Pages.School
 			// does not apply on this page
 			return new();
 		}
-        
-		
-	    private async Task<FurtherInformationSummaryViewModel> PopulateFurtherInformation(SchoolApplyingToConvert selectedSchool)
-	    {
-		    var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
-		    EntityId = selectedSchool.EntityId;
-		    ApplicationReference = applicationDetails.ApplicationReference;
+
+
+		private async Task<FurtherInformationSummaryViewModel> PopulateFurtherInformation(SchoolApplyingToConvert selectedSchool)
+		{
+			var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
+			EntityId = selectedSchool.EntityId;
+			ApplicationReference = applicationDetails.ApplicationReference;
 			ApplicationStatus = applicationDetails.ApplicationStatus;
-			
+
 			var folder = FileUploadConstants.FormatSharepointSchoolDirectory(ApplicationReference, EntityId.ToString());
-			
-		    var sectionStarted = !string.IsNullOrEmpty(selectedSchool.TrustBenefitDetails);
+
+			var sectionStarted = !string.IsNullOrEmpty(selectedSchool.TrustBenefitDetails);
 			// Heading
 			FurtherInformationSummaryViewModel FISheading = new(FurtherInformationSummaryViewModel.AdditionalDetailsHeading,
 				"/school/AdditionalDetails")
-		    {
-			    Status = sectionStarted ?
-				    SchoolConversionComponentStatus.Complete
-				    : SchoolConversionComponentStatus.NotStarted
-		    };
+			{
+				Status = sectionStarted ?
+					SchoolConversionComponentStatus.Complete
+					: SchoolConversionComponentStatus.NotStarted
+			};
 			FISheading.Sections.Add(new(
 					FurtherInformationSectionViewModel.SchoolTrustBenefit,
 				!string.IsNullOrWhiteSpace(selectedSchool.TrustBenefitDetails) ?
 					selectedSchool.TrustBenefitDetails : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
-			
+
 			FISheading.Sections.Add(new(
 				FurtherInformationSectionViewModel.OfstedInspection,
 				sectionStarted ?
 					(!string.IsNullOrWhiteSpace(selectedSchool.OfstedInspectionDetails) ? "Yes" : "No") : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
-			
+
 			FISheading.Sections.Add(new(
 				FurtherInformationSectionViewModel.SafeguardingInvestigations,
 				sectionStarted ?
 					(selectedSchool.Safeguarding.GetStringDescription()) : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
-			
+
 			FISheading.Sections.Add(new(
 				FurtherInformationSectionViewModel.LocalAuthorityReorganisation,
 				sectionStarted ?
 					(!string.IsNullOrWhiteSpace(selectedSchool.LocalAuthorityClosurePlanDetails) ? "Yes" : "No") : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
-			
+
 			FISheading.Sections.Add(new(
 				FurtherInformationSectionViewModel.LocalAuthorityClosurePlans,
 				sectionStarted ?
 					(!string.IsNullOrWhiteSpace(selectedSchool.LocalAuthorityClosurePlanDetails) ? "Yes" : "No") : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
-			
+
 			FISheading.Sections.Add(new(
 				FurtherInformationSectionViewModel.Diocese,
 				sectionStarted ?
 					(!string.IsNullOrWhiteSpace(selectedSchool.DioceseName) ? "Yes" : "No") : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
-			
+
 			FISheading.Sections.Add(new(
 				FurtherInformationSectionViewModel.Federation,
 				sectionStarted ?
 					(selectedSchool.PartOfFederation.GetStringDescription()) : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
-			
+
 			FISheading.Sections.Add(new(
 				FurtherInformationSectionViewModel.FoundationTrustOrBody,
 				sectionStarted ?
 					(!string.IsNullOrWhiteSpace(selectedSchool.FoundationTrustOrBodyName) ? "Yes" : "No") : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
-			
+
 			FISheading.Sections.Add(new(
 				FurtherInformationSectionViewModel.ExemptionSACRE,
 				sectionStarted ?
 					((selectedSchool.ExemptionEndDate.HasValue) ? "Yes" : "No") : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
-			
+
 			FISheading.Sections.Add(new(
 				FurtherInformationSectionViewModel.MainFeederSchools,
 				!string.IsNullOrWhiteSpace(selectedSchool.MainFeederSchools) ?
 					selectedSchool.MainFeederSchools : QuestionAndAnswerConstants.NoInfoAnswer)
 			);
 
+			var fileNames = new List<string>();
+
 			try
 			{
 				var files = await _sharepoint.ListFilesAsync(folder);
-				var fileNames = files
+				fileNames = files
 					.Where(file => file.Name.StartsWith(FileUploadConstants.ResolutionConsentfilePrefixFieldName))
 					.Select(file => file.Name)
 					.ToList();
-
-				FISheading.Sections.Add(new(
-					FurtherInformationSectionViewModel.Resolution,
-					fileNames.Any() ? fileNames.First() : QuestionAndAnswerConstants.NoInfoAnswer)
-				);
-
-				FISheading.Sections.Add(new(
-					FurtherInformationSectionViewModel.EqualitiesImpactAssessment,
-					sectionStarted
-						? ((selectedSchool.ProtectedCharacteristics.HasValue) ? "Yes" : "No")
-						: QuestionAndAnswerConstants.NoInfoAnswer)
-				);
-
-				FISheading.Sections.Add(new(
-					FurtherInformationSectionViewModel.FurtherInformation,
-					sectionStarted
-						? (!string.IsNullOrWhiteSpace(selectedSchool.FurtherInformation) ? "Yes" : "No")
-						: QuestionAndAnswerConstants.NoInfoAnswer)
-				);
 			}
 			catch
 			{
@@ -170,12 +153,31 @@ namespace Dfe.Academies.External.Web.Pages.School
 					ApplicationReference, $"{ApplicationReference}_{EntityId}");
 			}
 
-			return FISheading;
-	    }
+			FISheading.Sections.Add(new(
+				FurtherInformationSectionViewModel.Resolution,
+				fileNames.Any() ? fileNames.First() : QuestionAndAnswerConstants.NoInfoAnswer)
+			);
 
-	    public override async Task PopulateUiModel(SchoolApplyingToConvert selectedSchool)
-	    {
-		    ViewModel = new List<FurtherInformationSummaryViewModel> { await PopulateFurtherInformation(selectedSchool) };
-	    }
+			FISheading.Sections.Add(new(
+				FurtherInformationSectionViewModel.EqualitiesImpactAssessment,
+				sectionStarted
+					? ((selectedSchool.ProtectedCharacteristics.HasValue) ? "Yes" : "No")
+					: QuestionAndAnswerConstants.NoInfoAnswer)
+			);
+
+			FISheading.Sections.Add(new(
+				FurtherInformationSectionViewModel.FurtherInformation,
+				sectionStarted
+					? (!string.IsNullOrWhiteSpace(selectedSchool.FurtherInformation) ? "Yes" : "No")
+					: QuestionAndAnswerConstants.NoInfoAnswer)
+			);
+
+			return FISheading;
+		}
+
+		public override async Task PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		{
+			ViewModel = new List<FurtherInformationSummaryViewModel> { await PopulateFurtherInformation(selectedSchool) };
+		}
 	}
 }
