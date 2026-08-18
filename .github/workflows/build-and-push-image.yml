@@ -149,6 +149,7 @@ jobs:
     needs: [ set-env, build-import-deploy ]
     permissions:
       id-token: write
+      contents: read
     if: needs.set-env.outputs.environment == 'development'
     uses: ./.github/workflows/security-tests.yml
     with:
