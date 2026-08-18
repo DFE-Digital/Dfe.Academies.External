@@ -147,6 +147,8 @@ jobs:
   security-tests:
     name: Run Cypress tests with OWASP ZAP
     needs: [ set-env, build-import-deploy ]
+    permissions:
+      id-token: write
     if: needs.set-env.outputs.environment == 'development'
     uses: ./.github/workflows/security-tests.yml
     with:
