@@ -16,7 +16,7 @@
 
 @section Head {
     <link href="/govuk-frontend.min.css?v=5.11.0" rel="stylesheet">
-    <link href="/css/site.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="/css/site.css" asp-append-version="true" />
     <link href="/assets/accessible-autocomplete.min.css" rel="stylesheet" media="all">
     @if (canTrack)
     {
@@ -128,5 +128,6 @@
 }
 
 @section Footer {
-    <partial name="_Footer" />
+    @* <partial name="_Footer" /> *@
+    <partial name="_Footer_Intake" />
 }
