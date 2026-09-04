@@ -2,7 +2,7 @@
 using Dfe.Academies.External.Web.Commands;
 using Dfe.Academies.External.Web.Dtos;
 using Dfe.Academies.External.Web.Enums;
-using Dfe.Academisation.CorrelationIdMiddleware;
+using GovUK.Dfe.CoreLibs.Http.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.Academies.External.Web.Services;
@@ -13,11 +13,12 @@ public sealed class ConversionApplicationService : BaseService, IConversionAppli
 	private readonly ResilientRequestProvider _resilientRequestProvider;
 	private readonly IConversionApplicationRetrievalService _conversionApplicationRetrievalService;
 
-	public ConversionApplicationService(IHttpClientFactory httpClientFactory,
-												ILogger<ConversionApplicationService> logger,
-												IConversionApplicationRetrievalService conversionApplicationRetrievalService,
-												ICorrelationContext correlationContext) : base(httpClientFactory, correlationContext, AcademisationAPIHttpClientName)
-	{
+	public ConversionApplicationService(
+		IHttpClientFactory httpClientFactory,
+		ILogger<ConversionApplicationService> logger,
+		IConversionApplicationRetrievalService conversionApplicationRetrievalService,
+		ICorrelationContext correlationContext
+	) : base(httpClientFactory, correlationContext, AcademisationAPIHttpClientName) {
 		_logger = logger;
 		_resilientRequestProvider = new ResilientRequestProvider(HttpClient, _logger);
 		_conversionApplicationRetrievalService = conversionApplicationRetrievalService;
@@ -73,7 +74,7 @@ public sealed class ConversionApplicationService : BaseService, IConversionAppli
 			// before then patching ConversionApplication returned with data from application object
 			var application = await GetApplication(applicationId);
 
-			if (application.ApplicationId != applicationId)
+			if (application?.ApplicationId != applicationId)
 			{
 				throw new ArgumentException("Application not found");
 			}
@@ -85,7 +86,7 @@ public sealed class ConversionApplicationService : BaseService, IConversionAppli
 			// PL:- if is form a mat we can add as many schools as we want just check that we aren't adding the same school twice
 			// if is join a mat then we add only if it is the first one
 			if ((application.ApplicationType == ApplicationTypes.FormAMat && application.Schools.All(c => c.URN != schoolUrn)) ||
-			    (application.ApplicationType == ApplicationTypes.JoinAMat && !application.Schools.Any()))
+			    application is { ApplicationType: ApplicationTypes.JoinAMat, Schools.Count: 0 })
 			{
 				SchoolApplyingToConvert school = new(name, schoolUrn, null);
 				application.Schools.Add(school);
@@ -131,12 +132,12 @@ public sealed class ConversionApplicationService : BaseService, IConversionAppli
 			// before then patching ConversionApplication returned with data from application object
 			var application = await GetApplication(applicationId);
 
-			if (application.ApplicationId != applicationId)
+			if (application?.ApplicationId != applicationId)
 			{
 				throw new ArgumentException("Application not found");
 			}
 
-			if (application.ApplicationType != ApplicationTypes.JoinAMat)
+			if (application?.ApplicationType != ApplicationTypes.JoinAMat)
 			{
 				throw new ArgumentException("Application not of correct type");
 			}

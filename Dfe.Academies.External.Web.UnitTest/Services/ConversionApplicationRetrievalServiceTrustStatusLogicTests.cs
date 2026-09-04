@@ -1,14 +1,15 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading.Tasks;
 using System;
 using System.IO;
 using Dfe.Academies.External.Web.Services;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using Dfe.Academies.External.Web.UnitTest.Factories;
 using Dfe.Academies.External.Web.Enums;
-using Dfe.Academisation.CorrelationIdMiddleware;
+using GovUK.Dfe.CoreLibs.Http.Interfaces;
 using Dfe.Academies.External.Web.FeatureManagement;
 
 namespace Dfe.Academies.External.Web.UnitTest.Services;
@@ -29,12 +30,12 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-		var mockFileUploadService = new Mock<IFileUploadService>();
+		var mockSharePointService = new Mock<ISharePointService>();
 		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 		// act
-		var trustStatus = applicationRetrievalService.CalculateTrustStatus(null);
+		var trustStatus = await applicationRetrievalService.CalculateTrustStatus(null);
 
 		// assert
 		Assert.That(trustStatus, Is.EqualTo(Status.NotStarted));
@@ -53,14 +54,14 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-		var mockFileUploadService = new Mock<IFileUploadService>();
+		var mockSharePointService = new Mock<ISharePointService>();
 		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 		
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationNoRoles();
 
 		// act
-		var trustStatus = applicationRetrievalService.CalculateTrustStatus(conversionApplication);
+		var trustStatus = await applicationRetrievalService.CalculateTrustStatus(conversionApplication);
 
 		// assert
 		Assert.That(trustStatus, Is.EqualTo(Status.NotStarted));
@@ -82,14 +83,14 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-		var mockFileUploadService = new Mock<IFileUploadService>();
+		var mockSharePointService = new Mock<ISharePointService>();
 		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithMinimalJoinTrustDetails();
 
 		// act
-		var trustStatus = applicationRetrievalService.CalculateTrustStatus(conversionApplication);
+		var trustStatus = await applicationRetrievalService.CalculateTrustStatus(conversionApplication);
 
 		// assert
 		Assert.That(trustStatus, Is.EqualTo(Status.InProgress));
@@ -108,14 +109,14 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-		var mockFileUploadService = new Mock<IFileUploadService>();
+		var mockSharePointService = new Mock<ISharePointService>();
 		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithMinimalAndTrustChangesJoinTrustDetails(null);
 
 		// act
-		var trustStatus = applicationRetrievalService.CalculateTrustStatus(conversionApplication);
+		var trustStatus = await applicationRetrievalService.CalculateTrustStatus(conversionApplication);
 
 		// assert
 		Assert.That(trustStatus, Is.EqualTo(Status.InProgress));
@@ -134,14 +135,14 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-		var mockFileUploadService = new Mock<IFileUploadService>();
+		var mockSharePointService = new Mock<ISharePointService>();
 		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithMinimalAndChangesToLaGovernanceJoinTrustDetails();
 
 		// act
-		var trustStatus = applicationRetrievalService.CalculateTrustStatus(conversionApplication);
+		var trustStatus = await applicationRetrievalService.CalculateTrustStatus(conversionApplication);
 
 		// assert
 		Assert.That(trustStatus, Is.EqualTo(Status.InProgress));
@@ -160,14 +161,14 @@ internal sealed class ConversionApplicationRetrievalServiceTrustStatusLogicTests
 		var mockFactory = MockHttpClientFactory.SetupMockHttpClientFactory(HttpStatusCode.OK, expectedJson);
 
 		var mockLogger = new Mock<ILogger<ConversionApplicationRetrievalService>>();
-		var mockFileUploadService = new Mock<IFileUploadService>();
+		var mockSharePointService = new Mock<ISharePointService>();
 		var mockConversionGrantExpiryFeature = new Mock<IConversionGrantExpiryFeature>();
-		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockFileUploadService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
+		var applicationRetrievalService = new ConversionApplicationRetrievalService(mockFactory.Object, mockLogger.Object,mockSharePointService.Object, Mock.Of<ICorrelationContext>(x => x.CorrelationId == Guid.NewGuid()), mockConversionGrantExpiryFeature.Object);
 
 		var conversionApplication = ConversionApplicationTestDataFactory.BuildNewJoinAMatConversionApplicationWithCompleteJoinTrustDetails(null);
 
 		// act
-		var trustStatus = applicationRetrievalService.CalculateTrustStatus(conversionApplication);
+		var trustStatus = await applicationRetrievalService.CalculateTrustStatus(conversionApplication);
 
 		// assert
 		Assert.That(trustStatus, Is.EqualTo(Status.Completed));

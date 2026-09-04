@@ -40,32 +40,33 @@ namespace Dfe.Academies.External.Web.Pages.Trust.FormAMat
 			return new();
 		}
 
-		public override void PopulateUiModel(ConversionApplication? conversionApplication)
+		public override Task PopulateUiModel(ConversionApplication? conversionApplication)
 		{
+			var formTrustDetails = conversionApplication.FormTrustDetails;
 			ApplicationStatus = conversionApplication.ApplicationStatus;
-
-			if (conversionApplication != null && conversionApplication.FormTrustDetails != null)
+			TrustName = formTrustDetails?.FormTrustProposedNameOfTrust;
+			
+			bool? growthPlans = formTrustDetails?.FormTrustGrowthPlansYesNo;
+			
+			ApplicationNewTrustGrowthHeadingViewModel heading1 = new(
+				ApplicationNewTrustGrowthHeadingViewModel.Heading, // heading = 'Details'
+				"/Trust/FormAMat/ApplicationNewTrustPlansForGrowth")
 			{
-				TrustName = conversionApplication.FormTrustDetails.FormTrustProposedNameOfTrust;
+				Status = growthPlans.HasValue
+					? SchoolConversionComponentStatus.Complete
+					: SchoolConversionComponentStatus.NotStarted
+			};
 
-				ApplicationNewTrustGrowthHeadingViewModel heading1 = new(ApplicationNewTrustGrowthHeadingViewModel.Heading, // heading = 'Details'
-					"/Trust/FormAMat/ApplicationNewTrustPlansForGrowth")
-				{
-					Status = conversionApplication.FormTrustDetails.FormTrustGrowthPlansYesNo.HasValue ?
-						SchoolConversionComponentStatus.Complete
-						: SchoolConversionComponentStatus.NotStarted
-				};
-
-				heading1.Sections.Add(new(
+			heading1.Sections.Add(new(
 					ApplicationNewTrustGrowthSectionViewModel.Growth,
-					conversionApplication.FormTrustDetails.FormTrustGrowthPlansYesNo.GetStringDescription()
-					)
-				);
-				
-				var vm = new List<ApplicationNewTrustGrowthHeadingViewModel> { heading1 };
+					growthPlans.GetStringDescription()
+				)
+			);
 
-				ViewModel = vm;
-			}
+			var vm = new List<ApplicationNewTrustGrowthHeadingViewModel> { heading1 };
+
+			ViewModel = vm;
+			return Task.CompletedTask;
 		}
 	}
 }

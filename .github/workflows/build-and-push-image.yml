@@ -48,13 +48,15 @@ jobs:
     name: Package Validation
     permissions:
       contents: read
+      packages: read
     needs: [ set-env ]
     steps:
       - name: Validate Packages
-        uses: DFE-Digital/rsd-github-actions/.github/actions/validate-packages@9a7a6a7c9aa5914f76a1f34aee8dd2dcc00702bc # v1.1.2
+        uses: DFE-Digital/rsd-github-actions/.github/actions/validate-packages@v1
         with:
           environment: ${{ needs.set-env.outputs.environment }}
-
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          
   build-import-deploy:
     name: Build, Import, Deploy
     needs: [ set-env, validate-packages ]
@@ -134,10 +136,34 @@ jobs:
             }
 
   cypress-tests:
-      name: Run Cypress tests
-      needs: [ build-import-deploy, set-env ]
-      if: needs.set-env.outputs.environment == 'test' || needs.set-env.outputs.environment == 'development'
-      uses: ./.github/workflows/cypress-tests.yml
-      with:
-        environment: ${{ needs.set-env.outputs.environment }}
-      secrets: inherit
+    name: Run Cypress tests
+    needs: [ build-import-deploy, set-env ]
+    if: needs.set-env.outputs.environment == 'test'
+    uses: ./.github/workflows/cypress-tests.yml
+    with:
+      environment: ${{ needs.set-env.outputs.environment }}
+    secrets: inherit
+
+  security-tests:
+    name: Run Cypress tests with OWASP ZAP
+    needs: [ set-env, build-import-deploy ]
+    permissions:
+      id-token: write
+      contents: read
+    if: needs.set-env.outputs.environment == 'development'
+    uses: ./.github/workflows/security-tests.yml
+    with:
+      environment: ${{ needs.set-env.outputs.environment }}
+    secrets:
+      URL: ${{ secrets.URL }}
+      LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
+      LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
+      SIGNIN_URL: ${{ secrets.SIGNIN_URL }}
+      ZAP_API_KEY: ${{ secrets.ZAP_API_KEY }}
+      AZURE_OWASP_CLIENT_ID: ${{ secrets.AZURE_OWASP_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      OWASP_STORAGE_CONTAINER_NAME: ${{ secrets.OWASP_STORAGE_CONTAINER_NAME }}
+      OWASP_STORAGE_ACCOUNT_NAME: ${{ secrets.OWASP_STORAGE_ACCOUNT_NAME }}
+      TEAMS_OWASP_SCAN_WEBHOOK_URL: ${{ secrets.TEAMS_OWASP_SCAN_WEBHOOK_URL }}
+      TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}

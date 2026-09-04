@@ -8,6 +8,7 @@ using Moq;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using Dfe.Academies.External.Web.Pages.Trust.JoinAMat;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.Trust.JoinAMat;
@@ -27,7 +28,7 @@ internal sealed class ApplicationSchoolJoinAMatTrustSummaryModelTests
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockFileUploadService = new Mock<IFileUploadService>();
+		var mockSharePointService = new Mock<ISharePointService>();
 		int urn = 101934;
 		int applicationId = int.MaxValue;
 		var mockLogger = new Mock<ILogger<ApplicationSchoolJoinAMatTrustSummaryModel>>();
@@ -36,7 +37,7 @@ internal sealed class ApplicationSchoolJoinAMatTrustSummaryModelTests
 
 		// act
 		var pageModel = SetupApplicationSchoolJoinAMatTrustSummaryModel(mockConversionApplicationRetrievalService.Object,
-			mockReferenceDataRetrievalService.Object, mockFileUploadService.Object,
+			mockReferenceDataRetrievalService.Object, mockSharePointService.Object,
 			mockLogger.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
@@ -50,14 +51,14 @@ internal sealed class ApplicationSchoolJoinAMatTrustSummaryModelTests
 	private static ApplicationSchoolJoinAMatTrustSummaryModel SetupApplicationSchoolJoinAMatTrustSummaryModel(
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
-		IFileUploadService fileUploadService,
+		ISharePointService sharePointService,
 		ILogger<ApplicationSchoolJoinAMatTrustSummaryModel> mockLogger,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
 		return new ApplicationSchoolJoinAMatTrustSummaryModel(mockConversionApplicationRetrievalService,
-			mockReferenceDataRetrievalService, fileUploadService, mockLogger)
+			mockReferenceDataRetrievalService, sharePointService, mockLogger)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

@@ -1,7 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Enums;
 using Dfe.Academies.External.Web.Pages.School;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
+using Dfe.Academies.External.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -58,5 +62,74 @@ internal sealed class PupilNumbersSummaryModelTests
 			Url = new UrlHelper(actionContext),
 			MetadataProvider = pageContext.ViewData.ModelMetadata
 		};
+	}
+
+	[Test]
+	public async Task PopulateUiModel_WhenSchoolHasPupilNumbersData_PopulatesSummaryViewModel()
+	{
+		// Arrange
+		var applicationId = 12345;
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var applicationDetails = ApplicationFactory.Create(applicationId);
+		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(applicationId))
+			.ReturnsAsync(applicationDetails);
+
+		var pageModel = SetupPupilNumbersSummaryModel(
+			mockConversionApplicationRetrievalService.Object,
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		pageModel.ApplicationId = applicationId;
+
+		var school = new SchoolApplyingToConvert("Test School", 200, null)
+		{
+			SchoolCapacityPublishedAdmissionsNumber = 150,
+			ProjectedPupilNumbersYear1 = 160,
+			ProjectedPupilNumbersYear2 = 170,
+			ProjectedPupilNumbersYear3 = 180,
+			SchoolCapacityAssumptions = "Growth assumptions"
+		};
+
+		// Act
+		await pageModel.PopulateUiModel(school);
+
+		// Assert
+		Assert.That(pageModel.ApplicationStatus, Is.EqualTo(applicationDetails.ApplicationStatus));
+		Assert.That(pageModel.ViewModel, Is.Not.Null);
+		Assert.That(pageModel.ViewModel, Has.Count.EqualTo(1));
+		
+		var heading = pageModel.ViewModel[0];
+		Assert.That(heading.Status, Is.EqualTo(SchoolConversionComponentStatus.Complete));
+		Assert.That(heading.Sections, Has.Count.EqualTo(5)); // All 5 sections should be present
+	}
+
+	[Test]
+	public async Task PopulateUiModel_WhenSchoolHasNoPupilNumbersData_PopulatesNotStartedStatus()
+	{
+		// Arrange
+		var applicationId = 67890;
+		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
+		var applicationDetails = ApplicationFactory.Create(applicationId);
+		mockConversionApplicationRetrievalService.Setup(x => x.GetApplication(applicationId))
+			.ReturnsAsync(applicationDetails);
+
+		var pageModel = SetupPupilNumbersSummaryModel(
+			mockConversionApplicationRetrievalService.Object,
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		pageModel.ApplicationId = applicationId;
+
+		var school = new SchoolApplyingToConvert("Test School", 200, null);
+
+		// Act
+		await pageModel.PopulateUiModel(school);
+
+		// Assert
+		Assert.That(pageModel.ApplicationStatus, Is.EqualTo(applicationDetails.ApplicationStatus));
+		Assert.That(pageModel.ViewModel, Is.Not.Null);
+		Assert.That(pageModel.ViewModel, Has.Count.EqualTo(1));
+		
+		var heading = pageModel.ViewModel[0];
+		Assert.That(heading.Status, Is.EqualTo(SchoolConversionComponentStatus.NotStarted));
+		Assert.That(heading.Sections, Has.Count.EqualTo(5));
 	}
 }

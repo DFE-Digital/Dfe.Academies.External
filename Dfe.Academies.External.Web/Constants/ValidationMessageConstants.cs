@@ -20,9 +20,9 @@ public static class ValidationMessageConstants
 	public const string SchoolConsultationStakeholdersConsultDetails = "You must provide details when the governing body plans to consult.";
 	public const string TargetDateDifferentDetails = "Please select an option for the conversion date";
 	public const string OtherContactInvalidEmail = "Other contact email is not a valid e-mail address";
-	public const string MustHaveOtherContactEmail = "You must provide the other contact’s email";
+	public const string MustHaveOtherContactEmail = "You must provide the other contact's email";
 	public const string CurrentOrPlannedBuldingWorksDetails = "You must provide current or planned building works details";
-	public const string SchoolBuildLandOwnerDetails = "You must provide the details of the owner or legal holder of the school’s land and buildings";
+	public const string SchoolBuildLandOwnerDetails = "You must provide the details of the owner or legal holder of the school's land and buildings";
 	public const string SchoolSharedFacilitiesDetails = "You must provide shared facilities on site details";
 	public const string SchoolBuildLandGrantsDetails = "You must provide any school building and land grant details";
 	public const string SchoolBuildLandPFISchemeDetails = "You must provide school PFI scheme details";

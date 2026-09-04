@@ -152,4 +152,50 @@ internal sealed class ApplicationSchoolConsultationModelTests
 			MetadataProvider = pageContext.ViewData.ModelMetadata
 		};
 	}
+
+	[Test]
+	public void PopulateUiModel_WhenSchoolHasConsultationData_PopulatesModel()
+	{
+		// Arrange
+		var pageModel = SetupApplicationSchoolConsultationModel(
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>(),
+			Mock.Of<IConversionApplicationService>());
+
+		var school = new SchoolApplyingToConvert("Test School", 200, null)
+		{
+			SchoolHasConsultedStakeholders = true,
+			SchoolPlanToConsultStakeholders = "We will consult with parents and local community"
+		};
+
+		// Act
+		pageModel.PopulateUiModel(school);
+
+		// Assert
+		Assert.That(pageModel.SchoolConsultationStakeholders, Is.EqualTo(SelectOption.Yes));
+		Assert.That(pageModel.SchoolConsultationStakeholdersConsult, Is.EqualTo("We will consult with parents and local community"));
+	}
+
+	[Test]
+	public void PopulateUiModel_WhenSchoolHasNoConsultationData_SetsDefaults()
+	{
+		// Arrange
+		var pageModel = SetupApplicationSchoolConsultationModel(
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>(),
+			Mock.Of<IConversionApplicationService>());
+
+		var school = new SchoolApplyingToConvert("Test School", 200, null)
+		{
+			SchoolHasConsultedStakeholders = null,
+			SchoolPlanToConsultStakeholders = null
+		};
+
+		// Act
+		pageModel.PopulateUiModel(school);
+
+		// Assert
+		Assert.That(pageModel.SchoolConsultationStakeholders, Is.Null);
+		Assert.That(pageModel.SchoolConsultationStakeholdersConsult, Is.Null);
+	}
 }

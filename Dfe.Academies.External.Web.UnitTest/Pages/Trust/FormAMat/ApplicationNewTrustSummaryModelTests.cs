@@ -9,6 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System.Collections.Generic;
+using System.Linq;
+using Dfe.Academies.External.Web.Dtos;
+using Dfe.Academies.External.Web.Enums;
+using Dfe.Academies.External.Web.ViewModels;
 
 namespace Dfe.Academies.External.Web.UnitTest.Pages.Trust.FormAMat;
 
@@ -43,6 +48,91 @@ internal sealed class ApplicationNewTrustSummaryModelTests
 
 		// assert
 		Assert.That(pageModel.TempData["Errors"], Is.EqualTo(null));
+	}
+
+	[Test]
+	public async Task PopulateUiModel_WhenConversionApplicationHasFormTrustDetails_PopulatesModel()
+	{
+		// Arrange
+		var pageModel = SetupApplicationNewTrustSummaryModel(
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		var formAMatComponents = new List<ApplicationComponentViewModel>
+		{
+			new("Trust Details", "/trust/trust-details", Status.Completed),
+			new("Chair of Trustees", "/trust/chair-trustees", Status.InProgress)
+		};
+
+		pageModel.FormAMaTComponents = formAMatComponents;
+
+		var conversionApplication = new ConversionApplication
+		{
+			ApplicationId = 12345,
+			ApplicationType = ApplicationTypes.FormAMat,
+			FormTrustDetails = new NewTrust
+			{
+				FormTrustProposedNameOfTrust = "Test Trust Name"
+			}
+		};
+
+		// Act
+		await pageModel.PopulateUiModel(conversionApplication);
+
+		// Assert
+		Assert.That(pageModel.TrustName, Is.EqualTo("Test Trust Name"));
+		Assert.That(pageModel.ApplicationType, Is.EqualTo(ApplicationTypes.FormAMat));
+		Assert.That(pageModel.FormAMatTrustComponents, Is.Not.Null);
+		Assert.That(pageModel.FormAMatTrustComponents.ApplicationId, Is.EqualTo(12345));
+		Assert.That(pageModel.FormAMatTrustComponents.TrustComponents, Has.Count.EqualTo(2));
+		Assert.That(pageModel.FormAMatTrustComponents.TrustComponents.First().Name, Is.EqualTo("Trust Details"));
+	}
+
+	[Test]
+	public async Task PopulateUiModel_WhenConversionApplicationIsNull_DoesNotPopulateModel()
+	{
+		// Arrange
+		var pageModel = SetupApplicationNewTrustSummaryModel(
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		var originalTrustName = pageModel.TrustName;
+		var originalApplicationType = pageModel.ApplicationType;
+
+		// Act
+		await pageModel.PopulateUiModel(null);
+
+		// Assert
+		Assert.That(pageModel.TrustName, Is.EqualTo(originalTrustName));
+		Assert.That(pageModel.ApplicationType, Is.EqualTo(originalApplicationType));
+		Assert.That(pageModel.FormAMatTrustComponents.TrustComponents, Is.Empty);
+	}
+
+	[Test]
+	public async Task PopulateUiModel_WhenFormTrustDetailsIsNull_DoesNotPopulateModel()
+	{
+		// Arrange
+		var pageModel = SetupApplicationNewTrustSummaryModel(
+			Mock.Of<IConversionApplicationRetrievalService>(),
+			Mock.Of<IReferenceDataRetrievalService>());
+
+		var conversionApplication = new ConversionApplication
+		{
+			ApplicationId = 12345,
+			ApplicationType = ApplicationTypes.FormAMat,
+			FormTrustDetails = null
+		};
+
+		var originalTrustName = pageModel.TrustName;
+		var originalApplicationType = pageModel.ApplicationType;
+
+		// Act
+		await pageModel.PopulateUiModel(conversionApplication);
+
+		// Assert
+		Assert.That(pageModel.TrustName, Is.EqualTo(originalTrustName));
+		Assert.That(pageModel.ApplicationType, Is.EqualTo(originalApplicationType));
+		Assert.That(pageModel.FormAMatTrustComponents.TrustComponents, Is.Empty);
 	}
 
 	private static ApplicationNewTrustSummaryModel SetupApplicationNewTrustSummaryModel(

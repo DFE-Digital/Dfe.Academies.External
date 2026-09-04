@@ -42,7 +42,7 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BaseSchoolSummaryPa
 	}
 
 	///<inheritdoc/>
-	public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+	public override Task PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 	{
 		var applicationDetails = ConversionApplicationRetrievalService.GetApplication(ApplicationId).Result;
 		    ApplicationStatus = applicationDetails.ApplicationStatus;
@@ -63,5 +63,6 @@ public class ApplicationPreOpeningSupportGrantSummaryModel : BaseSchoolSummaryPa
 		var vm = new List<ApplicationPreOpeningSupportGrantHeadingViewModel> { heading1 };
 
 		ViewModel = vm;
+		return Task.CompletedTask;
 	}
 }

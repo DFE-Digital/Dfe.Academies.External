@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Threading.Tasks;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 using NUnit.Framework;
 using Microsoft.Extensions.Logging;
 
@@ -30,7 +31,7 @@ internal sealed class ApplicationNewTrustGovernanceSummaryModelTests
 		var draftConversionApplicationStorageKey = TempDataHelper.DraftConversionApplicationKey;
 		var mockConversionApplicationRetrievalService = new Mock<IConversionApplicationRetrievalService>();
 		var mockReferenceDataRetrievalService = new Mock<IReferenceDataRetrievalService>();
-		var mockFileUploadService = new Mock<IFileUploadService>();
+		var mockSharePointService = new Mock<ISharePointService>();
 		int applicationId = Fixture.Create<int>();
 		var mockLogger = new Mock<ILogger<ApplicationNewTrustGovernanceSummaryModel>>();
 
@@ -38,7 +39,7 @@ internal sealed class ApplicationNewTrustGovernanceSummaryModelTests
 
 		// act
 		var pageModel = SetupApplicationNewTrustGovernanceSummaryModel(mockConversionApplicationRetrievalService.Object,
-			mockReferenceDataRetrievalService.Object, mockFileUploadService.Object,
+			mockReferenceDataRetrievalService.Object, mockSharePointService.Object,
 			mockLogger.Object);
 		TempDataHelper.StoreSerialisedValue(draftConversionApplicationStorageKey, pageModel.TempData, conversionApplication);
 
@@ -52,14 +53,14 @@ internal sealed class ApplicationNewTrustGovernanceSummaryModelTests
 	private static ApplicationNewTrustGovernanceSummaryModel SetupApplicationNewTrustGovernanceSummaryModel(
 		IConversionApplicationRetrievalService mockConversionApplicationRetrievalService,
 		IReferenceDataRetrievalService mockReferenceDataRetrievalService,
-		IFileUploadService mockFileUploadService,
+		ISharePointService mockSharePointService,
 		ILogger<ApplicationNewTrustGovernanceSummaryModel> mockLogger,
 		bool isAuthenticated = false)
 	{
 		(PageContext pageContext, TempDataDictionary tempData, ActionContext actionContext) = PageContextFactory.PageContextBuilder(isAuthenticated);
 
 		return new ApplicationNewTrustGovernanceSummaryModel(mockConversionApplicationRetrievalService,
-			mockReferenceDataRetrievalService, mockFileUploadService, mockLogger)
+			mockReferenceDataRetrievalService, mockSharePointService, mockLogger)
 		{
 			PageContext = pageContext,
 			TempData = tempData,

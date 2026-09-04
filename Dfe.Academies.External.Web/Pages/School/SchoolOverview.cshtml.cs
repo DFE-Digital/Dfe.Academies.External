@@ -80,7 +80,7 @@ namespace Dfe.Academies.External.Web.Pages.School
 		}
 
 		///<inheritdoc/>
-		public override void PopulateUiModel(SchoolApplyingToConvert selectedSchool)
+		public override Task PopulateUiModel(SchoolApplyingToConvert selectedSchool)
 		{
 			throw new NotImplementedException();
 		}

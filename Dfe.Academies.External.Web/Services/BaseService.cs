@@ -1,4 +1,4 @@
-﻿using Dfe.Academisation.CorrelationIdMiddleware;
+﻿using GovUK.Dfe.CoreLibs.Http.Interfaces;
 
 namespace Dfe.Academies.External.Web.Services
 {
@@ -6,12 +6,13 @@ namespace Dfe.Academies.External.Web.Services
 	{
 		internal const string AcademiesAPIHttpClientName = "AcademiesClient";
 		internal const string AcademisationAPIHttpClientName = "AcademisationClient";
+		private const string CorrelationIdHeaderKey = "x-correlationId";
 		public HttpClient HttpClient { get; set; }
 
 		protected BaseService(IHttpClientFactory clientFactory, ICorrelationContext correlationContext, string httpClientName)
 		{
 			this.HttpClient = clientFactory.CreateClient(httpClientName);
-			this.HttpClient.DefaultRequestHeaders.Add(Keys.HeaderKey, correlationContext.CorrelationId.ToString());
+			this.HttpClient.DefaultRequestHeaders.Add(CorrelationIdHeaderKey, correlationContext.CorrelationId.ToString());
 		}
 	}
 }

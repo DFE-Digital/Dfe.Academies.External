@@ -3,11 +3,13 @@ using Dfe.Academies.External.Web.Helpers;
 using Dfe.Academies.External.Web.Pages.Trust.JoinAMat;
 using Dfe.Academies.External.Web.Services;
 using Dfe.Academies.External.Web.UnitTest.Factories;
+using GovUK.Dfe.CoreLibs.SharePoint.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -19,7 +21,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 		[Test]
 		public void RunUiValidation_TrustConsentFileTooLarge_AddsModelError()
 		{
-			var fileUploadServiceMock = new Mock<IFileUploadService>();
+			var sharePointServiceMock = new Mock<ISharePointService>();
 			var conversionAppRetrievalServiceMock = new Mock<IConversionApplicationRetrievalService>();
 			var referenceDataRetrievalServiceMock = new Mock<IReferenceDataRetrievalService>();
 			var conversionAppServiceMock = new Mock<IConversionApplicationService>();
@@ -28,7 +30,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				conversionAppRetrievalServiceMock.Object,
 				referenceDataRetrievalServiceMock.Object,
 				conversionAppServiceMock.Object,
-				fileUploadServiceMock.Object
+				sharePointServiceMock.Object
 			);
 
 			// Mock a file that is too large
@@ -53,7 +55,7 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 			IConversionApplicationRetrievalService conversionAppRetrievalServiceMock,
 			IReferenceDataRetrievalService referenceDataRetrievalServiceMock,
 			IConversionApplicationService conversionAppServiceMock,
-			IFileUploadService fileUploadServiceMock,
+			ISharePointService sharePointServiceMock,
 			bool isAuthenticated = false
 		)
 		{
@@ -63,7 +65,8 @@ namespace Dfe.Academies.External.Web.UnitTest.Pages.School
 				conversionAppRetrievalServiceMock,
 				referenceDataRetrievalServiceMock,
 				conversionAppServiceMock,
-				fileUploadServiceMock
+				sharePointServiceMock,
+				Mock.Of<ILogger<ApplicationSchoolTrustConsent>>()
 			)
 			{
 				PageContext = pageContext,
