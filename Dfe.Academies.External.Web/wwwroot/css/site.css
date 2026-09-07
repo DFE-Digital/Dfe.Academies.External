@@ -2,6 +2,36 @@
     padding-left: 0;
 }
 
+/* Intake footer layout. Defined here (rather than inline) so the styles are
+   served from 'self' and not blocked by the style-src CSP in SecureHeadersDefinitions. */
+.app-footer__intake {
+    display: flex;
+    align-items: stretch;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    gap: 40px;
+}
+
+.app-footer__intake-brand {
+    flex: 0 0 25%;
+    border-right: 1px solid #b1b4b6;
+    padding-right: 40px;
+}
+
+.app-footer__intake-main {
+    flex: 1;
+}
+
+.app-footer__intake-cta {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.app-footer__intake-icon {
+    flex-shrink: 0;
+}
+
 .app-task-list {
     list-style-type: none;
     padding-left: 0;
