@@ -36,7 +36,7 @@ jobs:
           GIT_BRANCH=${GIT_REF##*/}
           INPUT=${{ github.event.inputs.environment }}
           ENVIRONMENT=${INPUT:-"development"}
-          RELEASE=${ENVIRONMENT,,}-${date +%Y-%m-%d}.${{ github.run_number }}
+          RELEASE=${ENVIRONMENT,,}-$(date +%Y-%m-%d).${{ github.run_number }}
           GITHUB_REPOSITORY=${{ github.repository }}
           echo "environment=${ENVIRONMENT,,}" >> $GITHUB_OUTPUT
           echo "branch=$GIT_BRANCH" >> $GITHUB_OUTPUT
