@@ -39,7 +39,7 @@
     "@cypress/grep": "6.0.0",
     "@faker-js/faker": "10.3.0",
     "@stylistic/eslint-plugin": "5.10.0",
-    "@types/node": "25.5.0",
+    "@types/node": "25.5.2",
     "@typescript-eslint/eslint-plugin": "8.57.1",
     "@typescript-eslint/parser": "8.57.1",
     "axe-core": "4.11.1",
