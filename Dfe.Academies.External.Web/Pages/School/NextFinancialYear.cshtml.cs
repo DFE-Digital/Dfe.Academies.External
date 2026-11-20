@@ -302,7 +302,7 @@ public class NextFinancialYearModel : BaseSchoolPageEditModel
 	{
 		string folder = FileUploadConstants.FormatSharepointSchoolDirectory(applicationReference, entityId);
 		await _sharepoint.DeleteFileAsync(folder, fileName);
-
+		
 		return RedirectToPage("NextFinancialYear", new { Urn = urn, AppId = appId });
 	}
 
