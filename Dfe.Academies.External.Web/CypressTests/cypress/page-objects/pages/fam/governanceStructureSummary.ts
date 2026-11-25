@@ -6,7 +6,7 @@ class GovernanceStructureSummary {
   }
 
   public checkGovernanceStructureSummaryCompleted(): this {
-    cy.get('[data-cy="response"]').contains('fiftyk.docx')
+    cy.get('[data-cy="response"]').contains('fifty-k.docx')
 
     cy.get('.govuk-button').should('be.visible').contains('Save and return to your application').click()
 
