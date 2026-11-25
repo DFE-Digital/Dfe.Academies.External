@@ -87,10 +87,10 @@
                                             name="ViewModel.ContactRole"
                                             data-aria-controls="conditional-contacttype-@(conversionContactType.ToString().ToLower())"
                                             checked="@(conversionContactType.Equals(Model.ViewModel.ContactRole))">
-                                }
                                     <label for="ContactTypeOther" class="govuk-label govuk-radios__label">
-                                        Someone else
+                                        @conversionContactType.GetDescription()
                                     </label>
+                                }
                                 else
                                 {
                                     <input type="radio"
@@ -100,10 +100,10 @@
                                             class="govuk-radios__input"
                                             data-aria-controls="conditional-contacttype-@(conversionContactType.ToString().ToLower())"
                                             checked="@(conversionContactType.Equals(Model.ViewModel.ContactRole))" />
-                                }
                                     <label for="ContactType@(conversionContactType)" class="govuk-label govuk-radios__label">
                                         @conversionContactType.GetDescription()
                                     </label>
+                                }
                                 </div>
                                 @if (conversionContactType == MainConversionContact.Other)
                                 {
